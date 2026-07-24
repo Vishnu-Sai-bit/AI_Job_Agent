@@ -19,7 +19,7 @@ def call_llm(prompt: str, json_format: bool = True) -> str:
     gemini_key = os.getenv("GEMINI_API_KEY", "").strip()
     if gemini_key:
         info("Gemini API Key detected. Calling Google Gemini API in cloud mode.")
-        url = f"https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key={gemini_key}"
+        url = f"https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key={gemini_key}"
         
         payload = {
             "contents": [
