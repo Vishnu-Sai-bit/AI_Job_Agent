@@ -4,7 +4,7 @@
    ========================================================== */
 
 // Config
-const BACKEND_URL = "https://ai-job-agent-a8r5.onrender.com";
+const BACKEND_URL = "https://ai-job-agent-kna8.onrender.com";
 
 // App State
 let resumeData = null;
