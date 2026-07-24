@@ -1,0 +1,222 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI JobAgent - Smart Career Dashboard</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+</head>
+<body>
+    <div class="app-container">
+        <!-- Sidebar -->
+        <aside class="sidebar">
+            <div class="brand">
+                <span class="brand-icon">💼</span>
+                <h1>AI JobAgent</h1>
+            </div>
+            
+            <div class="upload-section">
+                <h3>📁 Upload Resume</h3>
+                <div class="upload-box" id="drop-zone">
+                    <span class="upload-box-icon">📤</span>
+                    <p>Drag & drop PDF/DOCX here or click to browse</p>
+                    <input type="file" id="resume-input" accept=".pdf,.docx" style="display: none;">
+                </div>
+                <div class="progress-bar-container" id="progress-container" style="display: none;">
+                    <div class="progress-bar" id="progress-bar"></div>
+                </div>
+                <div class="status-msg" id="upload-status">Ready to analyze</div>
+            </div>
+
+            <nav class="nav-menu">
+                <button class="nav-btn active" data-tab="dashboard">
+                    <span class="btn-icon">📊</span> Dashboard & ATS
+                </button>
+                <button class="nav-btn" data-tab="jobs">
+                    <span class="btn-icon">🎯</span> Job Matches
+                </button>
+                <button class="nav-btn" data-tab="tools">
+                    <span class="btn-icon">🧠</span> AI Career Tools
+                </button>
+                <button class="nav-btn" data-tab="learning">
+                    <span class="btn-icon">📈</span> Learning Roadmaps
+                </button>
+            </nav>
+
+            <div class="sidebar-footer">
+                <button id="theme-toggle" class="theme-btn">
+                    <span id="theme-icon">🌙</span> Dark Mode
+                </button>
+            </div>
+        </aside>
+
+        <!-- Main Content Area -->
+        <main class="main-content">
+            <header class="main-header">
+                <div class="header-info">
+                    <h2>Welcome to your Career Command Center</h2>
+                    <p>Upload a resume to unlock tailored job matching and AI career acceleration.</p>
+                </div>
+            </header>
+
+            <div class="content-container">
+                <!-- Welcome Screen / Placeholder -->
+                <div id="welcome-placeholder" class="placeholder-card">
+                    <div class="glowing-orb"></div>
+                    <h2>No Resume Analyzed Yet</h2>
+                    <p>Drag and drop your resume in the left sidebar to generate your ATS score, suitability metrics, matching jobs, and personalized learning roadmaps.</p>
+                </div>
+
+                <!-- Tab 1: Dashboard & ATS Report -->
+                <section id="tab-dashboard" class="tab-content" style="display: none;">
+                    <div class="dashboard-grid">
+                        <!-- ATS Score Gauge -->
+                        <div class="card ats-card text-center">
+                            <h3>ATS Rating</h3>
+                            <div class="ats-circle">
+                                <span id="ats-val">0%</span>
+                            </div>
+                            <p class="muted">Matching strength against target job markets</p>
+                        </div>
+
+                        <!-- Personal Info -->
+                        <div class="card">
+                            <h3>Contact Information</h3>
+                            <ul class="info-list">
+                                <li><strong>Name:</strong> <span id="info-name">-</span></li>
+                                <li><strong>Email:</strong> <span id="info-email">-</span></li>
+                                <li><strong>Phone:</strong> <span id="info-phone">-</span></li>
+                                <li><strong>Location:</strong> <span id="info-location">-</span></li>
+                            </ul>
+                        </div>
+
+                        <!-- Target Preferences -->
+                        <div class="card">
+                            <h3>Target Profile</h3>
+                            <ul class="info-list">
+                                <li><strong>Preferred Role:</strong> <span id="pref-role">-</span></li>
+                                <li><strong>Target Hub:</strong> <span id="pref-location">-</span></li>
+                                <li><strong>Experience:</strong> <span id="pref-experience">-</span> years</li>
+                                <li><strong>Level:</strong> <span id="pref-level">-</span></li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <!-- Social Profiles -->
+                    <div class="card socials-card">
+                        <h3>🌐 Professional Portfolios & Contacts</h3>
+                        <div class="socials-grid" id="socials-container">
+                            <!-- Populated by JS -->
+                        </div>
+                    </div>
+
+                    <!-- Suitability Report -->
+                    <div class="card suitability-card" id="suitability-report" style="display: none;">
+                        <h3>🌟 Profile Suitability Report</h3>
+                        <div class="suitability-section">
+                            <strong>🏆 Recommended Roles:</strong>
+                            <ul id="suitability-roles"></ul>
+                        </div>
+                        <div class="suitability-section">
+                            <strong>⚙️ Secondary Career Tracks:</strong>
+                            <ul id="suitability-secondary"></ul>
+                        </div>
+                        <div class="suitability-section">
+                            <strong>💡 Competitive Strengths:</strong>
+                            <ul id="suitability-strengths"></ul>
+                        </div>
+                        <div class="suitability-section">
+                            <strong>🏭 Recommended Sectors:</strong>
+                            <ul id="suitability-industries"></ul>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Tab 2: Job Matches -->
+                <section id="tab-jobs" class="tab-content" style="display: none;">
+                    <div class="jobs-toolbar">
+                        <div class="card toolbar-card">
+                            <div class="toolbar-stats">
+                                <div><strong>Total Found:</strong> <span id="jobs-stat-found">0</span></div>
+                                <div><strong>Filtered Matches:</strong> <span id="jobs-stat-returned">0</span></div>
+                                <div><strong>Query Time:</strong> <span id="jobs-stat-time">0.0s</span></div>
+                            </div>
+                            <div class="group-control">
+                                <span>Group Jobs By:</span>
+                                <label class="radio-label">
+                                    <input type="radio" name="group-by" value="category" checked> Category
+                                </label>
+                                <label class="radio-label">
+                                    <input type="radio" name="group-by" value="location"> Location
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div id="jobs-list-container">
+                        <!-- Populated by JS -->
+                    </div>
+                </section>
+
+                <!-- Tab 3: AI Career Tools -->
+                <section id="tab-tools" class="tab-content" style="display: none;">
+                    <div class="tools-grid">
+                        <!-- Sidebar for choosing a tool -->
+                        <div class="card tools-menu">
+                            <h3>Choose an AI Tool</h3>
+                            <button class="tool-btn active" data-tool="cover-letter">✍️ Cover Letter Writer</button>
+                            <button class="tool-btn" data-tool="interview">💬 Mock Interview Simulator</button>
+                            <button class="tool-btn" data-tool="email">✉️ Outreach Email Writer</button>
+                            <button class="tool-btn" data-tool="linkedin">🔗 LinkedIn Optimizer</button>
+                            <button class="tool-btn" data-tool="salary">💰 Salary Range Estimator</button>
+                        </div>
+
+                        <!-- Tool options form & output panel -->
+                        <div class="card tool-workspace">
+                            <div id="tool-form-container">
+                                <!-- Dynamic form fields based on tool selection -->
+                            </div>
+                            <button id="run-tool-btn" class="action-btn">Generate Suggestions</button>
+                            
+                            <hr class="divider">
+
+                            <div class="output-panel">
+                                <div class="output-header">
+                                    <h4>Output Preview</h4>
+                                    <button id="copy-output-btn" class="copy-btn" style="display: none;">📋 Copy Output</button>
+                                </div>
+                                <div id="tool-output" class="output-box">
+                                    Select an AI tool and click "Generate Suggestions" to begin.
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Tab 4: Learning Roadmaps -->
+                <section id="tab-learning" class="tab-content" style="display: none;">
+                    <div class="card">
+                        <h3>📈 Career Skills Acceleration Pathway</h3>
+                        <p class="muted">Based on your target role preferences, these are the primary skill gaps and structural learning pathways recommended for you.</p>
+                        
+                        <div class="skill-gap-box">
+                            <strong>⚠️ Identified Skill Gaps:</strong>
+                            <div id="gaps-list" class="gaps-container">
+                                <!-- Populated by JS -->
+                            </div>
+                        </div>
+                    </div>
+
+                    <div id="roadmaps-list-container">
+                        <!-- Populated by JS -->
+                    </div>
+                </section>
+            </div>
+        </main>
+    </div>
+    <script src="app.js"></script>
+</body>
+</html>
