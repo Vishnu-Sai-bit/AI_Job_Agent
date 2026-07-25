@@ -103,57 +103,6 @@ def extract_portfolio(text: str) -> str:
 
     return ""
 
-def extract_kaggle(text: str) -> str:
-    """
-    Extract Kaggle profile.
-    """
-    patterns = [
-        r"https?://(?:www\.)?kaggle\.com/[A-Za-z0-9_-]+",
-        r"kaggle\.com/[A-Za-z0-9_-]+",
-    ]
-    for pattern in patterns:
-        match = re.search(pattern, text, re.IGNORECASE)
-        if match:
-            url = match.group(0)
-            if not url.startswith("http"):
-                url = "https://" + url
-            return url
-    return ""
-
-def extract_leetcode(text: str) -> str:
-    """
-    Extract LeetCode profile.
-    """
-    patterns = [
-        r"https?://(?:www\.)?leetcode\.com/[A-Za-z0-9_-]+",
-        r"leetcode\.com/[A-Za-z0-9_-]+",
-    ]
-    for pattern in patterns:
-        match = re.search(pattern, text, re.IGNORECASE)
-        if match:
-            url = match.group(0)
-            if not url.startswith("http"):
-                url = "https://" + url
-            return url
-    return ""
-
-def extract_hackerrank(text: str) -> str:
-    """
-    Extract HackerRank profile.
-    """
-    patterns = [
-        r"https?://(?:www\.)?hackerrank\.com/[A-Za-z0-9_-]+",
-        r"hackerrank\.com/[A-Za-z0-9_-]+",
-    ]
-    for pattern in patterns:
-        match = re.search(pattern, text, re.IGNORECASE)
-        if match:
-            url = match.group(0)
-            if not url.startswith("http"):
-                url = "https://" + url
-            return url
-    return ""
-
 ROLE_ALIASES = {
 
     "Data Analyst": [

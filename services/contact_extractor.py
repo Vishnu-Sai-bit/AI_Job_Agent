@@ -26,67 +26,21 @@ GITHUB_PATTERN = (
     r"https?://(?:www\.)?github\.com/[^\s]+"
 )
 
-KAGGLE_PATTERN = (
-    r"https?://(?:www\.)?kaggle\.com/[A-Za-z0-9_-]+"
-)
-
-LEETCODE_PATTERN = (
-    r"https?://(?:www\.)?leetcode\.com/[A-Za-z0-9_-]+"
-)
-
-HACKERRANK_PATTERN = (
-    r"https?://(?:www\.)?hackerrank\.com/[A-Za-z0-9_-]+"
-)
-
-
 def extract_email(text: str) -> str:
-
     match = re.search(EMAIL_PATTERN, text)
-
     return match.group(0) if match else ""
-
 
 def extract_phone(text: str) -> str:
-
     match = re.search(PHONE_PATTERN, text)
-
     return match.group(0) if match else ""
-
 
 def extract_linkedin(text: str) -> str:
-
     match = re.search(LINKEDIN_PATTERN, text)
-
     return match.group(0) if match else ""
-
 
 def extract_github(text: str) -> str:
-
     match = re.search(GITHUB_PATTERN, text)
-
     return match.group(0) if match else ""
-
-
-def extract_kaggle(text: str) -> str:
-
-    match = re.search(KAGGLE_PATTERN, text)
-
-    return match.group(0) if match else ""
-
-
-def extract_leetcode(text: str) -> str:
-
-    match = re.search(LEETCODE_PATTERN, text)
-
-    return match.group(0) if match else ""
-
-
-def extract_hackerrank(text: str) -> str:
-
-    match = re.search(HACKERRANK_PATTERN, text)
-
-    return match.group(0) if match else ""
-
 
 def extract_name(text: str) -> str:
     """

@@ -233,10 +233,7 @@ function renderDashboard() {
     const socials = [
         { name: "LinkedIn", key: "linkedin", icon: "🔗" },
         { name: "GitHub", key: "github", icon: "💻" },
-        { name: "Portfolio", key: "portfolio", icon: "💼" },
-        { name: "Kaggle", key: "kaggle", icon: "📊" },
-        { name: "LeetCode", key: "leetcode", icon: "🧠" },
-        { name: "HackerRank", key: "hackerrank", icon: "🏆" }
+        { name: "Portfolio", key: "portfolio", icon: "💼" }
     ];
 
     socials.forEach(s => {

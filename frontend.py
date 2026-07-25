@@ -412,14 +412,11 @@ if st.session_state.analysis_results is not None:
             
         # Social Profiles Section
         st.subheader("🌐 Professional Portfolios & Contacts")
-        cols_social = st.columns(6)
+        cols_social = st.columns(3)
         socials = [
             ("LinkedIn", "linkedin", "🔗"),
             ("GitHub", "github", "💻"),
-            ("Portfolio", "portfolio", "💼"),
-            ("Kaggle", "kaggle", "📊"),
-            ("LeetCode", "leetcode", "🧠"),
-            ("HackerRank", "hackerrank", "🏆")
+            ("Portfolio", "portfolio", "💼")
         ]
         for i, (name, key, icon) in enumerate(socials):
             val = res.get(key, "")

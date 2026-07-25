@@ -50,9 +50,6 @@ from services.resume_enricher import (
     extract_github,
     extract_linkedin,
     extract_portfolio,
-    extract_kaggle,
-    extract_leetcode,
-    extract_hackerrank,
     infer_role,
     infer_location,
     infer_experience,
@@ -519,26 +516,7 @@ def build_resume_data(
     if not resume.portfolio:
         resume.portfolio = extract_portfolio(resume_text)
 
-    resume.kaggle = ensure_string(
-        safe_get(data, "kaggle")
-    )
 
-    if not resume.kaggle:
-        resume.kaggle = extract_kaggle(resume_text)
-
-    resume.leetcode = ensure_string(
-        safe_get(data, "leetcode")
-    )
-
-    if not resume.leetcode:
-        resume.leetcode = extract_leetcode(resume_text)
-
-    resume.hackerrank = ensure_string(
-        safe_get(data, "hackerrank")
-    )
-
-    if not resume.hackerrank:
-        resume.hackerrank = extract_hackerrank(resume_text)
 
     resume.location = normalize_location(
         ensure_string(

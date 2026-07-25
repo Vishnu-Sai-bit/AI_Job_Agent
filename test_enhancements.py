@@ -5,36 +5,10 @@ from pathlib import Path
 sys.path.append("c:/JobAgent")
 
 from models import ResumeData, JobData, SearchResult
-from services.contact_extractor import (
-    extract_kaggle,
-    extract_leetcode,
-    extract_hackerrank,
-)
 from services.resume_enricher import infer_location
 from services.ats_calculator import calculate_ats
 from services.search_jobs import search_jobs
 from config import MATCH_WEIGHTS
-
-def test_contact_extractor():
-    print("--- Testing Contact Extractor ---")
-    sample_text = """
-    My profile links:
-    Kaggle: https://www.kaggle.com/johndoe
-    LeetCode: https://leetcode.com/johndoe
-    HackerRank: https://www.hackerrank.com/johndoe
-    """
-    kaggle = extract_kaggle(sample_text)
-    leetcode = extract_leetcode(sample_text)
-    hackerrank = extract_hackerrank(sample_text)
-    
-    print("Extracted Kaggle:", kaggle)
-    print("Extracted Leetcode:", leetcode)
-    print("Extracted HackerRank:", hackerrank)
-    
-    assert "kaggle.com/johndoe" in kaggle, "Kaggle extraction failed"
-    assert "leetcode.com/johndoe" in leetcode, "Leetcode extraction failed"
-    assert "hackerrank.com/johndoe" in hackerrank, "HackerRank extraction failed"
-    print("Contact Extractor Passed")
 
 def test_location_logic():
     print("\n--- Testing Location Inference Fallback ---")
@@ -161,7 +135,6 @@ def test_parser_robustness():
 
 if __name__ == "__main__":
     try:
-        test_contact_extractor()
         test_location_logic()
         test_ats_skill_quality()
         test_job_weights_and_reasons()

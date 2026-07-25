@@ -42,12 +42,6 @@ class ResumeData:
 
     portfolio: str = ""
 
-    kaggle: str = ""
-
-    leetcode: str = ""
-
-    hackerrank: str = ""
-
     location: str = ""
 
     # ------------------------------------------------------
