@@ -61,6 +61,8 @@ def fetch_jobs(role: str) -> tuple[List[JobData], List[str]]:
     from providers.naukri import search_naukri_jobs
     from providers.indeed import search_indeed_jobs
     from providers.foundit import search_foundit_jobs
+    from providers.glassdoor import search_glassdoor_jobs
+    from providers.wellfound import search_wellfound_jobs
     from providers.greenhouse import search_greenhouse_jobs
     from providers.lever import search_lever_jobs
 
@@ -75,6 +77,8 @@ def fetch_jobs(role: str) -> tuple[List[JobData], List[str]]:
         ENABLE_NAUKRI,
         ENABLE_FOUNDIT,
         ENABLE_INDEED,
+        ENABLE_GLASSDOOR,
+        ENABLE_WELLFOUND,
         ENABLE_GREENHOUSE,
         ENABLE_LEVER,
     )
@@ -92,6 +96,8 @@ def fetch_jobs(role: str) -> tuple[List[JobData], List[str]]:
         ("Naukri", ENABLE_NAUKRI, search_naukri_jobs),
         ("Indeed", ENABLE_INDEED, search_indeed_jobs),
         ("Foundit", ENABLE_FOUNDIT, search_foundit_jobs),
+        ("Glassdoor", ENABLE_GLASSDOOR, search_glassdoor_jobs),
+        ("Wellfound", ENABLE_WELLFOUND, search_wellfound_jobs),
         ("Greenhouse", ENABLE_GREENHOUSE, search_greenhouse_jobs),
         ("Lever", ENABLE_LEVER, search_lever_jobs),
     ]
