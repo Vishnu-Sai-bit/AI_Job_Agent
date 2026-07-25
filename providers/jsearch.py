@@ -32,7 +32,7 @@ class JSearchProvider(BaseProvider):
         params = {
             "query": role if role else "Data Analyst",
             "page": "1",
-            "num_pages": "1"
+            "num_pages": "2"
         }
 
         raw_data = self.fetch_raw_data(params=params)

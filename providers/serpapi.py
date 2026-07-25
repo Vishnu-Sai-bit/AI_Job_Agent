@@ -23,21 +23,32 @@ class SerpApiProvider(BaseProvider):
         if not SERPAPI_API_KEY:
             return []
 
-        params = {
-            "engine": "google_jobs",
-            "q": role if role else "Data Analyst",
-            "location": "India",
-            "api_key": SERPAPI_API_KEY,
-            "hl": "en"
-        }
-
-        raw_data = self.fetch_raw_data(params=params)
         keywords = role.lower().split() if role else []
         jobs = []
-        for item in raw_data.get("jobs_results", []):
-            job = self.build_job(item, keywords)
-            if job:
-                jobs.append(job)
+        
+        # Fetch up to 2 pages (approx 20 jobs)
+        for page in range(2):
+            params = {
+                "engine": "google_jobs",
+                "q": role if role else "Data Analyst",
+                "location": "India",
+                "api_key": SERPAPI_API_KEY,
+                "hl": "en",
+                "start": str(page * 10)
+            }
+
+            try:
+                raw_data = self.fetch_raw_data(params=params)
+                results = raw_data.get("jobs_results", [])
+                if not results:
+                    break
+                for item in results:
+                    job = self.build_job(item, keywords)
+                    if job:
+                        jobs.append(job)
+            except Exception:
+                break
+                
         return jobs
 
     def build_job(self, item: dict, keywords: List[str]) -> JobData | None:

@@ -147,26 +147,14 @@ def is_india_or_remote_job(job_loc: str) -> bool:
     foreign_countries = [
         "worldwide", "usa", "united states", "canada", "germany", "brazil", "europe", 
         "uk", "united kingdom", "australia", "netherlands", "france", 
-        "singapore", "japan", "berlin", "munich", "toronto", "quebec"
+        "singapore", "japan", "berlin", "munich", "toronto", "quebec",
+        "london", "new york", "san francisco", "paris"
     ]
     for country in foreign_countries:
         if country in loc_lower:
             return False
             
-    # Include explicitly India / IN / Indian cities
-    if "india" in loc_lower or "in" in loc_lower.split() or "in" in loc_lower.split(","):
-        return True
-        
-    from config import DEFAULT_LOCATIONS
-    for city in DEFAULT_LOCATIONS:
-        if city.lower() in loc_lower:
-            return True
-            
-    from services.location_parser import is_remote
-    if is_remote(job_loc):
-        return True
-        
-    return False
+    return True
 
 # ==========================================================
 # Search Jobs
