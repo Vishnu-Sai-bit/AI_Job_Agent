@@ -286,9 +286,12 @@ st.markdown("""
 """, unsafe_allow_html=True)
 
 # API Endpoint URL
-if "BACKEND_URL" in st.secrets:
-    BACKEND_URL = st.secrets["BACKEND_URL"]
-else:
+try:
+    if "BACKEND_URL" in st.secrets:
+        BACKEND_URL = st.secrets["BACKEND_URL"]
+    else:
+        BACKEND_URL = "http://localhost:8000"
+except Exception:
     BACKEND_URL = "http://localhost:8000"
 
 def classify_job_role(title: str, description: str) -> str:
