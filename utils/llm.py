@@ -20,6 +20,8 @@ def call_llm(prompt: str, json_format: bool = True) -> str:
     groq_key = os.getenv("GROQ_API_KEY", "").strip()
     openrouter_key = os.getenv("OPENROUTER_API_KEY", "").strip()
     together_key = os.getenv("TOGETHER_API_KEY", "").strip()
+    cohere_key = os.getenv("COHERE_API_KEY", "").strip()
+    hf_key = os.getenv("HF_API_KEY", "").strip() or os.getenv("HF_TOKEN", "").strip()
     gemini_key = os.getenv("GEMINI_API_KEY", "").strip()
 
     # --- 1. Try Groq (Primary) ---
@@ -44,7 +46,6 @@ def call_llm(prompt: str, json_format: bool = True) -> str:
             return response.json()["choices"][0]["message"]["content"]
         except Exception as e:
             exception(f"Groq API call failed: {e}")
-            # Fall through to next available key
 
     # --- 2. Try OpenRouter (Secondary) ---
     if openrouter_key:
@@ -68,7 +69,6 @@ def call_llm(prompt: str, json_format: bool = True) -> str:
             return response.json()["choices"][0]["message"]["content"]
         except Exception as e:
             exception(f"OpenRouter API call failed: {e}")
-            # Fall through to next available key
 
     # --- 3. Try Together AI (Tertiary) ---
     if together_key:
@@ -92,9 +92,55 @@ def call_llm(prompt: str, json_format: bool = True) -> str:
             return response.json()["choices"][0]["message"]["content"]
         except Exception as e:
             exception(f"Together AI API call failed: {e}")
-            # Fall through to next available key
 
-    # --- 4. Try Google Gemini (Quaternary) ---
+    # --- 4. Try Cohere (Quaternary) ---
+    if cohere_key:
+        try:
+            info("Calling Cohere API...")
+            url = "https://api.cohere.com/v1/chat"
+            headers = {
+                "Authorization": f"Bearer {cohere_key}",
+                "Content-Type": "application/json"
+            }
+            payload = {
+                "message": prompt,
+                "model": "command-r-plus",
+                "temperature": 0.1
+            }
+            if json_format:
+                payload["response_format"] = {"type": "json_object"}
+                
+            response = requests.post(url, json=payload, headers=headers, timeout=25)
+            response.raise_for_status()
+            return response.json()["text"]
+        except Exception as e:
+            exception(f"Cohere API call failed: {e}")
+
+    # --- 5. Try Hugging Face Serverless (Quinary) ---
+    if hf_key:
+        try:
+            info("Calling Hugging Face Inference API...")
+            url = "https://api-inference.huggingface.co/v1/chat/completions"
+            headers = {
+                "Authorization": f"Bearer {hf_key}",
+                "Content-Type": "application/json"
+            }
+            payload = {
+                "model": "Qwen/Qwen2.5-72B-Instruct",
+                "messages": [{"role": "user", "content": prompt}],
+                "temperature": 0.1,
+                "max_tokens": 1024
+            }
+            # Note: Serverless HF JSON constraint is usually done via prompting,
+            # as OpenAI compatibility structure doesn't support response_format for all backend endpoints.
+            
+            response = requests.post(url, json=payload, headers=headers, timeout=25)
+            response.raise_for_status()
+            return response.json()["choices"][0]["message"]["content"]
+        except Exception as e:
+            exception(f"Hugging Face API call failed: {e}")
+
+    # --- 6. Try Google Gemini (Senary) ---
     if gemini_key:
         try:
             info("Calling Google Gemini API...")
@@ -110,9 +156,8 @@ def call_llm(prompt: str, json_format: bool = True) -> str:
             return response.json()["candidates"][0]["content"]["parts"][0]["text"]
         except Exception as e:
             exception(f"Gemini API call failed: {e}")
-            # Fall through to local Ollama fallback
 
-    # --- 5. Fallback to Local Ollama ---
+    # --- 7. Fallback to Local Ollama ---
     info("No active cloud APIs succeeded. Falling back to local Ollama.")
     payload = {
         "model": OLLAMA_MODEL,
