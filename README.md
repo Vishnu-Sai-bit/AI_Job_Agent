@@ -170,6 +170,15 @@ AI_Job_Agent/
     .\start.bat
     ```
 
+### 🐳 Run with Docker (Containerized)
+If you have Docker and Docker Compose installed:
+1. Ensure your `.env` file is created in the root.
+2. Build and start the container:
+   ```bash
+   docker-compose up --build
+   ```
+3. The backend will be live at `http://localhost:8000`.
+
 ---
 
 ## 🌐 Deployment Configuration
