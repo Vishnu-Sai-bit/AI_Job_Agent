@@ -3,7 +3,7 @@
 [![Python Version](https://img.shields.io/badge/python-3.10%20%7C%203.11%20%7C%203.12-blue)](https://www.python.org/)
 [![FastAPI](https://img.shields.io/badge/FastAPI-0.100%2B-009688.svg?style=flat&logo=fastapi)](https://fastapi.tiangolo.com/)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
-[![Netlify Status](https://api.netlify.com/api/v1/badges/aeb7943c-6232-4751-85e8-f73602167d4f/deploy-status)](https://app.netlify.com/)
+[![Frontend Deployed](https://img.shields.io/badge/Frontend-Deployed%20on%20Render-blue)](https://ai-job-agent-frontend.onrender.com/)
 
 An advanced, MNC-grade enterprise job agent that parses resumes, calculates ATS matching scores, queries multiple global job search engines, automatically identifies skill gaps, constructs visual learning roadmaps, and provides a suite of generative AI career acceleration tools.
 
@@ -66,7 +66,7 @@ Recruiters and developers can watch the full, step-by-step video demonstration o
 
 ```mermaid
 graph TD
-    A[Static Frontend - Netlify] -->|JSON Payloads / Multipart Form| B[FastAPI Backend - Render]
+    A["Static Frontend (Render)"] -->|JSON Payloads / Multipart Form| B[FastAPI Backend - Render]
     B -->|PyMuPDF Column Sorting| C[Resume Parsing Service]
     B -->|7-Tier Cascading LLM Router| D[AI Career Services]
     B -->|SerpApi & JSearch Aggregator| E[Live Job Search Engine]
@@ -86,7 +86,7 @@ graph TD
 ```text
 AI_Job_Agent/
 │
-├── frontend/                  # Static SPA hosted on Netlify
+├── frontend/                  # Static SPA hosted on Render
 │   ├── index.html            # Luxury UI skeleton layout
 │   ├── style.css             # Glassmorphism design system & variables
 │   └── app.js                # State management, drag-drop, API handlers
@@ -188,10 +188,9 @@ If you have Docker and Docker Compose installed:
 *   **Start Command**: `uvicorn app:app --host 0.0.0.0 --port $PORT`
 *   **Environment Variables**: Add your API keys (`GROQ_API_KEY`, `SERPAPI_API_KEY`, etc.) under the Environment Settings tab.
 
-### 2. Frontend (Static SPA on Netlify)
-*   Deploy from the same repository. Netlify will auto-detect the `netlify.toml` file and set:
-    *   **Publish Directory**: `frontend`
-    *   **Build Command**: *(Leave empty)*
+### 2. Frontend (Static Site on Render)
+*   **Publish Directory**: `frontend`
+*   **Build Command**: *(Leave empty)*
 
 ---
 
