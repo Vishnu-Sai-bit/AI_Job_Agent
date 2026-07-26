@@ -16,7 +16,7 @@ You are an expert LinkedIn branding specialist and career optimizer.
 Your task is to analyze the candidate's details and generate optimized suggestions to maximize recruiter views on LinkedIn.
 
 Generate the suggestions following this JSON schema exactly:
-{
+{{
     "suggested_headlines": [
         "Headline Option 1: Action-oriented (e.g. Data Analyst | Python, SQL & Power BI | Helping businesses derive insights...)",
         "Headline Option 2: Skills-focused",
@@ -28,7 +28,7 @@ Generate the suggestions following this JSON schema exactly:
         "Suggestion 2: Highlight key technologies..."
     ],
     "seo_keywords_to_add": ["keyword1", "keyword2", "keyword3"]
-}
+}}
 
 Candidate Name: {name}
 Target Role: {role}

@@ -16,18 +16,18 @@ You are an expert career advisor and technical educator.
 Your task is to identify skill gaps between a candidate's current skills and their target career role, and recommend a structured roadmap.
 
 Generate the roadmap following this JSON schema exactly:
-{
+{{
     "skill_gaps": ["skill1", "skill2"],
     "roadmaps": [
-        {
+        {{
             "skill": "Skill Name",
             "learning_path": "Step-by-step roadmap to master this skill...",
             "courses": ["Course Title 1 (Coursera/Udemy/Pluralsight)", "Course Title 2"],
             "recommended_certifications": ["Certification Name 1", "Certification Name 2"],
             "suggested_project": "A practical project description to build and add to resume to prove capability..."
-        }
+        }}
     ]
-}
+}}
 
 Target Role: {role}
 Current Skills: {skills}

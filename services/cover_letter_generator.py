@@ -16,7 +16,7 @@ You are an expert AI Resume Writer and Recruiter.
 Your task is to generate a professional, high-impact cover letter tailored for a specific candidate and job role.
 
 Generate the letter following this JSON schema exactly:
-{
+{{
     "subject": "Job Application: [Job Title] - [Candidate Name]",
     "salutation": "Dear [Hiring Manager Name/Hiring Team],",
     "introduction": "Introductory paragraph expressing interest in the role...",
@@ -26,7 +26,7 @@ Generate the letter following this JSON schema exactly:
     ],
     "conclusion": "Concluding paragraph with call-to-action...",
     "sign_off": "Sincerely,\\n[Candidate Name]"
-}
+}}
 
 Candidate Name: {name}
 Skills: {skills}
