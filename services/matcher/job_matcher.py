@@ -41,19 +41,19 @@ from exceptions import (
     JobMatcherError,
 )
 
-from services.skill_extractor import (
+from services.resume.skill_extractor import (
     match_skills,
 )
 
-from services.experience_parser import (
+from services.resume.experience_parser import (
     match_experience,
 )
 
-from services.location_parser import (
+from services.resume.location_parser import (
     match_location,
 )
 
-from services.salary_parser import (
+from services.resume.salary_parser import (
     match_salary,
 )
 

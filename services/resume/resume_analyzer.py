@@ -46,7 +46,7 @@ from exceptions import (
     InvalidAIResponseError,
 )
 
-from services.resume_enricher import (
+from services.resume.resume_enricher import (
     extract_github,
     extract_linkedin,
     extract_portfolio,
@@ -450,15 +450,15 @@ def validate_schema(
 # Service Imports
 # ==========================================================
 
-from services.skill_extractor import (
+from services.resume.skill_extractor import (
     extract_skills,
 )
 
-from services.location_parser import (
+from services.resume.location_parser import (
     normalize_location,
 )
 
-from services.ats_calculator import (
+from services.ats.ats_calculator import (
     calculate_ats,
 )
 
@@ -853,7 +853,7 @@ if __name__ == "__main__":
     print(" AI JobAgent - Resume Analyzer ")
     print("=" * 60)
 
-    from services.resume_parser import extract_resume_text
+    from services.resume.resume_parser import extract_resume_text
 
     resume_path = input(
         "\nEnter Resume Path: "

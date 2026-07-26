@@ -10,7 +10,7 @@ from providers.base import BaseProvider
 from models import JobData
 from config import ADZUNA_APP_ID, ADZUNA_APP_KEY
 
-from services.location_parser import (
+from services.resume.location_parser import (
     parse_location,
     is_remote,
 )

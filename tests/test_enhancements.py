@@ -5,9 +5,9 @@ from pathlib import Path
 sys.path.append("c:/JobAgent")
 
 from models import ResumeData, JobData, SearchResult
-from services.resume_enricher import infer_location
-from services.ats_calculator import calculate_ats
-from services.search_jobs import search_jobs
+from services.resume.resume_enricher import infer_location
+from services.ats.ats_calculator import calculate_ats
+from services.jobs.search_jobs import search_jobs
 from config import MATCH_WEIGHTS
 
 def test_location_logic():
@@ -108,8 +108,8 @@ def test_auto_learning():
 
 def test_parser_robustness():
     print("\n--- Testing Parser Robustness against Graduation Years ---")
-    from services.experience_parser import parse_experience
-    from services.salary_parser import parse_salary
+    from services.resume.experience_parser import parse_experience
+    from services.resume.salary_parser import parse_salary
     
     # Graduation year in experience description should NOT be parsed as 2026.0 years of experience
     exp_years = parse_experience("2026 passout")

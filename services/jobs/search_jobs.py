@@ -37,7 +37,7 @@ from exceptions import (
     JobSearchError,
 )
 
-from services.job_matcher import (
+from services.matcher.job_matcher import (
     match_jobs,
 )
 
@@ -340,7 +340,7 @@ def search_jobs(
 
         # Group jobs by city
         grouped_jobs = {}
-        from services.location_parser import is_remote, CITY_ALIASES
+        from services.resume.location_parser import is_remote, CITY_ALIASES
         from config import DEFAULT_LOCATIONS
         
         for job in good_matches:
@@ -443,7 +443,7 @@ def filter_location(
     if not location:
         return jobs
 
-    from services.location_parser import is_remote
+    from services.resume.location_parser import is_remote
 
     loc_lower = location.lower()
 

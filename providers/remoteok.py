@@ -9,16 +9,16 @@ from typing import List
 from providers.base import BaseProvider
 from models import JobData
 
-from services.salary_parser import (
+from services.resume.salary_parser import (
     parse_salary,
 )
 
-from services.location_parser import (
+from services.resume.location_parser import (
     parse_location,
     is_remote,
 )
 
-from services.experience_parser import (
+from services.resume.experience_parser import (
     parse_experience,
 )
 

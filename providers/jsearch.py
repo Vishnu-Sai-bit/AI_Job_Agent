@@ -10,7 +10,7 @@ from providers.base import BaseProvider
 from models import JobData
 from config import RAPIDAPI_KEY, RAPIDAPI_HOST
 
-from services.location_parser import (
+from services.resume.location_parser import (
     is_remote,
 )
 

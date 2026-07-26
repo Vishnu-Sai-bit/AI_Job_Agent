@@ -2,11 +2,11 @@ import sys
 from pathlib import Path
 
 # Add project root to path
-sys.path.append(str(Path(__file__).parent))
+sys.path.append(str(Path(__file__).parent.parent))
 
 from models import ResumeData, JobData
-from services.search_jobs import is_india_or_remote_job
-from services.job_matcher import match_jobs, role_match
+from services.jobs.search_jobs import is_india_or_remote_job
+from services.matcher.job_matcher import match_jobs, role_match
 
 # -----------------------------------------------------------------------------
 # Test Data
@@ -82,7 +82,7 @@ print("\n--- 3. Testing Full Search & Grouping ---")
 matched = match_jobs(resume, filtered_jobs)
 
 # Apply match score filter (>= 50)
-from services.search_jobs import filter_match_score
+from services.jobs.search_jobs import filter_match_score
 good_matches = filter_match_score(matched, 50.0)
 
 print("Matched jobs above 50% threshold:")
@@ -101,7 +101,7 @@ print("Result: Score Threshold & Fallback Matching Passed [PASSED]")
 print("\n--- 4. Testing Smart City Parser ---")
 # Group jobs by city
 grouped_jobs = {}
-from services.location_parser import is_remote, CITY_ALIASES
+from services.resume.location_parser import is_remote, CITY_ALIASES
 from config import DEFAULT_LOCATIONS
 
 for job in good_matches:
