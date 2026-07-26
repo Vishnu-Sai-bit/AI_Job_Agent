@@ -1,0 +1,25 @@
+name: Deploy Frontend to GitHub Pages
+
+on:
+  push:
+    branches:
+      - main
+    paths:
+      - 'frontend/**'
+
+# Permissions required to publish to GitHub Pages branch
+permissions:
+  contents: write
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v4
+
+      - name: Deploy to GitHub Pages
+        uses: JamesIves/github-pages-deploy-action@v4
+        with:
+          folder: frontend # Subfolder containing the static UI files
+          branch: gh-pages  # Target branch for GitHub Pages hosting
