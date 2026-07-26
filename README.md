@@ -20,6 +20,25 @@ An advanced, MNC-grade enterprise job agent that parses resumes, calculates ATS 
 
 ---
 
+## 🖼️ Application Screenshots
+
+### 1. Welcome Screen (Dashboard & ATS)
+![Welcome Screen](assets/home.png)
+
+### 2. Parsed Profile & Suitability report
+![Profile Suitability](assets/suitability_report.png)
+
+### 3. Detailed ATS Scoring & Contact Details
+![Detailed ATS Score](assets/resume_details.png)
+
+### 4. Real-time Job Matches (Grouped by Category / Location)
+![Job Matches](assets/job_matches.png)
+
+### 5. Generative AI Career Tools (Cover Letter, Interview Prep, Outreach Emails)
+![AI Career Tools](assets/career_tools.png)
+
+---
+
 ## 📐 Architecture Diagram
 
 ```mermaid
