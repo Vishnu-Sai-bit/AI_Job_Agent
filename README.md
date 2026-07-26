@@ -22,20 +22,26 @@ An advanced, MNC-grade enterprise job agent that parses resumes, calculates ATS 
 
 ## 🖼️ Application Screenshots
 
-### 1. Welcome Screen (Dashboard & ATS)
-![Welcome Screen](assets/home.png)
+### 📊 Core Dashboard & Resume Analyzer
+| 1. Dashboard & ATS Landing | 2. Parsed Profile Suitability |
+|---|---|
+| ![Welcome Screen](assets/home.png) | ![Profile Suitability](assets/suitability_report.png) |
 
-### 2. Parsed Profile & Suitability report
-![Profile Suitability](assets/suitability_report.png)
+| 3. Detailed ATS Metrics | 4. Real-time Matched Jobs |
+|---|---|
+| ![Detailed ATS Score](assets/resume_details.png) | ![Job Matches](assets/job_matches.png) |
 
-### 3. Detailed ATS Scoring & Contact Details
-![Detailed ATS Score](assets/resume_details.png)
+### 🤖 Generative AI Career Tools in Action
+| 5. Cover Letter Generator Input | 6. Tailored Cover Letter Output |
+|---|---|
+| ![Cover Letter Input](assets/cover_letter_input.png) | ![Cover Letter Output](assets/cover_letter_output.png) |
 
-### 4. Real-time Job Matches (Grouped by Category / Location)
-![Job Matches](assets/job_matches.png)
+| 7. Outreach Email Writer Input | 8. Cold Networking Outreach Output |
+|---|---|
+| ![Outreach Input](assets/outreach_email_input.png) | ![Outreach Output](assets/outreach_email_output.png) |
 
-### 5. Generative AI Career Tools (Cover Letter, Interview Prep, Outreach Emails)
-![AI Career Tools](assets/career_tools.png)
+### 🧠 Mock Technical Interview Simulator
+![Mock Interview Simulator](assets/interview_simulator.png)
 
 ---
 
