@@ -23,6 +23,7 @@ Recruiters and developers can watch the full, step-by-step video demonstration o
 *   **7-Tier Cascading AI Router**: Resilient cloud fallback chain running **Groq (Llama 3.3)** ➡️ **OpenRouter (Llama 3)** ➡️ **Together AI** ➡️ **Cohere** ➡️ **Hugging Face** ➡️ **Gemini 2.0 Flash** ➡️ **Local Ollama**.
 *   **6-Board Live Job Engine**: Aggregates local and international listings in real-time from **LinkedIn, Indeed, Naukri, Foundit, Glassdoor, and Wellfound** via SerpApi and JSearch.
 *   **Auto-Learning Recommendation System**: Ranks in-demand missing skills from matched job descriptions and suggests certified learning courses and portfolio projects.
+*   **In-Memory Vector Database**: Built a lightweight, custom, dependency-free Vector Store using NumPy to compute cosine similarity scores between candidate profile embeddings (Gemini/Cohere) and live job description vectors.
 *   **Advanced Career Toolset**: Generates cover letters, cold outreach emails, mock technical interview prep, and salary predictions.
 *   **Luxury Glassmorphism UI**: High-fidelity static single-page dashboard with full responsive layout and dark/light theme toggle.
 
@@ -105,13 +106,13 @@ AI_Job_Agent/
 │   ├── remotive.py           # Remotive remote API
 │   └── remoteok.py           # RemoteOK remote API
 │
-├── services/                  # Business Logic & Core Algorithms
-│   ├── ats_calculator.py     # ATS score calculation weights
-│   ├── resume_parser.py      # Column-aware PDF text extraction
-│   ├── resume_enricher.py    # Social links & location inference
-│   ├── job_matcher.py        # Weighted job-to-resume matching
-│   ├── search_jobs.py        # Master job search aggregator
-│   └── cover_letter_generator.py # Generative letter writing
+├── services/                  # Business Logic & Core Algorithms (Nested MNC Modules)
+│   ├── ats/                  # ATS Calculator logic
+│   ├── resume/               # Parser, Enricher, Analyzer, and Optimizer
+│   ├── matcher/              # Resume-to-Job matching algorithm
+│   ├── jobs/                 # Live search aggregator
+│   └── cover_letter/         # Cover Letter generative AI logic
+│   # (Additional directories: email, interview, learning, linkedin, salary, report)
 │
 ├── models/                    # Data Structures & Schemas
 │   ├── resume.py             # ResumeData schema
@@ -120,6 +121,7 @@ AI_Job_Agent/
 │
 ├── utils/                     # Shared Utilities
 │   ├── llm.py                # 7-Tier Cloud Fallback Router
+│   ├── vector_store.py       # Custom in-memory NumPy Vector Database & Semantic Similarity
 │   └── logger.py             # Consolidated application logging
 │
 ├── app.py                     # FastAPI Application Endpoints

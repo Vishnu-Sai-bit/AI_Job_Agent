@@ -50,8 +50,8 @@ def test_ats_skill_quality():
 def test_job_weights_and_reasons():
     print("\n--- Testing Job Match Weights & Explanations ---")
     print("Current Match Weights:", MATCH_WEIGHTS)
-    assert MATCH_WEIGHTS["skills"] == 35, "Skills weight should be 35"
-    assert MATCH_WEIGHTS["salary"] == 5, "Salary weight should be 5"
+    assert MATCH_WEIGHTS["skills"] == 30, "Skills weight should be 30"
+    assert MATCH_WEIGHTS["semantic"] == 10, "Semantic weight should be 10"
     
     # Check explanation format
     job = JobData(

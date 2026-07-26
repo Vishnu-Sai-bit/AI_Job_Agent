@@ -177,3 +177,62 @@ def call_llm(prompt: str, json_format: bool = True) -> str:
     except Exception as e:
         exception("Ollama request failed.")
         raise ResumeAnalyzerError(str(e))
+
+
+def get_embedding(text: str) -> list[float]:
+    """
+    Generate vector embeddings for a given text.
+    Tries Cohere or Gemini, and falls back to a clean token-level TF-IDF vectorizer if keys are missing.
+    """
+    cohere_key = os.getenv("COHERE_API_KEY", "").strip()
+    gemini_key = os.getenv("GEMINI_API_KEY", "").strip()
+
+    if cohere_key:
+        try:
+            url = "https://api.cohere.com/v1/embed"
+            headers = {
+                "Authorization": f"Bearer {cohere_key}",
+                "Content-Type": "application/json"
+            }
+            payload = {
+                "texts": [text],
+                "model": "embed-english-v3.0",
+                "input_type": "search_document"
+            }
+            response = requests.post(url, json=payload, headers=headers, timeout=15)
+            response.raise_for_status()
+            return response.json()["embeddings"][0]
+        except Exception as e:
+            exception(f"Cohere embedding failed: {e}")
+
+    if gemini_key:
+        try:
+            url = f"https://generativelanguage.googleapis.com/v1beta/models/text-embedding-004:embedContent?key={gemini_key}"
+            payload = {
+                "content": {
+                    "parts": [{"text": text}]
+                }
+            }
+            response = requests.post(url, json=payload, timeout=15)
+            response.raise_for_status()
+            return response.json()["embedding"]["values"]
+        except Exception as e:
+            exception(f"Gemini embedding failed: {e}")
+
+    # Fallback: Simple token-level tf-idf hash vector (length 384) to avoid external dependency issues
+    import math
+    vector = [0.0] * 384
+    words = text.lower().split()
+    if not words:
+        return vector
+    for word in words:
+        h = 0
+        for char in word:
+            h = (31 * h + ord(char)) % 384
+        vector[h] += 1.0
+        
+    # L2 Normalization
+    magnitude = math.sqrt(sum(v * v for v in vector))
+    if magnitude > 0:
+        vector = [v / magnitude for v in vector]
+    return vector

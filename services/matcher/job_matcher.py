@@ -26,11 +26,8 @@ Used By
 from typing import List
 
 from config import MATCH_WEIGHTS
-
-from models import (
-    ResumeData,
-    JobData,
-)
+from models import ResumeData, JobData
+from utils.vector_store import calculate_semantic_similarity
 
 from utils import (
     info,
@@ -291,6 +288,11 @@ def calculate_weighted_score(
         )
 
         # --------------------------------------------------
+        # Semantic Match
+        # --------------------------------------------------
+        semantic_score = calculate_semantic_similarity(resume, job)
+
+        # --------------------------------------------------
         # Weighted Score
         # --------------------------------------------------
 
@@ -301,7 +303,8 @@ def calculate_weighted_score(
             skill_score * MATCH_WEIGHTS["skills"] +
             experience_score * MATCH_WEIGHTS["experience"] +
             location_score * MATCH_WEIGHTS["location"] +
-            salary_score * MATCH_WEIGHTS["salary"]
+            salary_score * MATCH_WEIGHTS["salary"] +
+            semantic_score * MATCH_WEIGHTS.get("semantic", 0.0)
         ) / TOTAL_WEIGHT
 
         final_score = round(
@@ -335,6 +338,11 @@ def calculate_weighted_score(
 
         job.salary_match = round(
             salary_score,
+            2,
+        )
+
+        job.semantic_match = round(
+            semantic_score,
             2,
         )
 

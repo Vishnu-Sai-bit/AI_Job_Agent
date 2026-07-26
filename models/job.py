@@ -129,6 +129,8 @@ class JobData:
 
     salary_match: float = 0.0
 
+    semantic_match: float = 0.0
+
     match_score: float = 0.0
 
     matching_skills: List[str] = field(default_factory=list)
@@ -251,6 +253,7 @@ class JobData:
         experience: float,
         location: float,
         salary: float = 0.0,
+        semantic: float = 0.0,
         final_score: float | None = None,
     ):
         """
@@ -262,6 +265,7 @@ class JobData:
         self.experience_match = experience
         self.location_match = location
         self.salary_match = salary
+        self.semantic_match = semantic
 
         if final_score is not None:
 
@@ -278,7 +282,8 @@ class JobData:
                 + skill
                 + experience
                 + location
-                + salary,
+                + salary
+                + semantic,
 
                 2
 
