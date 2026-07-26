@@ -43,18 +43,18 @@ IMPORTANT RULES:
 4. The response MUST begin with { and end with }.
 5. Follow this JSON schema exactly:
 
-{
+{{
     "improved_summary": "rewritten career summary here",
     "action_verbs": ["verb1", "verb2", "verb3"],
     "bullet_points_improvements": [
-        {
+        {{
             "original": "original bullet point",
             "improved": "improved bullet point using action verbs and metrics",
             "reason": "explanation of what makes this version stronger"
-        }
+        }}
     ],
     "recommended_skills": ["skill1", "skill2", "skill3"]
-}
+}}
 
 Target Role: {target_role}
 Resume:
