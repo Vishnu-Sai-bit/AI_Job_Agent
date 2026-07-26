@@ -40,6 +40,14 @@ An advanced, MNC-grade enterprise job agent that parses resumes, calculates ATS 
 |---|---|
 | ![Outreach Input](assets/outreach_email_input.png) | ![Outreach Output](assets/outreach_email_output.png) |
 
+| 9. LinkedIn Optimizer Input | 10. LinkedIn Suggested Headlines & Summary |
+|---|---|
+| ![LinkedIn Input](assets/linkedin_optimizer_input.png) | ![LinkedIn Output](assets/linkedin_optimizer_output.png) |
+
+| 11. Salary Estimator Input | 12. Predicted Market Salary Range |
+|---|---|
+| ![Salary Input](assets/salary_estimator_input.png) | ![Salary Output](assets/salary_estimator_output.png) |
+
 ### 🧠 Mock Technical Interview Simulator
 ![Mock Interview Simulator](assets/interview_simulator.png)
 
