@@ -9,6 +9,14 @@ An advanced, MNC-grade enterprise job agent that parses resumes, calculates ATS 
 
 ---
 
+## 🎥 Walkthrough & Demo
+
+Recruiters and developers can watch the full, step-by-step video demonstration of the AI JobAgent platform here:
+
+[![Watch Demo Video](https://img.shields.io/badge/Demo_Video-Watch_on_Google_Drive-blue?style=for-the-badge&logo=googledrive&logoColor=white)](https://drive.google.com/file/d/1MgUpAeVpGmqT0FpnUtz4pyGnOGV30Fl7/view?usp=sharing)
+
+---
+
 ## 🚀 Key Features
 
 *   **Smart Two-Column PDF Parser**: Preserves reading order in two-column layouts using PyMuPDF bounding-box grouping.
