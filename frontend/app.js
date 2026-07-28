@@ -131,19 +131,37 @@ function initDragAndDrop() {
     });
 }
 
+// Upload Progress Helper
+function setUploadProgress(percentage, text) {
+    progressBar.style.width = `${percentage}%`;
+    const percentLabel = document.getElementById("progress-percent");
+    if (percentLabel) percentLabel.textContent = `${percentage}%`;
+    
+    uploadStatus.textContent = text;
+    
+    const statusText = document.getElementById("upload-status-text");
+    const statusDot = document.querySelector(".status-dot");
+    if (statusText) statusText.textContent = text;
+    if (statusDot) {
+        if (percentage > 0 && percentage < 100) {
+            statusDot.classList.add("loading");
+        } else {
+            statusDot.classList.remove("loading");
+        }
+    }
+}
+
 // File Upload Handler
 async function handleFileUpload(file) {
     const formData = new FormData();
     formData.append("file", file);
 
     progressContainer.style.display = "block";
-    progressBar.style.width = "30%";
-    uploadStatus.textContent = "Uploading resume file...";
+    setUploadProgress(30, "Uploading resume file...");
 
     try {
         // Step 1: Analyze Resume
-        progressBar.style.width = "50%";
-        uploadStatus.textContent = "Running AI ATS analysis...";
+        setUploadProgress(50, "Running AI ATS analysis...");
         
         const analysisResponse = await fetch(`${BACKEND_URL}/analyze-resume`, {
             method: "POST",
@@ -156,8 +174,7 @@ async function handleFileUpload(file) {
 
         const analysisResult = await analysisResponse.json();
         resumeData = analysisResult.resume;
-        progressBar.style.width = "75%";
-        uploadStatus.textContent = "Searching matching jobs...";
+        setUploadProgress(75, "Searching matching jobs...");
 
         // Step 2: Fetch Matching Jobs (use a new FormData instance to rewind stream)
         const jobFormData = new FormData();
@@ -176,10 +193,11 @@ async function handleFileUpload(file) {
         jobData = jobResult.result;
 
         // Step 3: Complete upload
-        progressBar.style.width = "100%";
-        uploadStatus.textContent = "Analysis complete!";
+        setUploadProgress(100, "Analysis complete!");
         setTimeout(() => {
             progressContainer.style.display = "none";
+            const statusText = document.getElementById("upload-status-text");
+            if (statusText) statusText.textContent = "Profile Active";
         }, 1500);
 
         // Render UI
@@ -192,8 +210,9 @@ async function handleFileUpload(file) {
 
     } catch (err) {
         console.error(err);
-        progressBar.style.width = "0%";
-        uploadStatus.textContent = "Upload failed!";
+        setUploadProgress(0, "Upload failed!");
+        const statusText = document.getElementById("upload-status-text");
+        if (statusText) statusText.textContent = "Error Occurred";
         alert(`Error: ${err.message}`);
     }
 }
@@ -206,13 +225,17 @@ async function handleFileUpload(file) {
 function renderDashboard() {
     if (!resumeData) return;
 
-    // ATS Score Circular Gradient
+    // ATS Score SVG Ring Animation
     const atsScore = resumeData.ats_score || 0;
     const atsVal = document.getElementById("ats-val");
     atsVal.textContent = `${atsScore}%`;
     
-    const atsCircle = document.querySelector(".ats-circle");
-    atsCircle.style.background = `conic-gradient(#4f46e5 ${atsScore}%, #db2777 ${atsScore}%, rgba(226, 232, 240, 0.2) ${atsScore}%)`;
+    const progressCircle = document.getElementById("ats-progress");
+    if (progressCircle) {
+        // Circumference of our circle is ~264
+        const strokeDashOffset = 264 - (atsScore / 100) * 264;
+        progressCircle.style.strokeDashoffset = strokeDashOffset;
+    }
 
     // Personal Info
     document.getElementById("info-name").textContent = resumeData.name || "N/A";
@@ -368,6 +391,10 @@ function renderJobs() {
             // Format match score color
             const score = Math.round(job.match_score || 0);
             
+            // Render skills matching and missing badges
+            const matchPills = (job.matching_skills || []).map(s => `<span class="pill-match">${s} ✔</span>`).join("");
+            const missPills = (job.missing_skills || []).map(s => `<span class="pill-missing">${s}</span>`).join("");
+            
             card.innerHTML = `
                 <div class="job-match-badge">${score}% Match</div>
                 <h4>${job.title}</h4>
@@ -377,6 +404,27 @@ function renderJobs() {
                     <p>💰 <strong>Salary Range:</strong> ${job.salary || "N/A"}</p>
                     <p>🔗 <strong>Source:</strong> ${job.provider || "N/A"}</p>
                 </div>
+                
+                <div class="job-card-pills">
+                    ${matchPills}
+                    ${missPills}
+                </div>
+                
+                <div class="job-score-breakdown">
+                    <div class="breakdown-item">
+                        Role Match
+                        <span class="breakdown-val">${Math.round(job.role_match || 0)}%</span>
+                    </div>
+                    <div class="breakdown-item">
+                        Skill Match
+                        <span class="breakdown-val">${Math.round(job.skill_match || 0)}%</span>
+                    </div>
+                    <div class="breakdown-item">
+                        Semantic Match
+                        <span class="breakdown-val">${Math.round(job.semantic_match || 0)}%</span>
+                    </div>
+                </div>
+                
                 <a href="${job.apply_link || "#"}" target="_blank" class="action-btn-small">Apply for Job</a>
             `;
             cardsContainer.appendChild(card);

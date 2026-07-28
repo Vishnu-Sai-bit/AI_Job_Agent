@@ -3,32 +3,58 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>AI JobAgent - Smart Career Dashboard</title>
+    <title>AI JobAgent - Luxury Career Command Center</title>
     <link rel="stylesheet" href="style.css">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800;900&family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
 </head>
 <body>
+    <!-- Background Ambient Glowing Orbs -->
+    <div class="ambient-glows">
+        <div class="glow-orb glow-purple"></div>
+        <div class="glow-orb glow-pink"></div>
+        <div class="glow-orb glow-blue"></div>
+    </div>
+
     <div class="app-container">
         <!-- Sidebar -->
         <aside class="sidebar">
             <div class="brand">
-                <span class="brand-icon">💼</span>
-                <h1>AI JobAgent</h1>
+                <div class="brand-logo-container">
+                    <span class="brand-icon">⚡</span>
+                </div>
+                <div class="brand-text">
+                    <h1>AI JobAgent</h1>
+                    <span class="version-tag">v2.0 Premium</span>
+                </div>
             </div>
             
             <div class="upload-section">
-                <h3>📁 Upload Resume</h3>
+                <h3>📁 Resume Workspace</h3>
                 <div class="upload-box" id="drop-zone">
-                    <span class="upload-box-icon">📤</span>
-                    <p>Drag & drop PDF/DOCX here or click to browse</p>
+                    <div class="upload-icon-container">
+                        <span class="upload-box-icon">📤</span>
+                    </div>
+                    <p class="upload-title">Drop PDF or DOCX</p>
+                    <p class="upload-subtitle">or click to browse local files</p>
                     <input type="file" id="resume-input" accept=".pdf,.docx" style="display: none;">
                 </div>
+                
                 <div class="progress-bar-container" id="progress-container" style="display: none;">
-                    <div class="progress-bar" id="progress-bar"></div>
+                    <div class="progress-tracker">
+                        <span id="upload-status">Ready to analyze</span>
+                        <span id="progress-percent">0%</span>
+                    </div>
+                    <div class="progress-bar-track">
+                        <div class="progress-bar" id="progress-bar"></div>
+                    </div>
                 </div>
-                <div class="status-msg" id="upload-status">Ready to analyze</div>
+                
+                <div class="status-msg-box" id="status-box">
+                    <span class="status-dot"></span>
+                    <span class="status-msg" id="upload-status-text">System Ready</span>
+                </div>
             </div>
 
             <nav class="nav-menu">
@@ -57,17 +83,26 @@
         <main class="main-content">
             <header class="main-header">
                 <div class="header-info">
-                    <h2>Welcome to your Career Command Center</h2>
-                    <p>Upload a resume to unlock tailored job matching and AI career acceleration.</p>
+                    <h2>Career Command Center</h2>
+                    <p>High-fidelity intelligence for automated matching and profile optimization.</p>
+                </div>
+                <div class="header-status-badge">
+                    <span class="pulse-indicator"></span>
+                    <span>AI Engine Connected</span>
                 </div>
             </header>
 
             <div class="content-container">
                 <!-- Welcome Screen / Placeholder -->
                 <div id="welcome-placeholder" class="placeholder-card">
-                    <div class="glowing-orb"></div>
-                    <h2>No Resume Analyzed Yet</h2>
-                    <p>Drag and drop your resume in the left sidebar to generate your ATS score, suitability metrics, matching jobs, and personalized learning roadmaps.</p>
+                    <div class="placeholder-icon">🤖</div>
+                    <h2>Initialize Your Career Profile</h2>
+                    <p>Upload your resume using the workspace panel in the sidebar. The system will automatically run full ATS grading, parse contact credentials, filter matched listings, and generate missing skill roadmaps.</p>
+                    <div class="feature-bullets">
+                        <div class="bullet-item"><span>✔</span> Column-Aware Parsing</div>
+                        <div class="bullet-item"><span>✔</span> Semantic Cosine Vector Matching</div>
+                        <div class="bullet-item"><span>✔</span> Automated Gap Optimization</div>
+                    </div>
                 </div>
 
                 <!-- Tab 1: Dashboard & ATS Report -->
@@ -75,39 +110,69 @@
                     <div class="dashboard-grid">
                         <!-- ATS Score Gauge -->
                         <div class="card ats-card text-center">
-                            <h3>ATS Rating</h3>
-                            <div class="ats-circle">
-                                <span id="ats-val">0%</span>
+                            <h3>ATS Suitability Score</h3>
+                            <div class="ats-circle-container">
+                                <div class="ats-circle">
+                                    <svg class="ats-svg" viewBox="0 0 100 100">
+                                        <circle class="ats-bg-circle" cx="50" cy="50" r="42"></circle>
+                                        <circle class="ats-progress-circle" id="ats-progress" cx="50" cy="50" r="42" stroke-dasharray="264" stroke-dashoffset="264"></circle>
+                                    </svg>
+                                    <span id="ats-val">0%</span>
+                                </div>
                             </div>
-                            <p class="muted">Matching strength against target job markets</p>
+                            <p class="muted card-footer-text">Calculated index based on keyword weightings and parsing quality</p>
                         </div>
 
                         <!-- Personal Info -->
-                        <div class="card">
-                            <h3>Contact Information</h3>
+                        <div class="card profile-info-card">
+                            <h3>Contact Credentials</h3>
                             <ul class="info-list">
-                                <li><strong>Name:</strong> <span id="info-name">-</span></li>
-                                <li><strong>Email:</strong> <span id="info-email">-</span></li>
-                                <li><strong>Phone:</strong> <span id="info-phone">-</span></li>
-                                <li><strong>Location:</strong> <span id="info-location">-</span></li>
+                                <li>
+                                    <span class="info-label">Candidate Name</span>
+                                    <span class="info-val" id="info-name">-</span>
+                                </li>
+                                <li>
+                                    <span class="info-label">Email Address</span>
+                                    <span class="info-val" id="info-email">-</span>
+                                </li>
+                                <li>
+                                    <span class="info-label">Phone Reference</span>
+                                    <span class="info-val" id="info-phone">-</span>
+                                </li>
+                                <li>
+                                    <span class="info-label">Current Hub</span>
+                                    <span class="info-val" id="info-location">-</span>
+                                </li>
                             </ul>
                         </div>
 
                         <!-- Target Preferences -->
-                        <div class="card">
-                            <h3>Target Profile</h3>
+                        <div class="card profile-preferences-card">
+                            <h3>Target Preferences</h3>
                             <ul class="info-list">
-                                <li><strong>Preferred Role:</strong> <span id="pref-role">-</span></li>
-                                <li><strong>Target Hub:</strong> <span id="pref-location">-</span></li>
-                                <li><strong>Experience:</strong> <span id="pref-experience">-</span> years</li>
-                                <li><strong>Level:</strong> <span id="pref-level">-</span></li>
+                                <li>
+                                    <span class="info-label">Preferred Role</span>
+                                    <span class="info-val highlight-val" id="pref-role">-</span>
+                                </li>
+                                <li>
+                                    <span class="info-label">Target Hub</span>
+                                    <span class="info-val" id="pref-location">-</span>
+                                </li>
+                                <li>
+                                    <span class="info-label">Experience Tier</span>
+                                    <span class="info-val" id="pref-experience">-</span>
+                                </li>
+                                <li>
+                                    <span class="info-label">Career Level</span>
+                                    <span class="info-val level-badge" id="pref-level">-</span>
+                                </li>
                             </ul>
                         </div>
                     </div>
 
                     <!-- Social Profiles -->
                     <div class="card socials-card">
-                        <h3>🌐 Professional Portfolios & Contacts</h3>
+                        <h3>🌐 Verified Portfolios & Profiles</h3>
                         <div class="socials-grid" id="socials-container">
                             <!-- Populated by JS -->
                         </div>
@@ -115,22 +180,24 @@
 
                     <!-- Suitability Report -->
                     <div class="card suitability-card" id="suitability-report" style="display: none;">
-                        <h3>🌟 Profile Suitability Report</h3>
-                        <div class="suitability-section">
-                            <strong>🏆 Recommended Roles:</strong>
-                            <ul id="suitability-roles"></ul>
-                        </div>
-                        <div class="suitability-section">
-                            <strong>⚙️ Secondary Career Tracks:</strong>
-                            <ul id="suitability-secondary"></ul>
-                        </div>
-                        <div class="suitability-section">
-                            <strong>💡 Competitive Strengths:</strong>
-                            <ul id="suitability-strengths"></ul>
-                        </div>
-                        <div class="suitability-section">
-                            <strong>🏭 Recommended Sectors:</strong>
-                            <ul id="suitability-industries"></ul>
+                        <h3>🌟 Profile Suitability Intelligence</h3>
+                        <div class="suitability-sections-grid">
+                            <div class="suitability-section">
+                                <strong>🏆 Recommended Core Roles</strong>
+                                <ul id="suitability-roles"></ul>
+                            </div>
+                            <div class="suitability-section">
+                                <strong>⚙️ Secondary Career Tracks</strong>
+                                <ul id="suitability-secondary"></ul>
+                            </div>
+                            <div class="suitability-section">
+                                <strong>💡 Profile Competencies & Strengths</strong>
+                                <ul id="suitability-strengths"></ul>
+                            </div>
+                            <div class="suitability-section">
+                                <strong>🏭 Target Sectors & Industries</strong>
+                                <ul id="suitability-industries"></ul>
+                            </div>
                         </div>
                     </div>
                 </section>
@@ -140,18 +207,22 @@
                     <div class="jobs-toolbar">
                         <div class="card toolbar-card">
                             <div class="toolbar-stats">
-                                <div><strong>Total Found:</strong> <span id="jobs-stat-found">0</span></div>
-                                <div><strong>Filtered Matches:</strong> <span id="jobs-stat-returned">0</span></div>
-                                <div><strong>Query Time:</strong> <span id="jobs-stat-time">0.0s</span></div>
+                                <div class="stat-badge">🔍 Found: <span id="jobs-stat-found">0</span></div>
+                                <div class="stat-badge success-badge">🎯 Matched: <span id="jobs-stat-returned">0</span></div>
+                                <div class="stat-badge info-badge">⚡ Latency: <span id="jobs-stat-time">0.0s</span></div>
                             </div>
                             <div class="group-control">
-                                <span>Group Jobs By:</span>
-                                <label class="radio-label">
-                                    <input type="radio" name="group-by" value="category" checked> Category
-                                </label>
-                                <label class="radio-label">
-                                    <input type="radio" name="group-by" value="location"> Location
-                                </label>
+                                <span>Group Listings By:</span>
+                                <div class="radio-pill-group">
+                                    <label class="radio-pill">
+                                        <input type="radio" name="group-by" value="category" checked>
+                                        <span>Category</span>
+                                    </label>
+                                    <label class="radio-pill">
+                                        <input type="radio" name="group-by" value="location">
+                                        <span>Location</span>
+                                    </label>
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -166,10 +237,10 @@
                     <div class="tools-grid">
                         <!-- Sidebar for choosing a tool -->
                         <div class="card tools-menu">
-                            <h3>Choose an AI Tool</h3>
+                            <h3>AI Copilot Toolkit</h3>
                             <button class="tool-btn active" data-tool="cover-letter">✍️ Cover Letter Writer</button>
-                            <button class="tool-btn" data-tool="interview">💬 Mock Interview Simulator</button>
-                            <button class="tool-btn" data-tool="email">✉️ Outreach Email Writer</button>
+                            <button class="tool-btn" data-tool="interview">💬 Mock Interview Prep</button>
+                            <button class="tool-btn" data-tool="email">✉️ Cold Outreach Generator</button>
                             <button class="tool-btn" data-tool="linkedin">🔗 LinkedIn Optimizer</button>
                             <button class="tool-btn" data-tool="salary">💰 Salary Range Estimator</button>
                         </div>
@@ -179,17 +250,17 @@
                             <div id="tool-form-container">
                                 <!-- Dynamic form fields based on tool selection -->
                             </div>
-                            <button id="run-tool-btn" class="action-btn">Generate Suggestions</button>
+                            <button id="run-tool-btn" class="action-btn">Execute Copilot Prompt</button>
                             
                             <hr class="divider">
 
                             <div class="output-panel">
                                 <div class="output-header">
-                                    <h4>Output Preview</h4>
-                                    <button id="copy-output-btn" class="copy-btn" style="display: none;">📋 Copy Output</button>
+                                    <h4>Generated Output Preview</h4>
+                                    <button id="copy-output-btn" class="copy-btn" style="display: none;">📋 Copy to Clipboard</button>
                                 </div>
                                 <div id="tool-output" class="output-box">
-                                    Select an AI tool and click "Generate Suggestions" to begin.
+                                    Select a career copilot tool and configure settings above to initiate generation.
                                 </div>
                             </div>
                         </div>
@@ -198,12 +269,12 @@
 
                 <!-- Tab 4: Learning Roadmaps -->
                 <section id="tab-learning" class="tab-content" style="display: none;">
-                    <div class="card">
+                    <div class="card skill-acceleration-card">
                         <h3>📈 Career Skills Acceleration Pathway</h3>
-                        <p class="muted">Based on your target role preferences, these are the primary skill gaps and structural learning pathways recommended for you.</p>
+                        <p class="muted">A tailored curriculum listing identified technical gaps and recommended certifications based on real-time market data matching.</p>
                         
                         <div class="skill-gap-box">
-                            <strong>⚠️ Identified Skill Gaps:</strong>
+                            <strong>⚠️ Identified Skill Deficiencies:</strong>
                             <div id="gaps-list" class="gaps-container">
                                 <!-- Populated by JS -->
                             </div>
