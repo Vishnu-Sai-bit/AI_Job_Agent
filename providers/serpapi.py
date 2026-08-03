@@ -59,7 +59,16 @@ class SerpApiProvider(BaseProvider):
         apply_url = ""
         apply_options = item.get("apply_options", [])
         if isinstance(apply_options, list) and len(apply_options) > 0:
-            apply_url = apply_options[0].get("link", "")
+            # Prioritize direct company site links or links matching company name
+            for option in apply_options:
+                title_opt = (option.get("title") or "").lower()
+                link_opt = option.get("link", "")
+                if "company site" in title_opt or (company and company.lower() in title_opt):
+                    apply_url = link_opt
+                    break
+            # Fallback to the first available option if no direct link is matched
+            if not apply_url:
+                apply_url = apply_options[0].get("link", "")
 
         if not title or not company or not apply_url:
             return None

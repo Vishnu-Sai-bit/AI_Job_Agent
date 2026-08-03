@@ -12,7 +12,7 @@ from utils import info, exception, call_llm
 from exceptions import ResumeAnalyzerError, OllamaConnectionError
 
 PROMPT = """
-You are an expert technical interviewer and career coach.
+You are a {interviewer_role} at a major technology MNC.
 Your job is to generate a list of mock interview questions tailored for a candidate applying for a target role.
 
 Generate the questions following this JSON schema exactly:
@@ -27,22 +27,34 @@ Generate the questions following this JSON schema exactly:
     ]
 }}
 
-Generate exactly 5 questions (mix of technical, behavioral, and scenario-based questions).
+Generate exactly {question_count} questions (mix of technical, behavioral, and scenario-based questions matching the tone of a {interviewer_role}).
 
 Target Role: {role}
 Skills: {skills}
+Candidate Resume Context (if available): {resume_context}
+
+CRITICAL: If the Candidate Resume Context is provided, tailor at least 50% of the questions specifically to the candidate's actual projects, work experience description, achievements, or education mentioned in their resume context. Act and evaluate exactly like a seasoned {interviewer_role}.
 
 IMPORTANT: Return ONLY the raw JSON structure. Do NOT explain anything else.
 """
 
-def generate_interview_questions(role: str, skills: List[str]) -> Dict[str, Any]:
+def generate_interview_questions(
+    role: str,
+    skills: List[str],
+    resume_context: str = "",
+    question_count: int = 5,
+    interviewer_role: str = "Senior Technical Recruiter"
+) -> Dict[str, Any]:
     """
     Generate mock interview questions and answers using the LLM helper.
     """
     skills_str = ", ".join(skills) if skills else "Data Analysis, Python, SQL"
     formatted_prompt = PROMPT.format(
         role=role or "Data Analyst",
-        skills=skills_str
+        skills=skills_str,
+        resume_context=resume_context or "Not Provided",
+        question_count=question_count,
+        interviewer_role=interviewer_role
     )
 
     info(f"Generating mock interview questions for: {role}")

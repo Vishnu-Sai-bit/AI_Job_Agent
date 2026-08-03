@@ -62,6 +62,9 @@ class CoverLetterRequest(BaseModel):
 class InterviewRequest(BaseModel):
     role: str
     skills: List[str]
+    resume_context: Optional[str] = ""
+    question_count: Optional[int] = 5
+    interviewer_role: Optional[str] = "Senior Technical Recruiter"
 
 class RoadmapRequest(BaseModel):
     role: str
@@ -469,10 +472,16 @@ def api_generate_cover_letter(req: CoverLetterRequest):
 @app.post("/generate-interview-questions")
 def api_generate_interview_questions(req: InterviewRequest):
     """
-    Generate 5 mock technical/behavioral interview questions with tips and sample answers.
+    Generate mock technical/behavioral interview questions with tips and sample answers.
     """
     try:
-        return generate_interview_questions(req.role, req.skills)
+        return generate_interview_questions(
+            req.role,
+            req.skills,
+            req.resume_context,
+            req.question_count,
+            req.interviewer_role
+        )
     except Exception as e:
         raise HTTPException(status_code=500, detail=str(e))
 
