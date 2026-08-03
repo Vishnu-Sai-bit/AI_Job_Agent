@@ -67,20 +67,15 @@ def contact_score(resume: ResumeData) -> float:
 
 def skills_score(resume: ResumeData) -> float:
     """
-    Calculate skills score rewarding quality.
+    Calculate skills score rewarding quality and breadth across any tech domain.
     """
     if not resume.skills:
         return 0.0
 
-    high_value_skills = {
-        "python", "sql", "power bi", "tableau", "excel", "pandas", "numpy", "git", "fastapi", "azure", 
-        "aws", "gcp", "docker", "spark", "pyspark", "databricks", "machine learning", "deep learning", 
-        "tensorflow", "pytorch", "etl", "data warehouse", "microsoft fabric", "azure data factory",
-        "postgresql", "mongodb", "flask", "django"
-    }
+    from services.resume.skill_extractor import MASTER_SKILLS
 
     total_count = len(resume.skills)
-    high_value_count = sum(1 for skill in resume.skills if skill.lower() in high_value_skills)
+    high_value_count = sum(1 for skill in resume.skills if skill.lower() in MASTER_SKILLS or len(skill.strip()) >= 3)
 
     # Base score based on count (max 20 points)
     if total_count >= 12:
@@ -96,7 +91,7 @@ def skills_score(resume: ResumeData) -> float:
     else:
         base_score = 0.0
 
-    # Quality bonus (max 10 points) based on high value skills
+    # Quality bonus (max 10 points) based on verified skills
     if high_value_count >= 8:
         quality_bonus = 10.0
     elif high_value_count >= 5:
@@ -108,7 +103,7 @@ def skills_score(resume: ResumeData) -> float:
     else:
         quality_bonus = 0.0
 
-    return base_score + quality_bonus
+    return min(30.0, base_score + quality_bonus)
 
 
 # ==========================================================

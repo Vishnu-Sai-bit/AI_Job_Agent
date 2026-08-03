@@ -1,293 +1,1041 @@
 <!DOCTYPE html>
-<html lang="en" data-theme="light">
+<html lang="en" data-theme="dark">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>AI JobAgent - Luxury Career Command Center</title>
-    <link rel="stylesheet" href="style.css">
+    <title>AI JobAgent - Professional Career Command Studio</title>
+    <link rel="stylesheet" href="style.css?v=3.5">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800;900&family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500;600;700;800&family=Outfit:wght@400;500;600;700;800;900&family=Plus+Jakarta+Sans:wght@400;500;600;700;800;900&family=Space+Grotesk:wght@500;600;700&display=swap" rel="stylesheet">
 </head>
 <body>
-    <!-- Background Ambient Glowing Orbs -->
+    <!-- Subtle Background Ambient Glows -->
     <div class="ambient-glows">
-        <div class="glow-orb glow-purple"></div>
-        <div class="glow-orb glow-pink"></div>
-        <div class="glow-orb glow-blue"></div>
+        <div class="glow-orb glow-indigo" id="ambient-orb-1"></div>
+        <div class="glow-orb glow-cyan" id="ambient-orb-2"></div>
     </div>
 
-    <div class="app-container">
-        <!-- Sidebar -->
-        <aside class="sidebar">
-            <div class="brand">
-                <div class="brand-logo-container">
-                    <span class="brand-icon">⚡</span>
-                </div>
-                <div class="brand-text">
-                    <h1>AI JobAgent</h1>
-                    <span class="version-tag">v2.0 Premium</span>
-                </div>
-            </div>
-            
-            <div class="upload-section">
-                <h3>📁 Resume Workspace</h3>
-                <div class="upload-box" id="drop-zone">
-                    <div class="upload-icon-container">
-                        <span class="upload-box-icon">📤</span>
+    <!-- Top Navigation Bar (Claude & Gemini Studio Style) -->
+    <header class="top-navbar">
+        <div class="top-nav-inner">
+            <div class="top-nav-left">
+                <div class="brand">
+                    <div class="brand-logo-container">
+                        <span class="brand-icon">⚡</span>
                     </div>
-                    <p class="upload-title">Drop PDF or DOCX</p>
-                    <p class="upload-subtitle">or click to browse local files</p>
-                    <input type="file" id="resume-input" accept=".pdf,.docx" style="display: none;">
-                </div>
-                
-                <div class="progress-bar-container" id="progress-container" style="display: none;">
-                    <div class="progress-tracker">
-                        <span id="upload-status">Ready to analyze</span>
-                        <span id="progress-percent">0%</span>
+                    <div class="brand-text">
+                        <h1>AI JobAgent</h1>
+                        <span class="version-tag">Studio Pro</span>
                     </div>
-                    <div class="progress-bar-track">
-                        <div class="progress-bar" id="progress-bar"></div>
-                    </div>
-                </div>
-                
-                <div class="status-msg-box" id="status-box">
-                    <span class="status-dot"></span>
-                    <span class="status-msg" id="upload-status-text">System Ready</span>
                 </div>
             </div>
 
-            <nav class="nav-menu">
+            <!-- Center Navigation Tabs -->
+            <nav class="nav-menu top-nav-tabs">
                 <button class="nav-btn active" data-tab="dashboard">
-                    <span class="btn-icon">📊</span> Dashboard & ATS
+                    <span class="btn-icon">📊</span>
+                    <span class="nav-btn-label">Dashboard</span>
                 </button>
                 <button class="nav-btn" data-tab="jobs">
-                    <span class="btn-icon">🎯</span> Job Matches
+                    <span class="btn-icon">🎯</span>
+                    <span class="nav-btn-label">Jobs</span>
+                </button>
+                <button class="nav-btn" data-tab="crm">
+                    <span class="btn-icon">📋</span>
+                    <span class="nav-btn-label">CRM</span>
                 </button>
                 <button class="nav-btn" data-tab="tools">
-                    <span class="btn-icon">🧠</span> AI Career Tools
+                    <span class="btn-icon">🧠</span>
+                    <span class="nav-btn-label">AI Tools</span>
                 </button>
                 <button class="nav-btn" data-tab="learning">
-                    <span class="btn-icon">📈</span> Learning Roadmaps
+                    <span class="btn-icon">📈</span>
+                    <span class="nav-btn-label">Roadmaps</span>
                 </button>
             </nav>
 
-            <div class="sidebar-footer">
-                <button id="theme-toggle" class="theme-btn">
-                    <span id="theme-icon">🌙</span> Dark Mode
-                </button>
-            </div>
-        </aside>
-
-        <!-- Main Content Area -->
-        <main class="main-content">
-            <header class="main-header">
-                <div class="header-info">
-                    <h2>Career Command Center</h2>
-                    <p>High-fidelity intelligence for automated matching and profile optimization.</p>
+            <!-- Right Controls & Candidate Hub -->
+            <div class="top-nav-actions">
+                <div class="nav-db-pill" id="nav-db-badge" title="Storage Engine Status">
+                    <span class="live-dot" id="db-status-dot"></span>
+                    <span id="nav-db-text" class="nav-db-text">MongoDB</span>
                 </div>
-                <div class="header-status-badge">
-                    <span class="pulse-indicator"></span>
-                    <span>AI Engine Connected</span>
-                </div>
-            </header>
 
-            <div class="content-container">
-                <!-- Welcome Screen / Placeholder -->
-                <div id="welcome-placeholder" class="placeholder-card">
-                    <div class="placeholder-icon">🤖</div>
-                    <h2>Initialize Your Career Profile</h2>
-                    <p>Upload your resume using the workspace panel in the sidebar. The system will automatically run full ATS grading, parse contact credentials, filter matched listings, and generate missing skill roadmaps.</p>
-                    <div class="feature-bullets">
-                        <div class="bullet-item"><span>✔</span> Column-Aware Parsing</div>
-                        <div class="bullet-item"><span>✔</span> Semantic Cosine Vector Matching</div>
-                        <div class="bullet-item"><span>✔</span> Automated Gap Optimization</div>
+                <!-- Visual Style & Accent Palette Switcher -->
+                <div class="nav-style-wrapper">
+                    <button id="style-switcher-btn" class="nav-style-btn" title="Switch Theme Color Palette & Accent Style" onclick="toggleStyleDrawer()">
+                        <span class="style-icon">🎨</span>
+                        <span id="active-style-label" class="style-label">Cyber Indigo</span>
+                    </button>
+                    <div id="style-dropdown" class="style-dropdown-menu" style="display: none;">
+                        <div class="style-menu-header">
+                            <h5>🎨 Visual Theme Styles</h5>
+                        </div>
+                        <div class="style-options-list">
+                            <button class="style-option-btn active" onclick="setVisualTheme('indigo')">
+                                <span class="swatch-circle swatch-indigo"></span>
+                                <span>🌌 Cyber Indigo (Default)</span>
+                            </button>
+                            <button class="style-option-btn" onclick="setVisualTheme('purple')">
+                                <span class="swatch-circle swatch-purple"></span>
+                                <span>🔮 Electric Neon Purple</span>
+                            </button>
+                            <button class="style-option-btn" onclick="setVisualTheme('emerald')">
+                                <span class="swatch-circle swatch-emerald"></span>
+                                <span>🌿 Emerald Cyber Matrix</span>
+                            </button>
+                            <button class="style-option-btn" onclick="setVisualTheme('cyan')">
+                                <span class="swatch-circle swatch-cyan"></span>
+                                <span>⚡ Quantum Blue & Cyan</span>
+                            </button>
+                            <button class="style-option-btn" onclick="setVisualTheme('amber')">
+                                <span class="swatch-circle swatch-amber"></span>
+                                <span>🔥 Radiant Sunset Gold</span>
+                            </button>
+                        </div>
                     </div>
                 </div>
 
-                <!-- Tab 1: Dashboard & ATS Report -->
-                <section id="tab-dashboard" class="tab-content" style="display: none;">
-                    <div class="dashboard-grid">
-                        <!-- ATS Score Gauge -->
-                        <div class="card ats-card text-center">
-                            <h3>ATS Suitability Score</h3>
-                            <div class="ats-circle-container">
-                                <div class="ats-circle">
-                                    <svg class="ats-svg" viewBox="0 0 100 100">
-                                        <circle class="ats-bg-circle" cx="50" cy="50" r="42"></circle>
-                                        <circle class="ats-progress-circle" id="ats-progress" cx="50" cy="50" r="42" stroke-dasharray="264" stroke-dashoffset="264"></circle>
-                                    </svg>
-                                    <span id="ats-val">0%</span>
+                <button id="quick-upload-btn" class="nav-upload-btn" title="Upload or Update Resume">
+                    <span class="btn-icon">📄</span>
+                    <span class="nav-upload-text">Upload Resume</span>
+                </button>
+                <input type="file" id="resume-input" accept=".pdf,.docx" style="display: none;">
+
+                <button id="auth-btn" class="nav-auth-btn" title="Account Authentication">
+                    <span class="btn-icon">🔑</span>
+                    <span id="auth-btn-label">Sign In</span>
+                </button>
+
+                <div class="nav-notif-wrapper">
+                    <button id="notif-btn" class="nav-notif-btn" title="Career Notifications & Alerts" onclick="toggleNotifDrawer()">
+                        <span class="btn-icon">🔔</span>
+                        <span class="notif-badge" id="notif-badge-count">3</span>
+                    </button>
+                    <div id="notif-dropdown" class="notif-dropdown-menu" style="display: none;">
+                        <div class="notif-header">
+                            <h4>🔔 Career Briefings & Alerts</h4>
+                            <span class="notif-clear-btn" onclick="clearNotifications()">Clear</span>
+                        </div>
+                        <div class="notif-list" id="notif-list-container">
+                            <div class="notif-item unread" onclick="handleNotifClick('job')">
+                                <span class="notif-icon">🎯</span>
+                                <div class="notif-content">
+                                    <h5>New 92% Match Opening</h5>
+                                    <p>Junior Data Analyst at GlobalCorp Analytics (Hyderabad) verified.</p>
+                                    <span class="notif-time">10m ago</span>
                                 </div>
                             </div>
-                            <p class="muted card-footer-text">Calculated index based on keyword weightings and parsing quality</p>
+                            <div class="notif-item unread" onclick="handleNotifClick('interview')">
+                                <span class="notif-icon">🎤</span>
+                                <div class="notif-content">
+                                    <h5>Mock Interview Ready</h5>
+                                    <p>Microsoft Technical Deep Dive simulation calibrated for your profile.</p>
+                                    <span class="notif-time">1h ago</span>
+                                </div>
+                            </div>
+                            <div class="notif-item unread" onclick="handleNotifClick('crm')">
+                                <span class="notif-icon">⏳</span>
+                                <div class="notif-content">
+                                    <h5>Follow-Up Due</h5>
+                                    <p>5 days since Scout Technologies application submitted.</p>
+                                    <span class="notif-time">3h ago</span>
+                                </div>
+                            </div>
                         </div>
+                    </div>
+                </div>
 
-                        <!-- Personal Info -->
-                        <div class="card profile-info-card">
+                <button id="nav-settings-btn" class="nav-settings-btn" title="Settings & Career Preferences" onclick="openSettingsModal()">
+                    <span class="btn-icon">⚙️</span>
+                </button>
+
+                <button id="theme-toggle" class="theme-btn" title="Toggle Light/Dark Theme">
+                    <span id="theme-icon">🌙</span>
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <!-- Studio Main Workspace -->
+    <main class="studio-main">
+        <!-- Floating Upload Progress Indicator -->
+        <div class="progress-bar-container studio-progress" id="progress-container" style="display: none;">
+            <div class="progress-tracker">
+                <span id="upload-status">Ready to analyze</span>
+                <span id="progress-percent">0%</span>
+            </div>
+            <div class="progress-bar-track">
+                <div class="progress-bar" id="progress-bar"></div>
+            </div>
+        </div>
+
+        <!-- Hidden / Global status box for JS compatibility -->
+        <div class="status-msg-box" id="status-box" style="display: none;">
+            <span class="status-dot"></span>
+            <span class="status-msg" id="upload-status-text">System Ready</span>
+        </div>
+
+        <div class="content-container">
+            <!-- Welcome Screen / Placeholder (Claude & Gemini Studio Style) -->
+            <div id="welcome-placeholder" class="welcome-studio-card">
+                <div class="welcome-badge">
+                    <span class="live-dot"></span>
+                    <span>⚡ AI Career Command Studio Pro 3.0</span>
+                </div>
+                <div class="welcome-header">
+                    <h2 class="welcome-title">Your AI Copilot for the <span class="welcome-gradient-text">Entire Career Journey</span></h2>
+                    <p class="welcome-subtitle">Find verified high-match jobs. Optimize your resume with ATS precision. Understand market skill gaps. Prepare for live interviews. Track every opportunity in a personal CRM.</p>
+                </div>
+
+                <!-- Instant Live Interactive Demo Profiles -->
+                <div class="instant-demo-banner">
+                    <div class="demo-banner-title">
+                        <span class="demo-sparkle">✨</span>
+                        <strong>Instant Interactive Demo:</strong>
+                        <span>Click any profile to test live data immediately:</span>
+                    </div>
+                    <div class="demo-chips-row">
+                        <button class="demo-pill-btn" onclick="loadDemoCandidate('data-analyst')">
+                            <span>📊</span> <strong>Junior Data Analyst</strong> <span class="demo-pill-tag">92% Match</span>
+                        </button>
+                        <button class="demo-pill-btn" onclick="loadDemoCandidate('python-dev')">
+                            <span>🐍</span> <strong>Python Developer</strong> <span class="demo-pill-tag">94% Match</span>
+                        </button>
+                        <button class="demo-pill-btn" onclick="loadDemoCandidate('ai-engineer')">
+                            <span>🤖</span> <strong>AI / ML Engineer</strong> <span class="demo-pill-tag">96% Match</span>
+                        </button>
+                        <button class="demo-pill-btn" onclick="loadDemoCandidate('full-stack')">
+                            <span>💻</span> <strong>Full Stack Engineer</strong> <span class="demo-pill-tag">90% Match</span>
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Hero Drop Zone -->
+                <div class="studio-upload-zone" id="drop-zone">
+                    <div class="upload-icon-circle">
+                        <span class="upload-big-icon">📄</span>
+                    </div>
+                    <h3 class="upload-zone-title">Drag & drop your own resume file here</h3>
+                    <p class="upload-zone-subtitle">Supports PDF & DOCX • Instant ATS parsing, keyword mapping & job matching</p>
+                    <button class="upload-browse-btn" type="button">Browse Files from Computer</button>
+                </div>
+
+                <div class="welcome-features-grid">
+                    <div class="welcome-feature-card">
+                        <span class="feature-icon">🎯</span>
+                        <h4>Accurate ATS Grading</h4>
+                        <p>Calculates weighted keyword compatibility and extracts contact credentials seamlessly.</p>
+                    </div>
+                    <div class="welcome-feature-card">
+                        <span class="feature-icon">🛡️</span>
+                        <h4>Verified Job Pipeline</h4>
+                        <p>Filters active, high-match opportunities across target hubs in India and global remote.</p>
+                    </div>
+                    <div class="welcome-feature-card">
+                        <span class="feature-icon">💬</span>
+                        <h4>AI Mock Interview Studio</h4>
+                        <p>Practice voice and technical answers with employer presets and 5-dimension rubric evaluations.</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Tab 1: Dashboard & ATS Report -->
+            <section id="tab-dashboard" class="tab-content" style="display: none;">
+                <!-- Candidate Hero Profile Header -->
+                <div class="candidate-hero-banner" id="candidate-hero-card">
+                    <div class="hero-avatar-wrap">
+                        <div class="hero-avatar" id="hero-avatar-initials">AI</div>
+                        <span class="hero-verified-badge" title="Verified Profile">✓</span>
+                    </div>
+                    <div class="hero-info-body">
+                        <div class="hero-title-row">
+                            <h2 class="hero-name" id="hero-candidate-name">Candidate Profile</h2>
+                            <span class="hero-role-pill" id="hero-preferred-role">Target Role</span>
+                            <span class="hero-hub-pill" id="hero-hub-badge">
+                                <span class="live-dot"></span>
+                                <span id="hero-current-hub">📍 Location</span>
+                            </span>
+                        </div>
+                        <p class="hero-summary-text" id="hero-summary-bio">Upload or drag a resume to generate an ATS compatibility report and match verified jobs.</p>
+                        <div class="hero-quick-actions" id="hero-quick-actions">
+                            <button class="hero-action-btn" id="hero-copy-email-btn" title="Copy Email">
+                                <span>✉️</span> <span id="hero-email-label">Email</span>
+                            </button>
+                            <button class="hero-action-btn" id="hero-copy-phone-btn" title="Call/Copy Phone">
+                                <span>📞</span> <span id="hero-phone-label">Phone</span>
+                            </button>
+                            <a class="hero-action-btn" id="hero-linkedin-btn" target="_blank" rel="noopener noreferrer" title="LinkedIn Profile">
+                                <span>🔗</span> LinkedIn
+                            </a>
+                            <a class="hero-action-btn" id="hero-github-btn" target="_blank" rel="noopener noreferrer" title="GitHub Profile">
+                                <span>💻</span> GitHub
+                            </a>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="dashboard-grid">
+                    <!-- ATS Score Gauge -->
+                    <div class="card ats-card text-center">
+                        <div class="card-header-flex">
+                            <h3>ATS Compatibility</h3>
+                            <span class="badge-subtle">AI Scored</span>
+                        </div>
+                        <div class="ats-circle-container">
+                            <div class="ats-circle">
+                                <svg class="ats-svg" viewBox="0 0 100 100">
+                                    <circle class="ats-bg-circle" cx="50" cy="50" r="42"></circle>
+                                    <circle class="ats-progress-circle" id="ats-progress" cx="50" cy="50" r="42" stroke-dasharray="264" stroke-dashoffset="264"></circle>
+                                </svg>
+                                <div class="ats-circle-inner">
+                                    <span id="ats-val">0%</span>
+                                    <span class="ats-label-sub">MATCH SCORE</span>
+                                </div>
+                            </div>
+                        </div>
+                        <p class="muted card-footer-text">Calculated index based on keyword weightings and parsing quality</p>
+                    </div>
+
+                    <!-- Personal Info -->
+                    <div class="card profile-info-card">
+                        <div class="card-header-flex">
                             <h3>Contact Credentials</h3>
-                            <ul class="info-list">
-                                <li>
-                                    <span class="info-label">Candidate Name</span>
-                                    <span class="info-val" id="info-name">-</span>
-                                </li>
-                                <li>
-                                    <span class="info-label">Email Address</span>
-                                    <span class="info-val" id="info-email">-</span>
-                                </li>
-                                <li>
-                                    <span class="info-label">Phone Reference</span>
-                                    <span class="info-val" id="info-phone">-</span>
-                                </li>
-                                <li>
-                                    <span class="info-label">Current Hub</span>
-                                    <span class="info-val" id="info-location">-</span>
-                                </li>
-                            </ul>
+                            <span class="badge-subtle">Verified</span>
                         </div>
+                        <ul class="info-list">
+                            <li>
+                                <span class="info-label">Candidate Name</span>
+                                <span class="info-val font-bold" id="info-name">-</span>
+                            </li>
+                            <li>
+                                <span class="info-label">Email Address</span>
+                                <span class="info-val link-val" id="info-email">-</span>
+                            </li>
+                            <li>
+                                <span class="info-label">Phone Reference</span>
+                                <span class="info-val" id="info-phone">-</span>
+                            </li>
+                            <li>
+                                <span class="info-label">Current Hub</span>
+                                <span class="info-val hub-val" id="info-location">
+                                    <span class="hub-pill"><span class="pin-icon">📍</span> <span id="info-location-text">-</span></span>
+                                </span>
+                            </li>
+                        </ul>
+                    </div>
 
-                        <!-- Target Preferences -->
-                        <div class="card profile-preferences-card">
+                    <!-- Target Preferences -->
+                    <div class="card profile-preferences-card">
+                        <div class="card-header-flex">
                             <h3>Target Preferences</h3>
-                            <ul class="info-list">
-                                <li>
-                                    <span class="info-label">Preferred Role</span>
-                                    <span class="info-val highlight-val" id="pref-role">-</span>
-                                </li>
-                                <li>
-                                    <span class="info-label">Target Hub</span>
-                                    <span class="info-val" id="pref-location">-</span>
-                                </li>
-                                <li>
-                                    <span class="info-label">Experience Tier</span>
-                                    <span class="info-val" id="pref-experience">-</span>
-                                </li>
-                                <li>
-                                    <span class="info-label">Career Level</span>
-                                    <span class="info-val level-badge" id="pref-level">-</span>
-                                </li>
-                            </ul>
+                            <span class="badge-subtle">Active Hunt</span>
+                        </div>
+                        <ul class="info-list">
+                            <li>
+                                <span class="info-label">Preferred Role</span>
+                                <span class="info-val highlight-val" id="pref-role">-</span>
+                            </li>
+                            <li>
+                                <span class="info-label">Target Hub</span>
+                                <span class="info-val target-val" id="pref-location">
+                                    <span class="target-pill"><span class="target-icon">🎯</span> <span id="pref-location-text">-</span></span>
+                                </span>
+                            </li>
+                            <li>
+                                <span class="info-label">Experience Tier</span>
+                                <span class="info-val" id="pref-experience">-</span>
+                            </li>
+                            <li>
+                                <span class="info-label">Career Level</span>
+                                <span class="info-val level-badge" id="pref-level">-</span>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- Social Profiles -->
+                <div class="card socials-card">
+                    <h3>🌐 Verified Portfolios & Profiles</h3>
+                    <div class="socials-grid" id="socials-container">
+                        <!-- Populated by JS -->
+                    </div>
+                </div>
+
+                <!-- Executive Career Intelligence & Pipeline Funnel -->
+                <div class="card career-intel-card" id="career-intelligence-panel">
+                    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1.2rem; flex-wrap: wrap; gap: 0.8rem;">
+                        <div>
+                            <h3 style="margin: 0 0 0.2rem 0;">📈 Executive Career Intelligence & Pipeline Funnel</h3>
+                            <p class="muted" style="margin: 0; font-size: 0.85rem;">Global market positioning, conversion metrics, and multi-track alignment.</p>
+                        </div>
+                        <span id="market-standing-badge" class="header-status-badge">⚡ Top 10% Market Match</span>
+                    </div>
+
+                    <!-- Executive KPI Funnel -->
+                    <div class="executive-kpi-grid">
+                        <div class="exec-kpi-card">
+                            <span class="exec-kpi-val" id="exec-jobs-found">1,284</span>
+                            <span class="exec-kpi-label">🔍 Jobs Discovered</span>
+                        </div>
+                        <div class="exec-kpi-card">
+                            <span class="exec-kpi-val highlight-val" id="exec-jobs-verified">186</span>
+                            <span class="exec-kpi-label">🎯 Verified Fits</span>
+                        </div>
+                        <div class="exec-kpi-card">
+                            <span class="exec-kpi-val" id="exec-apps-sent">0</span>
+                            <span class="exec-kpi-label">🚀 Applications</span>
+                        </div>
+                        <div class="exec-kpi-card">
+                            <span class="exec-kpi-val" style="color: #fbbf24;" id="exec-interviews">0</span>
+                            <span class="exec-kpi-label">🎯 Interviews</span>
+                        </div>
+                        <div class="exec-kpi-card">
+                            <span class="exec-kpi-val" style="color: #34d399;" id="exec-conversion">0.0%</span>
+                            <span class="exec-kpi-label">🏆 Conversion Rate</span>
                         </div>
                     </div>
 
-                    <!-- Social Profiles -->
-                    <div class="card socials-card">
-                        <h3>🌐 Verified Portfolios & Profiles</h3>
-                        <div class="socials-grid" id="socials-container">
+                    <!-- Multi-Track Role Alignment Matrix -->
+                    <div class="role-matrix-section" style="margin-top: 1.8rem;">
+                        <h4 style="margin: 0 0 1rem 0; font-size: 1.05rem; color: #818cf8;">🎯 Multi-Track Career Role Alignment Matrix</h4>
+                        <div id="role-matrix-container" class="role-matrix-grid">
+                            <!-- Populated dynamically by JS -->
+                        </div>
+                    </div>
+
+                    <!-- Top Verified Strengths & Summary -->
+                    <div style="margin-top: 1.8rem; padding: 1.2rem; background: rgba(0,0,0,0.25); border-radius: 12px; border: 1px solid rgba(255,255,255,0.05);">
+                        <h4 style="margin: 0 0 0.6rem 0; font-size: 0.95rem; color: #38bdf8;">🧠 Verified Candidate Strengths & Positioning</h4>
+                        <div id="exec-strengths-list" style="display: flex; flex-wrap: wrap; gap: 0.5rem; margin-bottom: 0.8rem;"></div>
+                        <p id="exec-market-summary" style="font-size: 0.88rem; line-height: 1.5; color: rgba(255,255,255,0.85); margin: 0;"></p>
+                    </div>
+                </div>
+
+                <!-- Weekly Job-Search Velocity & Momentum Card -->
+                <div class="card velocity-momentum-card" id="velocity-momentum-card">
+                    <div class="velocity-header">
+                        <div>
+                            <h3 style="margin: 0 0 0.2rem 0;">⚡ Weekly Search Velocity & Career Momentum</h3>
+                            <p class="muted" style="margin: 0; font-size: 0.85rem;">Continuous activity pacing to maximize interview callback rates</p>
+                        </div>
+                        <span class="velocity-target-badge">🎯 Weekly Target: 10 Fits</span>
+                    </div>
+
+                    <div class="velocity-metrics-grid">
+                        <div class="velocity-box">
+                            <div class="velocity-box-top">
+                                <span class="velocity-icon">🚀</span>
+                                <span class="velocity-value" id="vel-apps-count">4 <span class="velocity-sub">/ 10</span></span>
+                            </div>
+                            <span class="velocity-label">Applications Sent</span>
+                            <div class="velocity-bar-track">
+                                <div class="velocity-bar-fill" id="vel-apps-bar" style="width: 40%;"></div>
+                            </div>
+                        </div>
+
+                        <div class="velocity-box">
+                            <div class="velocity-box-top">
+                                <span class="velocity-icon">✍️</span>
+                                <span class="velocity-value" id="vel-tailor-count">5 <span class="velocity-sub">Versions</span></span>
+                            </div>
+                            <span class="velocity-label">Tailored Resumes</span>
+                            <div class="velocity-bar-track">
+                                <div class="velocity-bar-fill" id="vel-tailor-bar" style="width: 50%; background: var(--accent-color);"></div>
+                            </div>
+                        </div>
+
+                        <div class="velocity-box">
+                            <div class="velocity-box-top">
+                                <span class="velocity-icon">🎤</span>
+                                <span class="velocity-value" id="vel-mock-count">3 <span class="velocity-sub">Rounds</span></span>
+                            </div>
+                            <span class="velocity-label">Mock Interview Prep</span>
+                            <div class="velocity-bar-track">
+                                <div class="velocity-bar-fill" id="vel-mock-bar" style="width: 75%; background: #34d399;"></div>
+                            </div>
+                        </div>
+
+                        <div class="velocity-box">
+                            <div class="velocity-box-top">
+                                <span class="velocity-icon">🏆</span>
+                                <span class="velocity-value" id="vel-score-avg">88% <span class="velocity-sub">Avg ATS</span></span>
+                            </div>
+                            <span class="velocity-label">Quality Score</span>
+                            <div class="velocity-bar-track">
+                                <div class="velocity-bar-fill" id="vel-score-bar" style="width: 88%; background: #f59e0b;"></div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="velocity-recommendation-bar">
+                        <span class="velocity-recom-icon">💡</span>
+                        <span id="velocity-recom-text"><strong>High Momentum:</strong> Submit 2 more verified applications today to maintain top-tier recruiter visibility.</span>
+                    </div>
+                </div>
+
+                <!-- Suitability Report -->
+                <div class="card suitability-card" id="suitability-report" style="display: none;">
+                    <h3>🌟 Profile Suitability Intelligence</h3>
+                    <div class="suitability-sections-grid">
+                        <div class="suitability-section">
+                            <strong>🏆 Recommended Core Roles</strong>
+                            <ul id="suitability-roles"></ul>
+                        </div>
+                        <div class="suitability-section">
+                            <strong>⚙️ Secondary Career Tracks</strong>
+                            <ul id="suitability-secondary"></ul>
+                        </div>
+                        <div class="suitability-section">
+                            <strong>💡 Profile Competencies & Strengths</strong>
+                            <ul id="suitability-strengths"></ul>
+                        </div>
+                        <div class="suitability-section">
+                            <strong>🏭 Target Sectors & Industries</strong>
+                            <ul id="suitability-industries"></ul>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Tab 2: Job Matches -->
+            <section id="tab-jobs" class="tab-content" style="display: none;">
+                <div class="jobs-toolbar">
+                    <div class="card toolbar-card">
+                        <div class="toolbar-stats">
+                            <div class="stat-badge">🔍 Found: <span id="jobs-stat-found">0</span></div>
+                            <div class="stat-badge success-badge">🎯 Matched: <span id="jobs-stat-returned">0</span></div>
+                            <div class="stat-badge info-badge">⚡ Latency: <span id="jobs-stat-time">0.0s</span></div>
+                        </div>
+                        <div class="group-control">
+                            <span>Group Listings By:</span>
+                            <div class="radio-pill-group">
+                                <label class="radio-pill">
+                                    <input type="radio" name="group-by" value="category" checked>
+                                    <span>Category</span>
+                                </label>
+                                <label class="radio-pill">
+                                    <input type="radio" name="group-by" value="location">
+                                    <span>Location</span>
+                                </label>
+                            </div>
+                        </div>
+                        <div class="toolbar-actions-extra">
+                            <button class="action-btn-sm btn-primary" onclick="openJobImporterModal()" title="Import External Job from URL">
+                                <span>🔗</span> Import Job from URL
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- Real-Time Interactive Filter Toolbar -->
+                    <div class="card filter-bar-card">
+                        <div class="search-input-wrapper">
+                            <span class="search-icon">🔍</span>
+                            <input type="text" id="job-search-input" placeholder="Filter matches by title, company, skills (e.g. Python, SQL, Power BI), or city..." class="job-search-input">
+                            <button id="clear-search-btn" class="clear-search-btn" style="display: none;">✕</button>
+                        </div>
+                        <div class="filter-chips-row" id="job-filter-chips">
+                            <button class="filter-chip active" data-filter="all">🌟 All Matches</button>
+                            <button class="filter-chip" data-filter="elite">🔥 90%+ Top Fit</button>
+                            <button class="filter-chip" data-filter="verified">🛡️ Verified Only</button>
+                            <button class="filter-chip" data-filter="hyderabad">📍 Hyderabad</button>
+                            <button class="filter-chip" data-filter="bengaluru">📍 Bengaluru</button>
+                            <button class="filter-chip" data-filter="python-sql">🐍 Python & SQL</button>
+                            <button class="filter-chip" data-filter="bi-viz">📊 Power BI & Tableau</button>
+                        </div>
+                    </div>
+                </div>
+                
+                <div id="jobs-list-container">
+                    <!-- Populated by JS -->
+                </div>
+            </section>
+
+            <!-- Tab 3: AI Career Tools -->
+            <section id="tab-tools" class="tab-content" style="display: none;">
+                <div class="tools-grid">
+                    <!-- Navigation for choosing a tool -->
+                    <div class="card tools-menu">
+                        <h3>AI Copilot Toolkit</h3>
+                        <button class="tool-btn active" data-tool="cover-letter">✍️ Cover Letter Writer</button>
+                        <button class="tool-btn" data-tool="interview">💬 Mock Interview Prep</button>
+                        <button class="tool-btn" data-tool="email">✉️ Cold Outreach Generator</button>
+                        <button class="tool-btn" data-tool="linkedin">🔗 LinkedIn Optimizer</button>
+                        <button class="tool-btn" data-tool="salary">💰 Salary Range Estimator</button>
+                    </div>
+
+                    <!-- Tool options form & output panel -->
+                    <div class="card tool-workspace">
+                        <div id="tool-form-container">
+                            <!-- Dynamic form fields based on tool selection -->
+                        </div>
+                        <button id="run-tool-btn" class="action-btn">Execute Copilot Prompt</button>
+                        
+                        <hr class="divider">
+
+                        <div class="output-panel">
+                            <div class="output-header">
+                                <h4>Generated Output Preview</h4>
+                                <button id="copy-output-btn" class="copy-btn" style="display: none;">📋 Copy to Clipboard</button>
+                            </div>
+                            <div id="tool-output" class="output-box">
+                                Select a career copilot tool and configure settings above to initiate generation.
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Tab 4: Learning Roadmaps & Market Skill Intelligence -->
+            <section id="tab-learning" class="tab-content" style="display: none;">
+                <div class="card skill-acceleration-card">
+                    <h3>📈 Market Skill Demand & Career Acceleration</h3>
+                    <p class="muted">Real-time aggregated market skill frequency analyzing your target roles against current profile readiness.</p>
+                    
+                    <!-- Market Demand Frequency Grid -->
+                    <div id="market-demand-section" style="margin: 1.5rem 0;">
+                        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.8rem;">
+                            <strong>🔥 High & Medium Market Deficits:</strong>
+                            <span id="market-readiness-badge" class="header-status-badge">Market Readiness: 85%</span>
+                        </div>
+                        <div id="market-gaps-container" class="market-gaps-grid">
+                            <!-- Populated dynamically by JS -->
+                        </div>
+                    </div>
+
+                    <div class="skill-gap-box">
+                        <strong>🎯 Critical Skill Acceleration Focus:</strong>
+                        <div id="gaps-list" class="gaps-container">
                             <!-- Populated by JS -->
                         </div>
                     </div>
+                </div>
 
-                    <!-- Suitability Report -->
-                    <div class="card suitability-card" id="suitability-report" style="display: none;">
-                        <h3>🌟 Profile Suitability Intelligence</h3>
-                        <div class="suitability-sections-grid">
-                            <div class="suitability-section">
-                                <strong>🏆 Recommended Core Roles</strong>
-                                <ul id="suitability-roles"></ul>
+                <div id="roadmaps-list-container">
+                    <!-- Populated with Week-by-Week Roadmaps & Capstone Blueprints by JS -->
+                </div>
+            </section>
+
+            <!-- Tab 5: Application Pipeline CRM -->
+            <section id="tab-crm" class="tab-content" style="display: none;">
+                <div class="crm-header-card">
+                    <div class="crm-title-area">
+                        <div style="display: flex; justify-content: space-between; align-items: center; width: 100%; flex-wrap: wrap; gap: 0.75rem;">
+                            <div>
+                                <h3 style="margin: 0 0 0.2rem 0;">📋 Application Pipeline & Follow-Up CRM</h3>
+                                <p class="muted" style="margin: 0;">Track opportunities from first discovery to final offer with automated follow-up intelligence.</p>
                             </div>
-                            <div class="suitability-section">
-                                <strong>⚙️ Secondary Career Tracks</strong>
-                                <ul id="suitability-secondary"></ul>
-                            </div>
-                            <div class="suitability-section">
-                                <strong>💡 Profile Competencies & Strengths</strong>
-                                <ul id="suitability-strengths"></ul>
-                            </div>
-                            <div class="suitability-section">
-                                <strong>🏭 Target Sectors & Industries</strong>
-                                <ul id="suitability-industries"></ul>
-                            </div>
+                            <button class="action-btn-sm btn-primary" onclick="openJobImporterModal()" title="Import External Opportunity">
+                                <span>🔗</span> Import Opportunity
+                            </button>
                         </div>
                     </div>
-                </section>
+                    <div class="crm-stats-row">
+                        <div class="crm-stat-box"><span id="crm-count-saved" class="crm-stat-num">0</span><span class="crm-stat-lbl">📌 Saved</span></div>
+                        <div class="crm-stat-box"><span id="crm-count-applied" class="crm-stat-num">0</span><span class="crm-stat-lbl">🚀 Applied</span></div>
+                        <div class="crm-stat-box"><span id="crm-count-interview" class="crm-stat-num">0</span><span class="crm-stat-lbl">🎯 Interview</span></div>
+                        <div class="crm-stat-box"><span id="crm-count-offer" class="crm-stat-num">0</span><span class="crm-stat-lbl">🏆 Offers</span></div>
+                    </div>
+                </div>
 
-                <!-- Tab 2: Job Matches -->
-                <section id="tab-jobs" class="tab-content" style="display: none;">
-                    <div class="jobs-toolbar">
-                        <div class="card toolbar-card">
-                            <div class="toolbar-stats">
-                                <div class="stat-badge">🔍 Found: <span id="jobs-stat-found">0</span></div>
-                                <div class="stat-badge success-badge">🎯 Matched: <span id="jobs-stat-returned">0</span></div>
-                                <div class="stat-badge info-badge">⚡ Latency: <span id="jobs-stat-time">0.0s</span></div>
-                            </div>
-                            <div class="group-control">
-                                <span>Group Listings By:</span>
-                                <div class="radio-pill-group">
-                                    <label class="radio-pill">
-                                        <input type="radio" name="group-by" value="category" checked>
-                                        <span>Category</span>
-                                    </label>
-                                    <label class="radio-pill">
-                                        <input type="radio" name="group-by" value="location">
-                                        <span>Location</span>
-                                    </label>
-                                </div>
-                            </div>
+                <!-- Kanban Columns -->
+                <div class="kanban-board">
+                    <!-- Column 1: Saved -->
+                    <div class="kanban-column">
+                        <div class="kanban-col-header header-saved">
+                            <span>📌 Saved Opportunities</span>
+                            <span id="badge-saved-cnt" class="col-count-badge">0</span>
                         </div>
+                        <div id="kanban-col-saved" class="kanban-card-list"></div>
                     </div>
-                    
-                    <div id="jobs-list-container">
-                        <!-- Populated by JS -->
-                    </div>
-                </section>
 
-                <!-- Tab 3: AI Career Tools -->
-                <section id="tab-tools" class="tab-content" style="display: none;">
-                    <div class="tools-grid">
-                        <!-- Sidebar for choosing a tool -->
-                        <div class="card tools-menu">
-                            <h3>AI Copilot Toolkit</h3>
-                            <button class="tool-btn active" data-tool="cover-letter">✍️ Cover Letter Writer</button>
-                            <button class="tool-btn" data-tool="interview">💬 Mock Interview Prep</button>
-                            <button class="tool-btn" data-tool="email">✉️ Cold Outreach Generator</button>
-                            <button class="tool-btn" data-tool="linkedin">🔗 LinkedIn Optimizer</button>
-                            <button class="tool-btn" data-tool="salary">💰 Salary Range Estimator</button>
+                    <!-- Column 2: Applied -->
+                    <div class="kanban-column">
+                        <div class="kanban-col-header header-applied">
+                            <span>🚀 Applied</span>
+                            <span id="badge-applied-cnt" class="col-count-badge">0</span>
                         </div>
+                        <div id="kanban-col-applied" class="kanban-card-list"></div>
+                    </div>
 
-                        <!-- Tool options form & output panel -->
-                        <div class="card tool-workspace">
-                            <div id="tool-form-container">
-                                <!-- Dynamic form fields based on tool selection -->
-                            </div>
-                            <button id="run-tool-btn" class="action-btn">Execute Copilot Prompt</button>
-                            
-                            <hr class="divider">
-
-                            <div class="output-panel">
-                                <div class="output-header">
-                                    <h4>Generated Output Preview</h4>
-                                    <button id="copy-output-btn" class="copy-btn" style="display: none;">📋 Copy to Clipboard</button>
-                                </div>
-                                <div id="tool-output" class="output-box">
-                                    Select a career copilot tool and configure settings above to initiate generation.
-                                </div>
-                            </div>
+                    <!-- Column 3: Interview -->
+                    <div class="kanban-column">
+                        <div class="kanban-col-header header-interview">
+                            <span>🎯 Interview Scheduled</span>
+                            <span id="badge-interview-cnt" class="col-count-badge">0</span>
                         </div>
+                        <div id="kanban-col-interview" class="kanban-card-list"></div>
                     </div>
-                </section>
 
-                <!-- Tab 4: Learning Roadmaps -->
-                <section id="tab-learning" class="tab-content" style="display: none;">
-                    <div class="card skill-acceleration-card">
-                        <h3>📈 Career Skills Acceleration Pathway</h3>
-                        <p class="muted">A tailored curriculum listing identified technical gaps and recommended certifications based on real-time market data matching.</p>
-                        
-                        <div class="skill-gap-box">
-                            <strong>⚠️ Identified Skill Deficiencies:</strong>
-                            <div id="gaps-list" class="gaps-container">
-                                <!-- Populated by JS -->
-                            </div>
+                    <!-- Column 4: Offer & Closed -->
+                    <div class="kanban-column">
+                        <div class="kanban-col-header header-offer">
+                            <span>🏆 Offers & Closed</span>
+                            <span id="badge-offer-cnt" class="col-count-badge">0</span>
                         </div>
+                        <div id="kanban-col-offer" class="kanban-card-list"></div>
                     </div>
+                </div>
+            </section>
+        </div>
+    </main>
 
-                    <div id="roadmaps-list-container">
-                        <!-- Populated by JS -->
+    <!-- Resume Tailoring Modal -->
+    <div id="tailor-modal" class="modal-backdrop" style="display: none;">
+        <div class="modal-box modal-large">
+            <div class="modal-header">
+                <div style="display: flex; align-items: center; gap: 0.6rem;">
+                    <span style="font-size: 1.3rem;">✍️</span>
+                    <div>
+                        <h3 id="tailor-modal-title" style="margin: 0;">Tailored Resume Intelligence</h3>
+                        <p class="muted" style="margin: 0; font-size: 0.8rem;">Truth-preserving alignment tailored for target job description</p>
                     </div>
-                </section>
+                </div>
+                <div style="display: flex; align-items: center; gap: 0.5rem;">
+                    <button class="action-btn-sm btn-secondary" id="tailor-copy-btn" onclick="copyTailoredContent()" title="Copy Formatted Markdown / Text">📋 Copy Text</button>
+                    <button class="action-btn-sm btn-primary" id="tailor-export-pdf-btn" onclick="exportTailoredPDF()" title="Export Clean ATS-Friendly PDF">📥 Export ATS PDF</button>
+                    <button class="modal-close-btn" onclick="closeTailorModal()">✕</button>
+                </div>
             </div>
-        </main>
+            <div id="tailor-modal-body" class="modal-body">
+                <div class="loading-state">Generating customized resume components...</div>
+            </div>
+        </div>
     </div>
-    <script src="app.js"></script>
+
+    <!-- 1-Click Job URL Importer Modal -->
+    <div id="job-importer-modal" class="modal-backdrop" style="display: none;">
+        <div class="modal-box">
+            <div class="modal-header">
+                <div style="display: flex; align-items: center; gap: 0.6rem;">
+                    <span style="font-size: 1.3rem;">🔗</span>
+                    <div>
+                        <h3 style="margin: 0;">Import External Opportunity</h3>
+                        <p class="muted" style="margin: 0; font-size: 0.82rem;">Paste any job link (LinkedIn, Naukri, Indeed, Company Portal)</p>
+                    </div>
+                </div>
+                <button class="modal-close-btn" onclick="closeJobImporterModal()">✕</button>
+            </div>
+            <div class="modal-body" style="padding: 1.25rem;">
+                <div class="form-group">
+                    <label class="form-label">Job Posting URL *</label>
+                    <input type="url" id="import-job-url" class="form-input" placeholder="https://www.linkedin.com/jobs/view/..." required>
+                </div>
+                <div class="form-row" style="display: flex; gap: 0.75rem;">
+                    <div class="form-group" style="flex: 1;">
+                        <label class="form-label">Job Title (Optional)</label>
+                        <input type="text" id="import-job-title" class="form-input" placeholder="e.g. Junior Data Analyst">
+                    </div>
+                    <div class="form-group" style="flex: 1;">
+                        <label class="form-label">Company Name (Optional)</label>
+                        <input type="text" id="import-job-company" class="form-input" placeholder="e.g. Microsoft / Swiggy">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="form-label">Job Description / Requirements Snippet (Optional)</label>
+                    <textarea id="import-job-desc" class="form-input" rows="3" placeholder="Paste JD requirements or skills for higher precision match scoring..."></textarea>
+                </div>
+                <div id="import-job-status" style="display: none; margin-top: 0.5rem;" class="status-msg-box"></div>
+            </div>
+            <div class="modal-footer" style="display: flex; justify-content: flex-end; gap: 0.6rem; padding: 1rem 1.25rem; background: var(--bg-surface); border-top: 1px solid var(--border-color);">
+                <button class="action-btn btn-secondary" onclick="closeJobImporterModal()">Cancel</button>
+                <button class="action-btn btn-primary" id="import-job-submit-btn" onclick="handleJobImportSubmit()">⚡ Parse & Add to Pipeline</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Capstone Project Blueprint & GitHub Starter Kit Modal -->
+    <div id="project-blueprint-modal" class="modal-backdrop" style="display: none;">
+        <div class="modal-box modal-large">
+            <div class="modal-header">
+                <div style="display: flex; align-items: center; gap: 0.6rem;">
+                    <span style="font-size: 1.3rem;">📂</span>
+                    <div>
+                        <h3 id="blueprint-modal-title" style="margin: 0;">Capstone Project Blueprint & Starter Kit</h3>
+                        <p class="muted" style="margin: 0; font-size: 0.82rem;">Complete architecture, datasets, schema, and ready-to-paste GitHub README</p>
+                    </div>
+                </div>
+                <button class="modal-close-btn" onclick="closeProjectBlueprintModal()">✕</button>
+            </div>
+            <div id="blueprint-modal-body" class="modal-body" style="padding: 1.25rem;">
+                <div class="loading-state">Loading capstone project blueprint...</div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Interactive AI Mock Interview Modal with Voice & Timer -->
+    <div id="mock-interview-modal" class="modal-backdrop" style="display: none;">
+        <div class="modal-box modal-large">
+            <div class="modal-header">
+                <div style="display: flex; align-items: center; gap: 0.6rem;">
+                    <span style="font-size: 1.3rem;">🎤</span>
+                    <div>
+                        <h3 id="mock-modal-title" style="margin: 0;">AI Mock Interview Studio</h3>
+                        <p class="muted" style="margin: 0; font-size: 0.82rem;">Interactive voice & STAR-method evaluation with model answer coach</p>
+                    </div>
+                </div>
+                <button class="modal-close-btn" onclick="closeMockInterviewModal()">✕</button>
+            </div>
+            <div id="mock-modal-body" class="modal-body" style="padding: 1.25rem;">
+                <!-- Populated dynamically by JS -->
+            </div>
+        </div>
+    </div>
+
+    <!-- Followup Modal -->
+    <div id="followup-modal" class="modal-backdrop" style="display: none;">
+        <div class="modal-box">
+            <div class="modal-header">
+                <h3 id="followup-modal-title">⏳ Smart Follow-Up Generator</h3>
+                <button class="modal-close-btn" onclick="closeFollowupModal()">✕</button>
+            </div>
+            <div id="followup-modal-body" class="modal-body">
+                <div class="loading-state">Drafting personalized follow-up email...</div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Company Intelligence Modal -->
+    <div id="company-modal" class="modal-backdrop" style="display: none;">
+        <div class="modal-box modal-large">
+            <div class="modal-header">
+                <h3 id="company-modal-title">🏢 Company Intelligence & Tech Profile</h3>
+                <button class="modal-close-btn" onclick="closeCompanyModal()">✕</button>
+            </div>
+            <div id="company-modal-body" class="modal-body">
+                <div class="loading-state">Analyzing employer tech stack and hiring patterns...</div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Settings & Career Preferences Modal -->
+    <div id="settings-modal" class="modal-backdrop" style="display: none;">
+        <div class="modal-box settings-modal-box">
+            <div class="modal-header">
+                <div class="settings-modal-title-wrap">
+                    <span class="settings-icon-badge">⚙️</span>
+                    <div>
+                        <h3>Settings & Career Preferences</h3>
+                        <p class="settings-subtitle">Customize target roles, matching thresholds, cloud sync, and AI assistants</p>
+                    </div>
+                </div>
+                <button class="modal-close-btn" onclick="closeSettingsModal()">✕</button>
+            </div>
+            
+            <div class="settings-body">
+                <div class="settings-section">
+                    <h4 class="settings-sec-title">🎯 Career & Targeting Hub</h4>
+                    <div class="settings-grid">
+                        <div class="form-group">
+                            <label class="form-label">Candidate Full Name</label>
+                            <input type="text" id="setting-candidate-name" class="form-input" placeholder="e.g. Alex Johnson">
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label">Target Role / Specialization</label>
+                            <input type="text" id="setting-target-role" class="form-input" placeholder="e.g. Junior Data Analyst, Python Developer">
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label">Preferred Location / Hub</label>
+                            <input type="text" id="setting-preferred-location" class="form-input" placeholder="e.g. Hyderabad, India, Bengaluru, Remote">
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label">Minimum Match Score Threshold (<span id="setting-match-threshold-val">50%</span>)</label>
+                            <input type="range" id="setting-match-threshold" min="30" max="85" value="50" step="5" class="form-range" oninput="document.getElementById('setting-match-threshold-val').textContent = this.value + '%'">
+                        </div>
+                    </div>
+                </div>
+
+                <div class="settings-section">
+                    <h4 class="settings-sec-title">🤖 AI Copilot & Automation</h4>
+                    <div class="settings-toggles">
+                        <label class="toggle-item">
+                            <div class="toggle-info">
+                                <span class="toggle-title">Explainable Match Breakdown</span>
+                                <span class="toggle-desc">Show keyword math, skill overlap, and role weights</span>
+                            </div>
+                            <input type="checkbox" id="setting-explainable-math" checked class="toggle-switch">
+                        </label>
+                        <label class="toggle-item">
+                            <div class="toggle-info">
+                                <span class="toggle-title">Truth-Preserving Resume Tailoring</span>
+                                <span class="toggle-desc">Never hallucinate unverified skills during tailoring</span>
+                            </div>
+                            <input type="checkbox" id="setting-truth-preserving" checked class="toggle-switch">
+                        </label>
+                        <label class="toggle-item">
+                            <div class="toggle-info">
+                                <span class="toggle-title">Voice Audio & Speech-To-Text</span>
+                                <span class="toggle-desc">Enable Web Speech API for mock interview practice</span>
+                            </div>
+                            <input type="checkbox" id="setting-voice-interview" checked class="toggle-switch">
+                        </label>
+                    </div>
+                </div>
+
+                <div class="settings-section">
+                    <h4 class="settings-sec-title">☁️ Storage Engine & Connected Accounts</h4>
+                    <div class="connected-accounts-box">
+                        <div class="account-row">
+                            <div class="acc-brand">
+                                <svg class="google-icon" width="22" height="22" viewBox="0 0 48 48">
+                                    <path fill="#EA4335" d="M24 9.5c3.54 0 6.71 1.22 9.21 3.6l6.85-6.85C35.9 2.38 30.47 0 24 0 14.62 0 6.51 5.38 2.56 13.22l7.98 6.19C12.43 13.72 17.74 9.5 24 9.5z"/>
+                                    <path fill="#4285F4" d="M46.98 24.55c0-1.57-.15-3.09-.38-4.55H24v9.02h12.94c-.58 2.96-2.26 5.48-4.78 7.18l7.73 6c4.51-4.18 7.09-10.36 7.09-17.65z"/>
+                                    <path fill="#FBBC05" d="M10.53 28.59c-.48-1.45-.76-2.99-.76-4.59s.27-3.14.76-4.59l-7.98-6.19C.92 16.46 0 20.12 0 24c0 3.88.92 7.54 2.56 10.78l7.97-6.19z"/>
+                                    <path fill="#34A853" d="M24 48c6.48 0 11.93-2.13 15.89-5.81l-7.73-6c-2.15 1.45-4.92 2.3-8.16 2.3-6.26 0-11.57-4.22-13.47-9.91l-7.98 6.19C6.51 42.62 14.62 48 24 48z"/>
+                                </svg>
+                                <div>
+                                    <div class="acc-name">Google Account</div>
+                                    <div class="acc-status" id="setting-google-status">Not Connected</div>
+                                </div>
+                            </div>
+                            <button class="action-btn-sm" id="setting-google-btn" onclick="handleGoogleAuth();">Connect Google</button>
+                        </div>
+                        <div class="account-row">
+                            <div class="acc-brand">
+                                <span style="font-size: 1.3rem;">🍃</span>
+                                <div>
+                                    <div class="acc-name">MongoDB Database</div>
+                                    <div class="acc-status" id="setting-db-status">Active (Cloud & Local Sync)</div>
+                                </div>
+                            </div>
+                            <button class="action-btn-sm btn-secondary" onclick="initSystemStatus(); showToast('🍃 Database ping refreshed!', 'success', '🍃');">Check Ping</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="modal-footer settings-footer">
+                <button class="action-btn btn-secondary" onclick="closeSettingsModal()">Cancel</button>
+                <button class="action-btn btn-primary" onclick="saveSettingsPreferences()">Save Preferences</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Authentication Modal (Google OAuth & Linear / Stripe Style) -->
+    <div id="auth-modal" class="modal-backdrop" style="display: none;">
+        <div class="modal-box auth-modal-box">
+            <div class="modal-header">
+                <div class="auth-modal-title-wrap">
+                    <span class="auth-icon-badge">🔐</span>
+                    <h3 id="auth-modal-title">Account Access</h3>
+                </div>
+                <button class="modal-close-btn" onclick="closeAuthModal()">✕</button>
+            </div>
+            
+            <div class="auth-tabs">
+                <button class="auth-tab-btn active" id="auth-tab-login" onclick="switchAuthTab('login')">Sign In</button>
+                <button class="auth-tab-btn" id="auth-tab-register" onclick="switchAuthTab('register')">Create Account</button>
+            </div>
+
+            <div class="auth-form-container">
+                <!-- Google One-Click OAuth Button -->
+                <button type="button" class="google-auth-btn" id="google-auth-btn" onclick="handleGoogleAuth()">
+                    <svg class="google-icon" width="18" height="18" viewBox="0 0 48 48">
+                        <path fill="#EA4335" d="M24 9.5c3.54 0 6.71 1.22 9.21 3.6l6.85-6.85C35.9 2.38 30.47 0 24 0 14.62 0 6.51 5.38 2.56 13.22l7.98 6.19C12.43 13.72 17.74 9.5 24 9.5z"/>
+                        <path fill="#4285F4" d="M46.98 24.55c0-1.57-.15-3.09-.38-4.55H24v9.02h12.94c-.58 2.96-2.26 5.48-4.78 7.18l7.73 6c4.51-4.18 7.09-10.36 7.09-17.65z"/>
+                        <path fill="#FBBC05" d="M10.53 28.59c-.48-1.45-.76-2.99-.76-4.59s.27-3.14.76-4.59l-7.98-6.19C.92 16.46 0 20.12 0 24c0 3.88.92 7.54 2.56 10.78l7.97-6.19z"/>
+                        <path fill="#34A853" d="M24 48c6.48 0 11.93-2.13 15.89-5.81l-7.73-6c-2.15 1.45-4.92 2.3-8.16 2.3-6.26 0-11.57-4.22-13.47-9.91l-7.98 6.19C6.51 42.62 14.62 48 24 48z"/>
+                    </svg>
+                    <span id="google-auth-btn-text">Continue with Google</span>
+                </button>
+
+                <div class="auth-divider">
+                    <span>or continue with email</span>
+                </div>
+
+                <!-- Registration Specific Name Field -->
+                <div class="form-group" id="auth-name-group" style="display: none;">
+                    <label class="form-label">Full Name</label>
+                    <input type="text" id="auth-name-input" class="form-input" placeholder="e.g. Alex Johnson">
+                </div>
+
+                <div class="form-group">
+                    <label class="form-label">Email Address</label>
+                    <input type="email" id="auth-email-input" class="form-input" placeholder="candidate@example.com">
+                </div>
+
+                <div class="form-group">
+                    <label class="form-label">Password</label>
+                    <input type="password" id="auth-password-input" class="form-input" placeholder="••••••••">
+                </div>
+
+                <div id="auth-error-msg" class="auth-error-box" style="display: none;"></div>
+
+                <button id="auth-submit-btn" class="action-btn auth-submit-btn" onclick="handleAuthSubmit()">
+                    Sign In
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Headless Auto-Fill Assistant Modal -->
+    <div id="autofill-modal" class="modal-backdrop" style="display: none;">
+        <div class="modal-box modal-large">
+            <div class="modal-header">
+                <div style="display: flex; align-items: center; gap: 0.6rem;">
+                    <span style="font-size: 1.4rem;">⚡</span>
+                    <div>
+                        <h3 id="autofill-modal-title">AI Auto-Fill Assistant & Review Guard</h3>
+                        <p class="muted" id="autofill-modal-subtitle" style="font-size: 0.84rem; margin: 0;">Automated form mapping for target career portal</p>
+                    </div>
+                </div>
+                <button class="modal-close-btn" onclick="closeAutoFillModal()">✕</button>
+            </div>
+            
+            <div id="autofill-modal-body" class="modal-body">
+                <div class="loading-state">Synthesizing field mappings & Playwright automation...</div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Floating AI Career Copilot Assistant -->
+    <div id="copilot-floating-container" class="copilot-floating-wrapper">
+        <button id="copilot-toggle-btn" class="copilot-trigger-btn" title="Open AI Career Copilot Assistant" onclick="toggleCopilotDrawer()">
+            <span class="copilot-icon">🤖</span>
+            <span class="copilot-btn-text">AI Copilot</span>
+            <span class="copilot-pulse-dot"></span>
+        </button>
+
+        <div id="copilot-drawer" class="copilot-chat-drawer" style="display: none;">
+            <div class="copilot-drawer-header">
+                <div class="copilot-header-info">
+                    <div class="copilot-avatar">🤖</div>
+                    <div>
+                        <h4>AI Career Copilot</h4>
+                    </div>
+                </div>
+                <button class="copilot-close-btn" onclick="toggleCopilotDrawer()">✕</button>
+            </div>
+
+            <!-- Quick Action Suggestion Pills -->
+            <div class="copilot-quick-pills">
+                <button class="quick-prompt-pill" onclick="sendCopilotPrompt('Which jobs should I focus on today?')">🎯 Focus Today</button>
+                <button class="quick-prompt-pill" onclick="sendCopilotPrompt('How can I improve my ATS score?')">📊 Boost ATS</button>
+                <button class="quick-prompt-pill" onclick="sendCopilotPrompt('Prepare me for an interview round')">🎤 Interview Prep</button>
+                <button class="quick-prompt-pill" onclick="sendCopilotPrompt('Show my pending applications')">📋 Application CRM</button>
+            </div>
+
+            <!-- Messages Stream Area -->
+            <div id="copilot-messages-container" class="copilot-messages-box">
+                <div class="copilot-msg bot-msg">
+                    <div class="msg-bubble">
+                        👋 Hi! I'm your <strong>AI Career Copilot</strong>. Ask me anything about your job matches, ATS score, interview preparation, or pipeline tracking.
+                    </div>
+                </div>
+            </div>
+
+            <!-- Chat Input Row -->
+            <form id="copilot-chat-form" class="copilot-input-form" onsubmit="handleCopilotSubmit(event)">
+                <input type="text" id="copilot-user-input" class="copilot-chat-input" placeholder="Ask your Career Copilot..." autocomplete="off">
+                <button type="submit" class="copilot-send-btn">➤</button>
+            </form>
+        </div>
+    </div>
+
+    <!-- Toast Notification System -->
+    <div id="toast-container" class="toast-container"></div>
+
+    <script src="app.js?v=3.5"></script>
 </body>
 </html>

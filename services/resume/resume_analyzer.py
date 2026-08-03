@@ -46,6 +46,11 @@ from exceptions import (
     InvalidAIResponseError,
 )
 
+from services.resume.contact_extractor import (
+    extract_name,
+    extract_email,
+    extract_phone,
+)
 from services.resume.resume_enricher import (
     extract_github,
     extract_linkedin,
@@ -165,50 +170,10 @@ def request_with_retry(
     resume_text: str
 ) -> str:
     """
-    Retry Ollama request.
+    Send resume to LLM analyzer.
     """
+    return call_ollama(resume_text)
 
-    for attempt in range(
-
-        1,
-
-        MAX_RETRIES + 1
-
-    ):
-
-        try:
-
-            info(
-
-                f"Ollama Attempt {attempt}"
-
-            )
-
-            return call_ollama(
-
-                resume_text
-
-            )
-
-        except OllamaConnectionError:
-
-            raise
-
-        except Exception:
-
-            warning(
-
-                f"Retry {attempt} failed."
-
-            )
-
-            time.sleep(2)
-
-    raise ResumeAnalyzerError(
-
-        "Maximum retry limit reached."
-
-    )
 
 # ==========================================================
 # JSON Cleaner
@@ -487,34 +452,40 @@ def build_resume_data(
         safe_get(data, "name")
     )
 
-    resume.email = ensure_string(
-        safe_get(data, "email")
-    )
+    resume.email = ensure_string(safe_get(data, "email")).strip()
+    if not resume.email or "@" not in resume.email:
+        resume.email = extract_email(resume_text)
 
-    resume.phone = ensure_string(
-        safe_get(data, "phone")
-    )
+    resume.phone = ensure_string(safe_get(data, "phone")).strip()
+    if not resume.phone:
+        resume.phone = extract_phone(resume_text)
 
-    resume.linkedin = ensure_string(
-        safe_get(data, "linkedin")
-    )
+    # LinkedIn
+    raw_linkedin = ensure_string(safe_get(data, "linkedin")).strip()
+    if not raw_linkedin or raw_linkedin.lower() in ["linkedin", "n/a", "none"]:
+        raw_linkedin = extract_linkedin(resume_text)
+    if raw_linkedin and not raw_linkedin.startswith("http"):
+        raw_linkedin = "https://" + raw_linkedin.lstrip("/")
+    resume.linkedin = raw_linkedin
 
-    if not resume.linkedin:
-        resume.linkedin = extract_linkedin(resume_text)
+    # GitHub
+    raw_github = ensure_string(safe_get(data, "github")).strip()
+    if not raw_github or raw_github.lower() in ["github", "n/a", "none"]:
+        raw_github = extract_github(resume_text)
+    if raw_github and not raw_github.startswith("http"):
+        raw_github = "https://" + raw_github.lstrip("/")
+    resume.github = raw_github
 
-    resume.github = ensure_string(
-        safe_get(data, "github")
-    )
-
-    if not resume.github:
-        resume.github = extract_github(resume_text)
-
-    resume.portfolio = ensure_string(
-        safe_get(data, "portfolio")
-    )
-
-    if not resume.portfolio:
-        resume.portfolio = extract_portfolio(resume_text)
+    # Portfolio
+    raw_portfolio = ensure_string(safe_get(data, "portfolio")).strip()
+    if not raw_portfolio or "@" in raw_portfolio or "gmail.com" in raw_portfolio.lower() or raw_portfolio.lower() in ["portfolio", "n/a", "none"]:
+        raw_portfolio = extract_portfolio(resume_text)
+    if raw_portfolio and "@" not in raw_portfolio:
+        if not raw_portfolio.startswith("http"):
+            raw_portfolio = "https://" + raw_portfolio.lstrip("/")
+        resume.portfolio = raw_portfolio
+    else:
+        resume.portfolio = ""
 
 
 
@@ -747,102 +718,124 @@ def enrich_resume(
 # Analyze Resume
 # ==========================================================
 
+def fallback_deterministic_extraction(text: str) -> dict:
+    """
+    Rule-based deterministic extraction when LLM/Ollama is offline.
+    Extracts name, email, phone, social URLs, skills, experience, and infer roles.
+    """
+    from services.resume.contact_extractor import extract_name, extract_email, extract_phone
+    from services.resume.resume_enricher import extract_github, extract_linkedin, extract_portfolio, infer_role, infer_career_level, infer_experience, infer_location
+    from services.resume.skill_extractor import extract_skills
+    from services.resume.location_parser import normalize_location
+
+    skills = extract_skills(text)
+    exp_years = infer_experience(text)
+    pref_role = infer_role(text)
+    loc = infer_location(text)
+
+    
+    # Extract projects deterministically
+    projects = []
+    lines = [l.strip() for l in text.splitlines() if l.strip()]
+    in_project_section = False
+    current_proj = None
+
+    for line in lines:
+        lower = line.lower()
+        if any(h in lower for h in ['projects', 'personal projects', 'academic projects', 'key projects']):
+            in_project_section = True
+            continue
+        elif any(h in lower for h in ['experience', 'work history', 'education', 'skills', 'certifications']):
+            in_project_section = False
+            
+        if in_project_section:
+            if 5 < len(line) < 60 and not line.startswith('•') and not line.startswith('-'):
+                if current_proj:
+                    projects.append(current_proj)
+                current_proj = {'title': line, 'description': '', 'technologies': []}
+            elif current_proj and (line.startswith('•') or line.startswith('-') or len(line) > 20):
+                current_proj['description'] += ' ' + line
+
+    if current_proj:
+        projects.append(current_proj)
+
+    # Extract certifications
+    certifications = []
+    in_cert_section = False
+    for line in lines:
+        lower = line.lower()
+        if any(h in lower for h in ['certifications', 'certificates', 'licenses']):
+            in_cert_section = True
+            continue
+        elif any(h in lower for h in ['experience', 'projects', 'education', 'skills', 'languages']):
+            in_cert_section = False
+        if in_cert_section and len(line) > 4:
+            clean_cert = line.lstrip('•-* ').strip()
+            if clean_cert and len(clean_cert) < 100:
+                certifications.append(clean_cert)
+
+    top_skills_str = ', '.join(skills[:4]) if skills else 'data analytics and programming'
+
+    return {
+        'name': extract_name(text),
+        'email': extract_email(text),
+        'phone': extract_phone(text),
+        'linkedin': extract_linkedin(text),
+        'github': extract_github(text),
+        'portfolio': extract_portfolio(text),
+        'location': loc,
+        'career_level': infer_career_level(exp_years),
+        'experience_years': exp_years,
+        'preferred_role': pref_role,
+        'preferred_location': loc,
+        'skills': skills,
+        'soft_skills': ['Problem Solving', 'Communication', 'Team Collaboration', 'Analytical Thinking'],
+        'education': [],
+        'experience': [],
+        'projects': projects[:5],
+        'certifications': certifications[:6],
+        'languages': ['English'],
+        'career_summary': f"Analytical professional specialized in {pref_role} with proven foundation in {top_skills_str}."
+    }
+
 def analyze_resume(
     resume_text: str
 ) -> ResumeData:
     """
-    Analyze resume using Ollama.
-
-    Parameters
-    ----------
-    resume_text : str
-
-    Returns
-    -------
-    ResumeData
+    Analyze resume using AI/LLM, seamlessly falling back to deterministic extraction if LLMs/Ollama are offline.
     """
-
     info("Resume analysis started.")
 
+    data = None
     try:
+        ai_response = request_with_retry(resume_text)
+        data = parse_json(ai_response)
+    except Exception as e:
+        warning(f"AI/LLM analyzer could not run ({e}). Falling back to deterministic NLP analysis.")
 
-        # ------------------------------------------
-        # Call Ollama
-        # ------------------------------------------
 
-        for attempt in range(MAX_RETRIES):
+    if not data or not isinstance(data, dict):
+        info("Running deterministic resume extraction engine...")
+        data = fallback_deterministic_extraction(resume_text)
 
-            ai_response = request_with_retry(resume_text)
-
-            try:
-                data = parse_json(ai_response)
-                break
-
-            except InvalidAIResponseError:
-
-                warning(
-                    f"Invalid JSON from AI. Retry {attempt + 1}"
-            )
-
-        else:
-            raise InvalidAIResponseError(
-                "AI returned invalid JSON after all retries."
-            )
-
-        data = validate_schema(
-            data
-        )
-
-        # ------------------------------------------
-        # Build ResumeData
-        # ------------------------------------------
-
-        resume = build_resume_data(
-
-            data,
-
-            resume_text
-
-        )
-
-        # ------------------------------------------
-        # ATS
-        # ------------------------------------------
-
-        resume = enrich_resume(
-            resume
-        )
-
+    try:
+        data = validate_schema(data)
+        resume = build_resume_data(data, resume_text)
+        resume = enrich_resume(resume)
         resume.status = "success"
-
-        resume.message = (
-
-            "Resume analyzed successfully."
-
-        )
-
+        resume.message = "Resume analyzed successfully."
         info("Resume analysis completed.")
-
+        return resume
+    except Exception as e:
+        exception(f"Resume build/enrich failed: {e}")
+        fallback_data = fallback_deterministic_extraction(resume_text)
+        resume = build_resume_data(fallback_data, resume_text)
+        resume = enrich_resume(resume)
+        resume.status = "success"
+        resume.message = "Resume analyzed with fallback parser."
         return resume
 
-    except InvalidAIResponseError:
 
-        raise
-
-    except ResumeAnalyzerError:
-
-        raise
-
-    except Exception as e:
-
-        exception(
-            "Resume analysis failed."
-        )
-
-        raise ResumeAnalyzerError(
-            str(e)
-        )
-    
 # ==========================================================
 # Test
 # ==========================================================

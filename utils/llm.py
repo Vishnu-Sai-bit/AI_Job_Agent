@@ -8,7 +8,7 @@ Author : Antigravity
 import os
 import requests
 from config import OLLAMA_URL, OLLAMA_MODEL, OLLAMA_TIMEOUT
-from utils.logger import info, exception
+from utils.logger import info, warning, exception
 from exceptions import OllamaConnectionError, ResumeAnalyzerError
 
 def call_llm(prompt: str, json_format: bool = True) -> str:
@@ -17,35 +17,93 @@ def call_llm(prompt: str, json_format: bool = True) -> str:
     and falls back to local Ollama if all fail or are not configured.
     """
     # 1. Gather all API keys from environment
-    groq_key = os.getenv("GROQ_API_KEY", "").strip()
-    openrouter_key = os.getenv("OPENROUTER_API_KEY", "").strip()
-    together_key = os.getenv("TOGETHER_API_KEY", "").strip()
-    cohere_key = os.getenv("COHERE_API_KEY", "").strip()
-    hf_key = os.getenv("HF_API_KEY", "").strip() or os.getenv("HF_TOKEN", "").strip()
-    gemini_key = os.getenv("GEMINI_API_KEY", "").strip()
+    gemini_keys = []
+    # Check numbered keys and general keys
+    for k in ["GEMINI_API_KEY_1", "GEMINI_API_KEY_2", "GEMINI_API_KEY_3", "GEMINI_API_KEY", "GOOGLE_API_KEY", "GEMINI_KEY"]:
+        val = os.getenv(k, "").strip()
+        if val and val not in gemini_keys:
+            gemini_keys.append(val)
+    # Check any dynamically named GEMINI_API_KEY_*
+    for env_k, env_v in os.environ.items():
+        if env_k.startswith("GEMINI_API_KEY") and env_v.strip() and env_v.strip() not in gemini_keys:
+            gemini_keys.append(env_v.strip())
 
-    # --- 1. Try Groq (Primary) ---
+    groq_key = os.getenv("GROQ_API_KEY", "").strip() or os.getenv("GROQ_API_KEY_1", "").strip()
+    openrouter_key = os.getenv("OPENROUTER_API_KEY", "").strip() or os.getenv("OPENROUTER_API_KEY_1", "").strip()
+    together_key = os.getenv("TOGETHER_API_KEY", "").strip() or os.getenv("TOGETHER_API_KEY_1", "").strip()
+    cohere_key = os.getenv("COHERE_API_KEY", "").strip() or os.getenv("COHERE_API_KEY_1", "").strip()
+    hf_key = os.getenv("HF_API_KEY", "").strip() or os.getenv("HF_TOKEN", "").strip()
+
+    cloud_errors = []
+
+    # --- 1. Try Google Gemini (Primary Cloud LLM - Supports Multi-Key Rotation) ---
+    if gemini_keys:
+        models_to_try = [
+            "gemini-2.5-flash",
+            "gemini-2.0-flash",
+            "gemini-1.5-flash",
+            "gemini-1.5-flash-8b",
+            "gemini-2.5-flash-lite"
+        ]
+        for key_idx, gemini_key in enumerate(gemini_keys, start=1):
+            for model_name in models_to_try:
+                try:
+                    info(f"Calling Google Gemini API (Key #{key_idx}, Model: {model_name})...")
+                    url = f"https://generativelanguage.googleapis.com/v1beta/models/{model_name}:generateContent?key={gemini_key}"
+                    payload = {
+                        "contents": [{"parts": [{"text": prompt}]}],
+                        "generationConfig": {
+                            "maxOutputTokens": 8192
+                        }
+                    }
+                    if json_format:
+                        payload["generationConfig"]["responseMimeType"] = "application/json"
+                        
+                    response = requests.post(url, json=payload, timeout=45)
+                    if response.status_code == 429:
+                        warning(f"Gemini Key #{key_idx} model {model_name} hit rate limit (429). Retrying next key/model...")
+                        continue
+                    if response.status_code != 200:
+                        err_text = response.text[:200]
+                        warning(f"Gemini Key #{key_idx} ({model_name}) HTTP {response.status_code}: {err_text}")
+                        continue
+                    
+                    data = response.json()
+                    candidates = data.get("candidates", [])
+                    if candidates and "content" in candidates[0] and "parts" in candidates[0]["content"]:
+                        return candidates[0]["content"]["parts"][0]["text"]
+                except Exception as e:
+                    err_msg = f"Gemini Key #{key_idx} ({model_name}) API failed: {e}"
+                    exception(err_msg)
+                    cloud_errors.append(err_msg)
+
+
+    # --- 2. Try Groq (Secondary) ---
     if groq_key:
-        try:
-            info("Calling Groq API...")
-            url = "https://api.groq.com/openai/v1/chat/completions"
-            headers = {
-                "Authorization": f"Bearer {groq_key}",
-                "Content-Type": "application/json"
-            }
-            payload = {
-                "model": "llama-3.3-70b-versatile",
-                "messages": [{"role": "user", "content": prompt}],
-                "temperature": 0.1
-            }
-            if json_format:
-                payload["response_format"] = {"type": "json_object"}
-                
-            response = requests.post(url, json=payload, headers=headers, timeout=25)
-            response.raise_for_status()
-            return response.json()["choices"][0]["message"]["content"]
-        except Exception as e:
-            exception(f"Groq API call failed: {e}")
+        groq_models = ["llama-3.3-70b-versatile", "llama-3.1-8b-instant", "mixtral-8x7b-32768"]
+        for g_model in groq_models:
+            try:
+                info(f"Calling Groq API ({g_model})...")
+                url = "https://api.groq.com/openai/v1/chat/completions"
+                headers = {
+                    "Authorization": f"Bearer {groq_key}",
+                    "Content-Type": "application/json"
+                }
+                payload = {
+                    "model": g_model,
+                    "messages": [{"role": "user", "content": prompt}],
+                    "temperature": 0.1
+                }
+                if json_format:
+                    payload["response_format"] = {"type": "json_object"}
+                    
+                response = requests.post(url, json=payload, headers=headers, timeout=25)
+                response.raise_for_status()
+                return response.json()["choices"][0]["message"]["content"]
+            except Exception as e:
+                err_msg = f"Groq ({g_model}) API failed: {e}"
+                exception(err_msg)
+                cloud_errors.append(err_msg)
 
     # --- 2. Try OpenRouter (Secondary) ---
     if openrouter_key:
@@ -68,7 +126,9 @@ def call_llm(prompt: str, json_format: bool = True) -> str:
             response.raise_for_status()
             return response.json()["choices"][0]["message"]["content"]
         except Exception as e:
-            exception(f"OpenRouter API call failed: {e}")
+            err_msg = f"OpenRouter API failed: {e}"
+            exception(err_msg)
+            cloud_errors.append(err_msg)
 
     # --- 3. Try Together AI (Tertiary) ---
     if together_key:
@@ -91,7 +151,9 @@ def call_llm(prompt: str, json_format: bool = True) -> str:
             response.raise_for_status()
             return response.json()["choices"][0]["message"]["content"]
         except Exception as e:
-            exception(f"Together AI API call failed: {e}")
+            err_msg = f"Together AI API failed: {e}"
+            exception(err_msg)
+            cloud_errors.append(err_msg)
 
     # --- 4. Try Cohere (Quaternary) ---
     if cohere_key:
@@ -114,7 +176,9 @@ def call_llm(prompt: str, json_format: bool = True) -> str:
             response.raise_for_status()
             return response.json()["text"]
         except Exception as e:
-            exception(f"Cohere API call failed: {e}")
+            err_msg = f"Cohere API failed: {e}"
+            exception(err_msg)
+            cloud_errors.append(err_msg)
 
     # --- 5. Try Hugging Face Serverless (Quinary) ---
     if hf_key:
@@ -131,31 +195,14 @@ def call_llm(prompt: str, json_format: bool = True) -> str:
                 "temperature": 0.1,
                 "max_tokens": 1024
             }
-            # Note: Serverless HF JSON constraint is usually done via prompting,
-            # as OpenAI compatibility structure doesn't support response_format for all backend endpoints.
-            
             response = requests.post(url, json=payload, headers=headers, timeout=25)
             response.raise_for_status()
             return response.json()["choices"][0]["message"]["content"]
         except Exception as e:
-            exception(f"Hugging Face API call failed: {e}")
+            err_msg = f"Hugging Face API failed: {e}"
+            exception(err_msg)
+            cloud_errors.append(err_msg)
 
-    # --- 6. Try Google Gemini (Senary) ---
-    if gemini_key:
-        try:
-            info("Calling Google Gemini API...")
-            url = f"https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key={gemini_key}"
-            payload = {
-                "contents": [{"parts": [{"text": prompt}]}]
-            }
-            if json_format:
-                payload["generationConfig"] = {"responseMimeType": "application/json"}
-                
-            response = requests.post(url, json=payload, timeout=25)
-            response.raise_for_status()
-            return response.json()["candidates"][0]["content"]["parts"][0]["text"]
-        except Exception as e:
-            exception(f"Gemini API call failed: {e}")
 
     # --- 7. Fallback to Local Ollama ---
     info("No active cloud APIs succeeded. Falling back to local Ollama.")
@@ -173,7 +220,12 @@ def call_llm(prompt: str, json_format: bool = True) -> str:
         return response.json()["message"]["content"]
     except requests.ConnectionError:
         exception("Unable to connect to local Ollama.")
-        raise OllamaConnectionError("Ollama server is not running.")
+        detail_msg = "Ollama server is not running."
+        if cloud_errors:
+            detail_msg += " Cloud providers attempted: " + " | ".join(cloud_errors)
+        else:
+            detail_msg += " No cloud API keys were configured in your environment variables."
+        raise OllamaConnectionError(detail_msg)
     except Exception as e:
         exception("Ollama request failed.")
         raise ResumeAnalyzerError(str(e))
@@ -181,45 +233,9 @@ def call_llm(prompt: str, json_format: bool = True) -> str:
 
 def get_embedding(text: str) -> list[float]:
     """
-    Generate vector embeddings for a given text.
-    Tries Cohere or Gemini, and falls back to a clean token-level TF-IDF vectorizer if keys are missing.
+    Generate vector embeddings for a given text using a high-speed token hashing vectorizer.
+    Runs locally in <1ms without external network calls, completely eliminating API rate limits and timeouts.
     """
-    cohere_key = os.getenv("COHERE_API_KEY", "").strip()
-    gemini_key = os.getenv("GEMINI_API_KEY", "").strip()
-
-    if cohere_key:
-        try:
-            url = "https://api.cohere.com/v1/embed"
-            headers = {
-                "Authorization": f"Bearer {cohere_key}",
-                "Content-Type": "application/json"
-            }
-            payload = {
-                "texts": [text],
-                "model": "embed-english-v3.0",
-                "input_type": "search_document"
-            }
-            response = requests.post(url, json=payload, headers=headers, timeout=15)
-            response.raise_for_status()
-            return response.json()["embeddings"][0]
-        except Exception as e:
-            exception(f"Cohere embedding failed: {e}")
-
-    if gemini_key:
-        try:
-            url = f"https://generativelanguage.googleapis.com/v1beta/models/text-embedding-004:embedContent?key={gemini_key}"
-            payload = {
-                "content": {
-                    "parts": [{"text": text}]
-                }
-            }
-            response = requests.post(url, json=payload, timeout=15)
-            response.raise_for_status()
-            return response.json()["embedding"]["values"]
-        except Exception as e:
-            exception(f"Gemini embedding failed: {e}")
-
-    # Fallback: Simple token-level tf-idf hash vector (length 384) to avoid external dependency issues
     import math
     vector = [0.0] * 384
     words = text.lower().split()
