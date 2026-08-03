@@ -73,33 +73,38 @@ def extract_portfolio(text: str) -> str:
     Extract portfolio/personal website.
     """
 
-    patterns = [
-
-        r"https?://(?:www\.)?[A-Za-z0-9.-]+\.[A-Za-z]{2,}(?:/[^\s]*)?",
-
-        r"(?:www\.)?[A-Za-z0-9.-]+\.[A-Za-z]{2,}(?:/[^\s]*)?",
-
-    ]
-
     ignore = (
         "linkedin.com",
         "github.com",
+        "gmail.com",
+        "yahoo.com",
+        "hotmail.com",
+        "outlook.com",
+        "icloud.com",
+        "proton.me",
+        "mail.",
+        "mailto:",
+        "@",
     )
 
+    patterns = [
+        r"https?://(?:www\.)?[A-Za-z0-9.-]+\.[A-Za-z]{2,}(?:/[^\s]*)?",
+        r"(?:www\.)?[A-Za-z0-9.-]+\.[A-Za-z]{2,}(?:/[^\s]*)?",
+    ]
+
     for pattern in patterns:
-
         matches = re.findall(pattern, text, re.IGNORECASE)
-
         for url in matches:
-
-            if any(site in url.lower() for site in ignore):
+            url_clean = url.strip().rstrip(".,;)")
+            if any(site in url_clean.lower() for site in ignore):
                 continue
-
-            if not url.startswith("http"):
-
-                url = "https://" + url
-
-            return url
+            if "@" in url_clean:
+                continue
+            if url_clean.lower().endswith((".pdf", ".docx", ".doc", ".png", ".jpg", ".jpeg")):
+                continue
+            if not url_clean.startswith("http"):
+                url_clean = "https://" + url_clean
+            return url_clean
 
     return ""
 

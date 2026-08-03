@@ -167,47 +167,28 @@ def request_with_retry(
     """
     Retry Ollama request.
     """
-
+    last_error = "No attempts made."
     for attempt in range(
-
         1,
-
         MAX_RETRIES + 1
-
     ):
-
         try:
-
             info(
-
                 f"Ollama Attempt {attempt}"
-
             )
-
             return call_ollama(
-
                 resume_text
-
             )
-
-        except OllamaConnectionError:
-
-            raise
-
-        except Exception:
-
+        except Exception as e:
+            last_error = str(e)
             warning(
-
-                f"Retry {attempt} failed."
-
+                f"Retry {attempt} failed: {e}"
             )
-
-            time.sleep(2)
+            if attempt < MAX_RETRIES:
+                time.sleep(2)
 
     raise ResumeAnalyzerError(
-
-        "Maximum retry limit reached."
-
+        f"Maximum retry limit reached. Last error: {last_error}"
     )
 
 # ==========================================================
@@ -487,34 +468,40 @@ def build_resume_data(
         safe_get(data, "name")
     )
 
-    resume.email = ensure_string(
-        safe_get(data, "email")
-    )
+    resume.email = ensure_string(safe_get(data, "email")).strip()
+    if not resume.email or "@" not in resume.email:
+        resume.email = extract_email(resume_text)
 
-    resume.phone = ensure_string(
-        safe_get(data, "phone")
-    )
+    resume.phone = ensure_string(safe_get(data, "phone")).strip()
+    if not resume.phone:
+        resume.phone = extract_phone(resume_text)
 
-    resume.linkedin = ensure_string(
-        safe_get(data, "linkedin")
-    )
+    # LinkedIn
+    raw_linkedin = ensure_string(safe_get(data, "linkedin")).strip()
+    if not raw_linkedin or raw_linkedin.lower() in ["linkedin", "n/a", "none"]:
+        raw_linkedin = extract_linkedin(resume_text)
+    if raw_linkedin and not raw_linkedin.startswith("http"):
+        raw_linkedin = "https://" + raw_linkedin.lstrip("/")
+    resume.linkedin = raw_linkedin
 
-    if not resume.linkedin:
-        resume.linkedin = extract_linkedin(resume_text)
+    # GitHub
+    raw_github = ensure_string(safe_get(data, "github")).strip()
+    if not raw_github or raw_github.lower() in ["github", "n/a", "none"]:
+        raw_github = extract_github(resume_text)
+    if raw_github and not raw_github.startswith("http"):
+        raw_github = "https://" + raw_github.lstrip("/")
+    resume.github = raw_github
 
-    resume.github = ensure_string(
-        safe_get(data, "github")
-    )
-
-    if not resume.github:
-        resume.github = extract_github(resume_text)
-
-    resume.portfolio = ensure_string(
-        safe_get(data, "portfolio")
-    )
-
-    if not resume.portfolio:
-        resume.portfolio = extract_portfolio(resume_text)
+    # Portfolio
+    raw_portfolio = ensure_string(safe_get(data, "portfolio")).strip()
+    if not raw_portfolio or "@" in raw_portfolio or "gmail.com" in raw_portfolio.lower() or raw_portfolio.lower() in ["portfolio", "n/a", "none"]:
+        raw_portfolio = extract_portfolio(resume_text)
+    if raw_portfolio and "@" not in raw_portfolio:
+        if not raw_portfolio.startswith("http"):
+            raw_portfolio = "https://" + raw_portfolio.lstrip("/")
+        resume.portfolio = raw_portfolio
+    else:
+        resume.portfolio = ""
 
 
 

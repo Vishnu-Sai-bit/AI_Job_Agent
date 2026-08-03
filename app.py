@@ -62,6 +62,9 @@ class CoverLetterRequest(BaseModel):
 class InterviewRequest(BaseModel):
     role: str
     skills: List[str]
+    resume_context: Optional[str] = ""
+    question_count: Optional[int] = 5
+    interviewer_role: Optional[str] = "Senior Technical Recruiter"
 
 class RoadmapRequest(BaseModel):
     role: str
@@ -84,6 +87,12 @@ class EmailRequest(BaseModel):
     skills: List[str]
     role: str
     company: str
+    email: Optional[str] = ""
+    phone: Optional[str] = ""
+    linkedin: Optional[str] = ""
+    github: Optional[str] = ""
+    portfolio: Optional[str] = ""
+    resume_context: Optional[str] = ""
 
 # ==========================================================
 # FastAPI
@@ -221,25 +230,16 @@ async def upload_resume(
 async def analyze_uploaded_resume(
     file: UploadFile = File(...),
 ):
-
     try:
-
         destination = await save_resume(file)
-
-        resume_text = extract_resume_text(
-            destination
-        )
-
-        resume: ResumeData = analyze_resume(
-            resume_text
-        )
+        resume_text = extract_resume_text(destination)
+        resume: ResumeData = analyze_resume(resume_text)
+        job_result = search_jobs(resume)
 
         return {
-
             "success": True,
-
             "resume": resume.to_dict(),
-
+            "result": job_result.to_dict(),
         }
 
     except HTTPException:
@@ -469,10 +469,16 @@ def api_generate_cover_letter(req: CoverLetterRequest):
 @app.post("/generate-interview-questions")
 def api_generate_interview_questions(req: InterviewRequest):
     """
-    Generate 5 mock technical/behavioral interview questions with tips and sample answers.
+    Generate mock technical/behavioral interview questions with tips and sample answers.
     """
     try:
-        return generate_interview_questions(req.role, req.skills)
+        return generate_interview_questions(
+            req.role,
+            req.skills,
+            req.resume_context,
+            req.question_count,
+            req.interviewer_role
+        )
     except Exception as e:
         raise HTTPException(status_code=500, detail=str(e))
 
@@ -519,14 +525,20 @@ def api_optimize_linkedin(req: LinkedInRequest):
 @app.post("/generate-emails")
 def api_generate_emails(req: EmailRequest):
     """
-    Generate cold outreach, job application, and follow-up email drafts.
+    Generate cold outreach, LinkedIn InMail, follow-up, and application templates.
     """
     try:
         return generate_job_emails(
             req.name,
             req.skills,
             req.role,
-            req.company
+            req.company,
+            req.email,
+            req.phone,
+            req.linkedin,
+            req.github,
+            req.portfolio,
+            req.resume_context
         )
     except Exception as e:
         raise HTTPException(status_code=500, detail=str(e))

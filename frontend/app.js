@@ -160,8 +160,8 @@ async function handleFileUpload(file) {
     setUploadProgress(30, "Uploading resume file...");
 
     try {
-        // Step 1: Analyze Resume
-        setUploadProgress(50, "Running AI ATS analysis...");
+        // Step 1: Analyze Resume & Search Matching Jobs in one unified pipeline
+        setUploadProgress(60, "Running AI ATS analysis & matching jobs...");
         
         const analysisResponse = await fetch(`${BACKEND_URL}/analyze-resume`, {
             method: "POST",
@@ -174,25 +174,24 @@ async function handleFileUpload(file) {
 
         const analysisResult = await analysisResponse.json();
         resumeData = analysisResult.resume;
-        setUploadProgress(75, "Searching matching jobs...");
+        jobData = analysisResult.result;
 
-        // Step 2: Fetch Matching Jobs (use a new FormData instance to rewind stream)
-        const jobFormData = new FormData();
-        jobFormData.append("file", file);
-        
-        const jobResponse = await fetch(`${BACKEND_URL}/search-jobs`, {
-            method: "POST",
-            body: jobFormData
-        });
-
-        if (!jobResponse.ok) {
-            throw new Error(`Job search failed: ${await jobResponse.text()}`);
+        // Fallback: If jobData is somehow not in the unified response, fetch it
+        if (!jobData) {
+            setUploadProgress(80, "Searching matching jobs...");
+            const jobFormData = new FormData();
+            jobFormData.append("file", file);
+            const jobResponse = await fetch(`${BACKEND_URL}/search-jobs`, {
+                method: "POST",
+                body: jobFormData
+            });
+            if (jobResponse.ok) {
+                const jobResult = await jobResponse.json();
+                jobData = jobResult.result;
+            }
         }
 
-        const jobResult = await jobResponse.json();
-        jobData = jobResult.result;
-
-        // Step 3: Complete upload
+        // Step 2: Complete upload
         setUploadProgress(100, "Analysis complete!");
         setTimeout(() => {
             progressContainer.style.display = "none";
@@ -254,6 +253,7 @@ function renderDashboard() {
     socialsContainer.innerHTML = "";
     
     const socials = [
+        { name: "Email", key: "email", icon: "✉️", isEmail: true },
         { name: "LinkedIn", key: "linkedin", icon: "🔗" },
         { name: "GitHub", key: "github", icon: "💻" },
         { name: "Portfolio", key: "portfolio", icon: "💼" }
@@ -264,13 +264,22 @@ function renderDashboard() {
         const badge = document.createElement("a");
         badge.className = "social-badge";
         
-        if (val) {
-            badge.href = val.startsWith("http") ? val : `https://${val}`;
-            badge.target = "_blank";
+        if (val && typeof val === "string" && val.trim() && val.trim() !== "None") {
+            const cleanVal = val.trim();
+            if (s.isEmail) {
+                badge.href = `mailto:${cleanVal}`;
+                badge.title = `Send Email to ${cleanVal}`;
+            } else {
+                badge.href = cleanVal.startsWith("http") ? cleanVal : `https://${cleanVal}`;
+                badge.target = "_blank";
+                badge.rel = "noopener noreferrer";
+                badge.title = `Open ${s.name} (${cleanVal})`;
+            }
             badge.innerHTML = `<span class="social-badge-icon">${s.icon}</span> ${s.name}`;
         } else {
             badge.classList.add("disabled");
             badge.innerHTML = `<span class="social-badge-icon">❌</span> ${s.name}`;
+            badge.title = `${s.name} not detected`;
             badge.addEventListener("click", (e) => e.preventDefault());
         }
         socialsContainer.appendChild(badge);
@@ -425,7 +434,7 @@ function renderJobs() {
                     </div>
                 </div>
                 
-                <a href="${job.apply_link || "#"}" target="_blank" class="action-btn-small">Apply for Job</a>
+                <a href="${job.apply_url || "#"}" target="_blank" class="action-btn-small">Apply for Job</a>
             `;
             cardsContainer.appendChild(card);
         });
@@ -557,6 +566,23 @@ function renderToolForm() {
                 <label>Core Technical Skills (comma separated)</label>
                 <input type="text" id="tool-skills" value="${skills}" placeholder="e.g. SQL, Python, Excel">
             </div>
+            <div class="form-group">
+                <label>Number of Questions</label>
+                <select id="tool-question-count" class="form-select">
+                    <option value="5" selected>5 Questions</option>
+                    <option value="10">10 Questions</option>
+                    <option value="15">15 Questions</option>
+                    <option value="20">20 Questions</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label>Interviewer Perspective / Tone</label>
+                <select id="tool-interviewer-role" class="form-select">
+                    <option value="Senior Technical Recruiter" selected>Senior Technical Recruiter</option>
+                    <option value="HR Director / Manager">HR Director / Manager</option>
+                    <option value="VP of Engineering / Hiring Manager">VP of Engineering / Hiring Manager</option>
+                </select>
+            </div>
         `;
     } else if (activeTool === "email") {
         container.innerHTML = `
@@ -641,17 +667,43 @@ async function executeTool() {
             };
         } else if (activeTool === "interview") {
             endpoint = "/generate-interview-questions";
+            
+            let contextText = "";
+            if (resumeData) {
+                const projectsText = (resumeData.projects || []).map(p => `Project: ${p.title || p.name || ""}. Description: ${p.description || ""}`).join("\n");
+                const expText = (resumeData.experience || []).map(e => `Role: ${e.designation || e.role || ""} at ${e.company || ""}. Description: ${e.description || ""}`).join("\n");
+                contextText = `Candidate Summary: ${resumeData.career_summary || ""}\n\nWork History:\n${expText}\n\nProjects:\n${projectsText}`;
+            }
+            
             payload = {
                 role: title,
-                skills
+                skills,
+                resume_context: contextText,
+                question_count: parseInt(document.getElementById("tool-question-count").value) || 5,
+                interviewer_role: document.getElementById("tool-interviewer-role").value
             };
         } else if (activeTool === "email") {
             endpoint = "/generate-emails";
+            
+            let contextText = "";
+            if (resumeData) {
+                const projectsText = (resumeData.projects || []).map(p => `• Project: ${p.title || p.name || ""}. Details: ${p.description || ""}`).join("\n");
+                const expText = (resumeData.experience || []).map(e => `• Experience: ${e.designation || e.role || ""} at ${e.company || ""}. Details: ${e.description || ""}`).join("\n");
+                const certText = (resumeData.certifications || []).map(c => `• Certification: ${c}`).join("\n");
+                contextText = `Summary: ${resumeData.career_summary || ""}\n\nWork History:\n${expText}\n\nProjects:\n${projectsText}\n\nCertifications:\n${certText}`;
+            }
+
             payload = {
                 name,
                 skills,
                 role: title,
-                company
+                company: company || "Target Company",
+                email: (resumeData && resumeData.email) || "",
+                phone: (resumeData && resumeData.phone) || "",
+                linkedin: (resumeData && resumeData.linkedin) || "",
+                github: (resumeData && resumeData.github) || "",
+                portfolio: (resumeData && resumeData.portfolio) || "",
+                resume_context: contextText
             };
         } else if (activeTool === "linkedin") {
             endpoint = "/optimize-linkedin";
@@ -714,28 +766,48 @@ ${data.sign_off}
     } else if (activeTool === "interview") {
         const list = data.questions || [];
         box.innerHTML = list.map((q, idx) => `
-<strong>Q${idx + 1}: [${q.type}] ${q.question}</strong>
-<em>💡 Answer Strategy:</em> ${q.answer_tips}
-<em>🏆 Sample Response:</em> ${q.sample_answer}
---------------------------------------------------
-        `).join("\n");
+<div class="interview-question-block" style="margin-bottom: 1.5rem; padding: 1.5rem; background: rgba(255, 255, 255, 0.03); border-radius: 12px; border-left: 4px solid #db2777; backdrop-filter: blur(10px);">
+    <h4 style="color: #f472b6; margin: 0 0 0.8rem 0; font-size: 1.1rem; font-weight: 600;">Q${idx + 1}: [${q.type}] ${q.question}</h4>
+    <p style="margin: 0.5rem 0; font-size: 0.95rem; line-height: 1.5;"><strong>💡 Recruiter Strategy & Tips:</strong> ${q.answer_tips}</p>
+    <p style="margin: 0.5rem 0; font-size: 0.95rem; line-height: 1.5; color: rgba(255, 255, 255, 0.8);"><strong>🏆 Model Response:</strong> ${q.sample_answer}</p>
+</div>
+        `).join("");
     } else if (activeTool === "email") {
         box.innerHTML = `
-<h3>✉️ Direct Application Email</h3>
-<strong>Subject:</strong> ${data.job_application ? data.job_application.subject : ""}\n
-${data.job_application ? data.job_application.body : ""}
+<div class="email-template-card" style="margin-bottom: 2rem; padding: 1.5rem; background: rgba(255, 255, 255, 0.03); border-radius: 12px; border-left: 4px solid #6366f1;">
+    <h3 style="color: #818cf8; margin-top: 0; font-size: 1.2rem;">📧 Template 1: Direct Cold Outreach to Hiring Manager</h3>
+    <p style="color: rgba(255, 255, 255, 0.7); font-size: 0.9rem; margin-bottom: 1rem;"><em>Best for pitching Team Leads, Engineering Managers, or Department Heads directly.</em></p>
+    <div style="background: rgba(0, 0, 0, 0.25); padding: 1rem; border-radius: 8px; margin-bottom: 1rem;">
+        <strong>Subject:</strong> ${data.cold_outreach ? data.cold_outreach.subject : ""}<br><br>
+        <div style="white-space: pre-wrap; line-height: 1.6;">${data.cold_outreach ? data.cold_outreach.body : ""}</div>
+    </div>
+</div>
 
-<hr class="divider">
+<div class="email-template-card" style="margin-bottom: 2rem; padding: 1.5rem; background: rgba(255, 255, 255, 0.03); border-radius: 12px; border-left: 4px solid #0ea5e9;">
+    <h3 style="color: #38bdf8; margin-top: 0; font-size: 1.2rem;">💬 Template 2: LinkedIn Connection Request Note (&lt;300 chars)</h3>
+    <p style="color: rgba(255, 255, 255, 0.7); font-size: 0.9rem; margin-bottom: 1rem;"><em>Personalized message to attach when sending connection requests on LinkedIn.</em></p>
+    <div style="background: rgba(0, 0, 0, 0.25); padding: 1rem; border-radius: 8px; margin-bottom: 1rem;">
+        <div style="white-space: pre-wrap; line-height: 1.6;">${data.linkedin_inmail ? data.linkedin_inmail.body : ""}</div>
+    </div>
+</div>
 
-<h3>🤝 Cold Networking Outreach</h3>
-<strong>Subject:</strong> ${data.cold_outreach ? data.cold_outreach.subject : ""}\n
-${data.cold_outreach ? data.cold_outreach.body : ""}
+<div class="email-template-card" style="margin-bottom: 2rem; padding: 1.5rem; background: rgba(255, 255, 255, 0.03); border-radius: 12px; border-left: 4px solid #f59e0b;">
+    <h3 style="color: #fbbf24; margin-top: 0; font-size: 1.2rem;">⏳ Template 3: Strategic Follow-Up Email (4–5 Days Later)</h3>
+    <p style="color: rgba(255, 255, 255, 0.7); font-size: 0.9rem; margin-bottom: 1rem;"><em>Follow-up note highlighting a project achievement if no response received.</em></p>
+    <div style="background: rgba(0, 0, 0, 0.25); padding: 1rem; border-radius: 8px; margin-bottom: 1rem;">
+        <strong>Subject:</strong> ${data.follow_up_email ? data.follow_up_email.subject : ""}<br><br>
+        <div style="white-space: pre-wrap; line-height: 1.6;">${data.follow_up_email ? data.follow_up_email.body : ""}</div>
+    </div>
+</div>
 
-<hr class="divider">
-
-<h3>✉️ Post-Interview Thank You</h3>
-<strong>Subject:</strong> ${data.interview_follow_up ? data.interview_follow_up.subject : ""}\n
-${data.interview_follow_up ? data.interview_follow_up.body : ""}
+<div class="email-template-card" style="margin-bottom: 2rem; padding: 1.5rem; background: rgba(255, 255, 255, 0.03); border-radius: 12px; border-left: 4px solid #10b981;">
+    <h3 style="color: #34d399; margin-top: 0; font-size: 1.2rem;">✉️ Template 4: Formal Job Application Email</h3>
+    <p style="color: rgba(255, 255, 255, 0.7); font-size: 0.9rem; margin-bottom: 1rem;"><em>Formal cover letter application attaching your resume to HR / Talent Acquisition.</em></p>
+    <div style="background: rgba(0, 0, 0, 0.25); padding: 1rem; border-radius: 8px; margin-bottom: 1rem;">
+        <strong>Subject:</strong> ${data.job_application ? data.job_application.subject : ""}<br><br>
+        <div style="white-space: pre-wrap; line-height: 1.6;">${data.job_application ? data.job_application.body : ""}</div>
+    </div>
+</div>
         `;
     } else if (activeTool === "linkedin") {
         const headlines = data.suggested_headlines || [];

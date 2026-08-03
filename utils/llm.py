@@ -24,6 +24,8 @@ def call_llm(prompt: str, json_format: bool = True) -> str:
     hf_key = os.getenv("HF_API_KEY", "").strip() or os.getenv("HF_TOKEN", "").strip()
     gemini_key = os.getenv("GEMINI_API_KEY", "").strip()
 
+    cloud_errors = []
+
     # --- 1. Try Groq (Primary) ---
     if groq_key:
         try:
@@ -45,7 +47,9 @@ def call_llm(prompt: str, json_format: bool = True) -> str:
             response.raise_for_status()
             return response.json()["choices"][0]["message"]["content"]
         except Exception as e:
-            exception(f"Groq API call failed: {e}")
+            err_msg = f"Groq API failed: {e}"
+            exception(err_msg)
+            cloud_errors.append(err_msg)
 
     # --- 2. Try OpenRouter (Secondary) ---
     if openrouter_key:
@@ -68,7 +72,9 @@ def call_llm(prompt: str, json_format: bool = True) -> str:
             response.raise_for_status()
             return response.json()["choices"][0]["message"]["content"]
         except Exception as e:
-            exception(f"OpenRouter API call failed: {e}")
+            err_msg = f"OpenRouter API failed: {e}"
+            exception(err_msg)
+            cloud_errors.append(err_msg)
 
     # --- 3. Try Together AI (Tertiary) ---
     if together_key:
@@ -91,7 +97,9 @@ def call_llm(prompt: str, json_format: bool = True) -> str:
             response.raise_for_status()
             return response.json()["choices"][0]["message"]["content"]
         except Exception as e:
-            exception(f"Together AI API call failed: {e}")
+            err_msg = f"Together AI API failed: {e}"
+            exception(err_msg)
+            cloud_errors.append(err_msg)
 
     # --- 4. Try Cohere (Quaternary) ---
     if cohere_key:
@@ -114,7 +122,9 @@ def call_llm(prompt: str, json_format: bool = True) -> str:
             response.raise_for_status()
             return response.json()["text"]
         except Exception as e:
-            exception(f"Cohere API call failed: {e}")
+            err_msg = f"Cohere API failed: {e}"
+            exception(err_msg)
+            cloud_errors.append(err_msg)
 
     # --- 5. Try Hugging Face Serverless (Quinary) ---
     if hf_key:
@@ -131,31 +141,46 @@ def call_llm(prompt: str, json_format: bool = True) -> str:
                 "temperature": 0.1,
                 "max_tokens": 1024
             }
-            # Note: Serverless HF JSON constraint is usually done via prompting,
-            # as OpenAI compatibility structure doesn't support response_format for all backend endpoints.
-            
             response = requests.post(url, json=payload, headers=headers, timeout=25)
             response.raise_for_status()
             return response.json()["choices"][0]["message"]["content"]
         except Exception as e:
-            exception(f"Hugging Face API call failed: {e}")
+            err_msg = f"Hugging Face API failed: {e}"
+            exception(err_msg)
+            cloud_errors.append(err_msg)
 
     # --- 6. Try Google Gemini (Senary) ---
     if gemini_key:
-        try:
-            info("Calling Google Gemini API...")
-            url = f"https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key={gemini_key}"
-            payload = {
-                "contents": [{"parts": [{"text": prompt}]}]
-            }
-            if json_format:
-                payload["generationConfig"] = {"responseMimeType": "application/json"}
-                
-            response = requests.post(url, json=payload, timeout=25)
-            response.raise_for_status()
-            return response.json()["candidates"][0]["content"]["parts"][0]["text"]
-        except Exception as e:
-            exception(f"Gemini API call failed: {e}")
+        models_to_try = [
+            "gemini-3.6-flash",
+            "gemini-3.6-flash-lite",
+            "gemini-2.5-flash-lite"
+        ]
+        for model_name in models_to_try:
+            try:
+                info(f"Calling Google Gemini API ({model_name})...")
+                url = f"https://generativelanguage.googleapis.com/v1beta/models/{model_name}:generateContent?key={gemini_key}"
+                payload = {
+                    "contents": [{"parts": [{"text": prompt}]}],
+                    "generationConfig": {
+                        "maxOutputTokens": 8192
+                    }
+                }
+                if json_format:
+                    payload["generationConfig"]["responseMimeType"] = "application/json"
+                    
+                response = requests.post(url, json=payload, timeout=60)
+                if response.status_code == 429:
+                    warning(f"Gemini model {model_name} hit rate limit (429). Retrying next available model...")
+                    import time
+                    time.sleep(1.2)
+                    continue
+                response.raise_for_status()
+                return response.json()["candidates"][0]["content"]["parts"][0]["text"]
+            except Exception as e:
+                err_msg = f"Gemini ({model_name}) API failed: {e}"
+                exception(err_msg)
+                cloud_errors.append(err_msg)
 
     # --- 7. Fallback to Local Ollama ---
     info("No active cloud APIs succeeded. Falling back to local Ollama.")
@@ -173,7 +198,12 @@ def call_llm(prompt: str, json_format: bool = True) -> str:
         return response.json()["message"]["content"]
     except requests.ConnectionError:
         exception("Unable to connect to local Ollama.")
-        raise OllamaConnectionError("Ollama server is not running.")
+        detail_msg = "Ollama server is not running."
+        if cloud_errors:
+            detail_msg += " Cloud providers attempted: " + " | ".join(cloud_errors)
+        else:
+            detail_msg += " No cloud API keys were configured in your environment variables."
+        raise OllamaConnectionError(detail_msg)
     except Exception as e:
         exception("Ollama request failed.")
         raise ResumeAnalyzerError(str(e))
@@ -181,45 +211,9 @@ def call_llm(prompt: str, json_format: bool = True) -> str:
 
 def get_embedding(text: str) -> list[float]:
     """
-    Generate vector embeddings for a given text.
-    Tries Cohere or Gemini, and falls back to a clean token-level TF-IDF vectorizer if keys are missing.
+    Generate vector embeddings for a given text using a high-speed token hashing vectorizer.
+    Runs locally in <1ms without external network calls, completely eliminating API rate limits and timeouts.
     """
-    cohere_key = os.getenv("COHERE_API_KEY", "").strip()
-    gemini_key = os.getenv("GEMINI_API_KEY", "").strip()
-
-    if cohere_key:
-        try:
-            url = "https://api.cohere.com/v1/embed"
-            headers = {
-                "Authorization": f"Bearer {cohere_key}",
-                "Content-Type": "application/json"
-            }
-            payload = {
-                "texts": [text],
-                "model": "embed-english-v3.0",
-                "input_type": "search_document"
-            }
-            response = requests.post(url, json=payload, headers=headers, timeout=15)
-            response.raise_for_status()
-            return response.json()["embeddings"][0]
-        except Exception as e:
-            exception(f"Cohere embedding failed: {e}")
-
-    if gemini_key:
-        try:
-            url = f"https://generativelanguage.googleapis.com/v1beta/models/text-embedding-004:embedContent?key={gemini_key}"
-            payload = {
-                "content": {
-                    "parts": [{"text": text}]
-                }
-            }
-            response = requests.post(url, json=payload, timeout=15)
-            response.raise_for_status()
-            return response.json()["embedding"]["values"]
-        except Exception as e:
-            exception(f"Gemini embedding failed: {e}")
-
-    # Fallback: Simple token-level tf-idf hash vector (length 384) to avoid external dependency issues
     import math
     vector = [0.0] * 384
     words = text.lower().split()
