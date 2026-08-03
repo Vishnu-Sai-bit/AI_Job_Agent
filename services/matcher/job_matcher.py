@@ -23,11 +23,13 @@ Used By
 ==========================================================
 """
 
-from typing import List
+from typing import List, Dict, Any
 
 from config import MATCH_WEIGHTS
 from models import ResumeData, JobData
 from utils.vector_store import calculate_semantic_similarity
+from services.job.job_deduplicator import deduplicate_jobs
+from services.job.job_verifier import verify_all_jobs
 
 from utils import (
     info,
@@ -69,20 +71,168 @@ ROLE_ALIASES = {
         "data analytics",
         "data specialist",
         "decision analyst",
+        "tableau developer",
+        "power bi developer",
     ],
-
+    "junior data analyst": [
+        "data analyst",
+        "associate data analyst",
+        "bi analyst",
+        "business analyst",
+        "reporting analyst",
+    ],
+    "senior data analyst": [
+        "data analyst",
+        "lead data analyst",
+        "principal data analyst",
+        "staff data analyst",
+    ],
     "data engineer": [
         "etl developer",
         "etl engineer",
         "big data engineer",
         "data warehouse engineer",
+        "data pipeline engineer",
+        "spark developer",
     ],
-
     "business analyst": [
         "functional analyst",
         "process analyst",
         "product analyst",
         "business systems analyst",
+        "data analyst",
+    ],
+    "frontend developer": [
+        "front end developer",
+        "front-end developer",
+        "ui developer",
+        "web developer",
+        "react developer",
+        "next.js developer",
+        "angular developer",
+        "vue developer",
+        "javascript developer",
+        "frontend engineer",
+    ],
+    "backend developer": [
+        "back end developer",
+        "back-end developer",
+        "backend engineer",
+        "java developer",
+        "node.js developer",
+        "nodejs developer",
+        "python developer",
+        "spring boot developer",
+        "golang developer",
+        ".net developer",
+        "api developer",
+    ],
+    "full stack developer": [
+        "fullstack developer",
+        "full-stack developer",
+        "full stack engineer",
+        "fullstack engineer",
+        "mern stack developer",
+        "mean stack developer",
+        "web developer",
+        "software engineer",
+    ],
+    "software engineer": [
+        "software developer",
+        "sde",
+        "sde-1",
+        "sde-2",
+        "sde 1",
+        "sde 2",
+        "systems engineer",
+        "programmer",
+        "backend developer",
+        "full stack developer",
+        "application developer",
+    ],
+    "data scientist": [
+        "machine learning engineer",
+        "ml engineer",
+        "ai engineer",
+        "deep learning engineer",
+        "nlp engineer",
+        "data science specialist",
+    ],
+    "devops engineer": [
+        "cloud engineer",
+        "site reliability engineer",
+        "sre",
+        "platform engineer",
+        "infrastructure engineer",
+        "devops & cloud engineer",
+        "aws engineer",
+        "azure engineer",
+    ],
+    "devops & cloud engineer": [
+        "devops engineer",
+        "cloud engineer",
+        "site reliability engineer",
+        "sre",
+        "platform engineer",
+        "infrastructure engineer",
+        "aws engineer",
+        "azure engineer",
+    ],
+    "mobile developer": [
+        "mobile app developer",
+        "android developer",
+        "ios developer",
+        "flutter developer",
+        "react native developer",
+        "mobile engineer",
+    ],
+    "mobile app developer": [
+        "mobile developer",
+        "android developer",
+        "ios developer",
+        "flutter developer",
+        "react native developer",
+    ],
+    "qa engineer": [
+        "sdet",
+        "test automation engineer",
+        "qa automation engineer",
+        "quality assurance engineer",
+        "software tester",
+        "qa / test automation engineer",
+    ],
+    "qa / test automation engineer": [
+        "qa engineer",
+        "sdet",
+        "test automation engineer",
+        "quality assurance",
+        "software tester",
+    ],
+    "product manager": [
+        "project manager",
+        "technical product manager",
+        "associate product manager",
+        "product owner",
+        "scrum master",
+    ],
+    "product / project manager": [
+        "product manager",
+        "project manager",
+        "scrum master",
+        "technical program manager",
+    ],
+    "ui/ux designer": [
+        "product designer",
+        "ux designer",
+        "ui designer",
+        "interaction designer",
+        "visual designer",
+    ],
+    "cybersecurity analyst": [
+        "security engineer",
+        "information security analyst",
+        "soc analyst",
+        "cyber security specialist",
     ],
 }
 
@@ -356,6 +506,45 @@ def calculate_weighted_score(
             "missing_skills"
         ]
 
+        # --------------------------------------------------
+        # Explainable Fit Breakdown
+        # --------------------------------------------------
+        job.fit_breakdown = {
+            "skills": round(skill_score, 1),
+            "role": round(role_score, 1),
+            "experience": round(experience_score, 1),
+            "location": round(location_score, 1),
+            "semantic": round(semantic_score, 1)
+        }
+
+        # --------------------------------------------------
+        # Resume Evidence Extraction
+        # --------------------------------------------------
+        evidence = []
+        matching_skills_lower = {s.lower() for s in job.matching_skills}
+        
+        for proj in (resume.projects or []):
+            proj_title = proj.get("title") or proj.get("name") or ""
+            proj_desc = proj.get("description") or ""
+            proj_combined = f"{proj_title} {proj_desc}".lower()
+            if any(sk in proj_combined for sk in matching_skills_lower) or any(w in proj_combined for w in job.title.lower().split() if len(w) > 3):
+                desc_snippet = proj_desc[:120] + "..." if len(proj_desc) > 120 else proj_desc
+                evidence.append(f"{proj_title}: {desc_snippet}")
+
+        for exp in (resume.experience or []):
+            exp_role = exp.get("designation") or exp.get("role") or ""
+            exp_comp = exp.get("company") or ""
+            exp_desc = exp.get("description") or ""
+            exp_combined = f"{exp_role} {exp_desc}".lower()
+            if any(sk in exp_combined for sk in matching_skills_lower):
+                desc_snippet = exp_desc[:120] + "..." if len(exp_desc) > 120 else exp_desc
+                evidence.append(f"{exp_role} at {exp_comp}: {desc_snippet}")
+
+        if not evidence and job.matching_skills:
+            evidence.append(f"Demonstrated core proficiency in: {', '.join(job.matching_skills[:4])}")
+
+        job.resume_evidence = evidence[:3]
+
         info(
             f"{job.title} Match = {final_score}%"
         )
@@ -382,16 +571,21 @@ def match_jobs(
     jobs: List[JobData],
 ) -> List[JobData]:
     """
-    Match resume against all jobs.
+    Deduplicate, verify, and match resume against all jobs.
     """
+    # 1. Multi-source Deduplication
+    unique_jobs = deduplicate_jobs(jobs)
+
+    # 2. Verification & Risk Screening
+    verified_jobs = verify_all_jobs(unique_jobs)
 
     info(
-        f"Matching {len(jobs)} jobs."
+        f"Matching {len(verified_jobs)} verified unique opportunities."
     )
 
     matched_jobs = []
 
-    for job in jobs:
+    for job in verified_jobs:
 
         try:
 

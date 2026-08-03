@@ -137,6 +137,20 @@ class JobData:
 
     missing_skills: List[str] = field(default_factory=list)
 
+    fit_breakdown: Dict[str, float] = field(default_factory=dict)
+
+    resume_evidence: List[str] = field(default_factory=list)
+
+    # ------------------------------------------------------
+    # Multi-Source & Verification Intelligence
+    # ------------------------------------------------------
+
+    sources: List[str] = field(default_factory=list)
+
+    verification_status: str = "verified"  # 'verified', 'review', 'caution'
+
+    verification_notes: List[str] = field(default_factory=list)
+
     # ------------------------------------------------------
     # Status
     # ------------------------------------------------------
@@ -156,9 +170,13 @@ class JobData:
     @classmethod
     def from_dict(cls, data: Dict[str, Any]):
         """
-        Create JobData from dictionary.
+        Create JobData from dictionary, filtering unknown keys.
         """
-        return cls(**data)
+        if not isinstance(data, dict):
+            return cls()
+        valid_keys = set(cls.__dataclass_fields__.keys())
+        filtered = {k: v for k, v in data.items() if k in valid_keys}
+        return cls(**filtered)
 
     # ------------------------------------------------------
 

@@ -9,11 +9,11 @@ An advanced, MNC-grade enterprise job agent that parses resumes, calculates ATS 
 
 ---
 
-## 🎥 Walkthrough & Demo
+## 🎥 Platform Walkthrough & Architecture Overview
 
-Recruiters and developers can watch the full, step-by-step video demonstration of the AI JobAgent platform here:
+Recruiters and developers can watch the full, step-by-step video overview and live architectural tour of the AI JobAgent platform here:
 
-[![Watch Demo Video](https://img.shields.io/badge/Demo_Video-Watch_on_Google_Drive-blue?style=for-the-badge&logo=googledrive&logoColor=white)](https://drive.google.com/file/d/1MgUpAeVpGmqT0FpnUtz4pyGnOGV30Fl7/view?usp=sharing)
+[![Watch Video Tour](https://img.shields.io/badge/Video_Tour-Watch_on_Google_Drive-blue?style=for-the-badge&logo=googledrive&logoColor=white)](https://drive.google.com/file/d/1MgUpAeVpGmqT0FpnUtz4pyGnOGV30Fl7/view?usp=sharing)
 
 ---
 
@@ -191,6 +191,18 @@ If you have Docker and Docker Compose installed:
 ### 2. Frontend (Static Site on Render)
 *   **Publish Directory**: `frontend`
 *   **Build Command**: *(Leave empty)*
+
+---
+
+## 🤖 AI Job Copilot: Technical Documentation & Integration
+
+For full technical documentation, architecture specifications, dataset exports, and modular library reuse guidelines, refer to the [AI Job Copilot Technical Documentation & Integration Guide](docs/AI_JOB_COPILOT_INTEGRATION.md).
+
+### Quick Integration Highlights:
+* **Job Ingestion & Parsing**: Native support for SQLite (`job_copilot.db`), JSON, and CSV job repositories.
+* **Algorithmic ATS Scoring**: Standardized $$\text{Score} = \left( \frac{\text{Matched Skills}}{\text{Total Required Skills}} \right) \times 100$$ with real-time missing skill gap detection.
+* **Unified Application CRM**: Real-time status pipeline management across `Applied`, `Assessment`, `Interview`, `Offer`, and `Saved`.
+* **Portable AI Modules**: Modular `ai/` packages reusable across FastAPI, Flask, Streamlit, and Django services.
 
 ---
 
