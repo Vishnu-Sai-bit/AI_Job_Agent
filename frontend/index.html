@@ -1,293 +1,2065 @@
 <!DOCTYPE html>
-<html lang="en" data-theme="light">
+<html lang="en" data-theme="dark" data-style="indigo">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>AI JobAgent - Luxury Career Command Center</title>
-    <link rel="stylesheet" href="style.css">
+    <title>AI Job Copilot & Career Intelligence Platform</title>
+    <link rel="stylesheet" href="style.css?v=4.5">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800;900&family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500;600;700;800&family=Outfit:wght@400;500;600;700;800;900&family=Plus+Jakarta+Sans:wght@400;500;600;700;800;900&family=Space+Grotesk:wght@500;600;700&display=swap" rel="stylesheet">
+    <!-- Google Identity Services for Official Login & Register -->
+    <script src="https://accounts.google.com/gsi/client" async defer></script>
 </head>
 <body>
-    <!-- Background Ambient Glowing Orbs -->
+    <!-- Subtle Background Ambient Glows -->
     <div class="ambient-glows">
-        <div class="glow-orb glow-purple"></div>
-        <div class="glow-orb glow-pink"></div>
-        <div class="glow-orb glow-blue"></div>
+        <div class="glow-orb glow-indigo" id="ambient-orb-1"></div>
+        <div class="glow-orb glow-cyan" id="ambient-orb-2"></div>
     </div>
 
-    <div class="app-container">
-        <!-- Sidebar -->
-        <aside class="sidebar">
-            <div class="brand">
-                <div class="brand-logo-container">
+    <!-- Top Master Header Bar with 7-Step Workflow Stepper -->
+    <header class="master-top-header">
+        <div class="header-main-row">
+            <!-- Brand & Tagline -->
+            <div class="brand-block" onclick="switchMainTab('landing')" title="Go to JobCopilot Home">
+                <div class="brand-logo-icon">
                     <span class="brand-icon">⚡</span>
                 </div>
-                <div class="brand-text">
-                    <h1>AI JobAgent</h1>
-                    <span class="version-tag">v2.0 Premium</span>
-                </div>
-            </div>
-            
-            <div class="upload-section">
-                <h3>📁 Resume Workspace</h3>
-                <div class="upload-box" id="drop-zone">
-                    <div class="upload-icon-container">
-                        <span class="upload-box-icon">📤</span>
+                <div class="brand-headings">
+                    <div class="brand-title-line">
+                        <span class="brand-name">JobCopilot</span>
+                        <span class="brand-badge-pro">Career Intelligence</span>
                     </div>
-                    <p class="upload-title">Drop PDF or DOCX</p>
-                    <p class="upload-subtitle">or click to browse local files</p>
-                    <input type="file" id="resume-input" accept=".pdf,.docx" style="display: none;">
-                </div>
-                
-                <div class="progress-bar-container" id="progress-container" style="display: none;">
-                    <div class="progress-tracker">
-                        <span id="upload-status">Ready to analyze</span>
-                        <span id="progress-percent">0%</span>
-                    </div>
-                    <div class="progress-bar-track">
-                        <div class="progress-bar" id="progress-bar"></div>
-                    </div>
-                </div>
-                
-                <div class="status-msg-box" id="status-box">
-                    <span class="status-dot"></span>
-                    <span class="status-msg" id="upload-status-text">System Ready</span>
+                    <span class="brand-subtitle">Complete Career Journey in One Platform</span>
                 </div>
             </div>
 
-            <nav class="nav-menu">
-                <button class="nav-btn active" data-tab="dashboard">
-                    <span class="btn-icon">📊</span> Dashboard & ATS
+            <!-- 7-Step Career Journey Workflow Stepper -->
+            <nav class="workflow-stepper-bar" aria-label="Career Journey Steps">
+                <div class="stepper-step active" data-step="landing" onclick="switchMainTab('landing')">
+                    <span class="step-icon">📄</span>
+                    <span class="step-label">Upload Resume</span>
+                </div>
+                <span class="stepper-arrow">→</span>
+
+                <div class="stepper-step" data-step="jobs" onclick="switchMainTab('jobs')">
+                    <span class="step-icon">💼</span>
+                    <span class="step-label">Find Jobs</span>
+                </div>
+                <span class="stepper-arrow">→</span>
+
+                <div class="stepper-step" data-step="resume-analysis" onclick="switchMainTab('resume-analysis')">
+                    <span class="step-icon">🧠</span>
+                    <span class="step-label">AI Insights</span>
+                </div>
+                <span class="stepper-arrow">→</span>
+
+                <div class="stepper-step" data-step="crm" onclick="switchMainTab('crm')">
+                    <span class="step-icon">🚀</span>
+                    <span class="step-label">Apply & Track</span>
+                </div>
+                <span class="stepper-arrow">→</span>
+
+                <div class="stepper-step" data-step="interviews" onclick="switchMainTab('interviews')">
+                    <span class="step-icon">🎤</span>
+                    <span class="step-label">Prepare for Interviews</span>
+                </div>
+                <span class="stepper-arrow">→</span>
+
+                <div class="stepper-step" data-step="learning" onclick="switchMainTab('learning')">
+                    <span class="step-icon">📖</span>
+                    <span class="step-label">Learn & Improve</span>
+                </div>
+                <span class="stepper-arrow">→</span>
+
+                <div class="stepper-step" data-step="analytics" onclick="switchMainTab('analytics')">
+                    <span class="step-icon">🏆</span>
+                    <span class="step-label">Grow Your Career</span>
+                </div>
+            </nav>
+
+            <!-- Top Right Utility Controls -->
+            <div class="header-controls">
+                <div class="nav-db-pill" id="nav-db-badge" title="Storage Engine Status">
+                    <span class="live-dot" id="db-status-dot"></span>
+                    <span id="nav-db-text" class="nav-db-text">MongoDB</span>
+                </div>
+
+                <!-- Theme Color Accent Switcher -->
+                <div class="nav-style-wrapper">
+                    <button id="style-switcher-btn" class="nav-icon-btn" title="Switch Theme Palette" onclick="toggleStyleDrawer()">
+                        <span class="ctrl-icon">🎨</span>
+                    </button>
+                    <div id="style-dropdown" class="style-dropdown-menu" style="display: none;">
+                        <div class="style-menu-header">
+                            <h5>🎨 Accent Palettes</h5>
+                        </div>
+                        <div class="style-options-list">
+                            <button class="style-option-btn active" onclick="setVisualTheme('indigo')">
+                                <span class="swatch-circle swatch-indigo"></span>
+                                <span>Cyber Indigo</span>
+                            </button>
+                            <button class="style-option-btn" onclick="setVisualTheme('purple')">
+                                <span class="swatch-circle swatch-purple"></span>
+                                <span>Neon Purple</span>
+                            </button>
+                            <button class="style-option-btn" onclick="setVisualTheme('emerald')">
+                                <span class="swatch-circle swatch-emerald"></span>
+                                <span>Emerald Matrix</span>
+                            </button>
+                            <button class="style-option-btn" onclick="setVisualTheme('cyan')">
+                                <span class="swatch-circle swatch-cyan"></span>
+                                <span>Quantum Cyan</span>
+                            </button>
+                            <button class="style-option-btn" onclick="setVisualTheme('amber')">
+                                <span class="swatch-circle swatch-amber"></span>
+                                <span>Sunset Amber</span>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Notifications Bell -->
+                <div class="nav-notif-wrapper">
+                    <button id="notif-btn" class="nav-icon-btn" title="Career Alerts & Updates" onclick="toggleNotifDrawer()">
+                        <span class="ctrl-icon">🔔</span>
+                        <span class="notif-badge" id="notif-badge-count">1</span>
+                    </button>
+                    <div id="notif-dropdown" class="notif-dropdown-menu" style="display: none;">
+                        <div class="notif-header">
+                            <h4>🔔 Career Briefings & Alerts</h4>
+                            <span class="notif-clear-btn" onclick="clearNotifications()">Clear</span>
+                        </div>
+                        <div class="notif-list" id="notif-list-container">
+                            <div class="notif-item unread" onclick="handleNotifClick('job')">
+                                <span class="notif-icon">⚡</span>
+                                <div class="notif-content">
+                                    <h5>Welcome to JobCopilot</h5>
+                                    <p>18+ live verified job openings are indexed and ready for exploration.</p>
+                                    <span class="notif-time">Just now</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Settings Button -->
+                <button id="nav-settings-btn" class="nav-icon-btn" title="Settings & Preferences" onclick="openSettingsModal()">
+                    <span class="ctrl-icon">⚙️</span>
                 </button>
-                <button class="nav-btn" data-tab="jobs">
-                    <span class="btn-icon">🎯</span> Job Matches
+
+                <!-- Dark / Light Mode Toggle -->
+                <button id="theme-toggle" class="nav-icon-btn" title="Toggle Light/Dark Theme">
+                    <span id="theme-icon">🌙</span>
                 </button>
-                <button class="nav-btn" data-tab="tools">
-                    <span class="btn-icon">🧠</span> AI Career Tools
+
+                <!-- Header Auth Button / User Pill -->
+                <button id="header-auth-btn" class="header-auth-btn" title="Sign In or Register" onclick="handleSidebarUserClick()">
+                    <span id="header-auth-icon">🔐</span>
+                    <span id="header-auth-text">Sign In / Register</span>
                 </button>
-                <button class="nav-btn" data-tab="learning">
-                    <span class="btn-icon">📈</span> Learning Roadmaps
+
+                <!-- Quick Upload Button -->
+                <button id="quick-upload-btn" class="header-upload-btn" title="Upload Resume">
+                    <span class="btn-icon">📄</span>
+                    <span>Upload Resume</span>
+                </button>
+                <input type="file" id="resume-input" accept=".pdf,.docx" style="display: none;">
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Workspace Container: Sidebar + Content -->
+    <div class="app-layout">
+        <!-- Modern Left Sidebar Navigation -->
+        <aside class="app-sidebar">
+            <div class="sidebar-user-card" id="sidebar-user-card" onclick="handleSidebarUserClick()" title="Sign In, Register or Manage Profile">
+                <div class="sidebar-avatar" id="sidebar-avatar-text">🔐</div>
+                <div class="sidebar-user-details">
+                    <span class="sidebar-user-name" id="sidebar-user-name">Sign In / Register</span>
+                    <span class="sidebar-user-role" id="sidebar-user-role">Cloud Sync & Admin</span>
+                </div>
+            </div>
+
+            <!-- Navigation Links -->
+            <nav class="sidebar-nav-menu">
+                <button class="sidebar-nav-btn active" data-tab="landing" onclick="switchMainTab('landing')">
+                    <span class="nav-icon">🏠</span>
+                    <span class="nav-text">Landing Page</span>
+                </button>
+                <button class="sidebar-nav-btn" data-tab="dashboard" onclick="switchMainTab('dashboard')">
+                    <span class="nav-icon">📊</span>
+                    <span class="nav-text">Dashboard</span>
+                </button>
+                <button class="sidebar-nav-btn" data-tab="jobs" onclick="switchMainTab('jobs')">
+                    <span class="nav-icon">💼</span>
+                    <span class="nav-text">Jobs</span>
+                </button>
+                <button class="sidebar-nav-btn" data-tab="crm" onclick="switchMainTab('crm')">
+                    <span class="nav-icon">📋</span>
+                    <span class="nav-text">Applications</span>
+                </button>
+                <button class="sidebar-nav-btn" data-tab="resumes" onclick="switchMainTab('resumes')">
+                    <span class="nav-icon">📄</span>
+                    <span class="nav-text">Resumes</span>
+                </button>
+                <button class="sidebar-nav-btn" data-tab="resume-analysis" onclick="switchMainTab('resume-analysis')">
+                    <span class="nav-icon">🧠</span>
+                    <span class="nav-text">Resume Analysis</span>
+                </button>
+                <button class="sidebar-nav-btn" data-tab="ai-assistant" onclick="switchMainTab('ai-assistant')">
+                    <span class="nav-icon">🤖</span>
+                    <span class="nav-text">AI Job Agent</span>
+                </button>
+                <button class="sidebar-nav-btn" data-tab="interviews" onclick="switchMainTab('interviews')">
+                    <span class="nav-icon">🎤</span>
+                    <span class="nav-text">Interviews</span>
+                </button>
+                <button class="sidebar-nav-btn" data-tab="learning" onclick="switchMainTab('learning')">
+                    <span class="nav-icon">📈</span>
+                    <span class="nav-text">Learning</span>
+                </button>
+                <button class="sidebar-nav-btn" data-tab="analytics" onclick="switchMainTab('analytics')">
+                    <span class="nav-icon">📊</span>
+                    <span class="nav-text">Analytics</span>
+                </button>
+                <button class="sidebar-nav-btn" data-tab="career-insights" onclick="switchMainTab('career-insights')">
+                    <span class="nav-icon">💡</span>
+                    <span class="nav-text">Career Insights</span>
+                </button>
+                <button class="sidebar-nav-btn" data-tab="automations" onclick="switchMainTab('automations')">
+                    <span class="nav-icon">⚡</span>
+                    <span class="nav-text">Automations</span>
+                </button>
+                <button class="sidebar-nav-btn" data-tab="admin" onclick="switchMainTab('admin')" id="nav-btn-admin">
+                    <span class="nav-icon">🛡️</span>
+                    <span class="nav-text">Admin Console</span>
+                    <span class="badge-tag-sm" style="background: linear-gradient(135deg, #ef4444, #f59e0b); color: #fff; font-size: 0.65rem; padding: 2px 6px; border-radius: 4px; margin-left: auto; font-weight: 800;">ADMIN</span>
+                </button>
+                <button class="sidebar-nav-btn" data-tab="profile" onclick="switchMainTab('profile')">
+                    <span class="nav-icon">👤</span>
+                    <span class="nav-text">Profile</span>
                 </button>
             </nav>
 
             <div class="sidebar-footer">
-                <button id="theme-toggle" class="theme-btn">
-                    <span id="theme-icon">🌙</span> Dark Mode
+                <button class="sidebar-upload-quick-btn" onclick="document.getElementById('resume-input').click()" style="width: 100%; display: flex; align-items: center; justify-content: center; gap: 0.5rem; background: var(--bg-card); border: 1px solid var(--border-color); color: var(--text-bright); padding: 0.65rem; border-radius: var(--radius-md); font-weight: 700; font-size: 0.82rem; cursor: pointer;">
+                    <span class="btn-icon">📄</span>
+                    <span>Upload Resume</span>
                 </button>
             </div>
         </aside>
 
-        <!-- Main Content Area -->
-        <main class="main-content">
-            <header class="main-header">
-                <div class="header-info">
-                    <h2>Career Command Center</h2>
-                    <p>High-fidelity intelligence for automated matching and profile optimization.</p>
+        <!-- Main Content Surface -->
+        <main class="app-main-content">
+            <!-- Global Floating Progress Indicator -->
+            <div class="progress-bar-container studio-progress" id="progress-container" style="display: none;">
+                <div class="progress-tracker">
+                    <span id="upload-status">Ready to analyze</span>
+                    <span id="progress-percent">0%</span>
                 </div>
-                <div class="header-status-badge">
-                    <span class="pulse-indicator"></span>
-                    <span>AI Engine Connected</span>
+                <div class="progress-bar-track">
+                    <div class="progress-bar" id="progress-bar"></div>
                 </div>
-            </header>
+            </div>
 
-            <div class="content-container">
-                <!-- Welcome Screen / Placeholder -->
-                <div id="welcome-placeholder" class="placeholder-card">
-                    <div class="placeholder-icon">🤖</div>
-                    <h2>Initialize Your Career Profile</h2>
-                    <p>Upload your resume using the workspace panel in the sidebar. The system will automatically run full ATS grading, parse contact credentials, filter matched listings, and generate missing skill roadmaps.</p>
-                    <div class="feature-bullets">
-                        <div class="bullet-item"><span>✔</span> Column-Aware Parsing</div>
-                        <div class="bullet-item"><span>✔</span> Semantic Cosine Vector Matching</div>
-                        <div class="bullet-item"><span>✔</span> Automated Gap Optimization</div>
+            <!-- Status Box -->
+            <div class="status-msg-box" id="status-box" style="display: none;">
+                <span class="status-dot"></span>
+                <span class="status-msg" id="upload-status-text">System Ready</span>
+            </div>
+
+            <!-- ======================================================== -->
+            <!-- 1. LANDING PAGE (Panel 1) -->
+            <!-- ======================================================== -->
+            <section id="panel-landing" class="main-panel active">
+                <div class="landing-hero-card">
+                    <div class="landing-header-nav">
+                        <div class="landing-brand">
+                            <span class="brand-icon">⚡</span>
+                            <h3>JobCopilot</h3>
+                        </div>
+                        <div class="landing-nav-links">
+                            <a href="#features" onclick="event.preventDefault(); switchMainTab('dashboard')">Features</a>
+                            <a href="#how-it-works" onclick="event.preventDefault(); switchMainTab('resume-analysis')">How It Works</a>
+                            <a href="#pricing" onclick="event.preventDefault(); openSettingsModal()">Pricing</a>
+                            <a href="#blogs" onclick="event.preventDefault(); switchMainTab('learning')">Blogs</a>
+                        </div>
+                        <div class="landing-auth-buttons">
+                            <button class="landing-btn-primary" onclick="switchMainTab('dashboard')">🚀 Open Dashboard</button>
+                        </div>
+                    </div>
+
+                    <div class="landing-hero-body">
+                        <div class="landing-hero-left">
+                            <span class="landing-eyebrow">⚡ AI-Powered Career Platform</span>
+                            <h1 class="landing-main-title">
+                                Your AI Copilot <br>
+                                for the <span class="gradient-text">Entire Career Journey</span>
+                            </h1>
+                            <p class="landing-subtitle">
+                                Find the right jobs. Optimize your resume. Prepare for interviews. Track applications. Grow your career with AI.
+                            </p>
+
+                            <div class="landing-cta-row">
+                                <button class="landing-cta-btn" onclick="document.getElementById('resume-input').click()">
+                                    <span>Get Started & Upload</span>
+                                    <span class="arrow">→</span>
+                                </button>
+                                <button class="landing-action-secondary-btn" onclick="switchMainTab('jobs')" style="display: flex; align-items: center; gap: 0.5rem; background: var(--bg-surface); border: 1px solid var(--border-color); color: var(--text-bright); padding: 0.75rem 1.25rem; border-radius: var(--radius-md); font-weight: 700; cursor: pointer;">
+                                    <span>💼 Browse 18+ Live Jobs</span>
+                                </button>
+                            </div>
+
+                            <!-- Interactive Floating Feature Tags -->
+                            <div class="landing-feature-pills">
+                                <button class="pill-btn" onclick="switchMainTab('jobs')">
+                                    <span class="pill-icon">💼</span> Find Jobs
+                                </button>
+                                <button class="pill-btn" onclick="switchMainTab('resume-analysis')">
+                                    <span class="pill-icon">🧠</span> Resume Analysis
+                                </button>
+                                <button class="pill-btn" onclick="switchMainTab('interviews')">
+                                    <span class="pill-icon">🎤</span> Interview Prep
+                                </button>
+                                <button class="pill-btn" onclick="switchMainTab('career-insights')">
+                                    <span class="pill-icon">💡</span> Career Insights
+                                </button>
+                            </div>
+                        </div>
+
+                        <div class="landing-hero-right">
+                            <div class="landing-hero-graphic-card">
+                                <div class="hero-graphic-badge">
+                                    <span class="live-pulse-dot"></span>
+                                    <span id="hero-live-jobs-badge">18+ Verified Opportunities</span>
+                                </div>
+                                <div class="hero-candidate-preview">
+                                    <div class="hero-avatar-large">👩‍💼</div>
+                                    <div class="hero-badge-tag" id="hero-match-badge">AI Match Engine Ready</div>
+                                </div>
+                                <div class="hero-dropzone-box" id="drop-zone" onclick="document.getElementById('resume-input').click()">
+                                    <span class="drop-icon">📄</span>
+                                    <h4>Drop your resume here</h4>
+                                    <p>Instant ATS grading, skill gap parsing & job matching</p>
+                                    <button class="upload-browse-btn" type="button">Browse Resume Files</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Trusted by Job Seekers Brand Bar -->
+                    <div class="trusted-brands-row">
+                        <span class="trusted-label">Trusted by Job Seekers at:</span>
+                        <div class="trusted-logos-list">
+                            <span class="brand-logo-pill">💼 LinkedIn</span>
+                            <span class="brand-logo-pill">📋 Naukri</span>
+                            <span class="brand-logo-pill">🔍 Indeed</span>
+                            <span class="brand-logo-pill">⚡ foundit</span>
+                            <span class="brand-logo-pill">🏢 Company Careers</span>
+                        </div>
                     </div>
                 </div>
 
-                <!-- Tab 1: Dashboard & ATS Report -->
-                <section id="tab-dashboard" class="tab-content" style="display: none;">
-                    <div class="dashboard-grid">
-                        <!-- ATS Score Gauge -->
-                        <div class="card ats-card text-center">
-                            <h3>ATS Suitability Score</h3>
-                            <div class="ats-circle-container">
+                <!-- 4 Feature Highlights Grid -->
+                <div class="landing-pillars-grid">
+                    <div class="pillar-card" onclick="switchMainTab('resume-analysis')">
+                        <span class="pillar-icon">🎯</span>
+                        <h4>Accurate ATS Grading</h4>
+                        <p>Calculates weighted keyword compatibility and multi-dimension resume fit with precision.</p>
+                    </div>
+                    <div class="pillar-card" onclick="switchMainTab('jobs')">
+                        <span class="pillar-icon">🛡️</span>
+                        <h4>Verified Job Pipeline</h4>
+                        <p>Curates real-time active openings across Hyderabad, Bengaluru, India and global remote.</p>
+                    </div>
+                    <div class="pillar-card" onclick="switchMainTab('interviews')">
+                        <span class="pillar-icon">🎙️</span>
+                        <h4>AI Mock Interview Studio</h4>
+                        <p>Practice voice and technical answers with employer presets and 5-dimension rubric evaluations.</p>
+                    </div>
+                    <div class="pillar-card" onclick="switchMainTab('crm')">
+                        <span class="pillar-icon">📋</span>
+                        <h4>Application CRM & Follow-Up</h4>
+                        <p>Track every opportunity on a visual Kanban pipeline with automated follow-up drafts.</p>
+                    </div>
+                </div>
+            </section>
+
+
+            <!-- ======================================================== -->
+            <!-- 3. DASHBOARD (Panel 3) -->
+            <!-- ======================================================== -->
+            <section id="panel-dashboard" class="main-panel" style="display: none;">
+                <!-- Empty Resume Upload Banner for New Users -->
+                <div class="dash-empty-resume-banner" id="dash-empty-resume-banner">
+                    <div class="dash-empty-resume-content">
+                        <span style="font-size: 1.8rem;">📄</span>
+                        <div>
+                            <h4>No Resume Uploaded Yet</h4>
+                            <p>Upload your PDF or DOCX resume to calculate instant ATS match scores, identify missing skills, and rank verified jobs.</p>
+                        </div>
+                    </div>
+                    <button class="action-btn btn-primary" onclick="document.getElementById('resume-input').click()" style="white-space: nowrap;">
+                        <span>+</span> Upload Resume
+                    </button>
+                </div>
+
+                <div class="dashboard-header-row">
+                    <div class="dash-greeting">
+                        <h2 id="dash-greeting-heading">Welcome to AI Job Agent 👋</h2>
+                        <p class="dash-sub">Here's your career overview</p>
+                    </div>
+                    <div class="dash-quick-actions">
+                        <span class="role-pill-badge" id="dash-role-badge">🎯 Career Explorer</span>
+                        <span class="hub-pill-badge" id="dash-hub-badge">📍 India & Global Remote</span>
+                        <button class="action-btn-sm btn-secondary" onclick="switchMainTab('resumes')">📄 My Resumes</button>
+                    </div>
+                </div>
+
+                <!-- 5 Quick Metric Cards -->
+                <div class="kpi-metric-bar">
+                    <div class="kpi-card" onclick="switchMainTab('jobs')">
+                        <div class="kpi-icon-wrap kpi-jobs">📁</div>
+                        <div class="kpi-data">
+                            <span class="kpi-num" id="dash-stat-jobs">18</span>
+                            <span class="kpi-label">Jobs Found</span>
+                        </div>
+                    </div>
+                    <div class="kpi-card" onclick="switchMainTab('crm')">
+                        <div class="kpi-icon-wrap kpi-applied">📤</div>
+                        <div class="kpi-data">
+                            <span class="kpi-num" id="dash-stat-applied">0</span>
+                            <span class="kpi-label">Applied</span>
+                        </div>
+                    </div>
+                    <div class="kpi-card" onclick="switchMainTab('interviews')">
+                        <div class="kpi-icon-wrap kpi-interviews">🎙️</div>
+                        <div class="kpi-data">
+                            <span class="kpi-num" id="dash-stat-interviews">0</span>
+                            <span class="kpi-label">Interviews</span>
+                        </div>
+                    </div>
+                    <div class="kpi-card" onclick="switchMainTab('crm')">
+                        <div class="kpi-icon-wrap kpi-offer">🏆</div>
+                        <div class="kpi-data">
+                            <span class="kpi-num" id="dash-stat-offers">0</span>
+                            <span class="kpi-label">Offer</span>
+                        </div>
+                    </div>
+                    <div class="kpi-card" onclick="switchMainTab('jobs')">
+                        <div class="kpi-icon-wrap kpi-saved">🔖</div>
+                        <div class="kpi-data">
+                            <span class="kpi-num" id="dash-stat-saved">0</span>
+                            <span class="kpi-label">Saved</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 2-Column Dashboard Layout -->
+                <div class="dashboard-main-grid">
+                    <!-- Left Column: Recommended Jobs -->
+                    <div class="dash-column-left">
+                        <div class="section-box">
+                            <div class="section-header-flex">
+                                <h3>Recommended Jobs</h3>
+                                <button class="view-all-link" onclick="switchMainTab('jobs')">View All →</button>
+                            </div>
+                            <div class="recommended-jobs-list" id="dash-recommended-jobs">
+                                <!-- Populated dynamically by JS -->
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Right Column: Pipeline & Skill Gaps -->
+                    <div class="dash-column-right">
+                        <!-- Application Pipeline Progress -->
+                        <div class="section-box">
+                            <div class="section-header-flex">
+                                <h3>Application Pipeline</h3>
+                                <button class="view-all-link" onclick="switchMainTab('crm')">Open CRM →</button>
+                            </div>
+                            <div class="pipeline-stages-grid">
+                                <div class="stage-cell">
+                                    <span class="stage-name">Saved</span>
+                                    <span class="stage-count" id="pipe-count-saved">0</span>
+                                    <div class="stage-bar-track"><div class="stage-bar-fill fill-saved" id="pipe-fill-saved" style="width: 0%;"></div></div>
+                                </div>
+                                <div class="stage-cell">
+                                    <span class="stage-name">Applied</span>
+                                    <span class="stage-count" id="pipe-count-applied">0</span>
+                                    <div class="stage-bar-track"><div class="stage-bar-fill fill-applied" id="pipe-fill-applied" style="width: 0%;"></div></div>
+                                </div>
+                                <div class="stage-cell">
+                                    <span class="stage-name">Assessment</span>
+                                    <span class="stage-count" id="pipe-count-assessment">0</span>
+                                    <div class="stage-bar-track"><div class="stage-bar-fill fill-assessment" id="pipe-fill-assessment" style="width: 0%;"></div></div>
+                                </div>
+                                <div class="stage-cell">
+                                    <span class="stage-name">Interview</span>
+                                    <span class="stage-count" id="pipe-count-interview">0</span>
+                                    <div class="stage-bar-track"><div class="stage-bar-fill fill-interview" id="pipe-fill-interview" style="width: 0%;"></div></div>
+                                </div>
+                                <div class="stage-cell">
+                                    <span class="stage-name">Offer</span>
+                                    <span class="stage-count" id="pipe-count-offer">0</span>
+                                    <div class="stage-bar-track"><div class="stage-bar-fill fill-offer" id="pipe-fill-offer" style="width: 0%;"></div></div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Skill Gaps Panel -->
+                        <div class="section-box">
+                            <div class="section-header-flex">
+                                <h3>In-Demand Market Skills</h3>
+                                <button class="view-all-link" onclick="switchMainTab('learning')">Learning Hub →</button>
+                            </div>
+                            <div class="dash-skill-gaps-list" id="dash-skill-gaps">
+                                <div class="skill-gap-row">
+                                    <span class="skill-name">SQL</span>
+                                    <div class="skill-meter"><div class="skill-meter-fill" style="width: 95%;"></div></div>
+                                    <span class="skill-status-tag verified">High Demand</span>
+                                </div>
+                                <div class="skill-gap-row">
+                                    <span class="skill-name">Python</span>
+                                    <div class="skill-meter"><div class="skill-meter-fill" style="width: 88%;"></div></div>
+                                    <span class="skill-status-tag verified">High Demand</span>
+                                </div>
+                                <div class="skill-gap-row">
+                                    <span class="skill-name">Power BI</span>
+                                    <div class="skill-meter"><div class="skill-meter-fill" style="width: 82%;"></div></div>
+                                    <span class="skill-status-tag verified">High Demand</span>
+                                </div>
+                                <div class="skill-gap-row">
+                                    <span class="skill-name">Excel</span>
+                                    <div class="skill-meter"><div class="skill-meter-fill" style="width: 76%;"></div></div>
+                                    <span class="skill-status-tag verified">Core Skill</span>
+                                </div>
+                                <div class="skill-gap-row">
+                                    <span class="skill-name">DAX / Data Modeling</span>
+                                    <div class="skill-meter"><div class="skill-meter-fill fill-warn" style="width: 60%;"></div></div>
+                                    <span class="skill-status-tag warning" onclick="switchMainTab('learning')">⚡ Learn</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- ======================================================== -->
+            <!-- 4. JOBS PAGE (Panel 4) -->
+            <!-- ======================================================== -->
+            <section id="panel-jobs" class="main-panel" style="display: none;">
+                <div class="jobs-view-container">
+                    <!-- Search and Filter Bar -->
+                    <div class="jobs-search-filter-card">
+                        <div class="search-input-box">
+                            <span class="search-glyph">🔍</span>
+                            <input type="text" id="job-search-input" placeholder="Search jobs (e.g. Data Analyst, Python, Power BI)..." class="job-search-input-field">
+                            <button id="clear-search-btn" class="clear-search-btn" style="display: none;">✕</button>
+                        </div>
+
+                        <!-- Filter Dropdowns Row -->
+                        <div class="filter-dropdowns-row">
+                            <select id="filter-location-select" class="filter-select-control" onchange="handleJobFilterChange()">
+                                <option value="all">📍 Location: All Hubs</option>
+                                <option value="hyderabad">Hyderabad, India</option>
+                                <option value="bengaluru">Bengaluru, India</option>
+                                <option value="remote">Global Remote</option>
+                            </select>
+
+                            <select id="filter-exp-select" class="filter-select-control" onchange="handleJobFilterChange()">
+                                <option value="all">💼 Experience: All Levels</option>
+                                <option value="fresher">0-2 Years (Entry / Associate)</option>
+                                <option value="mid">2-5 Years (Mid-Level)</option>
+                            </select>
+
+                            <select id="filter-salary-select" class="filter-select-control" onchange="handleJobFilterChange()">
+                                <option value="all">💰 Salary: All Ranges</option>
+                                <option value="4-7">₹4 - ₹7 LPA</option>
+                                <option value="7-12">₹7 - ₹12 LPA</option>
+                            </select>
+
+                            <select id="filter-type-select" class="filter-select-control" onchange="handleJobFilterChange()">
+                                <option value="all">🎯 Job Type: Full-Time</option>
+                                <option value="contract">Contract / Freelance</option>
+                                <option value="internship">Internship</option>
+                            </select>
+
+                            <button class="action-btn-sm btn-primary" onclick="openJobImporterModal()" title="Import External Job from URL">
+                                <span>🔗</span> Import Job URL
+                            </button>
+                        </div>
+
+                        <!-- Filter Tabs -->
+                        <div class="job-filter-tabs-row" id="job-filter-chips">
+                            <button class="job-tab-btn active" data-filter="all">Recommended</button>
+                            <button class="job-tab-btn" data-filter="latest">Latest</button>
+                            <button class="job-tab-btn" data-filter="elite">High Match</button>
+                            <button class="job-tab-btn" data-filter="remote">Remote</button>
+                            <button class="job-tab-btn" data-filter="saved">Saved</button>
+                        </div>
+                    </div>
+
+                    <!-- Job Listings Stream -->
+                    <div id="jobs-list-container" class="jobs-cards-stream">
+                        <!-- Populated dynamically by JS -->
+                    </div>
+                </div>
+            </section>
+
+            <!-- ======================================================== -->
+            <!-- 5. AI JOB AGENT (Panel 5) -->
+            <!-- ======================================================== -->
+            <section id="panel-ai-assistant" class="main-panel" style="display: none;">
+                <div class="ai-agent-full-container">
+                    <div class="ai-agent-header">
+                        <div class="ai-agent-title-info">
+                            <div class="ai-agent-avatar">🤖</div>
+                            <div>
+                                <h3>AI Job Agent</h3>
+                                <p class="ai-agent-sub">I can find and analyze verified job opportunities and career roadmaps for you.</p>
+                            </div>
+                        </div>
+                        <button class="action-btn-sm btn-secondary" onclick="clearAgentChat()">Clear Chat</button>
+                    </div>
+
+                    <!-- Quick Prompt Chips -->
+                    <div class="agent-quick-prompts">
+                        <button class="prompt-chip" onclick="sendAgentMessage('Find Data Analyst jobs in Hyderabad')">
+                            💼 Find Data Analyst jobs in Hyderabad
+                        </button>
+                        <button class="prompt-chip" onclick="sendAgentMessage('What are top skills needed for a Data Analyst role?')">
+                            📈 In-demand skill requirements
+                        </button>
+                        <button class="prompt-chip" onclick="sendAgentMessage('How do I prepare for a Power BI and SQL technical round?')">
+                            🎙️ Prepare for Power BI & SQL interview
+                        </button>
+                        <button class="prompt-chip" onclick="sendAgentMessage('How can I boost my resume ATS score to 95%?')">
+                            📄 Boost ATS match score
+                        </button>
+                    </div>
+
+                    <!-- Chat Message Area -->
+                    <div class="agent-messages-box" id="agent-messages-stream">
+                        <div class="agent-msg bot-bubble">
+                            <div class="msg-author">🤖 AI Job Agent</div>
+                            <div class="msg-content">
+                                Hi there! 👋 I am your AI Job Agent. How can I assist your career journey today? You can ask me to search verified jobs, review skill requirements, or prepare for technical interviews.
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Chat Input -->
+                    <form class="agent-input-form" onsubmit="handleAgentFormSubmit(event)">
+                        <input type="text" id="agent-chat-input" class="agent-text-input" placeholder="Ask me anything about jobs..." autocomplete="off">
+                        <button type="submit" class="agent-send-button">
+                            <span>Send</span>
+                            <span>➤</span>
+                        </button>
+                    </form>
+                </div>
+            </section>
+
+            <!-- ======================================================== -->
+            <!-- 6. RESUME CENTER (Panel 6) -->
+            <!-- ======================================================== -->
+            <section id="panel-resumes" class="main-panel" style="display: none;">
+                <div class="resume-center-card">
+                    <div class="resume-center-top">
+                        <div>
+                            <h2>My Resumes</h2>
+                            <p class="muted">Manage and customize your targeted resume versions.</p>
+                        </div>
+                        <button class="action-btn btn-primary" onclick="document.getElementById('resume-input').click()">
+                            <span>+</span> Upload Resume
+                        </button>
+                    </div>
+
+                    <!-- Resumes List -->
+                    <div class="resumes-list-grid" id="resumes-list-container">
+                        <!-- Populated dynamically by JS -->
+                    </div>
+                </div>
+            </section>
+                                <span class="resume-icon-badge">📄</span>
+                                <div>
+                                    <div class="resume-title-wrap">
+                                        <h4>BI Analyst Resume</h4>
+                                    </div>
+                                    <p class="resume-date">Updated 28 Sep 2026 • 87% Match</p>
+                                </div>
+                            </div>
+                            <div class="resume-item-actions">
+                                <button class="action-btn-sm btn-secondary" onclick="switchMainTab('resume-analysis')">View</button>
+                                <button class="action-btn-sm btn-primary" onclick="openJobTailorModalDefault()">Edit</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- ======================================================== -->
+            <!-- 7. RESUME ANALYSIS (Panel 7) -->
+            <!-- ======================================================== -->
+            <section id="panel-resume-analysis" class="main-panel" style="display: none;">
+                <div class="analysis-view-grid">
+                    <!-- Left: Circular Gauge & Category Bars -->
+                    <div class="analysis-card-main">
+                        <div class="analysis-header">
+                            <h3>Resume Analysis & ATS Breakdown</h3>
+                            <span class="badge-subtle">AI Evaluated</span>
+                        </div>
+
+                        <div class="analysis-gauge-row">
+                            <!-- Circular SVG Gauge -->
+                            <div class="gauge-circle-wrap">
                                 <div class="ats-circle">
                                     <svg class="ats-svg" viewBox="0 0 100 100">
                                         <circle class="ats-bg-circle" cx="50" cy="50" r="42"></circle>
-                                        <circle class="ats-progress-circle" id="ats-progress" cx="50" cy="50" r="42" stroke-dasharray="264" stroke-dashoffset="264"></circle>
+                                        <circle class="ats-progress-circle" id="analysis-ats-progress" cx="50" cy="50" r="42" stroke-dasharray="264" stroke-dashoffset="47"></circle>
                                     </svg>
-                                    <span id="ats-val">0%</span>
+                                    <div class="ats-circle-inner">
+                                        <span id="analysis-ats-score">82%</span>
+                                        <span class="ats-label-sub">RESUME SCORE</span>
+                                    </div>
                                 </div>
                             </div>
-                            <p class="muted card-footer-text">Calculated index based on keyword weightings and parsing quality</p>
+
+                            <!-- Category Progress Bars -->
+                            <div class="category-bars-list">
+                                <div class="cat-bar-item">
+                                    <div class="cat-label-row"><span>Content</span><strong id="bar-content-val">88%</strong></div>
+                                    <div class="cat-track"><div class="cat-fill" id="bar-content-fill" style="width: 88%;"></div></div>
+                                </div>
+                                <div class="cat-bar-item">
+                                    <div class="cat-label-row"><span>Skills</span><strong id="bar-skills-val">91%</strong></div>
+                                    <div class="cat-track"><div class="cat-fill" id="bar-skills-fill" style="width: 91%;"></div></div>
+                                </div>
+                                <div class="cat-bar-item">
+                                    <div class="cat-label-row"><span>ATS Compatibility</span><strong id="bar-ats-val">76%</strong></div>
+                                    <div class="cat-track"><div class="cat-fill" id="bar-ats-fill" style="width: 76%;"></div></div>
+                                </div>
+                                <div class="cat-bar-item">
+                                    <div class="cat-label-row"><span>Projects</span><strong id="bar-projects-val">85%</strong></div>
+                                    <div class="cat-track"><div class="cat-fill" id="bar-projects-fill" style="width: 85%;"></div></div>
+                                </div>
+                                <div class="cat-bar-item">
+                                    <div class="cat-label-row"><span>Achievements</span><strong id="bar-achieve-val">68%</strong></div>
+                                    <div class="cat-track"><div class="cat-fill fill-warn" id="bar-achieve-fill" style="width: 68%;"></div></div>
+                                </div>
+                                <div class="cat-bar-item">
+                                    <div class="cat-label-row"><span>Formatting</span><strong id="bar-format-val">92%</strong></div>
+                                    <div class="cat-track"><div class="cat-fill" id="bar-format-fill" style="width: 92%;"></div></div>
+                                </div>
+                            </div>
                         </div>
 
-                        <!-- Personal Info -->
-                        <div class="card profile-info-card">
-                            <h3>Contact Credentials</h3>
-                            <ul class="info-list">
-                                <li>
-                                    <span class="info-label">Candidate Name</span>
-                                    <span class="info-val" id="info-name">-</span>
-                                </li>
-                                <li>
-                                    <span class="info-label">Email Address</span>
-                                    <span class="info-val" id="info-email">-</span>
-                                </li>
-                                <li>
-                                    <span class="info-label">Phone Reference</span>
-                                    <span class="info-val" id="info-phone">-</span>
-                                </li>
-                                <li>
-                                    <span class="info-label">Current Hub</span>
-                                    <span class="info-val" id="info-location">-</span>
-                                </li>
+                        <!-- Missing / Weak Areas Warning Box -->
+                        <div class="missing-weak-box">
+                            <h4>⚠️ Missing / Weak Areas</h4>
+                            <ul class="missing-items-list" id="analysis-missing-list">
+                                <li>Few quantified business achievements with % metrics</li>
+                                <li>Limited evidence of advanced SQL (CTEs, Window Functions)</li>
+                                <li>No clear end-to-end data-modeling project architecture</li>
                             </ul>
                         </div>
 
-                        <!-- Target Preferences -->
-                        <div class="card profile-preferences-card">
-                            <h3>Target Preferences</h3>
-                            <ul class="info-list">
-                                <li>
-                                    <span class="info-label">Preferred Role</span>
-                                    <span class="info-val highlight-val" id="pref-role">-</span>
-                                </li>
-                                <li>
-                                    <span class="info-label">Target Hub</span>
-                                    <span class="info-val" id="pref-location">-</span>
-                                </li>
-                                <li>
-                                    <span class="info-label">Experience Tier</span>
-                                    <span class="info-val" id="pref-experience">-</span>
-                                </li>
-                                <li>
-                                    <span class="info-label">Career Level</span>
-                                    <span class="info-val level-badge" id="pref-level">-</span>
-                                </li>
+                        <div class="analysis-cta-row">
+                            <button class="action-btn btn-primary" onclick="openJobTailorModalDefault()">
+                                <span>⚡</span> Improve Resume
+                            </button>
+                            <button class="action-btn btn-secondary" onclick="switchMainTab('jobs')">
+                                <span>💼</span> Find Matching Jobs
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- ======================================================== -->
+            <!-- 8. JOB MATCH ANALYSIS (Panel 8) -->
+            <!-- ======================================================== -->
+            <section id="panel-career-insights" class="main-panel" style="display: none;">
+                <div class="job-match-analysis-card">
+                    <div class="match-analysis-header">
+                        <div>
+                            <span class="eyebrow-tag">🎯 Deep-Dive Job Fit</span>
+                            <h2 id="match-target-title">Data Analyst</h2>
+                            <p class="muted" id="match-target-company">ABC Technologies • Hyderabad, India</p>
+                        </div>
+                        <div style="display: flex; align-items: center; gap: 0.75rem;">
+                            <span class="match-badge-green" style="font-size: 0.95rem; padding: 0.35rem 0.85rem;">91% Match</span>
+                            <button class="action-btn-sm btn-secondary" onclick="switchMainTab('jobs')">View Job</button>
+                            <button class="action-btn-sm btn-primary" onclick="handleApplyDirect('copilot_job_2')">Apply</button>
+                        </div>
+                    </div>
+
+                    <!-- Sub-tabs Nav -->
+                    <div class="match-subtabs-nav">
+                        <button class="match-subtab-btn active">Match Overview</button>
+                        <button class="match-subtab-btn">Required Skills</button>
+                        <button class="match-subtab-btn">Your Match</button>
+                        <button class="match-subtab-btn">Recommendations</button>
+                    </div>
+
+                    <div class="match-analysis-body-grid">
+                        <div class="match-body-left">
+                            <!-- Circular Fit Gauge -->
+                            <div class="match-overall-gauge" style="margin-bottom: 1.25rem;">
+                                <div class="ats-circle ats-circle-sm">
+                                    <svg class="ats-svg" viewBox="0 0 100 100">
+                                        <circle class="ats-bg-circle" cx="50" cy="50" r="42"></circle>
+                                        <circle class="ats-progress-circle stroke-emerald" cx="50" cy="50" r="42" stroke-dasharray="264" stroke-dashoffset="23"></circle>
+                                    </svg>
+                                    <div class="ats-circle-inner">
+                                        <span class="match-percent-bold">91%</span>
+                                        <span class="ats-label-sub">OVERALL FIT</span>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- 6-Dimension Fit Bars -->
+                            <div class="match-dimensions-grid">
+                                <div class="dim-item">
+                                    <div class="dim-label"><span>Skills Match</span><strong>95%</strong></div>
+                                    <div class="dim-track"><div class="dim-fill" style="width: 95%;"></div></div>
+                                </div>
+                                <div class="dim-item">
+                                    <div class="dim-label"><span>Education</span><strong>100%</strong></div>
+                                    <div class="dim-track"><div class="dim-fill" style="width: 100%;"></div></div>
+                                </div>
+                                <div class="dim-item">
+                                    <div class="dim-label"><span>Experience</span><strong>82%</strong></div>
+                                    <div class="dim-track"><div class="dim-fill" style="width: 82%;"></div></div>
+                                </div>
+                                <div class="dim-item">
+                                    <div class="dim-label"><span>Projects</span><strong>90%</strong></div>
+                                    <div class="dim-track"><div class="dim-fill" style="width: 90%;"></div></div>
+                                </div>
+                                <div class="dim-item">
+                                    <div class="dim-label"><span>Location Fit</span><strong>100%</strong></div>
+                                    <div class="dim-track"><div class="dim-fill" style="width: 100%;"></div></div>
+                                </div>
+                                <div class="dim-item">
+                                    <div class="dim-label"><span>Resume Evidence</span><strong>87%</strong></div>
+                                    <div class="dim-track"><div class="dim-fill" style="width: 87%;"></div></div>
+                                </div>
+                            </div>
+
+                            <!-- Why You Match vs Potential Gaps -->
+                            <div class="match-comparison-row">
+                                <div class="comp-box match-pros">
+                                    <h4>✓ Why you match</h4>
+                                    <div class="comp-tags-list">
+                                        <span class="comp-tag tag-green">✓ Python</span>
+                                        <span class="comp-tag tag-green">✓ Power BI</span>
+                                        <span class="comp-tag tag-green">✓ SQL</span>
+                                        <span class="comp-tag tag-green">✓ Data Visualization</span>
+                                    </div>
+                                </div>
+
+                                <div class="comp-box match-gaps">
+                                    <h4>⚠️ Potential gaps</h4>
+                                    <div class="comp-tags-list">
+                                        <span class="comp-tag tag-warn">⚠️ DAX</span>
+                                        <span class="comp-tag tag-warn">⚠️ Advanced Statistics</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Right JD Analysis Box -->
+                        <div class="match-body-right">
+                            <div class="jd-analysis-card">
+                                <h4>Job Description Analysis</h4>
+                                <p>This role requires strong SQL, Python, and Power BI skills to analyze data, build dashboards, and provide business insights.</p>
+                                <button class="action-btn btn-primary" onclick="openJobTailorModalDefault()" style="width: 100%; margin-top: 1rem;">Tailor My Resume</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Career Intelligence & Market Skill Frequency Panel (Panel 12) -->
+                <div class="career-intel-card" style="margin-top: 1.5rem;">
+                    <h3>📈 Market Skill Demand & Frequency (Data Analyst)</h3>
+                    <div class="market-demand-bars-grid">
+                        <div class="demand-bar-col">
+                            <div class="demand-name">SQL</div>
+                            <div class="demand-meter-vertical"><div class="demand-fill" style="height: 95%;"></div></div>
+                            <div class="demand-val">95%</div>
+                        </div>
+                        <div class="demand-bar-col">
+                            <div class="demand-name">Python</div>
+                            <div class="demand-meter-vertical"><div class="demand-fill" style="height: 88%;"></div></div>
+                            <div class="demand-val">88%</div>
+                        </div>
+                        <div class="demand-bar-col">
+                            <div class="demand-name">Power BI</div>
+                            <div class="demand-meter-vertical"><div class="demand-fill" style="height: 82%;"></div></div>
+                            <div class="demand-val">82%</div>
+                        </div>
+                        <div class="demand-bar-col">
+                            <div class="demand-name">Excel</div>
+                            <div class="demand-meter-vertical"><div class="demand-fill" style="height: 76%;"></div></div>
+                            <div class="demand-val">76%</div>
+                        </div>
+                        <div class="demand-bar-col">
+                            <div class="demand-name">DAX</div>
+                            <div class="demand-meter-vertical"><div class="demand-fill fill-warn" style="height: 65%;"></div></div>
+                            <div class="demand-val">65%</div>
+                        </div>
+                        <div class="demand-bar-col">
+                            <div class="demand-name">Azure</div>
+                            <div class="demand-meter-vertical"><div class="demand-fill fill-warn" style="height: 55%;"></div></div>
+                            <div class="demand-val">55%</div>
+                        </div>
+                        <div class="demand-bar-col">
+                            <div class="demand-name">Statistics</div>
+                            <div class="demand-meter-vertical"><div class="demand-fill fill-warn" style="height: 48%;"></div></div>
+                            <div class="demand-val">48%</div>
+                        </div>
+                        <div class="demand-bar-col">
+                            <div class="demand-name">Tableau</div>
+                            <div class="demand-meter-vertical"><div class="demand-fill" style="height: 42%;"></div></div>
+                            <div class="demand-val">42%</div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- ======================================================== -->
+            <!-- 9. RESUME TAILORING (Panel 9) -->
+            <!-- ======================================================== -->
+            <section id="panel-automations" class="main-panel" style="display: none;">
+                <div class="tailoring-studio-card">
+                    <div class="tailor-flow-banner">
+                        <div class="flow-box">Original Resume</div>
+                        <span class="flow-sym">+</span>
+                        <div class="flow-box">Job Description</div>
+                        <span class="flow-sym">➔</span>
+                        <div class="flow-box-ai">⚡ AI Resume Tailoring</div>
+                        <span class="flow-sym">➔</span>
+                        <div class="flow-box">Tailored Resume</div>
+                    </div>
+
+                    <div class="tailoring-body-grid">
+                        <div class="tailor-preview-area">
+                            <div class="preview-header">
+                                <h3>Tailored Resume Preview</h3>
+                                <button class="action-btn btn-primary" onclick="exportTailoredPDF()">📥 Download Resume</button>
+                            </div>
+                            <div class="resume-paper-preview">
+                                <h4>Vishnu Kumar</h4>
+                                <p class="muted">Data Analyst • Hyderabad, India • vishnu@email.com</p>
+                                <hr style="border: none; border-top: 1px solid var(--border-color); margin: 0.75rem 0;">
+                                <h5>Professional Summary</h5>
+                                <p>Results-focused Data Analyst experienced in building robust SQL data models, Python statistical exploration, and dynamic Power BI executive dashboards.</p>
+                            </div>
+                        </div>
+
+                        <div class="tailor-checklist-area">
+                            <h4>What we optimize:</h4>
+                            <ul class="optimize-checklist">
+                                <li>✓ Highlight relevant projects</li>
+                                <li>✓ Reorder skills by priority</li>
+                                <li>✓ Improve bullet points with metrics</li>
+                                <li>✓ Align keywords with target JD</li>
+                                <li>✓ Better executive summary</li>
+                                <li>✓ Maintain 100% truthful information</li>
                             </ul>
                         </div>
                     </div>
+                </div>
+            </section>
 
-                    <!-- Social Profiles -->
-                    <div class="card socials-card">
-                        <h3>🌐 Verified Portfolios & Profiles</h3>
-                        <div class="socials-grid" id="socials-container">
-                            <!-- Populated by JS -->
+            <!-- ======================================================== -->
+            <!-- 10. APPLICATION TRACKER (CRM) (Panel 10) -->
+            <!-- ======================================================== -->
+            <section id="panel-crm" class="main-panel" style="display: none;">
+                <div class="crm-top-bar">
+                    <div class="crm-info">
+                        <h2>Application Tracker (CRM)</h2>
+                        <p class="muted">Manage and track your active job applications across pipeline stages.</p>
+                    </div>
+                    <button class="action-btn btn-primary" onclick="openJobImporterModal()">
+                        <span>+</span> Import Opportunity
+                    </button>
+                </div>
+
+                <!-- 5-Column Kanban Board -->
+                <div class="kanban-board-5col">
+                    <!-- Col 1: Saved (0) -->
+                    <div class="kanban-column">
+                        <div class="kanban-col-head col-saved">
+                            <span>📌 Saved (<span id="kb-count-saved">0</span>)</span>
+                        </div>
+                        <div class="kanban-cards-wrapper" id="kanban-col-saved">
+                            <!-- Injected by JS -->
                         </div>
                     </div>
 
-                    <!-- Suitability Report -->
-                    <div class="card suitability-card" id="suitability-report" style="display: none;">
-                        <h3>🌟 Profile Suitability Intelligence</h3>
-                        <div class="suitability-sections-grid">
-                            <div class="suitability-section">
-                                <strong>🏆 Recommended Core Roles</strong>
-                                <ul id="suitability-roles"></ul>
-                            </div>
-                            <div class="suitability-section">
-                                <strong>⚙️ Secondary Career Tracks</strong>
-                                <ul id="suitability-secondary"></ul>
-                            </div>
-                            <div class="suitability-section">
-                                <strong>💡 Profile Competencies & Strengths</strong>
-                                <ul id="suitability-strengths"></ul>
-                            </div>
-                            <div class="suitability-section">
-                                <strong>🏭 Target Sectors & Industries</strong>
-                                <ul id="suitability-industries"></ul>
-                            </div>
+                    <!-- Col 2: Applied (0) -->
+                    <div class="kanban-column">
+                        <div class="kanban-col-head col-applied">
+                            <span>🚀 Applied (<span id="kb-count-applied">0</span>)</span>
+                        </div>
+                        <div class="kanban-cards-wrapper" id="kanban-col-applied">
+                            <!-- Injected by JS -->
                         </div>
                     </div>
-                </section>
 
-                <!-- Tab 2: Job Matches -->
-                <section id="tab-jobs" class="tab-content" style="display: none;">
-                    <div class="jobs-toolbar">
-                        <div class="card toolbar-card">
-                            <div class="toolbar-stats">
-                                <div class="stat-badge">🔍 Found: <span id="jobs-stat-found">0</span></div>
-                                <div class="stat-badge success-badge">🎯 Matched: <span id="jobs-stat-returned">0</span></div>
-                                <div class="stat-badge info-badge">⚡ Latency: <span id="jobs-stat-time">0.0s</span></div>
+                    <!-- Col 3: Assessment (0) -->
+                    <div class="kanban-column">
+                        <div class="kanban-col-head col-assessment">
+                            <span>📝 Assessment (<span id="kb-count-assessment">0</span>)</span>
+                        </div>
+                        <div class="kanban-cards-wrapper" id="kanban-col-assessment">
+                            <!-- Injected by JS -->
+                        </div>
+                    </div>
+
+                    <!-- Col 4: Interview (0) -->
+                    <div class="kanban-column">
+                        <div class="kanban-col-head col-interview">
+                            <span>🎙️ Interview (<span id="kb-count-interview">0</span>)</span>
+                        </div>
+                        <div class="kanban-cards-wrapper" id="kanban-col-interview">
+                            <!-- Injected by JS -->
+                        </div>
+                    </div>
+
+                    <!-- Col 5: Offer (0) -->
+                    <div class="kanban-column">
+                        <div class="kanban-col-head col-offer">
+                            <span>🏆 Offer (<span id="kb-count-offer">0</span>)</span>
+                        </div>
+                        <div class="kanban-cards-wrapper" id="kanban-col-offer">
+                            <!-- Injected by JS -->
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- ======================================================== -->
+            <!-- 11. INTERVIEW CENTER (Panel 11) -->
+            <!-- ======================================================== -->
+            <section id="panel-interviews" class="main-panel" style="display: none;">
+                <div class="interview-center-card">
+                    <div class="interview-tabs-nav">
+                        <button class="interview-nav-btn" onclick="setInterviewSubTab('prepare')">Prepare</button>
+                        <button class="interview-nav-btn active" onclick="setInterviewSubTab('mock')">Mock Interview</button>
+                        <button class="interview-nav-btn" onclick="setInterviewSubTab('questions')">Questions</button>
+                        <button class="interview-nav-btn" onclick="setInterviewSubTab('company')">Company Info</button>
+                    </div>
+
+                    <div class="interview-layout-2col">
+                        <!-- Questions Navigation Sidebar -->
+                        <div class="interview-sidebar-questions">
+                            <h4>Question Bank</h4>
+                            <div class="q-category-item active"><span>Technical Questions</span><span class="q-badge">15</span></div>
+                            <div class="q-category-item"><span>SQL Questions</span><span class="q-badge">20</span></div>
+                            <div class="q-category-item"><span>Python Questions</span><span class="q-badge">18</span></div>
+                            <div class="q-category-item"><span>Power BI Questions</span><span class="q-badge">15</span></div>
+                            <div class="q-category-item"><span>Behavioral Questions</span><span class="q-badge">12</span></div>
+                            <div class="q-category-item"><span>Project Questions</span><span class="q-badge">10</span></div>
+                        </div>
+
+                        <!-- AI Mock Interview Screen -->
+                        <div class="mock-interactive-box">
+                            <div class="mock-top-header">
+                                <div class="mock-prompt-info">
+                                    <span class="live-dot"></span>
+                                    <h4>AI Mock Interview Simulation</h4>
+                                </div>
+                                <div class="mock-timer-badge">
+                                    <span class="clock-icon">⏱️</span>
+                                    <span id="mock-live-timer">00:45</span>
+                                </div>
                             </div>
-                            <div class="group-control">
-                                <span>Group Listings By:</span>
-                                <div class="radio-pill-group">
-                                    <label class="radio-pill">
-                                        <input type="radio" name="group-by" value="category" checked>
-                                        <span>Category</span>
-                                    </label>
-                                    <label class="radio-pill">
-                                        <input type="radio" name="group-by" value="location">
-                                        <span>Location</span>
-                                    </label>
+
+                            <div class="mock-question-display">
+                                <p class="mock-q-text" id="mock-current-question">
+                                    "Tell me about your Emergency Room Analytics project and how you handled SQL data modeling."
+                                </p>
+                            </div>
+
+                            <!-- User Answer Recording Area -->
+                            <div class="mock-recording-controls">
+                                <button class="mic-record-btn" id="mock-mic-btn" onclick="toggleVoiceMockRecording()">
+                                    <span class="mic-icon">🎙️</span>
+                                    <span id="mock-mic-label">Click to speak (or type)</span>
+                                </button>
+                                <textarea id="mock-answer-input" class="mock-textarea" rows="3" placeholder="Speak or type your answer here using the STAR method (Situation, Task, Action, Result)..."></textarea>
+                                <div class="mock-submit-row">
+                                    <button class="action-btn btn-secondary" onclick="loadNextMockQuestion()">Skip Question</button>
+                                    <button class="action-btn btn-primary" onclick="submitMockAnswerEvaluation()">⚡ Evaluate Answer with AI</button>
+                                </div>
+                            </div>
+
+                            <!-- AI Feedback Rubric (5 Dimensions) -->
+                            <div class="ai-feedback-rubric-card" id="mock-feedback-box">
+                                <div class="feedback-head">
+                                    <h4>🧠 AI Rubric Feedback</h4>
+                                    <span class="feedback-overall-score">Score: 8.0 / 10</span>
+                                </div>
+                                <div class="feedback-rubric-grid">
+                                    <div class="rubric-item">
+                                        <span>Technical Relevance</span>
+                                        <strong>8/10</strong>
+                                    </div>
+                                    <div class="rubric-item">
+                                        <span>Answer Structure (STAR)</span>
+                                        <strong>7/10</strong>
+                                    </div>
+                                    <div class="rubric-item">
+                                        <span>Clarity & Tone</span>
+                                        <strong>8/10</strong>
+                                    </div>
+                                    <div class="rubric-item">
+                                        <span>Completeness</span>
+                                        <strong>7/10</strong>
+                                    </div>
+                                </div>
+                                <div class="feedback-coach-note">
+                                    <span class="coach-icon">💡</span>
+                                    <p id="mock-coach-comment">
+                                        Good answer! Highlight the business impact and quantify your dashboard load time improvements.
+                                    </p>
                                 </div>
                             </div>
                         </div>
                     </div>
-                    
-                    <div id="jobs-list-container">
-                        <!-- Populated by JS -->
-                    </div>
-                </section>
+                </div>
+            </section>
 
-                <!-- Tab 3: AI Career Tools -->
-                <section id="tab-tools" class="tab-content" style="display: none;">
-                    <div class="tools-grid">
-                        <!-- Sidebar for choosing a tool -->
-                        <div class="card tools-menu">
-                            <h3>AI Copilot Toolkit</h3>
-                            <button class="tool-btn active" data-tool="cover-letter">✍️ Cover Letter Writer</button>
-                            <button class="tool-btn" data-tool="interview">💬 Mock Interview Prep</button>
-                            <button class="tool-btn" data-tool="email">✉️ Cold Outreach Generator</button>
-                            <button class="tool-btn" data-tool="linkedin">🔗 LinkedIn Optimizer</button>
-                            <button class="tool-btn" data-tool="salary">💰 Salary Range Estimator</button>
+            <!-- ======================================================== -->
+            <!-- 13. LEARNING HUB (Panel 13) -->
+            <!-- ======================================================== -->
+            <section id="panel-learning" class="main-panel" style="display: none;">
+                <div class="learning-hub-card">
+                    <div class="learning-header">
+                        <div>
+                            <h2>Learning Hub & Skill Acceleration</h2>
+                            <p class="muted">Week-by-week roadmaps and recommended courses tailored for target roles.</p>
                         </div>
+                        <span class="readiness-tag">Market Readiness: 85%</span>
+                    </div>
 
-                        <!-- Tool options form & output panel -->
-                        <div class="card tool-workspace">
-                            <div id="tool-form-container">
-                                <!-- Dynamic form fields based on tool selection -->
+                    <div class="learning-hub-main-grid">
+                        <!-- Left: Learning Roadmaps -->
+                        <div class="roadmap-column">
+                            <div class="section-header-flex">
+                                <h3>Your Learning Roadmap</h3>
+                                <button class="view-all-link" onclick="openProjectBlueprintModal('sql')">View All</button>
                             </div>
-                            <button id="run-tool-btn" class="action-btn">Execute Copilot Prompt</button>
-                            
-                            <hr class="divider">
-
-                            <div class="output-panel">
-                                <div class="output-header">
-                                    <h4>Generated Output Preview</h4>
-                                    <button id="copy-output-btn" class="copy-btn" style="display: none;">📋 Copy to Clipboard</button>
+                            <div class="roadmap-modules-grid-compact">
+                                <div class="roadmap-card">
+                                    <div class="roadmap-top">
+                                        <div class="roadmap-icon">📊</div>
+                                        <div>
+                                            <h4>Advanced SQL</h4>
+                                            <p class="muted">Window functions, CTEs & Optimization</p>
+                                        </div>
+                                    </div>
+                                    <div class="roadmap-progress-wrap">
+                                        <div class="roadmap-progress-bar"><div class="progress-fill" style="width: 80%;"></div></div>
+                                        <span class="progress-num">80%</span>
+                                    </div>
+                                    <button class="action-btn-sm btn-primary" onclick="openProjectBlueprintModal('sql')">Continue</button>
                                 </div>
-                                <div id="tool-output" class="output-box">
-                                    Select a career copilot tool and configure settings above to initiate generation.
+
+                                <div class="roadmap-card">
+                                    <div class="roadmap-top">
+                                        <div class="roadmap-icon">⚡</div>
+                                        <div>
+                                            <h4>Power BI / DAX</h4>
+                                            <p class="muted">Data modeling & measures</p>
+                                        </div>
+                                    </div>
+                                    <div class="roadmap-progress-wrap">
+                                        <div class="roadmap-progress-bar"><div class="progress-fill" style="width: 50%;"></div></div>
+                                        <span class="progress-num">50%</span>
+                                    </div>
+                                    <button class="action-btn-sm btn-primary" onclick="openProjectBlueprintModal('powerbi')">Continue</button>
+                                </div>
+
+                                <div class="roadmap-card">
+                                    <div class="roadmap-top">
+                                        <div class="roadmap-icon">📈</div>
+                                        <div>
+                                            <h4>Statistics</h4>
+                                            <p class="muted">A/B testing & hypothesis</p>
+                                        </div>
+                                    </div>
+                                    <div class="roadmap-progress-wrap">
+                                        <div class="roadmap-progress-bar"><div class="progress-fill" style="width: 30%;"></div></div>
+                                        <span class="progress-num">30%</span>
+                                    </div>
+                                    <button class="action-btn-sm btn-secondary" onclick="openProjectBlueprintModal('stats')">Start</button>
+                                </div>
+
+                                <div class="roadmap-card">
+                                    <div class="roadmap-top">
+                                        <div class="roadmap-icon">☁️</div>
+                                        <div>
+                                            <h4>Azure</h4>
+                                            <p class="muted">Data factory & Synapse</p>
+                                        </div>
+                                    </div>
+                                    <div class="roadmap-progress-wrap">
+                                        <div class="roadmap-progress-bar"><div class="progress-fill" style="width: 10%;"></div></div>
+                                        <span class="progress-num">10%</span>
+                                    </div>
+                                    <button class="action-btn-sm btn-secondary" onclick="openProjectBlueprintModal('azure')">Start</button>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Right: Recommended for You -->
+                        <div class="recommended-courses-column">
+                            <div class="section-header-flex">
+                                <h3>Recommended for You</h3>
+                            </div>
+                            <div class="course-tabs-row">
+                                <button class="course-tab-pill active">Courses</button>
+                                <button class="course-tab-pill">Practice</button>
+                                <button class="course-tab-pill">Projects</button>
+                                <button class="course-tab-pill">Resources</button>
+                            </div>
+                            <div class="course-card-box">
+                                <div class="course-icon-banner">🗄️</div>
+                                <div class="course-body">
+                                    <h4>Advanced SQL for Data Analysis</h4>
+                                    <p class="muted">Learn window functions, CTEs, optimization</p>
+                                    <div class="course-meta-row">
+                                        <span>4.8 ★</span>
+                                        <span>• 12 hours</span>
+                                        <span>• Beginner</span>
+                                    </div>
+                                    <button class="action-btn btn-primary" onclick="openProjectBlueprintModal('sql')" style="width: 100%; margin-top: 0.85rem;">Start Learning</button>
                                 </div>
                             </div>
                         </div>
                     </div>
-                </section>
+                </div>
+            </section>
 
-                <!-- Tab 4: Learning Roadmaps -->
-                <section id="tab-learning" class="tab-content" style="display: none;">
-                    <div class="card skill-acceleration-card">
-                        <h3>📈 Career Skills Acceleration Pathway</h3>
-                        <p class="muted">A tailored curriculum listing identified technical gaps and recommended certifications based on real-time market data matching.</p>
-                        
-                        <div class="skill-gap-box">
-                            <strong>⚠️ Identified Skill Deficiencies:</strong>
-                            <div id="gaps-list" class="gaps-container">
-                                <!-- Populated by JS -->
+            <!-- ======================================================== -->
+            <!-- 14. CAREER ANALYTICS (Panel 14) -->
+            <!-- ======================================================== -->
+            <section id="panel-analytics" class="main-panel" style="display: none;">
+                <div class="analytics-dashboard-grid">
+                    <!-- Applications Over Time (Line Chart) -->
+                    <div class="analytics-card">
+                        <div class="card-header-flex">
+                            <h3>Applications Over Time</h3>
+                            <span class="badge-subtle">Monthly Trend</span>
+                        </div>
+                        <div class="chart-box-svg">
+                            <svg class="line-chart-svg" viewBox="0 0 400 160">
+                                <line x1="40" y1="130" x2="380" y2="130" stroke="rgba(255,255,255,0.1)"></line>
+                                <polyline fill="none" stroke="#6366f1" stroke-width="3" points="50,120 110,105 170,85 230,60 290,45 350,25"></polyline>
+                                <circle cx="50" cy="120" r="4" fill="#6366f1"></circle>
+                                <circle cx="110" cy="105" r="4" fill="#6366f1"></circle>
+                                <circle cx="170" cy="85" r="4" fill="#6366f1"></circle>
+                                <circle cx="230" cy="60" r="4" fill="#6366f1"></circle>
+                                <circle cx="290" cy="45" r="4" fill="#6366f1"></circle>
+                                <circle cx="350" cy="25" r="4" fill="#38bdf8"></circle>
+                                <text x="50" y="150" fill="#94a3b8" font-size="10" text-anchor="middle">Jan</text>
+                                <text x="110" y="150" fill="#94a3b8" font-size="10" text-anchor="middle">Feb</text>
+                                <text x="170" y="150" fill="#94a3b8" font-size="10" text-anchor="middle">Mar</text>
+                                <text x="230" y="150" fill="#94a3b8" font-size="10" text-anchor="middle">Apr</text>
+                                <text x="290" y="150" fill="#94a3b8" font-size="10" text-anchor="middle">May</text>
+                                <text x="350" y="150" fill="#94a3b8" font-size="10" text-anchor="middle">Jun</text>
+                            </svg>
+                        </div>
+                    </div>
+
+                    <!-- Application Status Breakdown (Donut Chart) -->
+                    <div class="analytics-card">
+                        <div class="card-header-flex">
+                            <h3>Application Status</h3>
+                            <span class="badge-subtle">Pipeline Funnel</span>
+                        </div>
+                        <div class="donut-chart-row">
+                            <div class="donut-visual">
+                                <svg class="donut-svg" viewBox="0 0 100 100">
+                                    <circle cx="50" cy="50" r="35" fill="transparent" stroke="#3b82f6" stroke-width="12" stroke-dasharray="80 140" stroke-dashoffset="0"></circle>
+                                    <circle cx="50" cy="50" r="35" fill="transparent" stroke="#10b981" stroke-width="12" stroke-dasharray="50 170" stroke-dashoffset="-80"></circle>
+                                    <circle cx="50" cy="50" r="35" fill="transparent" stroke="#f59e0b" stroke-width="12" stroke-dasharray="30 190" stroke-dashoffset="-130"></circle>
+                                    <circle cx="50" cy="50" r="35" fill="transparent" stroke="#ec4899" stroke-width="12" stroke-dasharray="20 200" stroke-dashoffset="-160"></circle>
+                                </svg>
+                            </div>
+                            <div class="donut-legend">
+                                <div class="legend-item"><span class="legend-color" style="background: #3b82f6;"></span> Saved: 28</div>
+                                <div class="legend-item"><span class="legend-color" style="background: #10b981;"></span> Applied: 42</div>
+                                <div class="legend-item"><span class="legend-color" style="background: #f59e0b;"></span> Assessment: 12</div>
+                                <div class="legend-item"><span class="legend-color" style="background: #ec4899;"></span> Interview: 6</div>
+                                <div class="legend-item"><span class="legend-color" style="background: #fbbf24;"></span> Offer: 1</div>
                             </div>
                         </div>
                     </div>
 
-                    <div id="roadmaps-list-container">
-                        <!-- Populated by JS -->
+                    <!-- Conversion Rate KPI Gauges -->
+                    <div class="analytics-card text-center">
+                        <div class="card-header-flex">
+                            <h3>Response Rate</h3>
+                            <span class="badge-subtle">Recruiter Inbound</span>
+                        </div>
+                        <div class="kpi-circle-center">
+                            <div class="ats-circle ats-circle-sm">
+                                <svg class="ats-svg" viewBox="0 0 100 100">
+                                    <circle class="ats-bg-circle" cx="50" cy="50" r="42"></circle>
+                                    <circle class="ats-progress-circle stroke-cyan" cx="50" cy="50" r="42" stroke-dasharray="264" stroke-dashoffset="227"></circle>
+                                </svg>
+                                <div class="ats-circle-inner">
+                                    <span class="kpi-val-bold">14%</span>
+                                    <span class="ats-label-sub">RESPONSE</span>
+                                </div>
+                            </div>
+                        </div>
                     </div>
-                </section>
-            </div>
+
+                    <div class="analytics-card text-center">
+                        <div class="card-header-flex">
+                            <h3>Interview Conversion</h3>
+                            <span class="badge-subtle">Offer Stage</span>
+                        </div>
+                        <div class="kpi-circle-center">
+                            <div class="ats-circle ats-circle-sm">
+                                <svg class="ats-svg" viewBox="0 0 100 100">
+                                    <circle class="ats-bg-circle" cx="50" cy="50" r="42"></circle>
+                                    <circle class="ats-progress-circle stroke-emerald" cx="50" cy="50" r="42" stroke-dasharray="264" stroke-dashoffset="200"></circle>
+                                </svg>
+                                <div class="ats-circle-inner">
+                                    <span class="kpi-val-bold">24%</span>
+                                    <span class="ats-label-sub">CONVERSION</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- ======================================================== -->
+            <!-- 15. PROFILE & SETTINGS (Panel 16) -->
+            <!-- ======================================================== -->
+            <section id="panel-profile" class="main-panel" style="display: none;">
+                <div class="profile-hub-card">
+                    <div class="profile-header-top">
+                        <div class="profile-hero-left">
+                            <div class="profile-avatar-large" id="prof-avatar-large">👤</div>
+                            <div class="profile-meta">
+                                <div class="profile-name-row">
+                                    <h2 id="prof-name">Candidate Profile</h2>
+                                    <button class="action-btn-sm btn-secondary" onclick="openSettingsModal()">Edit</button>
+                                </div>
+                                <p class="muted" id="prof-role-loc">Career Explorer • India & Global Remote</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="profile-details-grid">
+                        <div class="profile-sec-box">
+                            <h4>Target Skills</h4>
+                            <div class="skill-pills-row" id="prof-skills-container">
+                                <span class="skill-chip">Python</span>
+                                <span class="skill-chip">SQL</span>
+                                <span class="skill-chip">Power BI</span>
+                                <span class="skill-chip">Excel</span>
+                                <span class="skill-chip">Tableau</span>
+                                <span class="skill-chip">Pandas</span>
+                            </div>
+                        </div>
+
+                        <div class="profile-sec-box">
+                            <h4>Target Roles</h4>
+                            <div class="role-pills-row">
+                                <span class="role-pill">Data Analyst</span>
+                                <span class="role-pill">BI Analyst</span>
+                                <span class="role-pill">Python Developer</span>
+                            </div>
+                        </div>
+
+                        <div class="profile-sec-box">
+                            <h4>Work Preferences</h4>
+                            <div class="work-pref-row">
+                                <span class="pref-badge">🏢 On-site</span>
+                                <span class="pref-badge">🌐 Hybrid</span>
+                                <span class="pref-badge">💻 Remote</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Account & Authentication Section (Login / Register / Google SSO) -->
+                    <div class="profile-auth-section" style="margin-top: 1.75rem; border-top: 1px solid var(--border-color); padding-top: 1.75rem;">
+                        <div class="profile-auth-header" style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1.25rem; flex-wrap: wrap; gap: 0.75rem;">
+                            <div>
+                                <h3 style="font-size: 1.15rem; font-weight: 800; color: var(--text-bright); margin-bottom: 0.25rem;">🔐 Account Authentication & Security</h3>
+                                <p class="muted" style="font-size: 0.82rem; margin: 0;">Sign in with Google or Email to sync resumes, saved jobs, and applications</p>
+                            </div>
+                            <div class="profile-auth-status-pill" id="profile-auth-status-badge" style="display: flex; align-items: center; gap: 0.5rem; background: rgba(99, 102, 241, 0.15); border: 1px solid rgba(99, 102, 241, 0.3); padding: 0.35rem 0.75rem; border-radius: 999px;">
+                                <span class="live-dot" style="background: #818cf8;" id="profile-auth-dot"></span>
+                                <span style="font-size: 0.78rem; font-weight: 700; color: #a5b4fc;" id="profile-auth-status-text">Local Workspace</span>
+                            </div>
+                        </div>
+
+                        <div class="profile-auth-grid" style="display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem;">
+                            <!-- Column 1: One-Click Official SSO (Google / LinkedIn) -->
+                            <div class="profile-sec-box" style="padding: 1.5rem;">
+                                <div style="display: flex; align-items: center; gap: 0.5rem; margin-bottom: 0.75rem;">
+                                    <span style="font-size: 1.2rem;">🌐</span>
+                                    <h4 style="margin: 0; font-size: 0.95rem; font-weight: 700;">Official Social & Google Sign-In</h4>
+                                </div>
+                                <p class="muted" style="font-size: 0.8rem; margin-bottom: 1.25rem; line-height: 1.4;">
+                                    Sign in or register securely with your Google or LinkedIn account to automatically persist your progress.
+                                </p>
+                                <div style="display: flex; flex-direction: column; gap: 0.75rem;">
+                                    <button class="action-btn" onclick="handleGoogleSignIn()" style="display: flex; align-items: center; justify-content: center; gap: 0.6rem; background: #ffffff; color: #1f2937; font-weight: 700; padding: 0.7rem; border-radius: var(--radius-md); border: 1px solid #e5e7eb; cursor: pointer; transition: var(--transition);">
+                                        <svg width="18" height="18" viewBox="0 0 24 24"><path fill="#4285F4" d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z"/><path fill="#34A853" d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z"/><path fill="#FBBC05" d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.06H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.94l2.85-2.22.81-.63z"/><path fill="#EA4335" d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.06l3.66 2.84c.87-2.6 3.3-4.52 6.16-4.52z"/></svg>
+                                        <span>Sign in / Register with Google</span>
+                                    </button>
+                                    <button class="action-btn" onclick="handleLinkedInSignIn()" style="display: flex; align-items: center; justify-content: center; gap: 0.6rem; background: #0a66c2; color: #ffffff; font-weight: 700; padding: 0.7rem; border-radius: var(--radius-md); border: none; cursor: pointer; transition: var(--transition);">
+                                        <svg width="18" height="18" fill="currentColor" viewBox="0 0 24 24"><path d="M19 3a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h14m-.5 15.5v-5.3a3.26 3.26 0 0 0-3.26-3.26c-.85 0-1.84.52-2.28 1.3v-1.11h-2.79v8.37h2.79v-4.93c0-.77.62-1.4 1.39-1.4a1.4 1.4 0 0 1 1.4 1.4v4.93h2.75M6.88 8.56a1.68 1.68 0 0 0 1.68-1.68c0-.93-.75-1.69-1.68-1.69a1.69 1.69 0 0 0-1.69 1.69c0 .93.76 1.68 1.69 1.68m1.39 9.94v-8.37H5.5v8.37h2.77z"/></svg>
+                                        <span>Sign in with LinkedIn</span>
+                                    </button>
+                                </div>
+                                <div style="margin-top: 1rem; display: flex; justify-content: space-between; align-items: center;">
+                                    <span class="muted" style="font-size: 0.75rem;">Status: <strong id="profile-auth-email-display">Local Workspace</strong></span>
+                                    <button class="action-btn-sm btn-secondary" onclick="handleSignOut()" style="font-size: 0.75rem;">Sign Out</button>
+                                </div>
+                            </div>
+
+                            <!-- Column 2: Email Login & Register Form -->
+                            <div class="profile-sec-box" style="padding: 1.5rem;">
+                                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.75rem;">
+                                    <div style="display: flex; align-items: center; gap: 0.5rem;">
+                                        <span style="font-size: 1.2rem;">📧</span>
+                                        <h4 style="margin: 0; font-size: 0.95rem; font-weight: 700;" id="profile-auth-form-title">Login to Account</h4>
+                                    </div>
+                                    <div class="profile-auth-mode-switch" style="display: flex; gap: 0.25rem; background: var(--bg-card); padding: 0.2rem; border-radius: var(--radius-sm); border: 1px solid var(--border-color);">
+                                        <button type="button" id="auth-mode-login-btn" class="action-btn-sm btn-primary" onclick="setProfileAuthMode('login')" style="padding: 0.2rem 0.5rem; font-size: 0.72rem;">Login</button>
+                                        <button type="button" id="auth-mode-register-btn" class="action-btn-sm btn-secondary" onclick="setProfileAuthMode('register')" style="padding: 0.2rem 0.5rem; font-size: 0.72rem;">Register</button>
+                                    </div>
+                                </div>
+
+                                <form id="profile-auth-form" onsubmit="handleProfileAuthSubmit(event)" style="display: flex; flex-direction: column; gap: 0.75rem;">
+                                    <div class="form-group">
+                                        <label class="form-label" style="font-size: 0.75rem;">Email Address</label>
+                                        <input type="email" id="profile-auth-email" class="form-input" placeholder="name@example.com" value="" required style="padding: 0.5rem 0.75rem; font-size: 0.82rem;">
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="form-label" style="font-size: 0.75rem;">Password</label>
+                                        <input type="password" id="profile-auth-password" class="form-input" placeholder="••••••••••••" value="" required style="padding: 0.5rem 0.75rem; font-size: 0.82rem;">
+                                    </div>
+                                    <div id="profile-auth-confirm-group" class="form-group" style="display: none;">
+                                        <label class="form-label" style="font-size: 0.75rem;">Confirm Password</label>
+                                        <input type="password" id="profile-auth-confirm-password" class="form-input" placeholder="••••••••••••" style="padding: 0.5rem 0.75rem; font-size: 0.82rem;">
+                                    </div>
+                                    <button type="submit" id="profile-auth-submit-btn" class="action-btn btn-primary" style="padding: 0.6rem; font-size: 0.85rem; font-weight: 700; margin-top: 0.25rem;">
+                                        Sign In to Profile
+                                    </button>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            <!-- ======================================================== -->
+            <!-- 16. ENTERPRISE ADMIN CONSOLE & USER INSPECTOR -->
+            <!-- ======================================================== -->
+            <section id="panel-admin" class="main-panel" style="display: none;">
+                <!-- Admin Header Banner -->
+                <div class="admin-header-card">
+                    <div class="admin-header-title">
+                        <div class="admin-shield-icon">🛡️</div>
+                        <div>
+                            <h2 style="font-size: 1.4rem; font-weight: 800; color: var(--text-bright); margin: 0 0 0.35rem 0;">Enterprise Admin Console</h2>
+                            <p class="muted" style="margin: 0; font-size: 0.84rem;">Inspect registered candidate users, audit platform metrics, and manage live job opportunities</p>
+                        </div>
+                    </div>
+                    <div class="admin-header-actions" style="display: flex; align-items: center; gap: 0.6rem; flex-wrap: wrap;">
+                        <button class="action-btn-sm btn-secondary" onclick="loadAdminDashboardData()">
+                            <span>🔄</span> Refresh Telemetry
+                        </button>
+                        <button class="action-btn-sm btn-primary" onclick="openAdminAddJobModal()">
+                            <span>➕</span> Add Verified Job
+                        </button>
+                        <button class="action-btn-sm btn-secondary" onclick="exportUsersCSV()">
+                            <span>📥</span> Export Users
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Admin 4-KPI Grid -->
+                <div class="admin-kpi-grid">
+                    <div class="admin-kpi-card">
+                        <div class="admin-kpi-icon" style="background: rgba(99, 102, 241, 0.15); color: #818cf8;">👥</div>
+                        <div>
+                            <div class="kpi-num" id="admin-stat-users" style="font-size: 1.4rem; font-weight: 800;">0</div>
+                            <div class="kpi-label" style="font-size: 0.78rem; color: var(--text-muted);">Registered Candidates</div>
+                        </div>
+                    </div>
+                    <div class="admin-kpi-card">
+                        <div class="admin-kpi-icon" style="background: rgba(16, 185, 129, 0.15); color: #34d399;">💼</div>
+                        <div>
+                            <div class="kpi-num" id="admin-stat-jobs" style="font-size: 1.4rem; font-weight: 800;">18</div>
+                            <div class="kpi-label" style="font-size: 0.78rem; color: var(--text-muted);">Live Opportunities</div>
+                        </div>
+                    </div>
+                    <div class="admin-kpi-card">
+                        <div class="admin-kpi-icon" style="background: rgba(245, 158, 11, 0.15); color: #fbbf24;">📤</div>
+                        <div>
+                            <div class="kpi-num" id="admin-stat-apps" style="font-size: 1.4rem; font-weight: 800;">0</div>
+                            <div class="kpi-label" style="font-size: 0.78rem; color: var(--text-muted);">Active CRM Applications</div>
+                        </div>
+                    </div>
+                    <div class="admin-kpi-card">
+                        <div class="admin-kpi-icon" style="background: rgba(236, 72, 153, 0.15); color: #f472b6;">⚡</div>
+                        <div>
+                            <div class="kpi-num" id="admin-stat-health" style="font-size: 0.95rem; font-weight: 800; color: #34d399;">100% Healthy</div>
+                            <div class="kpi-label" style="font-size: 0.78rem; color: var(--text-muted);">Postgres & MongoDB</div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- User Management Table Section -->
+                <div class="admin-table-card">
+                    <div class="admin-table-header">
+                        <div>
+                            <h3 style="font-size: 1.1rem; font-weight: 800; color: var(--text-bright); margin: 0 0 0.25rem 0;">👥 Registered Candidates & Users Directory</h3>
+                            <p class="muted" style="margin: 0; font-size: 0.8rem;">Real-time inspection of authenticated users, authentication sources, and activity tracking</p>
+                        </div>
+                        <div class="admin-controls-row">
+                            <input type="text" id="admin-user-search" class="admin-search-input" placeholder="Search by name, email, or role..." oninput="filterAdminUsersTable()">
+                            <select id="admin-provider-filter" class="admin-filter-dropdown" onchange="filterAdminUsersTable()">
+                                <option value="all">All Providers</option>
+                                <option value="google">Google SSO</option>
+                                <option value="email">Email & Password</option>
+                                <option value="linkedin">LinkedIn SSO</option>
+                            </select>
+                            <select id="admin-role-filter" class="admin-filter-dropdown" onchange="filterAdminUsersTable()">
+                                <option value="all">All Roles</option>
+                                <option value="candidate">Candidate</option>
+                                <option value="admin">Administrator</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div style="overflow-x: auto;">
+                        <table class="admin-data-table" id="admin-users-table">
+                            <thead>
+                                <tr>
+                                    <th>Candidate / User</th>
+                                    <th>Email Address</th>
+                                    <th>Provider</th>
+                                    <th>Role</th>
+                                    <th>Registered</th>
+                                    <th>Applications</th>
+                                    <th style="text-align: right;">Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody id="admin-users-tbody">
+                                <tr>
+                                    <td colspan="7" style="text-align: center; padding: 2rem; color: var(--text-muted);">
+                                        Loading candidate telemetry...
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+                <!-- Admin System Health & Architecture Summary -->
+                <div class="dashboard-main-grid">
+                    <div class="profile-sec-box">
+                        <h4 style="display: flex; align-items: center; gap: 0.5rem; margin-bottom: 0.75rem;">
+                            <span>🍃</span> Database Engines & Multi-Cluster Health
+                        </h4>
+                        <div style="display: flex; flex-direction: column; gap: 0.6rem; font-size: 0.82rem;">
+                            <div style="display: flex; justify-content: space-between; align-items: center; padding: 0.5rem; background: var(--bg-surface); border-radius: var(--radius-sm);">
+                                <span>PostgreSQL / Relational Store</span>
+                                <span class="badge-tag-sm" style="background: rgba(16, 185, 129, 0.2); color: #34d399; font-weight: 700;">🟢 Connected</span>
+                            </div>
+                            <div style="display: flex; justify-content: space-between; align-items: center; padding: 0.5rem; background: var(--bg-surface); border-radius: var(--radius-sm);">
+                                <span>MongoDB Document Store</span>
+                                <span class="badge-tag-sm" style="background: rgba(16, 185, 129, 0.2); color: #34d399; font-weight: 700;">🟢 Online / Local Cache</span>
+                            </div>
+                            <div style="display: flex; justify-content: space-between; align-items: center; padding: 0.5rem; background: var(--bg-surface); border-radius: var(--radius-sm);">
+                                <span>JWT Auth & Secret Vault</span>
+                                <span class="badge-tag-sm" style="background: rgba(16, 185, 129, 0.2); color: #34d399; font-weight: 700;">🔒 Active & Encrypted</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="profile-sec-box">
+                        <h4 style="display: flex; align-items: center; gap: 0.5rem; margin-bottom: 0.75rem;">
+                            <span>🤖</span> AI Engines & Service Orchestration
+                        </h4>
+                        <div style="display: flex; flex-direction: column; gap: 0.6rem; font-size: 0.82rem;">
+                            <div style="display: flex; justify-content: space-between; align-items: center; padding: 0.5rem; background: var(--bg-surface); border-radius: var(--radius-sm);">
+                                <span>ATS Match Vector Engine</span>
+                                <span class="badge-tag-sm" style="background: rgba(16, 185, 129, 0.2); color: #34d399; font-weight: 700;">⚡ Ready</span>
+                            </div>
+                            <div style="display: flex; justify-content: space-between; align-items: center; padding: 0.5rem; background: var(--bg-surface); border-radius: var(--radius-sm);">
+                                <span>Google Gemini LLM Bridge</span>
+                                <span class="badge-tag-sm" style="background: rgba(99, 102, 241, 0.2); color: #818cf8; font-weight: 700;">✨ Operational</span>
+                            </div>
+                            <div style="display: flex; justify-content: space-between; align-items: center; padding: 0.5rem; background: var(--bg-surface); border-radius: var(--radius-sm);">
+                                <span>Headless Auto-Fill Agent</span>
+                                <span class="badge-tag-sm" style="background: rgba(16, 185, 129, 0.2); color: #34d399; font-weight: 700;">🎭 Playwright Synthesizer</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
         </main>
     </div>
-    <script src="app.js"></script>
+
+    <!-- ======================================================== -->
+    <!-- RESUME TAILORING MODAL -->
+    <!-- ======================================================== -->
+    <div id="tailor-modal" class="modal-backdrop" style="display: none;">
+        <div class="modal-box modal-large">
+            <div class="modal-header">
+                <div style="display: flex; align-items: center; gap: 0.6rem;">
+                    <span style="font-size: 1.3rem;">✍️</span>
+                    <div>
+                        <h3 id="tailor-modal-title" style="margin: 0;">AI Resume Tailoring</h3>
+                        <p class="muted" style="margin: 0; font-size: 0.8rem;">Optimized for target job description • Preserves truthful experience</p>
+                    </div>
+                </div>
+                <div style="display: flex; align-items: center; gap: 0.5rem;">
+                    <button class="action-btn-sm btn-secondary" id="tailor-copy-btn" onclick="copyTailoredContent()">📋 Copy Text</button>
+                    <button class="action-btn-sm btn-primary" id="tailor-export-pdf-btn" onclick="exportTailoredPDF()">📥 Download Resume</button>
+                    <button class="modal-close-btn" onclick="closeTailorModal()">✕</button>
+                </div>
+            </div>
+
+            <!-- Visual Tailoring Flow Header -->
+            <div class="tailor-flow-header">
+                <span class="flow-pill">Job Description</span>
+                <span class="flow-plus">+</span>
+                <span class="flow-pill">Your Resume</span>
+                <span class="flow-arrow">➔</span>
+                <span class="flow-ai-pill">⚡ AI Resume Tailoring</span>
+            </div>
+
+            <div class="tailor-content-columns">
+                <div class="tailor-preview-pane">
+                    <div id="tailor-modal-body" class="modal-body">
+                        <div class="loading-state">Synthesizing tailored resume components...</div>
+                    </div>
+                </div>
+                <div class="tailor-checklist-pane">
+                    <h4>Optimized for this job:</h4>
+                    <ul class="tailor-checklist">
+                        <li>✓ Reordered skills by JD relevance</li>
+                        <li>✓ Improved bullet points with STAR impact</li>
+                        <li>✓ Highlighted relevant analytics projects</li>
+                        <li>✓ Optimized ATS keyword alignment</li>
+                        <li>✓ Maintains 100% truthful information</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- 1-Click Job URL Importer Modal -->
+    <div id="job-importer-modal" class="modal-backdrop" style="display: none;">
+        <div class="modal-box">
+            <div class="modal-header">
+                <div style="display: flex; align-items: center; gap: 0.6rem;">
+                    <span style="font-size: 1.3rem;">🔗</span>
+                    <div>
+                        <h3 style="margin: 0;">Import External Opportunity</h3>
+                        <p class="muted" style="margin: 0; font-size: 0.82rem;">Paste any job link (LinkedIn, Naukri, Indeed, Company Portal)</p>
+                    </div>
+                </div>
+                <button class="modal-close-btn" onclick="closeJobImporterModal()">✕</button>
+            </div>
+            <div class="modal-body" style="padding: 1.25rem;">
+                <div class="form-group">
+                    <label class="form-label">Job Posting URL *</label>
+                    <input type="url" id="import-job-url" class="form-input" placeholder="https://www.linkedin.com/jobs/view/..." required>
+                </div>
+                <div class="form-row" style="display: flex; gap: 0.75rem;">
+                    <div class="form-group" style="flex: 1;">
+                        <label class="form-label">Job Title (Optional)</label>
+                        <input type="text" id="import-job-title" class="form-input" placeholder="e.g. Junior Data Analyst">
+                    </div>
+                    <div class="form-group" style="flex: 1;">
+                        <label class="form-label">Company Name (Optional)</label>
+                        <input type="text" id="import-job-company" class="form-input" placeholder="e.g. Microsoft / Swiggy">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="form-label">Job Description / Requirements Snippet (Optional)</label>
+                    <textarea id="import-job-desc" class="form-input" rows="3" placeholder="Paste JD requirements or skills for higher precision match scoring..."></textarea>
+                </div>
+                <div id="import-job-status" style="display: none; margin-top: 0.5rem;" class="status-msg-box"></div>
+            </div>
+            <div class="modal-footer" style="display: flex; justify-content: flex-end; gap: 0.6rem; padding: 1rem 1.25rem; background: var(--bg-surface); border-top: 1px solid var(--border-color);">
+                <button class="action-btn btn-secondary" onclick="closeJobImporterModal()">Cancel</button>
+                <button class="action-btn btn-primary" id="import-job-submit-btn" onclick="handleJobImportSubmit()">⚡ Parse & Add to Pipeline</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Capstone Project Blueprint Modal -->
+    <div id="project-blueprint-modal" class="modal-backdrop" style="display: none;">
+        <div class="modal-box modal-large">
+            <div class="modal-header">
+                <div style="display: flex; align-items: center; gap: 0.6rem;">
+                    <span style="font-size: 1.3rem;">📂</span>
+                    <div>
+                        <h3 id="blueprint-modal-title" style="margin: 0;">Capstone Project Blueprint & Starter Kit</h3>
+                        <p class="muted" style="margin: 0; font-size: 0.82rem;">Complete architecture, datasets, schema, and ready-to-paste GitHub README</p>
+                    </div>
+                </div>
+                <button class="modal-close-btn" onclick="closeProjectBlueprintModal()">✕</button>
+            </div>
+            <div id="blueprint-modal-body" class="modal-body" style="padding: 1.25rem;">
+                <div class="loading-state">Loading capstone project blueprint...</div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Settings & Preferences Modal -->
+    <div id="settings-modal" class="modal-backdrop" style="display: none;">
+        <div class="modal-box settings-modal-box">
+            <div class="modal-header">
+                <div class="settings-modal-title-wrap">
+                    <span class="settings-icon-badge">⚙️</span>
+                    <div>
+                        <h3>Settings & Career Preferences</h3>
+                        <p class="settings-subtitle">Customize target roles, matching thresholds, cloud sync, and AI assistants</p>
+                    </div>
+                </div>
+                <button class="modal-close-btn" onclick="closeSettingsModal()">✕</button>
+            </div>
+            
+            <div class="settings-body">
+                <div class="settings-section">
+                    <h4 class="settings-sec-title">🎯 Career & Targeting Hub</h4>
+                    <div class="settings-grid">
+                        <div class="form-group">
+                            <label class="form-label">Candidate Full Name</label>
+                            <input type="text" id="setting-candidate-name" class="form-input" placeholder="e.g. Vishnu Kumar">
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label">Target Role / Specialization</label>
+                            <input type="text" id="setting-target-role" class="form-input" placeholder="e.g. Junior Data Analyst, Python Developer">
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label">Preferred Location / Hub</label>
+                            <input type="text" id="setting-preferred-location" class="form-input" placeholder="e.g. Hyderabad, India, Bengaluru, Remote">
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label">Minimum Match Score Threshold (<span id="setting-match-threshold-val">50%</span>)</label>
+                            <input type="range" id="setting-match-threshold" min="30" max="85" value="50" step="5" class="form-range" oninput="document.getElementById('setting-match-threshold-val').textContent = this.value + '%'">
+                        </div>
+                    </div>
+                </div>
+
+                <div class="settings-section">
+                    <h4 class="settings-sec-title">☁️ Storage Engine & Database Sync</h4>
+                    <div class="connected-accounts-box">
+                        <div class="account-row">
+                            <div class="acc-brand">
+                                <span style="font-size: 1.3rem;">🍃</span>
+                                <div>
+                                    <div class="acc-name">MongoDB Database Engine</div>
+                                    <div class="acc-status" id="setting-db-status">Active (Cloud & Local Sync)</div>
+                                </div>
+                            </div>
+                            <button class="action-btn-sm btn-secondary" onclick="initSystemStatus(); showToast('🍃 Database ping refreshed!', 'success', '🍃');">Check Ping</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="modal-footer settings-footer">
+                <button class="action-btn btn-secondary" onclick="closeSettingsModal()">Cancel</button>
+                <button class="action-btn btn-primary" onclick="saveSettingsPreferences()">Save Preferences</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- ======================================================== -->
+    <!-- 15. FLOATING AI CAREER ASSISTANT (Panel 15) -->
+    <!-- ======================================================== -->
+    <div id="copilot-floating-container" class="copilot-floating-wrapper">
+        <button id="copilot-toggle-btn" class="copilot-trigger-btn" title="Open AI Career Assistant" onclick="toggleCopilotDrawer()">
+            <span class="copilot-icon">🤖</span>
+            <span class="copilot-btn-text">AI Assistant</span>
+            <span class="copilot-pulse-dot"></span>
+        </button>
+
+        <div id="copilot-drawer" class="copilot-chat-drawer" style="display: none;">
+            <div class="copilot-drawer-header">
+                <div class="copilot-header-info">
+                    <div class="copilot-avatar">🤖</div>
+                    <div>
+                        <h4>AI Career Assistant</h4>
+                    </div>
+                </div>
+                <button class="copilot-close-btn" onclick="toggleCopilotDrawer()">✕</button>
+            </div>
+
+            <!-- Quick Action Suggestion Pills -->
+            <div class="copilot-quick-pills">
+                <button class="quick-prompt-pill" onclick="sendCopilotPrompt('What should I focus on today?')">🎯 Focus Today</button>
+                <button class="quick-prompt-pill" onclick="sendCopilotPrompt('How can I improve my ATS score?')">📊 Boost ATS</button>
+                <button class="quick-prompt-pill" onclick="sendCopilotPrompt('Prepare me for tomorrow\'s interview')">🎤 Interview Prep</button>
+                <button class="quick-prompt-pill" onclick="sendCopilotPrompt('Show my pending applications')">📋 Application CRM</button>
+            </div>
+
+            <!-- Messages Stream Area -->
+            <div id="copilot-messages-container" class="copilot-messages-box">
+                <div class="copilot-msg bot-msg">
+                    <div class="msg-bubble">
+                        👋 <strong>Hello!</strong> I am your AI Career Copilot. Ask me questions, request tailored resume tips, or explore job recommendations.
+                    </div>
+                </div>
+            </div>
+
+            <!-- Chat Input Row -->
+            <form id="copilot-chat-form" class="copilot-input-form" onsubmit="handleCopilotSubmit(event)">
+                <input type="text" id="copilot-user-input" class="copilot-chat-input" placeholder="Ask anything about your career..." autocomplete="off">
+                <button type="submit" class="copilot-send-btn">➤</button>
+            </form>
+        </div>
+    </div>
+
+    <!-- ======================================================== -->
+    <!-- AUTHENTICATION & LOGIN / REGISTER MODAL -->
+    <!-- ======================================================== -->
+    <div id="auth-modal" class="modal-backdrop" style="display: none;">
+        <div class="modal-box auth-modal-box">
+            <div class="modal-header">
+                <div style="display: flex; align-items: center; gap: 0.6rem;">
+                    <span style="font-size: 1.3rem;">🔐</span>
+                    <div>
+                        <h3 id="auth-modal-title" style="margin: 0; font-size: 1.1rem; font-weight: 800;">Candidate & Admin Access</h3>
+                        <p class="muted" style="margin: 0; font-size: 0.78rem;">Sign in or create account to enable cloud sync & admin controls</p>
+                    </div>
+                </div>
+                <button class="modal-close-btn" onclick="closeAuthModal()">✕</button>
+            </div>
+
+            <!-- Auth Tabs Navigation -->
+            <div class="auth-tabs-nav">
+                <button class="auth-tab-btn active" id="tab-btn-signin" onclick="switchAuthModalTab('signin')">Sign In</button>
+                <button class="auth-tab-btn" id="tab-btn-register" onclick="switchAuthModalTab('register')">Create Account</button>
+                <button class="auth-tab-btn" id="tab-btn-admin-demo" onclick="switchAuthModalTab('admin-demo')">Admin Access</button>
+            </div>
+
+            <!-- Tab 1: Sign In -->
+            <div class="auth-tab-pane active" id="auth-pane-signin">
+                <!-- Social SSO -->
+                <div class="social-login-grid">
+                    <button class="action-btn" onclick="handleGoogleSignIn()" style="display: flex; align-items: center; justify-content: center; gap: 0.6rem; background: #ffffff; color: #1f2937; font-weight: 700; padding: 0.65rem; border-radius: var(--radius-md); border: 1px solid #e5e7eb; cursor: pointer; transition: var(--transition);">
+                        <svg width="18" height="18" viewBox="0 0 24 24"><path fill="#4285F4" d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z"/><path fill="#34A853" d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z"/><path fill="#FBBC05" d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.06H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.94l2.85-2.22.81-.63z"/><path fill="#EA4335" d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.06l3.66 2.84c.87-2.6 3.3-4.52 6.16-4.52z"/></svg>
+                        <span>Sign in with Google</span>
+                    </button>
+                    <button class="action-btn" onclick="handleLinkedInSignIn()" style="display: flex; align-items: center; justify-content: center; gap: 0.6rem; background: #0a66c2; color: #ffffff; font-weight: 700; padding: 0.65rem; border-radius: var(--radius-md); border: none; cursor: pointer; transition: var(--transition);">
+                        <svg width="18" height="18" fill="currentColor" viewBox="0 0 24 24"><path d="M19 3a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h14m-.5 15.5v-5.3a3.26 3.26 0 0 0-3.26-3.26c-.85 0-1.84.52-2.28 1.3v-1.11h-2.79v8.37h2.79v-4.93c0-.77.62-1.4 1.39-1.4a1.4 1.4 0 0 1 1.4 1.4v4.93h2.75M6.88 8.56a1.68 1.68 0 0 0 1.68-1.68c0-.93-.75-1.69-1.68-1.69a1.69 1.69 0 0 0-1.69 1.69c0 .93.76 1.68 1.69 1.68m1.39 9.94v-8.37H5.5v8.37h2.77z"/></svg>
+                        <span>Sign in with LinkedIn</span>
+                    </button>
+                </div>
+
+                <div class="auth-divider-line">OR WITH EMAIL</div>
+
+                <form onsubmit="handleModalAuthSignIn(event)" style="display: flex; flex-direction: column; gap: 0.85rem;">
+                    <div class="form-group">
+                        <label class="form-label" style="font-size: 0.78rem;">Email Address</label>
+                        <input type="email" id="modal-signin-email" class="form-input" placeholder="name@example.com" required>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label" style="font-size: 0.78rem;">Password</label>
+                        <input type="password" id="modal-signin-password" class="form-input" placeholder="••••••••••••" required>
+                    </div>
+                    <button type="submit" class="action-btn btn-primary" style="padding: 0.75rem; font-weight: 700; margin-top: 0.35rem;">
+                        Sign In
+                    </button>
+                </form>
+            </div>
+
+            <!-- Tab 2: Create Account -->
+            <div class="auth-tab-pane" id="auth-pane-register">
+                <form onsubmit="handleModalAuthRegister(event)" style="display: flex; flex-direction: column; gap: 0.85rem;">
+                    <div class="form-group">
+                        <label class="form-label" style="font-size: 0.78rem;">Full Name</label>
+                        <input type="text" id="modal-reg-name" class="form-input" placeholder="e.g. Vishnu Kumar" required>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label" style="font-size: 0.78rem;">Email Address</label>
+                        <input type="email" id="modal-reg-email" class="form-input" placeholder="name@example.com" required>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label" style="font-size: 0.78rem;">Password (Min 6 chars)</label>
+                        <input type="password" id="modal-reg-password" class="form-input" placeholder="••••••••••••" required minlength="6">
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label" style="font-size: 0.78rem;">Account Type</label>
+                        <select id="modal-reg-role" class="form-input">
+                            <option value="candidate">Job Candidate / Seeker</option>
+                            <option value="admin">Platform Administrator</option>
+                        </select>
+                    </div>
+                    <button type="submit" class="action-btn btn-primary" style="padding: 0.75rem; font-weight: 700; margin-top: 0.35rem;">
+                        Create Account
+                    </button>
+                </form>
+            </div>
+
+            <!-- Tab 3: Quick Admin Access -->
+            <div class="auth-tab-pane" id="auth-pane-admin-demo">
+                <div style="text-align: center; padding: 0.5rem 0 1rem 0;">
+                    <div style="font-size: 2.2rem; margin-bottom: 0.5rem;">👑</div>
+                    <h4 style="font-size: 1.05rem; font-weight: 800; color: var(--text-bright); margin-bottom: 0.25rem;">Administrator Quick Access</h4>
+                    <p class="muted" style="font-size: 0.82rem; line-height: 1.4;">Authenticate instantly with executive administrator privileges to inspect user profiles, audit telemetry, and manage job records.</p>
+                </div>
+                <div style="background: var(--bg-surface); padding: 1rem; border-radius: var(--radius-md); border: 1px solid var(--border-color); margin-bottom: 1rem; font-size: 0.8rem;">
+                    <div style="display: flex; justify-content: space-between; margin-bottom: 0.3rem;">
+                        <span class="muted">Admin Account:</span>
+                        <strong style="color: var(--text-bright);">admin@jobagent.ai</strong>
+                    </div>
+                    <div style="display: flex; justify-content: space-between;">
+                        <span class="muted">Access Role:</span>
+                        <strong style="color: #f87171;">System Superadmin</strong>
+                    </div>
+                </div>
+                <button class="action-btn btn-primary" onclick="handleQuickAdminSignIn()" style="width: 100%; padding: 0.75rem; font-weight: 800; background: linear-gradient(135deg, #ef4444, #f59e0b);">
+                    ⚡ Sign In as Admin
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Candidate Inspection Drawer Modal -->
+    <div id="admin-inspect-modal" class="modal-backdrop" style="display: none;">
+        <div class="modal-box modal-large">
+            <div class="modal-header">
+                <div style="display: flex; align-items: center; gap: 0.6rem;">
+                    <span style="font-size: 1.3rem;">🔍</span>
+                    <div>
+                        <h3 id="inspect-modal-title" style="margin: 0; font-size: 1.1rem; font-weight: 800;">Candidate Inspector</h3>
+                        <p class="muted" id="inspect-modal-sub" style="margin: 0; font-size: 0.78rem;">Inspecting candidate profile telemetry & CRM activity</p>
+                    </div>
+                </div>
+                <button class="modal-close-btn" onclick="closeAdminInspectModal()">✕</button>
+            </div>
+            <div id="inspect-modal-body" class="modal-body" style="padding: 1.5rem;">
+                <div class="loading-state">Loading candidate inspection details...</div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Admin Add Opportunity Modal -->
+    <div id="admin-add-job-modal" class="modal-backdrop" style="display: none;">
+        <div class="modal-box">
+            <div class="modal-header">
+                <div style="display: flex; align-items: center; gap: 0.6rem;">
+                    <span style="font-size: 1.3rem;">💼</span>
+                    <div>
+                        <h3 style="margin: 0; font-size: 1.1rem; font-weight: 800;">Add Verified Opportunity</h3>
+                        <p class="muted" style="margin: 0; font-size: 0.78rem;">Directly publish a verified opening into the active dataset</p>
+                    </div>
+                </div>
+                <button class="modal-close-btn" onclick="closeAdminAddJobModal()">✕</button>
+            </div>
+            <form onsubmit="handleAdminAddJobSubmit(event)" class="modal-body" style="padding: 1.25rem; display: flex; flex-direction: column; gap: 0.85rem;">
+                <div class="form-group">
+                    <label class="form-label">Job Title *</label>
+                    <input type="text" id="admin-job-title" class="form-input" placeholder="e.g. Lead Data Scientist" required>
+                </div>
+                <div class="form-row" style="display: flex; gap: 0.75rem;">
+                    <div class="form-group" style="flex: 1;">
+                        <label class="form-label">Company Name *</label>
+                        <input type="text" id="admin-job-company" class="form-input" placeholder="e.g. Google / Microsoft" required>
+                    </div>
+                    <div class="form-group" style="flex: 1;">
+                        <label class="form-label">Location *</label>
+                        <input type="text" id="admin-job-location" class="form-input" placeholder="e.g. Hyderabad, India / Remote" required>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="form-label">Required Skills (Comma-separated) *</label>
+                    <input type="text" id="admin-job-skills" class="form-input" placeholder="Python, SQL, Power BI, Machine Learning" required>
+                </div>
+                <div class="form-row" style="display: flex; gap: 0.75rem;">
+                    <div class="form-group" style="flex: 1;">
+                        <label class="form-label">Salary Range</label>
+                        <input type="text" id="admin-job-salary" class="form-input" placeholder="₹15,00,000 - ₹24,00,000">
+                    </div>
+                    <div class="form-group" style="flex: 1;">
+                        <label class="form-label">Direct Apply URL</label>
+                        <input type="url" id="admin-job-url" class="form-input" placeholder="https://company.com/careers">
+                    </div>
+                </div>
+                <div class="modal-footer" style="display: flex; justify-content: flex-end; gap: 0.6rem; padding-top: 0.75rem; border-top: 1px solid var(--border-color); margin-top: 0.5rem;">
+                    <button type="button" class="action-btn btn-secondary" onclick="closeAdminAddJobModal()">Cancel</button>
+                    <button type="submit" class="action-btn btn-primary">Publish Opportunity</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- ======================================================== -->
+    <!-- OFFICIAL GOOGLE OAUTH 2.0 ACCOUNT CHOOSER MODAL -->
+    <!-- ======================================================== -->
+    <div id="google-oauth-modal" class="modal-backdrop" style="display: none;">
+        <div class="modal-box google-oauth-box">
+            <div class="google-oauth-header">
+                <svg width="36" height="36" viewBox="0 0 24 24"><path fill="#4285F4" d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z"/><path fill="#34A853" d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z"/><path fill="#FBBC05" d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.06H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.94l2.85-2.22.81-.63z"/><path fill="#EA4335" d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.06l3.66 2.84c.87-2.6 3.3-4.52 6.16-4.52z"/></svg>
+                <h3 style="margin: 0.6rem 0 0.25rem 0; font-size: 1.25rem; font-weight: 700; color: #ffffff;">Sign in with Google</h3>
+                <p class="muted" style="margin: 0; font-size: 0.84rem;">to continue to <strong style="color: #ffffff;">JobCopilot Career Intelligence</strong></p>
+            </div>
+
+            <div class="google-accounts-list">
+                <div class="google-account-item" onclick="selectGoogleAccount({ name: 'Beere Vishnu Sai', email: 'vishnusai.beere@gmail.com', avatar_url: 'https://lh3.googleusercontent.com/a/default-user', google_id: 'goog_1082910283019' })">
+                    <div class="google-account-avatar" style="background: linear-gradient(135deg, #4285F4, #34A853);">V</div>
+                    <div class="google-account-info">
+                        <div class="google-acc-name">Beere Vishnu Sai</div>
+                        <div class="google-acc-email">vishnusai.beere@gmail.com</div>
+                    </div>
+                    <span class="google-acc-badge">Signed in</span>
+                </div>
+
+                <div class="google-account-item" onclick="selectGoogleAccount({ name: 'Vishnu Sai (Tech Work)', email: 'vishnusai.tech@gmail.com', avatar_url: 'https://lh3.googleusercontent.com/a/default-user', google_id: 'goog_9182039102938' })">
+                    <div class="google-account-avatar" style="background: linear-gradient(135deg, #EA4335, #FBBC05);">V</div>
+                    <div class="google-account-info">
+                        <div class="google-acc-name">Vishnu Sai (Developer)</div>
+                        <div class="google-acc-email">vishnusai.tech@gmail.com</div>
+                    </div>
+                </div>
+
+                <div class="google-account-item google-use-another" onclick="promptCustomGoogleAccount()">
+                    <div class="google-account-avatar" style="background: rgba(255, 255, 255, 0.08); color: #fff;">➕</div>
+                    <div class="google-account-info">
+                        <div class="google-acc-name">Use another Google account...</div>
+                        <div class="google-acc-email">Enter any Google email address</div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="google-oauth-footer">
+                <p class="google-privacy-notice">
+                    To continue, Google will share your name, email address, and profile picture with JobCopilot. Review JobCopilot’s <a href="#" style="color: #60a5fa;">privacy policy</a> and <a href="#" style="color: #60a5fa;">terms of service</a>.
+                </p>
+                <div style="display: flex; justify-content: flex-end; gap: 0.5rem; margin-top: 1rem;">
+                    <button class="action-btn-sm btn-secondary" onclick="closeGoogleOAuthModal()">Cancel</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Toast Notification System -->
+    <div id="toast-container" class="toast-container"></div>
+
+    <script src="app.js?v=4.5"></script>
 </body>
 </html>

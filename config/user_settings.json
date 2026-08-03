@@ -1,0 +1,16 @@
+{
+    "preferred_roles": [
+        "Data Analyst",
+        "Business Analyst"
+    ],
+    "preferred_locations": [
+        "Bangalore",
+        "Hyderabad"
+    ],
+    "minimum_ats_score": 70,
+    "job_sources": [
+        "LinkedIn",
+        "Naukri",
+        "Foundit"
+    ]
+}

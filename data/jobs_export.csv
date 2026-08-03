@@ -1,0 +1,19 @@
+id,title,company,location,source,url,skills,salary,posted_date
+1,Data Analyst,Google,Bangalore,LinkedIn,https://...,"Python, SQL",12 LPA,Today
+2,Data Analyst,Infosys,Bangalore,LinkedIn,https://linkedin.com,,,
+3,Business Analyst,Accenture,Hyderabad,Naukri,https://naukri.com,,,
+4,Data Engineer,TCS,Bangalore,Foundit,https://foundit.in,,,
+5,BI Analyst,Deloitte,Hyderabad,LinkedIn,https://linkedin.com,,,
+6,Reporting Analyst,Capgemini,Pune,Indeed,https://indeed.com,,,
+7,Data Scientist,Wipro,Chennai,LinkedIn,https://linkedin.com,,,
+8,Python Developer,Cognizant,Bangalore,Naukri,https://naukri.com,,,
+9,SQL Developer,IBM,Hyderabad,Foundit,https://foundit.in,,,
+10,Power BI Developer,Tech Mahindra,Bangalore,LinkedIn,https://linkedin.com,,,
+11,Analytics Consultant,EY,Hyderabad,Indeed,https://indeed.com,,,
+12,Data Analyst,Google,Bangalore,LinkedIn,https://...,"Python, SQL",12 LPA,Today
+13,Senior Data Analyst,Precision Medicine Group,India (Remote),LinkedIn / Greenhouse,https://boards.greenhouse.io/precisionmedicinegroup/jobs/4236928,"Python, SQL, Data Analysis",N/A,July 2026
+14,Python Developer (Data Eng.),Bluevine,Bangalore,Greenhouse,https://boards.greenhouse.io/bluevine/jobs/4096057,"Python, SQL, ETL, Git",15-20 LPA,July 2026
+15,Python Developer,Particle41,Remote (India),Greenhouse,https://boards.greenhouse.io/particle41/jobs/4102941,"Python, Git, MySQL",N/A,July 2026
+16,BI Data Analyst,CoinsPaid,Remote,Lever,https://jobs.lever.co/coinspaid/8549,"Power BI, SQL, Data Visualization",N/A,July 2026
+17,Data Analyst,Alpaca,Remote,Greenhouse,https://boards.greenhouse.io/alpaca/jobs/4037592,"Python, SQL, Tableau, Pandas",N/A,July 2026
+18,Senior Data Analyst,Dwelly,Remote (India),Greenhouse,https://boards.greenhouse.io/dwelly/jobs/4037382,"Python, SQL, Excel, Tableau",N/A,July 2026

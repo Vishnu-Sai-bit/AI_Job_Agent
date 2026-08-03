@@ -1,0 +1,200 @@
+[
+  {
+    "id":1,
+    "title":"Data Analyst",
+    "company":"Google",
+    "location":"Bangalore",
+    "source":"LinkedIn",
+    "url":"https:\/\/...",
+    "skills":"Python, SQL",
+    "salary":"12 LPA",
+    "posted_date":"Today"
+  },
+  {
+    "id":2,
+    "title":"Data Analyst",
+    "company":"Infosys",
+    "location":"Bangalore",
+    "source":"LinkedIn",
+    "url":"https:\/\/linkedin.com",
+    "skills":null,
+    "salary":null,
+    "posted_date":null
+  },
+  {
+    "id":3,
+    "title":"Business Analyst",
+    "company":"Accenture",
+    "location":"Hyderabad",
+    "source":"Naukri",
+    "url":"https:\/\/naukri.com",
+    "skills":null,
+    "salary":null,
+    "posted_date":null
+  },
+  {
+    "id":4,
+    "title":"Data Engineer",
+    "company":"TCS",
+    "location":"Bangalore",
+    "source":"Foundit",
+    "url":"https:\/\/foundit.in",
+    "skills":null,
+    "salary":null,
+    "posted_date":null
+  },
+  {
+    "id":5,
+    "title":"BI Analyst",
+    "company":"Deloitte",
+    "location":"Hyderabad",
+    "source":"LinkedIn",
+    "url":"https:\/\/linkedin.com",
+    "skills":null,
+    "salary":null,
+    "posted_date":null
+  },
+  {
+    "id":6,
+    "title":"Reporting Analyst",
+    "company":"Capgemini",
+    "location":"Pune",
+    "source":"Indeed",
+    "url":"https:\/\/indeed.com",
+    "skills":null,
+    "salary":null,
+    "posted_date":null
+  },
+  {
+    "id":7,
+    "title":"Data Scientist",
+    "company":"Wipro",
+    "location":"Chennai",
+    "source":"LinkedIn",
+    "url":"https:\/\/linkedin.com",
+    "skills":null,
+    "salary":null,
+    "posted_date":null
+  },
+  {
+    "id":8,
+    "title":"Python Developer",
+    "company":"Cognizant",
+    "location":"Bangalore",
+    "source":"Naukri",
+    "url":"https:\/\/naukri.com",
+    "skills":null,
+    "salary":null,
+    "posted_date":null
+  },
+  {
+    "id":9,
+    "title":"SQL Developer",
+    "company":"IBM",
+    "location":"Hyderabad",
+    "source":"Foundit",
+    "url":"https:\/\/foundit.in",
+    "skills":null,
+    "salary":null,
+    "posted_date":null
+  },
+  {
+    "id":10,
+    "title":"Power BI Developer",
+    "company":"Tech Mahindra",
+    "location":"Bangalore",
+    "source":"LinkedIn",
+    "url":"https:\/\/linkedin.com",
+    "skills":null,
+    "salary":null,
+    "posted_date":null
+  },
+  {
+    "id":11,
+    "title":"Analytics Consultant",
+    "company":"EY",
+    "location":"Hyderabad",
+    "source":"Indeed",
+    "url":"https:\/\/indeed.com",
+    "skills":null,
+    "salary":null,
+    "posted_date":null
+  },
+  {
+    "id":12,
+    "title":"Data Analyst",
+    "company":"Google",
+    "location":"Bangalore",
+    "source":"LinkedIn",
+    "url":"https:\/\/...",
+    "skills":"Python, SQL",
+    "salary":"12 LPA",
+    "posted_date":"Today"
+  },
+  {
+    "id":13,
+    "title":"Senior Data Analyst",
+    "company":"Precision Medicine Group",
+    "location":"India (Remote)",
+    "source":"LinkedIn \/ Greenhouse",
+    "url":"https:\/\/boards.greenhouse.io\/precisionmedicinegroup\/jobs\/4236928",
+    "skills":"Python, SQL, Data Analysis",
+    "salary":"N\/A",
+    "posted_date":"July 2026"
+  },
+  {
+    "id":14,
+    "title":"Python Developer (Data Eng.)",
+    "company":"Bluevine",
+    "location":"Bangalore",
+    "source":"Greenhouse",
+    "url":"https:\/\/boards.greenhouse.io\/bluevine\/jobs\/4096057",
+    "skills":"Python, SQL, ETL, Git",
+    "salary":"15-20 LPA",
+    "posted_date":"July 2026"
+  },
+  {
+    "id":15,
+    "title":"Python Developer",
+    "company":"Particle41",
+    "location":"Remote (India)",
+    "source":"Greenhouse",
+    "url":"https:\/\/boards.greenhouse.io\/particle41\/jobs\/4102941",
+    "skills":"Python, Git, MySQL",
+    "salary":"N\/A",
+    "posted_date":"July 2026"
+  },
+  {
+    "id":16,
+    "title":"BI Data Analyst",
+    "company":"CoinsPaid",
+    "location":"Remote",
+    "source":"Lever",
+    "url":"https:\/\/jobs.lever.co\/coinspaid\/8549",
+    "skills":"Power BI, SQL, Data Visualization",
+    "salary":"N\/A",
+    "posted_date":"July 2026"
+  },
+  {
+    "id":17,
+    "title":"Data Analyst",
+    "company":"Alpaca",
+    "location":"Remote",
+    "source":"Greenhouse",
+    "url":"https:\/\/boards.greenhouse.io\/alpaca\/jobs\/4037592",
+    "skills":"Python, SQL, Tableau, Pandas",
+    "salary":"N\/A",
+    "posted_date":"July 2026"
+  },
+  {
+    "id":18,
+    "title":"Senior Data Analyst",
+    "company":"Dwelly",
+    "location":"Remote (India)",
+    "source":"Greenhouse",
+    "url":"https:\/\/boards.greenhouse.io\/dwelly\/jobs\/4037382",
+    "skills":"Python, SQL, Excel, Tableau",
+    "salary":"N\/A",
+    "posted_date":"July 2026"
+  }
+]

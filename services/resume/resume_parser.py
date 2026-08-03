@@ -57,6 +57,7 @@ from exceptions import ResumeParserError
 def extract_pdf(file_path: Path) -> str:
     """
     Extract text from PDF with 2-column block sorting and scanned PDF check.
+    Also extracts embedded PDF hyperlinks and annotations.
     """
 
     info(f"Reading PDF: {file_path.name}")
@@ -64,10 +65,19 @@ def extract_pdf(file_path: Path) -> str:
     try:
 
         resume_text = ""
+        extracted_links = []
 
         with fitz.open(file_path) as pdf:
 
             for page in pdf:
+                # Extract embedded hyperlink annotations (e.g. LinkedIn, Portfolio, GitHub)
+                try:
+                    for link in page.get_links():
+                        uri = link.get("uri")
+                        if uri and uri.strip().startswith(("http://", "https://", "mailto:")):
+                            extracted_links.append(uri.strip())
+                except Exception:
+                    pass
 
                 blocks = page.get_text("blocks")
                 mid_x = page.rect.width / 2
@@ -87,6 +97,11 @@ def extract_pdf(file_path: Path) -> str:
                 for b in sorted_blocks:
                     if len(b) > 4 and b[4].strip():
                         resume_text += b[4].strip() + "\n"
+
+        # Append unique discovered embedded links to the extracted text
+        if extracted_links:
+            unique_links = list(dict.fromkeys(extracted_links))
+            resume_text += "\n\nDiscovered Embedded Links:\n" + "\n".join(unique_links) + "\n"
 
         # Check for scanned PDF
         if len(resume_text.strip()) < 50:
