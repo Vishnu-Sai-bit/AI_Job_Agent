@@ -425,7 +425,7 @@ function renderJobs() {
                     </div>
                 </div>
                 
-                <a href="${job.apply_link || "#"}" target="_blank" class="action-btn-small">Apply for Job</a>
+                <a href="${job.apply_url || "#"}" target="_blank" class="action-btn-small">Apply for Job</a>
             `;
             cardsContainer.appendChild(card);
         });
