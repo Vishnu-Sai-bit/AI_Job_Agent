@@ -641,9 +641,18 @@ async function executeTool() {
             };
         } else if (activeTool === "interview") {
             endpoint = "/generate-interview-questions";
+            
+            let contextText = "";
+            if (resumeData) {
+                const projectsText = (resumeData.projects || []).map(p => `Project: ${p.title || p.name || ""}. Description: ${p.description || ""}`).join("\n");
+                const expText = (resumeData.experience || []).map(e => `Role: ${e.designation || e.role || ""} at ${e.company || ""}. Description: ${e.description || ""}`).join("\n");
+                contextText = `Candidate Summary: ${resumeData.career_summary || ""}\n\nWork History:\n${expText}\n\nProjects:\n${projectsText}`;
+            }
+            
             payload = {
                 role: title,
-                skills
+                skills,
+                resume_context: contextText
             };
         } else if (activeTool === "email") {
             endpoint = "/generate-emails";
