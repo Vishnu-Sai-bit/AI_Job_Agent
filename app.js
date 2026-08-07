@@ -557,6 +557,23 @@ function renderToolForm() {
                 <label>Core Technical Skills (comma separated)</label>
                 <input type="text" id="tool-skills" value="${skills}" placeholder="e.g. SQL, Python, Excel">
             </div>
+            <div class="form-group">
+                <label>Number of Questions</label>
+                <select id="tool-question-count" class="form-select">
+                    <option value="5" selected>5 Questions</option>
+                    <option value="10">10 Questions</option>
+                    <option value="15">15 Questions</option>
+                    <option value="20">20 Questions</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label>Interviewer Perspective / Tone</label>
+                <select id="tool-interviewer-role" class="form-select">
+                    <option value="Senior Technical Recruiter" selected>Senior Technical Recruiter</option>
+                    <option value="HR Director / Manager">HR Director / Manager</option>
+                    <option value="VP of Engineering / Hiring Manager">VP of Engineering / Hiring Manager</option>
+                </select>
+            </div>
         `;
     } else if (activeTool === "email") {
         container.innerHTML = `
@@ -652,7 +669,9 @@ async function executeTool() {
             payload = {
                 role: title,
                 skills,
-                resume_context: contextText
+                resume_context: contextText,
+                question_count: parseInt(document.getElementById("tool-question-count").value) || 5,
+                interviewer_role: document.getElementById("tool-interviewer-role").value
             };
         } else if (activeTool === "email") {
             endpoint = "/generate-emails";
@@ -723,11 +742,12 @@ ${data.sign_off}
     } else if (activeTool === "interview") {
         const list = data.questions || [];
         box.innerHTML = list.map((q, idx) => `
-<strong>Q${idx + 1}: [${q.type}] ${q.question}</strong>
-<em>💡 Answer Strategy:</em> ${q.answer_tips}
-<em>🏆 Sample Response:</em> ${q.sample_answer}
---------------------------------------------------
-        `).join("\n");
+<div class="interview-question-block" style="margin-bottom: 1.5rem; padding: 1.5rem; background: rgba(255, 255, 255, 0.03); border-radius: 12px; border-left: 4px solid #db2777; backdrop-filter: blur(10px);">
+    <h4 style="color: #f472b6; margin: 0 0 0.8rem 0; font-size: 1.1rem; font-weight: 600;">Q${idx + 1}: [${q.type}] ${q.question}</h4>
+    <p style="margin: 0.5rem 0; font-size: 0.95rem; line-height: 1.5;"><strong>💡 Recruiter Strategy & Tips:</strong> ${q.answer_tips}</p>
+    <p style="margin: 0.5rem 0; font-size: 0.95rem; line-height: 1.5; color: rgba(255, 255, 255, 0.8);"><strong>🏆 Model Response:</strong> ${q.sample_answer}</p>
+</div>
+        `).join("");
     } else if (activeTool === "email") {
         box.innerHTML = `
 <h3>✉️ Direct Application Email</h3>
