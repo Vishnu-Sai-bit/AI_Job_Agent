@@ -160,8 +160,8 @@ async function handleFileUpload(file) {
     setUploadProgress(30, "Uploading resume file...");
 
     try {
-        // Step 1: Analyze Resume
-        setUploadProgress(50, "Running AI ATS analysis...");
+        // Step 1: Analyze Resume & Search Matching Jobs in one unified pipeline
+        setUploadProgress(60, "Running AI ATS analysis & matching jobs...");
         
         const analysisResponse = await fetch(`${BACKEND_URL}/analyze-resume`, {
             method: "POST",
@@ -174,25 +174,24 @@ async function handleFileUpload(file) {
 
         const analysisResult = await analysisResponse.json();
         resumeData = analysisResult.resume;
-        setUploadProgress(75, "Searching matching jobs...");
+        jobData = analysisResult.result;
 
-        // Step 2: Fetch Matching Jobs (use a new FormData instance to rewind stream)
-        const jobFormData = new FormData();
-        jobFormData.append("file", file);
-        
-        const jobResponse = await fetch(`${BACKEND_URL}/search-jobs`, {
-            method: "POST",
-            body: jobFormData
-        });
-
-        if (!jobResponse.ok) {
-            throw new Error(`Job search failed: ${await jobResponse.text()}`);
+        // Fallback: If jobData is somehow not in the unified response, fetch it
+        if (!jobData) {
+            setUploadProgress(80, "Searching matching jobs...");
+            const jobFormData = new FormData();
+            jobFormData.append("file", file);
+            const jobResponse = await fetch(`${BACKEND_URL}/search-jobs`, {
+                method: "POST",
+                body: jobFormData
+            });
+            if (jobResponse.ok) {
+                const jobResult = await jobResponse.json();
+                jobData = jobResult.result;
+            }
         }
 
-        const jobResult = await jobResponse.json();
-        jobData = jobResult.result;
-
-        // Step 3: Complete upload
+        // Step 2: Complete upload
         setUploadProgress(100, "Analysis complete!");
         setTimeout(() => {
             progressContainer.style.display = "none";
