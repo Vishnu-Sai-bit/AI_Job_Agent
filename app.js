@@ -684,11 +684,26 @@ async function executeTool() {
             };
         } else if (activeTool === "email") {
             endpoint = "/generate-emails";
+            
+            let contextText = "";
+            if (resumeData) {
+                const projectsText = (resumeData.projects || []).map(p => `• Project: ${p.title || p.name || ""}. Details: ${p.description || ""}`).join("\n");
+                const expText = (resumeData.experience || []).map(e => `• Experience: ${e.designation || e.role || ""} at ${e.company || ""}. Details: ${e.description || ""}`).join("\n");
+                const certText = (resumeData.certifications || []).map(c => `• Certification: ${c}`).join("\n");
+                contextText = `Summary: ${resumeData.career_summary || ""}\n\nWork History:\n${expText}\n\nProjects:\n${projectsText}\n\nCertifications:\n${certText}`;
+            }
+
             payload = {
                 name,
                 skills,
                 role: title,
-                company
+                company: company || "Target Company",
+                email: (resumeData && resumeData.email) || "",
+                phone: (resumeData && resumeData.phone) || "",
+                linkedin: (resumeData && resumeData.linkedin) || "",
+                github: (resumeData && resumeData.github) || "",
+                portfolio: (resumeData && resumeData.portfolio) || "",
+                resume_context: contextText
             };
         } else if (activeTool === "linkedin") {
             endpoint = "/optimize-linkedin";
@@ -759,21 +774,40 @@ ${data.sign_off}
         `).join("");
     } else if (activeTool === "email") {
         box.innerHTML = `
-<h3>✉️ Direct Application Email</h3>
-<strong>Subject:</strong> ${data.job_application ? data.job_application.subject : ""}\n
-${data.job_application ? data.job_application.body : ""}
+<div class="email-template-card" style="margin-bottom: 2rem; padding: 1.5rem; background: rgba(255, 255, 255, 0.03); border-radius: 12px; border-left: 4px solid #6366f1;">
+    <h3 style="color: #818cf8; margin-top: 0; font-size: 1.2rem;">📧 Template 1: Direct Cold Outreach to Hiring Manager</h3>
+    <p style="color: rgba(255, 255, 255, 0.7); font-size: 0.9rem; margin-bottom: 1rem;"><em>Best for pitching Team Leads, Engineering Managers, or Department Heads directly.</em></p>
+    <div style="background: rgba(0, 0, 0, 0.25); padding: 1rem; border-radius: 8px; margin-bottom: 1rem;">
+        <strong>Subject:</strong> ${data.cold_outreach ? data.cold_outreach.subject : ""}<br><br>
+        <div style="white-space: pre-wrap; line-height: 1.6;">${data.cold_outreach ? data.cold_outreach.body : ""}</div>
+    </div>
+</div>
 
-<hr class="divider">
+<div class="email-template-card" style="margin-bottom: 2rem; padding: 1.5rem; background: rgba(255, 255, 255, 0.03); border-radius: 12px; border-left: 4px solid #0ea5e9;">
+    <h3 style="color: #38bdf8; margin-top: 0; font-size: 1.2rem;">💬 Template 2: LinkedIn Connection Request Note (&lt;300 chars)</h3>
+    <p style="color: rgba(255, 255, 255, 0.7); font-size: 0.9rem; margin-bottom: 1rem;"><em>Personalized message to attach when sending connection requests on LinkedIn.</em></p>
+    <div style="background: rgba(0, 0, 0, 0.25); padding: 1rem; border-radius: 8px; margin-bottom: 1rem;">
+        <div style="white-space: pre-wrap; line-height: 1.6;">${data.linkedin_inmail ? data.linkedin_inmail.body : ""}</div>
+    </div>
+</div>
 
-<h3>🤝 Cold Networking Outreach</h3>
-<strong>Subject:</strong> ${data.cold_outreach ? data.cold_outreach.subject : ""}\n
-${data.cold_outreach ? data.cold_outreach.body : ""}
+<div class="email-template-card" style="margin-bottom: 2rem; padding: 1.5rem; background: rgba(255, 255, 255, 0.03); border-radius: 12px; border-left: 4px solid #f59e0b;">
+    <h3 style="color: #fbbf24; margin-top: 0; font-size: 1.2rem;">⏳ Template 3: Strategic Follow-Up Email (4–5 Days Later)</h3>
+    <p style="color: rgba(255, 255, 255, 0.7); font-size: 0.9rem; margin-bottom: 1rem;"><em>Follow-up note highlighting a project achievement if no response received.</em></p>
+    <div style="background: rgba(0, 0, 0, 0.25); padding: 1rem; border-radius: 8px; margin-bottom: 1rem;">
+        <strong>Subject:</strong> ${data.follow_up_email ? data.follow_up_email.subject : ""}<br><br>
+        <div style="white-space: pre-wrap; line-height: 1.6;">${data.follow_up_email ? data.follow_up_email.body : ""}</div>
+    </div>
+</div>
 
-<hr class="divider">
-
-<h3>✉️ Post-Interview Thank You</h3>
-<strong>Subject:</strong> ${data.interview_follow_up ? data.interview_follow_up.subject : ""}\n
-${data.interview_follow_up ? data.interview_follow_up.body : ""}
+<div class="email-template-card" style="margin-bottom: 2rem; padding: 1.5rem; background: rgba(255, 255, 255, 0.03); border-radius: 12px; border-left: 4px solid #10b981;">
+    <h3 style="color: #34d399; margin-top: 0; font-size: 1.2rem;">✉️ Template 4: Formal Job Application Email</h3>
+    <p style="color: rgba(255, 255, 255, 0.7); font-size: 0.9rem; margin-bottom: 1rem;"><em>Formal cover letter application attaching your resume to HR / Talent Acquisition.</em></p>
+    <div style="background: rgba(0, 0, 0, 0.25); padding: 1rem; border-radius: 8px; margin-bottom: 1rem;">
+        <strong>Subject:</strong> ${data.job_application ? data.job_application.subject : ""}<br><br>
+        <div style="white-space: pre-wrap; line-height: 1.6;">${data.job_application ? data.job_application.body : ""}</div>
+    </div>
+</div>
         `;
     } else if (activeTool === "linkedin") {
         const headlines = data.suggested_headlines || [];
