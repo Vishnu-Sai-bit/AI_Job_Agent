@@ -253,6 +253,7 @@ function renderDashboard() {
     socialsContainer.innerHTML = "";
     
     const socials = [
+        { name: "Email", key: "email", icon: "✉️", isEmail: true },
         { name: "LinkedIn", key: "linkedin", icon: "🔗" },
         { name: "GitHub", key: "github", icon: "💻" },
         { name: "Portfolio", key: "portfolio", icon: "💼" }
@@ -263,13 +264,22 @@ function renderDashboard() {
         const badge = document.createElement("a");
         badge.className = "social-badge";
         
-        if (val) {
-            badge.href = val.startsWith("http") ? val : `https://${val}`;
-            badge.target = "_blank";
+        if (val && typeof val === "string" && val.trim() && val.trim() !== "None") {
+            const cleanVal = val.trim();
+            if (s.isEmail) {
+                badge.href = `mailto:${cleanVal}`;
+                badge.title = `Send Email to ${cleanVal}`;
+            } else {
+                badge.href = cleanVal.startsWith("http") ? cleanVal : `https://${cleanVal}`;
+                badge.target = "_blank";
+                badge.rel = "noopener noreferrer";
+                badge.title = `Open ${s.name} (${cleanVal})`;
+            }
             badge.innerHTML = `<span class="social-badge-icon">${s.icon}</span> ${s.name}`;
         } else {
             badge.classList.add("disabled");
             badge.innerHTML = `<span class="social-badge-icon">❌</span> ${s.name}`;
+            badge.title = `${s.name} not detected`;
             badge.addEventListener("click", (e) => e.preventDefault());
         }
         socialsContainer.appendChild(badge);
