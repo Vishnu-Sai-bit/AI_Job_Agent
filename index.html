@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>AI JobAgent - Professional Career Command Center</title>
+    <title>AI JobAgent - Professional Career Command Studio</title>
     <link rel="stylesheet" href="style.css">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -16,47 +16,21 @@
         <div class="glow-orb glow-cyan"></div>
     </div>
 
-    <div class="app-container">
-        <!-- Sidebar -->
-        <aside class="sidebar">
+    <!-- Top Navigation Bar (Claude & Gemini Studio Style) -->
+    <header class="top-navbar">
+        <div class="top-nav-inner">
             <div class="brand">
                 <div class="brand-logo-container">
                     <span class="brand-icon">⚡</span>
                 </div>
                 <div class="brand-text">
                     <h1>AI JobAgent</h1>
-                    <span class="version-tag">Enterprise Pro</span>
-                </div>
-            </div>
-            
-            <div class="upload-section">
-                <h3>Resume Workspace</h3>
-                <div class="upload-box" id="drop-zone">
-                    <div class="upload-icon-container">
-                        <span class="upload-box-icon">📄</span>
-                    </div>
-                    <p class="upload-title">Upload Resume</p>
-                    <p class="upload-subtitle">Drag & drop PDF / DOCX or browse</p>
-                    <input type="file" id="resume-input" accept=".pdf,.docx" style="display: none;">
-                </div>
-                
-                <div class="progress-bar-container" id="progress-container" style="display: none;">
-                    <div class="progress-tracker">
-                        <span id="upload-status">Ready to analyze</span>
-                        <span id="progress-percent">0%</span>
-                    </div>
-                    <div class="progress-bar-track">
-                        <div class="progress-bar" id="progress-bar"></div>
-                    </div>
-                </div>
-                
-                <div class="status-msg-box" id="status-box">
-                    <span class="status-dot"></span>
-                    <span class="status-msg" id="upload-status-text">System Ready</span>
+                    <span class="version-tag">Studio Pro</span>
                 </div>
             </div>
 
-            <nav class="nav-menu">
+            <!-- Center Navigation Tabs -->
+            <nav class="nav-menu top-nav-tabs">
                 <button class="nav-btn active" data-tab="dashboard">
                     <span class="btn-icon">📊</span> Dashboard & ATS
                 </button>
@@ -70,408 +44,449 @@
                     <span class="btn-icon">🧠</span> AI Career Tools
                 </button>
                 <button class="nav-btn" data-tab="learning">
-                    <span class="btn-icon">📈</span> Learning Roadmaps
+                    <span class="btn-icon">📈</span> Roadmaps
                 </button>
             </nav>
 
-            <div class="sidebar-footer">
-                <button id="theme-toggle" class="theme-btn">
-                    <span id="theme-icon">🌙</span> Dark Mode
+            <!-- Right Controls & Candidate Hub -->
+            <div class="top-nav-actions">
+                <button id="quick-upload-btn" class="nav-upload-btn" title="Upload or Update Resume">
+                    <span class="btn-icon">📄</span> Upload Resume
+                </button>
+                <input type="file" id="resume-input" accept=".pdf,.docx" style="display: none;">
+
+                <div class="nav-hub-pill" id="nav-hub-badge">
+                    <span class="live-dot"></span>
+                    <span id="nav-hub-text">📍 Hyderabad, India</span>
+                </div>
+
+                <button id="theme-toggle" class="theme-btn" title="Toggle Light/Dark Theme">
+                    <span id="theme-icon">🌙</span>
                 </button>
             </div>
-        </aside>
+        </div>
+    </header>
 
-        <!-- Main Content Area -->
-        <main class="main-content">
-            <header class="main-header">
-                <div class="header-info">
-                    <h2>Career Command Center</h2>
-                    <p>AI-driven career matching, ATS diagnostics, and recruitment intelligence.</p>
-                </div>
-                <div class="header-status-badge">
-                    <span class="pulse-indicator"></span>
-                    <span>AI Engine Connected</span>
-                </div>
-            </header>
+    <!-- Studio Main Workspace -->
+    <main class="studio-main">
+        <!-- Floating Upload Progress Indicator -->
+        <div class="progress-bar-container studio-progress" id="progress-container" style="display: none;">
+            <div class="progress-tracker">
+                <span id="upload-status">Ready to analyze</span>
+                <span id="progress-percent">0%</span>
+            </div>
+            <div class="progress-bar-track">
+                <div class="progress-bar" id="progress-bar"></div>
+            </div>
+        </div>
 
-            <div class="content-container">
-                <!-- Welcome Screen / Placeholder -->
-                <div id="welcome-placeholder" class="placeholder-card">
-                    <div class="placeholder-icon">🎯</div>
-                    <h2>Initialize Your Career Profile</h2>
-                    <p>Upload your resume using the workspace panel in the sidebar. The system will automatically execute ATS grading, parse contact credentials, match verified job listings, and generate personalized interview prep.</p>
-                    <div class="feature-bullets">
-                        <div class="bullet-item"><span class="check-icon">✓</span> Precise ATS Parsing</div>
-                        <div class="bullet-item"><span class="check-icon">✓</span> Multi-Source Verification</div>
-                        <div class="bullet-item"><span class="check-icon">✓</span> AI Interview Simulator</div>
+        <!-- Hidden / Global status box for JS compatibility -->
+        <div class="status-msg-box" id="status-box" style="display: none;">
+            <span class="status-dot"></span>
+            <span class="status-msg" id="upload-status-text">System Ready</span>
+        </div>
+
+        <div class="content-container">
+            <!-- Welcome Screen / Placeholder (Claude & Gemini Studio Style) -->
+            <div id="welcome-placeholder" class="welcome-studio-card">
+                <div class="welcome-header">
+                    <div class="welcome-badge">⚡ AI-Powered Career Command Center</div>
+                    <h2 class="welcome-title">Elevate Your Career with Intelligent Match & ATS Precision</h2>
+                    <p class="welcome-subtitle">Drop your resume below to initiate real-time ATS compatibility scoring, multi-source verified job discovery, executive pipeline analytics, and AI mock interview prep.</p>
+                </div>
+
+                <!-- Hero Drop Zone -->
+                <div class="studio-upload-zone" id="drop-zone">
+                    <div class="upload-icon-circle">
+                        <span class="upload-big-icon">📄</span>
+                    </div>
+                    <h3 class="upload-zone-title">Drag & drop your resume file here</h3>
+                    <p class="upload-zone-subtitle">Supports PDF & DOCX • Instant ATS parsing & market matching</p>
+                    <button class="upload-browse-btn" type="button">Browse Files from Computer</button>
+                </div>
+
+                <div class="welcome-features-grid">
+                    <div class="welcome-feature-card">
+                        <span class="feature-icon">🎯</span>
+                        <h4>Accurate ATS Grading</h4>
+                        <p>Calculates weighted keyword compatibility and extracts contact credentials seamlessly.</p>
+                    </div>
+                    <div class="welcome-feature-card">
+                        <span class="feature-icon">🛡️</span>
+                        <h4>Verified Job Pipeline</h4>
+                        <p>Filters active, high-match opportunities across target hubs in India and global remote.</p>
+                    </div>
+                    <div class="welcome-feature-card">
+                        <span class="feature-icon">💬</span>
+                        <h4>AI Mock Interview Studio</h4>
+                        <p>Practice voice and technical answers with employer presets and 5-dimension rubric evaluations.</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Tab 1: Dashboard & ATS Report -->
+            <section id="tab-dashboard" class="tab-content" style="display: none;">
+                <!-- Candidate Hero Profile Header -->
+                <div class="candidate-hero-banner" id="candidate-hero-card">
+                    <div class="hero-avatar-wrap">
+                        <div class="hero-avatar" id="hero-avatar-initials">VS</div>
+                        <span class="hero-verified-badge" title="Verified Profile">✓</span>
+                    </div>
+                    <div class="hero-info-body">
+                        <div class="hero-title-row">
+                            <h2 class="hero-name" id="hero-candidate-name">Beere Vishnu Sai</h2>
+                            <span class="hero-role-pill" id="hero-preferred-role">Data Analyst</span>
+                            <span class="hero-hub-pill" id="hero-hub-badge">
+                                <span class="live-dot"></span>
+                                <span id="hero-current-hub">📍 Hyderabad, India</span>
+                            </span>
+                        </div>
+                        <p class="hero-summary-text" id="hero-summary-bio">Analytical professional specialized in Data Analytics, Python, SQL, Power BI, and Tableau dashboards.</p>
+                        <div class="hero-quick-actions" id="hero-quick-actions">
+                            <button class="hero-action-btn" id="hero-copy-email-btn" title="Copy Email">
+                                <span>✉️</span> <span id="hero-email-label">Email</span>
+                            </button>
+                            <button class="hero-action-btn" id="hero-copy-phone-btn" title="Call/Copy Phone">
+                                <span>📞</span> <span id="hero-phone-label">Phone</span>
+                            </button>
+                            <a class="hero-action-btn" id="hero-linkedin-btn" target="_blank" rel="noopener noreferrer" title="LinkedIn Profile">
+                                <span>🔗</span> LinkedIn
+                            </a>
+                            <a class="hero-action-btn" id="hero-github-btn" target="_blank" rel="noopener noreferrer" title="GitHub Profile">
+                                <span>💻</span> GitHub
+                            </a>
+                        </div>
                     </div>
                 </div>
 
-                <!-- Tab 1: Dashboard & ATS Report -->
-                <section id="tab-dashboard" class="tab-content" style="display: none;">
-                    <!-- Candidate Hero Profile Header -->
-                    <div class="candidate-hero-banner" id="candidate-hero-card">
-                        <div class="hero-avatar-wrap">
-                            <div class="hero-avatar" id="hero-avatar-initials">VS</div>
-                            <span class="hero-verified-badge" title="Verified Profile">✓</span>
+                <div class="dashboard-grid">
+                    <!-- ATS Score Gauge -->
+                    <div class="card ats-card text-center">
+                        <div class="card-header-flex">
+                            <h3>ATS Compatibility</h3>
+                            <span class="badge-subtle">AI Scored</span>
                         </div>
-                        <div class="hero-info-body">
-                            <div class="hero-title-row">
-                                <h2 class="hero-name" id="hero-candidate-name">Beere Vishnu Sai</h2>
-                                <span class="hero-role-pill" id="hero-preferred-role">Data Analyst</span>
-                                <span class="hero-hub-pill" id="hero-hub-badge">
-                                    <span class="live-dot"></span>
-                                    <span id="hero-current-hub">📍 Hyderabad, India</span>
-                                </span>
-                            </div>
-                            <p class="hero-summary-text" id="hero-summary-bio">Analytical professional specialized in Data Analytics, Python, SQL, Power BI, and Tableau dashboards.</p>
-                            <div class="hero-quick-actions" id="hero-quick-actions">
-                                <button class="hero-action-btn" id="hero-copy-email-btn" title="Copy Email">
-                                    <span>✉️</span> <span id="hero-email-label">Email</span>
-                                </button>
-                                <button class="hero-action-btn" id="hero-copy-phone-btn" title="Call/Copy Phone">
-                                    <span>📞</span> <span id="hero-phone-label">Phone</span>
-                                </button>
-                                <a class="hero-action-btn" id="hero-linkedin-btn" target="_blank" rel="noopener noreferrer" title="LinkedIn Profile">
-                                    <span>🔗</span> LinkedIn
-                                </a>
-                                <a class="hero-action-btn" id="hero-github-btn" target="_blank" rel="noopener noreferrer" title="GitHub Profile">
-                                    <span>💻</span> GitHub
-                                </a>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="dashboard-grid">
-                        <!-- ATS Score Gauge -->
-                        <div class="card ats-card text-center">
-                            <div class="card-header-flex">
-                                <h3>ATS Compatibility</h3>
-                                <span class="badge-subtle">AI Scored</span>
-                            </div>
-                            <div class="ats-circle-container">
-                                <div class="ats-circle">
-                                    <svg class="ats-svg" viewBox="0 0 100 100">
-                                        <circle class="ats-bg-circle" cx="50" cy="50" r="42"></circle>
-                                        <circle class="ats-progress-circle" id="ats-progress" cx="50" cy="50" r="42" stroke-dasharray="264" stroke-dashoffset="264"></circle>
-                                    </svg>
-                                    <div class="ats-circle-inner">
-                                        <span id="ats-val">0%</span>
-                                        <span class="ats-label-sub">MATCH SCORE</span>
-                                    </div>
+                        <div class="ats-circle-container">
+                            <div class="ats-circle">
+                                <svg class="ats-svg" viewBox="0 0 100 100">
+                                    <circle class="ats-bg-circle" cx="50" cy="50" r="42"></circle>
+                                    <circle class="ats-progress-circle" id="ats-progress" cx="50" cy="50" r="42" stroke-dasharray="264" stroke-dashoffset="264"></circle>
+                                </svg>
+                                <div class="ats-circle-inner">
+                                    <span id="ats-val">0%</span>
+                                    <span class="ats-label-sub">MATCH SCORE</span>
                                 </div>
                             </div>
-                            <p class="muted card-footer-text">Calculated index based on keyword weightings and parsing quality</p>
                         </div>
+                        <p class="muted card-footer-text">Calculated index based on keyword weightings and parsing quality</p>
+                    </div>
 
-                        <!-- Personal Info -->
-                        <div class="card profile-info-card">
-                            <div class="card-header-flex">
-                                <h3>Contact Credentials</h3>
-                                <span class="badge-subtle">Verified</span>
-                            </div>
-                            <ul class="info-list">
-                                <li>
-                                    <span class="info-label">Candidate Name</span>
-                                    <span class="info-val font-bold" id="info-name">-</span>
-                                </li>
-                                <li>
-                                    <span class="info-label">Email Address</span>
-                                    <span class="info-val link-val" id="info-email">-</span>
-                                </li>
-                                <li>
-                                    <span class="info-label">Phone Reference</span>
-                                    <span class="info-val" id="info-phone">-</span>
-                                </li>
-                                <li>
-                                    <span class="info-label">Current Hub</span>
-                                    <span class="info-val hub-val" id="info-location">
-                                        <span class="hub-pill"><span class="pin-icon">📍</span> <span id="info-location-text">-</span></span>
-                                    </span>
-                                </li>
-                            </ul>
+                    <!-- Personal Info -->
+                    <div class="card profile-info-card">
+                        <div class="card-header-flex">
+                            <h3>Contact Credentials</h3>
+                            <span class="badge-subtle">Verified</span>
                         </div>
+                        <ul class="info-list">
+                            <li>
+                                <span class="info-label">Candidate Name</span>
+                                <span class="info-val font-bold" id="info-name">-</span>
+                            </li>
+                            <li>
+                                <span class="info-label">Email Address</span>
+                                <span class="info-val link-val" id="info-email">-</span>
+                            </li>
+                            <li>
+                                <span class="info-label">Phone Reference</span>
+                                <span class="info-val" id="info-phone">-</span>
+                            </li>
+                            <li>
+                                <span class="info-label">Current Hub</span>
+                                <span class="info-val hub-val" id="info-location">
+                                    <span class="hub-pill"><span class="pin-icon">📍</span> <span id="info-location-text">-</span></span>
+                                </span>
+                            </li>
+                        </ul>
+                    </div>
 
-                        <!-- Target Preferences -->
-                        <div class="card profile-preferences-card">
-                            <div class="card-header-flex">
-                                <h3>Target Preferences</h3>
-                                <span class="badge-subtle">Active Hunt</span>
-                            </div>
-                            <ul class="info-list">
-                                <li>
-                                    <span class="info-label">Preferred Role</span>
-                                    <span class="info-val highlight-val" id="pref-role">-</span>
-                                </li>
-                                <li>
-                                    <span class="info-label">Target Hub</span>
-                                    <span class="info-val target-val" id="pref-location">
-                                        <span class="target-pill"><span class="target-icon">🎯</span> <span id="pref-location-text">-</span></span>
-                                    </span>
-                                </li>
-                                <li>
-                                    <span class="info-label">Experience Tier</span>
-                                    <span class="info-val" id="pref-experience">-</span>
-                                </li>
-                                <li>
-                                    <span class="info-label">Career Level</span>
-                                    <span class="info-val level-badge" id="pref-level">-</span>
-                                </li>
-                            </ul>
+                    <!-- Target Preferences -->
+                    <div class="card profile-preferences-card">
+                        <div class="card-header-flex">
+                            <h3>Target Preferences</h3>
+                            <span class="badge-subtle">Active Hunt</span>
+                        </div>
+                        <ul class="info-list">
+                            <li>
+                                <span class="info-label">Preferred Role</span>
+                                <span class="info-val highlight-val" id="pref-role">-</span>
+                            </li>
+                            <li>
+                                <span class="info-label">Target Hub</span>
+                                <span class="info-val target-val" id="pref-location">
+                                    <span class="target-pill"><span class="target-icon">🎯</span> <span id="pref-location-text">-</span></span>
+                                </span>
+                            </li>
+                            <li>
+                                <span class="info-label">Experience Tier</span>
+                                <span class="info-val" id="pref-experience">-</span>
+                            </li>
+                            <li>
+                                <span class="info-label">Career Level</span>
+                                <span class="info-val level-badge" id="pref-level">-</span>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- Social Profiles -->
+                <div class="card socials-card">
+                    <h3>🌐 Verified Portfolios & Profiles</h3>
+                    <div class="socials-grid" id="socials-container">
+                        <!-- Populated by JS -->
+                    </div>
+                </div>
+
+                <!-- Executive Career Intelligence & Pipeline Funnel -->
+                <div class="card career-intel-card" id="career-intelligence-panel">
+                    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1.2rem; flex-wrap: wrap; gap: 0.8rem;">
+                        <div>
+                            <h3 style="margin: 0 0 0.2rem 0;">📈 Executive Career Intelligence & Pipeline Funnel</h3>
+                            <p class="muted" style="margin: 0; font-size: 0.85rem;">Global market positioning, conversion metrics, and multi-track alignment.</p>
+                        </div>
+                        <span id="market-standing-badge" class="header-status-badge">⚡ Top 10% Market Match</span>
+                    </div>
+
+                    <!-- Executive KPI Funnel -->
+                    <div class="executive-kpi-grid">
+                        <div class="exec-kpi-card">
+                            <span class="exec-kpi-val" id="exec-jobs-found">1,284</span>
+                            <span class="exec-kpi-label">🔍 Jobs Discovered</span>
+                        </div>
+                        <div class="exec-kpi-card">
+                            <span class="exec-kpi-val highlight-val" id="exec-jobs-verified">186</span>
+                            <span class="exec-kpi-label">🎯 Verified Fits</span>
+                        </div>
+                        <div class="exec-kpi-card">
+                            <span class="exec-kpi-val" id="exec-apps-sent">0</span>
+                            <span class="exec-kpi-label">🚀 Applications</span>
+                        </div>
+                        <div class="exec-kpi-card">
+                            <span class="exec-kpi-val" style="color: #fbbf24;" id="exec-interviews">0</span>
+                            <span class="exec-kpi-label">🎯 Interviews</span>
+                        </div>
+                        <div class="exec-kpi-card">
+                            <span class="exec-kpi-val" style="color: #34d399;" id="exec-conversion">0.0%</span>
+                            <span class="exec-kpi-label">🏆 Conversion Rate</span>
                         </div>
                     </div>
 
+                    <!-- Multi-Track Role Alignment Matrix -->
+                    <div class="role-matrix-section" style="margin-top: 1.8rem;">
+                        <h4 style="margin: 0 0 1rem 0; font-size: 1.05rem; color: #818cf8;">🎯 Multi-Track Career Role Alignment Matrix</h4>
+                        <div id="role-matrix-container" class="role-matrix-grid">
+                            <!-- Populated dynamically by JS -->
+                        </div>
+                    </div>
 
-                    <!-- Social Profiles -->
-                    <div class="card socials-card">
-                        <h3>🌐 Verified Portfolios & Profiles</h3>
-                        <div class="socials-grid" id="socials-container">
+                    <!-- Top Verified Strengths & Summary -->
+                    <div style="margin-top: 1.8rem; padding: 1.2rem; background: rgba(0,0,0,0.25); border-radius: 12px; border: 1px solid rgba(255,255,255,0.05);">
+                        <h4 style="margin: 0 0 0.6rem 0; font-size: 0.95rem; color: #38bdf8;">🧠 Verified Candidate Strengths & Positioning</h4>
+                        <div id="exec-strengths-list" style="display: flex; flex-wrap: wrap; gap: 0.5rem; margin-bottom: 0.8rem;"></div>
+                        <p id="exec-market-summary" style="font-size: 0.88rem; line-height: 1.5; color: rgba(255,255,255,0.85); margin: 0;"></p>
+                    </div>
+                </div>
+
+                <!-- Suitability Report -->
+                <div class="card suitability-card" id="suitability-report" style="display: none;">
+                    <h3>🌟 Profile Suitability Intelligence</h3>
+                    <div class="suitability-sections-grid">
+                        <div class="suitability-section">
+                            <strong>🏆 Recommended Core Roles</strong>
+                            <ul id="suitability-roles"></ul>
+                        </div>
+                        <div class="suitability-section">
+                            <strong>⚙️ Secondary Career Tracks</strong>
+                            <ul id="suitability-secondary"></ul>
+                        </div>
+                        <div class="suitability-section">
+                            <strong>💡 Profile Competencies & Strengths</strong>
+                            <ul id="suitability-strengths"></ul>
+                        </div>
+                        <div class="suitability-section">
+                            <strong>🏭 Target Sectors & Industries</strong>
+                            <ul id="suitability-industries"></ul>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Tab 2: Job Matches -->
+            <section id="tab-jobs" class="tab-content" style="display: none;">
+                <div class="jobs-toolbar">
+                    <div class="card toolbar-card">
+                        <div class="toolbar-stats">
+                            <div class="stat-badge">🔍 Found: <span id="jobs-stat-found">0</span></div>
+                            <div class="stat-badge success-badge">🎯 Matched: <span id="jobs-stat-returned">0</span></div>
+                            <div class="stat-badge info-badge">⚡ Latency: <span id="jobs-stat-time">0.0s</span></div>
+                        </div>
+                        <div class="group-control">
+                            <span>Group Listings By:</span>
+                            <div class="radio-pill-group">
+                                <label class="radio-pill">
+                                    <input type="radio" name="group-by" value="category" checked>
+                                    <span>Category</span>
+                                </label>
+                                <label class="radio-pill">
+                                    <input type="radio" name="group-by" value="location">
+                                    <span>Location</span>
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Real-Time Interactive Filter Toolbar -->
+                    <div class="card filter-bar-card">
+                        <div class="search-input-wrapper">
+                            <span class="search-icon">🔍</span>
+                            <input type="text" id="job-search-input" placeholder="Filter matches by title, company, skills (e.g. Python, SQL, Power BI), or city..." class="job-search-input">
+                            <button id="clear-search-btn" class="clear-search-btn" style="display: none;">✕</button>
+                        </div>
+                        <div class="filter-chips-row" id="job-filter-chips">
+                            <button class="filter-chip active" data-filter="all">🌟 All Matches</button>
+                            <button class="filter-chip" data-filter="verified">🛡️ Verified Only</button>
+                            <button class="filter-chip" data-filter="high-match">⚡ High Fit (≥70%)</button>
+                            <button class="filter-chip" data-filter="python-sql">🐍 Python & SQL</button>
+                            <button class="filter-chip" data-filter="bi-viz">📊 Power BI & Tableau</button>
+                        </div>
+                    </div>
+                </div>
+                
+                <div id="jobs-list-container">
+                    <!-- Populated by JS -->
+                </div>
+            </section>
+
+            <!-- Tab 3: AI Career Tools -->
+            <section id="tab-tools" class="tab-content" style="display: none;">
+                <div class="tools-grid">
+                    <!-- Navigation for choosing a tool -->
+                    <div class="card tools-menu">
+                        <h3>AI Copilot Toolkit</h3>
+                        <button class="tool-btn active" data-tool="cover-letter">✍️ Cover Letter Writer</button>
+                        <button class="tool-btn" data-tool="interview">💬 Mock Interview Prep</button>
+                        <button class="tool-btn" data-tool="email">✉️ Cold Outreach Generator</button>
+                        <button class="tool-btn" data-tool="linkedin">🔗 LinkedIn Optimizer</button>
+                        <button class="tool-btn" data-tool="salary">💰 Salary Range Estimator</button>
+                    </div>
+
+                    <!-- Tool options form & output panel -->
+                    <div class="card tool-workspace">
+                        <div id="tool-form-container">
+                            <!-- Dynamic form fields based on tool selection -->
+                        </div>
+                        <button id="run-tool-btn" class="action-btn">Execute Copilot Prompt</button>
+                        
+                        <hr class="divider">
+
+                        <div class="output-panel">
+                            <div class="output-header">
+                                <h4>Generated Output Preview</h4>
+                                <button id="copy-output-btn" class="copy-btn" style="display: none;">📋 Copy to Clipboard</button>
+                            </div>
+                            <div id="tool-output" class="output-box">
+                                Select a career copilot tool and configure settings above to initiate generation.
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Tab 4: Learning Roadmaps & Market Skill Intelligence -->
+            <section id="tab-learning" class="tab-content" style="display: none;">
+                <div class="card skill-acceleration-card">
+                    <h3>📈 Market Skill Demand & Career Acceleration</h3>
+                    <p class="muted">Real-time aggregated market skill frequency analyzing your target roles against current profile readiness.</p>
+                    
+                    <!-- Market Demand Frequency Grid -->
+                    <div id="market-demand-section" style="margin: 1.5rem 0;">
+                        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.8rem;">
+                            <strong>🔥 High & Medium Market Deficits:</strong>
+                            <span id="market-readiness-badge" class="header-status-badge">Market Readiness: 85%</span>
+                        </div>
+                        <div id="market-gaps-container" class="market-gaps-grid">
+                            <!-- Populated dynamically by JS -->
+                        </div>
+                    </div>
+
+                    <div class="skill-gap-box">
+                        <strong>🎯 Critical Skill Acceleration Focus:</strong>
+                        <div id="gaps-list" class="gaps-container">
                             <!-- Populated by JS -->
                         </div>
                     </div>
+                </div>
 
-                    <!-- Executive Career Intelligence & Pipeline Funnel -->
-                    <div class="card career-intel-card" id="career-intelligence-panel">
-                        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1.2rem; flex-wrap: wrap; gap: 0.8rem;">
-                            <div>
-                                <h3 style="margin: 0 0 0.2rem 0;">📈 Executive Career Intelligence & Pipeline Funnel</h3>
-                                <p class="muted" style="margin: 0; font-size: 0.85rem;">Global market positioning, conversion metrics, and multi-track alignment.</p>
-                            </div>
-                            <span id="market-standing-badge" class="header-status-badge">⚡ Top 10% Market Match</span>
-                        </div>
+                <div id="roadmaps-list-container">
+                    <!-- Populated with Week-by-Week Roadmaps & Capstone Blueprints by JS -->
+                </div>
+            </section>
 
-                        <!-- Executive KPI Funnel -->
-                        <div class="executive-kpi-grid">
-                            <div class="exec-kpi-card">
-                                <span class="exec-kpi-val" id="exec-jobs-found">1,284</span>
-                                <span class="exec-kpi-label">🔍 Jobs Discovered</span>
-                            </div>
-                            <div class="exec-kpi-card">
-                                <span class="exec-kpi-val highlight-val" id="exec-jobs-verified">186</span>
-                                <span class="exec-kpi-label">🎯 Verified Fits</span>
-                            </div>
-                            <div class="exec-kpi-card">
-                                <span class="exec-kpi-val" id="exec-apps-sent">0</span>
-                                <span class="exec-kpi-label">🚀 Applications</span>
-                            </div>
-                            <div class="exec-kpi-card">
-                                <span class="exec-kpi-val" style="color: #fbbf24;" id="exec-interviews">0</span>
-                                <span class="exec-kpi-label">🎯 Interviews</span>
-                            </div>
-                            <div class="exec-kpi-card">
-                                <span class="exec-kpi-val" style="color: #34d399;" id="exec-conversion">0.0%</span>
-                                <span class="exec-kpi-label">🏆 Conversion Rate</span>
-                            </div>
-                        </div>
+            <!-- Tab 5: Application Pipeline CRM -->
+            <section id="tab-crm" class="tab-content" style="display: none;">
+                <div class="crm-header-card">
+                    <div class="crm-title-area">
+                        <h3>📋 Application Pipeline & Follow-Up CRM</h3>
+                        <p class="muted">Track opportunities from first discovery to final offer with automated follow-up intelligence.</p>
+                    </div>
+                    <div class="crm-stats-row">
+                        <div class="crm-stat-box"><span id="crm-count-saved" class="crm-stat-num">0</span><span class="crm-stat-lbl">📌 Saved</span></div>
+                        <div class="crm-stat-box"><span id="crm-count-applied" class="crm-stat-num">0</span><span class="crm-stat-lbl">🚀 Applied</span></div>
+                        <div class="crm-stat-box"><span id="crm-count-interview" class="crm-stat-num">0</span><span class="crm-stat-lbl">🎯 Interview</span></div>
+                        <div class="crm-stat-box"><span id="crm-count-offer" class="crm-stat-num">0</span><span class="crm-stat-lbl">🏆 Offers</span></div>
+                    </div>
+                </div>
 
-                        <!-- Multi-Track Role Alignment Matrix -->
-                        <div class="role-matrix-section" style="margin-top: 1.8rem;">
-                            <h4 style="margin: 0 0 1rem 0; font-size: 1.05rem; color: #818cf8;">🎯 Multi-Track Career Role Alignment Matrix</h4>
-                            <div id="role-matrix-container" class="role-matrix-grid">
-                                <!-- Populated dynamically by JS -->
-                            </div>
+                <!-- Kanban Columns -->
+                <div class="kanban-board">
+                    <!-- Column 1: Saved -->
+                    <div class="kanban-column">
+                        <div class="kanban-col-header header-saved">
+                            <span>📌 Saved Opportunities</span>
+                            <span id="badge-saved-cnt" class="col-count-badge">0</span>
                         </div>
-
-                        <!-- Top Verified Strengths & Summary -->
-                        <div style="margin-top: 1.8rem; padding: 1.2rem; background: rgba(0,0,0,0.25); border-radius: 12px; border: 1px solid rgba(255,255,255,0.05);">
-                            <h4 style="margin: 0 0 0.6rem 0; font-size: 0.95rem; color: #38bdf8;">🧠 Verified Candidate Strengths & Positioning</h4>
-                            <div id="exec-strengths-list" style="display: flex; flex-wrap: wrap; gap: 0.5rem; margin-bottom: 0.8rem;"></div>
-                            <p id="exec-market-summary" style="font-size: 0.88rem; line-height: 1.5; color: rgba(255,255,255,0.85); margin: 0;"></p>
-                        </div>
+                        <div id="kanban-col-saved" class="kanban-card-list"></div>
                     </div>
 
-                    <!-- Suitability Report -->
-                    <div class="card suitability-card" id="suitability-report" style="display: none;">
-                        <h3>🌟 Profile Suitability Intelligence</h3>
-                        <div class="suitability-sections-grid">
-                            <div class="suitability-section">
-                                <strong>🏆 Recommended Core Roles</strong>
-                                <ul id="suitability-roles"></ul>
-                            </div>
-                            <div class="suitability-section">
-                                <strong>⚙️ Secondary Career Tracks</strong>
-                                <ul id="suitability-secondary"></ul>
-                            </div>
-                            <div class="suitability-section">
-                                <strong>💡 Profile Competencies & Strengths</strong>
-                                <ul id="suitability-strengths"></ul>
-                            </div>
-                            <div class="suitability-section">
-                                <strong>🏭 Target Sectors & Industries</strong>
-                                <ul id="suitability-industries"></ul>
-                            </div>
+                    <!-- Column 2: Applied -->
+                    <div class="kanban-column">
+                        <div class="kanban-col-header header-applied">
+                            <span>🚀 Applied</span>
+                            <span id="badge-applied-cnt" class="col-count-badge">0</span>
                         </div>
-                    </div>
-                </section>
-
-                <!-- Tab 2: Job Matches -->
-                <section id="tab-jobs" class="tab-content" style="display: none;">
-                    <div class="jobs-toolbar">
-                        <div class="card toolbar-card">
-                            <div class="toolbar-stats">
-                                <div class="stat-badge">🔍 Found: <span id="jobs-stat-found">0</span></div>
-                                <div class="stat-badge success-badge">🎯 Matched: <span id="jobs-stat-returned">0</span></div>
-                                <div class="stat-badge info-badge">⚡ Latency: <span id="jobs-stat-time">0.0s</span></div>
-                            </div>
-                            <div class="group-control">
-                                <span>Group Listings By:</span>
-                                <div class="radio-pill-group">
-                                    <label class="radio-pill">
-                                        <input type="radio" name="group-by" value="category" checked>
-                                        <span>Category</span>
-                                    </label>
-                                    <label class="radio-pill">
-                                        <input type="radio" name="group-by" value="location">
-                                        <span>Location</span>
-                                    </label>
-                                </div>
-                            </div>
-                        </div>
-
-                        <!-- Real-Time Interactive Filter Toolbar -->
-                        <div class="card filter-bar-card">
-                            <div class="search-input-wrapper">
-                                <span class="search-icon">🔍</span>
-                                <input type="text" id="job-search-input" placeholder="Filter matches by title, company, skills (e.g. Python, SQL, Power BI), or city..." class="job-search-input">
-                                <button id="clear-search-btn" class="clear-search-btn" style="display: none;">✕</button>
-                            </div>
-                            <div class="filter-chips-row" id="job-filter-chips">
-                                <button class="filter-chip active" data-filter="all">🌟 All Matches</button>
-                                <button class="filter-chip" data-filter="verified">🛡️ Verified Only</button>
-                                <button class="filter-chip" data-filter="high-match">⚡ High Fit (≥70%)</button>
-                                <button class="filter-chip" data-filter="python-sql">🐍 Python & SQL</button>
-                                <button class="filter-chip" data-filter="bi-viz">📊 Power BI & Tableau</button>
-                            </div>
-                        </div>
-                    </div>
-                    
-                    <div id="jobs-list-container">
-                        <!-- Populated by JS -->
-                    </div>
-                </section>
-
-                <!-- Tab 3: AI Career Tools -->
-                <section id="tab-tools" class="tab-content" style="display: none;">
-                    <div class="tools-grid">
-                        <!-- Sidebar for choosing a tool -->
-                        <div class="card tools-menu">
-                            <h3>AI Copilot Toolkit</h3>
-                            <button class="tool-btn active" data-tool="cover-letter">✍️ Cover Letter Writer</button>
-                            <button class="tool-btn" data-tool="interview">💬 Mock Interview Prep</button>
-                            <button class="tool-btn" data-tool="email">✉️ Cold Outreach Generator</button>
-                            <button class="tool-btn" data-tool="linkedin">🔗 LinkedIn Optimizer</button>
-                            <button class="tool-btn" data-tool="salary">💰 Salary Range Estimator</button>
-                        </div>
-
-                        <!-- Tool options form & output panel -->
-                        <div class="card tool-workspace">
-                            <div id="tool-form-container">
-                                <!-- Dynamic form fields based on tool selection -->
-                            </div>
-                            <button id="run-tool-btn" class="action-btn">Execute Copilot Prompt</button>
-                            
-                            <hr class="divider">
-
-                            <div class="output-panel">
-                                <div class="output-header">
-                                    <h4>Generated Output Preview</h4>
-                                    <button id="copy-output-btn" class="copy-btn" style="display: none;">📋 Copy to Clipboard</button>
-                                </div>
-                                <div id="tool-output" class="output-box">
-                                    Select a career copilot tool and configure settings above to initiate generation.
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </section>
-
-                <!-- Tab 4: Learning Roadmaps & Market Skill Intelligence -->
-                <section id="tab-learning" class="tab-content" style="display: none;">
-                    <div class="card skill-acceleration-card">
-                        <h3>📈 Market Skill Demand & Career Acceleration</h3>
-                        <p class="muted">Real-time aggregated market skill frequency analyzing your target roles against current profile readiness.</p>
-                        
-                        <!-- Market Demand Frequency Grid -->
-                        <div id="market-demand-section" style="margin: 1.5rem 0;">
-                            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.8rem;">
-                                <strong>🔥 High & Medium Market Deficits:</strong>
-                                <span id="market-readiness-badge" class="header-status-badge">Market Readiness: 85%</span>
-                            </div>
-                            <div id="market-gaps-container" class="market-gaps-grid">
-                                <!-- Populated dynamically by JS -->
-                            </div>
-                        </div>
-
-                        <div class="skill-gap-box">
-                            <strong>🎯 Critical Skill Acceleration Focus:</strong>
-                            <div id="gaps-list" class="gaps-container">
-                                <!-- Populated by JS -->
-                            </div>
-                        </div>
+                        <div id="kanban-col-applied" class="kanban-card-list"></div>
                     </div>
 
-                    <div id="roadmaps-list-container">
-                        <!-- Populated with Week-by-Week Roadmaps & Capstone Blueprints by JS -->
-                    </div>
-                </section>
-
-                <!-- Tab 5: Application Pipeline CRM -->
-                <section id="tab-crm" class="tab-content" style="display: none;">
-                    <div class="crm-header-card">
-                        <div class="crm-title-area">
-                            <h3>📋 Application Pipeline & Follow-Up CRM</h3>
-                            <p class="muted">Track opportunities from first discovery to final offer with automated follow-up intelligence.</p>
+                    <!-- Column 3: Interview -->
+                    <div class="kanban-column">
+                        <div class="kanban-col-header header-interview">
+                            <span>🎯 Interview Scheduled</span>
+                            <span id="badge-interview-cnt" class="col-count-badge">0</span>
                         </div>
-                        <div class="crm-stats-row">
-                            <div class="crm-stat-box"><span id="crm-count-saved" class="crm-stat-num">0</span><span class="crm-stat-lbl">📌 Saved</span></div>
-                            <div class="crm-stat-box"><span id="crm-count-applied" class="crm-stat-num">0</span><span class="crm-stat-lbl">🚀 Applied</span></div>
-                            <div class="crm-stat-box"><span id="crm-count-interview" class="crm-stat-num">0</span><span class="crm-stat-lbl">🎯 Interview</span></div>
-                            <div class="crm-stat-box"><span id="crm-count-offer" class="crm-stat-num">0</span><span class="crm-stat-lbl">🏆 Offers</span></div>
-                        </div>
+                        <div id="kanban-col-interview" class="kanban-card-list"></div>
                     </div>
 
-                    <!-- Kanban Columns -->
-                    <div class="kanban-board">
-                        <!-- Column 1: Saved -->
-                        <div class="kanban-column">
-                            <div class="kanban-col-header header-saved">
-                                <span>📌 Saved Opportunities</span>
-                                <span id="badge-saved-cnt" class="col-count-badge">0</span>
-                            </div>
-                            <div id="kanban-col-saved" class="kanban-card-list"></div>
+                    <!-- Column 4: Offer & Closed -->
+                    <div class="kanban-column">
+                        <div class="kanban-col-header header-offer">
+                            <span>🏆 Offers & Closed</span>
+                            <span id="badge-offer-cnt" class="col-count-badge">0</span>
                         </div>
-
-                        <!-- Column 2: Applied -->
-                        <div class="kanban-column">
-                            <div class="kanban-col-header header-applied">
-                                <span>🚀 Applied</span>
-                                <span id="badge-applied-cnt" class="col-count-badge">0</span>
-                            </div>
-                            <div id="kanban-col-applied" class="kanban-card-list"></div>
-                        </div>
-
-                        <!-- Column 3: Interview -->
-                        <div class="kanban-column">
-                            <div class="kanban-col-header header-interview">
-                                <span>🎯 Interview Scheduled</span>
-                                <span id="badge-interview-cnt" class="col-count-badge">0</span>
-                            </div>
-                            <div id="kanban-col-interview" class="kanban-card-list"></div>
-                        </div>
-
-                        <!-- Column 4: Offer & Closed -->
-                        <div class="kanban-column">
-                            <div class="kanban-col-header header-offer">
-                                <span>🏆 Offers & Closed</span>
-                                <span id="badge-offer-cnt" class="col-count-badge">0</span>
-                            </div>
-                            <div id="kanban-col-offer" class="kanban-card-list"></div>
-                        </div>
+                        <div id="kanban-col-offer" class="kanban-card-list"></div>
                     </div>
-                </section>
-            </div>
-        </main>
-    </div>
+                </div>
+            </section>
+        </div>
+    </main>
 
     <!-- Resume Tailoring Modal -->
     <div id="tailor-modal" class="modal-backdrop" style="display: none;">

@@ -179,7 +179,20 @@ function switchTabVisibility() {
 
 // Drag & Drop
 function initDragAndDrop() {
-    dropZone.addEventListener("click", () => resumeInput.click());
+    if (dropZone) dropZone.addEventListener("click", () => resumeInput.click());
+    
+    const quickUploadBtn = document.getElementById("quick-upload-btn");
+    if (quickUploadBtn) {
+        quickUploadBtn.addEventListener("click", () => resumeInput.click());
+    }
+
+    const browseBtn = document.querySelector(".upload-browse-btn");
+    if (browseBtn) {
+        browseBtn.addEventListener("click", (e) => {
+            e.stopPropagation();
+            resumeInput.click();
+        });
+    }
     
     resumeInput.addEventListener("change", (e) => {
         if (e.target.files.length > 0) {
@@ -187,22 +200,24 @@ function initDragAndDrop() {
         }
     });
 
-    dropZone.addEventListener("dragover", (e) => {
-        e.preventDefault();
-        dropZone.classList.add("dragover");
-    });
+    if (dropZone) {
+        dropZone.addEventListener("dragover", (e) => {
+            e.preventDefault();
+            dropZone.classList.add("dragover");
+        });
 
-    dropZone.addEventListener("dragleave", () => {
-        dropZone.classList.remove("dragover");
-    });
+        dropZone.addEventListener("dragleave", () => {
+            dropZone.classList.remove("dragover");
+        });
 
-    dropZone.addEventListener("drop", (e) => {
-        e.preventDefault();
-        dropZone.classList.remove("dragover");
-        if (e.dataTransfer.files.length > 0) {
-            handleFileUpload(e.dataTransfer.files[0]);
-        }
-    });
+        dropZone.addEventListener("drop", (e) => {
+            e.preventDefault();
+            dropZone.classList.remove("dragover");
+            if (e.dataTransfer.files.length > 0) {
+                handleFileUpload(e.dataTransfer.files[0]);
+            }
+        });
+    }
 }
 
 // Upload Progress Helper
@@ -327,6 +342,9 @@ function renderDashboard() {
 
     const heroHub = document.getElementById("hero-current-hub");
     if (heroHub) heroHub.textContent = `📍 ${currentHub}`;
+
+    const navHubText = document.getElementById("nav-hub-text");
+    if (navHubText) navHubText.textContent = `📍 ${currentHub}`;
 
     const heroBio = document.getElementById("hero-summary-bio");
     if (heroBio) {
