@@ -2065,6 +2065,68 @@ h1, h2, h3, h4, h5, h6 {
     float: right;
 }
 
+/* Interview Simulator Preset Chips & Voice Dictation */
+.company-preset-chips, .round-preset-chips {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+    margin-top: 0.4rem;
+    margin-bottom: 0.5rem;
+}
+
+.company-chip, .round-chip {
+    background: rgba(255, 255, 255, 0.04);
+    border: 1px solid var(--border-color);
+    color: var(--text-muted);
+    padding: 0.4rem 0.85rem;
+    border-radius: 99px;
+    font-size: 0.8rem;
+    font-weight: 700;
+    cursor: pointer;
+    transition: all 0.25s var(--transition-curve);
+    font-family: inherit;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.35rem;
+}
+
+[data-theme="light"] .company-chip,
+[data-theme="light"] .round-chip {
+    background: rgba(0, 0, 0, 0.04);
+}
+
+.company-chip:hover, .round-chip:hover {
+    background: rgba(99, 102, 241, 0.1);
+    color: var(--text-color);
+    border-color: rgba(99, 102, 241, 0.3);
+    transform: translateY(-1px);
+}
+
+.company-chip.active, .round-chip.active {
+    background: var(--primary-gradient);
+    color: #ffffff;
+    border-color: transparent;
+    box-shadow: 0 4px 12px rgba(99, 102, 241, 0.3);
+}
+
+.recording-pulse {
+    animation: pulseRecording 1.4s infinite alternate ease-in-out;
+    background: rgba(239, 68, 68, 0.15) !important;
+    border-color: #ef4444 !important;
+    color: #ef4444 !important;
+}
+
+@keyframes pulseRecording {
+    0% {
+        box-shadow: 0 0 0 0 rgba(239, 68, 68, 0.4);
+        transform: scale(1);
+    }
+    100% {
+        box-shadow: 0 0 0 8px rgba(239, 68, 68, 0);
+        transform: scale(1.03);
+    }
+}
+
 /* ==========================================================
    INTERACTIVE FILTER BAR & SEARCH STYLES
    ========================================================== */

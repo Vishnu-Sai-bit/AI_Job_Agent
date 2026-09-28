@@ -1073,31 +1073,90 @@ function renderToolForm() {
     } else if (activeTool === "interview") {
         container.innerHTML = `
             <div class="form-group">
-                <label>Target Interview Role</label>
-                <input type="text" id="tool-title" value="${role}" placeholder="e.g. Data Analyst">
+                <label>Target Company Preset</label>
+                <div class="company-preset-chips" id="interview-company-chips">
+                    <span class="company-chip active" data-company="Microsoft">🏢 Microsoft</span>
+                    <span class="company-chip" data-company="Amazon">📦 Amazon</span>
+                    <span class="company-chip" data-company="Google">🔍 Google</span>
+                    <span class="company-chip" data-company="TCS">💼 TCS</span>
+                    <span class="company-chip" data-company="Infosys">⚡ Infosys</span>
+                    <span class="company-chip" data-company="Deloitte">📊 Deloitte</span>
+                    <span class="company-chip" data-company="High-Growth Tech Startup">🚀 Startup</span>
+                    <span class="company-chip" data-company="Custom">✏️ Custom</span>
+                </div>
+                <input type="text" id="tool-company" value="Microsoft" placeholder="e.g. Microsoft" style="margin-top: 0.5rem;">
+            </div>
+            <div class="form-group">
+                <label>Interview Round Type</label>
+                <div class="round-preset-chips" id="interview-round-chips">
+                    <span class="round-chip active" data-round="Technical Deep Dive">💻 Technical Deep Dive</span>
+                    <span class="round-chip" data-round="Data Modeling & Architecture">🏗️ Data Modeling & SQL</span>
+                    <span class="round-chip" data-round="Behavioral STAR Method">🧠 Behavioral STAR</span>
+                    <span class="round-chip" data-round="HR & Culture Fit">🤝 HR & Culture Fit</span>
+                </div>
+                <input type="hidden" id="tool-round-type" value="Technical Deep Dive">
+            </div>
+            <div class="form-group">
+                <label>Target Role</label>
+                <input type="text" id="tool-title" value="${role || 'Data Analyst'}" placeholder="e.g. Data Analyst">
+            </div>
+            <div class="form-group">
+                <label>Difficulty Level</label>
+                <select id="tool-difficulty" class="form-select">
+                    <option value="Junior / Entry-Level">Junior / Entry-Level (Foundational)</option>
+                    <option value="Mid-Level Specialist" selected>Mid-Level Specialist (Practical + STAR)</option>
+                    <option value="Senior / Lead Architect">Senior / Lead Architect (Rigorous Systems)</option>
+                </select>
             </div>
             <div class="form-group">
                 <label>Core Technical Skills (comma separated)</label>
-                <input type="text" id="tool-skills" value="${skills}" placeholder="e.g. SQL, Python, Excel">
+                <input type="text" id="tool-skills" value="${skills || 'SQL, Python, Power BI, Tableau'}" placeholder="e.g. SQL, Python, Excel">
             </div>
             <div class="form-group">
                 <label>Number of Questions</label>
                 <select id="tool-question-count" class="form-select">
-                    <option value="5" selected>5 Questions</option>
-                    <option value="10">10 Questions</option>
-                    <option value="15">15 Questions</option>
-                    <option value="20">20 Questions</option>
+                    <option value="5" selected>5 Questions (Standard Round)</option>
+                    <option value="10">10 Questions (Comprehensive)</option>
+                    <option value="15">15 Questions (Full Marathon)</option>
                 </select>
             </div>
             <div class="form-group">
                 <label>Interviewer Perspective / Tone</label>
                 <select id="tool-interviewer-role" class="form-select">
-                    <option value="Senior Technical Recruiter" selected>Senior Technical Recruiter</option>
-                    <option value="HR Director / Manager">HR Director / Manager</option>
-                    <option value="VP of Engineering / Hiring Manager">VP of Engineering / Hiring Manager</option>
+                    <option value="Senior Technical Hiring Manager" selected>Senior Technical Hiring Manager</option>
+                    <option value="Principal Data Architect">Principal Data Architect</option>
+                    <option value="Director of Talent Acquisition">Director of Talent Acquisition</option>
                 </select>
             </div>
         `;
+
+        // Bind interactive chip listeners
+        setTimeout(() => {
+            const compChips = document.querySelectorAll("#interview-company-chips .company-chip");
+            const compInput = document.getElementById("tool-company");
+            compChips.forEach(chip => {
+                chip.addEventListener("click", () => {
+                    compChips.forEach(c => c.classList.remove("active"));
+                    chip.classList.add("active");
+                    const compVal = chip.getAttribute("data-company");
+                    if (compInput) {
+                        compInput.value = compVal === "Custom" ? "" : compVal;
+                        if (compVal === "Custom") compInput.focus();
+                    }
+                });
+            });
+
+            const roundChips = document.querySelectorAll("#interview-round-chips .round-chip");
+            const roundInput = document.getElementById("tool-round-type");
+            roundChips.forEach(chip => {
+                chip.addEventListener("click", () => {
+                    roundChips.forEach(r => r.classList.remove("active"));
+                    chip.classList.add("active");
+                    if (roundInput) roundInput.value = chip.getAttribute("data-round");
+                });
+            });
+        }, 50);
+
     } else if (activeTool === "email") {
         container.innerHTML = `
             <div class="form-group">
@@ -1194,8 +1253,12 @@ async function executeTool() {
                 skills,
                 resume_context: contextText,
                 question_count: parseInt(document.getElementById("tool-question-count").value) || 5,
-                interviewer_role: document.getElementById("tool-interviewer-role").value
+                interviewer_role: document.getElementById("tool-interviewer-role") ? document.getElementById("tool-interviewer-role").value : "Senior Technical Recruiter",
+                company: (document.getElementById("tool-company") && document.getElementById("tool-company").value) || "Microsoft",
+                round_type: (document.getElementById("tool-round-type") && document.getElementById("tool-round-type").value) || "Technical Deep Dive",
+                difficulty: (document.getElementById("tool-difficulty") && document.getElementById("tool-difficulty").value) || "Mid-Level Specialist"
             };
+
         } else if (activeTool === "email") {
             endpoint = "/generate-emails";
             
@@ -1279,33 +1342,73 @@ ${data.sign_off}
         `;
     } else if (activeTool === "interview") {
         const list = data.questions || [];
-        box.innerHTML = list.map((q, idx) => {
-            const encodedQ = encodeURIComponent(q.question);
-            return `
-<div class="interview-question-block" style="margin-bottom: 2rem; padding: 1.5rem; background: rgba(255, 255, 255, 0.03); border-radius: 14px; border-left: 4px solid #db2777; backdrop-filter: blur(10px); border-top: 1px solid rgba(255,255,255,0.05); border-right: 1px solid rgba(255,255,255,0.05); border-bottom: 1px solid rgba(255,255,255,0.05);">
-    <div style="display: flex; justify-content: space-between; align-items: flex-start; gap: 1rem; margin-bottom: 0.8rem; flex-wrap: wrap;">
-        <h4 style="color: #f472b6; margin: 0; font-size: 1.05rem; font-weight: 700; flex: 1;">Q${idx + 1}: ${q.question}</h4>
-        <span class="header-status-badge" style="background: rgba(219, 39, 119, 0.15); border-color: rgba(219, 39, 119, 0.3); color: #f472b6; font-size: 0.75rem;">${q.type || "Technical"}</span>
+        const comp = (document.getElementById("tool-company") && document.getElementById("tool-company").value) || "Enterprise MNC";
+        const round = (document.getElementById("tool-round-type") && document.getElementById("tool-round-type").value) || "Technical Deep Dive";
+
+        box.innerHTML = `
+            <div class="interview-arena-header" style="margin-bottom: 1.5rem; padding: 1.2rem; background: rgba(99, 102, 241, 0.08); border-radius: 14px; border: 1px solid rgba(99, 102, 241, 0.2); display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 0.8rem;">
+                <div>
+                    <h3 style="margin: 0 0 0.2rem 0; font-size: 1.15rem; color: #818cf8;">🎯 Live Interview Simulation: ${comp}</h3>
+                    <p style="margin: 0; font-size: 0.85rem; color: var(--text-muted);">Round: <strong>${round}</strong> • ${list.length} Calibrated Questions</p>
+                </div>
+                <div style="display: flex; gap: 0.5rem; align-items: center;">
+                    <span class="badge-subtle" style="background: rgba(16, 185, 129, 0.1); color: #10b981; border-color: rgba(16, 185, 129, 0.25);">● AI Grader Active</span>
+                </div>
+            </div>
+            ${list.map((q, idx) => {
+                const encodedQ = encodeURIComponent(q.question);
+                return `
+<div class="interview-question-block" style="margin-bottom: 2rem; padding: 1.6rem; background: var(--bg-card); border-radius: 16px; border: 1px solid var(--border-color); border-left: 5px solid var(--accent-color); backdrop-filter: blur(16px); box-shadow: 0 6px 20px var(--shadow-color);">
+    <div style="display: flex; justify-content: space-between; align-items: flex-start; gap: 1rem; margin-bottom: 1rem; flex-wrap: wrap;">
+        <div style="display: flex; align-items: center; gap: 0.6rem;">
+            <span class="question-number-badge" style="background: var(--primary-gradient); color: white; font-weight: 800; font-size: 0.8rem; padding: 0.2rem 0.6rem; border-radius: 8px;">Q${idx + 1}</span>
+            <span class="header-status-badge" style="background: rgba(99, 102, 241, 0.12); border-color: rgba(99, 102, 241, 0.25); color: var(--accent-color); font-size: 0.75rem;">${q.type || "Technical"}</span>
+        </div>
+        <div class="question-timer-box" style="display: flex; align-items: center; gap: 0.4rem; font-size: 0.82rem; color: var(--text-muted);">
+            <span>⏱️ Target: 2 mins</span>
+        </div>
     </div>
-    <p style="margin: 0.5rem 0; font-size: 0.92rem; line-height: 1.5; color: rgba(255,255,255,0.9);"><strong>💡 Recruiter Strategy & Tips:</strong> ${q.answer_tips}</p>
-    <p style="margin: 0.5rem 0; font-size: 0.92rem; line-height: 1.5; color: rgba(255, 255, 255, 0.8);"><strong>🏆 Model Benchmark Response:</strong> ${q.sample_answer}</p>
+
+    <h4 style="color: var(--text-color); margin: 0 0 0.8rem 0; font-size: 1.1rem; font-weight: 800; line-height: 1.45;">${q.question}</h4>
     
-    <!-- Phase 4: Interactive Live Answer Evaluation -->
-    <div style="margin-top: 1.2rem; padding: 1.2rem; background: rgba(0,0,0,0.3); border-radius: 10px; border: 1px dashed rgba(219, 39, 119, 0.3);">
-        <label style="display: block; font-size: 0.85rem; font-weight: 700; color: #f472b6; margin-bottom: 0.4rem;">
-            🎙️ Practice Your Answer (Mock Interview AI Grader):
-        </label>
-        <textarea id="mock-ans-${idx}" class="form-textarea" rows="3" placeholder="Type or paste your spoken practice response here to evaluate STAR structure, technical correctness, and rubric score..." style="width: 100%; box-sizing: border-box; background: rgba(0,0,0,0.4); border: 1px solid rgba(255,255,255,0.1); border-radius: 8px; color: #fff; padding: 0.8rem; font-size: 0.9rem; font-family: inherit;"></textarea>
-        <div style="display: flex; justify-content: flex-end; margin-top: 0.6rem;">
-            <button class="action-btn" style="background: linear-gradient(135deg, #db2777, #ec4899); border: none; padding: 0.5rem 1.2rem; font-size: 0.85rem; border-radius: 8px; color: #fff; font-weight: 700; cursor: pointer;" onclick="submitMockAnswer(${idx}, '${encodedQ}')">
-                ⚡ Evaluate Answer with AI
+    <div style="background: rgba(0, 0, 0, 0.15); padding: 0.85rem 1rem; border-radius: 10px; margin-bottom: 0.8rem; border: 1px solid var(--border-color);">
+        <p style="margin: 0; font-size: 0.88rem; line-height: 1.5; color: var(--text-muted);"><strong style="color: #38bdf8;">💡 Recruiter Strategy & Tips:</strong> ${q.answer_tips}</p>
+    </div>
+
+    <details style="margin-bottom: 1.2rem; background: rgba(0, 0, 0, 0.08); border-radius: 10px; border: 1px solid var(--border-color); padding: 0.6rem 1rem;">
+        <summary style="cursor: pointer; font-size: 0.85rem; font-weight: 700; color: #a855f7;">🏆 View Model Benchmark Response</summary>
+        <p style="margin: 0.6rem 0 0 0; font-size: 0.88rem; line-height: 1.55; color: var(--text-color);">${q.sample_answer}</p>
+    </details>
+    
+    <!-- Interactive Answer Practice Arena -->
+    <div class="mock-answer-arena" style="padding: 1.2rem; background: rgba(0,0,0,0.2); border-radius: 12px; border: 1px dashed rgba(99, 102, 241, 0.35);">
+        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.6rem; flex-wrap: wrap; gap: 0.5rem;">
+            <label style="font-size: 0.88rem; font-weight: 800; color: var(--accent-color); display: flex; align-items: center; gap: 0.4rem;">
+                <span>🎙️</span> Practice Your Answer (Speech-to-Text / Typing):
+            </label>
+            <div style="display: flex; gap: 0.5rem;">
+                <button type="button" id="mic-btn-${idx}" class="hero-action-btn" style="font-size: 0.78rem; padding: 0.3rem 0.7rem;" onclick="toggleVoiceDictation(${idx})">
+                    <span>🎙️</span> <span>Speak Answer</span>
+                </button>
+            </div>
+        </div>
+
+        <textarea id="mock-ans-${idx}" class="form-textarea" rows="4" placeholder="Speak aloud using the mic button above, or type your structured response (Situation, Task, Action, Result)..." style="width: 100%; box-sizing: border-box; background: rgba(0,0,0,0.3); border: 1px solid var(--border-color); border-radius: 10px; color: var(--text-color); padding: 0.85rem; font-size: 0.92rem; font-family: inherit; line-height: 1.5; resize: vertical;"></textarea>
+
+        <div style="display: flex; justify-content: space-between; align-items: center; margin-top: 0.8rem; flex-wrap: wrap; gap: 0.5rem;">
+            <span style="font-size: 0.78rem; color: var(--text-muted);" id="word-cnt-${idx}">0 words typed</span>
+            <button class="action-btn" style="background: var(--primary-gradient); border: none; padding: 0.55rem 1.4rem; font-size: 0.88rem; border-radius: 10px; color: #fff; font-weight: 800; cursor: pointer; display: inline-flex; align-items: center; gap: 0.4rem; box-shadow: 0 4px 15px rgba(99, 102, 241, 0.3);" onclick="submitMockAnswer(${idx}, '${encodedQ}')">
+                <span>⚡</span> Evaluate Answer with AI
             </button>
         </div>
-        <div id="eval-result-${idx}" style="display: none; margin-top: 1rem;"></div>
+
+        <div id="eval-result-${idx}" style="display: none; margin-top: 1.2rem;"></div>
     </div>
 </div>
-            `;
-        }).join("");
+                `;
+            }).join("")}
+        `;
+
     } else if (activeTool === "email") {
         box.innerHTML = `
 <div class="email-template-card" style="margin-bottom: 2rem; padding: 1.5rem; background: rgba(255, 255, 255, 0.03); border-radius: 12px; border-left: 4px solid #6366f1;">
@@ -1400,6 +1503,70 @@ function copyToolOutput() {
 // PHASE 4: INTERACTIVE MOCK INTERVIEW EVALUATION
 // ==========================================================
 
+// Web Speech API Voice Dictation
+let activeRecognition = null;
+let activeMicIdx = null;
+
+function toggleVoiceDictation(qIdx) {
+    const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
+    if (!SpeechRecognition) {
+        alert("Voice Speech-to-Text is not supported in this browser. Please use Chrome, Edge, or Safari.");
+        return;
+    }
+
+    const micBtn = document.getElementById(`mic-btn-${qIdx}`);
+    const textarea = document.getElementById(`mock-ans-${qIdx}`);
+    const wordCountSpan = document.getElementById(`word-cnt-${qIdx}`);
+
+    if (activeRecognition && activeMicIdx === qIdx) {
+        activeRecognition.stop();
+        return;
+    }
+
+    if (activeRecognition) {
+        activeRecognition.stop();
+    }
+
+    activeRecognition = new SpeechRecognition();
+    activeRecognition.continuous = true;
+    activeRecognition.interimResults = true;
+    activeRecognition.lang = "en-US";
+    activeMicIdx = qIdx;
+
+    if (micBtn) {
+        micBtn.classList.add("recording-pulse");
+        micBtn.innerHTML = `<span>🔴</span> <span>Listening (Speak)...</span>`;
+    }
+
+    let previousText = textarea.value.trim() ? textarea.value.trim() + " " : "";
+
+    activeRecognition.onresult = (event) => {
+        let interimTranscript = "";
+        for (let i = event.resultIndex; i < event.results.length; i++) {
+            interimTranscript += event.results[i][0].transcript;
+        }
+        textarea.value = previousText + interimTranscript;
+        const words = textarea.value.trim().split(/\s+/).filter(Boolean).length;
+        if (wordCountSpan) wordCountSpan.textContent = `${words} words spoken`;
+    };
+
+    activeRecognition.onerror = (event) => {
+        console.warn("Speech recognition error:", event.error);
+        if (activeRecognition) activeRecognition.stop();
+    };
+
+    activeRecognition.onend = () => {
+        if (micBtn) {
+            micBtn.classList.remove("recording-pulse");
+            micBtn.innerHTML = `<span>🎙️</span> <span>Speak Answer</span>`;
+        }
+        activeRecognition = null;
+        activeMicIdx = null;
+    };
+
+    activeRecognition.start();
+}
+
 async function submitMockAnswer(qIdx, encodedQuestion) {
     const questionText = decodeURIComponent(encodedQuestion);
     const textarea = document.getElementById(`mock-ans-${qIdx}`);
@@ -1409,15 +1576,15 @@ async function submitMockAnswer(qIdx, encodedQuestion) {
 
     const answerText = textarea.value.trim();
     if (!answerText) {
-        alert("Please enter a practice response to evaluate!");
+        alert("Please enter or speak a practice response to evaluate!");
         return;
     }
 
     resultDiv.style.display = "block";
     resultDiv.innerHTML = `
-        <div style="text-align: center; padding: 1.5rem;">
-            <div class="pulse-indicator" style="margin: 0 auto 0.8rem auto; width: 12px; height: 12px;"></div>
-            <p style="color: #f472b6; font-size: 0.88rem; margin: 0;">Grading answer against 5-dimension rubric (Technical, STAR, Clarity, Relevance)...</p>
+        <div style="text-align: center; padding: 1.8rem; background: rgba(0,0,0,0.25); border-radius: 12px; border: 1px solid var(--border-color);">
+            <div class="pulse-indicator" style="margin: 0 auto 0.8rem auto; width: 14px; height: 14px;"></div>
+            <p style="color: var(--accent-color); font-weight: 700; font-size: 0.92rem; margin: 0;">AI Diagnostic Engine: Grading answer across 5 dimensions (STAR, Technical, Relevance, Clarity)...</p>
         </div>
     `;
 
@@ -1448,59 +1615,101 @@ async function submitMockAnswer(qIdx, encodedQuestion) {
         const data = await res.json();
 
         const dim = data.dimension_scores || {};
-        const missingBadges = (data.missing_technical_keywords || []).map(k => `<span class="pill-missing" style="font-size: 0.75rem;">+ ${k}</span>`).join(" ");
+        const score = data.overall_score || 8.0;
+        const missingBadges = (data.missing_technical_keywords || []).map(k => `<span class="pill-missing" style="font-size: 0.78rem; padding: 0.25rem 0.6rem; border-radius: 6px; background: rgba(236, 72, 153, 0.12); color: #f472b6; border: 1px solid rgba(236, 72, 153, 0.25);">+ ${k}</span>`).join(" ");
+
+        const scoreColor = score >= 8.0 ? "#10b981" : score >= 6.0 ? "#fbbf24" : "#ef4444";
+        const standingLabel = score >= 8.5 ? "🌟 Strong Hire Candidate" : score >= 7.0 ? "⚡ Competitive / Passing Grade" : "⚠️ Needs Refinement";
 
         resultDiv.innerHTML = `
-            <div class="interactive-eval-box">
-                <div class="eval-score-hero">
-                    <div class="eval-big-score">${data.overall_score || 8.0}<span style="font-size: 1.1rem; color: var(--text-muted); font-weight: 500;"> / 10</span></div>
-                    <div>
-                        <h4 style="margin: 0 0 0.2rem 0; color: #34d399; font-size: 1rem;">🏆 5-Dimension AI Scorecard</h4>
-                        <p style="margin: 0; font-size: 0.82rem; color: var(--text-muted);">Calibrated against enterprise recruiter standards.</p>
+            <div class="interactive-eval-box" style="padding: 1.6rem; background: var(--bg-card); border-radius: 14px; border: 1px solid var(--border-color); box-shadow: 0 8px 24px var(--shadow-color);">
+                <div class="eval-score-hero" style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1.2rem; flex-wrap: wrap; gap: 0.8rem; padding-bottom: 1rem; border-bottom: 1px solid var(--border-color);">
+                    <div style="display: flex; align-items: center; gap: 1rem;">
+                        <div class="eval-big-score" style="font-size: 2.2rem; font-weight: 900; color: ${scoreColor}; font-family: 'Outfit', sans-serif;">${score}<span style="font-size: 1.1rem; color: var(--text-muted); font-weight: 500;">/10</span></div>
+                        <div>
+                            <h4 style="margin: 0 0 0.2rem 0; color: ${scoreColor}; font-size: 1.05rem; font-weight: 800;">${standingLabel}</h4>
+                            <p style="margin: 0; font-size: 0.82rem; color: var(--text-muted);">Calibrated against enterprise tech recruiter rubrics.</p>
+                        </div>
                     </div>
                 </div>
 
-                <div class="rubric-score-grid">
-                    <div class="rubric-item">Technical Depth <span class="rubric-val">${dim.technical_correctness !== undefined ? dim.technical_correctness : '-'}</span></div>
-                    <div class="rubric-item">STAR Structure <span class="rubric-val">${dim.structure_star !== undefined ? dim.structure_star : '-'}</span></div>
-                    <div class="rubric-item">Relevance <span class="rubric-val">${dim.relevance !== undefined ? dim.relevance : '-'}</span></div>
-                    <div class="rubric-item">Communication <span class="rubric-val">${dim.clarity !== undefined ? dim.clarity : '-'}</span></div>
+                <!-- 4 Dimension Progress Bars -->
+                <div class="rubric-score-grid" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 0.8rem; margin-bottom: 1.2rem;">
+                    <div class="rubric-item" style="background: rgba(0,0,0,0.2); padding: 0.75rem 1rem; border-radius: 10px; border: 1px solid var(--border-color);">
+                        <div style="display: flex; justify-content: space-between; font-size: 0.82rem; margin-bottom: 0.3rem;">
+                            <span>Technical Depth</span>
+                            <strong style="color: #818cf8;">${dim.technical_correctness || 8.0}/10</strong>
+                        </div>
+                        <div style="height: 6px; background: rgba(255,255,255,0.08); border-radius: 4px; overflow: hidden;">
+                            <div style="height: 100%; width: ${(dim.technical_correctness || 8.0) * 10}%; background: #818cf8; border-radius: 4px;"></div>
+                        </div>
+                    </div>
+
+                    <div class="rubric-item" style="background: rgba(0,0,0,0.2); padding: 0.75rem 1rem; border-radius: 10px; border: 1px solid var(--border-color);">
+                        <div style="display: flex; justify-content: space-between; font-size: 0.82rem; margin-bottom: 0.3rem;">
+                            <span>STAR Structure</span>
+                            <strong style="color: #10b981;">${dim.structure_star || 8.5}/10</strong>
+                        </div>
+                        <div style="height: 6px; background: rgba(255,255,255,0.08); border-radius: 4px; overflow: hidden;">
+                            <div style="height: 100%; width: ${(dim.structure_star || 8.5) * 10}%; background: #10b981; border-radius: 4px;"></div>
+                        </div>
+                    </div>
+
+                    <div class="rubric-item" style="background: rgba(0,0,0,0.2); padding: 0.75rem 1rem; border-radius: 10px; border: 1px solid var(--border-color);">
+                        <div style="display: flex; justify-content: space-between; font-size: 0.82rem; margin-bottom: 0.3rem;">
+                            <span>Relevance</span>
+                            <strong style="color: #38bdf8;">${dim.relevance || 8.0}/10</strong>
+                        </div>
+                        <div style="height: 6px; background: rgba(255,255,255,0.08); border-radius: 4px; overflow: hidden;">
+                            <div style="height: 100%; width: ${(dim.relevance || 8.0) * 10}%; background: #38bdf8; border-radius: 4px;"></div>
+                        </div>
+                    </div>
+
+                    <div class="rubric-item" style="background: rgba(0,0,0,0.2); padding: 0.75rem 1rem; border-radius: 10px; border: 1px solid var(--border-color);">
+                        <div style="display: flex; justify-content: space-between; font-size: 0.82rem; margin-bottom: 0.3rem;">
+                            <span>Communication Clarity</span>
+                            <strong style="color: #fbbf24;">${dim.clarity || 8.5}/10</strong>
+                        </div>
+                        <div style="height: 6px; background: rgba(255,255,255,0.08); border-radius: 4px; overflow: hidden;">
+                            <div style="height: 100%; width: ${(dim.clarity || 8.5) * 10}%; background: #fbbf24; border-radius: 4px;"></div>
+                        </div>
+                    </div>
                 </div>
 
                 ${data.strengths && data.strengths.length > 0 ? `
-                <div style="margin-top: 1rem;">
-                    <strong style="color: #38bdf8; font-size: 0.85rem;">💪 Candidate Strengths Demonstrated:</strong>
-                    <ul style="margin: 0.3rem 0 0.6rem 1.2rem; font-size: 0.85rem; color: rgba(255,255,255,0.88);">
+                <div style="margin-top: 1rem; background: rgba(16, 185, 129, 0.06); padding: 0.85rem 1rem; border-radius: 10px; border-left: 3px solid #10b981;">
+                    <strong style="color: #10b981; font-size: 0.88rem; display: block; margin-bottom: 0.3rem;">💪 Candidate Strengths Demonstrated:</strong>
+                    <ul style="margin: 0; padding-left: 1.2rem; font-size: 0.86rem; color: var(--text-color); line-height: 1.5;">
                         ${data.strengths.map(s => `<li>${s}</li>`).join("")}
                     </ul>
                 </div>` : ""}
 
                 ${data.improvement_areas && data.improvement_areas.length > 0 ? `
-                <div style="margin-top: 0.6rem;">
-                    <strong style="color: #fbbf24; font-size: 0.85rem;">⚡ Constructive Improvement Areas:</strong>
-                    <ul style="margin: 0.3rem 0 0.6rem 1.2rem; font-size: 0.85rem; color: rgba(255,255,255,0.88);">
+                <div style="margin-top: 0.8rem; background: rgba(245, 158, 11, 0.06); padding: 0.85rem 1rem; border-radius: 10px; border-left: 3px solid #f59e0b;">
+                    <strong style="color: #fbbf24; font-size: 0.88rem; display: block; margin-bottom: 0.3rem;">⚡ Constructive Improvement Areas:</strong>
+                    <ul style="margin: 0; padding-left: 1.2rem; font-size: 0.86rem; color: var(--text-color); line-height: 1.5;">
                         ${data.improvement_areas.map(i => `<li>${i}</li>`).join("")}
                     </ul>
                 </div>` : ""}
 
                 ${missingBadges ? `
-                <div style="margin-top: 0.8rem;">
-                    <strong style="font-size: 0.85rem; color: #f472b6;">🔍 High-Impact Keywords to Mention:</strong>
-                    <div style="margin-top: 0.4rem; display: flex; flex-wrap: wrap; gap: 0.4rem;">
+                <div style="margin-top: 0.8rem; padding: 0.85rem 1rem; background: rgba(236, 72, 153, 0.06); border-radius: 10px; border-left: 3px solid #ec4899;">
+                    <strong style="font-size: 0.88rem; color: #f472b6; display: block; margin-bottom: 0.4rem;">🔍 High-Impact Keywords to Mention:</strong>
+                    <div style="display: flex; flex-wrap: wrap; gap: 0.4rem;">
                         ${missingBadges}
                     </div>
                 </div>` : ""}
 
                 ${data.refined_model_answer ? `
-                <div style="margin-top: 1rem; padding: 1rem; background: rgba(52, 211, 153, 0.08); border-left: 3px solid #34d399; border-radius: 8px;">
-                    <strong style="color: #34d399; font-size: 0.88rem;">✨ Refined High-Impact Model Answer:</strong>
-                    <p style="margin: 0.4rem 0 0 0; font-size: 0.88rem; line-height: 1.55; color: rgba(255,255,255,0.95);">${data.refined_model_answer}</p>
+                <div style="margin-top: 1rem; padding: 1.1rem; background: rgba(99, 102, 241, 0.08); border-left: 4px solid var(--accent-color); border-radius: 10px;">
+                    <strong style="color: var(--accent-color); font-size: 0.9rem; display: flex; align-items: center; gap: 0.4rem;">✨ AI Gold-Standard Model Answer (1% Candidate Response):</strong>
+                    <p style="margin: 0.5rem 0 0 0; font-size: 0.9rem; line-height: 1.6; color: var(--text-color); font-style: italic;">"${data.refined_model_answer}"</p>
                 </div>` : ""}
             </div>
         `;
     } catch (err) {
         console.error(err);
-        resultDiv.innerHTML = `<div style="color: #f87171; padding: 1rem; font-size: 0.88rem;">Evaluation failed: ${err.message}</div>`;
+        resultDiv.innerHTML = `<div style="color: #ef4444; padding: 1rem; font-size: 0.88rem; background: rgba(239, 68, 68, 0.1); border-radius: 8px;">Evaluation failed: ${err.message}</div>`;
     }
 }
 
