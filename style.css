@@ -2,19 +2,19 @@
    AI JobAgent - Professional Enterprise SaaS Design System
    ========================================================== */
 
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Plus+Jakarta+Sans:wght@400;500;600;700;800;900&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Plus+Jakarta+Sans:wght@400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500;600;700&display=swap');
 
 :root {
     /* Enterprise Dark Theme (Default) */
-    --bg-app: #090d16;
-    --bg-sidebar: #0d121f;
-    --bg-card: #111827;
-    --bg-card-hover: #162032;
-    --bg-surface: #1e293b;
-    --bg-input: #0b0f19;
+    --bg-app: #080a0f;
+    --bg-sidebar: #0d1017;
+    --bg-card: #121722;
+    --bg-card-hover: #161c2b;
+    --bg-surface: #1a202e;
+    --bg-input: #090c13;
     
     --border-color: rgba(255, 255, 255, 0.08);
-    --border-card-hover: rgba(99, 102, 241, 0.4);
+    --border-card-hover: rgba(99, 102, 241, 0.45);
     --border-subtle: rgba(255, 255, 255, 0.04);
     
     --text-color: #f3f4f6;
@@ -681,7 +681,8 @@ h1, h2, h3, h4, h5, h6 {
     font-size: 2.2rem;
     font-weight: 800;
     color: var(--text-bright);
-    font-family: 'Plus Jakarta Sans', sans-serif;
+    font-family: 'JetBrains Mono', 'Plus Jakarta Sans', monospace;
+    font-variant-numeric: tabular-nums;
     letter-spacing: -0.04em;
 }
 
@@ -829,7 +830,8 @@ h1, h2, h3, h4, h5, h6 {
     font-size: 1.6rem;
     font-weight: 800;
     color: var(--accent-color);
-    font-family: 'Plus Jakarta Sans', sans-serif;
+    font-family: 'JetBrains Mono', 'Plus Jakarta Sans', monospace;
+    font-variant-numeric: tabular-nums;
     margin-bottom: 0.2rem;
 }
 
@@ -1582,7 +1584,8 @@ h1, h2, h3, h4, h5, h6 {
     font-size: 1.4rem;
     font-weight: 800;
     color: var(--accent-color);
-    font-family: 'Plus Jakarta Sans', sans-serif;
+    font-family: 'JetBrains Mono', 'Plus Jakarta Sans', monospace;
+    font-variant-numeric: tabular-nums;
 }
 
 .crm-stat-lbl {
