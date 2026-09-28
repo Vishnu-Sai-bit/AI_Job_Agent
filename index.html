@@ -278,6 +278,22 @@
                                 </div>
                             </div>
                         </div>
+
+                        <!-- Real-Time Interactive Filter Toolbar -->
+                        <div class="card filter-bar-card">
+                            <div class="search-input-wrapper">
+                                <span class="search-icon">🔍</span>
+                                <input type="text" id="job-search-input" placeholder="Filter matches by title, company, skills (e.g. Python, SQL, Power BI), or city..." class="job-search-input">
+                                <button id="clear-search-btn" class="clear-search-btn" style="display: none;">✕</button>
+                            </div>
+                            <div class="filter-chips-row" id="job-filter-chips">
+                                <button class="filter-chip active" data-filter="all">🌟 All Matches</button>
+                                <button class="filter-chip" data-filter="verified">🛡️ Verified Only</button>
+                                <button class="filter-chip" data-filter="high-match">⚡ High Fit (≥70%)</button>
+                                <button class="filter-chip" data-filter="python-sql">🐍 Python & SQL</button>
+                                <button class="filter-chip" data-filter="bi-viz">📊 Power BI & Tableau</button>
+                            </div>
+                        </div>
                     </div>
                     
                     <div id="jobs-list-container">
@@ -446,6 +462,9 @@
             </div>
         </div>
     </div>
+
+    <!-- Toast Notification System -->
+    <div id="toast-container" class="toast-container"></div>
 
     <script src="app.js"></script>
 </body>

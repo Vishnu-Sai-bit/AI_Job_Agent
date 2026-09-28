@@ -31,6 +31,10 @@ const tabLearning = document.getElementById("tab-learning");
 const themeToggle = document.getElementById("theme-toggle");
 const themeIcon = document.getElementById("theme-icon");
 
+// Search & Filter State
+let currentJobSearch = "";
+let currentJobFilter = "all";
+
 // ==========================================================
 // Initialization & Event Listeners
 // ==========================================================
@@ -40,7 +44,69 @@ document.addEventListener("DOMContentLoaded", () => {
     initTabs();
     initDragAndDrop();
     initTools();
+    initJobsFilter();
 });
+
+// Toast Notification Engine
+function showToast(message, type = "info", customIcon = null) {
+    const container = document.getElementById("toast-container");
+    if (!container) return;
+
+    const toast = document.createElement("div");
+    toast.className = `toast toast-${type}`;
+    
+    let icon = customIcon;
+    if (!icon) {
+        if (type === "success") icon = "✅";
+        else if (type === "error") icon = "❌";
+        else if (type === "warning") icon = "⚠️";
+        else icon = "⚡";
+    }
+
+    toast.innerHTML = `
+        <span class="toast-icon">${icon}</span>
+        <div class="toast-body">${message}</div>
+    `;
+
+    container.appendChild(toast);
+
+    setTimeout(() => {
+        toast.style.animation = "toastFadeOut 0.3s cubic-bezier(0.16, 1, 0.3, 1) forwards";
+        setTimeout(() => toast.remove(), 300);
+    }, 3500);
+}
+
+function initJobsFilter() {
+    const searchInput = document.getElementById("job-search-input");
+    const clearBtn = document.getElementById("clear-search-btn");
+    const filterChips = document.querySelectorAll("#job-filter-chips .filter-chip");
+
+    if (searchInput) {
+        searchInput.addEventListener("input", (e) => {
+            currentJobSearch = e.target.value.toLowerCase().trim();
+            if (clearBtn) clearBtn.style.display = currentJobSearch ? "block" : "none";
+            renderJobs();
+        });
+    }
+
+    if (clearBtn) {
+        clearBtn.addEventListener("click", () => {
+            if (searchInput) searchInput.value = "";
+            currentJobSearch = "";
+            clearBtn.style.display = "none";
+            renderJobs();
+        });
+    }
+
+    filterChips.forEach(chip => {
+        chip.addEventListener("click", () => {
+            filterChips.forEach(c => c.classList.remove("active"));
+            chip.classList.add("active");
+            currentJobFilter = chip.getAttribute("data-filter") || "all";
+            renderJobs();
+        });
+    });
+}
 
 // Theme Selector
 function initTheme() {
@@ -486,7 +552,7 @@ function renderJobs() {
     const groupKeys = Object.keys(grouped);
 
     if (groupKeys.length === 0) {
-        container.innerHTML = `<div class="card text-center"><p class="muted">No jobs matching your profile score threshold could be found.</p></div>`;
+        container.innerHTML = `<div class="card text-center" style="padding: 3rem;"><p class="muted">No jobs matching your profile score threshold could be found.</p></div>`;
         return;
     }
 
@@ -496,17 +562,51 @@ function renderJobs() {
         radio.onclick = () => renderJobs();
     });
 
-    // Perform Grouping
-    groupKeys.forEach(groupName => {
-        const jobs = grouped[groupName] || [];
+    let totalVisibleJobs = 0;
+
+    // Perform Grouping with Client-Side Filtering
+    groupKeys.forEach((groupName, gIdx) => {
+        let jobs = grouped[groupName] || [];
         if (jobs.length === 0) return;
+
+        // Apply Real-Time Search Filtering
+        if (currentJobSearch) {
+            jobs = jobs.filter(j => {
+                const titleMatch = (j.title || "").toLowerCase().includes(currentJobSearch);
+                const companyMatch = (j.company || "").toLowerCase().includes(currentJobSearch);
+                const locMatch = (j.location || "").toLowerCase().includes(currentJobSearch);
+                const skillsMatch = (j.skills || []).some(s => s.toLowerCase().includes(currentJobSearch));
+                const matchSkillsMatch = (j.matching_skills || []).some(s => s.toLowerCase().includes(currentJobSearch));
+                return titleMatch || companyMatch || locMatch || skillsMatch || matchSkillsMatch;
+            });
+        }
+
+        // Apply Filter Chips
+        if (currentJobFilter === "verified") {
+            jobs = jobs.filter(j => (j.verification_status || "verified") === "verified");
+        } else if (currentJobFilter === "high-match") {
+            jobs = jobs.filter(j => (j.match_score || 0) >= 70);
+        } else if (currentJobFilter === "python-sql") {
+            jobs = jobs.filter(j => {
+                const combined = [...(j.skills || []), ...(j.matching_skills || [])].map(s => s.toLowerCase());
+                return combined.some(s => s.includes("python") || s.includes("sql"));
+            });
+        } else if (currentJobFilter === "bi-viz") {
+            jobs = jobs.filter(j => {
+                const combined = [...(j.skills || []), ...(j.matching_skills || [])].map(s => s.toLowerCase());
+                return combined.some(s => s.includes("power bi") || s.includes("tableau") || s.includes("dax") || s.includes("bi"));
+            });
+        }
+
+        if (jobs.length === 0) return;
+        totalVisibleJobs += jobs.length;
 
         const groupDiv = document.createElement("div");
         groupDiv.className = "job-group";
         
         groupDiv.innerHTML = `
             <div class="job-group-header">
-                <span>📁</span> ${groupName} (${jobs.length} jobs)
+                <span>📁</span> ${groupName} (${jobs.length} ${jobs.length === 1 ? 'job' : 'jobs'})
             </div>
             <div class="job-cards-container"></div>
         `;
@@ -519,6 +619,9 @@ function renderJobs() {
             
             // Format match score color
             const score = Math.round(job.match_score || 0);
+            let scoreBadgeClass = "match-high";
+            if (score < 65) scoreBadgeClass = "match-low";
+            else if (score < 80) scoreBadgeClass = "match-med";
             
             // Sources badge
             const sourcesList = (job.sources && job.sources.length > 0) ? job.sources : [job.provider || "Web"];
@@ -552,10 +655,10 @@ function renderJobs() {
                 ? job.resume_evidence.map(e => `<div class="evidence-block">💡 <strong>Resume Proof:</strong> ${e}</div>`).join("")
                 : "";
 
-            const panelId = `fit-panel-${groupKey}-${idx}`;
+            const panelId = `fit-panel-${gIdx}-${idx}`;
 
             card.innerHTML = `
-                <div class="job-match-badge">${score}% Match</div>
+                <div class="job-match-badge ${scoreBadgeClass}">${score}% Match</div>
                 <h4>${job.title}</h4>
                 <div class="job-company">${job.company}</div>
                 
@@ -565,8 +668,8 @@ function renderJobs() {
                 </div>
 
                 <div class="job-details">
-                    <p>📍 <strong>Location:</strong> ${job.location || "N/A"}</p>
-                    <p>💰 <strong>Salary Range:</strong> ${job.salary || "Not Mentioned"}</p>
+                    <p>📍 <strong>Location:</strong> ${job.location || "India"}</p>
+                    <p>💰 <strong>Salary Range:</strong> ${job.salary || "Market Standard"}</p>
                 </div>
                 
                 <div class="job-card-pills">
@@ -578,7 +681,7 @@ function renderJobs() {
                     <button class="fit-toggle-btn" onclick="toggleFitPanel('${panelId}', this)">
                         <span>📊 View Explainable Fit & ATS Proof</span> ▼
                     </button>
-                    <div id="${panelId}" class="fit-breakdown-panel">
+                    <div id="${panelId}" class="fit-breakdown-panel" style="display: none;">
                         <div class="fit-dimension-row">
                             <div class="fit-dimension-header">
                                 <span>🎯 Required Skills Match</span>
@@ -623,11 +726,11 @@ function renderJobs() {
                     </div>
                 </div>
                 
-                <div style="margin-top: 1.2rem; display: flex; gap: 0.6rem; flex-wrap: wrap;">
-                    <a href="${job.apply_url || "#"}" target="_blank" rel="noopener noreferrer" class="action-btn-small">Apply for Job ↗</a>
-                    <button type="button" class="action-btn-small" style="background: rgba(99, 102, 241, 0.15); border-color: rgba(99, 102, 241, 0.35); color: #a5b4fc;" onclick="triggerTailorResume('${encodeURIComponent(job.title)}', '${encodeURIComponent(job.company)}', '${encodeURIComponent((job.description||'').substring(0, 400))}', '${encodeURIComponent(JSON.stringify(job.skills||[]))}')">✍️ Tailor Resume</button>
-                    <button type="button" class="action-btn-small" style="background: rgba(56, 189, 248, 0.15); border-color: rgba(56, 189, 248, 0.35); color: #38bdf8;" onclick="triggerCompanyInsights('${encodeURIComponent(job.company)}', '${encodeURIComponent(job.title)}', '${encodeURIComponent((job.description||'').substring(0, 400))}', '${encodeURIComponent(JSON.stringify(job.skills||[]))}')">🏢 Company Insights</button>
-                    <button type="button" class="action-btn-small" style="background: rgba(16, 185, 129, 0.15); border-color: rgba(16, 185, 129, 0.35); color: #34d399;" onclick="quickAddToCRM('${encodeURIComponent(job.title)}', '${encodeURIComponent(job.company)}', '${encodeURIComponent(job.location||'India')}', '${encodeURIComponent(job.salary||'Not Mentioned')}', '${encodeURIComponent(job.apply_url||'#')}')">📌 Track in CRM</button>
+                <div class="card-actions-row">
+                    <a href="${job.apply_url || '#'}" target="_blank" rel="noopener noreferrer" class="btn-card-action btn-primary-action">🚀 Apply Direct ↗</a>
+                    <button type="button" class="btn-card-action" onclick="triggerTailorResume('${encodeURIComponent(job.title)}', '${encodeURIComponent(job.company)}', '${encodeURIComponent((job.description||'').substring(0, 400))}', '${encodeURIComponent(JSON.stringify(job.skills||[]))}')">✍️ Tailor</button>
+                    <button type="button" class="btn-card-action" onclick="triggerCompanyInsights('${encodeURIComponent(job.company)}', '${encodeURIComponent(job.title)}', '${encodeURIComponent((job.description||'').substring(0, 400))}', '${encodeURIComponent(JSON.stringify(job.skills||[]))}')">🏢 Insights</button>
+                    <button type="button" class="btn-card-action" onclick="quickAddToCRM('${encodeURIComponent(job.title)}', '${encodeURIComponent(job.company)}', '${encodeURIComponent(job.location||'India')}', '${encodeURIComponent(job.salary||'Not Mentioned')}', '${encodeURIComponent(job.apply_url||'#')}')">📌 Track CRM</button>
                 </div>
             `;
             cardsContainer.appendChild(card);
@@ -635,6 +738,15 @@ function renderJobs() {
 
         container.appendChild(groupDiv);
     });
+
+    if (totalVisibleJobs === 0) {
+        container.innerHTML = `
+            <div class="card text-center" style="padding: 3rem;">
+                <p style="font-size: 1.1rem; color: var(--text-color); margin-bottom: 0.5rem;">🔍 No matching opportunities found</p>
+                <p class="muted">No jobs match your search "${currentJobSearch}" with the filter "${currentJobFilter}". Try clearing your filters.</p>
+            </div>
+        `;
+    }
 }
 
 // Helper to toggle fit panel
@@ -1170,11 +1282,12 @@ function copyToolOutput() {
     navigator.clipboard.writeText(text).then(() => {
         const copyBtn = document.getElementById("copy-output-btn");
         copyBtn.textContent = "✅ Copied!";
+        showToast("Output copied to clipboard!", "success", "📋");
         setTimeout(() => {
             copyBtn.textContent = "📋 Copy Output";
         }, 2000);
     }).catch(err => {
-        alert("Failed to copy text: ", err);
+        showToast(`Failed to copy text: ${err.message}`, "error");
     });
 }
 
@@ -1500,10 +1613,10 @@ async function quickAddToCRM(encodedTitle, encodedCompany, encodedLoc, encodedSa
         });
 
         if (!res.ok) throw new Error(await res.text());
-        alert(`✅ Saved "${title} at ${company}" to your Application CRM!`);
+        showToast(`Saved "${title} at ${company}" to CRM!`, "success", "📌");
     } catch (err) {
         console.error("Failed to add to CRM:", err);
-        alert(`Failed to track job in CRM: ${err.message}`);
+        showToast(`Failed to track job: ${err.message}`, "error");
     }
 }
 
@@ -1523,9 +1636,11 @@ async function updateCRMAppStatus(appId, newStatus) {
         });
 
         if (!res.ok) throw new Error(await res.text());
+        showToast(`Updated status to ${newStatus.toUpperCase()}`, "info", "⚡");
         loadCRMApplications();
     } catch (err) {
         console.error("Failed to update status:", err);
+        showToast(`Failed to update status: ${err.message}`, "error");
     }
 }
 
@@ -1536,9 +1651,11 @@ async function deleteCRMApp(appId) {
             method: "DELETE"
         });
         if (!res.ok) throw new Error(await res.text());
+        showToast("Application removed from CRM", "info", "🗑️");
         loadCRMApplications();
     } catch (err) {
         console.error("Failed to delete application:", err);
+        showToast(`Failed to remove application: ${err.message}`, "error");
     }
 }
 
