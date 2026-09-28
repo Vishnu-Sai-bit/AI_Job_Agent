@@ -393,25 +393,60 @@ function renderJobs() {
         
         const cardsContainer = groupDiv.querySelector(".job-cards-container");
         
-        jobs.forEach(job => {
+        jobs.forEach((job, idx) => {
             const card = document.createElement("div");
             card.className = "card job-card";
             
             // Format match score color
             const score = Math.round(job.match_score || 0);
             
+            // Sources badge
+            const sourcesList = (job.sources && job.sources.length > 0) ? job.sources : [job.provider || "Web"];
+            const sourcesText = sourcesList.length > 1 ? `🌐 ${sourcesList.length} Sources (${sourcesList.join(", ")})` : `🔗 ${sourcesList[0]}`;
+            
+            // Trust verification badge
+            let trustBadgeHtml = "";
+            const vStatus = job.verification_status || "verified";
+            const vNotes = (job.verification_notes && job.verification_notes.length > 0) ? job.verification_notes.join(" • ") : "Verified Employer Listing";
+            if (vStatus === "verified") {
+                trustBadgeHtml = `<span class="trust-badge verified-badge" title="${vNotes}">🛡️ Verified Employer</span>`;
+            } else if (vStatus === "caution") {
+                trustBadgeHtml = `<span class="trust-badge caution-badge" title="${vNotes}">🚨 Caution Flagged</span>`;
+            } else {
+                trustBadgeHtml = `<span class="trust-badge review-badge" title="${vNotes}">⚠️ Review Suggested</span>`;
+            }
+
             // Render skills matching and missing badges
             const matchPills = (job.matching_skills || []).map(s => `<span class="pill-match">${s} ✔</span>`).join("");
             const missPills = (job.missing_skills || []).map(s => `<span class="pill-missing">${s}</span>`).join("");
             
+            // Fit breakdown metrics
+            const fit = job.fit_breakdown || {};
+            const skillsPct = Math.round(fit.skills !== undefined ? fit.skills : (job.skill_match || 0));
+            const rolePct = Math.round(fit.role !== undefined ? fit.role : (job.role_match || 0));
+            const expPct = Math.round(fit.experience !== undefined ? fit.experience : (job.experience_match || 0));
+            const locPct = Math.round(fit.location !== undefined ? fit.location : (job.location_match || 0));
+
+            // Resume evidence snippet
+            const evidenceList = (job.resume_evidence && job.resume_evidence.length > 0) 
+                ? job.resume_evidence.map(e => `<div class="evidence-block">💡 <strong>Resume Proof:</strong> ${e}</div>`).join("")
+                : "";
+
+            const panelId = `fit-panel-${groupKey}-${idx}`;
+
             card.innerHTML = `
                 <div class="job-match-badge">${score}% Match</div>
                 <h4>${job.title}</h4>
                 <div class="job-company">${job.company}</div>
+                
+                <div class="job-meta-badges">
+                    <span class="source-badge">${sourcesText}</span>
+                    ${trustBadgeHtml}
+                </div>
+
                 <div class="job-details">
                     <p>📍 <strong>Location:</strong> ${job.location || "N/A"}</p>
-                    <p>💰 <strong>Salary Range:</strong> ${job.salary || "N/A"}</p>
-                    <p>🔗 <strong>Source:</strong> ${job.provider || "N/A"}</p>
+                    <p>💰 <strong>Salary Range:</strong> ${job.salary || "Not Mentioned"}</p>
                 </div>
                 
                 <div class="job-card-pills">
@@ -419,28 +454,77 @@ function renderJobs() {
                     ${missPills}
                 </div>
                 
-                <div class="job-score-breakdown">
-                    <div class="breakdown-item">
-                        Role Match
-                        <span class="breakdown-val">${Math.round(job.role_match || 0)}%</span>
-                    </div>
-                    <div class="breakdown-item">
-                        Skill Match
-                        <span class="breakdown-val">${Math.round(job.skill_match || 0)}%</span>
-                    </div>
-                    <div class="breakdown-item">
-                        Semantic Match
-                        <span class="breakdown-val">${Math.round(job.semantic_match || 0)}%</span>
+                <div class="fit-details-toggle">
+                    <button class="fit-toggle-btn" onclick="toggleFitPanel('${panelId}', this)">
+                        <span>📊 View Explainable Fit & ATS Proof</span> ▼
+                    </button>
+                    <div id="${panelId}" class="fit-breakdown-panel">
+                        <div class="fit-dimension-row">
+                            <div class="fit-dimension-header">
+                                <span>🎯 Required Skills Match</span>
+                                <span>${skillsPct}%</span>
+                            </div>
+                            <div class="fit-progress-track">
+                                <div class="fit-progress-fill fill-green" style="width: ${skillsPct}%"></div>
+                            </div>
+                        </div>
+
+                        <div class="fit-dimension-row">
+                            <div class="fit-dimension-header">
+                                <span>💼 Role Alignment</span>
+                                <span>${rolePct}%</span>
+                            </div>
+                            <div class="fit-progress-track">
+                                <div class="fit-progress-fill fill-blue" style="width: ${rolePct}%"></div>
+                            </div>
+                        </div>
+
+                        <div class="fit-dimension-row">
+                            <div class="fit-dimension-header">
+                                <span>⏳ Experience Level Fit</span>
+                                <span>${expPct}%</span>
+                            </div>
+                            <div class="fit-progress-track">
+                                <div class="fit-progress-fill fill-purple" style="width: ${expPct}%"></div>
+                            </div>
+                        </div>
+
+                        <div class="fit-dimension-row">
+                            <div class="fit-dimension-header">
+                                <span>📍 Location Fit</span>
+                                <span>${locPct}%</span>
+                            </div>
+                            <div class="fit-progress-track">
+                                <div class="fit-progress-fill fill-amber" style="width: ${locPct}%"></div>
+                            </div>
+                        </div>
+
+                        ${evidenceList}
                     </div>
                 </div>
                 
-                <a href="${job.apply_url || "#"}" target="_blank" class="action-btn-small">Apply for Job</a>
+                <div style="margin-top: 1rem;">
+                    <a href="${job.apply_url || "#"}" target="_blank" rel="noopener noreferrer" class="action-btn-small">Apply for Job ↗</a>
+                </div>
             `;
             cardsContainer.appendChild(card);
         });
 
         container.appendChild(groupDiv);
     });
+}
+
+// Helper to toggle fit panel
+function toggleFitPanel(panelId, btn) {
+    const panel = document.getElementById(panelId);
+    if (!panel) return;
+    if (panel.style.display === "block") {
+        panel.style.display = "none";
+        btn.innerHTML = `<span>📊 View Explainable Fit & ATS Proof</span> ▼`;
+    } else {
+        panel.style.display = "block";
+        btn.innerHTML = `<span>📊 Hide Explainable Fit & ATS Proof</span> ▲`;
+    }
 }
 
 // 3. Learning Roadmaps
