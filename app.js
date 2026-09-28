@@ -301,26 +301,131 @@ function renderDashboard() {
     // ATS Score SVG Ring Animation
     const atsScore = resumeData.ats_score || 0;
     const atsVal = document.getElementById("ats-val");
-    atsVal.textContent = `${atsScore}%`;
+    if (atsVal) atsVal.textContent = `${atsScore}%`;
     
     const progressCircle = document.getElementById("ats-progress");
     if (progressCircle) {
-        // Circumference of our circle is ~264
         const strokeDashOffset = 264 - (atsScore / 100) * 264;
         progressCircle.style.strokeDashoffset = strokeDashOffset;
     }
 
-    // Personal Info
-    document.getElementById("info-name").textContent = resumeData.name || "N/A";
-    document.getElementById("info-email").textContent = resumeData.email || "N/A";
-    document.getElementById("info-phone").textContent = resumeData.phone || "N/A";
-    document.getElementById("info-location").textContent = resumeData.location || "N/A";
+    // Candidate Hero Profile Header
+    const candidateName = resumeData.name || "Candidate Profile";
+    const initials = candidateName.split(" ").map(w => w[0]).join("").toUpperCase().slice(0, 2) || "AI";
+    const currentHub = resumeData.location || resumeData.preferred_location || "Hyderabad, India";
+    const prefRole = resumeData.preferred_role || "Data Analyst";
+    const targetHub = resumeData.preferred_location || resumeData.location || "Hyderabad / Remote";
+
+    const heroInitials = document.getElementById("hero-avatar-initials");
+    if (heroInitials) heroInitials.textContent = initials;
+
+    const heroName = document.getElementById("hero-candidate-name");
+    if (heroName) heroName.textContent = candidateName;
+
+    const heroRole = document.getElementById("hero-preferred-role");
+    if (heroRole) heroRole.textContent = prefRole;
+
+    const heroHub = document.getElementById("hero-current-hub");
+    if (heroHub) heroHub.textContent = `📍 ${currentHub}`;
+
+    const heroBio = document.getElementById("hero-summary-bio");
+    if (heroBio) {
+        heroBio.textContent = resumeData.career_summary || `Analytical professional specializing in ${prefRole} with hands-on expertise in ${(resumeData.skills || []).slice(0, 5).join(", ") || "SQL, Python, and BI dashboards"}.`;
+    }
+
+    // Hero Quick Action Buttons
+    const emailBtn = document.getElementById("hero-copy-email-btn");
+    if (emailBtn) {
+        if (resumeData.email) {
+            emailBtn.style.display = "inline-flex";
+            emailBtn.onclick = () => {
+                navigator.clipboard.writeText(resumeData.email);
+                alert(`Copied email to clipboard: ${resumeData.email}`);
+            };
+        } else {
+            emailBtn.style.display = "none";
+        }
+    }
+
+    const phoneBtn = document.getElementById("hero-copy-phone-btn");
+    if (phoneBtn) {
+        if (resumeData.phone) {
+            phoneBtn.style.display = "inline-flex";
+            phoneBtn.onclick = () => {
+                navigator.clipboard.writeText(resumeData.phone);
+                alert(`Copied phone reference: ${resumeData.phone}`);
+            };
+        } else {
+            phoneBtn.style.display = "none";
+        }
+    }
+
+    const linkedinBtn = document.getElementById("hero-linkedin-btn");
+    if (linkedinBtn) {
+        if (resumeData.linkedin) {
+            linkedinBtn.style.display = "inline-flex";
+            linkedinBtn.href = resumeData.linkedin.startsWith("http") ? resumeData.linkedin : `https://${resumeData.linkedin}`;
+        } else {
+            linkedinBtn.style.display = "none";
+        }
+    }
+
+    const githubBtn = document.getElementById("hero-github-btn");
+    if (githubBtn) {
+        if (resumeData.github) {
+            githubBtn.style.display = "inline-flex";
+            githubBtn.href = resumeData.github.startsWith("http") ? resumeData.github : `https://${resumeData.github}`;
+        } else {
+            githubBtn.style.display = "none";
+        }
+    }
+
+    // Personal Info & Contact Credentials
+    const infoName = document.getElementById("info-name");
+    if (infoName) infoName.textContent = candidateName;
+
+    const infoEmail = document.getElementById("info-email");
+    if (infoEmail) {
+        if (resumeData.email) {
+            infoEmail.innerHTML = `<a href="mailto:${resumeData.email}" style="color: inherit; text-decoration: underline;">${resumeData.email}</a>`;
+        } else {
+            infoEmail.textContent = "Not specified";
+        }
+    }
+
+    const infoPhone = document.getElementById("info-phone");
+    if (infoPhone) {
+        if (resumeData.phone) {
+            infoPhone.innerHTML = `<a href="tel:${resumeData.phone}" style="color: inherit;">📞 ${resumeData.phone}</a>`;
+        } else {
+            infoPhone.textContent = "Not specified";
+        }
+    }
+
+    const infoLocText = document.getElementById("info-location-text");
+    if (infoLocText) infoLocText.textContent = currentHub;
+    else {
+        const infoLoc = document.getElementById("info-location");
+        if (infoLoc) infoLoc.textContent = currentHub;
+    }
 
     // Target preferences
-    document.getElementById("pref-role").textContent = resumeData.preferred_role || "N/A";
-    document.getElementById("pref-location").textContent = resumeData.preferred_location || "N/A";
-    document.getElementById("pref-experience").textContent = resumeData.experience_years || "0";
-    document.getElementById("pref-level").textContent = resumeData.career_level || "N/A";
+    const prefRoleElem = document.getElementById("pref-role");
+    if (prefRoleElem) prefRoleElem.textContent = prefRole;
+
+    const prefLocText = document.getElementById("pref-location-text");
+    if (prefLocText) prefLocText.textContent = targetHub;
+    else {
+        const prefLoc = document.getElementById("pref-location");
+        if (prefLoc) prefLoc.textContent = targetHub;
+    }
+
+    const prefExp = document.getElementById("pref-experience");
+    if (prefExp) prefExp.textContent = `${resumeData.experience_years || 0} Years`;
+
+    const prefLevel = document.getElementById("pref-level");
+    if (prefLevel) prefLevel.textContent = resumeData.career_level || "Junior / Mid";
+
 
     // Social profile badges
     const socialsContainer = document.getElementById("socials-container");

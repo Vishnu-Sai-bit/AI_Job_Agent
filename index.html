@@ -110,6 +110,39 @@
 
                 <!-- Tab 1: Dashboard & ATS Report -->
                 <section id="tab-dashboard" class="tab-content" style="display: none;">
+                    <!-- Candidate Hero Profile Header -->
+                    <div class="candidate-hero-banner" id="candidate-hero-card">
+                        <div class="hero-avatar-wrap">
+                            <div class="hero-avatar" id="hero-avatar-initials">VS</div>
+                            <span class="hero-verified-badge" title="Verified AI Profile">✓</span>
+                        </div>
+                        <div class="hero-info-body">
+                            <div class="hero-title-row">
+                                <h2 class="hero-name" id="hero-candidate-name">Beere Vishnu Sai</h2>
+                                <span class="hero-role-pill" id="hero-preferred-role">Data Analyst</span>
+                                <span class="hero-hub-pill" id="hero-hub-badge">
+                                    <span class="live-dot"></span>
+                                    <span id="hero-current-hub">📍 Hyderabad, India</span>
+                                </span>
+                            </div>
+                            <p class="hero-summary-text" id="hero-summary-bio">Analytical professional specialized in Data Analytics, Python, SQL, Power BI, and Tableau dashboards.</p>
+                            <div class="hero-quick-actions" id="hero-quick-actions">
+                                <button class="hero-action-btn" id="hero-copy-email-btn" title="Copy Email">
+                                    <span>✉️</span> <span id="hero-email-label">Email</span>
+                                </button>
+                                <button class="hero-action-btn" id="hero-copy-phone-btn" title="Call/Copy Phone">
+                                    <span>📞</span> <span id="hero-phone-label">Phone</span>
+                                </button>
+                                <a class="hero-action-btn" id="hero-linkedin-btn" target="_blank" rel="noopener noreferrer" title="LinkedIn Profile">
+                                    <span>🔗</span> LinkedIn
+                                </a>
+                                <a class="hero-action-btn" id="hero-github-btn" target="_blank" rel="noopener noreferrer" title="GitHub Profile">
+                                    <span>💻</span> GitHub
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+
                     <div class="dashboard-grid">
                         <!-- ATS Score Gauge -->
                         <div class="card ats-card text-center">
@@ -128,15 +161,18 @@
 
                         <!-- Personal Info -->
                         <div class="card profile-info-card">
-                            <h3>Contact Credentials</h3>
+                            <div class="card-header-flex">
+                                <h3>Contact Credentials</h3>
+                                <span class="badge-subtle">Verified</span>
+                            </div>
                             <ul class="info-list">
                                 <li>
                                     <span class="info-label">Candidate Name</span>
-                                    <span class="info-val" id="info-name">-</span>
+                                    <span class="info-val font-bold" id="info-name">-</span>
                                 </li>
                                 <li>
                                     <span class="info-label">Email Address</span>
-                                    <span class="info-val" id="info-email">-</span>
+                                    <span class="info-val link-val" id="info-email">-</span>
                                 </li>
                                 <li>
                                     <span class="info-label">Phone Reference</span>
@@ -144,14 +180,19 @@
                                 </li>
                                 <li>
                                     <span class="info-label">Current Hub</span>
-                                    <span class="info-val" id="info-location">-</span>
+                                    <span class="info-val hub-val" id="info-location">
+                                        <span class="hub-pill"><span class="pin-icon">📍</span> <span id="info-location-text">-</span></span>
+                                    </span>
                                 </li>
                             </ul>
                         </div>
 
                         <!-- Target Preferences -->
                         <div class="card profile-preferences-card">
-                            <h3>Target Preferences</h3>
+                            <div class="card-header-flex">
+                                <h3>Target Preferences</h3>
+                                <span class="badge-subtle">Active Hunt</span>
+                            </div>
                             <ul class="info-list">
                                 <li>
                                     <span class="info-label">Preferred Role</span>
@@ -159,7 +200,9 @@
                                 </li>
                                 <li>
                                     <span class="info-label">Target Hub</span>
-                                    <span class="info-val" id="pref-location">-</span>
+                                    <span class="info-val target-val" id="pref-location">
+                                        <span class="target-pill"><span class="target-icon">🎯</span> <span id="pref-location-text">-</span></span>
+                                    </span>
                                 </li>
                                 <li>
                                     <span class="info-label">Experience Tier</span>
@@ -172,6 +215,7 @@
                             </ul>
                         </div>
                     </div>
+
 
                     <!-- Social Profiles -->
                     <div class="card socials-card">
