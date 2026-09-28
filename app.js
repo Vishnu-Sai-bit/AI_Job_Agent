@@ -22,6 +22,7 @@ const progressBar = document.getElementById("progress-bar");
 const welcomePlaceholder = document.getElementById("welcome-placeholder");
 const tabDashboard = document.getElementById("tab-dashboard");
 const tabJobs = document.getElementById("tab-jobs");
+const tabCrm = document.getElementById("tab-crm");
 const tabTools = document.getElementById("tab-tools");
 const tabLearning = document.getElementById("tab-learning");
 
@@ -84,23 +85,28 @@ function initTabs() {
 
 function switchTabVisibility() {
     // Hide all
-    tabDashboard.style.display = "none";
-    tabJobs.style.display = "none";
-    tabTools.style.display = "none";
-    tabLearning.style.display = "none";
-    welcomePlaceholder.style.display = "none";
+    if (tabDashboard) tabDashboard.style.display = "none";
+    if (tabJobs) tabJobs.style.display = "none";
+    if (tabCrm) tabCrm.style.display = "none";
+    if (tabTools) tabTools.style.display = "none";
+    if (tabLearning) tabLearning.style.display = "none";
+    if (welcomePlaceholder) welcomePlaceholder.style.display = "none";
 
-    // If no resume parsed yet, show welcome placeholder (except on tools tab)
-    if (!resumeData && activeTab !== "tools") {
-        welcomePlaceholder.style.display = "block";
+    // Allow CRM and tools tab even if no resume is parsed yet
+    if (!resumeData && activeTab !== "tools" && activeTab !== "crm") {
+        if (welcomePlaceholder) welcomePlaceholder.style.display = "block";
         return;
     }
 
     // Show active tab
-    if (activeTab === "dashboard") tabDashboard.style.display = "block";
-    else if (activeTab === "jobs") tabJobs.style.display = "block";
-    else if (activeTab === "tools") tabTools.style.display = "block";
-    else if (activeTab === "learning") tabLearning.style.display = "block";
+    if (activeTab === "dashboard" && tabDashboard) tabDashboard.style.display = "block";
+    else if (activeTab === "jobs" && tabJobs) tabJobs.style.display = "block";
+    else if (activeTab === "crm" && tabCrm) {
+        tabCrm.style.display = "block";
+        loadCRMApplications();
+    }
+    else if (activeTab === "tools" && tabTools) tabTools.style.display = "block";
+    else if (activeTab === "learning" && tabLearning) tabLearning.style.display = "block";
 }
 
 // Drag & Drop
@@ -503,8 +509,10 @@ function renderJobs() {
                     </div>
                 </div>
                 
-                <div style="margin-top: 1rem;">
+                <div style="margin-top: 1.2rem; display: flex; gap: 0.6rem; flex-wrap: wrap;">
                     <a href="${job.apply_url || "#"}" target="_blank" rel="noopener noreferrer" class="action-btn-small">Apply for Job ↗</a>
+                    <button type="button" class="action-btn-small" style="background: rgba(99, 102, 241, 0.15); border-color: rgba(99, 102, 241, 0.35); color: #a5b4fc;" onclick="triggerTailorResume('${encodeURIComponent(job.title)}', '${encodeURIComponent(job.company)}', '${encodeURIComponent((job.description||'').substring(0, 400))}', '${encodeURIComponent(JSON.stringify(job.skills||[]))}')">✍️ Tailor Resume</button>
+                    <button type="button" class="action-btn-small" style="background: rgba(16, 185, 129, 0.15); border-color: rgba(16, 185, 129, 0.35); color: #34d399;" onclick="quickAddToCRM('${encodeURIComponent(job.title)}', '${encodeURIComponent(job.company)}', '${encodeURIComponent(job.location||'India')}', '${encodeURIComponent(job.salary||'Not Mentioned')}', '${encodeURIComponent(job.apply_url||'#')}')">📌 Track in CRM</button>
                 </div>
             `;
             cardsContainer.appendChild(card);
@@ -943,4 +951,302 @@ function copyToolOutput() {
     }).catch(err => {
         alert("Failed to copy text: ", err);
     });
+}
+
+// ==========================================================
+// PHASE 2: RESUME TAILORING MODAL
+// ==========================================================
+
+async function triggerTailorResume(encodedTitle, encodedCompany, encodedDesc, encodedSkills) {
+    const title = decodeURIComponent(encodedTitle);
+    const company = decodeURIComponent(encodedCompany);
+    const desc = decodeURIComponent(encodedDesc);
+    const skills = JSON.parse(decodeURIComponent(encodedSkills));
+
+    const modal = document.getElementById("tailor-modal");
+    const titleElem = document.getElementById("tailor-modal-title");
+    const bodyElem = document.getElementById("tailor-modal-body");
+
+    titleElem.innerHTML = `✍️ Tailoring Resume for <strong>${title}</strong> at <em>${company}</em>`;
+    bodyElem.innerHTML = `
+        <div style="text-align: center; padding: 2rem;">
+            <div class="pulse-indicator" style="margin: 0 auto 1rem auto; width: 14px; height: 14px;"></div>
+            <p>Analyzing job requirements and re-aligning your verified projects and skills...</p>
+        </div>
+    `;
+    modal.style.display = "flex";
+
+    try {
+        const payload = {
+            resume_context: resumeData || {
+                skills: ["Python", "SQL", "Tableau", "Power BI"],
+                career_summary: "Data Analyst & Business Intelligence Specialist",
+                projects: [],
+                experience: [],
+                certifications: []
+            },
+            job_title: title,
+            job_company: company,
+            job_description: desc,
+            required_skills: skills
+        };
+
+        const res = await fetch(`${BACKEND_URL}/tailor-resume`, {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify(payload)
+        });
+
+        if (!res.ok) throw new Error(await res.text());
+        const data = await res.json();
+
+        const coreSkillsHtml = (data.core_matching_skills || []).map(s => `<span class="tailor-pill">✔ ${s}</span>`).join(" ");
+        const supportingSkillsHtml = (data.supporting_skills || []).map(s => `<span class="tailor-pill">${s}</span>`).join(" ");
+        const atsKeywordsHtml = (data.ats_keywords_to_emphasize || []).map(k => `<span class="tailor-pill" style="background: rgba(16,185,129,0.15); border-color: rgba(16,185,129,0.3); color: #34d399;"># ${k}</span>`).join(" ");
+
+        const projectsHtml = (data.tailored_projects || []).map(p => `
+            <div style="margin-bottom: 1rem;">
+                <strong style="color: #f472b6;">📌 ${p.project_title}</strong>
+                ${(p.tailored_bullet_points || []).map(b => `<div class="tailor-bullet-item">• ${b}</div>`).join("")}
+            </div>
+        `).join("");
+
+        bodyElem.innerHTML = `
+            <div class="tailor-section">
+                <h4>🎯 Tailored Professional Summary (Match for ${company})</h4>
+                <div style="line-height: 1.6; font-size: 0.92rem; color: rgba(255,255,255,0.9); margin-bottom: 0.8rem;">
+                    ${data.tailored_summary}
+                </div>
+                <button class="action-btn-small" onclick="navigator.clipboard.writeText('${data.tailored_summary.replace(/'/g, "\\'")}'); this.textContent = '✅ Copied Summary!'; setTimeout(() => this.textContent = '📋 Copy Summary', 2000);">📋 Copy Summary</button>
+            </div>
+
+            <div class="tailor-section">
+                <h4>⚡ Prioritized Skill Hierarchy</h4>
+                <p style="font-size: 0.8rem; color: rgba(255,255,255,0.7); margin-bottom: 0.5rem;"><strong>Direct Match with Role:</strong></p>
+                <div>${coreSkillsHtml || "<span class='muted'>Standard skill overlap</span>"}</div>
+                
+                <p style="font-size: 0.8rem; color: rgba(255,255,255,0.7); margin: 0.8rem 0 0.5rem 0;"><strong>Supporting Qualifications:</strong></p>
+                <div>${supportingSkillsHtml}</div>
+            </div>
+
+            <div class="tailor-section">
+                <h4>🛠️ Optimized Project Bullet Points</h4>
+                ${projectsHtml}
+            </div>
+
+            <div class="tailor-section">
+                <h4>📈 ATS High-Value Keywords to Emphasize</h4>
+                <div>${atsKeywordsHtml}</div>
+            </div>
+
+            <div class="tailor-section" style="border-left: 3px solid #38bdf8;">
+                <h4 style="color: #38bdf8;">💡 Strategic Positioning Advice</h4>
+                <p style="font-size: 0.88rem; line-height: 1.5; color: rgba(255,255,255,0.85); margin: 0;">${data.strategic_advice}</p>
+            </div>
+        `;
+
+    } catch (err) {
+        console.error(err);
+        bodyElem.innerHTML = `<div style="color: #f87171; padding: 1rem;">Failed to generate tailored resume: ${err.message}</div>`;
+    }
+}
+
+function closeTailorModal() {
+    document.getElementById("tailor-modal").style.display = "none";
+}
+
+// ==========================================================
+// PHASE 2: APPLICATION CRM PIPELINE
+// ==========================================================
+
+async function loadCRMApplications() {
+    try {
+        const res = await fetch(`${BACKEND_URL}/crm/applications`);
+        if (!res.ok) throw new Error(await res.text());
+        const apps = await res.json();
+        renderCRMBoard(apps);
+    } catch (err) {
+        console.error("Failed to load CRM applications:", err);
+    }
+}
+
+function renderCRMBoard(apps) {
+    const colSaved = document.getElementById("kanban-col-saved");
+    const colApplied = document.getElementById("kanban-col-applied");
+    const colInterview = document.getElementById("kanban-col-interview");
+    const colOffer = document.getElementById("kanban-col-offer");
+
+    colSaved.innerHTML = "";
+    colApplied.innerHTML = "";
+    colInterview.innerHTML = "";
+    colOffer.innerHTML = "";
+
+    let countSaved = 0;
+    let countApplied = 0;
+    let countInterview = 0;
+    let countOffer = 0;
+
+    apps.forEach(app => {
+        const status = (app.status || "saved").toLowerCase();
+        const card = document.createElement("div");
+        card.className = "kanban-card";
+
+        let followupBadge = "";
+        if (app.is_followup_due) {
+            followupBadge = `<div class="followup-due-badge">⏳ Follow-Up Due (4+ Days)</div>`;
+        }
+
+        const dateMeta = app.date_applied ? `Applied: ${app.date_applied}` : `Saved: ${(app.created_at || '').substring(0, 10)}`;
+
+        card.innerHTML = `
+            ${followupBadge}
+            <h4>${app.role}</h4>
+            <div class="kanban-company">${app.company} • 📍 ${app.location}</div>
+            <div class="kanban-meta">${dateMeta}</div>
+
+            <div class="kanban-actions">
+                ${status === "saved" ? `<button class="kanban-btn" onclick="updateCRMAppStatus('${app.id}', 'applied')">🚀 Mark Applied</button>` : ""}
+                ${status === "applied" ? `
+                    <button class="kanban-btn" onclick="updateCRMAppStatus('${app.id}', 'interview')">🎯 Interview</button>
+                    <button class="kanban-btn" style="color: #fbbf24;" onclick="openFollowupModal('${app.id}')">⏳ Draft Follow-Up</button>
+                ` : ""}
+                ${status === "interview" ? `<button class="kanban-btn" style="color: #34d399;" onclick="updateCRMAppStatus('${app.id}', 'offer')">🏆 Got Offer</button>` : ""}
+                <a href="${app.apply_url || '#'}" target="_blank" class="kanban-btn">Link ↗</a>
+                <button class="kanban-btn kanban-btn-delete" onclick="deleteCRMApp('${app.id}')">✕</button>
+            </div>
+        `;
+
+        if (status === "saved") {
+            colSaved.appendChild(card);
+            countSaved++;
+        } else if (status === "applied") {
+            colApplied.appendChild(card);
+            countApplied++;
+        } else if (status === "interview") {
+            colInterview.appendChild(card);
+            countInterview++;
+        } else {
+            colOffer.appendChild(card);
+            countOffer++;
+        }
+    });
+
+    // Update Counters
+    document.getElementById("crm-count-saved").textContent = countSaved;
+    document.getElementById("crm-count-applied").textContent = countApplied;
+    document.getElementById("crm-count-interview").textContent = countInterview;
+    document.getElementById("crm-count-offer").textContent = countOffer;
+
+    document.getElementById("badge-saved-cnt").textContent = countSaved;
+    document.getElementById("badge-applied-cnt").textContent = countApplied;
+    document.getElementById("badge-interview-cnt").textContent = countInterview;
+    document.getElementById("badge-offer-cnt").textContent = countOffer;
+}
+
+async function quickAddToCRM(encodedTitle, encodedCompany, encodedLoc, encodedSal, encodedUrl) {
+    const title = decodeURIComponent(encodedTitle);
+    const company = decodeURIComponent(encodedCompany);
+    const location = decodeURIComponent(encodedLoc);
+    const salary = decodeURIComponent(encodedSal);
+    const apply_url = decodeURIComponent(encodedUrl);
+
+    try {
+        const payload = {
+            company,
+            role: title,
+            location,
+            salary,
+            apply_url,
+            status: "saved"
+        };
+
+        const res = await fetch(`${BACKEND_URL}/crm/applications`, {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify(payload)
+        });
+
+        if (!res.ok) throw new Error(await res.text());
+        alert(`✅ Saved "${title} at ${company}" to your Application CRM!`);
+    } catch (err) {
+        console.error("Failed to add to CRM:", err);
+        alert(`Failed to track job in CRM: ${err.message}`);
+    }
+}
+
+async function updateCRMAppStatus(appId, newStatus) {
+    try {
+        const payload = {
+            id: appId,
+            company: "Target Employer",
+            role: "Role",
+            status: newStatus
+        };
+
+        const res = await fetch(`${BACKEND_URL}/crm/applications`, {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify(payload)
+        });
+
+        if (!res.ok) throw new Error(await res.text());
+        loadCRMApplications();
+    } catch (err) {
+        console.error("Failed to update status:", err);
+    }
+}
+
+async function deleteCRMApp(appId) {
+    if (!confirm("Remove this job application from tracking?")) return;
+    try {
+        const res = await fetch(`${BACKEND_URL}/crm/applications/${appId}`, {
+            method: "DELETE"
+        });
+        if (!res.ok) throw new Error(await res.text());
+        loadCRMApplications();
+    } catch (err) {
+        console.error("Failed to delete application:", err);
+    }
+}
+
+async function openFollowupModal(appId) {
+    const modal = document.getElementById("followup-modal");
+    const bodyElem = document.getElementById("followup-modal-body");
+
+    modal.style.display = "flex";
+    bodyElem.innerHTML = `
+        <div style="text-align: center; padding: 2rem;">
+            <div class="pulse-indicator" style="margin: 0 auto 1rem auto; width: 14px; height: 14px;"></div>
+            <p>Composing strategic follow-up message...</p>
+        </div>
+    `;
+
+    try {
+        const candidateName = (resumeData && resumeData.name) || "Beere Vishnu Sai";
+        const res = await fetch(`${BACKEND_URL}/crm/generate-followup`, {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ app_id: appId, candidate_name: candidateName })
+        });
+
+        if (!res.ok) throw new Error(await res.text());
+        const data = await res.json();
+
+        bodyElem.innerHTML = `
+            <div style="margin-bottom: 1rem;">
+                <strong>Subject:</strong> ${data.subject}
+            </div>
+            <div style="background: rgba(0,0,0,0.25); padding: 1.2rem; border-radius: 8px; white-space: pre-wrap; line-height: 1.6; margin-bottom: 1.2rem;">
+                ${data.body}
+            </div>
+            <button class="action-btn" onclick="navigator.clipboard.writeText('${data.body.replace(/'/g, "\\'").replace(/\n/g, "\\n")}'); this.textContent = '✅ Copied Follow-Up!'; setTimeout(() => this.textContent = '📋 Copy Follow-Up Email', 2000);">📋 Copy Follow-Up Email</button>
+        `;
+    } catch (err) {
+        console.error(err);
+        bodyElem.innerHTML = `<div style="color: #f87171; padding: 1rem;">Failed to generate follow-up: ${err.message}</div>`;
+    }
+}
+
+function closeFollowupModal() {
+    document.getElementById("followup-modal").style.display = "none";
 }

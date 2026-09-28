@@ -64,6 +64,9 @@
                 <button class="nav-btn" data-tab="jobs">
                     <span class="btn-icon">🎯</span> Job Matches
                 </button>
+                <button class="nav-btn" data-tab="crm">
+                    <span class="btn-icon">📋</span> Application CRM
+                </button>
                 <button class="nav-btn" data-tab="tools">
                     <span class="btn-icon">🧠</span> AI Career Tools
                 </button>
@@ -285,9 +288,91 @@
                         <!-- Populated by JS -->
                     </div>
                 </section>
+
+                <!-- Tab 5: Application Pipeline CRM -->
+                <section id="tab-crm" class="tab-content" style="display: none;">
+                    <div class="crm-header-card">
+                        <div class="crm-title-area">
+                            <h3>📋 Application Pipeline & Follow-Up CRM</h3>
+                            <p class="muted">Track opportunities from first discovery to final offer with automated follow-up intelligence.</p>
+                        </div>
+                        <div class="crm-stats-row">
+                            <div class="crm-stat-box"><span id="crm-count-saved" class="crm-stat-num">0</span><span class="crm-stat-lbl">📌 Saved</span></div>
+                            <div class="crm-stat-box"><span id="crm-count-applied" class="crm-stat-num">0</span><span class="crm-stat-lbl">🚀 Applied</span></div>
+                            <div class="crm-stat-box"><span id="crm-count-interview" class="crm-stat-num">0</span><span class="crm-stat-lbl">🎯 Interview</span></div>
+                            <div class="crm-stat-box"><span id="crm-count-offer" class="crm-stat-num">0</span><span class="crm-stat-lbl">🏆 Offers</span></div>
+                        </div>
+                    </div>
+
+                    <!-- Kanban Columns -->
+                    <div class="kanban-board">
+                        <!-- Column 1: Saved -->
+                        <div class="kanban-column">
+                            <div class="kanban-col-header header-saved">
+                                <span>📌 Saved Opportunities</span>
+                                <span id="badge-saved-cnt" class="col-count-badge">0</span>
+                            </div>
+                            <div id="kanban-col-saved" class="kanban-card-list"></div>
+                        </div>
+
+                        <!-- Column 2: Applied -->
+                        <div class="kanban-column">
+                            <div class="kanban-col-header header-applied">
+                                <span>🚀 Applied</span>
+                                <span id="badge-applied-cnt" class="col-count-badge">0</span>
+                            </div>
+                            <div id="kanban-col-applied" class="kanban-card-list"></div>
+                        </div>
+
+                        <!-- Column 3: Interview -->
+                        <div class="kanban-column">
+                            <div class="kanban-col-header header-interview">
+                                <span>🎯 Interview Scheduled</span>
+                                <span id="badge-interview-cnt" class="col-count-badge">0</span>
+                            </div>
+                            <div id="kanban-col-interview" class="kanban-card-list"></div>
+                        </div>
+
+                        <!-- Column 4: Offer & Closed -->
+                        <div class="kanban-column">
+                            <div class="kanban-col-header header-offer">
+                                <span>🏆 Offers & Closed</span>
+                                <span id="badge-offer-cnt" class="col-count-badge">0</span>
+                            </div>
+                            <div id="kanban-col-offer" class="kanban-card-list"></div>
+                        </div>
+                    </div>
+                </section>
             </div>
         </main>
     </div>
+
+    <!-- Resume Tailoring Modal -->
+    <div id="tailor-modal" class="modal-backdrop" style="display: none;">
+        <div class="modal-box modal-large">
+            <div class="modal-header">
+                <h3 id="tailor-modal-title">✍️ Tailored Resume Intelligence</h3>
+                <button class="modal-close-btn" onclick="closeTailorModal()">✕</button>
+            </div>
+            <div id="tailor-modal-body" class="modal-body">
+                <div class="loading-state">Generating customized resume components...</div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Followup Modal -->
+    <div id="followup-modal" class="modal-backdrop" style="display: none;">
+        <div class="modal-box">
+            <div class="modal-header">
+                <h3 id="followup-modal-title">⏳ Smart Follow-Up Generator</h3>
+                <button class="modal-close-btn" onclick="closeFollowupModal()">✕</button>
+            </div>
+            <div id="followup-modal-body" class="modal-body">
+                <div class="loading-state">Drafting personalized follow-up email...</div>
+            </div>
+        </div>
+    </div>
+
     <script src="app.js"></script>
 </body>
 </html>
