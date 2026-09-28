@@ -3,8 +3,10 @@
    Author : Antigravity
    ========================================================== */
 
-// Config
-const BACKEND_URL = "https://ai-job-agent-kna8.onrender.com";
+// Config: Dynamically routes to localhost during local development and Render in production
+const BACKEND_URL = (window.location.hostname === "localhost" || window.location.hostname === "127.0.0.1" || window.location.protocol === "file:")
+    ? "http://localhost:8000"
+    : "https://ai-job-agent-kna8.onrender.com";
 
 // App State
 let resumeData = null;
