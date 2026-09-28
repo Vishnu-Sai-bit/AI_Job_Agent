@@ -270,14 +270,25 @@
                     </div>
                 </section>
 
-                <!-- Tab 4: Learning Roadmaps -->
+                <!-- Tab 4: Learning Roadmaps & Market Skill Intelligence -->
                 <section id="tab-learning" class="tab-content" style="display: none;">
                     <div class="card skill-acceleration-card">
-                        <h3>📈 Career Skills Acceleration Pathway</h3>
-                        <p class="muted">A tailored curriculum listing identified technical gaps and recommended certifications based on real-time market data matching.</p>
+                        <h3>📈 Market Skill Demand & Career Acceleration</h3>
+                        <p class="muted">Real-time aggregated market skill frequency analyzing your target roles against current profile readiness.</p>
                         
+                        <!-- Market Demand Frequency Grid -->
+                        <div id="market-demand-section" style="margin: 1.5rem 0;">
+                            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.8rem;">
+                                <strong>🔥 High & Medium Market Deficits:</strong>
+                                <span id="market-readiness-badge" class="header-status-badge">Market Readiness: 85%</span>
+                            </div>
+                            <div id="market-gaps-container" class="market-gaps-grid">
+                                <!-- Populated dynamically by JS -->
+                            </div>
+                        </div>
+
                         <div class="skill-gap-box">
-                            <strong>⚠️ Identified Skill Deficiencies:</strong>
+                            <strong>🎯 Critical Skill Acceleration Focus:</strong>
                             <div id="gaps-list" class="gaps-container">
                                 <!-- Populated by JS -->
                             </div>
@@ -285,7 +296,7 @@
                     </div>
 
                     <div id="roadmaps-list-container">
-                        <!-- Populated by JS -->
+                        <!-- Populated with Week-by-Week Roadmaps & Capstone Blueprints by JS -->
                     </div>
                 </section>
 
@@ -369,6 +380,19 @@
             </div>
             <div id="followup-modal-body" class="modal-body">
                 <div class="loading-state">Drafting personalized follow-up email...</div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Company Intelligence Modal -->
+    <div id="company-modal" class="modal-backdrop" style="display: none;">
+        <div class="modal-box modal-large">
+            <div class="modal-header">
+                <h3 id="company-modal-title">🏢 Company Intelligence & Tech Profile</h3>
+                <button class="modal-close-btn" onclick="closeCompanyModal()">✕</button>
+            </div>
+            <div id="company-modal-body" class="modal-body">
+                <div class="loading-state">Analyzing employer tech stack and hiring patterns...</div>
             </div>
         </div>
     </div>

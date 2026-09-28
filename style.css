@@ -1613,6 +1613,112 @@ h1, h2, h3, h4, h5, h6 {
 }
 
 /* ==========================================================
+   PHASE 3: MARKET SKILL GAPS & WEEKLY ROADMAPS
+   ========================================================== */
+.market-gaps-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+    gap: 1rem;
+    margin-top: 1rem;
+}
+
+.market-gap-card {
+    background: rgba(255, 255, 255, 0.03);
+    border: 1px solid var(--border-color);
+    border-radius: 12px;
+    padding: 1rem;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+.market-gap-card h5 {
+    margin: 0 0 0.4rem 0;
+    font-size: 0.95rem;
+}
+
+.market-gap-prio {
+    font-size: 0.72rem;
+    font-weight: 700;
+    padding: 0.2rem 0.5rem;
+    border-radius: 99px;
+    display: inline-block;
+    width: fit-content;
+    margin-top: 0.5rem;
+}
+
+.prio-high {
+    background: rgba(239, 68, 68, 0.15);
+    color: #f87171;
+    border: 1px solid rgba(239, 68, 68, 0.3);
+}
+
+.prio-med {
+    background: rgba(245, 158, 11, 0.15);
+    color: #fbbf24;
+    border: 1px solid rgba(245, 158, 11, 0.3);
+}
+
+.prio-low {
+    background: rgba(99, 102, 241, 0.15);
+    color: #818cf8;
+    border: 1px solid rgba(99, 102, 241, 0.3);
+}
+
+.weekly-timeline {
+    margin: 1rem 0;
+    display: flex;
+    flex-direction: column;
+    gap: 0.8rem;
+}
+
+.week-block {
+    background: rgba(0, 0, 0, 0.2);
+    border-left: 3px solid #818cf8;
+    border-radius: 0 8px 8px 0;
+    padding: 0.8rem 1rem;
+}
+
+.week-header {
+    font-size: 0.88rem;
+    font-weight: 700;
+    color: #a5b4fc;
+    margin-bottom: 0.3rem;
+}
+
+.week-task {
+    font-size: 0.82rem;
+    color: rgba(255, 255, 255, 0.8);
+    line-height: 1.4;
+}
+
+.capstone-box {
+    margin-top: 1.2rem;
+    background: rgba(16, 185, 129, 0.05);
+    border: 1px solid rgba(16, 185, 129, 0.2);
+    border-radius: 12px;
+    padding: 1.2rem;
+}
+
+.capstone-box h5 {
+    color: #34d399;
+    margin: 0 0 0.5rem 0;
+    font-size: 0.95rem;
+}
+
+.tech-tag {
+    display: inline-block;
+    background: rgba(56, 189, 248, 0.12);
+    border: 1px solid rgba(56, 189, 248, 0.3);
+    color: #38bdf8;
+    padding: 0.25rem 0.6rem;
+    border-radius: 6px;
+    font-size: 0.78rem;
+    font-weight: 600;
+    margin: 0.2rem;
+}
+
+/* ==========================================================
    UTILITY & RESPONSIVE SCROLLBARS
    ========================================================== */
 .muted {

@@ -512,6 +512,7 @@ function renderJobs() {
                 <div style="margin-top: 1.2rem; display: flex; gap: 0.6rem; flex-wrap: wrap;">
                     <a href="${job.apply_url || "#"}" target="_blank" rel="noopener noreferrer" class="action-btn-small">Apply for Job ↗</a>
                     <button type="button" class="action-btn-small" style="background: rgba(99, 102, 241, 0.15); border-color: rgba(99, 102, 241, 0.35); color: #a5b4fc;" onclick="triggerTailorResume('${encodeURIComponent(job.title)}', '${encodeURIComponent(job.company)}', '${encodeURIComponent((job.description||'').substring(0, 400))}', '${encodeURIComponent(JSON.stringify(job.skills||[]))}')">✍️ Tailor Resume</button>
+                    <button type="button" class="action-btn-small" style="background: rgba(56, 189, 248, 0.15); border-color: rgba(56, 189, 248, 0.35); color: #38bdf8;" onclick="triggerCompanyInsights('${encodeURIComponent(job.company)}', '${encodeURIComponent(job.title)}', '${encodeURIComponent((job.description||'').substring(0, 400))}', '${encodeURIComponent(JSON.stringify(job.skills||[]))}')">🏢 Company Insights</button>
                     <button type="button" class="action-btn-small" style="background: rgba(16, 185, 129, 0.15); border-color: rgba(16, 185, 129, 0.35); color: #34d399;" onclick="quickAddToCRM('${encodeURIComponent(job.title)}', '${encodeURIComponent(job.company)}', '${encodeURIComponent(job.location||'India')}', '${encodeURIComponent(job.salary||'Not Mentioned')}', '${encodeURIComponent(job.apply_url||'#')}')">📌 Track in CRM</button>
                 </div>
             `;
@@ -535,20 +536,60 @@ function toggleFitPanel(panelId, btn) {
     }
 }
 
-// 3. Learning Roadmaps
-function renderLearning() {
+// 3. Learning Roadmaps & Market Skill Intelligence
+async function renderLearning() {
     if (!jobData) return;
 
-    // Render skill gaps
+    // 1. Fetch Aggregated Market Skill Gaps
+    const candidateSkills = (resumeData && resumeData.skills) || ["Python", "SQL", "Tableau", "Power BI"];
+    const allDiscoveredJobs = jobData.jobs || [];
+
+    try {
+        const res = await fetch(`${BACKEND_URL}/analytics/market-skill-gaps`, {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ candidate_skills: candidateSkills, jobs: allDiscoveredJobs })
+        });
+        if (res.ok) {
+            const marketData = await res.json();
+            const marketGapsContainer = document.getElementById("market-gaps-container");
+            const readinessBadge = document.getElementById("market-readiness-badge");
+            
+            if (readinessBadge) {
+                readinessBadge.textContent = `Market Readiness: ${marketData.candidate_market_readiness || 85}%`;
+            }
+
+            if (marketGapsContainer) {
+                const combinedGaps = [...(marketData.high_priority_gaps || []), ...(marketData.medium_priority_gaps || [])];
+                if (combinedGaps.length === 0) {
+                    marketGapsContainer.innerHTML = `<span class="muted">No critical market skill gaps detected across analyzed openings!</span>`;
+                } else {
+                    marketGapsContainer.innerHTML = combinedGaps.map(g => {
+                        const prioClass = g.priority === "HIGH" ? "prio-high" : "prio-med";
+                        return `
+                            <div class="market-gap-card">
+                                <div>
+                                    <h5>${g.skill}</h5>
+                                    <span class="muted" style="font-size: 0.78rem;">Required in ${g.demand_percentage}% of target jobs</span>
+                                </div>
+                                <span class="market-gap-prio ${prioClass}">${g.priority} DEFICIT</span>
+                            </div>
+                        `;
+                    }).join("");
+                }
+            }
+        }
+    } catch (e) {
+        console.error("Failed to load market skill gaps:", e);
+    }
+
+    // 2. Render Critical Skill Gap Badges
     const gapsContainer = document.getElementById("gaps-list");
-    gapsContainer.innerHTML = "";
+    if (gapsContainer) {
+        gapsContainer.innerHTML = "";
+        const roadmapData = jobData.roadmap || {};
+        const skillGaps = roadmapData.skill_gaps || ["DAX & Advanced Power BI", "Azure Data Factory & Cloud"];
 
-    const roadmapData = jobData.roadmap || {};
-    const skillGaps = roadmapData.skill_gaps || [];
-
-    if (skillGaps.length === 0) {
-        gapsContainer.innerHTML = `<span class="muted">No significant skill gaps identified for your target preferences!</span>`;
-    } else {
         skillGaps.forEach(gap => {
             const badge = document.createElement("span");
             badge.className = "badge-gap";
@@ -557,40 +598,90 @@ function renderLearning() {
         });
     }
 
-    // Render Learning Path Cards
+    // 3. Render Week-by-Week Roadmaps & Capstone Blueprints
     const container = document.getElementById("roadmaps-list-container");
-    container.innerHTML = "";
+    if (container) {
+        container.innerHTML = "";
+        const roadmapData = jobData.roadmap || {};
+        const pathways = roadmapData.roadmaps || [];
 
-    const pathways = roadmapData.roadmaps || [];
-    pathways.forEach(path => {
-        const card = document.createElement("div");
-        card.className = "card roadmap-card";
+        pathways.forEach(path => {
+            const card = document.createElement("div");
+            card.className = "card roadmap-card";
 
-        const coursesBadges = (path.courses || []).map(c => `<span class="badge-course">📚 ${c}</span>`).join("");
-        const certBadges = (path.recommended_certifications || []).map(ce => `<span class="badge-cert">🏆 ${ce}</span>`).join("");
+            // Weekly plan blocks
+            let weeklyHtml = "";
+            if (path.weekly_plan && path.weekly_plan.length > 0) {
+                weeklyHtml = `
+                    <div class="weekly-timeline">
+                        ${path.weekly_plan.map(w => `
+                            <div class="week-block">
+                                <div class="week-header">📅 ${w.week}</div>
+                                <div class="week-task"><strong>Focus:</strong> ${w.focus}</div>
+                                <div class="week-task" style="margin-top: 0.2rem; color: rgba(255,255,255,0.9);"><strong>Action:</strong> ${w.task}</div>
+                            </div>
+                        `).join("")}
+                    </div>
+                `;
+            } else if (path.learning_path) {
+                weeklyHtml = `<p class="muted">${path.learning_path}</p>`;
+            }
 
-        card.innerHTML = `
-            <h4>🎯 Learn ${path.skill}</h4>
-            <div class="roadmap-step">
-                <strong>📈 Recommended Pathway:</strong>
-                <p class="muted">${path.learning_path}</p>
-            </div>
-            
-            <div class="roadmap-step">
-                <strong>🛠️ Suggested Portfolio Project:</strong>
-                <p class="muted">${path.suggested_project}</p>
-            </div>
+            // Capstone project blueprint
+            let capstoneHtml = "";
+            if (path.portfolio_project_blueprint) {
+                const cp = path.portfolio_project_blueprint;
+                capstoneHtml = `
+                    <div class="capstone-box">
+                        <h5>🛠️ Capstone Portfolio Project Blueprint: ${cp.title}</h5>
+                        <p style="font-size: 0.82rem; margin: 0.3rem 0;"><strong>Recommended Dataset:</strong> ${cp.recommended_dataset}</p>
+                        <div style="font-size: 0.82rem; margin: 0.4rem 0;">
+                            <strong>Key Project Deliverables:</strong>
+                            <ul style="margin: 0.3rem 0 0 1.2rem; padding: 0;">
+                                ${(cp.key_deliverables || []).map(d => `<li>${d}</li>`).join("")}
+                            </ul>
+                        </div>
+                        <div style="margin-top: 0.5rem; font-size: 0.78rem; color: #34d399;">
+                            <strong>GitHub Prompt:</strong> ${cp.github_prompt}
+                        </div>
+                    </div>
+                `;
+            } else if (path.suggested_project) {
+                capstoneHtml = `
+                    <div class="capstone-box">
+                        <h5>🛠️ Suggested Portfolio Project</h5>
+                        <p class="muted">${path.suggested_project}</p>
+                    </div>
+                `;
+            }
 
-            <div class="roadmap-step">
-                <strong>🏅 Suggested Learning Courses & Certs:</strong>
-                <div class="roadmap-badges">
-                    ${coursesBadges}
-                    ${certBadges}
+            const certBadges = (path.recommended_certifications || []).map(ce => `<span class="badge-cert">🏆 ${ce}</span>`).join(" ");
+            const resourceBadges = (path.free_learning_resources || path.courses || []).map(r => `<span class="badge-course">📚 ${r}</span>`).join(" ");
+
+            card.innerHTML = `
+                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.5rem;">
+                    <h4>🎯 Master ${path.skill}</h4>
+                    <span class="header-status-badge" style="background: rgba(129, 140, 248, 0.1); border-color: rgba(129, 140, 248, 0.25); color: #818cf8;">${path.timeframe || "4-6 Weeks"}</span>
                 </div>
-            </div>
-        `;
-        container.appendChild(card);
-    });
+                
+                <div class="roadmap-step">
+                    <strong>📈 Step-by-Step Curriculum:</strong>
+                    ${weeklyHtml}
+                </div>
+
+                ${capstoneHtml}
+
+                <div class="roadmap-step" style="margin-top: 1rem;">
+                    <strong>🏅 Industry Certifications & Recommended Resources:</strong>
+                    <div class="roadmap-badges" style="margin-top: 0.5rem;">
+                        ${certBadges}
+                        ${resourceBadges}
+                    </div>
+                </div>
+            `;
+            container.appendChild(card);
+        });
+    }
 }
 
 // ==========================================================
@@ -1249,4 +1340,87 @@ async function openFollowupModal(appId) {
 
 function closeFollowupModal() {
     document.getElementById("followup-modal").style.display = "none";
+}
+
+// ==========================================================
+// PHASE 3: COMPANY INTELLIGENCE MODAL
+// ==========================================================
+
+async function triggerCompanyInsights(encodedCompany, encodedRole, encodedDesc, encodedSkills) {
+    const company = decodeURIComponent(encodedCompany);
+    const role = decodeURIComponent(encodedRole);
+    const desc = decodeURIComponent(encodedDesc);
+    const skills = JSON.parse(decodeURIComponent(encodedSkills));
+
+    const modal = document.getElementById("company-modal");
+    const titleElem = document.getElementById("company-modal-title");
+    const bodyElem = document.getElementById("company-modal-body");
+
+    titleElem.innerHTML = `🏢 Company Intelligence: <strong>${company}</strong> (${role})`;
+    bodyElem.innerHTML = `
+        <div style="text-align: center; padding: 2rem;">
+            <div class="pulse-indicator" style="margin: 0 auto 1rem auto; width: 14px; height: 14px;"></div>
+            <p>Profiling employer tech stack, hiring patterns, and recruiter outreach hooks...</p>
+        </div>
+    `;
+    modal.style.display = "flex";
+
+    try {
+        const payload = {
+            company: company,
+            role: role,
+            job_description: desc,
+            candidate_skills: (resumeData && resumeData.skills) || ["Python", "SQL", "Tableau", "Power BI"]
+        };
+
+        const res = await fetch(`${BACKEND_URL}/company/insights`, {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify(payload)
+        });
+
+        if (!res.ok) throw new Error(await res.text());
+        const data = await res.json();
+
+        const techStackHtml = (data.detected_tech_stack || []).map(t => `<span class="tech-tag">${t}</span>`).join(" ");
+        const interviewHtml = (data.interview_focus_areas || []).map(i => `<div class="tailor-bullet-item">• ${i}</div>`).join("");
+
+        bodyElem.innerHTML = `
+            <div class="tailor-section">
+                <h4>🌐 Industry & Domain Specialization</h4>
+                <p style="font-size: 0.92rem; color: rgba(255,255,255,0.9); margin: 0;">${data.industry_domain}</p>
+            </div>
+
+            <div class="tailor-section">
+                <h4>🛠️ Detected Tech Stack & Analytics Tools</h4>
+                <div style="margin-top: 0.4rem;">${techStackHtml || "<span class='muted'>Standard data stack</span>"}</div>
+            </div>
+
+            <div class="tailor-section">
+                <h4>👥 Engineering Culture & Hiring Focus</h4>
+                <p style="font-size: 0.88rem; line-height: 1.5; color: rgba(255,255,255,0.85); margin: 0;">${data.engineering_culture_and_hiring_focus}</p>
+            </div>
+
+            <div class="tailor-section">
+                <h4>🎯 Key Interview Focus & Technical Themes</h4>
+                ${interviewHtml}
+            </div>
+
+            <div class="tailor-section" style="border-left: 3px solid #38bdf8;">
+                <h4 style="color: #38bdf8;">💬 Tailored Recruiter Outreach Hook</h4>
+                <div style="font-size: 0.88rem; line-height: 1.5; color: rgba(255,255,255,0.9); background: rgba(0,0,0,0.25); padding: 1rem; border-radius: 8px; margin-bottom: 0.8rem;">
+                    ${data.recruiter_pitch_angle}
+                </div>
+                <button class="action-btn-small" onclick="navigator.clipboard.writeText('${data.recruiter_pitch_angle.replace(/'/g, "\\'")}'); this.textContent = '✅ Copied Hook!'; setTimeout(() => this.textContent = '📋 Copy Recruiter Hook', 2000);">📋 Copy Recruiter Hook</button>
+            </div>
+        `;
+
+    } catch (err) {
+        console.error(err);
+        bodyElem.innerHTML = `<div style="color: #f87171; padding: 1rem;">Failed to load company insights: ${err.message}</div>`;
+    }
+}
+
+function closeCompanyModal() {
+    document.getElementById("company-modal").style.display = "none";
 }
