@@ -1,20 +1,27 @@
 <!DOCTYPE html>
-<html lang="en" data-theme="light">
+<html lang="en" data-theme="dark">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>AI JobAgent - Luxury Career Command Center</title>
+    <title>AI JobAgent - 3D Career Command Center</title>
     <link rel="stylesheet" href="style.css">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800;900&family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800;900&family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
 </head>
 <body>
+    <!-- 3D Interactive WebGL/Canvas Particle & Geometry Background -->
+    <canvas id="bg-canvas-3d" class="bg-canvas-3d"></canvas>
+    
+    <!-- 3D Perspective Cyber Floor Grid -->
+    <div class="cyber-grid-3d"></div>
+
     <!-- Background Ambient Glowing Orbs -->
     <div class="ambient-glows">
         <div class="glow-orb glow-purple"></div>
         <div class="glow-orb glow-pink"></div>
         <div class="glow-orb glow-blue"></div>
+        <div class="glow-orb glow-cyan"></div>
     </div>
 
     <div class="app-container">
@@ -145,15 +152,32 @@
 
                     <div class="dashboard-grid">
                         <!-- ATS Score Gauge -->
-                        <div class="card ats-card text-center">
-                            <h3>ATS Suitability Score</h3>
+                        <div class="card ats-card text-center ats-card-3d">
+                            <div class="card-header-flex">
+                                <h3>ATS Suitability Score</h3>
+                                <span class="badge-subtle" style="background: rgba(56, 189, 248, 0.12); color: #38bdf8; border-color: rgba(56, 189, 248, 0.25);">3D Radar</span>
+                            </div>
                             <div class="ats-circle-container">
-                                <div class="ats-circle">
+                                <div class="ats-circle ats-circle-3d">
+                                    <div class="ats-orbit-ring ring-outer"></div>
+                                    <div class="ats-orbit-ring ring-middle"></div>
+                                    <div class="ats-orbit-ring ring-inner"></div>
+                                    <div class="ats-orbit-satellite"></div>
                                     <svg class="ats-svg" viewBox="0 0 100 100">
+                                        <defs>
+                                            <linearGradient id="ats-grad-3d" x1="0%" y1="0%" x2="100%" y2="100%">
+                                                <stop offset="0%" stop-color="#38bdf8" />
+                                                <stop offset="50%" stop-color="#818cf8" />
+                                                <stop offset="100%" stop-color="#ec4899" />
+                                            </linearGradient>
+                                        </defs>
                                         <circle class="ats-bg-circle" cx="50" cy="50" r="42"></circle>
                                         <circle class="ats-progress-circle" id="ats-progress" cx="50" cy="50" r="42" stroke-dasharray="264" stroke-dashoffset="264"></circle>
                                     </svg>
-                                    <span id="ats-val">0%</span>
+                                    <div class="ats-center-hud">
+                                        <span id="ats-val" class="ats-val-3d">0%</span>
+                                        <span class="ats-hud-sub">MATCH INDEX</span>
+                                    </div>
                                 </div>
                             </div>
                             <p class="muted card-footer-text">Calculated index based on keyword weightings and parsing quality</p>

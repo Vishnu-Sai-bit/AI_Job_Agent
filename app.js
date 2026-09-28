@@ -45,6 +45,8 @@ document.addEventListener("DOMContentLoaded", () => {
     initDragAndDrop();
     initTools();
     initJobsFilter();
+    init3DBackground();
+    init3DCardEffects();
 });
 
 // Toast Notification Engine
@@ -110,7 +112,7 @@ function initJobsFilter() {
 
 // Theme Selector
 function initTheme() {
-    const savedTheme = localStorage.getItem("theme") || "light";
+    const savedTheme = localStorage.getItem("theme") || "dark";
     document.documentElement.setAttribute("data-theme", savedTheme);
     updateThemeUI(savedTheme);
     
@@ -2097,3 +2099,275 @@ async function triggerCompanyInsights(encodedCompany, encodedRole, encodedDesc, 
 function closeCompanyModal() {
     document.getElementById("company-modal").style.display = "none";
 }
+
+// ==========================================================
+// 3D SPATIAL BACKGROUND & MESH ENGINE
+// ==========================================================
+function init3DBackground() {
+    const canvas = document.getElementById("bg-canvas-3d");
+    if (!canvas) return;
+    const ctx = canvas.getContext("2d");
+    if (!ctx) return;
+
+    let width = (canvas.width = window.innerWidth);
+    let height = (canvas.height = window.innerHeight);
+
+    window.addEventListener("resize", () => {
+        width = canvas.width = window.innerWidth;
+        height = canvas.height = window.innerHeight;
+    });
+
+    let mouse = { x: width / 2, y: height / 2, targetX: width / 2, targetY: height / 2 };
+    window.addEventListener("mousemove", (e) => {
+        mouse.targetX = e.clientX;
+        mouse.targetY = e.clientY;
+    });
+
+    // 3D Particles & Nodes
+    const NODE_COUNT = 45;
+    const nodes = [];
+    for (let i = 0; i < NODE_COUNT; i++) {
+        nodes.push({
+            x: (Math.random() - 0.5) * width * 1.5,
+            y: (Math.random() - 0.5) * height * 1.5,
+            z: Math.random() * 800 + 200,
+            vx: (Math.random() - 0.5) * 0.6,
+            vy: (Math.random() - 0.5) * 0.6,
+            vz: (Math.random() - 0.5) * 0.4,
+            radius: Math.random() * 2.5 + 1.5,
+            color: i % 3 === 0 ? "#818cf8" : i % 3 === 1 ? "#38bdf8" : "#ec4899"
+        });
+    }
+
+    // Floating 3D Geometric Polyhedra (Cubes & Crystals)
+    const POLY_COUNT = 6;
+    const polyhedra = [];
+    for (let p = 0; p < POLY_COUNT; p++) {
+        polyhedra.push({
+            x: (Math.random() - 0.5) * width * 1.2,
+            y: (Math.random() - 0.5) * height * 1.2,
+            z: Math.random() * 600 + 300,
+            rotX: Math.random() * Math.PI * 2,
+            rotY: Math.random() * Math.PI * 2,
+            rotZ: Math.random() * Math.PI * 2,
+            speedX: (Math.random() - 0.5) * 0.008,
+            speedY: (Math.random() - 0.5) * 0.008,
+            speedZ: (Math.random() - 0.5) * 0.008,
+            size: Math.random() * 35 + 25,
+            color: p % 2 === 0 ? "rgba(129, 140, 248, 0.45)" : "rgba(56, 189, 248, 0.45)"
+        });
+    }
+
+    // Cube vertices
+    const cubeVertices = [
+        [-1, -1, -1], [1, -1, -1], [1, 1, -1], [-1, 1, -1],
+        [-1, -1, 1], [1, -1, 1], [1, 1, 1], [-1, 1, 1]
+    ];
+    const cubeEdges = [
+        [0, 1], [1, 2], [2, 3], [3, 0],
+        [4, 5], [5, 6], [6, 7], [7, 4],
+        [0, 4], [1, 5], [2, 6], [3, 7]
+    ];
+
+    const fov = 500;
+
+    function render3D() {
+        ctx.clearRect(0, 0, width, height);
+
+        // Smooth mouse interpolation
+        mouse.x += (mouse.targetX - mouse.x) * 0.05;
+        mouse.y += (mouse.targetY - mouse.y) * 0.05;
+
+        const centerX = width / 2;
+        const centerY = height / 2;
+        const parallaxX = (mouse.x - centerX) * 0.15;
+        const parallaxY = (mouse.y - centerY) * 0.15;
+
+        // Render & Update Nodes
+        const projectedNodes = [];
+        for (let i = 0; i < nodes.length; i++) {
+            const n = nodes[i];
+            n.x += n.vx;
+            n.y += n.vy;
+            n.z += n.vz;
+
+            if (n.x < -width) n.x = width;
+            if (n.x > width) n.x = -width;
+            if (n.y < -height) n.y = height;
+            if (n.y > height) n.y = -height;
+            if (n.z < 100) n.z = 1000;
+            if (n.z > 1000) n.z = 100;
+
+            const scale = fov / (fov + n.z);
+            const projX = centerX + (n.x - parallaxX) * scale;
+            const projY = centerY + (n.y - parallaxY) * scale;
+            const projR = Math.max(0.5, n.radius * scale * 1.5);
+
+            projectedNodes.push({ x: projX, y: projY, scale, color: n.color, alpha: scale });
+
+            ctx.beginPath();
+            ctx.arc(projX, projY, projR, 0, Math.PI * 2);
+            ctx.fillStyle = n.color;
+            ctx.globalAlpha = Math.min(0.8, scale * 1.2);
+            ctx.shadowBlur = 10 * scale;
+            ctx.shadowColor = n.color;
+            ctx.fill();
+        }
+
+        // Draw Interconnecting Filaments
+        ctx.shadowBlur = 0;
+        for (let i = 0; i < projectedNodes.length; i++) {
+            for (let j = i + 1; j < projectedNodes.length; j++) {
+                const dx = projectedNodes[i].x - projectedNodes[j].x;
+                const dy = projectedNodes[i].y - projectedNodes[j].y;
+                const dist = Math.sqrt(dx * dx + dy * dy);
+                if (dist < 130) {
+                    const alpha = (1 - dist / 130) * 0.25 * projectedNodes[i].scale;
+                    ctx.beginPath();
+                    ctx.moveTo(projectedNodes[i].x, projectedNodes[i].y);
+                    ctx.lineTo(projectedNodes[j].x, projectedNodes[j].y);
+                    ctx.strokeStyle = projectedNodes[i].color;
+                    ctx.globalAlpha = alpha;
+                    ctx.lineWidth = 1;
+                    ctx.stroke();
+                }
+            }
+        }
+
+        // Render 3D Floating Wireframe Polyhedra
+        for (let p = 0; p < polyhedra.length; p++) {
+            const poly = polyhedra[p];
+            poly.rotX += poly.speedX;
+            poly.rotY += poly.speedY;
+            poly.rotZ += poly.speedZ;
+
+            const scale = fov / (fov + poly.z);
+            const pCenterX = centerX + (poly.x - parallaxX) * scale;
+            const pCenterY = centerY + (poly.y - parallaxY) * scale;
+
+            // Transform vertices with 3D rotation
+            const projVerts = cubeVertices.map(v => {
+                let x = v[0] * poly.size;
+                let y = v[1] * poly.size;
+                let z = v[2] * poly.size;
+
+                // Rotation around X
+                let y1 = y * Math.cos(poly.rotX) - z * Math.sin(poly.rotX);
+                let z1 = y * Math.sin(poly.rotX) + z * Math.cos(poly.rotX);
+
+                // Rotation around Y
+                let x2 = x * Math.cos(poly.rotY) + z1 * Math.sin(poly.rotY);
+                let z2 = -x * Math.sin(poly.rotY) + z1 * Math.cos(poly.rotY);
+
+                // Rotation around Z
+                let x3 = x2 * Math.cos(poly.rotZ) - y1 * Math.sin(poly.rotZ);
+                let y3 = x2 * Math.sin(poly.rotZ) + y1 * Math.cos(poly.rotZ);
+
+                return {
+                    x: pCenterX + x3 * scale,
+                    y: pCenterY + y3 * scale
+                };
+            });
+
+            ctx.strokeStyle = poly.color;
+            ctx.globalAlpha = Math.min(0.5, scale * 0.8);
+            ctx.lineWidth = 1.2;
+            ctx.shadowBlur = 12 * scale;
+            ctx.shadowColor = poly.color;
+
+            cubeEdges.forEach(([i1, i2]) => {
+                ctx.beginPath();
+                ctx.moveTo(projVerts[i1].x, projVerts[i1].y);
+                ctx.lineTo(projVerts[i2].x, projVerts[i2].y);
+                ctx.stroke();
+            });
+        }
+
+        ctx.globalAlpha = 1;
+        ctx.shadowBlur = 0;
+        requestAnimationFrame(render3D);
+    }
+
+    render3D();
+}
+
+// ==========================================================
+// 3D CARD TILT & SPECULAR GLARE ENGINE
+// ==========================================================
+function init3DCardEffects() {
+    const cardSelectors = [
+        ".card",
+        ".candidate-hero-banner",
+        ".job-card",
+        ".exec-kpi-card",
+        ".role-track-card",
+        ".market-gap-card",
+        ".roadmap-card",
+        ".kanban-card",
+        ".upload-box",
+        ".email-template-card",
+        ".interview-question-block"
+    ];
+
+    function attachTiltToElement(el) {
+        if (el.dataset.tilt3dInitialized) return;
+        el.dataset.tilt3dInitialized = "true";
+
+        // Inject Glare element if not present
+        if (!el.querySelector(".card-glare-3d")) {
+            const glare = document.createElement("div");
+            glare.className = "card-glare-3d";
+            el.appendChild(glare);
+        }
+
+        let isHovered = false;
+
+        el.addEventListener("mouseenter", () => {
+            isHovered = true;
+            el.style.transition = "transform 0.1s ease-out, box-shadow 0.2s ease";
+        });
+
+        el.addEventListener("mousemove", (e) => {
+            if (!isHovered) return;
+            const rect = el.getBoundingClientRect();
+            const x = e.clientX - rect.left;
+            const y = e.clientY - rect.top;
+
+            const centerX = rect.width / 2;
+            const centerY = rect.height / 2;
+
+            const rotateX = ((y - centerY) / centerY) * -9; // Max 9 deg
+            const rotateY = ((x - centerX) / centerX) * 9;  // Max 9 deg
+
+            el.style.transform = `perspective(1000px) rotateX(${rotateX.toFixed(2)}deg) rotateY(${rotateY.toFixed(2)}deg) translateZ(8px)`;
+            
+            const glareX = ((x / rect.width) * 100).toFixed(1);
+            const glareY = ((y / rect.height) * 100).toFixed(1);
+            el.style.setProperty("--glare-x", `${glareX}%`);
+            el.style.setProperty("--glare-y", `${glareY}%`);
+        });
+
+        el.addEventListener("mouseleave", () => {
+            isHovered = false;
+            el.style.transition = "transform 0.5s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.4s ease";
+            el.style.transform = "perspective(1000px) rotateX(0deg) rotateY(0deg) translateZ(0px)";
+        });
+    }
+
+    function refreshAllCards() {
+        cardSelectors.forEach(sel => {
+            document.querySelectorAll(sel).forEach(attachTiltToElement);
+        });
+    }
+
+    refreshAllCards();
+
+    // Observe DOM mutations to auto-attach to newly loaded elements
+    const observer = new MutationObserver(() => {
+        refreshAllCards();
+    });
+
+    const targetNode = document.querySelector(".main-content") || document.body;
+    observer.observe(targetNode, { childList: true, subtree: true });
+}
+
