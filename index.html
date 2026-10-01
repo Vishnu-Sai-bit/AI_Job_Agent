@@ -113,6 +113,66 @@
                 <button id="theme-toggle" class="theme-btn" title="Toggle Light/Dark Theme">
                     <span id="theme-icon">🌙</span>
                 </button>
+
+                <!-- Ellipsis / More Options Menu (Decluttered studio design) -->
+                <div class="nav-more-wrapper">
+                    <button id="nav-more-btn" class="nav-more-btn" title="More Options & Settings" onclick="toggleMoreMenu(event)">
+                        <span class="ellipsis-icon">⋮</span>
+                    </button>
+                    <div id="nav-more-dropdown" class="nav-more-dropdown" style="display: none;">
+                        <div class="more-dropdown-header">
+                            <div class="more-user-info">
+                                <span class="more-user-avatar" id="more-user-avatar">👤</span>
+                                <div>
+                                    <div class="more-user-name" id="more-user-name">Guest Candidate</div>
+                                    <div class="more-user-role" id="more-user-role">Free Career Workspace</div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="more-menu-list">
+                            <button class="more-menu-item" onclick="openSettingsModal(); closeMoreMenu();">
+                                <span class="item-icon">⚙️</span>
+                                <div class="item-content">
+                                    <span class="item-title">Settings & Preferences</span>
+                                    <span class="item-desc">Target roles, ATS score threshold, location</span>
+                                </div>
+                            </button>
+                            <button class="more-menu-item" onclick="openAuthModal(); closeMoreMenu();">
+                                <span class="item-icon">🔐</span>
+                                <div class="item-content">
+                                    <span class="item-title">Account & Google Sign-In</span>
+                                    <span class="item-desc">Sync candidate profile & CRM data</span>
+                                </div>
+                            </button>
+                            <button class="more-menu-item" onclick="toggleThemeFromMenu(); closeMoreMenu();">
+                                <span class="item-icon" id="menu-theme-icon">🌙</span>
+                                <div class="item-content">
+                                    <span class="item-title">Appearance</span>
+                                    <span class="item-desc" id="menu-theme-text">Switch Theme Mode</span>
+                                </div>
+                            </button>
+                            <button class="more-menu-item" onclick="toggleNotifDrawer(); closeMoreMenu();">
+                                <span class="item-icon">🔔</span>
+                                <div class="item-content">
+                                    <span class="item-title">Career Notifications</span>
+                                    <span class="item-badge" id="menu-notif-count">3 unread</span>
+                                </div>
+                            </button>
+                            <div class="more-menu-divider"></div>
+                            <div class="more-db-status">
+                                <span class="live-dot" id="db-status-dot-menu"></span>
+                                <span id="nav-db-text-menu" class="nav-db-text">MongoDB Connected</span>
+                            </div>
+                            <div class="more-menu-divider"></div>
+                            <button class="more-menu-item item-logout" id="menu-auth-action" onclick="handleMenuAuthAction(); closeMoreMenu();">
+                                <span class="item-icon" id="menu-auth-icon">🔑</span>
+                                <div class="item-content">
+                                    <span class="item-title" id="menu-auth-title">Sign In / Register</span>
+                                </div>
+                            </button>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
     </header>
@@ -579,7 +639,110 @@
         </div>
     </div>
 
-    <!-- Authentication Modal (Claude / Linear / Stripe Style) -->
+    <!-- Settings & Career Preferences Modal -->
+    <div id="settings-modal" class="modal-backdrop" style="display: none;">
+        <div class="modal-box settings-modal-box">
+            <div class="modal-header">
+                <div class="settings-modal-title-wrap">
+                    <span class="settings-icon-badge">⚙️</span>
+                    <div>
+                        <h3>Settings & Career Preferences</h3>
+                        <p class="settings-subtitle">Customize target roles, matching thresholds, cloud sync, and AI assistants</p>
+                    </div>
+                </div>
+                <button class="modal-close-btn" onclick="closeSettingsModal()">✕</button>
+            </div>
+            
+            <div class="settings-body">
+                <div class="settings-section">
+                    <h4 class="settings-sec-title">🎯 Career & Targeting Hub</h4>
+                    <div class="settings-grid">
+                        <div class="form-group">
+                            <label class="form-label">Candidate Full Name</label>
+                            <input type="text" id="setting-candidate-name" class="form-input" placeholder="e.g. Beere Vishnu Sai">
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label">Target Role / Specialization</label>
+                            <input type="text" id="setting-target-role" class="form-input" placeholder="e.g. Junior Data Analyst, Python Developer">
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label">Preferred Location / Hub</label>
+                            <input type="text" id="setting-preferred-location" class="form-input" placeholder="e.g. Hyderabad, India, Bengaluru, Remote">
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label">Minimum Match Score Threshold (<span id="setting-match-threshold-val">50%</span>)</label>
+                            <input type="range" id="setting-match-threshold" min="30" max="85" value="50" step="5" class="form-range" oninput="document.getElementById('setting-match-threshold-val').textContent = this.value + '%'">
+                        </div>
+                    </div>
+                </div>
+
+                <div class="settings-section">
+                    <h4 class="settings-sec-title">🤖 AI Copilot & Automation</h4>
+                    <div class="settings-toggles">
+                        <label class="toggle-item">
+                            <div class="toggle-info">
+                                <span class="toggle-title">Explainable Match Breakdown</span>
+                                <span class="toggle-desc">Show keyword math, skill overlap, and role weights</span>
+                            </div>
+                            <input type="checkbox" id="setting-explainable-math" checked class="toggle-switch">
+                        </label>
+                        <label class="toggle-item">
+                            <div class="toggle-info">
+                                <span class="toggle-title">Truth-Preserving Resume Tailoring</span>
+                                <span class="toggle-desc">Never hallucinate unverified skills during tailoring</span>
+                            </div>
+                            <input type="checkbox" id="setting-truth-preserving" checked class="toggle-switch">
+                        </label>
+                        <label class="toggle-item">
+                            <div class="toggle-info">
+                                <span class="toggle-title">Voice Audio & Speech-To-Text</span>
+                                <span class="toggle-desc">Enable Web Speech API for mock interview practice</span>
+                            </div>
+                            <input type="checkbox" id="setting-voice-interview" checked class="toggle-switch">
+                        </label>
+                    </div>
+                </div>
+
+                <div class="settings-section">
+                    <h4 class="settings-sec-title">☁️ Storage Engine & Connected Accounts</h4>
+                    <div class="connected-accounts-box">
+                        <div class="account-row">
+                            <div class="acc-brand">
+                                <svg class="google-icon" width="22" height="22" viewBox="0 0 48 48">
+                                    <path fill="#EA4335" d="M24 9.5c3.54 0 6.71 1.22 9.21 3.6l6.85-6.85C35.9 2.38 30.47 0 24 0 14.62 0 6.51 5.38 2.56 13.22l7.98 6.19C12.43 13.72 17.74 9.5 24 9.5z"/>
+                                    <path fill="#4285F4" d="M46.98 24.55c0-1.57-.15-3.09-.38-4.55H24v9.02h12.94c-.58 2.96-2.26 5.48-4.78 7.18l7.73 6c4.51-4.18 7.09-10.36 7.09-17.65z"/>
+                                    <path fill="#FBBC05" d="M10.53 28.59c-.48-1.45-.76-2.99-.76-4.59s.27-3.14.76-4.59l-7.98-6.19C.92 16.46 0 20.12 0 24c0 3.88.92 7.54 2.56 10.78l7.97-6.19z"/>
+                                    <path fill="#34A853" d="M24 48c6.48 0 11.93-2.13 15.89-5.81l-7.73-6c-2.15 1.45-4.92 2.3-8.16 2.3-6.26 0-11.57-4.22-13.47-9.91l-7.98 6.19C6.51 42.62 14.62 48 24 48z"/>
+                                </svg>
+                                <div>
+                                    <div class="acc-name">Google Account</div>
+                                    <div class="acc-status" id="setting-google-status">Not Connected</div>
+                                </div>
+                            </div>
+                            <button class="action-btn-sm" id="setting-google-btn" onclick="handleGoogleAuth();">Connect Google</button>
+                        </div>
+                        <div class="account-row">
+                            <div class="acc-brand">
+                                <span style="font-size: 1.3rem;">🍃</span>
+                                <div>
+                                    <div class="acc-name">MongoDB Database</div>
+                                    <div class="acc-status" id="setting-db-status">Active (Cloud & Local Sync)</div>
+                                </div>
+                            </div>
+                            <button class="action-btn-sm btn-secondary" onclick="initSystemStatus(); showToast('🍃 Database ping refreshed!', 'success', '🍃');">Check Ping</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="modal-footer settings-footer">
+                <button class="action-btn btn-secondary" onclick="closeSettingsModal()">Cancel</button>
+                <button class="action-btn btn-primary" onclick="saveSettingsPreferences()">Save Preferences</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Authentication Modal (Google OAuth & Linear / Stripe Style) -->
     <div id="auth-modal" class="modal-backdrop" style="display: none;">
         <div class="modal-box auth-modal-box">
             <div class="modal-header">
@@ -596,6 +759,21 @@
             </div>
 
             <div class="auth-form-container">
+                <!-- Google One-Click OAuth Button -->
+                <button type="button" class="google-auth-btn" id="google-auth-btn" onclick="handleGoogleAuth()">
+                    <svg class="google-icon" width="18" height="18" viewBox="0 0 48 48">
+                        <path fill="#EA4335" d="M24 9.5c3.54 0 6.71 1.22 9.21 3.6l6.85-6.85C35.9 2.38 30.47 0 24 0 14.62 0 6.51 5.38 2.56 13.22l7.98 6.19C12.43 13.72 17.74 9.5 24 9.5z"/>
+                        <path fill="#4285F4" d="M46.98 24.55c0-1.57-.15-3.09-.38-4.55H24v9.02h12.94c-.58 2.96-2.26 5.48-4.78 7.18l7.73 6c4.51-4.18 7.09-10.36 7.09-17.65z"/>
+                        <path fill="#FBBC05" d="M10.53 28.59c-.48-1.45-.76-2.99-.76-4.59s.27-3.14.76-4.59l-7.98-6.19C.92 16.46 0 20.12 0 24c0 3.88.92 7.54 2.56 10.78l7.97-6.19z"/>
+                        <path fill="#34A853" d="M24 48c6.48 0 11.93-2.13 15.89-5.81l-7.73-6c-2.15 1.45-4.92 2.3-8.16 2.3-6.26 0-11.57-4.22-13.47-9.91l-7.98 6.19C6.51 42.62 14.62 48 24 48z"/>
+                    </svg>
+                    <span id="google-auth-btn-text">Continue with Google</span>
+                </button>
+
+                <div class="auth-divider">
+                    <span>or continue with email</span>
+                </div>
+
                 <!-- Registration Specific Name Field -->
                 <div class="form-group" id="auth-name-group" style="display: none;">
                     <label class="form-label">Full Name</label>
