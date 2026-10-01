@@ -711,10 +711,16 @@ function renderJobs() {
         }
 
         // Apply Filter Chips
-        if (currentJobFilter === "verified") {
+        if (currentJobFilter === "elite") {
+            jobs = jobs.filter(j => (j.match_score || 0) >= 90);
+        } else if (currentJobFilter === "verified") {
             jobs = jobs.filter(j => (j.verification_status || "verified") === "verified");
         } else if (currentJobFilter === "high-match") {
             jobs = jobs.filter(j => (j.match_score || 0) >= 70);
+        } else if (currentJobFilter === "hyderabad") {
+            jobs = jobs.filter(j => (j.location || "").toLowerCase().includes("hyderabad") || (j.city || "").toLowerCase().includes("hyderabad"));
+        } else if (currentJobFilter === "bengaluru") {
+            jobs = jobs.filter(j => (j.location || "").toLowerCase().includes("bengaluru") || (j.location || "").toLowerCase().includes("bangalore") || (j.city || "").toLowerCase().includes("bengaluru"));
         } else if (currentJobFilter === "python-sql") {
             jobs = jobs.filter(j => {
                 const combined = [...(j.skills || []), ...(j.matching_skills || [])].map(s => s.toLowerCase());
@@ -2824,4 +2830,65 @@ function escapeHtml(text) {
     div.textContent = text;
     return div.innerHTML;
 }
+
+// ==========================================================
+// Top Navigation Notification Center Logic
+// ==========================================================
+
+function toggleNotifDrawer() {
+    const dropdown = document.getElementById("notif-dropdown");
+    if (!dropdown) return;
+    dropdown.style.display = (dropdown.style.display === "none" || dropdown.style.display === "") ? "block" : "none";
+}
+
+function clearNotifications() {
+    const container = document.getElementById("notif-list-container");
+    const badge = document.getElementById("notif-badge-count");
+    if (container) {
+        container.innerHTML = `<div style="text-align: center; padding: 2rem 1rem; color: var(--text-muted); font-size: 0.85rem;">All caught up! No active alerts.</div>`;
+    }
+    if (badge) badge.style.display = "none";
+    showToast("Cleared notifications list", "info");
+}
+
+function handleNotifClick(type) {
+    const dropdown = document.getElementById("notif-dropdown");
+    if (dropdown) dropdown.style.display = "none";
+
+    const navButtons = document.querySelectorAll(".nav-btn");
+
+    if (type === "job") {
+        activeTab = "jobs";
+        navButtons.forEach(b => b.classList.remove("active"));
+        const btn = document.querySelector('.nav-btn[data-tab="jobs"]');
+        if (btn) btn.classList.add("active");
+        switchTabVisibility();
+        showToast("Opened verified job openings", "info", "🎯");
+    } else if (type === "interview") {
+        activeTab = "tools";
+        activeTool = "interview";
+        navButtons.forEach(b => b.classList.remove("active"));
+        const btn = document.querySelector('.nav-btn[data-tab="tools"]');
+        if (btn) btn.classList.add("active");
+        switchTabVisibility();
+        renderToolForm();
+        showToast("Loaded Mock Interview Studio", "info", "🎤");
+    } else if (type === "crm") {
+        activeTab = "crm";
+        navButtons.forEach(b => b.classList.remove("active"));
+        const btn = document.querySelector('.nav-btn[data-tab="crm"]');
+        if (btn) btn.classList.add("active");
+        switchTabVisibility();
+        showToast("Opened Application CRM", "info", "📋");
+    }
+}
+
+// Close notification menu on outside click
+document.addEventListener("click", (e) => {
+    const notifWrapper = document.querySelector(".nav-notif-wrapper");
+    const dropdown = document.getElementById("notif-dropdown");
+    if (notifWrapper && dropdown && !notifWrapper.contains(e.target)) {
+        dropdown.style.display = "none";
+    }
+});
 

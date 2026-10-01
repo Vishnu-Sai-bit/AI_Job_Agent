@@ -69,6 +69,45 @@
                     <span class="btn-icon">🔑</span> <span id="auth-btn-label">Sign In</span>
                 </button>
 
+                <div class="nav-notif-wrapper">
+                    <button id="notif-btn" class="nav-notif-btn" title="Career Notifications & Alerts" onclick="toggleNotifDrawer()">
+                        <span class="btn-icon">🔔</span>
+                        <span class="notif-badge" id="notif-badge-count">3</span>
+                    </button>
+                    <div id="notif-dropdown" class="notif-dropdown-menu" style="display: none;">
+                        <div class="notif-header">
+                            <h4>🔔 Career Briefings & Alerts</h4>
+                            <span class="notif-clear-btn" onclick="clearNotifications()">Clear</span>
+                        </div>
+                        <div class="notif-list" id="notif-list-container">
+                            <div class="notif-item unread" onclick="handleNotifClick('job')">
+                                <span class="notif-icon">🎯</span>
+                                <div class="notif-content">
+                                    <h5>New 92% Match Opening</h5>
+                                    <p>Junior Data Analyst at GlobalCorp Analytics (Hyderabad) verified.</p>
+                                    <span class="notif-time">10m ago</span>
+                                </div>
+                            </div>
+                            <div class="notif-item unread" onclick="handleNotifClick('interview')">
+                                <span class="notif-icon">🎤</span>
+                                <div class="notif-content">
+                                    <h5>Mock Interview Ready</h5>
+                                    <p>Microsoft Technical Deep Dive simulation calibrated for your profile.</p>
+                                    <span class="notif-time">1h ago</span>
+                                </div>
+                            </div>
+                            <div class="notif-item unread" onclick="handleNotifClick('crm')">
+                                <span class="notif-icon">⏳</span>
+                                <div class="notif-content">
+                                    <h5>Follow-Up Due</h5>
+                                    <p>5 days since Scout Technologies application submitted.</p>
+                                    <span class="notif-time">3h ago</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
                 <button id="theme-toggle" class="theme-btn" title="Toggle Light/Dark Theme">
                     <span id="theme-icon">🌙</span>
                 </button>
@@ -365,8 +404,10 @@
                         </div>
                         <div class="filter-chips-row" id="job-filter-chips">
                             <button class="filter-chip active" data-filter="all">🌟 All Matches</button>
+                            <button class="filter-chip" data-filter="elite">🔥 90%+ Top Fit</button>
                             <button class="filter-chip" data-filter="verified">🛡️ Verified Only</button>
-                            <button class="filter-chip" data-filter="high-match">⚡ High Fit (≥70%)</button>
+                            <button class="filter-chip" data-filter="hyderabad">📍 Hyderabad</button>
+                            <button class="filter-chip" data-filter="bengaluru">📍 Bengaluru</button>
                             <button class="filter-chip" data-filter="python-sql">🐍 Python & SQL</button>
                             <button class="filter-chip" data-filter="bi-viz">📊 Power BI & Tableau</button>
                         </div>
