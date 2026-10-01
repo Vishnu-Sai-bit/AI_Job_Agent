@@ -1828,12 +1828,72 @@ async function triggerTailorResume(encodedTitle, encodedCompany, encodedDesc, en
                 <h4 style="color: #38bdf8;">💡 Strategic Positioning Advice</h4>
                 <p style="font-size: 0.88rem; line-height: 1.5; color: rgba(255,255,255,0.85); margin: 0;">${data.strategic_advice}</p>
             </div>
+
+            <div class="tailor-section" style="background: rgba(99, 102, 241, 0.08); border-color: rgba(99, 102, 241, 0.3);">
+                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.8rem; flex-wrap: wrap; gap: 0.5rem;">
+                    <h4 style="color: var(--accent-color); margin: 0;">📄 Complete Truthful Tailored Resume (Markdown Format)</h4>
+                    <div style="display: flex; gap: 0.5rem;">
+                        <button class="action-btn-small" onclick="copyFullTailoredResume()">📋 Copy Complete Resume</button>
+                        <button class="action-btn-small" style="background: rgba(16, 185, 129, 0.15); border-color: rgba(16, 185, 129, 0.35); color: #34d399;" onclick="downloadTailoredResume('${company.replace(/'/g, "\\'")}', '${title.replace(/'/g, "\\'")}')">📥 Download (.md)</button>
+                    </div>
+                </div>
+                <textarea id="full-tailored-resume-box" class="form-textarea" rows="8" readonly style="font-family: 'JetBrains Mono', monospace; font-size: 0.8rem; line-height: 1.5;"></textarea>
+            </div>
         `;
+
+        const candidateName = (resumeData && resumeData.name) || "Beere Vishnu Sai";
+        const candidateEmail = (resumeData && resumeData.email) || "candidate@example.com";
+        const candidatePhone = (resumeData && resumeData.phone) || "+91 9876543210";
+        const candidateLoc = (resumeData && resumeData.location) || "Hyderabad, India";
+
+        const fullResumeMarkdown = `# ${candidateName}
+📍 ${candidateLoc} | ✉️ ${candidateEmail} | 📞 ${candidatePhone}
+
+## PROFESSIONAL SUMMARY
+${data.tailored_summary}
+
+## CORE TECHNICAL SKILLS (Aligned with ${title} at ${company})
+• Primary JD Alignment: ${(data.core_matching_skills || []).join(", ")}
+• Supporting Competencies: ${(data.supporting_skills || []).join(", ")}
+• ATS Target Keywords: ${(data.ats_keywords_to_emphasize || []).join(", ")}
+
+## TAILORED PROJECTS & TECHNICAL DELIVERABLES
+${(data.tailored_projects || []).map(p => `### ${p.project_title}\n` + (p.tailored_bullet_points || []).map(b => `• ${b}`).join("\n")).join("\n\n")}
+
+## EDUCATION & CERTIFICATIONS
+${(resumeData && resumeData.education && resumeData.education.length > 0) ? (resumeData.education || []).map(ed => `• ${ed.degree || ed.name || 'B.Tech in Information Technology'} - ${ed.institution || ed.college || 'Engineering College'}`).join("\n") : "• B.Tech in Information Technology"}
+${(resumeData && resumeData.certifications && resumeData.certifications.length > 0) ? (resumeData.certifications || []).map(c => `• ${c}`).join("\n") : "• Oracle Cloud & Analytics Certified 2025\n• Microsoft Power BI Data Analyst Associate"}
+`;
+
+        const fullBox = document.getElementById("full-tailored-resume-box");
+        if (fullBox) fullBox.value = fullResumeMarkdown;
 
     } catch (err) {
         console.error(err);
         bodyElem.innerHTML = `<div style="color: #f87171; padding: 1rem;">Failed to generate tailored resume: ${err.message}</div>`;
     }
+}
+
+function copyFullTailoredResume() {
+    const box = document.getElementById("full-tailored-resume-box");
+    if (!box) return;
+    navigator.clipboard.writeText(box.value);
+    showToast("Copied full tailored resume to clipboard!", "success");
+}
+
+function downloadTailoredResume(company, title) {
+    const box = document.getElementById("full-tailored-resume-box");
+    if (!box || !box.value) return;
+    const blob = new Blob([box.value], { type: "text/markdown;charset=utf-8;" });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement("a");
+    a.href = url;
+    a.download = `Tailored_Resume_${company.replace(/\s+/g, '_')}_${title.replace(/\s+/g, '_')}.md`;
+    document.body.appendChild(a);
+    a.click();
+    document.body.removeChild(a);
+    URL.revokeObjectURL(url);
+    showToast("Downloaded tailored resume (.md)!", "success");
 }
 
 function closeTailorModal() {
