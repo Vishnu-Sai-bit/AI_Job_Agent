@@ -127,12 +127,12 @@ function initTheme() {
 }
 
 function updateThemeUI(theme) {
-    if (theme === "dark") {
-        themeIcon.textContent = "☀️";
-        themeToggle.innerHTML = `<span>☀️</span> Light Mode`;
-    } else {
-        themeIcon.textContent = "🌙";
-        themeToggle.innerHTML = `<span>🌙</span> Dark Mode`;
+    if (themeIcon) {
+        themeIcon.textContent = theme === "dark" ? "☀️" : "🌙";
+    }
+    if (themeToggle) {
+        themeToggle.setAttribute("title", theme === "dark" ? "Switch to Light Mode" : "Switch to Dark Mode");
+        themeToggle.setAttribute("aria-label", theme === "dark" ? "Switch to Light Mode" : "Switch to Dark Mode");
     }
 }
 
@@ -166,6 +166,9 @@ function switchTabVisibility() {
     // Allow CRM and tools tab even if no resume is parsed yet
     if (!resumeData && activeTab !== "tools" && activeTab !== "crm") {
         if (welcomePlaceholder) welcomePlaceholder.style.display = "block";
+        if (activeTab === "jobs" || activeTab === "learning") {
+            showToast("📄 Please drop or upload your resume first to discover verified jobs & roadmap pathways!", "info", "💡");
+        }
         return;
     }
 

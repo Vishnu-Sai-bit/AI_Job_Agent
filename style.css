@@ -159,13 +159,13 @@ h1, h2, h3, h4, h5, h6 {
 }
 
 .top-nav-inner {
-    max-width: 1280px;
+    max-width: 1440px;
     margin: 0 auto;
-    padding: 0.75rem 1.5rem;
+    padding: 0.65rem 1.5rem;
     display: flex;
     align-items: center;
     justify-content: space-between;
-    gap: 1.5rem;
+    gap: 1rem;
 }
 
 .brand {
@@ -212,11 +212,12 @@ h1, h2, h3, h4, h5, h6 {
 .top-nav-tabs {
     display: flex;
     align-items: center;
-    gap: 0.35rem;
+    gap: 0.25rem;
     background: rgba(255, 255, 255, 0.03);
-    padding: 0.3rem 0.4rem;
+    padding: 0.25rem 0.35rem;
     border-radius: var(--radius-full);
     border: 1px solid var(--border-subtle);
+    flex-shrink: 0;
 }
 
 [data-theme="light"] .top-nav-tabs {
@@ -227,13 +228,13 @@ h1, h2, h3, h4, h5, h6 {
 .nav-btn {
     display: flex;
     align-items: center;
-    gap: 0.5rem;
-    padding: 0.5rem 1rem;
+    gap: 0.4rem;
+    padding: 0.45rem 0.85rem;
     background: transparent;
     border: 1px solid transparent;
     border-radius: var(--radius-full);
     color: var(--text-muted);
-    font-size: 0.88rem;
+    font-size: 0.85rem;
     font-weight: 600;
     cursor: pointer;
     transition: all var(--transition-fast);
@@ -241,7 +242,7 @@ h1, h2, h3, h4, h5, h6 {
 }
 
 .nav-btn .btn-icon {
-    font-size: 1rem;
+    font-size: 0.95rem;
 }
 
 .nav-btn:hover {
@@ -271,22 +272,24 @@ h1, h2, h3, h4, h5, h6 {
 .top-nav-actions {
     display: flex;
     align-items: center;
-    gap: 0.85rem;
+    gap: 0.6rem;
     flex-shrink: 0;
 }
 
 .nav-upload-btn {
-    display: flex;
+    display: inline-flex;
     align-items: center;
-    gap: 0.45rem;
+    gap: 0.4rem;
     background: var(--primary-gradient);
     color: white;
     border: none;
     border-radius: var(--radius-full);
-    padding: 0.5rem 1.1rem;
-    font-size: 0.86rem;
+    padding: 0.45rem 0.95rem;
+    font-size: 0.83rem;
     font-weight: 600;
     cursor: pointer;
+    white-space: nowrap;
+    flex-shrink: 0;
     transition: all var(--transition-fast);
     box-shadow: 0 2px 8px rgba(99, 102, 241, 0.3);
 }
@@ -299,14 +302,16 @@ h1, h2, h3, h4, h5, h6 {
 .nav-hub-pill, .nav-db-pill {
     display: inline-flex;
     align-items: center;
-    gap: 0.45rem;
-    padding: 0.4rem 0.85rem;
+    gap: 0.4rem;
+    padding: 0.35rem 0.75rem;
     background: rgba(255, 255, 255, 0.04);
     border: 1px solid var(--border-color);
     border-radius: var(--radius-full);
-    font-size: 0.82rem;
+    font-size: 0.78rem;
     font-weight: 600;
     color: var(--text-color);
+    white-space: nowrap;
+    flex-shrink: 0;
 }
 
 .nav-db-pill {
@@ -314,7 +319,13 @@ h1, h2, h3, h4, h5, h6 {
     border-color: rgba(16, 185, 129, 0.25);
     color: #34d399;
     font-family: 'JetBrains Mono', monospace;
-    font-size: 0.78rem;
+    font-size: 0.75rem;
+}
+
+@media (max-width: 1240px) {
+    .nav-hub-pill {
+        display: none;
+    }
 }
 
 [data-theme="light"] .nav-hub-pill, [data-theme="light"] .nav-db-pill {
@@ -325,8 +336,8 @@ h1, h2, h3, h4, h5, h6 {
 .nav-auth-btn {
     display: inline-flex;
     align-items: center;
-    gap: 0.45rem;
-    padding: 0.45rem 1rem;
+    gap: 0.4rem;
+    padding: 0.42rem 0.9rem;
     background: var(--bg-surface);
     border: 1px solid var(--border-color);
     border-radius: var(--radius-full);
@@ -334,6 +345,8 @@ h1, h2, h3, h4, h5, h6 {
     font-size: 0.82rem;
     font-weight: 600;
     cursor: pointer;
+    white-space: nowrap;
+    flex-shrink: 0;
     transition: all var(--transition-fast);
 }
 
@@ -366,17 +379,20 @@ h1, h2, h3, h4, h5, h6 {
 }
 
 .theme-btn {
-    display: flex;
+    display: inline-flex;
     align-items: center;
     justify-content: center;
-    width: 36px;
-    height: 36px;
+    width: 34px;
+    height: 34px;
+    min-width: 34px;
     background: rgba(255, 255, 255, 0.04);
     border: 1px solid var(--border-color);
     border-radius: 50%;
     color: var(--text-color);
-    font-size: 1rem;
+    font-size: 0.95rem;
     cursor: pointer;
+    padding: 0;
+    flex-shrink: 0;
     transition: all var(--transition-fast);
 }
 
