@@ -169,6 +169,50 @@ h1, h2, h3, h4, h5, h6 {
     position: relative;
 }
 
+.top-nav-left {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    flex-shrink: 0;
+}
+
+.nav-hamburger-btn {
+    display: inline-flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 4px;
+    width: 34px;
+    height: 34px;
+    min-width: 34px;
+    background: rgba(255, 255, 255, 0.04);
+    border: 1px solid var(--border-color);
+    border-radius: var(--radius-md);
+    cursor: pointer;
+    padding: 0;
+    transition: all var(--transition-fast);
+    flex-shrink: 0;
+}
+
+.nav-hamburger-btn:hover {
+    background: rgba(99, 102, 241, 0.15);
+    border-color: var(--accent-color);
+    transform: scale(1.04);
+}
+
+.hamburger-line {
+    display: block;
+    width: 16px;
+    height: 2px;
+    background-color: var(--text-color);
+    border-radius: 2px;
+    transition: all var(--transition-fast);
+}
+
+.nav-hamburger-btn:hover .hamburger-line {
+    background-color: var(--text-bright);
+}
+
 .brand {
     display: flex;
     align-items: center;
@@ -547,178 +591,287 @@ h1, h2, h3, h4, h5, h6 {
 }
 
 /* ==========================================================
-   ELLIPSIS / MORE OPTIONS DROPDOWN
+   LEFT SLIDE-OUT NAVIGATION DRAWER
    ========================================================== */
-.nav-more-wrapper {
-    position: relative;
-    display: inline-flex;
+.side-nav-backdrop {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background: rgba(0, 0, 0, 0.65);
+    backdrop-filter: blur(5px);
+    -webkit-backdrop-filter: blur(5px);
+    z-index: 2000;
+    animation: fadeIn 0.2s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
-.nav-more-btn {
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    width: 34px;
-    height: 34px;
-    min-width: 34px;
-    background: rgba(255, 255, 255, 0.04);
-    border: 1px solid var(--border-color);
-    border-radius: 50%;
-    color: var(--text-color);
-    font-size: 1.25rem;
-    font-weight: 800;
-    line-height: 1;
-    cursor: pointer;
-    padding: 0;
-    flex-shrink: 0;
-    transition: all var(--transition-fast);
-}
-
-.nav-more-btn:hover {
-    background: rgba(99, 102, 241, 0.14);
-    border-color: var(--accent-color);
-    color: var(--text-bright);
-    transform: translateY(-1px);
-}
-
-.ellipsis-icon {
-    display: inline-block;
-    transform: translateY(-1px);
-}
-
-.nav-more-dropdown {
-    position: absolute;
-    top: 45px;
-    right: 0;
-    width: 280px;
+.side-nav-drawer {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 320px;
+    max-width: 85vw;
+    height: 100vh;
     background: var(--bg-card);
-    border: 1px solid var(--border-color);
-    border-radius: var(--radius-lg);
-    box-shadow: var(--shadow-lg), 0 0 30px rgba(0, 0, 0, 0.5);
-    z-index: 250;
+    border-right: 1px solid var(--border-color);
+    box-shadow: 10px 0 35px rgba(0, 0, 0, 0.6);
+    z-index: 2100;
+    display: flex;
+    flex-direction: column;
+    transform: translateX(-100%);
+    transition: transform 0.28s cubic-bezier(0.16, 1, 0.3, 1);
     overflow: hidden;
-    animation: toastFadeIn 0.2s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
-.more-dropdown-header {
-    padding: 0.85rem 1rem;
+.side-nav-drawer.open {
+    transform: translateX(0);
+}
+
+.side-drawer-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 1.1rem 1.25rem;
     background: var(--bg-surface);
     border-bottom: 1px solid var(--border-color);
 }
 
-.more-user-info {
+.drawer-user-info {
     display: flex;
     align-items: center;
-    gap: 0.65rem;
+    gap: 0.75rem;
+    overflow: hidden;
 }
 
-.more-user-avatar {
-    width: 32px;
-    height: 32px;
+.drawer-user-avatar {
+    width: 38px;
+    height: 38px;
     border-radius: 50%;
     background: var(--primary-gradient);
     display: flex;
     align-items: center;
     justify-content: center;
-    font-size: 0.95rem;
+    font-size: 1.05rem;
+    font-weight: 700;
     color: white;
+    flex-shrink: 0;
+    box-shadow: 0 4px 12px rgba(99, 102, 241, 0.35);
+}
+
+.drawer-user-meta {
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+}
+
+.drawer-user-name {
+    font-size: 0.92rem;
+    font-weight: 800;
+    color: var(--text-bright);
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.drawer-user-role {
+    font-size: 0.74rem;
+    color: var(--text-muted);
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.drawer-close-btn {
+    width: 32px;
+    height: 32px;
+    background: transparent;
+    border: 1px solid var(--border-color);
+    border-radius: 50%;
+    color: var(--text-muted);
+    font-size: 0.95rem;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all var(--transition-fast);
     flex-shrink: 0;
 }
 
-.more-user-name {
-    font-size: 0.86rem;
-    font-weight: 700;
+.drawer-close-btn:hover {
+    background: rgba(255, 255, 255, 0.08);
     color: var(--text-bright);
-    line-height: 1.2;
+    border-color: var(--accent-color);
 }
 
-.more-user-role {
-    font-size: 0.72rem;
-    color: var(--text-muted);
-}
-
-.more-menu-list {
-    padding: 0.4rem;
+.side-drawer-content {
+    flex-grow: 1;
+    overflow-y: auto;
+    padding: 1rem 0.85rem;
     display: flex;
     flex-direction: column;
-    gap: 0.15rem;
+    gap: 0.35rem;
 }
 
-.more-menu-item {
+.drawer-section-label {
+    font-size: 0.68rem;
+    font-weight: 800;
+    color: var(--text-muted);
+    letter-spacing: 0.08em;
+    padding: 0.4rem 0.6rem 0.2rem;
+    text-transform: uppercase;
+}
+
+.side-drawer-nav {
+    display: flex;
+    flex-direction: column;
+    gap: 0.25rem;
+}
+
+.drawer-nav-item {
     display: flex;
     align-items: center;
-    gap: 0.65rem;
+    gap: 0.75rem;
     width: 100%;
-    padding: 0.55rem 0.75rem;
+    padding: 0.65rem 0.85rem;
+    background: transparent;
+    border: 1px solid transparent;
+    border-radius: var(--radius-md);
+    color: var(--text-color);
+    font-size: 0.86rem;
+    font-weight: 600;
+    font-family: inherit;
+    cursor: pointer;
+    text-align: left;
+    transition: all var(--transition-fast);
+}
+
+.drawer-nav-item:hover {
+    background: rgba(255, 255, 255, 0.05);
+    color: var(--text-bright);
+    border-color: var(--border-subtle);
+}
+
+[data-theme="light"] .drawer-nav-item:hover {
+    background: #f1f5f9;
+}
+
+.drawer-nav-item.active {
+    background: rgba(99, 102, 241, 0.14);
+    color: var(--accent-color);
+    border-color: rgba(99, 102, 241, 0.3);
+    font-weight: 700;
+}
+
+.drawer-nav-item .item-icon {
+    font-size: 1.05rem;
+    flex-shrink: 0;
+}
+
+.drawer-divider {
+    height: 1px;
+    background: var(--border-subtle);
+    margin: 0.65rem 0.35rem;
+}
+
+.side-drawer-tools {
+    display: flex;
+    flex-direction: column;
+    gap: 0.25rem;
+}
+
+.drawer-action-item {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    width: 100%;
+    padding: 0.6rem 0.85rem;
     background: transparent;
     border: none;
     border-radius: var(--radius-md);
     color: var(--text-color);
     text-align: left;
     cursor: pointer;
+    font-family: inherit;
     transition: all var(--transition-fast);
 }
 
-.more-menu-item:hover {
+.drawer-action-item:hover {
     background: rgba(255, 255, 255, 0.05);
     color: var(--text-bright);
 }
 
-[data-theme="light"] .more-menu-item:hover {
+[data-theme="light"] .drawer-action-item:hover {
     background: #f1f5f9;
 }
 
-.more-menu-item .item-icon {
-    font-size: 1.05rem;
+.drawer-action-item .item-icon {
+    font-size: 1.1rem;
     flex-shrink: 0;
 }
 
-.more-menu-item .item-content {
-    flex-grow: 1;
+.drawer-action-item .item-content {
     display: flex;
     flex-direction: column;
+    overflow: hidden;
 }
 
-.more-menu-item .item-title {
-    font-size: 0.82rem;
+.drawer-action-item .item-title {
+    font-size: 0.84rem;
     font-weight: 600;
     color: var(--text-bright);
 }
 
-.more-menu-item .item-desc {
-    font-size: 0.7rem;
+.drawer-action-item .item-desc {
+    font-size: 0.72rem;
     color: var(--text-muted);
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
 }
 
-.more-menu-item .item-badge {
-    font-size: 0.68rem;
-    font-weight: 700;
-    color: var(--accent-color);
-}
-
-.more-menu-divider {
-    height: 1px;
-    background: var(--border-subtle);
-    margin: 0.25rem 0;
-}
-
-.more-db-status {
+.drawer-db-status {
     display: flex;
     align-items: center;
-    gap: 0.5rem;
-    padding: 0.5rem 0.75rem;
+    gap: 0.55rem;
+    padding: 0.65rem 0.85rem;
+    background: rgba(16, 185, 129, 0.08);
+    border: 1px solid rgba(16, 185, 129, 0.2);
+    border-radius: var(--radius-md);
     font-family: 'JetBrains Mono', monospace;
-    font-size: 0.72rem;
+    font-size: 0.76rem;
     color: #34d399;
+    font-weight: 600;
 }
 
-.more-menu-item.item-logout:hover {
-    background: rgba(239, 68, 68, 0.12);
-    color: #ef4444;
+.side-drawer-footer {
+    padding: 0.85rem 1rem;
+    background: var(--bg-surface);
+    border-top: 1px solid var(--border-color);
 }
 
-.more-menu-item.item-logout:hover .item-title {
-    color: #ef4444;
+.drawer-auth-btn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.6rem;
+    width: 100%;
+    padding: 0.65rem 1rem;
+    background: var(--bg-card);
+    border: 1px solid var(--border-color);
+    border-radius: var(--radius-md);
+    color: var(--text-color);
+    font-size: 0.85rem;
+    font-weight: 700;
+    font-family: inherit;
+    cursor: pointer;
+    transition: all var(--transition-fast);
+}
+
+.drawer-auth-btn:hover {
+    background: rgba(99, 102, 241, 0.12);
+    border-color: var(--accent-color);
+    color: var(--text-bright);
 }
 
 /* ==========================================================
@@ -2681,7 +2834,7 @@ h1, h2, h3, h4, h5, h6 {
         justify-content: space-between;
     }
 
-    .brand {
+    .top-nav-left {
         order: 1;
     }
 
@@ -2739,9 +2892,8 @@ h1, h2, h3, h4, h5, h6 {
         justify-content: center;
     }
 
-    /* Notification & Ellipsis Dropdown positioning for Mobile */
-    .notif-dropdown-menu,
-    .nav-more-dropdown {
+    /* Notification Dropdown positioning for Mobile */
+    .notif-dropdown-menu {
         position: fixed;
         top: 56px;
         left: 10px;
