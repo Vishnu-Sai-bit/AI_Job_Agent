@@ -16,114 +16,16 @@
         <div class="glow-orb glow-cyan"></div>
     </div>
 
-    <!-- Left Slide-Out Navigation Drawer & Backdrop -->
-    <div id="side-nav-backdrop" class="side-nav-backdrop" onclick="closeSideDrawer()" style="display: none;"></div>
-    <aside id="side-nav-drawer" class="side-nav-drawer">
-        <div class="side-drawer-header">
-            <div class="drawer-user-info">
-                <span class="drawer-user-avatar" id="drawer-user-avatar">👤</span>
-                <div class="drawer-user-meta">
-                    <div class="drawer-user-name" id="drawer-user-name">Guest Candidate</div>
-                    <div class="drawer-user-role" id="drawer-user-role">Free Career Workspace</div>
-                </div>
-            </div>
-            <button class="drawer-close-btn" onclick="closeSideDrawer()" title="Close Navigation Menu">✕</button>
-        </div>
-
-        <div class="side-drawer-content">
-            <div class="drawer-section-label">WORKSPACE NAVIGATION</div>
-            <nav class="side-drawer-nav">
-                <button class="drawer-nav-item active" data-drawer-tab="dashboard" onclick="switchDrawerTab('dashboard')">
-                    <span class="item-icon">📊</span>
-                    <span class="item-label">Dashboard & ATS Insights</span>
-                </button>
-                <button class="drawer-nav-item" data-drawer-tab="jobs" onclick="switchDrawerTab('jobs')">
-                    <span class="item-icon">🎯</span>
-                    <span class="item-label">Job Matches</span>
-                </button>
-                <button class="drawer-nav-item" data-drawer-tab="crm" onclick="switchDrawerTab('crm')">
-                    <span class="item-icon">📋</span>
-                    <span class="item-label">Application CRM</span>
-                </button>
-                <button class="drawer-nav-item" data-drawer-tab="tools" onclick="switchDrawerTab('tools')">
-                    <span class="item-icon">🧠</span>
-                    <span class="item-label">AI Career Tools</span>
-                </button>
-                <button class="drawer-nav-item" data-drawer-tab="learning" onclick="switchDrawerTab('learning')">
-                    <span class="item-icon">📈</span>
-                    <span class="item-label">Learning Roadmaps</span>
-                </button>
-            </nav>
-
-            <div class="drawer-divider"></div>
-            <div class="drawer-section-label">PREFERENCES & CONTROLS</div>
-            
-            <div class="side-drawer-tools">
-                <button class="drawer-action-item" onclick="openSettingsModal(); closeSideDrawer();">
-                    <span class="item-icon">⚙️</span>
-                    <div class="item-content">
-                        <span class="item-title">Settings & Preferences</span>
-                        <span class="item-desc">Target roles, ATS score filter, location</span>
-                    </div>
-                </button>
-                <button class="drawer-action-item" onclick="openAuthModal(); closeSideDrawer();">
-                    <span class="item-icon">🔐</span>
-                    <div class="item-content">
-                        <span class="item-title">Account & Google Sign-In</span>
-                        <span class="item-desc">Sync candidate profile & CRM data</span>
-                    </div>
-                </button>
-                <button class="drawer-action-item" onclick="toggleThemeFromMenu();">
-                    <span class="item-icon" id="drawer-theme-icon">🌙</span>
-                    <div class="item-content">
-                        <span class="item-title">Appearance Mode</span>
-                        <span class="item-desc" id="drawer-theme-text">Switch Light/Dark Theme</span>
-                    </div>
-                </button>
-                <button class="drawer-action-item" onclick="toggleNotifDrawer(); closeSideDrawer();">
-                    <span class="item-icon">🔔</span>
-                    <div class="item-content">
-                        <span class="item-title">Career Notifications</span>
-                        <span class="item-desc">Live job briefings & reminders</span>
-                    </div>
-                </button>
-            </div>
-
-            <div class="drawer-divider"></div>
-            
-            <div class="drawer-db-status">
-                <span class="live-dot" id="db-status-dot-drawer"></span>
-                <span id="nav-db-text-drawer" class="nav-db-text">MongoDB Connected</span>
-            </div>
-        </div>
-
-        <div class="side-drawer-footer">
-            <button class="drawer-auth-btn" id="drawer-auth-btn" onclick="handleDrawerAuthAction(); closeSideDrawer();">
-                <span class="item-icon" id="drawer-auth-icon">🔑</span>
-                <span class="item-title" id="drawer-auth-title">Sign In / Register</span>
-            </button>
-        </div>
-    </aside>
-
     <!-- Top Navigation Bar (Claude & Gemini Studio Style) -->
     <header class="top-navbar">
         <div class="top-nav-inner">
-            <div class="top-nav-left">
-                <!-- Triple Line Menu Button on the Left -->
-                <button id="nav-hamburger-btn" class="nav-hamburger-btn" title="Open Navigation Menu" onclick="toggleSideDrawer(event)">
-                    <span class="hamburger-line"></span>
-                    <span class="hamburger-line"></span>
-                    <span class="hamburger-line"></span>
-                </button>
-
-                <div class="brand">
-                    <div class="brand-logo-container">
-                        <span class="brand-icon">⚡</span>
-                    </div>
-                    <div class="brand-text">
-                        <h1>AI JobAgent</h1>
-                        <span class="version-tag">Studio Pro</span>
-                    </div>
+            <div class="brand">
+                <div class="brand-logo-container">
+                    <span class="brand-icon">⚡</span>
+                </div>
+                <div class="brand-text">
+                    <h1>AI JobAgent</h1>
+                    <span class="version-tag">Studio Pro</span>
                 </div>
             </div>
 
@@ -207,6 +109,10 @@
                         </div>
                     </div>
                 </div>
+
+                <button id="settings-btn" class="nav-settings-btn" title="Settings & Career Preferences" onclick="openSettingsModal()">
+                    <span class="btn-icon">⚙️</span>
+                </button>
 
                 <button id="theme-toggle" class="theme-btn" title="Toggle Light/Dark Theme">
                     <span id="theme-icon">🌙</span>
