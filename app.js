@@ -1072,30 +1072,30 @@ function renderToolForm() {
     if (activeTool === "cover-letter") {
         container.innerHTML = `
             <div class="form-group">
-                <label>Candidate Name</label>
-                <input type="text" id="tool-name" value="${name}" placeholder="e.g. John Doe">
+                <label>👤 Candidate Name</label>
+                <input type="text" id="tool-name" value="${name}" placeholder="e.g. Beere Vishnu Sai" class="form-input">
             </div>
             <div class="form-group">
-                <label>Job Title</label>
-                <input type="text" id="tool-title" value="${role}" placeholder="e.g. Junior Data Analyst">
+                <label>💼 Target Job Title</label>
+                <input type="text" id="tool-title" value="${role}" placeholder="e.g. Junior Data Analyst" class="form-input">
             </div>
             <div class="form-group">
-                <label>Company Name</label>
-                <input type="text" id="tool-company" placeholder="e.g. Google">
+                <label>🏢 Target Company Name</label>
+                <input type="text" id="tool-company" placeholder="e.g. Microsoft / Amazon" class="form-input">
             </div>
             <div class="form-group">
-                <label>Key Skills (comma separated)</label>
-                <input type="text" id="tool-skills" value="${skills}" placeholder="e.g. Python, SQL, Tableau">
+                <label>🛠️ Key Skills (comma separated)</label>
+                <input type="text" id="tool-skills" value="${skills}" placeholder="e.g. Python, SQL, Power BI, Tableau" class="form-input">
             </div>
             <div class="form-group">
-                <label>Job Description (Optional)</label>
-                <textarea id="tool-desc" rows="4" placeholder="Paste target description to customize metrics..."></textarea>
+                <label>📄 Target Job Description (Optional)</label>
+                <textarea id="tool-desc" rows="4" placeholder="Paste target JD or requirements to calibrate metrics and company hooks..." class="form-textarea"></textarea>
             </div>
         `;
     } else if (activeTool === "interview") {
         container.innerHTML = `
             <div class="form-group">
-                <label>Target Company Preset</label>
+                <label>🏢 Target Company Preset</label>
                 <div class="company-preset-chips" id="interview-company-chips">
                     <span class="company-chip active" data-company="Microsoft">🏢 Microsoft</span>
                     <span class="company-chip" data-company="Amazon">📦 Amazon</span>
@@ -1106,10 +1106,10 @@ function renderToolForm() {
                     <span class="company-chip" data-company="High-Growth Tech Startup">🚀 Startup</span>
                     <span class="company-chip" data-company="Custom">✏️ Custom</span>
                 </div>
-                <input type="text" id="tool-company" value="Microsoft" placeholder="e.g. Microsoft" style="margin-top: 0.5rem;">
+                <input type="text" id="tool-company" value="Microsoft" placeholder="e.g. Microsoft" class="form-input" style="margin-top: 0.6rem;">
             </div>
             <div class="form-group">
-                <label>Interview Round Type</label>
+                <label>🎯 Interview Round Type</label>
                 <div class="round-preset-chips" id="interview-round-chips">
                     <span class="round-chip active" data-round="Technical Deep Dive">💻 Technical Deep Dive</span>
                     <span class="round-chip" data-round="Data Modeling & Architecture">🏗️ Data Modeling & SQL</span>
@@ -1119,11 +1119,11 @@ function renderToolForm() {
                 <input type="hidden" id="tool-round-type" value="Technical Deep Dive">
             </div>
             <div class="form-group">
-                <label>Target Role</label>
-                <input type="text" id="tool-title" value="${role || 'Data Analyst'}" placeholder="e.g. Data Analyst">
+                <label>💼 Target Role</label>
+                <input type="text" id="tool-title" value="${role || 'Data Analyst'}" placeholder="e.g. Data Analyst" class="form-input">
             </div>
             <div class="form-group">
-                <label>Difficulty Level</label>
+                <label>⚡ Interview Difficulty Level</label>
                 <select id="tool-difficulty" class="form-select">
                     <option value="Junior / Entry-Level">Junior / Entry-Level (Foundational)</option>
                     <option value="Mid-Level Specialist" selected>Mid-Level Specialist (Practical + STAR)</option>
@@ -1131,11 +1131,11 @@ function renderToolForm() {
                 </select>
             </div>
             <div class="form-group">
-                <label>Core Technical Skills (comma separated)</label>
-                <input type="text" id="tool-skills" value="${skills || 'SQL, Python, Power BI, Tableau'}" placeholder="e.g. SQL, Python, Excel">
+                <label>🛠️ Core Technical Skills (comma separated)</label>
+                <input type="text" id="tool-skills" value="${skills || 'SQL, Python, Power BI, Tableau'}" placeholder="e.g. SQL, Python, Excel" class="form-input">
             </div>
             <div class="form-group">
-                <label>Number of Questions</label>
+                <label>🔢 Number of Questions</label>
                 <select id="tool-question-count" class="form-select">
                     <option value="5" selected>5 Questions (Standard Round)</option>
                     <option value="10">10 Questions (Comprehensive)</option>
@@ -1143,7 +1143,7 @@ function renderToolForm() {
                 </select>
             </div>
             <div class="form-group">
-                <label>Interviewer Perspective / Tone</label>
+                <label>🧑‍💼 Interviewer Perspective / Persona</label>
                 <select id="tool-interviewer-role" class="form-select">
                     <option value="Senior Technical Hiring Manager" selected>Senior Technical Hiring Manager</option>
                     <option value="Principal Data Architect">Principal Data Architect</option>
@@ -1182,54 +1182,54 @@ function renderToolForm() {
     } else if (activeTool === "email") {
         container.innerHTML = `
             <div class="form-group">
-                <label>Your Name</label>
-                <input type="text" id="tool-name" value="${name}" placeholder="e.g. John Doe">
+                <label>👤 Candidate Name</label>
+                <input type="text" id="tool-name" value="${name}" placeholder="e.g. Beere Vishnu Sai" class="form-input">
             </div>
             <div class="form-group">
-                <label>Target Role</label>
-                <input type="text" id="tool-title" value="${role}" placeholder="e.g. Data Analyst">
+                <label>💼 Target Role</label>
+                <input type="text" id="tool-title" value="${role}" placeholder="e.g. Data Analyst" class="form-input">
             </div>
             <div class="form-group">
-                <label>Company Name</label>
-                <input type="text" id="tool-company" placeholder="e.g. Microsoft">
+                <label>🏢 Target Company Name</label>
+                <input type="text" id="tool-company" placeholder="e.g. Microsoft" class="form-input">
             </div>
             <div class="form-group">
-                <label>Key Skills (comma separated)</label>
-                <input type="text" id="tool-skills" value="${skills}" placeholder="e.g. Python, SQL">
+                <label>🛠️ Key Skills (comma separated)</label>
+                <input type="text" id="tool-skills" value="${skills}" placeholder="e.g. Python, SQL" class="form-input">
             </div>
         `;
     } else if (activeTool === "linkedin") {
         container.innerHTML = `
             <div class="form-group">
-                <label>Your Name</label>
-                <input type="text" id="tool-name" value="${name}" placeholder="e.g. John Doe">
+                <label>👤 Candidate Name</label>
+                <input type="text" id="tool-name" value="${name}" placeholder="e.g. Beere Vishnu Sai" class="form-input">
             </div>
             <div class="form-group">
-                <label>Target Role Focus</label>
-                <input type="text" id="tool-title" value="${role}" placeholder="e.g. Business Intelligence Developer">
+                <label>🎯 Target Role Focus</label>
+                <input type="text" id="tool-title" value="${role}" placeholder="e.g. Business Intelligence Developer" class="form-input">
             </div>
             <div class="form-group">
-                <label>Core Skills (comma separated)</label>
-                <input type="text" id="tool-skills" value="${skills}" placeholder="e.g. Power BI, DAX, SQL">
+                <label>🛠️ Core Skills (comma separated)</label>
+                <input type="text" id="tool-skills" value="${skills}" placeholder="e.g. Power BI, DAX, SQL" class="form-input">
             </div>
         `;
     } else if (activeTool === "salary") {
         container.innerHTML = `
             <div class="form-group">
-                <label>Target Role</label>
-                <input type="text" id="tool-title" value="${role}" placeholder="e.g. Senior Data Analyst">
+                <label>💼 Target Role</label>
+                <input type="text" id="tool-title" value="${role}" placeholder="e.g. Senior Data Analyst" class="form-input">
             </div>
             <div class="form-group">
-                <label>Years of Experience</label>
-                <input type="number" id="tool-experience" value="${resumeData ? resumeData.experience_years : 1}" step="0.5" placeholder="e.g. 3">
+                <label>⏳ Years of Relevant Experience</label>
+                <input type="number" id="tool-experience" value="${resumeData ? resumeData.experience_years : 1}" step="0.5" placeholder="e.g. 2.5" class="form-input">
             </div>
             <div class="form-group">
-                <label>Location Hub</label>
-                <input type="text" id="tool-location" value="${resumeData ? resumeData.location : 'Hyderabad'}" placeholder="e.g. Bengaluru, India">
+                <label>📍 Location Hub</label>
+                <input type="text" id="tool-location" value="${resumeData ? resumeData.location : 'Hyderabad'}" placeholder="e.g. Hyderabad, Bengaluru, Remote" class="form-input">
             </div>
             <div class="form-group">
-                <label>Key Skills (comma separated)</label>
-                <input type="text" id="tool-skills" value="${skills}" placeholder="e.g. Python, SQL">
+                <label>🛠️ Key Technical Skills</label>
+                <input type="text" id="tool-skills" value="${skills}" placeholder="e.g. Python, SQL, Tableau" class="form-input">
             </div>
         `;
     }
