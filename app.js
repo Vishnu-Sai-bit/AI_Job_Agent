@@ -2201,12 +2201,17 @@ async function initSystemStatus() {
             const data = await res.json();
             const dbText = document.getElementById("nav-db-text");
             const dbDot = document.getElementById("db-status-dot");
+            const dbTextDrawer = document.getElementById("nav-db-text-drawer");
+            const dbDotDrawer = document.getElementById("db-status-dot-drawer");
+            
             const isConnected = data.storage_mode === "mongodb" && data.connected;
             const statusText = isConnected ? "MongoDB Connected" : "Local Storage Active";
             const statusColor = isConnected ? "#10b981" : "#38bdf8";
 
             if (dbText) dbText.textContent = statusText;
             if (dbDot) dbDot.style.backgroundColor = statusColor;
+            if (dbTextDrawer) dbTextDrawer.textContent = statusText;
+            if (dbDotDrawer) dbDotDrawer.style.backgroundColor = statusColor;
         }
     } catch (err) {
         console.warn("System status ping failed:", err);
@@ -2237,7 +2242,7 @@ function initAuthEvents() {
         });
     }
 
-    // Global click listener to close popups
+    // Global click listener to close popups and Escape key to close side drawer
     window.addEventListener("click", (e) => {
         const notifWrapper = document.querySelector(".nav-notif-wrapper");
         const notifDropdown = document.getElementById("notif-dropdown");
@@ -2249,6 +2254,7 @@ function initAuthEvents() {
 
     window.addEventListener("keydown", (e) => {
         if (e.key === "Escape") {
+            closeSideDrawer();
             closeAuthModal();
             closeSettingsModal();
             closeAutoFillModal();
@@ -2276,6 +2282,11 @@ function checkAuthSession() {
 function updateAuthUI(user) {
     const authBtn = document.getElementById("auth-btn");
     const authLabel = document.getElementById("auth-btn-label");
+    const drawerUserName = document.getElementById("drawer-user-name");
+    const drawerUserRole = document.getElementById("drawer-user-role");
+    const drawerUserAvatar = document.getElementById("drawer-user-avatar");
+    const drawerAuthTitle = document.getElementById("drawer-auth-title");
+    const drawerAuthIcon = document.getElementById("drawer-auth-icon");
     const settingGoogleStatus = document.getElementById("setting-google-status");
     const settingGoogleBtn = document.getElementById("setting-google-btn");
 
@@ -2286,6 +2297,11 @@ function updateAuthUI(user) {
             authBtn.classList.add("logged-in");
             authBtn.title = `Signed in as ${user.email} (Click to Sign Out)`;
         }
+        if (drawerUserName) drawerUserName.textContent = user.name;
+        if (drawerUserRole) drawerUserRole.textContent = user.email;
+        if (drawerUserAvatar) drawerUserAvatar.textContent = user.name.charAt(0).toUpperCase() || "👤";
+        if (drawerAuthTitle) drawerAuthTitle.textContent = `Sign Out (${firstName})`;
+        if (drawerAuthIcon) drawerAuthIcon.textContent = "🚪";
 
         if (user.auth_provider === "google") {
             if (settingGoogleStatus) settingGoogleStatus.textContent = `Connected (${user.email})`;
@@ -2300,6 +2316,11 @@ function updateAuthUI(user) {
             authBtn.classList.remove("logged-in");
             authBtn.title = "Account Authentication";
         }
+        if (drawerUserName) drawerUserName.textContent = "Guest Candidate";
+        if (drawerUserRole) drawerUserRole.textContent = "Free Career Workspace";
+        if (drawerUserAvatar) drawerUserAvatar.textContent = "👤";
+        if (drawerAuthTitle) drawerAuthTitle.textContent = "Sign In / Register";
+        if (drawerAuthIcon) drawerAuthIcon.textContent = "🔑";
         if (settingGoogleStatus) settingGoogleStatus.textContent = "Not Connected";
         if (settingGoogleBtn) {
             settingGoogleBtn.textContent = "Connect Google";
@@ -2436,6 +2457,7 @@ async function handleGoogleAuth() {
         updateAuthUI(currentUser);
         closeAuthModal();
         closeSettingsModal();
+        closeSideDrawer();
         showToast(`🚀 Google Authentication Successful! Welcome, ${currentUser.name}`, "success", "✨");
 
     } catch (err) {
@@ -2468,6 +2490,89 @@ function handleLogout() {
     currentUser = null;
     updateAuthUI(null);
     showToast("Signed out successfully.", "info", "🚪");
+}
+
+// ==========================================================
+// LEFT SLIDE-OUT DRAWER CONTROLS
+// ==========================================================
+
+function toggleSideDrawer(e) {
+    if (e) e.stopPropagation();
+    const drawer = document.getElementById("side-nav-drawer");
+    if (!drawer) return;
+
+    if (drawer.classList.contains("open")) {
+        closeSideDrawer();
+    } else {
+        openSideDrawer();
+    }
+}
+
+function openSideDrawer() {
+    const drawer = document.getElementById("side-nav-drawer");
+    const backdrop = document.getElementById("side-nav-backdrop");
+    if (drawer) drawer.classList.add("open");
+    if (backdrop) backdrop.style.display = "block";
+    document.body.style.overflow = "hidden";
+}
+
+function closeSideDrawer() {
+    const drawer = document.getElementById("side-nav-drawer");
+    const backdrop = document.getElementById("side-nav-backdrop");
+    if (drawer) drawer.classList.remove("open");
+    if (backdrop) backdrop.style.display = "none";
+    document.body.style.overflow = "";
+}
+
+function switchDrawerTab(targetTab) {
+    activeTab = targetTab;
+    
+    // Sync top nav buttons
+    const navButtons = document.querySelectorAll(".nav-btn");
+    navButtons.forEach(btn => {
+        if (btn.getAttribute("data-tab") === targetTab) {
+            btn.classList.add("active");
+        } else {
+            btn.classList.remove("active");
+        }
+    });
+
+    // Sync drawer nav items
+    const drawerItems = document.querySelectorAll(".drawer-nav-item");
+    drawerItems.forEach(item => {
+        if (item.getAttribute("data-drawer-tab") === targetTab) {
+            item.classList.add("active");
+        } else {
+            item.classList.remove("active");
+        }
+    });
+
+    switchTabVisibility();
+    closeSideDrawer();
+}
+
+function handleDrawerAuthAction() {
+    if (currentUser) {
+        if (confirm(`Signed in as ${currentUser.name}. Do you want to sign out?`)) {
+            handleLogout();
+        }
+    } else {
+        openAuthModal();
+    }
+}
+
+function toggleThemeFromMenu() {
+    const currentTheme = document.documentElement.getAttribute("data-theme") || "dark";
+    const newTheme = currentTheme === "dark" ? "light" : "dark";
+    document.documentElement.setAttribute("data-theme", newTheme);
+    localStorage.setItem("theme", newTheme);
+    updateThemeUI(newTheme);
+    
+    const drawerThemeText = document.getElementById("drawer-theme-text");
+    const drawerThemeIcon = document.getElementById("drawer-theme-icon");
+    if (drawerThemeText) drawerThemeText.textContent = newTheme === "dark" ? "Switch to Light Theme" : "Switch to Dark Theme";
+    if (drawerThemeIcon) drawerThemeIcon.textContent = newTheme === "dark" ? "☀️" : "🌙";
+    showToast(`Switched to ${newTheme.toUpperCase()} theme`, "info", newTheme === "dark" ? "🌙" : "☀️");
 }
 
 // ==========================================================
