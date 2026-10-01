@@ -99,9 +99,9 @@
             <!-- Welcome Screen / Placeholder (Claude & Gemini Studio Style) -->
             <div id="welcome-placeholder" class="welcome-studio-card">
                 <div class="welcome-header">
-                    <div class="welcome-badge">⚡ AI-Powered Career Command Center</div>
-                    <h2 class="welcome-title">Elevate Your Career with Intelligent Match & ATS Precision</h2>
-                    <p class="welcome-subtitle">Drop your resume below to initiate real-time ATS compatibility scoring, multi-source verified job discovery, executive pipeline analytics, and AI mock interview prep.</p>
+                    <div class="welcome-badge">⚡ AI-POWERED CAREER OPERATING SYSTEM</div>
+                    <h2 class="welcome-title">Your AI Copilot for the Entire Career Journey</h2>
+                    <p class="welcome-subtitle">Find verified high-match jobs. Optimize your resume with ATS precision. Understand market skill gaps. Prepare for live interviews. Track every opportunity in a personal CRM.</p>
                 </div>
 
                 <!-- Hero Drop Zone -->
@@ -111,7 +111,10 @@
                     </div>
                     <h3 class="upload-zone-title">Drag & drop your resume file here</h3>
                     <p class="upload-zone-subtitle">Supports PDF & DOCX • Instant ATS parsing & market matching</p>
-                    <button class="upload-browse-btn" type="button">Browse Files from Computer</button>
+                    <div class="welcome-cta-group" style="display: flex; gap: 0.75rem; justify-content: center; flex-wrap: wrap; margin-top: 1rem;">
+                        <button class="upload-browse-btn" type="button">Browse Files from Computer</button>
+                        <button class="upload-browse-btn" type="button" style="background: rgba(99, 102, 241, 0.15); border: 1px solid rgba(99, 102, 241, 0.35); color: #818cf8;" onclick="loadDemoCandidateProfile()">⚡ Instant Demo Profile</button>
+                    </div>
                 </div>
 
                 <div class="welcome-features-grid">
@@ -603,6 +606,51 @@
             <div id="autofill-modal-body" class="modal-body">
                 <div class="loading-state">Synthesizing field mappings & Playwright automation...</div>
             </div>
+        </div>
+    </div>
+
+    <!-- Floating AI Career Copilot Assistant -->
+    <div id="copilot-floating-container" class="copilot-floating-wrapper">
+        <button id="copilot-toggle-btn" class="copilot-trigger-btn" title="Open AI Career Copilot Assistant" onclick="toggleCopilotDrawer()">
+            <span class="copilot-icon">🤖</span>
+            <span class="copilot-btn-text">AI Copilot</span>
+            <span class="copilot-pulse-dot"></span>
+        </button>
+
+        <div id="copilot-drawer" class="copilot-chat-drawer" style="display: none;">
+            <div class="copilot-drawer-header">
+                <div class="copilot-header-info">
+                    <div class="copilot-avatar">🤖</div>
+                    <div>
+                        <h4>AI Career Copilot</h4>
+                        <span class="copilot-status-badge">● Active Intelligence</span>
+                    </div>
+                </div>
+                <button class="copilot-close-btn" onclick="toggleCopilotDrawer()">✕</button>
+            </div>
+
+            <!-- Quick Action Suggestion Pills -->
+            <div class="copilot-quick-pills">
+                <button class="quick-prompt-pill" onclick="sendCopilotPrompt('Which jobs should I focus on today?')">🎯 Focus Today</button>
+                <button class="quick-prompt-pill" onclick="sendCopilotPrompt('How can I improve my ATS score?')">📊 Boost ATS</button>
+                <button class="quick-prompt-pill" onclick="sendCopilotPrompt('Prepare me for an interview round')">🎤 Interview Prep</button>
+                <button class="quick-prompt-pill" onclick="sendCopilotPrompt('Show my pending applications')">📋 Application CRM</button>
+            </div>
+
+            <!-- Messages Stream Area -->
+            <div id="copilot-messages-container" class="copilot-messages-box">
+                <div class="copilot-msg bot-msg">
+                    <div class="msg-bubble">
+                        👋 Hi! I'm your <strong>AI Career Copilot</strong>. Ask me anything about your job matches, ATS score, interview preparation, or pipeline tracking.
+                    </div>
+                </div>
+            </div>
+
+            <!-- Chat Input Row -->
+            <form id="copilot-chat-form" class="copilot-input-form" onsubmit="handleCopilotSubmit(event)">
+                <input type="text" id="copilot-user-input" class="copilot-chat-input" placeholder="Ask your Career Copilot..." autocomplete="off">
+                <button type="submit" class="copilot-send-btn">➤</button>
+            </form>
         </div>
     </div>
 
