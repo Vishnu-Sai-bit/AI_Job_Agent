@@ -50,6 +50,11 @@
 
             <!-- Right Controls & Candidate Hub -->
             <div class="top-nav-actions">
+                <div class="nav-db-pill" id="nav-db-badge" title="Storage Engine Status">
+                    <span class="live-dot" id="db-status-dot"></span>
+                    <span id="nav-db-text">MongoDB Connected</span>
+                </div>
+
                 <button id="quick-upload-btn" class="nav-upload-btn" title="Upload or Update Resume">
                     <span class="btn-icon">📄</span> Upload Resume
                 </button>
@@ -59,6 +64,10 @@
                     <span class="live-dot"></span>
                     <span id="nav-hub-text">📍 Hyderabad, India</span>
                 </div>
+
+                <button id="auth-btn" class="nav-auth-btn" title="Account Authentication">
+                    <span class="btn-icon">🔑</span> <span id="auth-btn-label">Sign In</span>
+                </button>
 
                 <button id="theme-toggle" class="theme-btn" title="Toggle Light/Dark Theme">
                     <span id="theme-icon">🌙</span>
@@ -523,6 +532,76 @@
             </div>
             <div id="company-modal-body" class="modal-body">
                 <div class="loading-state">Analyzing employer tech stack and hiring patterns...</div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Authentication Modal (Claude / Linear / Stripe Style) -->
+    <div id="auth-modal" class="modal-backdrop" style="display: none;">
+        <div class="modal-box auth-modal-box">
+            <div class="modal-header">
+                <div class="auth-modal-title-wrap">
+                    <span class="auth-icon-badge">🔐</span>
+                    <h3 id="auth-modal-title">Account Access</h3>
+                </div>
+                <button class="modal-close-btn" onclick="closeAuthModal()">✕</button>
+            </div>
+            
+            <div class="auth-tabs">
+                <button class="auth-tab-btn active" id="auth-tab-login" onclick="switchAuthTab('login')">Sign In</button>
+                <button class="auth-tab-btn" id="auth-tab-register" onclick="switchAuthTab('register')">Create Account</button>
+            </div>
+
+            <div class="auth-form-container">
+                <!-- Registration Specific Name Field -->
+                <div class="form-group" id="auth-name-group" style="display: none;">
+                    <label class="form-label">Full Name</label>
+                    <input type="text" id="auth-name-input" class="form-input" placeholder="e.g. Beere Vishnu Sai">
+                </div>
+
+                <div class="form-group">
+                    <label class="form-label">Email Address</label>
+                    <input type="email" id="auth-email-input" class="form-input" placeholder="candidate@example.com">
+                </div>
+
+                <div class="form-group">
+                    <label class="form-label">Password</label>
+                    <input type="password" id="auth-password-input" class="form-input" placeholder="••••••••">
+                </div>
+
+                <div id="auth-error-msg" class="auth-error-box" style="display: none;"></div>
+
+                <button id="auth-submit-btn" class="action-btn auth-submit-btn" onclick="handleAuthSubmit()">
+                    Sign In
+                </button>
+
+                <div class="auth-divider">
+                    <span>OR</span>
+                </div>
+
+                <button class="guest-login-btn" onclick="handleGuestLogin()">
+                    ⚡ Instant Guest Demo Session
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Headless Auto-Fill Assistant Modal -->
+    <div id="autofill-modal" class="modal-backdrop" style="display: none;">
+        <div class="modal-box modal-large">
+            <div class="modal-header">
+                <div style="display: flex; align-items: center; gap: 0.6rem;">
+                    <span style="font-size: 1.4rem;">⚡</span>
+                    <div>
+                        <h3 id="autofill-modal-title">AI Auto-Fill Assistant & Review Guard</h3>
+                        <p class="muted" id="autofill-modal-subtitle" style="font-size: 0.84rem; margin: 0;">Automated form mapping for target career portal</p>
+                    </div>
+                </div>
+                <button class="modal-close-btn" onclick="closeAutoFillModal()">✕</button>
+            </div>
+            
+            <div id="autofill-modal-body" class="modal-body">
+                <div class="loading-state">Synthesizing field mappings & Playwright automation...</div>
             </div>
         </div>
     </div>

@@ -45,6 +45,9 @@ document.addEventListener("DOMContentLoaded", () => {
     initDragAndDrop();
     initTools();
     initJobsFilter();
+    initSystemStatus();
+    checkAuthSession();
+    initAuthEvents();
 });
 
 // Toast Notification Engine
@@ -851,6 +854,7 @@ function renderJobs() {
                 
                 <div class="card-actions-row">
                     <a href="${job.apply_url || '#'}" target="_blank" rel="noopener noreferrer" class="btn-card-action btn-primary-action">🚀 Apply Direct ↗</a>
+                    <button type="button" class="btn-card-action" style="background: rgba(99, 102, 241, 0.15); border-color: rgba(99, 102, 241, 0.35); color: #818cf8; font-weight: 700;" onclick="triggerAutoFillModal('${encodeURIComponent(JSON.stringify(job))}')">⚡ Auto-Fill</button>
                     <button type="button" class="btn-card-action" onclick="triggerTailorResume('${encodeURIComponent(job.title)}', '${encodeURIComponent(job.company)}', '${encodeURIComponent((job.description||'').substring(0, 400))}', '${encodeURIComponent(JSON.stringify(job.skills||[]))}')">✍️ Tailor</button>
                     <button type="button" class="btn-card-action" onclick="triggerCompanyInsights('${encodeURIComponent(job.company)}', '${encodeURIComponent(job.title)}', '${encodeURIComponent((job.description||'').substring(0, 400))}', '${encodeURIComponent(JSON.stringify(job.skills||[]))}')">🏢 Insights</button>
                     <button type="button" class="btn-card-action" onclick="quickAddToCRM('${encodeURIComponent(job.title)}', '${encodeURIComponent(job.company)}', '${encodeURIComponent(job.location||'India')}', '${encodeURIComponent(job.salary||'Not Mentioned')}', '${encodeURIComponent(job.apply_url||'#')}')">📌 Track CRM</button>
@@ -2114,5 +2118,361 @@ async function triggerCompanyInsights(encodedCompany, encodedRole, encodedDesc, 
 
 function closeCompanyModal() {
     document.getElementById("company-modal").style.display = "none";
+}
+
+// ==========================================================
+// ENTERPRISE SCALE: SYSTEM STATUS (MONGODB & DATABASE)
+// ==========================================================
+
+async function initSystemStatus() {
+    try {
+        const res = await fetch(`${BACKEND_URL}/api/system/status`);
+        if (res.ok) {
+            const data = await res.json();
+            const dbText = document.getElementById("nav-db-text");
+            const dbDot = document.getElementById("db-status-dot");
+            if (dbText) {
+                if (data.storage_mode === "mongodb" && data.connected) {
+                    dbText.textContent = "MongoDB Connected";
+                    if (dbDot) dbDot.style.backgroundColor = "#10b981";
+                } else {
+                    dbText.textContent = "Local Storage Active";
+                    if (dbDot) dbDot.style.backgroundColor = "#38bdf8";
+                }
+            }
+        }
+    } catch (err) {
+        console.warn("System status ping failed:", err);
+    }
+}
+
+// ==========================================================
+// ENTERPRISE SCALE: AUTHENTICATION & JWT SESSION
+// ==========================================================
+
+let authTabMode = "login";
+let currentUser = null;
+let currentAutoFillPayload = null;
+
+function initAuthEvents() {
+    const authBtn = document.getElementById("auth-btn");
+    if (authBtn) {
+        authBtn.addEventListener("click", () => {
+            if (currentUser) {
+                // Toggle logout prompt
+                if (confirm(`Signed in as ${currentUser.name} (${currentUser.email}). Do you want to sign out?`)) {
+                    handleLogout();
+                }
+            } else {
+                openAuthModal();
+            }
+        });
+    }
+}
+
+function checkAuthSession() {
+    const token = localStorage.getItem("jobagent_jwt_token");
+    const userJson = localStorage.getItem("jobagent_user");
+    if (token && userJson) {
+        try {
+            currentUser = JSON.parse(userJson);
+            updateAuthUI(currentUser);
+        } catch (e) {
+            localStorage.removeItem("jobagent_jwt_token");
+            localStorage.removeItem("jobagent_user");
+        }
+    }
+}
+
+function updateAuthUI(user) {
+    const authBtn = document.getElementById("auth-btn");
+    const authLabel = document.getElementById("auth-btn-label");
+    if (user && authBtn && authLabel) {
+        const firstName = user.name.split(" ")[0] || "User";
+        authLabel.textContent = `${firstName}`;
+        authBtn.classList.add("logged-in");
+        authBtn.title = `Signed in as ${user.email} (Click to Sign Out)`;
+    } else if (authBtn && authLabel) {
+        authLabel.textContent = "Sign In";
+        authBtn.classList.remove("logged-in");
+        authBtn.title = "Account Authentication";
+    }
+}
+
+function openAuthModal() {
+    const modal = document.getElementById("auth-modal");
+    if (modal) {
+        modal.style.display = "flex";
+        switchAuthTab("login");
+    }
+}
+
+function closeAuthModal() {
+    const modal = document.getElementById("auth-modal");
+    if (modal) modal.style.display = "none";
+    const errBox = document.getElementById("auth-error-msg");
+    if (errBox) errBox.style.display = "none";
+}
+
+function switchAuthTab(mode) {
+    authTabMode = mode;
+    const tabLogin = document.getElementById("auth-tab-login");
+    const tabRegister = document.getElementById("auth-tab-register");
+    const nameGroup = document.getElementById("auth-name-group");
+    const submitBtn = document.getElementById("auth-submit-btn");
+    const titleElem = document.getElementById("auth-modal-title");
+    const errBox = document.getElementById("auth-error-msg");
+
+    if (errBox) errBox.style.display = "none";
+
+    if (mode === "login") {
+        if (tabLogin) tabLogin.classList.add("active");
+        if (tabRegister) tabRegister.classList.remove("active");
+        if (nameGroup) nameGroup.style.display = "none";
+        if (submitBtn) submitBtn.textContent = "Sign In";
+        if (titleElem) titleElem.textContent = "Sign In to Account";
+    } else {
+        if (tabRegister) tabRegister.classList.add("active");
+        if (tabLogin) tabLogin.classList.remove("active");
+        if (nameGroup) nameGroup.style.display = "block";
+        if (submitBtn) submitBtn.textContent = "Create Account";
+        if (titleElem) titleElem.textContent = "Create New Account";
+    }
+}
+
+async function handleAuthSubmit() {
+    const emailInput = document.getElementById("auth-email-input");
+    const passwordInput = document.getElementById("auth-password-input");
+    const nameInput = document.getElementById("auth-name-input");
+    const errBox = document.getElementById("auth-error-msg");
+
+    const email = emailInput ? emailInput.value.trim() : "";
+    const password = passwordInput ? passwordInput.value : "";
+    const name = nameInput ? nameInput.value.trim() : "";
+
+    if (!email || !password) {
+        if (errBox) {
+            errBox.textContent = "Please fill in both email and password.";
+            errBox.style.display = "block";
+        }
+        return;
+    }
+
+    try {
+        let endpoint = authTabMode === "register" ? "/auth/register" : "/auth/login";
+        let payload = authTabMode === "register" 
+            ? { name: name || "Candidate", email: email, password: password }
+            : { email: email, password: password };
+
+        const res = await fetch(`${BACKEND_URL}${endpoint}`, {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify(payload)
+        });
+
+        const data = await res.json();
+        if (!res.ok || !data.success) {
+            throw new Error(data.detail || data.message || "Authentication failed.");
+        }
+
+        // Save session
+        localStorage.setItem("jobagent_jwt_token", data.token);
+        localStorage.setItem("jobagent_user", JSON.stringify(data.user));
+        currentUser = data.user;
+        updateAuthUI(currentUser);
+        closeAuthModal();
+        showToast(`Welcome, ${currentUser.name}! Session authenticated.`, "success");
+
+    } catch (err) {
+        if (errBox) {
+            errBox.textContent = err.message;
+            errBox.style.display = "block";
+        }
+    }
+}
+
+async function handleGuestLogin() {
+    try {
+        const res = await fetch(`${BACKEND_URL}/auth/guest`, { method: "POST" });
+        const data = await res.json();
+        if (data.success) {
+            localStorage.setItem("jobagent_jwt_token", data.token);
+            localStorage.setItem("jobagent_user", JSON.stringify(data.user));
+            currentUser = data.user;
+            updateAuthUI(currentUser);
+            closeAuthModal();
+            showToast("Logged in with Instant Guest Demo session.", "success");
+        }
+    } catch (err) {
+        console.error(err);
+        showToast("Guest login failed.", "error");
+    }
+}
+
+function handleLogout() {
+    localStorage.removeItem("jobagent_jwt_token");
+    localStorage.removeItem("jobagent_user");
+    currentUser = null;
+    updateAuthUI(null);
+    showToast("Signed out successfully.", "info");
+}
+
+// ==========================================================
+// ENTERPRISE SCALE: HEADLESS AUTO-FILL ASSISTANT
+// ==========================================================
+
+async function triggerAutoFillModal(encodedJobJson) {
+    const job = JSON.parse(decodeURIComponent(encodedJobJson));
+    const modal = document.getElementById("autofill-modal");
+    const bodyElem = document.getElementById("autofill-modal-body");
+    const subtitle = document.getElementById("autofill-modal-subtitle");
+
+    if (subtitle) subtitle.textContent = `Target Opening: ${job.title} at ${job.company}`;
+    if (modal) modal.style.display = "flex";
+
+    bodyElem.innerHTML = `
+        <div style="text-align: center; padding: 2rem;">
+            <div class="pulse-indicator" style="margin: 0 auto 1rem auto; width: 14px; height: 14px;"></div>
+            <p>Mapping candidate profile to ${job.company} application form schema...</p>
+        </div>
+    `;
+
+    try {
+        const defaultResumeContext = resumeData || {
+            name: "Beere Vishnu Sai",
+            email: "vishnusai@example.com",
+            phone: "+91 9876543210",
+            location: "Hyderabad, India",
+            skills: ["Python", "SQL", "Power BI", "Tableau", "Machine Learning"],
+            experience_years: 2.0,
+            linkedin: "https://linkedin.com/in/vishnusai",
+            github: "https://github.com/Vishnu-Sai-bit"
+        };
+
+        const res = await fetch(`${BACKEND_URL}/api/autofill/generate-payload`, {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({
+                resume_context: defaultResumeContext,
+                job_data: job
+            })
+        });
+
+        if (!res.ok) throw new Error(await res.text());
+        const data = await res.json();
+        currentAutoFillPayload = data;
+
+        const checklistHtml = (data.review_checklist || []).map(item => `
+            <div class="autofill-check-item">
+                <span class="autofill-field-lbl">${item.field}</span>
+                <span class="autofill-field-val" title="${item.value}">✓ ${item.value}</span>
+            </div>
+        `).join("");
+
+        bodyElem.innerHTML = `
+            <div style="margin-bottom: 1rem;">
+                <h4 style="font-size: 0.95rem; color: #818cf8; margin-bottom: 0.3rem;">📋 Verified Form Fields Mapping</h4>
+                <p class="muted" style="font-size: 0.82rem; margin: 0;">Review your pre-mapped credentials before auto-fill execution:</p>
+            </div>
+
+            <div class="autofill-checklist-grid">
+                ${checklistHtml}
+            </div>
+
+            <div style="margin: 1.25rem 0 0.5rem 0;">
+                <h4 style="font-size: 0.95rem; color: #38bdf8; margin-bottom: 0.3rem;">✍️ Tailored Cover Note / Value Pitch</h4>
+                <div class="autofill-pitch-box">${data.fields.tailored_cover_pitch}</div>
+            </div>
+
+            <div class="autofill-actions-row">
+                <button class="action-btn" style="margin-top: 0;" onclick="runAutoFillSimulation()">🚀 Launch Auto-Fill Assistant</button>
+                <button class="btn-card-action" onclick="copyAutoFillPayload()">📋 Copy Form Payload</button>
+                <button class="btn-card-action" onclick="downloadPlaywrightScript()">📥 Download Playwright Script</button>
+            </div>
+
+            <div id="autofill-stepper-container"></div>
+        `;
+
+    } catch (err) {
+        console.error(err);
+        bodyElem.innerHTML = `<div style="color: #f87171; padding: 1rem;">Failed to generate auto-fill blueprint: ${err.message}</div>`;
+    }
+}
+
+function closeAutoFillModal() {
+    const modal = document.getElementById("autofill-modal");
+    if (modal) modal.style.display = "none";
+}
+
+function copyAutoFillPayload() {
+    if (!currentAutoFillPayload) return;
+    const jsonStr = JSON.stringify(currentAutoFillPayload.fields, null, 2);
+    navigator.clipboard.writeText(jsonStr);
+    showToast("Copied Form Payload JSON to clipboard!", "success");
+}
+
+function downloadPlaywrightScript() {
+    if (!currentAutoFillPayload || !currentAutoFillPayload.playwright_script) return;
+    const blob = new Blob([currentAutoFillPayload.playwright_script], { type: "text/plain;charset=utf-8" });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement("a");
+    a.href = url;
+    a.download = `autofill_${(currentAutoFillPayload.company || "job").toLowerCase().replace(/\s+/g, "_")}.py`;
+    document.body.appendChild(a);
+    a.click();
+    document.body.removeChild(a);
+    URL.revokeObjectURL(url);
+    showToast("Downloaded Playwright Auto-Fill script (.py)!", "success");
+}
+
+async function runAutoFillSimulation() {
+    if (!currentAutoFillPayload) return;
+    const stepperContainer = document.getElementById("autofill-stepper-container");
+    if (!stepperContainer) return;
+
+    stepperContainer.innerHTML = `
+        <div class="autofill-stepper">
+            <h5 style="color: #34d399; margin-bottom: 0.8rem;">⚡ Auto-Fill Engine Running (Safe Review Guard Active)</h5>
+            <div id="stepper-log-list"></div>
+        </div>
+    `;
+
+    const logList = document.getElementById("stepper-log-list");
+
+    try {
+        const res = await fetch(`${BACKEND_URL}/api/autofill/launch`, {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({
+                fields: currentAutoFillPayload.fields,
+                job_title: currentAutoFillPayload.job_title,
+                company: currentAutoFillPayload.company
+            })
+        });
+
+        const data = await res.json();
+        const steps = data.steps || [];
+
+        for (let i = 0; i < steps.length; i++) {
+            const step = steps[i];
+            await new Promise(r => setTimeout(r, 600)); // Animated sequence
+            const stepItem = document.createElement("div");
+            stepItem.className = "autofill-step-item";
+            stepItem.innerHTML = `
+                <div class="step-num-badge done">✓</div>
+                <div class="step-content">
+                    <h5>Step ${step.step}: ${step.title}</h5>
+                    <p>${step.desc}</p>
+                </div>
+            `;
+            logList.appendChild(stepItem);
+        }
+
+        showToast("Auto-Fill completed! Browser primed for your review & submission.", "success");
+
+    } catch (err) {
+        console.error(err);
+        showToast("Auto-Fill execution encountered an issue.", "error");
+    }
 }
 
