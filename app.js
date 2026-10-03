@@ -249,6 +249,12 @@ function setUploadProgress(percentage, text) {
 
 // File Upload Handler
 async function handleFileUpload(file) {
+    if (!file) return;
+
+    // Clear previous state so stale data is never shown
+    resumeData = null;
+    jobData = null;
+
     const formData = new FormData();
     formData.append("file", file);
 
@@ -295,12 +301,22 @@ async function handleFileUpload(file) {
             if (statusText) statusText.textContent = "Profile Active";
         }, 1500);
 
-        // Render UI
+        // Reset file input so user can re-upload or upload another file seamlessly
+        if (resumeInput) resumeInput.value = "";
+
+        // Dynamically update UI across all modules
         renderDashboard();
         renderJobs();
         renderLearning();
+        renderToolForm();
+
+        // Update velocity with candidate's actual ATS score
+        const activeScore = Math.round(resumeData.ats_score || 85);
+        updateVelocityMetrics(4, 5, 3, activeScore);
+
+        showToast(`✅ Resume Analyzed: ${resumeData.name || "Candidate"} (${resumeData.preferred_role || "Role"})`, "success", "📄");
         
-        // Show the active tab (will show dashboard since data now exists)
+        // Show active tab
         switchTabVisibility();
 
     } catch (err) {
@@ -308,7 +324,8 @@ async function handleFileUpload(file) {
         setUploadProgress(0, "Upload failed!");
         const statusText = document.getElementById("upload-status-text");
         if (statusText) statusText.textContent = "Error Occurred";
-        alert(`Error: ${err.message}`);
+        showToast(`Upload failed: ${err.message}`, "error");
+        if (resumeInput) resumeInput.value = "";
     }
 }
 
@@ -491,61 +508,72 @@ function renderDashboard() {
 
     // Profile Suitability details
     const suitabilityDiv = document.getElementById("suitability-report");
-    const roleMap = {
-        "bi": "Business Intelligence & Visualization (Power BI / Tableau)",
-        "ds": "Data Science & Machine Learning (Python / AI / ML)",
-        "de": "Data Engineering & Database (SQL / ETL / MySQL)",
-        "da": "Data Analyst & Business Analytics"
-    };
+    const targetRole = resumeData.preferred_role || "Software Engineer";
+    const targetRoleLower = targetRole.toLowerCase();
+    const skills = resumeData.skills || [];
+    const skillsLower = skills.map(s => s.toLowerCase());
 
-    const targetRoleLower = (resumeData.preferred_role || "").toLowerCase();
     let primaryRoles = [];
     let secondaryRoles = [];
-    
-    if (targetRoleLower.includes("power bi") || targetRoleLower.includes("tableau") || targetRoleLower.includes("bi")) {
-        primaryRoles = [roleMap.bi, roleMap.da];
-        secondaryRoles = [roleMap.de, "IT Support Consultant"];
-    } else if (targetRoleLower.includes("machine") || targetRoleLower.includes("scientist") || targetRoleLower.includes("ai")) {
-        primaryRoles = [roleMap.ds, roleMap.da];
-        secondaryRoles = [roleMap.de, roleMap.bi];
-    } else if (targetRoleLower.includes("engineer") || targetRoleLower.includes("sql") || targetRoleLower.includes("database")) {
-        primaryRoles = [roleMap.de, roleMap.da];
-        secondaryRoles = [roleMap.bi, "Cloud Database Analyst"];
+    let industries = [];
+
+    if (targetRoleLower.includes("front") || targetRoleLower.includes("react") || targetRoleLower.includes("next") || targetRoleLower.includes("ui") || targetRoleLower.includes("web")) {
+        primaryRoles = ["Frontend Web Developer (React / Next.js / TypeScript)", "UI Engineer & Interactive Web Architect"];
+        secondaryRoles = ["Full Stack JavaScript Engineer", "Mobile App Developer (React Native)"];
+        industries = ["Product-Based Tech MNCs", "SaaS & Consumer Tech Startups", "Digital Product Studios"];
+    } else if (targetRoleLower.includes("back") || targetRoleLower.includes("java") || targetRoleLower.includes("node") || targetRoleLower.includes("spring") || targetRoleLower.includes("django")) {
+        primaryRoles = ["Backend Software Engineer (APIs & Microservices)", "Server-Side Systems Architect"];
+        secondaryRoles = ["Cloud DevOps Engineer", "Full Stack Developer"];
+        industries = ["Enterprise SaaS Platforms", "FinTech & Payment Systems", "Cloud Computing Firms"];
+    } else if (targetRoleLower.includes("full stack") || targetRoleLower.includes("mern") || targetRoleLower.includes("mean")) {
+        primaryRoles = ["Full Stack Software Engineer", "Product Systems Engineer"];
+        secondaryRoles = ["Backend Engineer", "Frontend Developer"];
+        industries = ["Tech Startups & Scaleups", "Global Product MNCs", "Digital Consulting"];
+    } else if (targetRoleLower.includes("power bi") || targetRoleLower.includes("tableau") || targetRoleLower.includes("bi") || targetRoleLower.includes("analyst") || targetRoleLower.includes("analytics")) {
+        primaryRoles = ["Business Intelligence & Visualization (Power BI / Tableau)", "Data Analyst & Business Analytics"];
+        secondaryRoles = ["Data Engineer & Database ETL", "Operations Analytics Consultant"];
+        industries = ["IT Consulting & Services", "Product-Based Tech MNCs", "Business Intelligence Hubs"];
+    } else if (targetRoleLower.includes("machine") || targetRoleLower.includes("scientist") || targetRoleLower.includes("ai") || targetRoleLower.includes("deep learning")) {
+        primaryRoles = ["Data Scientist & Machine Learning Specialist", "AI Systems & Model Deployment Engineer"];
+        secondaryRoles = ["Data Analyst", "Data Engineer"];
+        industries = ["AI Labs & Research MNCs", "Autonomous & Predictive Tech", "FinTech AI Groups"];
+    } else if (targetRoleLower.includes("devops") || targetRoleLower.includes("cloud") || targetRoleLower.includes("sre") || targetRoleLower.includes("infrastructure")) {
+        primaryRoles = ["Cloud & DevOps Engineer (AWS / Azure / GCP)", "Site Reliability Engineer (SRE)"];
+        secondaryRoles = ["Backend Infrastructure Developer", "Kubernetes Platform Engineer"];
+        industries = ["Cloud Infrastructure Providers", "Enterprise Platforms", "High-Volume Web Scaleups"];
     } else {
-        primaryRoles = [roleMap.da, roleMap.bi];
-        secondaryRoles = [roleMap.ds, roleMap.de];
+        primaryRoles = [`${targetRole} Specialist`, "Software & Technical Solutions Engineer"];
+        secondaryRoles = ["Technical Consultant", "Systems Analyst"];
+        industries = ["IT Services & Enterprise Consulting", "Product-Based Tech MNCs", "Global Engineering Centers"];
     }
 
     // Populate Suitability UI lists
     const populateList = (id, items) => {
         const el = document.getElementById(id);
-        el.innerHTML = items.map(item => `<li>${item}</li>`).join("");
+        if (el) el.innerHTML = items.map(item => `<li>${item}</li>`).join("");
     };
     
     populateList("suitability-roles", primaryRoles);
     populateList("suitability-secondary", secondaryRoles);
 
-    // Key Competitive Strengths
+    // Dynamic Key Competitive Strengths
     const strengths = [];
-    const skills = resumeData.skills || [];
-    const skillsSet = new Set(skills.map(s => s.toLowerCase()));
-    
     if (resumeData.certifications && resumeData.certifications.length > 0) {
-        strengths.append = strengths.push(`Has ${resumeData.certifications.length} certifications listed, indicating ongoing development.`);
+        strengths.push(`Has ${resumeData.certifications.length} verified technical certifications on record.`);
     }
-    if (skillsSet.has("python") && skillsSet.has("sql")) {
-        strengths.push("Proficient in core scripting and query languages (Python & SQL).");
+    if (resumeData.projects && resumeData.projects.length > 0) {
+        strengths.push(`Delivered ${resumeData.projects.length} hands-on technical project portfolio deliverables.`);
     }
-    if (skillsSet.has("power bi") || skillsSet.has("tableau")) {
-        strengths.push("Strong dashboard visualization experience across enterprise tools.");
+    if (skills.length > 0) {
+        strengths.push(`Core technical proficiency in ${skills.slice(0, 4).join(", ")}.`);
+    }
+    if (resumeData.experience_years && resumeData.experience_years > 0) {
+        strengths.push(`${resumeData.experience_years} years of practical professional experience.`);
     }
     if (strengths.length === 0) {
-        strengths.push("Solid foundation in analytical projects and business datasets.");
+        strengths.push(`Strong academic and project foundation in ${targetRole}.`);
     }
     populateList("suitability-strengths", strengths);
-
-    // Industries
-    const industries = ["IT Consulting & Services", "Product-Based Tech MNCs", "Business Intelligence Hubs"];
     populateList("suitability-industries", industries);
 
     suitabilityDiv.style.display = "block";
@@ -581,7 +609,7 @@ async function loadExecutiveCareerOverview() {
             return;
         }
     } catch (err) {
-        console.warn("Failed to fetch executive overview from backend, running fallback calculation:", err);
+        console.warn("Failed to fetch executive overview from backend, running dynamic fallback calculation:", err);
     }
 
     renderCareerOverviewFallback(jobsList);
@@ -637,6 +665,27 @@ function renderCareerOverviewUI(data) {
 function renderCareerOverviewFallback(jobsList) {
     const rawCount = jobsList.length > 0 ? jobsList.length * 6 : 1284;
     const verifiedCount = jobsList.length > 0 ? jobsList.length : 186;
+    const targetRole = (resumeData && resumeData.preferred_role) || "Software Engineer";
+    const skillsList = (resumeData && resumeData.skills) || ["Core Technologies"];
+
+    // Dynamic Strengths
+    const dynamicStrengths = [];
+    if (resumeData && resumeData.certifications && resumeData.certifications.length > 0) {
+        resumeData.certifications.slice(0, 2).forEach(c => {
+            const name = typeof c === "object" ? (c.name || c.title || str(c)) : String(c);
+            dynamicStrengths.push(`🏆 ${name}`);
+        });
+    }
+    if (resumeData && resumeData.projects && resumeData.projects.length > 0) {
+        resumeData.projects.slice(0, 2).forEach(p => {
+            const title = typeof p === "object" ? (p.title || p.name || "Technical Project") : String(p);
+            dynamicStrengths.push(`🛠️ ${title}`);
+        });
+    }
+    if (dynamicStrengths.length === 0) {
+        dynamicStrengths.push(`🛠️ Core Proficiency: ${skillsList.slice(0, 3).join(", ")}`);
+        dynamicStrengths.push(`🎯 Target Role: ${targetRole}`);
+    }
 
     const data = {
         pipeline_funnel: {
@@ -647,18 +696,13 @@ function renderCareerOverviewFallback(jobsList) {
             interview_conversion_rate: 0.0
         },
         role_track_readiness: {
-            "Data Analyst": 88.0,
-            "BI Analyst": 82.0,
-            "Business Analyst": 76.0,
-            "AI / ML Analyst": 70.0,
-            "Data Engineer": 64.0
+            [targetRole]: 88.0,
+            "Software Engineer": 82.0,
+            "Full Stack Engineer": 76.0,
+            "Technical Consultant": 70.0
         },
-        top_verified_strengths: [
-            "🏆 Oracle Cloud & Analytics Certified Professional 2025",
-            "🛠️ EV Charging Station Data Analysis (30K records, 8+ KPIs)",
-            "🛠️ Customer Churn Machine Learning Prediction (82% accuracy)"
-        ],
-        market_standing_summary: `Your profile demonstrates strong market competitiveness (88.0% fit for ${(resumeData && resumeData.preferred_role) || 'Data Analyst'}). Key differentiator: Verified enterprise certifications paired with full end-to-end data analytics and ML dashboard portfolios.`
+        top_verified_strengths: dynamicStrengths,
+        market_standing_summary: `Your profile demonstrates strong market competitiveness (88.0% fit for ${targetRole}). Key differentiator: Demonstrated competency in ${skillsList.slice(0, 4).join(", ")}.`
     };
     renderCareerOverviewUI(data);
 }
