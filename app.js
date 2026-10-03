@@ -707,6 +707,47 @@ function renderCareerOverviewFallback(jobsList) {
     renderCareerOverviewUI(data);
 }
 
+function getCompanyAvatarColor(companyName) {
+    const colors = [
+        "linear-gradient(135deg, #6366f1, #8b5cf6)",
+        "linear-gradient(135deg, #3b82f6, #06b6d4)",
+        "linear-gradient(135deg, #10b981, #059669)",
+        "linear-gradient(135deg, #f59e0b, #d97706)",
+        "linear-gradient(135deg, #ec4899, #8b5cf6)",
+        "linear-gradient(135deg, #14b8a6, #0284c7)"
+    ];
+    let hash = 0;
+    const str = (companyName || "Company").trim();
+    for (let i = 0; i < str.length; i++) hash = str.charCodeAt(i) + ((hash << 5) - hash);
+    return colors[Math.abs(hash) % colors.length];
+}
+
+function cleanSkillTokens(rawList) {
+    if (!rawList) return [];
+    const tokens = [];
+    const items = Array.isArray(rawList) ? rawList : [rawList];
+    
+    items.forEach(item => {
+        if (!item) return;
+        const str = String(item).trim();
+        // If string has camelCase or concatenated words (e.g. ArchitectureCloudDesignDev)
+        if (str.length > 25 && !str.includes(" ") && !str.includes(",") && !str.includes("/")) {
+            const splitWords = str.replace(/([a-z])([A-Z])/g, '$1 $2').split(/\s+/);
+            splitWords.forEach(w => {
+                if (w.trim().length >= 2) tokens.push(w.trim());
+            });
+        } else if (str.includes(",") || str.includes("|") || str.includes("/")) {
+            str.split(/[,|\/]/).forEach(w => {
+                if (w.trim().length >= 2) tokens.push(w.trim());
+            });
+        } else if (str.length >= 2) {
+            tokens.push(str);
+        }
+    });
+    
+    return Array.from(new Set(tokens));
+}
+
 // 2. Job Matches
 function renderJobs() {
     if (!jobData) return;
@@ -786,7 +827,9 @@ function renderJobs() {
         
         groupDiv.innerHTML = `
             <div class="job-group-header">
-                <span>📁</span> ${groupName} (${jobs.length} ${jobs.length === 1 ? 'job' : 'jobs'})
+                <span class="group-folder-icon">📁</span>
+                <span class="group-title-text">${groupName}</span>
+                <span class="group-count-badge">${jobs.length} ${jobs.length === 1 ? 'opening' : 'openings'}</span>
             </div>
             <div class="job-cards-container"></div>
         `;
@@ -819,9 +862,25 @@ function renderJobs() {
                 trustBadgeHtml = `<span class="trust-badge review-badge" title="${vNotes}">⚠️ Review Suggested</span>`;
             }
 
-            // Render skills matching and missing badges
-            const matchPills = (job.matching_skills || []).map(s => `<span class="pill-match">${s} ✔</span>`).join("");
-            const missPills = (job.missing_skills || []).map(s => `<span class="pill-missing">${s}</span>`).join("");
+            // Clean skills tokens
+            const rawMatches = job.matching_skills && job.matching_skills.length > 0 ? job.matching_skills : (job.skills || []).slice(0, 4);
+            const rawMissing = job.missing_skills || [];
+            
+            const cleanedMatches = cleanSkillTokens(rawMatches);
+            const cleanedMissing = cleanSkillTokens(rawMissing);
+
+            const displayedMatches = cleanedMatches.slice(0, 5);
+            const remainingSlots = Math.max(0, 8 - displayedMatches.length);
+            const displayedMissing = cleanedMissing.slice(0, remainingSlots);
+
+            const totalHidden = (cleanedMatches.length - displayedMatches.length) + (cleanedMissing.length - displayedMissing.length);
+
+            const matchPills = displayedMatches.map(s => `<span class="job-skill-chip match-chip"><span class="chip-check">✓</span> ${s}</span>`).join("");
+            const missPills = displayedMissing.map(s => `<span class="job-skill-chip missing-chip">${s}</span>`).join("");
+            const morePill = totalHidden > 0 ? `<span class="job-skill-chip more-chip">+${totalHidden} more</span>` : "";
+
+            const companyInitial = (job.company || "C").trim().charAt(0).toUpperCase();
+            const avatarGradient = getCompanyAvatarColor(job.company);
             
             // Fit breakdown metrics
             const fit = job.fit_breakdown || {};
@@ -838,83 +897,113 @@ function renderJobs() {
             const panelId = `fit-panel-${gIdx}-${idx}`;
 
             card.innerHTML = `
-                <div class="job-match-badge ${scoreBadgeClass}">${score}% Match</div>
-                <h4>${job.title}</h4>
-                <div class="job-company">${job.company}</div>
-                
-                <div class="job-meta-badges">
-                    <span class="job-freshness-pill">🟢 Fresh (&lt; 24h)</span>
-                    <span class="job-workmode-pill">🏢 Hybrid / Remote</span>
-                    <span class="source-badge">${sourcesText}</span>
+                <div class="job-card-top-row">
+                    <div class="job-brand-header">
+                        <div class="company-logo-avatar" style="background: ${avatarGradient};">${companyInitial}</div>
+                        <div class="job-title-group">
+                            <h3 class="job-main-title">${job.title}</h3>
+                            <div class="job-company-subtitle">
+                                <span class="company-name-bold">${job.company}</span>
+                                <span class="meta-separator">•</span>
+                                <span class="meta-item-loc">📍 ${job.location || "Remote / Hybrid"}</span>
+                                <span class="meta-separator">•</span>
+                                <span class="meta-item-salary">💰 ${job.salary || "Competitive"}</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="job-fit-pill-box ${scoreBadgeClass}">
+                        <span class="fit-score-value">${score}%</span>
+                        <span class="fit-score-text">Match</span>
+                    </div>
+                </div>
+
+                <div class="job-meta-pill-strip">
+                    <span class="meta-tag tag-fresh">🟢 Fresh (&lt; 24h)</span>
+                    <span class="meta-tag tag-mode">🏢 ${job.work_mode || "Hybrid / Remote"}</span>
+                    <span class="meta-tag tag-source">${sourcesText}</span>
                     ${trustBadgeHtml}
                 </div>
 
-                <div class="job-details">
-                    <p>📍 <strong>Location:</strong> ${job.location || "India"}</p>
-                    <p>💰 <strong>Salary Range:</strong> ${job.salary || "Market Standard"}</p>
-                </div>
-                
-                <div class="job-card-pills">
+                <div class="job-skill-chips-row">
                     ${matchPills}
                     ${missPills}
+                    ${morePill}
                 </div>
-                
-                <div class="fit-details-toggle">
-                    <button class="fit-toggle-btn" onclick="toggleFitPanel('${panelId}', this)">
-                        <span>📊 View Explainable Fit & ATS Proof</span> ▼
+
+                <div class="fit-accordion-section">
+                    <button type="button" class="fit-accordion-toggle-btn" onclick="toggleFitPanel('${panelId}', this)">
+                        <span class="fit-btn-left">
+                            <span class="fit-btn-icon">📊</span>
+                            <span class="fit-btn-text">View Explainable Fit & ATS Match Proof</span>
+                        </span>
+                        <span class="fit-btn-chevron">▼</span>
                     </button>
-                    <div id="${panelId}" class="fit-breakdown-panel" style="display: none;">
-                        <div class="fit-dimension-row">
-                            <div class="fit-dimension-header">
-                                <span>🎯 Required Skills Match</span>
-                                <span>${skillsPct}%</span>
+                    <div id="${panelId}" class="fit-breakdown-drawer" style="display: none;">
+                        <div class="fit-dimension-grid">
+                            <div class="fit-dimension-row">
+                                <div class="fit-dimension-header">
+                                    <span>🎯 Required Skills Match</span>
+                                    <span class="fit-dimension-val">${skillsPct}%</span>
+                                </div>
+                                <div class="fit-progress-track">
+                                    <div class="fit-progress-fill fill-green" style="width: ${skillsPct}%"></div>
+                                </div>
                             </div>
-                            <div class="fit-progress-track">
-                                <div class="fit-progress-fill fill-green" style="width: ${skillsPct}%"></div>
-                            </div>
-                        </div>
 
-                        <div class="fit-dimension-row">
-                            <div class="fit-dimension-header">
-                                <span>💼 Role Alignment</span>
-                                <span>${rolePct}%</span>
+                            <div class="fit-dimension-row">
+                                <div class="fit-dimension-header">
+                                    <span>💼 Role Alignment</span>
+                                    <span class="fit-dimension-val">${rolePct}%</span>
+                                </div>
+                                <div class="fit-progress-track">
+                                    <div class="fit-progress-fill fill-blue" style="width: ${rolePct}%"></div>
+                                </div>
                             </div>
-                            <div class="fit-progress-track">
-                                <div class="fit-progress-fill fill-blue" style="width: ${rolePct}%"></div>
-                            </div>
-                        </div>
 
-                        <div class="fit-dimension-row">
-                            <div class="fit-dimension-header">
-                                <span>⏳ Experience Level Fit</span>
-                                <span>${expPct}%</span>
+                            <div class="fit-dimension-row">
+                                <div class="fit-dimension-header">
+                                    <span>⏳ Experience Level Fit</span>
+                                    <span class="fit-dimension-val">${expPct}%</span>
+                                </div>
+                                <div class="fit-progress-track">
+                                    <div class="fit-progress-fill fill-purple" style="width: ${expPct}%"></div>
+                                </div>
                             </div>
-                            <div class="fit-progress-track">
-                                <div class="fit-progress-fill fill-purple" style="width: ${expPct}%"></div>
-                            </div>
-                        </div>
 
-                        <div class="fit-dimension-row">
-                            <div class="fit-dimension-header">
-                                <span>📍 Location Fit</span>
-                                <span>${locPct}%</span>
-                            </div>
-                            <div class="fit-progress-track">
-                                <div class="fit-progress-fill fill-amber" style="width: ${locPct}%"></div>
+                            <div class="fit-dimension-row">
+                                <div class="fit-dimension-header">
+                                    <span>📍 Location Alignment</span>
+                                    <span class="fit-dimension-val">${locPct}%</span>
+                                </div>
+                                <div class="fit-progress-track">
+                                    <div class="fit-progress-fill fill-amber" style="width: ${locPct}%"></div>
+                                </div>
                             </div>
                         </div>
 
                         ${evidenceList}
                     </div>
                 </div>
-                
-                <div class="card-actions-row">
-                    <a href="${job.apply_url || '#'}" target="_blank" rel="noopener noreferrer" class="btn-card-action btn-primary-action">🚀 Apply Direct ↗</a>
-                    <button type="button" class="btn-card-action" style="background: rgba(99, 102, 241, 0.15); border-color: rgba(99, 102, 241, 0.35); color: #818cf8; font-weight: 700;" onclick="triggerAutoFillModal('${encodeURIComponent(JSON.stringify(job))}')">⚡ Auto-Fill</button>
-                    <button type="button" class="btn-card-action" onclick="triggerTailorResume('${encodeURIComponent(job.title)}', '${encodeURIComponent(job.company)}', '${encodeURIComponent((job.description||'').substring(0, 400))}', '${encodeURIComponent(JSON.stringify(job.skills||[]))}')">✍️ Tailor</button>
-                    <button type="button" class="btn-card-action" style="background: rgba(245, 158, 11, 0.12); border-color: rgba(245, 158, 11, 0.3); color: #fbbf24;" onclick="openMockInterviewModal('${encodeURIComponent(job.title)}', '${encodeURIComponent(job.company)}')">🎤 Mock Prep</button>
-                    <button type="button" class="btn-card-action" onclick="triggerCompanyInsights('${encodeURIComponent(job.company)}', '${encodeURIComponent(job.title)}', '${encodeURIComponent((job.description||'').substring(0, 400))}', '${encodeURIComponent(JSON.stringify(job.skills||[]))}')">🏢 Insights</button>
-                    <button type="button" class="btn-card-action" onclick="quickAddToCRM('${encodeURIComponent(job.title)}', '${encodeURIComponent(job.company)}', '${encodeURIComponent(job.location||'India')}', '${encodeURIComponent(job.salary||'Not Mentioned')}', '${encodeURIComponent(job.apply_url||'#')}')">📌 Track CRM</button>
+
+                <div class="job-actions-toolbar">
+                    <a href="${job.apply_url || '#'}" target="_blank" rel="noopener noreferrer" class="btn-action-pill btn-apply-gradient">
+                        <span>🚀 Apply Direct</span> <span class="arrow-glyph">↗</span>
+                    </a>
+                    <button type="button" class="btn-action-pill btn-action-autofill" onclick="triggerAutoFillModal('${encodeURIComponent(JSON.stringify(job))}')">
+                        <span>⚡ Auto-Fill</span>
+                    </button>
+                    <button type="button" class="btn-action-pill btn-action-tailor" onclick="triggerTailorResume('${encodeURIComponent(job.title)}', '${encodeURIComponent(job.company)}', '${encodeURIComponent((job.description||'').substring(0, 400))}', '${encodeURIComponent(JSON.stringify(job.skills||[]))}')">
+                        <span>✍️ Tailor</span>
+                    </button>
+                    <button type="button" class="btn-action-pill btn-action-mock" onclick="openMockInterviewModal('${encodeURIComponent(job.title)}', '${encodeURIComponent(job.company)}')">
+                        <span>🎤 Mock Prep</span>
+                    </button>
+                    <button type="button" class="btn-action-pill btn-action-insights" onclick="triggerCompanyInsights('${encodeURIComponent(job.company)}', '${encodeURIComponent(job.title)}', '${encodeURIComponent((job.description||'').substring(0, 400))}', '${encodeURIComponent(JSON.stringify(job.skills||[]))}')">
+                        <span>🏢 Insights</span>
+                    </button>
+                    <button type="button" class="btn-action-pill btn-action-crm" onclick="quickAddToCRM('${encodeURIComponent(job.title)}', '${encodeURIComponent(job.company)}', '${encodeURIComponent(job.location||'India')}', '${encodeURIComponent(job.salary||'Not Mentioned')}', '${encodeURIComponent(job.apply_url||'#')}')">
+                        <span>📌 Track CRM</span>
+                    </button>
                 </div>
             `;
             cardsContainer.appendChild(card);
@@ -937,12 +1026,20 @@ function renderJobs() {
 function toggleFitPanel(panelId, btn) {
     const panel = document.getElementById(panelId);
     if (!panel) return;
-    if (panel.style.display === "block") {
-        panel.style.display = "none";
-        btn.innerHTML = `<span>📊 View Explainable Fit & ATS Proof</span> ▼`;
-    } else {
+    const isHidden = panel.style.display === "none" || !panel.style.display;
+    const chevron = btn.querySelector(".fit-btn-chevron");
+    const textSpan = btn.querySelector(".fit-btn-text");
+
+    if (isHidden) {
         panel.style.display = "block";
-        btn.innerHTML = `<span>📊 Hide Explainable Fit & ATS Proof</span> ▲`;
+        btn.classList.add("expanded");
+        if (chevron) chevron.textContent = "▲";
+        if (textSpan) textSpan.textContent = "Hide Explainable Fit & ATS Match Proof";
+    } else {
+        panel.style.display = "none";
+        btn.classList.remove("expanded");
+        if (chevron) chevron.textContent = "▼";
+        if (textSpan) textSpan.textContent = "View Explainable Fit & ATS Match Proof";
     }
 }
 
