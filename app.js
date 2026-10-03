@@ -1146,7 +1146,7 @@ function renderToolForm() {
         container.innerHTML = `
             <div class="form-group">
                 <label>👤 Candidate Name</label>
-                <input type="text" id="tool-name" value="${name}" placeholder="e.g. Beere Vishnu Sai" class="form-input">
+                <input type="text" id="tool-name" value="${name}" placeholder="e.g. Alex Johnson" class="form-input">
             </div>
             <div class="form-group">
                 <label>💼 Target Job Title</label>
@@ -1256,7 +1256,7 @@ function renderToolForm() {
         container.innerHTML = `
             <div class="form-group">
                 <label>👤 Candidate Name</label>
-                <input type="text" id="tool-name" value="${name}" placeholder="e.g. Beere Vishnu Sai" class="form-input">
+                <input type="text" id="tool-name" value="${name}" placeholder="e.g. Alex Johnson" class="form-input">
             </div>
             <div class="form-group">
                 <label>💼 Target Role</label>
@@ -1275,7 +1275,7 @@ function renderToolForm() {
         container.innerHTML = `
             <div class="form-group">
                 <label>👤 Candidate Name</label>
-                <input type="text" id="tool-name" value="${name}" placeholder="e.g. Beere Vishnu Sai" class="form-input">
+                <input type="text" id="tool-name" value="${name}" placeholder="e.g. Alex Johnson" class="form-input">
             </div>
             <div class="form-group">
                 <label>🎯 Target Role Focus</label>
@@ -1911,10 +1911,10 @@ async function triggerTailorResume(encodedTitle, encodedCompany, encodedDesc, en
             </div>
         `;
 
-        const candidateName = (resumeData && resumeData.name) || "Beere Vishnu Sai";
-        const candidateEmail = (resumeData && resumeData.email) || "candidate@example.com";
-        const candidatePhone = (resumeData && resumeData.phone) || "+91 9876543210";
-        const candidateLoc = (resumeData && resumeData.location) || "Hyderabad, India";
+        const candidateName = (resumeData && resumeData.name) || (currentUser && currentUser.name) || "Candidate";
+        const candidateEmail = (resumeData && resumeData.email) || (currentUser && currentUser.email) || "candidate@example.com";
+        const candidatePhone = (resumeData && resumeData.phone) || "";
+        const candidateLoc = (resumeData && resumeData.location) || (resumeData && resumeData.preferred_location) || "Remote / Hybrid";
 
         const fullResumeMarkdown = `# ${candidateName}
 📍 ${candidateLoc} | ✉️ ${candidateEmail} | 📞 ${candidatePhone}
@@ -2156,7 +2156,7 @@ async function openFollowupModal(appId) {
     `;
 
     try {
-        const candidateName = (resumeData && resumeData.name) || "Beere Vishnu Sai";
+        const candidateName = (resumeData && resumeData.name) || (currentUser && currentUser.name) || "Candidate";
         const res = await fetch(`${BACKEND_URL}/crm/generate-followup`, {
             method: "POST",
             headers: { "Content-Type": "application/json" },
@@ -2505,10 +2505,10 @@ async function handleAuthSubmit() {
 async function handleGoogleAuth() {
     try {
         // Fast, authentic Google OAuth flow simulation / credential bridge
-        let candidateName = (currentUser && currentUser.name) || (resumeData && resumeData.name) || "Beere Vishnu Sai";
-        let candidateEmail = (currentUser && currentUser.email) || (resumeData && resumeData.email) || "vishnusai.beere@gmail.com";
+        let candidateName = (currentUser && currentUser.name) || (resumeData && resumeData.name) || "Candidate";
+        let candidateEmail = (currentUser && currentUser.email) || (resumeData && resumeData.email) || "";
         
-        const promptEmail = prompt("Enter your Google Account email for 1-Click Verification:", candidateEmail);
+        const promptEmail = prompt("Enter your Google Account email for 1-Click Verification:", candidateEmail || "candidate@gmail.com");
         if (!promptEmail) return; // User cancelled
         
         const googlePayload = {
@@ -2672,9 +2672,9 @@ function closeSettingsModal() {
 function loadSettingsPreferences() {
     const saved = localStorage.getItem("jobagent_settings");
     let settings = {
-        candidateName: (currentUser && currentUser.name) || (resumeData && resumeData.name) || "Beere Vishnu Sai",
-        targetRole: "Junior Data Analyst, Python Developer",
-        preferredLocation: "Hyderabad, India",
+        candidateName: (currentUser && currentUser.name) || (resumeData && resumeData.name) || "",
+        targetRole: (resumeData && resumeData.preferred_role) || "Software Engineer / Data Analyst",
+        preferredLocation: (resumeData && resumeData.preferred_location) || (resumeData && resumeData.location) || "Remote / Hybrid",
         matchThreshold: 50,
         explainableMath: true,
         truthPreserving: true,
@@ -2698,7 +2698,7 @@ function loadSettingsPreferences() {
     const truthPres = document.getElementById("setting-truth-preserving");
     const voiceInt = document.getElementById("setting-voice-interview");
 
-    if (nameInput) nameInput.value = settings.candidateName;
+    if (nameInput) nameInput.value = settings.candidateName || ((resumeData && resumeData.name) || "");
     if (roleInput) roleInput.value = settings.targetRole;
     if (locInput) locInput.value = settings.preferredLocation;
     if (threshInput) {
@@ -2720,9 +2720,9 @@ function saveSettingsPreferences() {
     const voiceInt = document.getElementById("setting-voice-interview");
 
     const settings = {
-        candidateName: nameInput ? nameInput.value.trim() : "Beere Vishnu Sai",
-        targetRole: roleInput ? roleInput.value.trim() : "Junior Data Analyst",
-        preferredLocation: locInput ? locInput.value.trim() : "Hyderabad, India",
+        candidateName: nameInput ? nameInput.value.trim() : ((resumeData && resumeData.name) || (currentUser && currentUser.name) || "Candidate"),
+        targetRole: roleInput ? roleInput.value.trim() : ((resumeData && resumeData.preferred_role) || "Software Engineer"),
+        preferredLocation: locInput ? locInput.value.trim() : ((resumeData && resumeData.preferred_location) || "Remote / Hybrid"),
         matchThreshold: threshInput ? parseInt(threshInput.value, 10) : 50,
         explainableMath: expMath ? expMath.checked : true,
         truthPreserving: truthPres ? truthPres.checked : true,
@@ -2763,14 +2763,14 @@ async function triggerAutoFillModal(encodedJobJson) {
 
     try {
         const defaultResumeContext = resumeData || {
-            name: "Beere Vishnu Sai",
-            email: "vishnusai@example.com",
-            phone: "+91 9876543210",
-            location: "Hyderabad, India",
-            skills: ["Python", "SQL", "Power BI", "Tableau", "Machine Learning"],
+            name: (currentUser && currentUser.name) || "Candidate",
+            email: (currentUser && currentUser.email) || "candidate@example.com",
+            phone: "",
+            location: "Remote / Hybrid",
+            skills: ["Problem Solving", "Software Engineering", "Analytical Thinking"],
             experience_years: 2.0,
-            linkedin: "https://linkedin.com/in/vishnusai",
-            github: "https://github.com/Vishnu-Sai-bit"
+            linkedin: "",
+            github: ""
         };
 
         const res = await fetch(`${BACKEND_URL}/api/autofill/generate-payload`, {
@@ -2953,10 +2953,10 @@ async function handleCopilotSubmit(e) {
         const payload = {
             query: query,
             resume_context: resumeData || {
-                name: "Beere Vishnu Sai",
-                preferred_role: "Data Analyst",
-                skills: ["Python", "SQL", "Power BI", "Tableau", "Excel"],
-                ats_score: 88
+                name: (currentUser && currentUser.name) || "Candidate",
+                preferred_role: "Software Professional",
+                skills: ["Software Engineering", "Problem Solving", "Data Analysis"],
+                ats_score: 85
             },
             jobs: (jobData && jobData.jobs) || [],
             applications: []
@@ -3559,10 +3559,10 @@ function exportTailoredPDF() {
         return;
     }
 
-    const candidateName = (resumeData && resumeData.name) || "Beere Vishnu Sai";
-    const candidateEmail = (resumeData && resumeData.email) || "candidate@example.com";
-    const candidatePhone = (resumeData && resumeData.phone) || "+91 9876543210";
-    const candidateLoc = (resumeData && resumeData.location) || "Hyderabad, India";
+    const candidateName = (resumeData && resumeData.name) || (currentUser && currentUser.name) || "Candidate Profile";
+    const candidateEmail = (resumeData && resumeData.email) || (currentUser && currentUser.email) || "candidate@example.com";
+    const candidatePhone = (resumeData && resumeData.phone) || "";
+    const candidateLoc = (resumeData && resumeData.location) || (resumeData && resumeData.preferred_location) || "Remote / Hybrid";
 
     // Create an invisible print container
     let printContainer = document.getElementById("ats-print-container");
