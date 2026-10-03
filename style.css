@@ -2977,3 +2977,362 @@ h1, h2, h3, h4, h5, h6 {
     transform: scale(1.08);
 }
 
+/* ==========================================================
+   WEEKLY JOB-SEARCH VELOCITY & CAREER MOMENTUM
+   ========================================================== */
+.velocity-momentum-card {
+    margin-top: 1.5rem;
+    background: var(--bg-card);
+    border: 1px solid var(--border-color);
+    border-radius: var(--radius-lg);
+    padding: 1.5rem;
+    box-shadow: var(--shadow-md);
+    transition: all var(--transition-normal);
+}
+
+.velocity-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 0.75rem;
+    margin-bottom: 1.25rem;
+}
+
+.velocity-target-badge {
+    padding: 0.35rem 0.85rem;
+    background: rgba(99, 102, 241, 0.14);
+    border: 1px solid rgba(99, 102, 241, 0.3);
+    border-radius: var(--radius-full);
+    color: var(--accent-color);
+    font-size: 0.78rem;
+    font-weight: 700;
+}
+
+.velocity-metrics-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+    gap: 1rem;
+    margin-bottom: 1.25rem;
+}
+
+.velocity-box {
+    background: var(--bg-surface);
+    border: 1px solid var(--border-subtle);
+    border-radius: var(--radius-md);
+    padding: 1rem 1.15rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0.4rem;
+}
+
+.velocity-box-top {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.velocity-icon {
+    font-size: 1.3rem;
+}
+
+.velocity-value {
+    font-size: 1.25rem;
+    font-weight: 800;
+    color: var(--text-bright);
+    font-family: 'JetBrains Mono', monospace;
+}
+
+.velocity-sub {
+    font-size: 0.75rem;
+    font-weight: 600;
+    color: var(--text-muted);
+}
+
+.velocity-label {
+    font-size: 0.78rem;
+    color: var(--text-muted);
+    font-weight: 600;
+}
+
+.velocity-bar-track {
+    width: 100%;
+    height: 5px;
+    background: rgba(255, 255, 255, 0.08);
+    border-radius: var(--radius-full);
+    overflow: hidden;
+    margin-top: 0.3rem;
+}
+
+.velocity-bar-fill {
+    height: 100%;
+    background: var(--primary-gradient);
+    border-radius: var(--radius-full);
+    transition: width 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.velocity-recommendation-bar {
+    display: flex;
+    align-items: center;
+    gap: 0.65rem;
+    padding: 0.75rem 1rem;
+    background: rgba(16, 185, 129, 0.08);
+    border: 1px solid rgba(16, 185, 129, 0.25);
+    border-radius: var(--radius-md);
+    font-size: 0.84rem;
+    color: #34d399;
+}
+
+.velocity-recom-icon {
+    font-size: 1.1rem;
+    flex-shrink: 0;
+}
+
+/* ==========================================================
+   VOICE SPEECH-TO-TEXT & AUDIO CONTROLS
+   ========================================================== */
+.voice-ctrl-bar {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    margin-bottom: 0.85rem;
+    flex-wrap: wrap;
+}
+
+.voice-mic-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.5rem 1rem;
+    background: var(--bg-surface);
+    border: 1px solid var(--border-color);
+    border-radius: var(--radius-full);
+    color: var(--text-color);
+    font-size: 0.84rem;
+    font-weight: 700;
+    cursor: pointer;
+    transition: all var(--transition-fast);
+}
+
+.voice-mic-btn:hover {
+    border-color: var(--accent-color);
+    color: var(--text-bright);
+}
+
+.voice-mic-btn.listening {
+    background: rgba(239, 68, 68, 0.15);
+    border-color: #ef4444;
+    color: #f87171;
+    animation: livePulse 1.2s infinite;
+}
+
+.voice-timer-badge {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.85rem;
+    padding: 0.35rem 0.75rem;
+    border-radius: var(--radius-full);
+    background: rgba(245, 158, 11, 0.12);
+    border: 1px solid rgba(245, 158, 11, 0.3);
+    color: #fbbf24;
+    font-weight: 700;
+}
+
+.read-aloud-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+    padding: 0.4rem 0.8rem;
+    background: transparent;
+    border: 1px solid var(--border-subtle);
+    border-radius: var(--radius-full);
+    color: var(--text-muted);
+    font-size: 0.8rem;
+    cursor: pointer;
+    transition: all var(--transition-fast);
+}
+
+.read-aloud-btn:hover {
+    color: var(--accent-color);
+    border-color: var(--accent-color);
+}
+
+/* ==========================================================
+   CAPSTONE PROJECT BLUEPRINT STYLES
+   ========================================================== */
+.blueprint-card {
+    background: var(--bg-surface);
+    border: 1px solid var(--border-color);
+    border-radius: var(--radius-md);
+    padding: 1.2rem;
+    margin-bottom: 1rem;
+}
+
+.blueprint-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    gap: 1rem;
+    margin-bottom: 0.75rem;
+}
+
+.blueprint-steps-list {
+    margin: 0.75rem 0;
+    padding-left: 1.25rem;
+    font-size: 0.86rem;
+    color: var(--text-color);
+    line-height: 1.6;
+}
+
+.readme-code-box {
+    background: #0f172a;
+    border: 1px solid #1e293b;
+    border-radius: var(--radius-md);
+    padding: 1rem;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.78rem;
+    color: #e2e8f0;
+    max-height: 280px;
+    overflow-y: auto;
+    white-space: pre-wrap;
+    word-break: break-word;
+}
+
+/* ==========================================================
+   APPLICATION ACTIVITY TIMELINE (CRM)
+   ========================================================== */
+.timeline-toggle-btn {
+    font-size: 0.74rem;
+    font-weight: 700;
+    color: var(--accent-color);
+    background: transparent;
+    border: none;
+    cursor: pointer;
+    padding: 0;
+    margin-top: 0.4rem;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.3rem;
+}
+
+.timeline-drawer {
+    margin-top: 0.6rem;
+    padding-top: 0.6rem;
+    border-top: 1px dashed var(--border-subtle);
+    display: flex;
+    flex-direction: column;
+    gap: 0.4rem;
+}
+
+.timeline-item-entry {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-size: 0.75rem;
+    color: var(--text-muted);
+}
+
+.timeline-bullet {
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background: var(--accent-color);
+    flex-shrink: 0;
+}
+
+/* ==========================================================
+   JOB FRESHNESS & BADGE STYLES
+   ========================================================== */
+.job-freshness-pill {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.3rem;
+    font-size: 0.7rem;
+    font-weight: 700;
+    padding: 0.2rem 0.5rem;
+    border-radius: var(--radius-full);
+    background: rgba(16, 185, 129, 0.12);
+    color: #34d399;
+    border: 1px solid rgba(16, 185, 129, 0.25);
+}
+
+.job-workmode-pill {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.3rem;
+    font-size: 0.7rem;
+    font-weight: 700;
+    padding: 0.2rem 0.5rem;
+    border-radius: var(--radius-full);
+    background: rgba(99, 102, 241, 0.12);
+    color: #a5b4fc;
+    border: 1px solid rgba(99, 102, 241, 0.25);
+}
+
+/* ==========================================================
+   ATS-FRIENDLY PDF PRINT STYLES
+   ========================================================== */
+@media print {
+    body {
+        background: #ffffff !important;
+        color: #000000 !important;
+    }
+    
+    .top-navbar,
+    .copilot-floating-wrapper,
+    .toast-container,
+    .modal-backdrop,
+    .modal-close-btn,
+    .action-btn,
+    .action-btn-sm {
+        display: none !important;
+    }
+
+    .ats-print-container {
+        display: block !important;
+        width: 100% !important;
+        margin: 0 !important;
+        padding: 20mm !important;
+        font-family: 'Arial', 'Calibri', sans-serif !important;
+        color: #111827 !important;
+        line-height: 1.4 !important;
+    }
+
+    .ats-print-header {
+        text-align: center;
+        border-bottom: 2px solid #111827;
+        padding-bottom: 8px;
+        margin-bottom: 14px;
+    }
+
+    .ats-print-header h1 {
+        font-size: 18pt;
+        font-weight: bold;
+        margin: 0 0 4px 0;
+    }
+
+    .ats-print-header p {
+        font-size: 10pt;
+        margin: 0;
+    }
+
+    .ats-print-section {
+        margin-bottom: 12px;
+    }
+
+    .ats-print-section h2 {
+        font-size: 12pt;
+        font-weight: bold;
+        text-transform: uppercase;
+        border-bottom: 1px solid #9ca3af;
+        padding-bottom: 2px;
+        margin: 0 0 6px 0;
+    }
+
+    .ats-print-section p,
+    .ats-print-section ul {
+        font-size: 10pt;
+        margin: 0 0 4px 0;
+    }
+}
+
+

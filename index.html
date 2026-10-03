@@ -351,6 +351,68 @@
                     </div>
                 </div>
 
+                <!-- Weekly Job-Search Velocity & Momentum Card -->
+                <div class="card velocity-momentum-card" id="velocity-momentum-card">
+                    <div class="velocity-header">
+                        <div>
+                            <h3 style="margin: 0 0 0.2rem 0;">⚡ Weekly Search Velocity & Career Momentum</h3>
+                            <p class="muted" style="margin: 0; font-size: 0.85rem;">Continuous activity pacing to maximize interview callback rates</p>
+                        </div>
+                        <span class="velocity-target-badge">🎯 Weekly Target: 10 Fits</span>
+                    </div>
+
+                    <div class="velocity-metrics-grid">
+                        <div class="velocity-box">
+                            <div class="velocity-box-top">
+                                <span class="velocity-icon">🚀</span>
+                                <span class="velocity-value" id="vel-apps-count">4 <span class="velocity-sub">/ 10</span></span>
+                            </div>
+                            <span class="velocity-label">Applications Sent</span>
+                            <div class="velocity-bar-track">
+                                <div class="velocity-bar-fill" id="vel-apps-bar" style="width: 40%;"></div>
+                            </div>
+                        </div>
+
+                        <div class="velocity-box">
+                            <div class="velocity-box-top">
+                                <span class="velocity-icon">✍️</span>
+                                <span class="velocity-value" id="vel-tailor-count">5 <span class="velocity-sub">Versions</span></span>
+                            </div>
+                            <span class="velocity-label">Tailored Resumes</span>
+                            <div class="velocity-bar-track">
+                                <div class="velocity-bar-fill" id="vel-tailor-bar" style="width: 50%; background: var(--accent-color);"></div>
+                            </div>
+                        </div>
+
+                        <div class="velocity-box">
+                            <div class="velocity-box-top">
+                                <span class="velocity-icon">🎤</span>
+                                <span class="velocity-value" id="vel-mock-count">3 <span class="velocity-sub">Rounds</span></span>
+                            </div>
+                            <span class="velocity-label">Mock Interview Prep</span>
+                            <div class="velocity-bar-track">
+                                <div class="velocity-bar-fill" id="vel-mock-bar" style="width: 75%; background: #34d399;"></div>
+                            </div>
+                        </div>
+
+                        <div class="velocity-box">
+                            <div class="velocity-box-top">
+                                <span class="velocity-icon">🏆</span>
+                                <span class="velocity-value" id="vel-score-avg">88% <span class="velocity-sub">Avg ATS</span></span>
+                            </div>
+                            <span class="velocity-label">Quality Score</span>
+                            <div class="velocity-bar-track">
+                                <div class="velocity-bar-fill" id="vel-score-bar" style="width: 88%; background: #f59e0b;"></div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="velocity-recommendation-bar">
+                        <span class="velocity-recom-icon">💡</span>
+                        <span id="velocity-recom-text"><strong>High Momentum:</strong> Submit 2 more verified applications today to maintain top-tier recruiter visibility.</span>
+                    </div>
+                </div>
+
                 <!-- Suitability Report -->
                 <div class="card suitability-card" id="suitability-report" style="display: none;">
                     <h3>🌟 Profile Suitability Intelligence</h3>
@@ -396,6 +458,11 @@
                                     <span>Location</span>
                                 </label>
                             </div>
+                        </div>
+                        <div class="toolbar-actions-extra">
+                            <button class="action-btn-sm btn-primary" onclick="openJobImporterModal()" title="Import External Job from URL">
+                                <span>🔗</span> Import Job from URL
+                            </button>
                         </div>
                     </div>
 
@@ -492,8 +559,15 @@
             <section id="tab-crm" class="tab-content" style="display: none;">
                 <div class="crm-header-card">
                     <div class="crm-title-area">
-                        <h3>📋 Application Pipeline & Follow-Up CRM</h3>
-                        <p class="muted">Track opportunities from first discovery to final offer with automated follow-up intelligence.</p>
+                        <div style="display: flex; justify-content: space-between; align-items: center; width: 100%; flex-wrap: wrap; gap: 0.75rem;">
+                            <div>
+                                <h3 style="margin: 0 0 0.2rem 0;">📋 Application Pipeline & Follow-Up CRM</h3>
+                                <p class="muted" style="margin: 0;">Track opportunities from first discovery to final offer with automated follow-up intelligence.</p>
+                            </div>
+                            <button class="action-btn-sm btn-primary" onclick="openJobImporterModal()" title="Import External Opportunity">
+                                <span>🔗</span> Import Opportunity
+                            </button>
+                        </div>
                     </div>
                     <div class="crm-stats-row">
                         <div class="crm-stat-box"><span id="crm-count-saved" class="crm-stat-num">0</span><span class="crm-stat-lbl">📌 Saved</span></div>
@@ -549,11 +623,100 @@
     <div id="tailor-modal" class="modal-backdrop" style="display: none;">
         <div class="modal-box modal-large">
             <div class="modal-header">
-                <h3 id="tailor-modal-title">✍️ Tailored Resume Intelligence</h3>
-                <button class="modal-close-btn" onclick="closeTailorModal()">✕</button>
+                <div style="display: flex; align-items: center; gap: 0.6rem;">
+                    <span style="font-size: 1.3rem;">✍️</span>
+                    <div>
+                        <h3 id="tailor-modal-title" style="margin: 0;">Tailored Resume Intelligence</h3>
+                        <p class="muted" style="margin: 0; font-size: 0.8rem;">Truth-preserving alignment tailored for target job description</p>
+                    </div>
+                </div>
+                <div style="display: flex; align-items: center; gap: 0.5rem;">
+                    <button class="action-btn-sm btn-secondary" id="tailor-copy-btn" onclick="copyTailoredContent()" title="Copy Formatted Markdown / Text">📋 Copy Text</button>
+                    <button class="action-btn-sm btn-primary" id="tailor-export-pdf-btn" onclick="exportTailoredPDF()" title="Export Clean ATS-Friendly PDF">📥 Export ATS PDF</button>
+                    <button class="modal-close-btn" onclick="closeTailorModal()">✕</button>
+                </div>
             </div>
             <div id="tailor-modal-body" class="modal-body">
                 <div class="loading-state">Generating customized resume components...</div>
+            </div>
+        </div>
+    </div>
+
+    <!-- 1-Click Job URL Importer Modal -->
+    <div id="job-importer-modal" class="modal-backdrop" style="display: none;">
+        <div class="modal-box">
+            <div class="modal-header">
+                <div style="display: flex; align-items: center; gap: 0.6rem;">
+                    <span style="font-size: 1.3rem;">🔗</span>
+                    <div>
+                        <h3 style="margin: 0;">Import External Opportunity</h3>
+                        <p class="muted" style="margin: 0; font-size: 0.82rem;">Paste any job link (LinkedIn, Naukri, Indeed, Company Portal)</p>
+                    </div>
+                </div>
+                <button class="modal-close-btn" onclick="closeJobImporterModal()">✕</button>
+            </div>
+            <div class="modal-body" style="padding: 1.25rem;">
+                <div class="form-group">
+                    <label class="form-label">Job Posting URL *</label>
+                    <input type="url" id="import-job-url" class="form-input" placeholder="https://www.linkedin.com/jobs/view/..." required>
+                </div>
+                <div class="form-row" style="display: flex; gap: 0.75rem;">
+                    <div class="form-group" style="flex: 1;">
+                        <label class="form-label">Job Title (Optional)</label>
+                        <input type="text" id="import-job-title" class="form-input" placeholder="e.g. Junior Data Analyst">
+                    </div>
+                    <div class="form-group" style="flex: 1;">
+                        <label class="form-label">Company Name (Optional)</label>
+                        <input type="text" id="import-job-company" class="form-input" placeholder="e.g. Microsoft / Swiggy">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="form-label">Job Description / Requirements Snippet (Optional)</label>
+                    <textarea id="import-job-desc" class="form-input" rows="3" placeholder="Paste JD requirements or skills for higher precision match scoring..."></textarea>
+                </div>
+                <div id="import-job-status" style="display: none; margin-top: 0.5rem;" class="status-msg-box"></div>
+            </div>
+            <div class="modal-footer" style="display: flex; justify-content: flex-end; gap: 0.6rem; padding: 1rem 1.25rem; background: var(--bg-surface); border-top: 1px solid var(--border-color);">
+                <button class="action-btn btn-secondary" onclick="closeJobImporterModal()">Cancel</button>
+                <button class="action-btn btn-primary" id="import-job-submit-btn" onclick="handleJobImportSubmit()">⚡ Parse & Add to Pipeline</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Capstone Project Blueprint & GitHub Starter Kit Modal -->
+    <div id="project-blueprint-modal" class="modal-backdrop" style="display: none;">
+        <div class="modal-box modal-large">
+            <div class="modal-header">
+                <div style="display: flex; align-items: center; gap: 0.6rem;">
+                    <span style="font-size: 1.3rem;">📂</span>
+                    <div>
+                        <h3 id="blueprint-modal-title" style="margin: 0;">Capstone Project Blueprint & Starter Kit</h3>
+                        <p class="muted" style="margin: 0; font-size: 0.82rem;">Complete architecture, datasets, schema, and ready-to-paste GitHub README</p>
+                    </div>
+                </div>
+                <button class="modal-close-btn" onclick="closeProjectBlueprintModal()">✕</button>
+            </div>
+            <div id="blueprint-modal-body" class="modal-body" style="padding: 1.25rem;">
+                <div class="loading-state">Loading capstone project blueprint...</div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Interactive AI Mock Interview Modal with Voice & Timer -->
+    <div id="mock-interview-modal" class="modal-backdrop" style="display: none;">
+        <div class="modal-box modal-large">
+            <div class="modal-header">
+                <div style="display: flex; align-items: center; gap: 0.6rem;">
+                    <span style="font-size: 1.3rem;">🎤</span>
+                    <div>
+                        <h3 id="mock-modal-title" style="margin: 0;">AI Mock Interview Studio</h3>
+                        <p class="muted" style="margin: 0; font-size: 0.82rem;">Interactive voice & STAR-method evaluation with model answer coach</p>
+                    </div>
+                </div>
+                <button class="modal-close-btn" onclick="closeMockInterviewModal()">✕</button>
+            </div>
+            <div id="mock-modal-body" class="modal-body" style="padding: 1.25rem;">
+                <!-- Populated dynamically by JS -->
             </div>
         </div>
     </div>

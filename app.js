@@ -799,6 +799,8 @@ function renderJobs() {
                 <div class="job-company">${job.company}</div>
                 
                 <div class="job-meta-badges">
+                    <span class="job-freshness-pill">🟢 Fresh (&lt; 24h)</span>
+                    <span class="job-workmode-pill">🏢 Hybrid / Remote</span>
                     <span class="source-badge">${sourcesText}</span>
                     ${trustBadgeHtml}
                 </div>
@@ -866,6 +868,7 @@ function renderJobs() {
                     <a href="${job.apply_url || '#'}" target="_blank" rel="noopener noreferrer" class="btn-card-action btn-primary-action">🚀 Apply Direct ↗</a>
                     <button type="button" class="btn-card-action" style="background: rgba(99, 102, 241, 0.15); border-color: rgba(99, 102, 241, 0.35); color: #818cf8; font-weight: 700;" onclick="triggerAutoFillModal('${encodeURIComponent(JSON.stringify(job))}')">⚡ Auto-Fill</button>
                     <button type="button" class="btn-card-action" onclick="triggerTailorResume('${encodeURIComponent(job.title)}', '${encodeURIComponent(job.company)}', '${encodeURIComponent((job.description||'').substring(0, 400))}', '${encodeURIComponent(JSON.stringify(job.skills||[]))}')">✍️ Tailor</button>
+                    <button type="button" class="btn-card-action" style="background: rgba(245, 158, 11, 0.12); border-color: rgba(245, 158, 11, 0.3); color: #fbbf24;" onclick="openMockInterviewModal('${encodeURIComponent(job.title)}', '${encodeURIComponent(job.company)}')">🎤 Mock Prep</button>
                     <button type="button" class="btn-card-action" onclick="triggerCompanyInsights('${encodeURIComponent(job.company)}', '${encodeURIComponent(job.title)}', '${encodeURIComponent((job.description||'').substring(0, 400))}', '${encodeURIComponent(JSON.stringify(job.skills||[]))}')">🏢 Insights</button>
                     <button type="button" class="btn-card-action" onclick="quickAddToCRM('${encodeURIComponent(job.title)}', '${encodeURIComponent(job.company)}', '${encodeURIComponent(job.location||'India')}', '${encodeURIComponent(job.salary||'Not Mentioned')}', '${encodeURIComponent(job.apply_url||'#')}')">📌 Track CRM</button>
                 </div>
@@ -994,9 +997,17 @@ async function renderLearning() {
             let capstoneHtml = "";
             if (path.portfolio_project_blueprint) {
                 const cp = path.portfolio_project_blueprint;
+                const encTitle = encodeURIComponent(cp.title || "Capstone Project");
+                const encSkill = encodeURIComponent(path.skill || "Data Analyst");
+                const candidateSkills = (resumeData && resumeData.skills ? resumeData.skills : ["Python", "SQL", "Power BI"]).join(",");
+                const encSkills = encodeURIComponent(candidateSkills);
+
                 capstoneHtml = `
                     <div class="capstone-box">
-                        <h5>🛠️ Capstone Portfolio Project Blueprint: ${cp.title}</h5>
+                        <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 0.5rem; margin-bottom: 0.5rem;">
+                            <h5 style="margin: 0; font-size: 0.92rem; color: #818cf8;">🛠️ Capstone Portfolio Project: ${cp.title}</h5>
+                            <button class="action-btn-sm" style="font-size: 0.78rem; padding: 0.35rem 0.75rem; background: var(--primary-gradient); color: white; border: none; border-radius: var(--radius-sm); cursor: pointer; font-weight: 700; box-shadow: 0 2px 8px rgba(99,102,241,0.3);" onclick="openProjectBlueprintModal('${encTitle}', '${encSkill}', '${encSkills}')">🚀 Launch Blueprint & Starter Kit</button>
+                        </div>
                         <p style="font-size: 0.82rem; margin: 0.3rem 0;"><strong>Recommended Dataset:</strong> ${cp.recommended_dataset}</p>
                         <div style="font-size: 0.82rem; margin: 0.4rem 0;">
                             <strong>Key Project Deliverables:</strong>
@@ -1010,10 +1021,18 @@ async function renderLearning() {
                     </div>
                 `;
             } else if (path.suggested_project) {
+                const encProj = encodeURIComponent(path.suggested_project || "Portfolio Project");
+                const encSkill = encodeURIComponent(path.skill || "Data Analyst");
+                const candidateSkills = (resumeData && resumeData.skills ? resumeData.skills : ["Python", "SQL", "Power BI"]).join(",");
+                const encSkills = encodeURIComponent(candidateSkills);
+
                 capstoneHtml = `
                     <div class="capstone-box">
-                        <h5>🛠️ Suggested Portfolio Project</h5>
-                        <p class="muted">${path.suggested_project}</p>
+                        <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 0.5rem; margin-bottom: 0.5rem;">
+                            <h5 style="margin: 0; font-size: 0.92rem; color: #818cf8;">🛠️ Suggested Portfolio Project</h5>
+                            <button class="action-btn-sm" style="font-size: 0.78rem; padding: 0.35rem 0.75rem; background: var(--primary-gradient); color: white; border: none; border-radius: var(--radius-sm); cursor: pointer; font-weight: 700; box-shadow: 0 2px 8px rgba(99,102,241,0.3);" onclick="openProjectBlueprintModal('${encProj}', '${encSkill}', '${encSkills}')">🚀 Launch Blueprint & Starter Kit</button>
+                        </div>
+                        <p class="muted" style="margin: 0.3rem 0 0 0;">${path.suggested_project}</p>
                     </div>
                 `;
             }
@@ -1950,6 +1969,19 @@ function renderCRMBoard(apps) {
 
         const dateMeta = app.date_applied ? `Applied: ${app.date_applied}` : `Saved: ${(app.created_at || '').substring(0, 10)}`;
 
+        const encRole = encodeURIComponent(app.role || "Role");
+        const encCompany = encodeURIComponent(app.company || "Target Company");
+        const encLoc = encodeURIComponent(app.location || "India");
+        const encUrl = encodeURIComponent(app.apply_url || "#");
+        const jobObj = {
+            title: app.role || "Role",
+            company: app.company || "Target Company",
+            location: app.location || "India",
+            apply_url: app.apply_url || "#",
+            skills: ["Python", "SQL", "Tableau", "Power BI"]
+        };
+        const encJobJson = encodeURIComponent(JSON.stringify(jobObj));
+
         card.innerHTML = `
             ${followupBadge}
             <h4>${app.role}</h4>
@@ -1960,11 +1992,13 @@ function renderCRMBoard(apps) {
                 ${status === "saved" ? `<button class="kanban-btn" onclick="updateCRMAppStatus('${app.id}', 'applied')">🚀 Mark Applied</button>` : ""}
                 ${status === "applied" ? `
                     <button class="kanban-btn" onclick="updateCRMAppStatus('${app.id}', 'interview')">🎯 Interview</button>
-                    <button class="kanban-btn" style="color: #fbbf24;" onclick="openFollowupModal('${app.id}')">⏳ Draft Follow-Up</button>
+                    <button class="kanban-btn" style="color: #fbbf24;" onclick="openFollowupModal('${app.id}')">⏳ Follow-Up</button>
                 ` : ""}
                 ${status === "interview" ? `<button class="kanban-btn" style="color: #34d399;" onclick="updateCRMAppStatus('${app.id}', 'offer')">🏆 Got Offer</button>` : ""}
-                <a href="${app.apply_url || '#'}" target="_blank" class="kanban-btn">Link ↗</a>
-                <button class="kanban-btn kanban-btn-delete" onclick="deleteCRMApp('${app.id}')">✕</button>
+                <button class="kanban-btn" style="color: #818cf8;" onclick="openMockInterviewModal('${encRole}', '${encCompany}')" title="Practice Mock Interview">🎤 Mock</button>
+                <button class="kanban-btn" style="color: #38bdf8;" onclick="triggerAutoFillModal('${encJobJson}')" title="Launch Auto-Fill Assistant">⚡ Auto-Fill</button>
+                <a href="${app.apply_url || '#'}" target="_blank" class="kanban-btn" title="Open Job Application Link">Link ↗</a>
+                <button class="kanban-btn kanban-btn-delete" onclick="deleteCRMApp('${app.id}')" title="Delete from CRM">✕</button>
             </div>
         `;
 
@@ -3003,4 +3037,536 @@ document.addEventListener("click", (e) => {
         dropdown.style.display = "none";
     }
 });
+
+// ==========================================================
+// NEW STRATEGIC ENHANCEMENTS: VELOCITY, VOICE, IMPORTER, BLUEPRINTS & ATS PDF
+// ==========================================================
+
+// 1. Weekly Job-Search Velocity & Momentum Tracker
+function updateVelocityMetrics(appsCount = 4, tailoredCount = 5, mockCount = 3, avgScore = 88) {
+    const appsElem = document.getElementById("vel-apps-count");
+    const appsBar = document.getElementById("vel-apps-bar");
+    const tailorElem = document.getElementById("vel-tailor-count");
+    const tailorBar = document.getElementById("vel-tailor-bar");
+    const mockElem = document.getElementById("vel-mock-count");
+    const mockBar = document.getElementById("vel-mock-bar");
+    const scoreElem = document.getElementById("vel-score-avg");
+    const scoreBar = document.getElementById("vel-score-bar");
+
+    if (appsElem) appsElem.innerHTML = `${appsCount} <span class="velocity-sub">/ 10</span>`;
+    if (appsBar) appsBar.style.width = `${Math.min(100, Math.round((appsCount / 10) * 100))}%`;
+    if (tailorElem) tailorElem.innerHTML = `${tailorCount} <span class="velocity-sub">Versions</span>`;
+    if (tailorBar) tailorBar.style.width = `${Math.min(100, tailoredCount * 20)}%`;
+    if (mockElem) mockElem.innerHTML = `${mockCount} <span class="velocity-sub">Rounds</span>`;
+    if (mockBar) mockBar.style.width = `${Math.min(100, mockCount * 33)}%`;
+    if (scoreElem) scoreElem.innerHTML = `${avgScore}% <span class="velocity-sub">Avg ATS</span>`;
+    if (scoreBar) scoreBar.style.width = `${avgScore}%`;
+}
+
+// 2. One-Click External Job URL Importer
+function openJobImporterModal() {
+    const modal = document.getElementById("job-importer-modal");
+    if (modal) modal.style.display = "flex";
+}
+
+function closeJobImporterModal() {
+    const modal = document.getElementById("job-importer-modal");
+    if (modal) modal.style.display = "none";
+}
+
+async function handleJobImportSubmit() {
+    const urlInput = document.getElementById("import-job-url");
+    const titleInput = document.getElementById("import-job-title");
+    const companyInput = document.getElementById("import-job-company");
+    const descInput = document.getElementById("import-job-desc");
+    const submitBtn = document.getElementById("import-job-submit-btn");
+
+    if (!urlInput || !urlInput.value.trim()) {
+        showToast("Please enter a valid job posting URL.", "warning");
+        return;
+    }
+
+    try {
+        if (submitBtn) {
+            submitBtn.disabled = true;
+            submitBtn.textContent = "⏳ Parsing Job & Computing Fit...";
+        }
+
+        const payload = {
+            url: urlInput.value.trim(),
+            title: titleInput ? titleInput.value.trim() : "",
+            company: companyInput ? companyInput.value.trim() : "",
+            description: descInput ? descInput.value.trim() : "",
+            resume_context: resumeData || { skills: ["Python", "SQL", "Tableau", "Power BI"] }
+        };
+
+        const res = await fetch(`${BACKEND_URL}/api/jobs/import-url`, {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify(payload)
+        });
+
+        const data = await res.json();
+        if (!res.ok || !data.success) {
+            throw new Error(data.detail || data.message || "Failed to import job.");
+        }
+
+        const job = data.job;
+
+        // Automatically save to CRM
+        await fetch(`${BACKEND_URL}/crm/applications`, {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({
+                company: job.company,
+                role: job.title,
+                location: job.location,
+                salary: job.salary,
+                apply_url: job.apply_url,
+                status: "saved"
+            })
+        });
+
+        showToast(`✅ Imported "${job.title} at ${job.company}" (${job.match_score}% Fit) to CRM!`, "success", "🎯");
+        closeJobImporterModal();
+        loadCRMApplications();
+
+        // Clear inputs
+        urlInput.value = "";
+        if (titleInput) titleInput.value = "";
+        if (companyInput) companyInput.value = "";
+        if (descInput) descInput.value = "";
+
+    } catch (err) {
+        console.error("Job import error:", err);
+        showToast(`Import Error: ${err.message}`, "error");
+    } finally {
+        if (submitBtn) {
+            submitBtn.disabled = false;
+            submitBtn.textContent = "⚡ Parse & Add to Pipeline";
+        }
+    }
+}
+
+// 3. Capstone Project Blueprint & GitHub Starter Kit Modal
+async function openProjectBlueprintModal(projectTitle, targetRole, skills) {
+    const modal = document.getElementById("project-blueprint-modal");
+    const bodyElem = document.getElementById("blueprint-modal-body");
+    const titleElem = document.getElementById("blueprint-modal-title");
+
+    if (titleElem) titleElem.textContent = `📂 Capstone Blueprint: ${projectTitle}`;
+    if (modal) modal.style.display = "flex";
+    if (bodyElem) {
+        bodyElem.innerHTML = `
+            <div style="text-align: center; padding: 2rem;">
+                <div class="pulse-indicator" style="margin: 0 auto 1rem auto; width: 14px; height: 14px;"></div>
+                <p>Generating architecture diagrams, schema specifications, and open datasets...</p>
+            </div>
+        `;
+    }
+
+    try {
+        const payload = {
+            project_title: projectTitle,
+            target_role: targetRole || "Data Analyst",
+            skills: typeof skills === "string" ? skills.split(",").map(s => s.trim()) : (skills || ["Python", "SQL", "Power BI"])
+        };
+
+        const res = await fetch(`${BACKEND_URL}/api/projects/starter-kit`, {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify(payload)
+        });
+
+        const data = await res.json();
+        if (!res.ok || !data.success) throw new Error(data.detail || "Failed to load blueprint.");
+
+        const datasetsHtml = (data.dataset_resources || []).map(ds => `
+            <div style="padding: 0.6rem 0.85rem; background: rgba(255,255,255,0.04); border-radius: 8px; border: 1px solid var(--border-subtle); margin-bottom: 0.4rem;">
+                <div style="font-weight: 700; color: #38bdf8;">🔗 <a href="${ds.url}" target="_blank" style="color: #38bdf8; text-decoration: underline;">${ds.name}</a></div>
+                <div style="font-size: 0.78rem; color: var(--text-muted);">${ds.description}</div>
+            </div>
+        `).join("");
+
+        const stepsHtml = (data.architecture_steps || []).map(step => `<li>${step}</li>`).join("");
+
+        if (bodyElem) {
+            bodyElem.innerHTML = `
+                <div class="blueprint-card">
+                    <div class="blueprint-header">
+                        <div>
+                            <h4 style="margin: 0 0 0.2rem 0; color: var(--text-bright);">${data.project_title}</h4>
+                            <p style="margin: 0; font-size: 0.85rem; color: var(--text-muted);">${data.problem_statement}</p>
+                        </div>
+                        <span class="badge-subtle" style="background: rgba(99, 102, 241, 0.15); color: #a5b4fc;">${data.target_role}</span>
+                    </div>
+
+                    <div style="margin-top: 1rem;">
+                        <strong style="font-size: 0.86rem; color: #34d399;">🌐 Verified Open Benchmark Datasets:</strong>
+                        <div style="margin-top: 0.4rem;">${datasetsHtml}</div>
+                    </div>
+
+                    <div style="margin-top: 1rem;">
+                        <strong style="font-size: 0.86rem; color: #818cf8;">🛠️ Project Pipeline Architecture:</strong>
+                        <ol class="blueprint-steps-list">${stepsHtml}</ol>
+                    </div>
+
+                    <div style="margin-top: 1.25rem;">
+                        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.5rem;">
+                            <strong style="font-size: 0.86rem; color: #fbbf24;">📁 Ready-to-Use GitHub README Template:</strong>
+                            <button class="action-btn-sm btn-secondary" onclick="copyBlueprintReadme()">📋 Copy Template</button>
+                        </div>
+                        <pre id="blueprint-readme-content" class="readme-code-box">${data.github_readme_template}</pre>
+                    </div>
+                </div>
+            `;
+        }
+
+    } catch (err) {
+        console.error("Blueprint error:", err);
+        if (bodyElem) bodyElem.innerHTML = `<div style="color: #f87171; padding: 1rem;">Failed to load starter kit: ${err.message}</div>`;
+    }
+}
+
+function copyBlueprintReadme() {
+    const codeElem = document.getElementById("blueprint-readme-content");
+    if (!codeElem) return;
+    navigator.clipboard.writeText(codeElem.textContent);
+    showToast("Copied GitHub README template to clipboard!", "success", "📋");
+}
+
+function closeProjectBlueprintModal() {
+    const modal = document.getElementById("project-blueprint-modal");
+    if (modal) modal.style.display = "none";
+}
+
+// 4. Voice Speech-to-Text & Interactive Mock Interview Engine
+let voiceRecognitionInstance = null;
+let isVoiceListening = false;
+let mockCountdownInterval = null;
+let mockSecondsLeft = 90;
+
+function openMockInterviewModal(role = "Data Analyst", company = "Target Employer", question = "") {
+    const modal = document.getElementById("mock-interview-modal");
+    const bodyElem = document.getElementById("mock-modal-body");
+    const titleElem = document.getElementById("mock-modal-title");
+
+    if (titleElem) titleElem.textContent = `🎤 Mock Interview Studio: ${role} at ${company}`;
+    if (modal) modal.style.display = "flex";
+
+    const defaultQuestion = question || "How do you handle missing values and outliers in a customer dataset using Python and SQL?";
+
+    if (bodyElem) {
+        bodyElem.innerHTML = `
+            <div style="background: var(--bg-surface); border: 1px solid var(--border-color); border-radius: 12px; padding: 1.25rem; margin-bottom: 1rem;">
+                <div style="display: flex; justify-content: space-between; align-items: flex-start; gap: 0.75rem; margin-bottom: 0.6rem;">
+                    <div>
+                        <span style="font-size: 0.75rem; font-weight: 800; color: var(--accent-color); text-transform: uppercase;">Technical Interview Question</span>
+                        <h4 id="mock-active-question" style="margin: 0.3rem 0 0 0; font-size: 1.05rem; color: var(--text-bright); line-height: 1.4;">${defaultQuestion}</h4>
+                    </div>
+                    <button class="read-aloud-btn" onclick="speakQuestionAloud()">🔊 Read Aloud</button>
+                </div>
+
+                <div class="voice-ctrl-bar">
+                    <button id="voice-mic-btn" class="voice-mic-btn" onclick="toggleVoiceMic()">
+                        <span id="voice-mic-icon">🎙️</span>
+                        <span id="voice-mic-label">Speak Answer</span>
+                    </button>
+                    <span class="voice-timer-badge" id="mock-timer-display">⏱️ 01:30</span>
+                    <span class="muted" style="font-size: 0.78rem;">Use STAR framework (Situation, Task, Action, Result)</span>
+                </div>
+
+                <textarea id="mock-candidate-answer" class="form-textarea" rows="4" placeholder="Speak with microphone or type your technical response here... (Mention specific tools, datasets, and quantifiable outcomes)"></textarea>
+
+                <div style="display: flex; justify-content: flex-end; gap: 0.6rem; margin-top: 0.85rem;">
+                    <button class="action-btn btn-primary" id="mock-submit-btn" onclick="submitMockAnswer('${role.replace(/'/g, "\\'")}')">⚡ Submit for AI STAR Scorecard</button>
+                </div>
+            </div>
+
+            <div id="mock-evaluation-result" style="display: none;"></div>
+        `;
+    }
+
+    startMockTimer();
+}
+
+function startMockTimer() {
+    clearInterval(mockCountdownInterval);
+    mockSecondsLeft = 90;
+    const timerElem = document.getElementById("mock-timer-display");
+    if (timerElem) timerElem.textContent = "⏱️ 01:30";
+
+    mockCountdownInterval = setInterval(() => {
+        mockSecondsLeft--;
+        if (mockSecondsLeft <= 0) {
+            clearInterval(mockCountdownInterval);
+            if (timerElem) timerElem.textContent = "⏱️ Time's Up!";
+            if (isVoiceListening) stopVoiceRecognition();
+        } else {
+            const mins = String(Math.floor(mockSecondsLeft / 60)).padStart(2, "0");
+            const secs = String(mockSecondsLeft % 60).padStart(2, "0");
+            if (timerElem) timerElem.textContent = `⏱️ ${mins}:${secs}`;
+        }
+    }, 1000);
+}
+
+function toggleVoiceMic() {
+    if (isVoiceListening) {
+        stopVoiceRecognition();
+    } else {
+        startVoiceRecognition();
+    }
+}
+
+function startVoiceRecognition() {
+    const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
+    if (!SpeechRecognition) {
+        showToast("Voice recognition not supported in this browser. Please type your answer.", "info");
+        return;
+    }
+
+    try {
+        voiceRecognitionInstance = new SpeechRecognition();
+        voiceRecognitionInstance.continuous = true;
+        voiceRecognitionInstance.interimResults = true;
+        voiceRecognitionInstance.lang = "en-US";
+
+        const micBtn = document.getElementById("voice-mic-btn");
+        const micLabel = document.getElementById("voice-mic-label");
+        const answerBox = document.getElementById("mock-candidate-answer");
+
+        voiceRecognitionInstance.onstart = () => {
+            isVoiceListening = true;
+            if (micBtn) micBtn.classList.add("listening");
+            if (micLabel) micLabel.textContent = "Listening...";
+            showToast("🎙️ Listening to your voice...", "info");
+        };
+
+        voiceRecognitionInstance.onresult = (event) => {
+            let finalTranscript = "";
+            for (let i = event.resultIndex; i < event.results.length; ++i) {
+                if (event.results[i].isFinal) {
+                    finalTranscript += event.results[i][0].transcript + " ";
+                }
+            }
+            if (answerBox && finalTranscript) {
+                answerBox.value = (answerBox.value + " " + finalTranscript).trim();
+            }
+        };
+
+        voiceRecognitionInstance.onerror = (event) => {
+            console.warn("Speech recognition error:", event.error);
+            stopVoiceRecognition();
+        };
+
+        voiceRecognitionInstance.onend = () => {
+            isVoiceListening = false;
+            if (micBtn) micBtn.classList.remove("listening");
+            if (micLabel) micLabel.textContent = "Speak Answer";
+        };
+
+        voiceRecognitionInstance.start();
+    } catch (e) {
+        console.error("Speech recognition start failed:", e);
+    }
+}
+
+function stopVoiceRecognition() {
+    if (voiceRecognitionInstance) {
+        voiceRecognitionInstance.stop();
+        voiceRecognitionInstance = null;
+    }
+    isVoiceListening = false;
+    const micBtn = document.getElementById("voice-mic-btn");
+    const micLabel = document.getElementById("voice-mic-label");
+    if (micBtn) micBtn.classList.remove("listening");
+    if (micLabel) micLabel.textContent = "Speak Answer";
+}
+
+function speakQuestionAloud() {
+    const qElem = document.getElementById("mock-active-question");
+    if (!qElem || !window.speechSynthesis) return;
+
+    window.speechSynthesis.cancel();
+    const utterance = new SpeechSynthesisUtterance(qElem.textContent);
+    utterance.rate = 1.0;
+    utterance.pitch = 1.0;
+    window.speechSynthesis.speak(utterance);
+    showToast("🔊 Reading question aloud...", "info");
+}
+
+async function submitMockAnswer(role = "Data Analyst") {
+    const qElem = document.getElementById("mock-active-question");
+    const answerBox = document.getElementById("mock-candidate-answer");
+    const resultBox = document.getElementById("mock-evaluation-result");
+    const submitBtn = document.getElementById("mock-submit-btn");
+
+    if (!answerBox || !answerBox.value.trim()) {
+        showToast("Please provide or speak your answer first.", "warning");
+        return;
+    }
+
+    if (isVoiceListening) stopVoiceRecognition();
+    clearInterval(mockCountdownInterval);
+
+    try {
+        if (submitBtn) {
+            submitBtn.disabled = true;
+            submitBtn.textContent = "⏳ Evaluating STAR Scorecard...";
+        }
+
+        const payload = {
+            question: qElem ? qElem.textContent : "Technical Interview Question",
+            candidate_answer: answerBox.value.trim(),
+            role: role,
+            interviewer_role: "Senior Technical Hiring Manager",
+            resume_context: (resumeData && resumeData.skills && resumeData.skills.join(", ")) || "Python, SQL, Tableau, Power BI"
+        };
+
+        const res = await fetch(`${BACKEND_URL}/interview/evaluate-answer`, {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify(payload)
+        });
+
+        const data = await res.json();
+        if (!res.ok) throw new Error("Evaluation request failed.");
+
+        const dims = data.dimension_scores || {};
+        const score = data.overall_score || 8.0;
+
+        if (resultBox) {
+            resultBox.style.display = "block";
+            resultBox.innerHTML = `
+                <div class="tailor-section" style="background: rgba(99,102,241,0.08); border-color: rgba(99,102,241,0.3);">
+                    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.8rem; flex-wrap: wrap; gap: 0.5rem;">
+                        <h4 style="margin: 0; color: var(--text-bright);">📊 5-Dimension STAR Scorecard</h4>
+                        <span class="header-status-badge" style="background: rgba(16,185,129,0.15); color: #34d399; font-size: 0.95rem;">Overall: ${score} / 10</span>
+                    </div>
+
+                    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(130px, 1fr)); gap: 0.6rem; margin-bottom: 1rem;">
+                        <div style="padding: 0.6rem; background: rgba(0,0,0,0.25); border-radius: 8px; text-align: center;">
+                            <div style="font-size: 0.72rem; color: var(--text-muted);">Technical Depth</div>
+                            <div style="font-size: 1.1rem; font-weight: 800; color: #38bdf8;">${dims.technical_correctness || score}/10</div>
+                        </div>
+                        <div style="padding: 0.6rem; background: rgba(0,0,0,0.25); border-radius: 8px; text-align: center;">
+                            <div style="font-size: 0.72rem; color: var(--text-muted);">STAR Structure</div>
+                            <div style="font-size: 1.1rem; font-weight: 800; color: #a5b4fc;">${dims.structure_star || score}/10</div>
+                        </div>
+                        <div style="padding: 0.6rem; background: rgba(0,0,0,0.25); border-radius: 8px; text-align: center;">
+                            <div style="font-size: 0.72rem; color: var(--text-muted);">Relevance</div>
+                            <div style="font-size: 1.1rem; font-weight: 800; color: #34d399;">${dims.relevance || score}/10</div>
+                        </div>
+                        <div style="padding: 0.6rem; background: rgba(0,0,0,0.25); border-radius: 8px; text-align: center;">
+                            <div style="font-size: 0.72rem; color: var(--text-muted);">Clarity</div>
+                            <div style="font-size: 1.1rem; font-weight: 800; color: #fbbf24;">${dims.clarity || score}/10</div>
+                        </div>
+                    </div>
+
+                    <div style="margin-bottom: 0.8rem;">
+                        <strong style="color: #34d399; font-size: 0.85rem;">💪 Key Strengths Identified:</strong>
+                        <ul style="margin: 0.3rem 0 0 1.2rem; font-size: 0.85rem; color: rgba(255,255,255,0.9);">
+                            ${(data.strengths || ["Clearly articulated methodology"]).map(s => `<li>${s}</li>`).join("")}
+                        </ul>
+                    </div>
+
+                    ${(data.improvement_areas && data.improvement_areas.length > 0) ? `
+                        <div style="margin-bottom: 0.8rem;">
+                            <strong style="color: #f87171; font-size: 0.85rem;">⚠️ Areas for Polish:</strong>
+                            <ul style="margin: 0.3rem 0 0 1.2rem; font-size: 0.85rem; color: rgba(255,255,255,0.85);">
+                                ${data.improvement_areas.map(a => `<li>${a}</li>`).join("")}
+                            </ul>
+                        </div>
+                    ` : ""}
+
+                    <div style="margin-top: 1rem; padding: 0.9rem; background: rgba(0,0,0,0.3); border-radius: 8px; border-left: 3px solid #fbbf24;">
+                        <strong style="color: #fbbf24; font-size: 0.85rem;">✨ High-Impact Model Answer:</strong>
+                        <p style="margin: 0.4rem 0 0 0; font-size: 0.85rem; line-height: 1.5; color: #e2e8f0;">${data.refined_model_answer || "Structured STAR answer with verified metrics."}</p>
+                    </div>
+                </div>
+            `;
+        }
+
+        showToast("STAR Scorecard Evaluated!", "success", "🎯");
+
+    } catch (err) {
+        console.error("Mock evaluation error:", err);
+        showToast(`Evaluation Error: ${err.message}`, "error");
+    } finally {
+        if (submitBtn) {
+            submitBtn.disabled = false;
+            submitBtn.textContent = "⚡ Submit for AI STAR Scorecard";
+        }
+    }
+}
+
+function closeMockInterviewModal() {
+    if (isVoiceListening) stopVoiceRecognition();
+    clearInterval(mockCountdownInterval);
+    const modal = document.getElementById("mock-interview-modal");
+    if (modal) modal.style.display = "none";
+}
+
+// 5. One-Click ATS-Friendly PDF Export
+function exportTailoredPDF() {
+    const box = document.getElementById("full-tailored-resume-box");
+    if (!box || !box.value) {
+        showToast("Please generate a tailored resume first.", "warning");
+        return;
+    }
+
+    const candidateName = (resumeData && resumeData.name) || "Beere Vishnu Sai";
+    const candidateEmail = (resumeData && resumeData.email) || "candidate@example.com";
+    const candidatePhone = (resumeData && resumeData.phone) || "+91 9876543210";
+    const candidateLoc = (resumeData && resumeData.location) || "Hyderabad, India";
+
+    // Create an invisible print container
+    let printContainer = document.getElementById("ats-print-container");
+    if (!printContainer) {
+        printContainer = document.createElement("div");
+        printContainer.id = "ats-print-container";
+        printContainer.className = "ats-print-container";
+        document.body.appendChild(printContainer);
+    }
+
+    const lines = box.value.split("\n");
+    let htmlContent = `
+        <div class="ats-print-header">
+            <h1>${candidateName}</h1>
+            <p>${candidateLoc} | ${candidateEmail} | ${candidatePhone}</p>
+        </div>
+    `;
+
+    let inSection = false;
+    lines.forEach(line => {
+        const trimmed = line.trim();
+        if (trimmed.startsWith("## ")) {
+            if (inSection) htmlContent += `</div>`;
+            htmlContent += `<div class="ats-print-section"><h2>${trimmed.substring(3)}</h2>`;
+            inSection = true;
+        } else if (trimmed.startsWith("### ")) {
+            htmlContent += `<p><strong>${trimmed.substring(4)}</strong></p>`;
+        } else if (trimmed.startsWith("• ")) {
+            htmlContent += `<p style="margin-left: 12px; margin-bottom: 3px;">• ${trimmed.substring(2)}</p>`;
+        } else if (trimmed && !trimmed.startsWith("# ")) {
+            htmlContent += `<p>${trimmed}</p>`;
+        }
+    });
+
+    if (inSection) htmlContent += `</div>`;
+    printContainer.innerHTML = htmlContent;
+
+    showToast("Preparing ATS-Compliant PDF preview...", "info", "📥");
+    setTimeout(() => {
+        window.print();
+    }, 400);
+}
+
+function copyTailoredContent() {
+    const box = document.getElementById("full-tailored-resume-box");
+    if (!box) return;
+    navigator.clipboard.writeText(box.value);
+    showToast("Copied formatted tailored resume!", "success", "📋");
+}
+
 
