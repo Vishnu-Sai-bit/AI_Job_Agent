@@ -382,7 +382,7 @@ function renderDashboard() {
             emailBtn.style.display = "inline-flex";
             emailBtn.onclick = () => {
                 navigator.clipboard.writeText(resumeData.email);
-                alert(`Copied email to clipboard: ${resumeData.email}`);
+                showToast(`✉️ Copied email to clipboard: ${resumeData.email}`, "success", "✉️");
             };
         } else {
             emailBtn.style.display = "none";
@@ -395,7 +395,7 @@ function renderDashboard() {
             phoneBtn.style.display = "inline-flex";
             phoneBtn.onclick = () => {
                 navigator.clipboard.writeText(resumeData.phone);
-                alert(`Copied phone reference: ${resumeData.phone}`);
+                showToast(`📞 Copied phone reference: ${resumeData.phone}`, "success", "📞");
             };
         } else {
             phoneBtn.style.display = "none";
@@ -1702,7 +1702,7 @@ let activeMicIdx = null;
 function toggleVoiceDictation(qIdx) {
     const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
     if (!SpeechRecognition) {
-        alert("Voice Speech-to-Text is not supported in this browser. Please use Chrome, Edge, or Safari.");
+        showToast("Voice Speech-to-Text is not supported in this browser. Please use Chrome, Edge, or Safari.", "warning", "🎙️");
         return;
     }
 
@@ -1768,7 +1768,7 @@ async function submitMockAnswer(qIdx, encodedQuestion) {
 
     const answerText = textarea.value.trim();
     if (!answerText) {
-        alert("Please enter or speak a practice response to evaluate!");
+        showToast("Please enter or speak a practice response to evaluate!", "warning", "⚠️");
         return;
     }
 
