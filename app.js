@@ -41,6 +41,7 @@ let currentJobFilter = "all";
 
 document.addEventListener("DOMContentLoaded", () => {
     initTheme();
+    initVisualTheme();
     initTabs();
     initDragAndDrop();
     initTools();
@@ -50,6 +51,343 @@ document.addEventListener("DOMContentLoaded", () => {
     initAuthEvents();
     loadSettingsPreferences();
 });
+
+// Visual Theme Palette Switcher
+function initVisualTheme() {
+    const savedStyle = localStorage.getItem("app-style") || "indigo";
+    setVisualTheme(savedStyle, false);
+}
+
+function setVisualTheme(styleName, showNotice = true) {
+    document.documentElement.setAttribute("data-style", styleName);
+    localStorage.setItem("app-style", styleName);
+
+    const labels = {
+        indigo: "Cyber Indigo",
+        purple: "Neon Purple",
+        emerald: "Emerald Matrix",
+        cyan: "Quantum Cyan",
+        amber: "Sunset Amber"
+    };
+
+    const labelElem = document.getElementById("active-style-label");
+    if (labelElem) labelElem.textContent = labels[styleName] || "Cyber Indigo";
+
+    // Update active check on options
+    document.querySelectorAll(".style-option-btn").forEach(btn => {
+        btn.classList.remove("active");
+        if (btn.getAttribute("onclick") && btn.getAttribute("onclick").includes(`'${styleName}'`)) {
+            btn.classList.add("active");
+        }
+    });
+
+    // Adjust ambient orb colors dynamically
+    const orb1 = document.getElementById("ambient-orb-1");
+    const orb2 = document.getElementById("ambient-orb-2");
+    if (orb1 && orb2) {
+        if (styleName === "purple") {
+            orb1.style.background = "#a855f7";
+            orb2.style.background = "#ec4899";
+        } else if (styleName === "emerald") {
+            orb1.style.background = "#10b981";
+            orb2.style.background = "#34d399";
+        } else if (styleName === "cyan") {
+            orb1.style.background = "#06b6d4";
+            orb2.style.background = "#3b82f6";
+        } else if (styleName === "amber") {
+            orb1.style.background = "#f59e0b";
+            orb2.style.background = "#fbbf24";
+        } else {
+            orb1.style.background = "#6366f1";
+            orb2.style.background = "#06b6d4";
+        }
+    }
+
+    const drawer = document.getElementById("style-dropdown");
+    if (drawer) drawer.style.display = "none";
+
+    if (showNotice) {
+        showToast(`🎨 Theme switched to ${labels[styleName] || styleName}!`, "success", "🎨");
+    }
+}
+
+function toggleStyleDrawer() {
+    const drawer = document.getElementById("style-dropdown");
+    if (!drawer) return;
+    drawer.style.display = drawer.style.display === "none" ? "block" : "none";
+}
+
+// Close style dropdown on outside click
+document.addEventListener("click", (e) => {
+    const styleWrapper = document.querySelector(".nav-style-wrapper");
+    const styleDrawer = document.getElementById("style-dropdown");
+    if (styleDrawer && styleWrapper && !styleWrapper.contains(e.target)) {
+        styleDrawer.style.display = "none";
+    }
+});
+
+// ==========================================================
+// 1-Click Instant Interactive Demo Profiles
+// ==========================================================
+function loadDemoCandidate(roleKey) {
+    const demoPresets = {
+        "data-analyst": {
+            name: "Beere Vishnu Sai",
+            email: "vishnusai.analytics@jobagent.ai",
+            phone: "+91 98765 43210",
+            location: "Hyderabad, India",
+            preferred_role: "Junior Data Analyst",
+            preferred_location: "Hyderabad, India",
+            experience_tier: "1-2 Years (Associate)",
+            career_level: "Associate Analyst",
+            ats_score: 94,
+            skills: ["SQL", "Python", "Power BI", "Tableau", "Excel", "Pandas", "NumPy", "Data Cleaning", "Data Modeling", "ETL Pipelines", "Statistical Analysis", "Business Intelligence"],
+            missing_skills: ["Snowflake", "dbt", "Airflow"],
+            career_summary: "Results-driven Data Analyst with proven expertise in SQL data modeling, Python statistical exploration, and dynamic Power BI business dashboards. Experienced in building automated ETL pipelines.",
+            linkedin: "linkedin.com/in/vishnu-sai-analytics",
+            github: "github.com/Vishnu-Sai-bit",
+            roles: [
+                { role: "Junior Data Analyst", match_score: 94.0 },
+                { role: "Business Intelligence Analyst", match_score: 89.5 },
+                { role: "Python Developer", match_score: 84.0 },
+                { role: "Data Engineer", match_score: 78.0 }
+            ],
+            kpis: {
+                jobs_discovered: 1420,
+                verified_fits: 215,
+                applications_sent: 8,
+                interviews_scheduled: 3,
+                conversion_rate: 37.5
+            }
+        },
+        "python-dev": {
+            name: "Alex Chen",
+            email: "alex.chen.dev@jobagent.ai",
+            phone: "+91 99887 76655",
+            location: "Bengaluru, India",
+            preferred_role: "Python Developer",
+            preferred_location: "Bengaluru, India / Remote",
+            experience_tier: "2-4 Years (Mid-Level)",
+            career_level: "Mid-Level Backend Engineer",
+            ats_score: 92,
+            skills: ["Python", "FastAPI", "Django", "PostgreSQL", "MongoDB", "Docker", "Redis", "REST APIs", "Git", "Celery", "Microservices", "Unit Testing"],
+            missing_skills: ["Kubernetes", "GraphQL", "Kafka"],
+            career_summary: "Backend Python Engineer specializing in scalable microservices, high-throughput REST APIs, asynchronous task queues with Celery/Redis, and PostgreSQL database optimization.",
+            linkedin: "linkedin.com/in/alexchen-py",
+            github: "github.com/alexchen-dev",
+            roles: [
+                { role: "Python Developer", match_score: 92.5 },
+                { role: "Backend Software Engineer", match_score: 90.0 },
+                { role: "Full Stack Engineer", match_score: 82.0 },
+                { role: "Cloud API Engineer", match_score: 79.5 }
+            ],
+            kpis: {
+                jobs_discovered: 1680,
+                verified_fits: 248,
+                applications_sent: 12,
+                interviews_scheduled: 4,
+                conversion_rate: 33.3
+            }
+        },
+        "ai-engineer": {
+            name: "Dr. Maya Sharma",
+            email: "maya.sharma.ai@jobagent.ai",
+            phone: "+91 91234 56789",
+            location: "Hyderabad, India",
+            preferred_role: "AI / ML Engineer",
+            preferred_location: "Hyderabad, India / Remote",
+            experience_tier: "3-5 Years (Senior Specialist)",
+            career_level: "Senior Applied AI Engineer",
+            ats_score: 96,
+            skills: ["Python", "PyTorch", "TensorFlow", "LangChain", "LLMs", "NLP", "Vector DBs", "RAG Architectures", "Scikit-Learn", "FastAPI", "Hugging Face", "MLOps"],
+            missing_skills: ["Triton Server", "CUDA Optimization"],
+            career_summary: "Applied AI Engineer building production-grade LLM applications, RAG pipelines, fine-tuned transformer models, and autonomous AI agents with LangChain and vector databases.",
+            linkedin: "linkedin.com/in/dr-maya-sharma-ai",
+            github: "github.com/mayasharma-ai",
+            roles: [
+                { role: "AI / ML Engineer", match_score: 96.0 },
+                { role: "Generative AI Specialist", match_score: 94.5 },
+                { role: "Data Scientist", match_score: 91.0 },
+                { role: "NLP Engineer", match_score: 88.0 }
+            ],
+            kpis: {
+                jobs_discovered: 1950,
+                verified_fits: 310,
+                applications_sent: 15,
+                interviews_scheduled: 6,
+                conversion_rate: 40.0
+            }
+        },
+        "full-stack": {
+            name: "Jordan Taylor",
+            email: "jordan.taylor.dev@jobagent.ai",
+            phone: "+91 98450 12345",
+            location: "Remote / Bengaluru",
+            preferred_role: "Full Stack Developer",
+            preferred_location: "Remote / India",
+            experience_tier: "2-3 Years (Associate)",
+            career_level: "Full Stack Software Engineer",
+            ats_score: 90,
+            skills: ["JavaScript", "TypeScript", "React", "Node.js", "Express", "Next.js", "PostgreSQL", "Tailwind CSS", "REST APIs", "Git", "Docker", "Redux"],
+            missing_skills: ["GraphQL", "AWS Lambda", "CI/CD"],
+            career_summary: "Full Stack Developer crafting responsive React & Next.js user interfaces backed by scalable Node.js microservices and relational PostgreSQL databases.",
+            linkedin: "linkedin.com/in/jordantaylor-fs",
+            github: "github.com/jordantaylor-code",
+            roles: [
+                { role: "Full Stack Developer", match_score: 90.0 },
+                { role: "Frontend React Engineer", match_score: 88.5 },
+                { role: "Backend Node Engineer", match_score: 86.0 },
+                { role: "Web Application Developer", match_score: 84.0 }
+            ],
+            kpis: {
+                jobs_discovered: 1540,
+                verified_fits: 220,
+                applications_sent: 10,
+                interviews_scheduled: 3,
+                conversion_rate: 30.0
+            }
+        }
+    };
+
+    const selected = demoPresets[roleKey] || demoPresets["data-analyst"];
+    resumeData = selected;
+
+    // Build rich matched jobs for this demo candidate
+    jobData = {
+        jobs: [
+            {
+                id: "demo_job_1",
+                title: `${selected.preferred_role}`,
+                company: "GlobalCorp Analytics",
+                location: selected.preferred_location,
+                source: "LinkedIn",
+                is_verified: true,
+                verification_badge: "Verified Employer",
+                posted_time: "🟢 Fresh < 6 hours ago",
+                work_mode: "Hybrid / Remote",
+                salary: "₹12,00,000 - ₹18,00,000 / yr",
+                match_score: 94.0,
+                matched_skills: selected.skills.slice(0, 6),
+                missing_skills: selected.missing_skills.slice(0, 2),
+                fit_breakdown: {
+                    skills_match: 95.0,
+                    role_alignment: 96.0,
+                    experience_match: 92.0,
+                    location_compatibility: 95.0,
+                    evidence: `High-fidelity candidate alignment with verified skills in ${selected.skills.slice(0, 4).join(", ")}.`
+                },
+                application_url: "https://www.linkedin.com/jobs"
+            },
+            {
+                id: "demo_job_2",
+                title: `Senior ${selected.preferred_role}`,
+                company: "Microsoft Technologies",
+                location: "Hyderabad, India",
+                source: "Direct Portal",
+                is_verified: true,
+                verification_badge: "Enterprise Verified",
+                posted_time: "🟢 Fresh < 12 hours ago",
+                work_mode: "Hybrid",
+                salary: "₹16,00,000 - ₹24,00,000 / yr",
+                match_score: 91.5,
+                matched_skills: selected.skills.slice(1, 7),
+                missing_skills: selected.missing_skills.slice(1, 3),
+                fit_breakdown: {
+                    skills_match: 92.0,
+                    role_alignment: 94.0,
+                    experience_match: 88.0,
+                    location_compatibility: 96.0,
+                    evidence: `Strong direct match for core technical architecture and data processing workflows.`
+                },
+                application_url: "https://careers.microsoft.com"
+            },
+            {
+                id: "demo_job_3",
+                title: `${selected.roles[1]?.role || "Cloud Solutions Specialist"}`,
+                company: "Scout Tech Labs",
+                location: "Bengaluru, India",
+                source: "Indeed",
+                is_verified: true,
+                verification_badge: "Verified Employer",
+                posted_time: "🟢 Fresh < 1 day ago",
+                work_mode: "Remote",
+                salary: "₹14,00,000 - ₹20,00,000 / yr",
+                match_score: 88.0,
+                matched_skills: selected.skills.slice(2, 8),
+                missing_skills: selected.missing_skills.slice(0, 2),
+                fit_breakdown: {
+                    skills_match: 88.0,
+                    role_alignment: 90.0,
+                    experience_match: 86.0,
+                    location_compatibility: 90.0,
+                    evidence: `Compatible across secondary tracks with high cross-domain skill portability.`
+                },
+                application_url: "https://www.indeed.com"
+            },
+            {
+                id: "demo_job_4",
+                title: `${selected.roles[2]?.role || "Software Specialist"}`,
+                company: "Innovate AI",
+                location: "Remote",
+                source: "RemoteOK",
+                is_verified: true,
+                verification_badge: "Verified Startup",
+                posted_time: "🟢 Fresh < 2 days ago",
+                work_mode: "100% Remote",
+                salary: "$65,000 - $85,000 / yr",
+                match_score: 84.5,
+                matched_skills: selected.skills.slice(0, 5),
+                missing_skills: selected.missing_skills.slice(0, 3),
+                fit_breakdown: {
+                    skills_match: 85.0,
+                    role_alignment: 86.0,
+                    experience_match: 82.0,
+                    location_compatibility: 100.0,
+                    evidence: `Matches remote operational criteria and foundational programming prerequisites.`
+                },
+                application_url: "https://remoteok.com"
+            }
+        ],
+        stats: {
+            found_count: 124,
+            returned_count: 4,
+            search_latency: 0.18
+        }
+    };
+
+    // Render all modules
+    renderDashboard();
+    renderJobs();
+    renderLearning();
+    renderToolForm();
+
+    // Update Executive Funnel & Velocity
+    if (selected.kpis) {
+        const jobsFound = document.getElementById("exec-jobs-found");
+        const jobsVer = document.getElementById("exec-jobs-verified");
+        const appsSent = document.getElementById("exec-apps-sent");
+        const inters = document.getElementById("exec-interviews");
+        const conv = document.getElementById("exec-conversion");
+
+        if (jobsFound) jobsFound.textContent = selected.kpis.jobs_discovered.toLocaleString();
+        if (jobsVer) jobsVer.textContent = selected.kpis.verified_fits.toLocaleString();
+        if (appsSent) appsSent.textContent = selected.kpis.applications_sent.toString();
+        if (inters) inters.textContent = selected.kpis.interviews_scheduled.toString();
+        if (conv) conv.textContent = `${selected.kpis.conversion_rate}%`;
+    }
+
+    updateVelocityMetrics(selected.kpis.applications_sent, 5, selected.kpis.interviews_scheduled, selected.ats_score);
+
+    // Switch to Dashboard
+    activeTab = "dashboard";
+    document.querySelectorAll(".nav-btn").forEach(b => {
+        b.classList.remove("active");
+        if (b.getAttribute("data-tab") === "dashboard") b.classList.add("active");
+    });
+    switchTabVisibility();
+
+    showToast(`✨ Loaded Live Demo Profile: ${selected.name} (${selected.preferred_role})!`, "success", "🚀");
+}
 
 // Toast Notification Engine
 function showToast(message, type = "info", customIcon = null) {

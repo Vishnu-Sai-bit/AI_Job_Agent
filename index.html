@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>AI JobAgent - Professional Career Command Studio</title>
-    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="style.css?v=3.5">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500;600;700;800&family=Outfit:wght@400;500;600;700;800;900&family=Plus+Jakarta+Sans:wght@400;500;600;700;800;900&family=Space+Grotesk:wght@500;600;700&display=swap" rel="stylesheet">
@@ -12,8 +12,8 @@
 <body>
     <!-- Subtle Background Ambient Glows -->
     <div class="ambient-glows">
-        <div class="glow-orb glow-indigo"></div>
-        <div class="glow-orb glow-cyan"></div>
+        <div class="glow-orb glow-indigo" id="ambient-orb-1"></div>
+        <div class="glow-orb glow-cyan" id="ambient-orb-2"></div>
     </div>
 
     <!-- Top Navigation Bar (Claude & Gemini Studio Style) -->
@@ -60,6 +60,41 @@
                 <div class="nav-db-pill" id="nav-db-badge" title="Storage Engine Status">
                     <span class="live-dot" id="db-status-dot"></span>
                     <span id="nav-db-text" class="nav-db-text">MongoDB</span>
+                </div>
+
+                <!-- Visual Style & Accent Palette Switcher -->
+                <div class="nav-style-wrapper">
+                    <button id="style-switcher-btn" class="nav-style-btn" title="Switch Theme Color Palette & Accent Style" onclick="toggleStyleDrawer()">
+                        <span class="style-icon">🎨</span>
+                        <span id="active-style-label" class="style-label">Cyber Indigo</span>
+                    </button>
+                    <div id="style-dropdown" class="style-dropdown-menu" style="display: none;">
+                        <div class="style-menu-header">
+                            <h5>🎨 Visual Theme Styles</h5>
+                        </div>
+                        <div class="style-options-list">
+                            <button class="style-option-btn active" onclick="setVisualTheme('indigo')">
+                                <span class="swatch-circle swatch-indigo"></span>
+                                <span>🌌 Cyber Indigo (Default)</span>
+                            </button>
+                            <button class="style-option-btn" onclick="setVisualTheme('purple')">
+                                <span class="swatch-circle swatch-purple"></span>
+                                <span>🔮 Electric Neon Purple</span>
+                            </button>
+                            <button class="style-option-btn" onclick="setVisualTheme('emerald')">
+                                <span class="swatch-circle swatch-emerald"></span>
+                                <span>🌿 Emerald Cyber Matrix</span>
+                            </button>
+                            <button class="style-option-btn" onclick="setVisualTheme('cyan')">
+                                <span class="swatch-circle swatch-cyan"></span>
+                                <span>⚡ Quantum Blue & Cyan</span>
+                            </button>
+                            <button class="style-option-btn" onclick="setVisualTheme('amber')">
+                                <span class="swatch-circle swatch-amber"></span>
+                                <span>🔥 Radiant Sunset Gold</span>
+                            </button>
+                        </div>
+                    </div>
                 </div>
 
                 <button id="quick-upload-btn" class="nav-upload-btn" title="Upload or Update Resume">
@@ -145,9 +180,36 @@
         <div class="content-container">
             <!-- Welcome Screen / Placeholder (Claude & Gemini Studio Style) -->
             <div id="welcome-placeholder" class="welcome-studio-card">
+                <div class="welcome-badge">
+                    <span class="live-dot"></span>
+                    <span>⚡ AI Career Command Studio Pro 3.0</span>
+                </div>
                 <div class="welcome-header">
-                    <h2 class="welcome-title">Your AI Copilot for the Entire Career Journey</h2>
+                    <h2 class="welcome-title">Your AI Copilot for the <span class="welcome-gradient-text">Entire Career Journey</span></h2>
                     <p class="welcome-subtitle">Find verified high-match jobs. Optimize your resume with ATS precision. Understand market skill gaps. Prepare for live interviews. Track every opportunity in a personal CRM.</p>
+                </div>
+
+                <!-- Instant Live Interactive Demo Profiles -->
+                <div class="instant-demo-banner">
+                    <div class="demo-banner-title">
+                        <span class="demo-sparkle">✨</span>
+                        <strong>Instant Interactive Demo:</strong>
+                        <span>Click any profile to test live data immediately:</span>
+                    </div>
+                    <div class="demo-chips-row">
+                        <button class="demo-pill-btn" onclick="loadDemoCandidate('data-analyst')">
+                            <span>📊</span> <strong>Junior Data Analyst</strong> <span class="demo-pill-tag">92% Match</span>
+                        </button>
+                        <button class="demo-pill-btn" onclick="loadDemoCandidate('python-dev')">
+                            <span>🐍</span> <strong>Python Developer</strong> <span class="demo-pill-tag">94% Match</span>
+                        </button>
+                        <button class="demo-pill-btn" onclick="loadDemoCandidate('ai-engineer')">
+                            <span>🤖</span> <strong>AI / ML Engineer</strong> <span class="demo-pill-tag">96% Match</span>
+                        </button>
+                        <button class="demo-pill-btn" onclick="loadDemoCandidate('full-stack')">
+                            <span>💻</span> <strong>Full Stack Engineer</strong> <span class="demo-pill-tag">90% Match</span>
+                        </button>
+                    </div>
                 </div>
 
                 <!-- Hero Drop Zone -->
@@ -155,8 +217,8 @@
                     <div class="upload-icon-circle">
                         <span class="upload-big-icon">📄</span>
                     </div>
-                    <h3 class="upload-zone-title">Drag & drop your resume file here</h3>
-                    <p class="upload-zone-subtitle">Supports PDF & DOCX • Instant ATS parsing & market matching</p>
+                    <h3 class="upload-zone-title">Drag & drop your own resume file here</h3>
+                    <p class="upload-zone-subtitle">Supports PDF & DOCX • Instant ATS parsing, keyword mapping & job matching</p>
                     <button class="upload-browse-btn" type="button">Browse Files from Computer</button>
                 </div>
 
@@ -974,6 +1036,6 @@
     <!-- Toast Notification System -->
     <div id="toast-container" class="toast-container"></div>
 
-    <script src="app.js"></script>
+    <script src="app.js?v=3.5"></script>
 </body>
 </html>
