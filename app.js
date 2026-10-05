@@ -1032,8 +1032,7 @@ function renderJobs() {
     const groupByInput = document.querySelector('input[name="group-by"]:checked');
     const groupBy = groupByInput ? groupByInput.value : "category";
 
-    const container = document.getElementById("jobs-list-container");
-    container.innerHTML = "";
+    if (container) container.innerHTML = "";
 
     const grouped = jobData.grouped_jobs || {};
     const groupKeys = Object.keys(grouped);
