@@ -35,39 +35,6 @@
                 </div>
             </div>
 
-            <!-- Center: Interactive Platform Journey Stepper -->
-            <div class="journey-stepper top-journey-flow">
-                <button class="journey-step-btn active" data-tab="dashboard" onclick="switchAppTab('dashboard'); triggerResumeUpload();" title="Upload Resume &amp; Calculate ATS Score">
-                    <span class="step-icon">📄</span>
-                    <span class="step-label">Upload Resume</span>
-                </button>
-                <span class="step-arrow">→</span>
-                <button class="journey-step-btn" data-tab="jobs" onclick="switchAppTab('jobs')" title="Find Verified High-Match Jobs">
-                    <span class="step-icon">🔍</span>
-                    <span class="step-label">Find Jobs</span>
-                </button>
-                <span class="step-arrow">→</span>
-                <button class="journey-step-btn" data-tab="intel" onclick="switchAppTab('intel')" title="Market Demand &amp; Skill Insights">
-                    <span class="step-icon">🧠</span>
-                    <span class="step-label">Get AI Insights</span>
-                </button>
-                <span class="step-arrow">→</span>
-                <button class="journey-step-btn" data-tab="crm" onclick="switchAppTab('crm')" title="Track Applications in Kanban CRM">
-                    <span class="step-icon">🚀</span>
-                    <span class="step-label">Apply &amp; Track</span>
-                </button>
-                <span class="step-arrow">→</span>
-                <button class="journey-step-btn" data-tab="interviews" onclick="switchAppTab('interviews')" title="Practice Voice Mock Interviews">
-                    <span class="step-icon">🎤</span>
-                    <span class="step-label">Prepare for Interviews</span>
-                </button>
-                <span class="step-arrow">→</span>
-                <button class="journey-step-btn" data-tab="learning" onclick="switchAppTab('learning')" title="Learning Roadmaps &amp; Capstones">
-                    <span class="step-icon">📈</span>
-                    <span class="step-label">Learn &amp; Grow</span>
-                </button>
-            </div>
-
             <!-- Right Controls: Status, Theme, Upload, Notifications, Settings -->
             <div class="top-nav-actions">
                 <div class="nav-db-pill" id="nav-db-badge" title="Storage Engine Status">
@@ -120,7 +87,7 @@
                 <div class="nav-notif-wrapper">
                     <button id="notif-btn" class="nav-notif-btn" title="Career Notifications &amp; Alerts" onclick="toggleNotifDrawer()">
                         <span class="btn-icon">🔔</span>
-                        <span class="notif-badge" id="notif-badge-count">3</span>
+                        <span class="notif-badge" id="notif-badge-count">0</span>
                     </button>
                     <div id="notif-dropdown" class="notif-dropdown-menu" style="display: none;">
                         <div class="notif-header">
@@ -128,37 +95,8 @@
                             <span class="notif-clear-btn" onclick="clearNotifications()">Clear</span>
                         </div>
                         <div class="notif-list" id="notif-list-container">
-                            <div class="notif-item unread" onclick="handleNotifClick('job')">
-                                <span class="notif-icon">🎯</span>
-                                <div class="notif-content">
-                                    <h5>New high-match job found</h5>
-                                    <p>Data Analyst at ABC Technologies (Hyderabad • ₹4-7 LPA) verified (91% Match).</p>
-                                    <span class="notif-time">2 hours ago</span>
-                                </div>
-                            </div>
-                            <div class="notif-item unread" onclick="handleNotifClick('interview')">
-                                <span class="notif-icon">🎤</span>
-                                <div class="notif-content">
-                                    <h5>Interview tomorrow at 10 AM</h5>
-                                    <p>Technical simulation calibrated for Emergency Room Analytics project.</p>
-                                    <span class="notif-time">5 hours ago</span>
-                                </div>
-                            </div>
-                            <div class="notif-item unread" onclick="handleNotifClick('crm')">
-                                <span class="notif-icon">⏳</span>
-                                <div class="notif-content">
-                                    <h5>Follow-up required for your application</h5>
-                                    <p>5 days since TechCorp application submitted. Click to generate follow-up email.</p>
-                                    <span class="notif-time">1 day ago</span>
-                                </div>
-                            </div>
-                            <div class="notif-item unread" onclick="handleNotifClick('resume')">
-                                <span class="notif-icon">📄</span>
-                                <div class="notif-content">
-                                    <h5>Resume improvement available</h5>
-                                    <p>Quantify your SQL achievements to boost ATS compatibility to 95%.</p>
-                                    <span class="notif-time">2 days ago</span>
-                                </div>
+                            <div class="notif-empty-state" style="padding: 1.5rem; text-align: center; color: var(--text-muted); font-size: 0.85rem;">
+                                No notifications yet. Upload your resume to receive AI match briefings.
                             </div>
                         </div>
                     </div>
@@ -187,12 +125,12 @@
                 <button class="sidebar-nav-item" data-tab="jobs" onclick="switchAppTab('jobs')">
                     <span class="sidebar-item-icon">🎯</span>
                     <span class="sidebar-item-text">Jobs</span>
-                    <span class="sidebar-badge-count" id="sidebar-jobs-count">186</span>
+                    <span class="sidebar-badge-count" id="sidebar-jobs-count">0</span>
                 </button>
                 <button class="sidebar-nav-item" data-tab="crm" onclick="switchAppTab('crm')">
                     <span class="sidebar-item-icon">📋</span>
                     <span class="sidebar-item-text">Applications</span>
-                    <span class="sidebar-badge-count" id="sidebar-apps-count">42</span>
+                    <span class="sidebar-badge-count" id="sidebar-apps-count">0</span>
                 </button>
                 <button class="sidebar-nav-item" data-tab="resumes" onclick="switchAppTab('resumes')">
                     <span class="sidebar-item-icon">📄</span>
@@ -205,7 +143,7 @@
                 <button class="sidebar-nav-item" data-tab="interviews" onclick="switchAppTab('interviews')">
                     <span class="sidebar-item-icon">🎤</span>
                     <span class="sidebar-item-text">Interviews</span>
-                    <span class="sidebar-badge-count" id="sidebar-interview-count">6</span>
+                    <span class="sidebar-badge-count" id="sidebar-interview-count">0</span>
                 </button>
                 <button class="sidebar-nav-item" data-tab="learning" onclick="switchAppTab('learning')">
                     <span class="sidebar-item-icon">📚</span>
@@ -227,10 +165,10 @@
 
             <!-- Bottom Mini Profile Box -->
             <div class="sidebar-profile-card" onclick="switchAppTab('profile')">
-                <div class="sidebar-profile-avatar" id="sidebar-avatar">VK</div>
+                <div class="sidebar-profile-avatar" id="sidebar-avatar">👤</div>
                 <div class="sidebar-profile-info">
                     <h5 id="sidebar-profile-name">Candidate Profile</h5>
-                    <span id="sidebar-profile-role">Data Analyst</span>
+                    <span id="sidebar-profile-role">Upload Resume</span>
                 </div>
                 <span class="profile-gear-icon">⚙️</span>
             </div>
@@ -272,8 +210,8 @@
                                     <span>Get Started</span>
                                     <span class="arrow-glyph">→</span>
                                 </button>
-                                <button class="secondary-hero-btn" onclick="openDemoWalkthroughModal()">
-                                    <span>▶ Watch Demo</span>
+                                <button class="secondary-hero-btn" onclick="switchAppTab('jobs')">
+                                    <span>🔍 Browse Jobs</span>
                                 </button>
                             </div>
 
@@ -331,35 +269,35 @@
                         <div class="kpi-metric-card kpi-jobs" onclick="switchAppTab('jobs')">
                             <div class="kpi-icon-wrap">🔍</div>
                             <div class="kpi-data">
-                                <span class="kpi-number" id="dash-kpi-found">186</span>
+                                <span class="kpi-number" id="dash-kpi-found">0</span>
                                 <span class="kpi-title">Jobs Found</span>
                             </div>
                         </div>
                         <div class="kpi-metric-card kpi-applied" onclick="switchAppTab('crm')">
                             <div class="kpi-icon-wrap">🚀</div>
                             <div class="kpi-data">
-                                <span class="kpi-number" id="dash-kpi-applied">42</span>
+                                <span class="kpi-number" id="dash-kpi-applied">0</span>
                                 <span class="kpi-title">Applied</span>
                             </div>
                         </div>
                         <div class="kpi-metric-card kpi-interviews" onclick="switchAppTab('interviews')">
                             <div class="kpi-icon-wrap">🎤</div>
                             <div class="kpi-data">
-                                <span class="kpi-number" id="dash-kpi-interviews">6</span>
+                                <span class="kpi-number" id="dash-kpi-interviews">0</span>
                                 <span class="kpi-title">Interviews</span>
                             </div>
                         </div>
                         <div class="kpi-metric-card kpi-offer" onclick="switchAppTab('crm')">
                             <div class="kpi-icon-wrap">🏆</div>
                             <div class="kpi-data">
-                                <span class="kpi-number" id="dash-kpi-offer">1</span>
+                                <span class="kpi-number" id="dash-kpi-offer">0</span>
                                 <span class="kpi-title">Offer</span>
                             </div>
                         </div>
                         <div class="kpi-metric-card kpi-saved" onclick="switchAppTab('crm')">
                             <div class="kpi-icon-wrap">📌</div>
                             <div class="kpi-data">
-                                <span class="kpi-number" id="dash-kpi-saved">25</span>
+                                <span class="kpi-number" id="dash-kpi-saved">0</span>
                                 <span class="kpi-title">Saved</span>
                             </div>
                         </div>
@@ -378,70 +316,11 @@
                             </div>
 
                             <div class="recommended-jobs-list" id="dash-recommended-jobs-list">
-                                <!-- Job 1 -->
-                                <div class="rec-job-card">
-                                    <div class="rec-job-logo">📊</div>
-                                    <div class="rec-job-details">
-                                        <div class="rec-job-header">
-                                            <h4 class="rec-job-title">Data Analyst</h4>
-                                            <span class="match-badge-pill match-elite">91% Match</span>
-                                        </div>
-                                        <div class="rec-job-company">ABC Technologies</div>
-                                        <div class="rec-job-meta">
-                                            <span>📍 Hyderabad</span>
-                                            <span>•</span>
-                                            <span>💰 ₹4-7 LPA</span>
-                                            <span>•</span>
-                                            <span>⏳ 0-2 yrs</span>
-                                        </div>
-                                    </div>
-                                    <div class="rec-job-actions">
-                                        <button class="action-btn-sm btn-primary" onclick="handleQuickApply('Data Analyst', 'ABC Technologies')">Apply</button>
-                                    </div>
-                                </div>
-
-                                <!-- Job 2 -->
-                                <div class="rec-job-card">
-                                    <div class="rec-job-logo">📈</div>
-                                    <div class="rec-job-details">
-                                        <div class="rec-job-header">
-                                            <h4 class="rec-job-title">BI Analyst</h4>
-                                            <span class="match-badge-pill match-high">87% Match</span>
-                                        </div>
-                                        <div class="rec-job-company">XYZ Solutions</div>
-                                        <div class="rec-job-meta">
-                                            <span>📍 Bangalore</span>
-                                            <span>•</span>
-                                            <span>💰 ₹5-8 LPA</span>
-                                            <span>•</span>
-                                            <span>⏳ 1-3 yrs</span>
-                                        </div>
-                                    </div>
-                                    <div class="rec-job-actions">
-                                        <button class="action-btn-sm btn-primary" onclick="handleQuickApply('BI Analyst', 'XYZ Solutions')">Apply</button>
-                                    </div>
-                                </div>
-
-                                <!-- Job 3 -->
-                                <div class="rec-job-card">
-                                    <div class="rec-job-logo">💼</div>
-                                    <div class="rec-job-details">
-                                        <div class="rec-job-header">
-                                            <h4 class="rec-job-title">Business Analyst</h4>
-                                            <span class="match-badge-pill match-high">84% Match</span>
-                                        </div>
-                                        <div class="rec-job-company">TechCorp</div>
-                                        <div class="rec-job-meta">
-                                            <span>📍 Remote</span>
-                                            <span>•</span>
-                                            <span>💰 ₹6-9 LPA</span>
-                                            <span>•</span>
-                                            <span>⏳ 2-4 yrs</span>
-                                        </div>
-                                    </div>
-                                    <div class="rec-job-actions">
-                                        <button class="action-btn-sm btn-primary" onclick="handleQuickApply('Business Analyst', 'TechCorp')">Apply</button>
-                                    </div>
+                                <div class="empty-state-card" style="padding: 2.5rem; text-align: center; color: var(--text-muted);">
+                                    <span style="font-size: 2rem; display: block; margin-bottom: 0.5rem;">🎯</span>
+                                    <h4 style="color: var(--text-bright); margin-bottom: 0.35rem;">No Recommendations Yet</h4>
+                                    <p style="font-size: 0.85rem; margin-bottom: 1rem;">Upload your resume to discover verified high-match jobs tailored to your skills.</p>
+                                    <button class="action-btn-sm btn-primary" onclick="triggerResumeUpload()">Upload Resume</button>
                                 </div>
                             </div>
                         </div>
@@ -456,27 +335,27 @@
                                 </div>
                                 <div class="pipeline-stepper-box">
                                     <div class="pipe-step">
-                                        <span class="pipe-count" id="pipe-saved-num">28</span>
+                                        <span class="pipe-count" id="pipe-saved-num">0</span>
                                         <span class="pipe-label">Saved</span>
                                     </div>
                                     <span class="pipe-arrow">→</span>
                                     <div class="pipe-step">
-                                        <span class="pipe-count active-pipe" id="pipe-applied-num">42</span>
+                                        <span class="pipe-count" id="pipe-applied-num">0</span>
                                         <span class="pipe-label">Applied</span>
                                     </div>
                                     <span class="pipe-arrow">→</span>
                                     <div class="pipe-step">
-                                        <span class="pipe-count" id="pipe-assess-num">12</span>
+                                        <span class="pipe-count" id="pipe-assess-num">0</span>
                                         <span class="pipe-label">Assessment</span>
                                     </div>
                                     <span class="pipe-arrow">→</span>
                                     <div class="pipe-step">
-                                        <span class="pipe-count" id="pipe-interview-num">6</span>
+                                        <span class="pipe-count" id="pipe-interview-num">0</span>
                                         <span class="pipe-label">Interview</span>
                                     </div>
                                     <span class="pipe-arrow">→</span>
                                     <div class="pipe-step">
-                                        <span class="pipe-count success-pipe" id="pipe-offer-num">1</span>
+                                        <span class="pipe-count" id="pipe-offer-num">0</span>
                                         <span class="pipe-label">Offer</span>
                                     </div>
                                 </div>
@@ -488,55 +367,9 @@
                                     <h3 class="panel-title">Skill Gaps</h3>
                                     <span class="badge-subtle">Market Calibration</span>
                                 </div>
-                                <div class="skill-gap-bars-list">
-                                    <div class="skill-meter-row">
-                                        <div class="skill-meter-info">
-                                            <span class="skill-meter-name">SQL</span>
-                                            <span class="skill-status-tag tag-covered">✓ Ready</span>
-                                        </div>
-                                        <div class="skill-meter-track">
-                                            <div class="skill-meter-fill fill-green" style="width: 95%;"></div>
-                                        </div>
-                                    </div>
-
-                                    <div class="skill-meter-row">
-                                        <div class="skill-meter-info">
-                                            <span class="skill-meter-name">Python</span>
-                                            <span class="skill-status-tag tag-covered">✓ Ready</span>
-                                        </div>
-                                        <div class="skill-meter-track">
-                                            <div class="skill-meter-fill fill-green" style="width: 88%;"></div>
-                                        </div>
-                                    </div>
-
-                                    <div class="skill-meter-row">
-                                        <div class="skill-meter-info">
-                                            <span class="skill-meter-name">Power BI</span>
-                                            <span class="skill-status-tag tag-covered">✓ Ready</span>
-                                        </div>
-                                        <div class="skill-meter-track">
-                                            <div class="skill-meter-fill fill-green" style="width: 82%;"></div>
-                                        </div>
-                                    </div>
-
-                                    <div class="skill-meter-row">
-                                        <div class="skill-meter-info">
-                                            <span class="skill-meter-name">DAX</span>
-                                            <span class="skill-status-tag tag-improve">⚠️ Improve</span>
-                                        </div>
-                                        <div class="skill-meter-track">
-                                            <div class="skill-meter-fill fill-amber" style="width: 65%;"></div>
-                                        </div>
-                                    </div>
-
-                                    <div class="skill-meter-row">
-                                        <div class="skill-meter-info">
-                                            <span class="skill-meter-name">Azure</span>
-                                            <span class="skill-status-tag tag-improve">⚠️ Improve</span>
-                                        </div>
-                                        <div class="skill-meter-track">
-                                            <div class="skill-meter-fill fill-amber" style="width: 55%;"></div>
-                                        </div>
+                                <div class="skill-gap-bars-list" id="dash-skill-gaps-container">
+                                    <div style="text-align: center; padding: 2rem 1rem; color: var(--text-muted); font-size: 0.85rem;">
+                                        Upload your resume to benchmark your skills against market demand.
                                     </div>
                                 </div>
                             </div>
@@ -591,8 +424,8 @@
                             </div>
 
                             <div class="jobs-stats-pills">
-                                <span class="stat-pill-sm">Found: <strong id="jobs-stat-found">186</strong></span>
-                                <span class="stat-pill-sm">Matched: <strong id="jobs-stat-returned">42</strong></span>
+                                <span class="stat-pill-sm">Found: <strong id="jobs-stat-found">0</strong></span>
+                                <span class="stat-pill-sm">Matched: <strong id="jobs-stat-returned">0</strong></span>
                             </div>
                         </div>
                     </div>
@@ -616,56 +449,17 @@
                             </div>
                             <div class="agent-quick-actions">
                                 <button class="action-btn-sm btn-secondary" onclick="sendAgentChatPrompt('What should I focus on today?')">🎯 Daily Priorities</button>
-                                <button class="action-btn-sm btn-secondary" onclick="sendAgentChatPrompt('Find suitable Data Analyst jobs in Hyderabad for my profile.')">🔍 Hyderabad Jobs</button>
+                                <button class="action-btn-sm btn-secondary" onclick="sendAgentChatPrompt('Find suitable jobs for my profile.')">🔍 Find Jobs</button>
                             </div>
                         </div>
 
                         <div class="agent-workspace-grid">
                             <div class="agent-chat-panel">
                                 <div class="agent-messages-container" id="agent-messages-container">
-                                    <div class="chat-bubble-row user-bubble-row">
-                                        <div class="chat-bubble user-bubble">
-                                            Find suitable Data Analyst jobs in Hyderabad for my profile.
-                                        </div>
-                                    </div>
-
                                     <div class="chat-bubble-row bot-bubble-row">
                                         <div class="chat-avatar-mini">🤖</div>
                                         <div class="chat-bubble bot-bubble">
-                                            <p>I found <strong>25 relevant jobs</strong> for you! Here are the top matches calibrated for your profile:</p>
-
-                                            <div class="chat-mini-jobs-list">
-                                                <div class="chat-mini-job-item">
-                                                    <div class="mini-job-icon">📊</div>
-                                                    <div class="mini-job-info">
-                                                        <div class="mini-job-title">Data Analyst - ABC Technologies</div>
-                                                        <div class="mini-job-meta">Hyderabad • ₹4-7 LPA</div>
-                                                    </div>
-                                                    <span class="match-badge-pill match-elite">91% Match</span>
-                                                </div>
-
-                                                <div class="chat-mini-job-item">
-                                                    <div class="mini-job-icon">📈</div>
-                                                    <div class="mini-job-info">
-                                                        <div class="mini-job-title">BI Analyst - XYZ Solutions</div>
-                                                        <div class="mini-job-meta">Hyderabad • ₹5-8 LPA</div>
-                                                    </div>
-                                                    <span class="match-badge-pill match-high">87% Match</span>
-                                                </div>
-
-                                                <div class="chat-mini-job-item">
-                                                    <div class="mini-job-icon">💼</div>
-                                                    <div class="mini-job-info">
-                                                        <div class="mini-job-title">Data Analyst - TechCorp</div>
-                                                        <div class="mini-job-meta">Hyderabad • ₹4-6 LPA</div>
-                                                    </div>
-                                                    <span class="match-badge-pill match-high">84% Match</span>
-                                                </div>
-                                            </div>
-
-                                            <div class="chat-more-jobs-link">
-                                                <button class="link-btn" onclick="switchAppTab('jobs')">Show more jobs →</button>
-                                            </div>
+                                            <p>👋 Hello! I am your <strong>AI Career Assistant</strong>. Upload your resume or ask me any question to discover matching jobs, optimize your resume, and prepare for interviews.</p>
                                         </div>
                                     </div>
                                 </div>
@@ -685,32 +479,32 @@
                                     <div class="focus-task-item">
                                         <span class="task-num">1</span>
                                         <div class="task-text">
-                                            <strong>Apply to 3 high-match jobs</strong>
-                                            <p>ABC Technologies, XYZ Solutions, TechCorp</p>
+                                            <strong>Upload your master resume</strong>
+                                            <p>Generate 6-dimension ATS scoring &amp; role matching</p>
                                         </div>
-                                        <button class="action-btn-sm" onclick="switchAppTab('jobs')">Apply</button>
+                                        <button class="action-btn-sm" onclick="triggerResumeUpload()">Upload</button>
                                     </div>
                                     <div class="focus-task-item">
                                         <span class="task-num">2</span>
                                         <div class="task-text">
-                                            <strong>Prepare for tomorrow's interview</strong>
-                                            <p>10:00 AM Technical Round prep</p>
+                                            <strong>Discover high-match job openings</strong>
+                                            <p>Filter verified positions by location and salary</p>
                                         </div>
-                                        <button class="action-btn-sm" onclick="switchAppTab('interviews')">Practice</button>
+                                        <button class="action-btn-sm" onclick="switchAppTab('jobs')">Explore</button>
                                     </div>
                                     <div class="focus-task-item">
                                         <span class="task-num">3</span>
                                         <div class="task-text">
-                                            <strong>Complete Power BI module</strong>
-                                            <p>50% complete in Learning Hub</p>
+                                            <strong>Practice AI voice mock interviews</strong>
+                                            <p>STAR-method real-time coaching</p>
                                         </div>
-                                        <button class="action-btn-sm" onclick="switchAppTab('learning')">Resume</button>
+                                        <button class="action-btn-sm" onclick="switchAppTab('interviews')">Practice</button>
                                     </div>
                                     <div class="focus-task-item">
                                         <span class="task-num">4</span>
                                         <div class="task-text">
-                                            <strong>Follow up on 2 applications</strong>
-                                            <p>Scout Tech &amp; GlobalCorp</p>
+                                            <strong>Track applications in Kanban CRM</strong>
+                                            <p>Automate follow-up reminders</p>
                                         </div>
                                         <button class="action-btn-sm" onclick="switchAppTab('crm')">CRM</button>
                                     </div>
@@ -744,44 +538,10 @@
                                     <div class="res-doc-icon">📄</div>
                                     <div class="res-doc-info">
                                         <div class="res-doc-name">Master Resume</div>
-                                        <div class="res-doc-date">Current Active Master</div>
+                                        <div class="res-doc-date">Upload to activate your ATS master profile</div>
                                     </div>
                                     <div class="res-doc-actions">
-                                        <span class="active-pill-badge">Active</span>
-                                        <button class="res-icon-btn" title="Download PDF" onclick="exportTailoredPDF()">📥</button>
-                                    </div>
-                                </div>
-
-                                <div class="resume-version-item">
-                                    <div class="res-doc-icon">📊</div>
-                                    <div class="res-doc-info">
-                                        <div class="res-doc-name">Data Analyst Resume</div>
-                                        <div class="res-doc-date">91% ATS Fit Version</div>
-                                    </div>
-                                    <div class="res-doc-actions">
-                                        <button class="action-btn-sm" onclick="openTailorModalForJob('Data Analyst', 'ABC Technologies')">Tailor</button>
-                                    </div>
-                                </div>
-
-                                <div class="resume-version-item">
-                                    <div class="res-doc-icon">💼</div>
-                                    <div class="res-doc-info">
-                                        <div class="res-doc-name">Business Analyst Resume</div>
-                                        <div class="res-doc-date">84% ATS Fit Version</div>
-                                    </div>
-                                    <div class="res-doc-actions">
-                                        <button class="action-btn-sm" onclick="openTailorModalForJob('Business Analyst', 'TechCorp')">Tailor</button>
-                                    </div>
-                                </div>
-
-                                <div class="resume-version-item">
-                                    <div class="res-doc-icon">📈</div>
-                                    <div class="res-doc-info">
-                                        <div class="res-doc-name">BI Analyst Resume</div>
-                                        <div class="res-doc-date">87% ATS Fit Version</div>
-                                    </div>
-                                    <div class="res-doc-actions">
-                                        <button class="action-btn-sm" onclick="openTailorModalForJob('BI Analyst', 'XYZ Solutions')">Tailor</button>
+                                        <button class="action-btn-sm btn-primary" onclick="triggerResumeUpload()">Upload</button>
                                     </div>
                                 </div>
                             </div>
@@ -799,10 +559,10 @@
                                         <div class="ats-circle">
                                             <svg class="ats-svg" viewBox="0 0 100 100">
                                                 <circle class="ats-bg-circle" cx="50" cy="50" r="42"></circle>
-                                                <circle class="ats-progress-circle" id="ats-progress" cx="50" cy="50" r="42" stroke-dasharray="264" stroke-dashoffset="47"></circle>
+                                                <circle class="ats-progress-circle" id="ats-progress" cx="50" cy="50" r="42" stroke-dasharray="264" stroke-dashoffset="264"></circle>
                                             </svg>
                                             <div class="ats-circle-inner">
-                                                <span id="ats-val" class="score-large-val">82%</span>
+                                                <span id="ats-val" class="score-large-val">0%</span>
                                                 <span class="ats-label-sub">RESUME SCORE</span>
                                             </div>
                                         </div>
@@ -813,56 +573,54 @@
                                     <div class="dim-row">
                                         <div class="dim-label-flex">
                                             <span>Content</span>
-                                            <strong>88%</strong>
+                                            <strong>0%</strong>
                                         </div>
-                                        <div class="dim-track"><div class="dim-fill" style="width: 88%;"></div></div>
+                                        <div class="dim-track"><div class="dim-fill" style="width: 0%;"></div></div>
                                     </div>
                                     <div class="dim-row">
                                         <div class="dim-label-flex">
                                             <span>Skills</span>
-                                            <strong>91%</strong>
+                                            <strong>0%</strong>
                                         </div>
-                                        <div class="dim-track"><div class="dim-fill" style="width: 91%;"></div></div>
+                                        <div class="dim-track"><div class="dim-fill" style="width: 0%;"></div></div>
                                     </div>
                                     <div class="dim-row">
                                         <div class="dim-label-flex">
                                             <span>ATS Compatibility</span>
-                                            <strong>76%</strong>
+                                            <strong>0%</strong>
                                         </div>
-                                        <div class="dim-track"><div class="dim-fill" style="width: 76%;"></div></div>
+                                        <div class="dim-track"><div class="dim-fill" style="width: 0%;"></div></div>
                                     </div>
                                     <div class="dim-row">
                                         <div class="dim-label-flex">
                                             <span>Projects</span>
-                                            <strong>85%</strong>
+                                            <strong>0%</strong>
                                         </div>
-                                        <div class="dim-track"><div class="dim-fill" style="width: 85%;"></div></div>
+                                        <div class="dim-track"><div class="dim-fill" style="width: 0%;"></div></div>
                                     </div>
                                     <div class="dim-row">
                                         <div class="dim-label-flex">
                                             <span>Achievements</span>
-                                            <strong>68%</strong>
+                                            <strong>0%</strong>
                                         </div>
-                                        <div class="dim-track"><div class="dim-fill" style="width: 68%; background: #f59e0b;"></div></div>
+                                        <div class="dim-track"><div class="dim-fill" style="width: 0%;"></div></div>
                                     </div>
                                     <div class="dim-row">
                                         <div class="dim-label-flex">
                                             <span>Formatting</span>
-                                            <strong>92%</strong>
+                                            <strong>0%</strong>
                                         </div>
-                                        <div class="dim-track"><div class="dim-fill" style="width: 92%;"></div></div>
+                                        <div class="dim-track"><div class="dim-fill" style="width: 0%;"></div></div>
                                     </div>
                                 </div>
                             </div>
 
                             <div class="weak-areas-box">
-                                <h5>⚠️ Missing / Weak Areas</h5>
+                                <h5>⚠️ Resume Assessment</h5>
                                 <ul class="weak-areas-list">
-                                    <li>Few quantified achievements (add % increase or metrics)</li>
-                                    <li>Limited evidence of advanced SQL / CTE optimization</li>
-                                    <li>No clear data-modeling project highlighted in header</li>
+                                    <li>Upload your resume to receive AI feedback and ATS dimension scoring.</li>
                                 </ul>
-                                <button class="action-btn btn-primary improve-resume-btn" onclick="openTailorModalForJob('Data Analyst', 'ABC Technologies')">Improve Resume</button>
+                                <button class="action-btn btn-primary improve-resume-btn" onclick="triggerResumeUpload()">Upload Resume</button>
                             </div>
                         </div>
 
@@ -890,17 +648,16 @@
                             </div>
 
                             <div class="tailor-benefits-box">
-                                <h5>Optimized for this job:</h5>
+                                <h5>Optimized for target opportunities:</h5>
                                 <ul class="tailor-benefits-list">
                                     <li>✓ Reordered skills to prioritize target keywords</li>
                                     <li>✓ Improved impact-driven bullet points</li>
-                                    <li>✓ Highlighted relevant projects (Emergency Room Analytics)</li>
+                                    <li>✓ Highlighted relevant project experience</li>
                                     <li>✓ High-density ATS keyword alignment</li>
                                     <li>✓ 100% Truth-preserving (No hallucinations)</li>
                                 </ul>
                                 <div class="tailor-card-actions">
-                                    <button class="action-btn btn-primary" onclick="openTailorModalForJob('Data Analyst', 'ABC Technologies')">Launch Tailoring Studio</button>
-                                    <button class="action-btn btn-secondary" onclick="exportTailoredPDF()">📥 Download Resume</button>
+                                    <button class="action-btn btn-primary" onclick="triggerResumeUpload()">Upload Resume to Tailor</button>
                                 </div>
                             </div>
                         </div>
@@ -922,11 +679,11 @@
                             </div>
                         </div>
                         <div class="crm-stats-row">
-                            <div class="crm-stat-box"><span id="crm-count-saved" class="crm-stat-num">5</span><span class="crm-stat-lbl">📌 Saved</span></div>
-                            <div class="crm-stat-box"><span id="crm-count-applied" class="crm-stat-num">8</span><span class="crm-stat-lbl">🚀 Applied</span></div>
-                            <div class="crm-stat-box"><span id="crm-count-assess" class="crm-stat-num">3</span><span class="crm-stat-lbl">📝 Assessment</span></div>
-                            <div class="crm-stat-box"><span id="crm-count-interview" class="crm-stat-num">2</span><span class="crm-stat-lbl">🎯 Interview</span></div>
-                            <div class="crm-stat-box"><span id="crm-count-offer" class="crm-stat-num">1</span><span class="crm-stat-lbl">🏆 Offer</span></div>
+                            <div class="crm-stat-box"><span id="crm-count-saved" class="crm-stat-num">0</span><span class="crm-stat-lbl">📌 Saved</span></div>
+                            <div class="crm-stat-box"><span id="crm-count-applied" class="crm-stat-num">0</span><span class="crm-stat-lbl">🚀 Applied</span></div>
+                            <div class="crm-stat-box"><span id="crm-count-assess" class="crm-stat-num">0</span><span class="crm-stat-lbl">📝 Assessment</span></div>
+                            <div class="crm-stat-box"><span id="crm-count-interview" class="crm-stat-num">0</span><span class="crm-stat-lbl">🎯 Interview</span></div>
+                            <div class="crm-stat-box"><span id="crm-count-offer" class="crm-stat-num">0</span><span class="crm-stat-lbl">🏆 Offer</span></div>
                         </div>
                     </div>
 
@@ -934,40 +691,40 @@
                     <div class="kanban-board-5col">
                         <div class="kanban-column" id="kanban-col-saved-wrap">
                             <div class="kanban-col-header header-saved">
-                                <span>Saved (5)</span>
-                                <span id="badge-saved-cnt" class="col-count-badge">5</span>
+                                <span>Saved</span>
+                                <span id="badge-saved-cnt" class="col-count-badge">0</span>
                             </div>
                             <div id="kanban-col-saved" class="kanban-card-list"></div>
                         </div>
 
                         <div class="kanban-column" id="kanban-col-applied-wrap">
                             <div class="kanban-col-header header-applied">
-                                <span>Applied (8)</span>
-                                <span id="badge-applied-cnt" class="col-count-badge">8</span>
+                                <span>Applied</span>
+                                <span id="badge-applied-cnt" class="col-count-badge">0</span>
                             </div>
                             <div id="kanban-col-applied" class="kanban-card-list"></div>
                         </div>
 
                         <div class="kanban-column" id="kanban-col-assess-wrap">
                             <div class="kanban-col-header header-assessment">
-                                <span>Assessment (3)</span>
-                                <span id="badge-assess-cnt" class="col-count-badge">3</span>
+                                <span>Assessment</span>
+                                <span id="badge-assess-cnt" class="col-count-badge">0</span>
                             </div>
                             <div id="kanban-col-assessment" class="kanban-card-list"></div>
                         </div>
 
                         <div class="kanban-column" id="kanban-col-interview-wrap">
                             <div class="kanban-col-header header-interview">
-                                <span>Interview (2)</span>
-                                <span id="badge-interview-cnt" class="col-count-badge">2</span>
+                                <span>Interview</span>
+                                <span id="badge-interview-cnt" class="col-count-badge">0</span>
                             </div>
                             <div id="kanban-col-interview" class="kanban-card-list"></div>
                         </div>
 
                         <div class="kanban-column" id="kanban-col-offer-wrap">
                             <div class="kanban-col-header header-offer">
-                                <span>Offer (1)</span>
-                                <span id="badge-offer-cnt" class="col-count-badge">1</span>
+                                <span>Offer</span>
+                                <span id="badge-offer-cnt" class="col-count-badge">0</span>
                             </div>
                             <div id="kanban-col-offer" class="kanban-card-list"></div>
                         </div>
@@ -1315,18 +1072,18 @@
                     <div class="candidate-profile-layout">
                         <div class="profile-main-header-card">
                             <div class="profile-header-left">
-                                <div class="profile-avatar-big" id="profile-avatar-big">VK</div>
+                                <div class="profile-avatar-big" id="profile-avatar-big">👤</div>
                                 <div class="profile-meta-info">
                                     <div class="profile-name-row">
                                         <h2 id="prof-display-name">Candidate Profile</h2>
-                                        <span class="role-badge-pill" id="prof-display-role">Data Analyst</span>
+                                        <span class="role-badge-pill" id="prof-display-role">Target Role</span>
                                     </div>
                                     <div class="profile-contact-details">
-                                        <span id="prof-display-loc">📍 Hyderabad, India</span>
+                                        <span id="prof-display-loc">📍 Location</span>
                                         <span>•</span>
-                                        <span id="prof-display-email">✉️ candidate@email.com</span>
+                                        <span id="prof-display-email">✉️ email@example.com</span>
                                         <span>•</span>
-                                        <span id="prof-display-phone">📞 Phone reference</span>
+                                        <span id="prof-display-phone">📞 Phone</span>
                                     </div>
                                 </div>
                             </div>
@@ -1348,21 +1105,16 @@
                                 <div class="profile-sec-card">
                                     <h4 class="prof-sec-title">Top Skills</h4>
                                     <div class="profile-skills-chips" id="prof-skills-container">
-                                        <span class="prof-skill-tag">Python</span>
-                                        <span class="prof-skill-tag">SQL</span>
-                                        <span class="prof-skill-tag">Power BI</span>
-                                        <span class="prof-skill-tag">Excel</span>
-                                        <span class="prof-skill-tag">DAX</span>
-                                        <span class="prof-skill-tag">Tableau</span>
+                                        <span style="color: var(--text-muted); font-size: 0.85rem;">Upload resume to auto-populate verified skills</span>
                                     </div>
                                 </div>
 
                                 <div class="profile-sec-card">
                                     <h4 class="prof-sec-title">Preferred Roles</h4>
-                                    <div class="preferred-roles-chips">
+                                    <div class="preferred-roles-chips" id="prof-preferred-roles">
+                                        <span class="prof-role-tag">Software Engineer</span>
                                         <span class="prof-role-tag">Data Analyst</span>
-                                        <span class="prof-role-tag">BI Analyst</span>
-                                        <span class="prof-role-tag">Business Analyst</span>
+                                        <span class="prof-role-tag">AI Specialist</span>
                                     </div>
                                 </div>
 
@@ -1389,8 +1141,8 @@
                 <div class="match-modal-title-flex">
                     <div class="match-company-logo" id="match-modal-logo">📊</div>
                     <div>
-                        <h3 id="match-modal-job-title" style="margin: 0;">Data Analyst</h3>
-                        <p class="muted" id="match-modal-company" style="margin: 0; font-size: 0.85rem;">ABC Technologies • Hyderabad</p>
+                        <h3 id="match-modal-job-title" style="margin: 0;">Job Fit Analysis</h3>
+                        <p class="muted" id="match-modal-company" style="margin: 0; font-size: 0.85rem;">Opportunity Alignment</p>
                     </div>
                 </div>
                 <button class="modal-close-btn" onclick="closeMatchAnalysisModal()">✕</button>
@@ -1400,34 +1152,34 @@
                 <div class="match-fit-header-row">
                     <div class="match-gauge-circle-wrap">
                         <div class="match-circle-big">
-                            <span class="match-big-pct" id="match-modal-score">91%</span>
+                            <span class="match-big-pct" id="match-modal-score">0%</span>
                             <span class="match-big-label">Overall Fit</span>
                         </div>
                     </div>
                     <div class="match-dimension-bars-list">
                         <div class="match-bar-item">
-                            <div class="mbar-flex"><span>Skills</span><strong id="mbar-skills-val">95%</strong></div>
-                            <div class="mbar-track"><div class="mbar-fill" id="mbar-skills-fill" style="width: 95%;"></div></div>
+                            <div class="mbar-flex"><span>Skills</span><strong id="mbar-skills-val">0%</strong></div>
+                            <div class="mbar-track"><div class="mbar-fill" id="mbar-skills-fill" style="width: 0%;"></div></div>
                         </div>
                         <div class="match-bar-item">
-                            <div class="mbar-flex"><span>Education</span><strong id="mbar-edu-val">100%</strong></div>
-                            <div class="mbar-track"><div class="mbar-fill" id="mbar-edu-fill" style="width: 100%;"></div></div>
+                            <div class="mbar-flex"><span>Education</span><strong id="mbar-edu-val">0%</strong></div>
+                            <div class="mbar-track"><div class="mbar-fill" id="mbar-edu-fill" style="width: 0%;"></div></div>
                         </div>
                         <div class="match-bar-item">
-                            <div class="mbar-flex"><span>Experience</span><strong id="mbar-exp-val">82%</strong></div>
-                            <div class="mbar-track"><div class="mbar-fill" id="mbar-exp-fill" style="width: 82%;"></div></div>
+                            <div class="mbar-flex"><span>Experience</span><strong id="mbar-exp-val">0%</strong></div>
+                            <div class="mbar-track"><div class="mbar-fill" id="mbar-exp-fill" style="width: 0%;"></div></div>
                         </div>
                         <div class="match-bar-item">
-                            <div class="mbar-flex"><span>Projects</span><strong id="mbar-proj-val">90%</strong></div>
-                            <div class="mbar-track"><div class="mbar-fill" id="mbar-proj-fill" style="width: 90%;"></div></div>
+                            <div class="mbar-flex"><span>Projects</span><strong id="mbar-proj-val">0%</strong></div>
+                            <div class="mbar-track"><div class="mbar-fill" id="mbar-proj-fill" style="width: 0%;"></div></div>
                         </div>
                         <div class="match-bar-item">
-                            <div class="mbar-flex"><span>Location</span><strong id="mbar-loc-val">100%</strong></div>
-                            <div class="mbar-track"><div class="mbar-fill" id="mbar-loc-fill" style="width: 100%;"></div></div>
+                            <div class="mbar-flex"><span>Location</span><strong id="mbar-loc-val">0%</strong></div>
+                            <div class="mbar-track"><div class="mbar-fill" id="mbar-loc-fill" style="width: 0%;"></div></div>
                         </div>
                         <div class="match-bar-item">
-                            <div class="mbar-flex"><span>Resume Evidence</span><strong id="mbar-evid-val">87%</strong></div>
-                            <div class="mbar-track"><div class="mbar-fill" id="mbar-evid-fill" style="width: 87%;"></div></div>
+                            <div class="mbar-flex"><span>Resume Evidence</span><strong id="mbar-evid-val">0%</strong></div>
+                            <div class="mbar-track"><div class="mbar-fill" id="mbar-evid-fill" style="width: 0%;"></div></div>
                         </div>
                     </div>
                 </div>
@@ -1436,18 +1188,14 @@
                     <div class="match-why-card">
                         <h5>✓ Why you match</h5>
                         <div class="chips-list" id="match-modal-why-chips">
-                            <span class="chip-match-green">Python</span>
-                            <span class="chip-match-green">Power BI</span>
-                            <span class="chip-match-green">SQL</span>
-                            <span class="chip-match-green">Data Visualization</span>
+                            <span class="chip-match-green">Matching Skills</span>
                         </div>
                     </div>
 
                     <div class="match-gaps-card">
                         <h5>⚠️ Potential gaps</h5>
                         <div class="chips-list" id="match-modal-gap-chips">
-                            <span class="chip-gap-amber">DAX</span>
-                            <span class="chip-gap-amber">Advanced Statistics</span>
+                            <span class="chip-gap-amber">Missing Skills</span>
                         </div>
                     </div>
                 </div>
@@ -1608,11 +1356,11 @@
                     <div class="settings-grid">
                         <div class="form-group">
                             <label class="form-label">Candidate Full Name</label>
-                            <input type="text" id="setting-candidate-name" class="form-input" placeholder="e.g. Vishnu Kumar">
+                            <input type="text" id="setting-candidate-name" class="form-input" placeholder="e.g. Candidate Name">
                         </div>
                         <div class="form-group">
                             <label class="form-label">Target Role / Specialization</label>
-                            <input type="text" id="setting-target-role" class="form-input" placeholder="e.g. Data Analyst, BI Analyst">
+                            <input type="text" id="setting-target-role" class="form-input" placeholder="e.g. Data Analyst, Software Engineer">
                         </div>
                         <div class="form-group">
                             <label class="form-label">Preferred Location / Hub</label>
@@ -1672,56 +1420,6 @@
             <div class="modal-footer settings-footer">
                 <button class="action-btn btn-secondary" onclick="closeSettingsModal()">Cancel</button>
                 <button class="action-btn btn-primary" onclick="saveSettingsPreferences()">Save Preferences</button>
-            </div>
-        </div>
-    </div>
-
-    <!-- Watch Demo Walkthrough Modal -->
-    <div id="demo-modal" class="modal-backdrop" style="display: none;">
-        <div class="modal-box modal-large">
-            <div class="modal-header">
-                <div style="display: flex; align-items: center; gap: 0.6rem;">
-                    <span style="font-size: 1.3rem;">▶</span>
-                    <div>
-                        <h3 style="margin: 0;">Platform Feature Walkthrough</h3>
-                        <p class="muted" style="margin: 0; font-size: 0.82rem;">How AI Job Copilot accelerates your complete career journey</p>
-                    </div>
-                </div>
-                <button class="modal-close-btn" onclick="closeDemoWalkthroughModal()">✕</button>
-            </div>
-            <div class="modal-body" style="padding: 1.5rem;">
-                <div class="demo-features-overview-grid">
-                    <div class="demo-card" onclick="closeDemoWalkthroughModal(); switchAppTab('dashboard'); triggerResumeUpload();">
-                        <span class="demo-num">1</span>
-                        <h4>📄 Resume Parsing &amp; ATS Score</h4>
-                        <p>Instant 6-dimension breakdown: Content, Skills, ATS compatibility, Projects, Achievements, Formatting.</p>
-                    </div>
-                    <div class="demo-card" onclick="closeDemoWalkthroughModal(); switchAppTab('jobs');">
-                        <span class="demo-num">2</span>
-                        <h4>🎯 Verified Job Matching</h4>
-                        <p>Role-weighted fit percentages, salary filtering, and deduplicated recruiter openings.</p>
-                    </div>
-                    <div class="demo-card" onclick="closeDemoWalkthroughModal(); switchAppTab('resumes');">
-                        <span class="demo-num">3</span>
-                        <h4>✍️ AI Resume Tailoring</h4>
-                        <p>Truth-preserving document alignment highlighting relevant keywords without hallucinations.</p>
-                    </div>
-                    <div class="demo-card" onclick="closeDemoWalkthroughModal(); switchAppTab('crm');">
-                        <span class="demo-num">4</span>
-                        <h4>📋 Application Tracker CRM</h4>
-                        <p>Manage opportunities through Saved, Applied, Assessment, Interview, and Offer with automated follow-ups.</p>
-                    </div>
-                    <div class="demo-card" onclick="closeDemoWalkthroughModal(); switchAppTab('interviews');">
-                        <span class="demo-num">5</span>
-                        <h4>🎤 Voice Mock Interviews</h4>
-                        <p>Interactive speech-to-text answers with instant STAR rubric grading and coaching feedback.</p>
-                    </div>
-                    <div class="demo-card" onclick="closeDemoWalkthroughModal(); switchAppTab('learning');">
-                        <span class="demo-num">6</span>
-                        <h4>📚 Learning &amp; Capstones</h4>
-                        <p>Market skill gap analysis with week-by-week curriculum roadmaps and starter kits.</p>
-                    </div>
-                </div>
             </div>
         </div>
     </div>

@@ -133,269 +133,8 @@ document.addEventListener("click", (e) => {
 });
 
 // ==========================================================
-// 1-Click Instant Interactive Demo Profiles
-// ==========================================================
-function loadDemoCandidate(roleKey) {
-    const demoPresets = {
-        "data-analyst": {
-            name: "Beere Vishnu Sai",
-            email: "vishnusai.analytics@jobagent.ai",
-            phone: "+91 98765 43210",
-            location: "Hyderabad, India",
-            preferred_role: "Junior Data Analyst",
-            preferred_location: "Hyderabad, India",
-            experience_tier: "1-2 Years (Associate)",
-            career_level: "Associate Analyst",
-            ats_score: 94,
-            skills: ["SQL", "Python", "Power BI", "Tableau", "Excel", "Pandas", "NumPy", "Data Cleaning", "Data Modeling", "ETL Pipelines", "Statistical Analysis", "Business Intelligence"],
-            missing_skills: ["Snowflake", "dbt", "Airflow"],
-            career_summary: "Results-driven Data Analyst with proven expertise in SQL data modeling, Python statistical exploration, and dynamic Power BI business dashboards. Experienced in building automated ETL pipelines.",
-            linkedin: "linkedin.com/in/vishnu-sai-analytics",
-            github: "github.com/Vishnu-Sai-bit",
-            roles: [
-                { role: "Junior Data Analyst", match_score: 94.0 },
-                { role: "Business Intelligence Analyst", match_score: 89.5 },
-                { role: "Python Developer", match_score: 84.0 },
-                { role: "Data Engineer", match_score: 78.0 }
-            ],
-            kpis: {
-                jobs_discovered: 1420,
-                verified_fits: 215,
-                applications_sent: 8,
-                interviews_scheduled: 3,
-                conversion_rate: 37.5
-            }
-        },
-        "python-dev": {
-            name: "Alex Chen",
-            email: "alex.chen.dev@jobagent.ai",
-            phone: "+91 99887 76655",
-            location: "Bengaluru, India",
-            preferred_role: "Python Developer",
-            preferred_location: "Bengaluru, India / Remote",
-            experience_tier: "2-4 Years (Mid-Level)",
-            career_level: "Mid-Level Backend Engineer",
-            ats_score: 92,
-            skills: ["Python", "FastAPI", "Django", "PostgreSQL", "MongoDB", "Docker", "Redis", "REST APIs", "Git", "Celery", "Microservices", "Unit Testing"],
-            missing_skills: ["Kubernetes", "GraphQL", "Kafka"],
-            career_summary: "Backend Python Engineer specializing in scalable microservices, high-throughput REST APIs, asynchronous task queues with Celery/Redis, and PostgreSQL database optimization.",
-            linkedin: "linkedin.com/in/alexchen-py",
-            github: "github.com/alexchen-dev",
-            roles: [
-                { role: "Python Developer", match_score: 92.5 },
-                { role: "Backend Software Engineer", match_score: 90.0 },
-                { role: "Full Stack Engineer", match_score: 82.0 },
-                { role: "Cloud API Engineer", match_score: 79.5 }
-            ],
-            kpis: {
-                jobs_discovered: 1680,
-                verified_fits: 248,
-                applications_sent: 12,
-                interviews_scheduled: 4,
-                conversion_rate: 33.3
-            }
-        },
-        "ai-engineer": {
-            name: "Dr. Maya Sharma",
-            email: "maya.sharma.ai@jobagent.ai",
-            phone: "+91 91234 56789",
-            location: "Hyderabad, India",
-            preferred_role: "AI / ML Engineer",
-            preferred_location: "Hyderabad, India / Remote",
-            experience_tier: "3-5 Years (Senior Specialist)",
-            career_level: "Senior Applied AI Engineer",
-            ats_score: 96,
-            skills: ["Python", "PyTorch", "TensorFlow", "LangChain", "LLMs", "NLP", "Vector DBs", "RAG Architectures", "Scikit-Learn", "FastAPI", "Hugging Face", "MLOps"],
-            missing_skills: ["Triton Server", "CUDA Optimization"],
-            career_summary: "Applied AI Engineer building production-grade LLM applications, RAG pipelines, fine-tuned transformer models, and autonomous AI agents with LangChain and vector databases.",
-            linkedin: "linkedin.com/in/dr-maya-sharma-ai",
-            github: "github.com/mayasharma-ai",
-            roles: [
-                { role: "AI / ML Engineer", match_score: 96.0 },
-                { role: "Generative AI Specialist", match_score: 94.5 },
-                { role: "Data Scientist", match_score: 91.0 },
-                { role: "NLP Engineer", match_score: 88.0 }
-            ],
-            kpis: {
-                jobs_discovered: 1950,
-                verified_fits: 310,
-                applications_sent: 15,
-                interviews_scheduled: 6,
-                conversion_rate: 40.0
-            }
-        },
-        "full-stack": {
-            name: "Jordan Taylor",
-            email: "jordan.taylor.dev@jobagent.ai",
-            phone: "+91 98450 12345",
-            location: "Remote / Bengaluru",
-            preferred_role: "Full Stack Developer",
-            preferred_location: "Remote / India",
-            experience_tier: "2-3 Years (Associate)",
-            career_level: "Full Stack Software Engineer",
-            ats_score: 90,
-            skills: ["JavaScript", "TypeScript", "React", "Node.js", "Express", "Next.js", "PostgreSQL", "Tailwind CSS", "REST APIs", "Git", "Docker", "Redux"],
-            missing_skills: ["GraphQL", "AWS Lambda", "CI/CD"],
-            career_summary: "Full Stack Developer crafting responsive React & Next.js user interfaces backed by scalable Node.js microservices and relational PostgreSQL databases.",
-            linkedin: "linkedin.com/in/jordantaylor-fs",
-            github: "github.com/jordantaylor-code",
-            roles: [
-                { role: "Full Stack Developer", match_score: 90.0 },
-                { role: "Frontend React Engineer", match_score: 88.5 },
-                { role: "Backend Node Engineer", match_score: 86.0 },
-                { role: "Web Application Developer", match_score: 84.0 }
-            ],
-            kpis: {
-                jobs_discovered: 1540,
-                verified_fits: 220,
-                applications_sent: 10,
-                interviews_scheduled: 3,
-                conversion_rate: 30.0
-            }
-        }
-    };
-
-    const selected = demoPresets[roleKey] || demoPresets["data-analyst"];
-    resumeData = selected;
-
-    // Build rich matched jobs for this demo candidate
-    jobData = {
-        jobs: [
-            {
-                id: "demo_job_1",
-                title: `${selected.preferred_role}`,
-                company: "GlobalCorp Analytics",
-                location: selected.preferred_location,
-                source: "LinkedIn",
-                is_verified: true,
-                verification_badge: "Verified Employer",
-                posted_time: "🟢 Fresh < 6 hours ago",
-                work_mode: "Hybrid / Remote",
-                salary: "₹12,00,000 - ₹18,00,000 / yr",
-                match_score: 94.0,
-                matched_skills: selected.skills.slice(0, 6),
-                missing_skills: selected.missing_skills.slice(0, 2),
-                fit_breakdown: {
-                    skills_match: 95.0,
-                    role_alignment: 96.0,
-                    experience_match: 92.0,
-                    location_compatibility: 95.0,
-                    evidence: `High-fidelity candidate alignment with verified skills in ${selected.skills.slice(0, 4).join(", ")}.`
-                },
-                application_url: "https://www.linkedin.com/jobs"
-            },
-            {
-                id: "demo_job_2",
-                title: `Senior ${selected.preferred_role}`,
-                company: "Microsoft Technologies",
-                location: "Hyderabad, India",
-                source: "Direct Portal",
-                is_verified: true,
-                verification_badge: "Enterprise Verified",
-                posted_time: "🟢 Fresh < 12 hours ago",
-                work_mode: "Hybrid",
-                salary: "₹16,00,000 - ₹24,00,000 / yr",
-                match_score: 91.5,
-                matched_skills: selected.skills.slice(1, 7),
-                missing_skills: selected.missing_skills.slice(1, 3),
-                fit_breakdown: {
-                    skills_match: 92.0,
-                    role_alignment: 94.0,
-                    experience_match: 88.0,
-                    location_compatibility: 96.0,
-                    evidence: `Strong direct match for core technical architecture and data processing workflows.`
-                },
-                application_url: "https://careers.microsoft.com"
-            },
-            {
-                id: "demo_job_3",
-                title: `${selected.roles[1]?.role || "Cloud Solutions Specialist"}`,
-                company: "Scout Tech Labs",
-                location: "Bengaluru, India",
-                source: "Indeed",
-                is_verified: true,
-                verification_badge: "Verified Employer",
-                posted_time: "🟢 Fresh < 1 day ago",
-                work_mode: "Remote",
-                salary: "₹14,00,000 - ₹20,00,000 / yr",
-                match_score: 88.0,
-                matched_skills: selected.skills.slice(2, 8),
-                missing_skills: selected.missing_skills.slice(0, 2),
-                fit_breakdown: {
-                    skills_match: 88.0,
-                    role_alignment: 90.0,
-                    experience_match: 86.0,
-                    location_compatibility: 90.0,
-                    evidence: `Compatible across secondary tracks with high cross-domain skill portability.`
-                },
-                application_url: "https://www.indeed.com"
-            },
-            {
-                id: "demo_job_4",
-                title: `${selected.roles[2]?.role || "Software Specialist"}`,
-                company: "Innovate AI",
-                location: "Remote",
-                source: "RemoteOK",
-                is_verified: true,
-                verification_badge: "Verified Startup",
-                posted_time: "🟢 Fresh < 2 days ago",
-                work_mode: "100% Remote",
-                salary: "$65,000 - $85,000 / yr",
-                match_score: 84.5,
-                matched_skills: selected.skills.slice(0, 5),
-                missing_skills: selected.missing_skills.slice(0, 3),
-                fit_breakdown: {
-                    skills_match: 85.0,
-                    role_alignment: 86.0,
-                    experience_match: 82.0,
-                    location_compatibility: 100.0,
-                    evidence: `Matches remote operational criteria and foundational programming prerequisites.`
-                },
-                application_url: "https://remoteok.com"
-            }
-        ],
-        stats: {
-            found_count: 124,
-            returned_count: 4,
-            search_latency: 0.18
-        }
-    };
-
-    // Render all modules
-    renderDashboard();
-    renderJobs();
-    renderLearning();
-    renderToolForm();
-
-    // Update Executive Funnel & Velocity
-    if (selected.kpis) {
-        const jobsFound = document.getElementById("exec-jobs-found");
-        const jobsVer = document.getElementById("exec-jobs-verified");
-        const appsSent = document.getElementById("exec-apps-sent");
-        const inters = document.getElementById("exec-interviews");
-        const conv = document.getElementById("exec-conversion");
-
-        if (jobsFound) jobsFound.textContent = selected.kpis.jobs_discovered.toLocaleString();
-        if (jobsVer) jobsVer.textContent = selected.kpis.verified_fits.toLocaleString();
-        if (appsSent) appsSent.textContent = selected.kpis.applications_sent.toString();
-        if (inters) inters.textContent = selected.kpis.interviews_scheduled.toString();
-        if (conv) conv.textContent = `${selected.kpis.conversion_rate}%`;
-    }
-
-    updateVelocityMetrics(selected.kpis.applications_sent, 5, selected.kpis.interviews_scheduled, selected.ats_score);
-
-    // Switch to Dashboard
-    activeTab = "dashboard";
-    document.querySelectorAll(".nav-btn").forEach(b => {
-        b.classList.remove("active");
-        if (b.getAttribute("data-tab") === "dashboard") b.classList.add("active");
-    });
-    switchTabVisibility();
-
-    showToast(`✨ Loaded Live Demo Profile: ${selected.name} (${selected.preferred_role})!`, "success", "🚀");
-}
-
 // Toast Notification Engine
+// ==========================================================
 function showToast(message, type = "info", customIcon = null) {
     const container = document.getElementById("toast-container");
     if (!container) return;
@@ -491,16 +230,6 @@ function switchAppTab(targetTab) {
             item.classList.add("active");
         } else {
             item.classList.remove("active");
-        }
-    });
-
-    // Sync journey stepper buttons
-    document.querySelectorAll(".journey-step-btn").forEach(step => {
-        const stepClick = step.getAttribute("onclick") || "";
-        if (stepClick.includes(`'${targetTab}'`)) {
-            step.classList.add("active");
-        } else {
-            step.classList.remove("active");
         }
     });
 
@@ -970,6 +699,137 @@ function renderDashboard() {
 
     suitabilityDiv.style.display = "block";
 
+    // Dynamic Dashboard Greetings & KPIs
+    const firstName = candidateName.split(" ")[0] || "Candidate";
+    const dashGreeting = document.getElementById("dash-greeting-name");
+    if (dashGreeting) dashGreeting.textContent = firstName;
+
+    const jobsList = (jobData && (jobData.jobs || jobData.matched_jobs)) || [];
+    const jobsCount = (jobData && (jobData.total_jobs_found || jobsList.length)) || jobsList.length;
+
+    const dashKpiFound = document.getElementById("dash-kpi-found");
+    if (dashKpiFound) dashKpiFound.textContent = jobsCount.toString();
+
+    const sidebarJobsCount = document.getElementById("sidebar-jobs-count");
+    if (sidebarJobsCount) sidebarJobsCount.textContent = jobsCount.toString();
+
+    const sidebarAvatar = document.getElementById("sidebar-avatar");
+    if (sidebarAvatar) sidebarAvatar.textContent = initials;
+
+    const sidebarName = document.getElementById("sidebar-profile-name");
+    if (sidebarName) sidebarName.textContent = candidateName;
+
+    const sidebarRole = document.getElementById("sidebar-profile-role");
+    if (sidebarRole) sidebarRole.textContent = prefRole;
+
+    // Dynamic Profile View Updates
+    const profAvatar = document.getElementById("profile-avatar-big");
+    if (profAvatar) profAvatar.textContent = initials;
+
+    const profName = document.getElementById("prof-display-name");
+    if (profName) profName.textContent = candidateName;
+
+    const profRole = document.getElementById("prof-display-role");
+    if (profRole) profRole.textContent = prefRole;
+
+    const profLoc = document.getElementById("prof-display-loc");
+    if (profLoc) profLoc.textContent = `📍 ${currentHub}`;
+
+    const profEmail = document.getElementById("prof-display-email");
+    if (profEmail) profEmail.textContent = `✉️ ${resumeData.email || "Not specified"}`;
+
+    const profPhone = document.getElementById("prof-display-phone");
+    if (profPhone) profPhone.textContent = `📞 ${resumeData.phone || "Not specified"}`;
+
+    const profSkillsContainer = document.getElementById("prof-skills-container");
+    if (profSkillsContainer && skills.length > 0) {
+        profSkillsContainer.innerHTML = skills.map(s => `<span class="prof-skill-tag">${s}</span>`).join("");
+    }
+
+    // Dynamic Recommended Jobs on Dashboard
+    const recContainer = document.getElementById("dash-recommended-jobs-list");
+    if (recContainer) {
+        if (jobsList.length > 0) {
+            recContainer.innerHTML = jobsList.slice(0, 3).map(j => {
+                const title = j.title || "Target Opportunity";
+                const company = j.company || "Verified Employer";
+                const loc = j.location || "India";
+                const sal = j.salary || "Competitive";
+                const exp = j.experience || "0-2 yrs";
+                const score = Math.round(j.match_score || 85);
+                const encTitle = encodeURIComponent(title);
+                const encComp = encodeURIComponent(company);
+
+                return `
+                    <div class="rec-job-card">
+                        <div class="rec-job-logo">📊</div>
+                        <div class="rec-job-details">
+                            <div class="rec-job-header">
+                                <h4 class="rec-job-title">${title}</h4>
+                                <span class="match-badge-pill ${score >= 90 ? 'match-elite' : 'match-high'}">${score}% Match</span>
+                            </div>
+                            <div class="rec-job-company">${company}</div>
+                            <div class="rec-job-meta">
+                                <span>📍 ${loc}</span>
+                                <span>•</span>
+                                <span>💰 ${sal}</span>
+                                <span>•</span>
+                                <span>⏳ ${exp}</span>
+                            </div>
+                        </div>
+                        <div class="rec-job-actions">
+                            <button class="action-btn-sm btn-primary" onclick="handleQuickApply('${encTitle}', '${encComp}')">Apply</button>
+                        </div>
+                    </div>
+                `;
+            }).join("");
+        } else {
+            recContainer.innerHTML = `
+                <div class="empty-state-card" style="padding: 2.5rem; text-align: center; color: var(--text-muted);">
+                    <span style="font-size: 2rem; display: block; margin-bottom: 0.5rem;">🎯</span>
+                    <h4 style="color: var(--text-bright); margin-bottom: 0.35rem;">No Recommendations Yet</h4>
+                    <p style="font-size: 0.85rem; margin-bottom: 1rem;">Upload your resume to discover verified high-match jobs tailored to your skills.</p>
+                    <button class="action-btn-sm btn-primary" onclick="triggerResumeUpload()">Upload Resume</button>
+                </div>
+            `;
+        }
+    }
+
+    // Dynamic Skill Gaps on Dashboard
+    const skillGapsContainer = document.getElementById("dash-skill-gaps-container");
+    if (skillGapsContainer && skills.length > 0) {
+        const topSkills = skills.slice(0, 3);
+        const missing = (resumeData.missing_skills || []).slice(0, 2);
+
+        let skillBarsHtml = topSkills.map((s, idx) => `
+            <div class="skill-meter-row">
+                <div class="skill-meter-info">
+                    <span class="skill-meter-name">${s}</span>
+                    <span class="skill-status-tag tag-covered">✓ Ready</span>
+                </div>
+                <div class="skill-meter-track">
+                    <div class="skill-meter-fill fill-green" style="width: ${Math.max(75, 95 - idx * 6)}%;"></div>
+                </div>
+            </div>
+        `).join("");
+
+        if (missing.length > 0) {
+            skillBarsHtml += missing.map((m, idx) => `
+                <div class="skill-meter-row">
+                    <div class="skill-meter-info">
+                        <span class="skill-meter-name">${m}</span>
+                        <span class="skill-status-tag tag-improve">⚠️ Improve</span>
+                    </div>
+                    <div class="skill-meter-track">
+                        <div class="skill-meter-fill fill-amber" style="width: ${Math.max(45, 65 - idx * 10)}%;"></div>
+                    </div>
+                </div>
+            `).join("");
+        }
+
+        skillGapsContainer.innerHTML = skillBarsHtml;
+    }
+
     // Phase 4: Load Executive Career Intelligence & Pipeline Funnel
     loadExecutiveCareerOverview();
 }
@@ -1142,12 +1002,32 @@ function cleanSkillTokens(rawList) {
 
 // 2. Job Matches
 function renderJobs() {
-    if (!jobData) return;
+    const container = document.getElementById("jobs-list-container");
+    if (!jobData) {
+        if (container) {
+            container.innerHTML = `
+                <div class="empty-state-card" style="padding: 3rem; text-align: center; color: var(--text-muted);">
+                    <span style="font-size: 2.5rem; display: block; margin-bottom: 0.75rem;">🎯</span>
+                    <h3 style="color: var(--text-bright); margin-bottom: 0.5rem;">No Jobs Discovered Yet</h3>
+                    <p style="font-size: 0.9rem; margin-bottom: 1.25rem;">Upload your resume to discover real-time matching jobs and ATS compatibility scores.</p>
+                    <button class="action-btn btn-primary" onclick="triggerResumeUpload()">📄 Upload Resume</button>
+                </div>
+            `;
+        }
+        const statFound = document.getElementById("jobs-stat-found");
+        if (statFound) statFound.textContent = "0";
+        const statRet = document.getElementById("jobs-stat-returned");
+        if (statRet) statRet.textContent = "0";
+        return;
+    }
 
     // Set stats
-    document.getElementById("jobs-stat-found").textContent = jobData.total_jobs_found || 0;
-    document.getElementById("jobs-stat-returned").textContent = jobData.total_jobs_returned || 0;
-    document.getElementById("jobs-stat-time").textContent = `${jobData.search_time || 0.0}s`;
+    const statFoundElem = document.getElementById("jobs-stat-found");
+    if (statFoundElem) statFoundElem.textContent = jobData.total_jobs_found || 0;
+    const statRetElem = document.getElementById("jobs-stat-returned");
+    if (statRetElem) statRetElem.textContent = jobData.total_jobs_returned || 0;
+    const statTimeElem = document.getElementById("jobs-stat-time");
+    if (statTimeElem) statTimeElem.textContent = `${jobData.search_time || 0.0}s`;
 
     const groupByInput = document.querySelector('input[name="group-by"]:checked');
     const groupBy = groupByInput ? groupByInput.value : "category";
@@ -2551,15 +2431,48 @@ function renderCRMBoard(apps) {
     });
 
     // Update Counters
-    document.getElementById("crm-count-saved").textContent = countSaved;
-    document.getElementById("crm-count-applied").textContent = countApplied;
-    document.getElementById("crm-count-interview").textContent = countInterview;
-    document.getElementById("crm-count-offer").textContent = countOffer;
+    const crmSavedElem = document.getElementById("crm-count-saved");
+    if (crmSavedElem) crmSavedElem.textContent = countSaved;
+    const crmAppliedElem = document.getElementById("crm-count-applied");
+    if (crmAppliedElem) crmAppliedElem.textContent = countApplied;
+    const crmInterviewElem = document.getElementById("crm-count-interview");
+    if (crmInterviewElem) crmInterviewElem.textContent = countInterview;
+    const crmOfferElem = document.getElementById("crm-count-offer");
+    if (crmOfferElem) crmOfferElem.textContent = countOffer;
 
-    document.getElementById("badge-saved-cnt").textContent = countSaved;
-    document.getElementById("badge-applied-cnt").textContent = countApplied;
-    document.getElementById("badge-interview-cnt").textContent = countInterview;
-    document.getElementById("badge-offer-cnt").textContent = countOffer;
+    const badgeSavedElem = document.getElementById("badge-saved-cnt");
+    if (badgeSavedElem) badgeSavedElem.textContent = countSaved;
+    const badgeAppliedElem = document.getElementById("badge-applied-cnt");
+    if (badgeAppliedElem) badgeAppliedElem.textContent = countApplied;
+    const badgeInterviewElem = document.getElementById("badge-interview-cnt");
+    if (badgeInterviewElem) badgeInterviewElem.textContent = countInterview;
+    const badgeOfferElem = document.getElementById("badge-offer-cnt");
+    if (badgeOfferElem) badgeOfferElem.textContent = countOffer;
+
+    // Sync with Dashboard KPIs & Sidebar
+    const dashApplied = document.getElementById("dash-kpi-applied");
+    if (dashApplied) dashApplied.textContent = countApplied;
+    const dashInterview = document.getElementById("dash-kpi-interviews");
+    if (dashInterview) dashInterview.textContent = countInterview;
+    const dashOffer = document.getElementById("dash-kpi-offer");
+    if (dashOffer) dashOffer.textContent = countOffer;
+    const dashSaved = document.getElementById("dash-kpi-saved");
+    if (dashSaved) dashSaved.textContent = countSaved;
+
+    const sidebarApps = document.getElementById("sidebar-apps-count");
+    if (sidebarApps) sidebarApps.textContent = apps.length;
+    const sidebarInterviews = document.getElementById("sidebar-interview-count");
+    if (sidebarInterviews) sidebarInterviews.textContent = countInterview;
+
+    // Sync pipeline stepper
+    const pipeSaved = document.getElementById("pipe-saved-num");
+    if (pipeSaved) pipeSaved.textContent = countSaved;
+    const pipeApplied = document.getElementById("pipe-applied-num");
+    if (pipeApplied) pipeApplied.textContent = countApplied;
+    const pipeInterview = document.getElementById("pipe-interview-num");
+    if (pipeInterview) pipeInterview.textContent = countInterview;
+    const pipeOffer = document.getElementById("pipe-offer-num");
+    if (pipeOffer) pipeOffer.textContent = countOffer;
 }
 
 async function quickAddToCRM(encodedTitle, encodedCompany, encodedLoc, encodedSal, encodedUrl) {
@@ -4375,17 +4288,6 @@ function openTailorModalForJob(jobTitle, companyName) {
         const modal = document.getElementById("tailor-modal");
         if (modal) modal.style.display = "flex";
     }
-}
-
-// Demo Walkthrough Modal
-function openDemoWalkthroughModal() {
-    const modal = document.getElementById("demo-modal");
-    if (modal) modal.style.display = "flex";
-}
-
-function closeDemoWalkthroughModal() {
-    const modal = document.getElementById("demo-modal");
-    if (modal) modal.style.display = "none";
 }
 
 // Screen 4: AI Job Agent Conversational Search

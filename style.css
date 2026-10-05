@@ -4629,52 +4629,6 @@ h1, h2, h3, h4, h5, h6 {
     font-weight: 600;
 }
 
-/* Top Journey Stepper in Single Top Navbar */
-.journey-stepper {
-    display: flex;
-    align-items: center;
-    gap: 0.35rem;
-    flex-wrap: wrap;
-    justify-content: center;
-}
-
-.top-journey-flow {
-    flex: 1;
-    margin: 0 1rem;
-    max-width: 820px;
-}
-
-.journey-step-btn {
-    display: inline-flex;
-    align-items: center;
-    gap: 0.35rem;
-    padding: 0.32rem 0.65rem;
-    background: var(--bg-surface);
-    border: 1px solid var(--border-color);
-    border-radius: 20px;
-    color: var(--text-color);
-    font-size: 0.78rem;
-    font-weight: 600;
-    cursor: pointer;
-    transition: all var(--transition-fast);
-    white-space: nowrap;
-}
-
-.journey-step-btn:hover,
-.journey-step-btn.active {
-    background: var(--primary-color);
-    border-color: var(--primary-color);
-    color: #ffffff;
-    box-shadow: var(--shadow-glow);
-    transform: translateY(-1px);
-}
-
-.step-arrow {
-    color: var(--text-subtle);
-    font-size: 0.78rem;
-    font-weight: bold;
-}
-
 /* Platform Main App Shell: Sidebar + Content */
 .platform-app-shell {
     display: flex;
