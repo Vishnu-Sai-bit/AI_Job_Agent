@@ -469,7 +469,7 @@ function renderDashboard() {
         progressCircle.style.strokeDashoffset = strokeDashOffset;
     }
 
-    // Candidate Hero Profile Header
+    // Candidate Profile Info
     const candidateName = resumeData.name || "Candidate Profile";
     const initials = candidateName.split(" ").map(w => w[0]).join("").toUpperCase().slice(0, 2) || "AI";
     const currentHub = resumeData.location || resumeData.preferred_location || "Hyderabad, India";
@@ -589,43 +589,43 @@ function renderDashboard() {
     const prefLevel = document.getElementById("pref-level");
     if (prefLevel) prefLevel.textContent = resumeData.career_level || "Junior / Mid";
 
-
     // Social profile badges
     const socialsContainer = document.getElementById("socials-container");
-    socialsContainer.innerHTML = "";
-    
-    const socials = [
-        { name: "Email", key: "email", icon: "✉️", isEmail: true },
-        { name: "LinkedIn", key: "linkedin", icon: "🔗" },
-        { name: "GitHub", key: "github", icon: "💻" },
-        { name: "Portfolio", key: "portfolio", icon: "💼" }
-    ];
+    if (socialsContainer) {
+        socialsContainer.innerHTML = "";
+        const socials = [
+            { name: "Email", key: "email", icon: "✉️", isEmail: true },
+            { name: "LinkedIn", key: "linkedin", icon: "🔗" },
+            { name: "GitHub", key: "github", icon: "💻" },
+            { name: "Portfolio", key: "portfolio", icon: "💼" }
+        ];
 
-    socials.forEach(s => {
-        const val = resumeData[s.key];
-        const badge = document.createElement("a");
-        badge.className = "social-badge";
-        
-        if (val && typeof val === "string" && val.trim() && val.trim() !== "None") {
-            const cleanVal = val.trim();
-            if (s.isEmail) {
-                badge.href = `mailto:${cleanVal}`;
-                badge.title = `Send Email to ${cleanVal}`;
+        socials.forEach(s => {
+            const val = resumeData[s.key];
+            const badge = document.createElement("a");
+            badge.className = "social-badge";
+            
+            if (val && typeof val === "string" && val.trim() && val.trim() !== "None") {
+                const cleanVal = val.trim();
+                if (s.isEmail) {
+                    badge.href = `mailto:${cleanVal}`;
+                    badge.title = `Send Email to ${cleanVal}`;
+                } else {
+                    badge.href = cleanVal.startsWith("http") ? cleanVal : `https://${cleanVal}`;
+                    badge.target = "_blank";
+                    badge.rel = "noopener noreferrer";
+                    badge.title = `Open ${s.name} (${cleanVal})`;
+                }
+                badge.innerHTML = `<span class="social-badge-icon">${s.icon}</span> ${s.name}`;
             } else {
-                badge.href = cleanVal.startsWith("http") ? cleanVal : `https://${cleanVal}`;
-                badge.target = "_blank";
-                badge.rel = "noopener noreferrer";
-                badge.title = `Open ${s.name} (${cleanVal})`;
+                badge.classList.add("disabled");
+                badge.innerHTML = `<span class="social-badge-icon">❌</span> ${s.name}`;
+                badge.title = `${s.name} not detected`;
+                badge.addEventListener("click", (e) => e.preventDefault());
             }
-            badge.innerHTML = `<span class="social-badge-icon">${s.icon}</span> ${s.name}`;
-        } else {
-            badge.classList.add("disabled");
-            badge.innerHTML = `<span class="social-badge-icon">❌</span> ${s.name}`;
-            badge.title = `${s.name} not detected`;
-            badge.addEventListener("click", (e) => e.preventDefault());
-        }
-        socialsContainer.appendChild(badge);
-    });
+            socialsContainer.appendChild(badge);
+        });
+    }
 
     // Profile Suitability details
     const suitabilityDiv = document.getElementById("suitability-report");
@@ -697,7 +697,7 @@ function renderDashboard() {
     populateList("suitability-strengths", strengths);
     populateList("suitability-industries", industries);
 
-    suitabilityDiv.style.display = "block";
+    if (suitabilityDiv) suitabilityDiv.style.display = "block";
 
     // Dynamic Dashboard Greetings & KPIs
     const firstName = candidateName.split(" ")[0] || "Candidate";
@@ -1496,14 +1496,15 @@ function initTools() {
     renderToolForm();
 
     const runBtn = document.getElementById("run-tool-btn");
-    runBtn.addEventListener("click", executeTool);
+    if (runBtn) runBtn.addEventListener("click", executeTool);
 
     const copyBtn = document.getElementById("copy-output-btn");
-    copyBtn.addEventListener("click", copyToolOutput);
+    if (copyBtn) copyBtn.addEventListener("click", copyToolOutput);
 }
 
 function renderToolForm() {
     const container = document.getElementById("tool-form-container");
+    if (!container) return;
     container.innerHTML = "";
 
     const name = resumeData ? resumeData.name : "";
@@ -1680,8 +1681,8 @@ async function executeTool() {
     const outputBox = document.getElementById("tool-output");
     const copyBtn = document.getElementById("copy-output-btn");
     
-    outputBox.textContent = "Thinking... Generating your suggestions using Google Gemini cloud servers...";
-    copyBtn.style.display = "none";
+    if (outputBox) outputBox.textContent = "Thinking... Generating your suggestions using Google Gemini cloud servers...";
+    if (copyBtn) copyBtn.style.display = "none";
 
     try {
         let endpoint = "";
@@ -1948,14 +1949,15 @@ ${data.justification}
 
 function copyToolOutput() {
     const box = document.getElementById("tool-output");
-    const text = box.innerText;
+    if (!box) return;
+    const text = box.innerText || box.textContent || "";
     
     navigator.clipboard.writeText(text).then(() => {
         const copyBtn = document.getElementById("copy-output-btn");
-        copyBtn.textContent = "✅ Copied!";
+        if (copyBtn) copyBtn.textContent = "✅ Copied!";
         showToast("Output copied to clipboard!", "success", "📋");
         setTimeout(() => {
-            copyBtn.textContent = "📋 Copy Output";
+            if (copyBtn) copyBtn.textContent = "📋 Copy Output";
         }, 2000);
     }).catch(err => {
         showToast(`Failed to copy text: ${err.message}`, "error");
