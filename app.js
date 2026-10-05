@@ -481,23 +481,9 @@ function updateThemeUI(theme) {
     }
 }
 
-// Universal App Tab Switcher (Matching 16-Screen Architecture)
+// Universal App Tab Switcher (Matching Clean Architecture)
 function switchAppTab(targetTab) {
     activeTab = targetTab;
-
-    // Ensure candidate data is loaded if not already present
-    if (!resumeData) {
-        loadDemoCandidate("data-analyst");
-    }
-
-    // Sync top nav buttons
-    document.querySelectorAll(".nav-btn").forEach(btn => {
-        if (btn.getAttribute("data-tab") === targetTab) {
-            btn.classList.add("active");
-        } else {
-            btn.classList.remove("active");
-        }
-    });
 
     // Sync sidebar nav items
     document.querySelectorAll(".sidebar-nav-item").forEach(item => {
@@ -536,9 +522,9 @@ function initTabs() {
         });
     });
 
-    // Auto-initialize candidate state on first load
-    if (!resumeData) {
-        loadDemoCandidate("data-analyst");
+    // Initial view: show welcome landing drop zone if no resume yet
+    if (!resumeData && welcomePlaceholder) {
+        welcomePlaceholder.style.display = "block";
     }
 }
 
@@ -558,9 +544,13 @@ function switchTabVisibility() {
     if (welcomePlaceholder) welcomePlaceholder.style.display = "none";
 
     // Show active tab
-    if (activeTab === "dashboard" && tabDashboard) {
-        tabDashboard.style.display = "block";
-        renderDashboard();
+    if (activeTab === "dashboard") {
+        if (!resumeData && welcomePlaceholder) {
+            welcomePlaceholder.style.display = "block";
+        } else if (tabDashboard) {
+            tabDashboard.style.display = "block";
+            renderDashboard();
+        }
     } else if (activeTab === "jobs" && tabJobs) {
         tabJobs.style.display = "block";
         renderJobs();

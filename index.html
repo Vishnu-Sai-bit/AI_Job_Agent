@@ -3,8 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>AI Job Copilot & Career Intelligence Platform - Complete Career Journey</title>
-    <link rel="stylesheet" href="style.css?v=4.0">
+    <title>AI Job Copilot &amp; Career Intelligence Platform</title>
+    <link rel="stylesheet" href="style.css?v=4.5">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500;600;700;800&family=Outfit:wght@400;500;600;700;800;900&family=Plus+Jakarta+Sans:wght@400;500;600;700;800;900&family=Space+Grotesk:wght@500;600;700&display=swap" rel="stylesheet">
@@ -16,57 +16,12 @@
         <div class="glow-orb glow-cyan" id="ambient-orb-2"></div>
     </div>
 
-    <!-- Top Platform Journey Banner (Exact Blueprint Header) -->
-    <div class="platform-journey-banner">
-        <div class="journey-banner-inner">
-            <div class="journey-platform-title">
-                <div class="journey-badge-icon">⚡</div>
-                <div>
-                    <h2 class="journey-main-heading">AI Job Copilot &amp; Career Intelligence Platform</h2>
-                    <p class="journey-sub-heading">Complete Career Journey in One Platform</p>
-                </div>
-            </div>
-
-            <!-- Top Flow Journey Stepper -->
-            <div class="journey-stepper">
-                <button class="journey-step-btn active" onclick="switchAppTab('dashboard'); triggerResumeUpload();" title="Upload Resume & Parse ATS">
-                    <span class="step-icon">📄</span>
-                    <span class="step-label">Upload Resume</span>
-                </button>
-                <span class="step-arrow">→</span>
-                <button class="journey-step-btn" onclick="switchAppTab('jobs')" title="Find High-Match Jobs">
-                    <span class="step-icon">🔍</span>
-                    <span class="step-label">Find Jobs</span>
-                </button>
-                <span class="step-arrow">→</span>
-                <button class="journey-step-btn" onclick="switchAppTab('intel')" title="Market Insights & Skill Demand">
-                    <span class="step-icon">🧠</span>
-                    <span class="step-label">Get AI Insights</span>
-                </button>
-                <span class="step-arrow">→</span>
-                <button class="journey-step-btn" onclick="switchAppTab('crm')" title="Track Applications in Kanban CRM">
-                    <span class="step-icon">🚀</span>
-                    <span class="step-label">Apply &amp; Track</span>
-                </button>
-                <span class="step-arrow">→</span>
-                <button class="journey-step-btn" onclick="switchAppTab('interviews')" title="Practice Voice Mock Interviews">
-                    <span class="step-icon">🎤</span>
-                    <span class="step-label">Prepare for Interviews</span>
-                </button>
-                <span class="step-arrow">→</span>
-                <button class="journey-step-btn" onclick="switchAppTab('learning')" title="Learning Roadmaps & Upskilling">
-                    <span class="step-icon">📈</span>
-                    <span class="step-label">Learn &amp; Grow</span>
-                </button>
-            </div>
-        </div>
-    </div>
-
-    <!-- Top Navigation Bar -->
+    <!-- Single Unified Top Navigation & Journey Bar (No Duplicates) -->
     <header class="top-navbar">
         <div class="top-nav-inner">
+            <!-- Left: Brand Logo & Mobile Toggle -->
             <div class="top-nav-left">
-                <button id="sidebar-toggle-btn" class="sidebar-toggle-btn" title="Toggle Navigation Sidebar" onclick="toggleSidebarCollapse()">
+                <button id="sidebar-toggle-btn" class="sidebar-toggle-btn" title="Toggle Navigation Menu" onclick="toggleSidebarCollapse()">
                     <span>☰</span>
                 </button>
                 <div class="brand" onclick="switchAppTab('dashboard')">
@@ -80,43 +35,40 @@
                 </div>
             </div>
 
-            <!-- Center Fast Navigation Tabs -->
-            <nav class="nav-menu top-nav-tabs">
-                <button class="nav-btn active" data-tab="dashboard">
-                    <span class="btn-icon">📊</span>
-                    <span class="nav-btn-label">Dashboard</span>
+            <!-- Center: Interactive Platform Journey Stepper -->
+            <div class="journey-stepper top-journey-flow">
+                <button class="journey-step-btn active" data-tab="dashboard" onclick="switchAppTab('dashboard'); triggerResumeUpload();" title="Upload Resume &amp; Calculate ATS Score">
+                    <span class="step-icon">📄</span>
+                    <span class="step-label">Upload Resume</span>
                 </button>
-                <button class="nav-btn" data-tab="jobs">
-                    <span class="btn-icon">🎯</span>
-                    <span class="nav-btn-label">Jobs</span>
+                <span class="step-arrow">→</span>
+                <button class="journey-step-btn" data-tab="jobs" onclick="switchAppTab('jobs')" title="Find Verified High-Match Jobs">
+                    <span class="step-icon">🔍</span>
+                    <span class="step-label">Find Jobs</span>
                 </button>
-                <button class="nav-btn" data-tab="crm">
-                    <span class="btn-icon">📋</span>
-                    <span class="nav-btn-label">Applications</span>
+                <span class="step-arrow">→</span>
+                <button class="journey-step-btn" data-tab="intel" onclick="switchAppTab('intel')" title="Market Demand &amp; Skill Insights">
+                    <span class="step-icon">🧠</span>
+                    <span class="step-label">Get AI Insights</span>
                 </button>
-                <button class="nav-btn" data-tab="resumes">
-                    <span class="btn-icon">📄</span>
-                    <span class="nav-btn-label">Resumes</span>
+                <span class="step-arrow">→</span>
+                <button class="journey-step-btn" data-tab="crm" onclick="switchAppTab('crm')" title="Track Applications in Kanban CRM">
+                    <span class="step-icon">🚀</span>
+                    <span class="step-label">Apply &amp; Track</span>
                 </button>
-                <button class="nav-btn" data-tab="assistant">
-                    <span class="btn-icon">🤖</span>
-                    <span class="nav-btn-label">AI Assistant</span>
+                <span class="step-arrow">→</span>
+                <button class="journey-step-btn" data-tab="interviews" onclick="switchAppTab('interviews')" title="Practice Voice Mock Interviews">
+                    <span class="step-icon">🎤</span>
+                    <span class="step-label">Prepare for Interviews</span>
                 </button>
-                <button class="nav-btn" data-tab="interviews">
-                    <span class="btn-icon">🎤</span>
-                    <span class="nav-btn-label">Interviews</span>
+                <span class="step-arrow">→</span>
+                <button class="journey-step-btn" data-tab="learning" onclick="switchAppTab('learning')" title="Learning Roadmaps &amp; Capstones">
+                    <span class="step-icon">📈</span>
+                    <span class="step-label">Learn &amp; Grow</span>
                 </button>
-                <button class="nav-btn" data-tab="learning">
-                    <span class="btn-icon">📚</span>
-                    <span class="nav-btn-label">Learning</span>
-                </button>
-                <button class="nav-btn" data-tab="analytics">
-                    <span class="btn-icon">📈</span>
-                    <span class="nav-btn-label">Analytics</span>
-                </button>
-            </nav>
+            </div>
 
-            <!-- Right Controls -->
+            <!-- Right Controls: Status, Theme, Upload, Notifications, Settings -->
             <div class="top-nav-actions">
                 <div class="nav-db-pill" id="nav-db-badge" title="Storage Engine Status">
                     <span class="live-dot" id="db-status-dot"></span>
@@ -125,7 +77,7 @@
 
                 <!-- Visual Style & Accent Palette Switcher -->
                 <div class="nav-style-wrapper">
-                    <button id="style-switcher-btn" class="nav-style-btn" title="Switch Theme Color Palette & Accent Style" onclick="toggleStyleDrawer()">
+                    <button id="style-switcher-btn" class="nav-style-btn" title="Switch Theme Color Palette" onclick="toggleStyleDrawer()">
                         <span class="style-icon">🎨</span>
                         <span id="active-style-label" class="style-label">Cyber Indigo</span>
                     </button>
@@ -158,14 +110,15 @@
                     </div>
                 </div>
 
-                <button id="quick-upload-btn" class="nav-upload-btn" title="Upload or Update Resume">
+                <button id="quick-upload-btn" class="nav-upload-btn" title="Upload or Update Resume" onclick="triggerResumeUpload()">
                     <span class="btn-icon">📄</span>
                     <span class="nav-upload-text">Upload Resume</span>
                 </button>
                 <input type="file" id="resume-input" accept=".pdf,.docx" style="display: none;">
 
+                <!-- Notification Bell & Feed -->
                 <div class="nav-notif-wrapper">
-                    <button id="notif-btn" class="nav-notif-btn" title="Career Notifications & Alerts" onclick="toggleNotifDrawer()">
+                    <button id="notif-btn" class="nav-notif-btn" title="Career Notifications &amp; Alerts" onclick="toggleNotifDrawer()">
                         <span class="btn-icon">🔔</span>
                         <span class="notif-badge" id="notif-badge-count">3</span>
                     </button>
@@ -211,7 +164,7 @@
                     </div>
                 </div>
 
-                <button id="nav-settings-btn" class="nav-settings-btn" title="Settings & Career Preferences" onclick="openSettingsModal()">
+                <button id="nav-settings-btn" class="nav-settings-btn" title="Settings &amp; Preferences" onclick="openSettingsModal()">
                     <span class="btn-icon">⚙️</span>
                 </button>
 
@@ -222,18 +175,10 @@
         </div>
     </header>
 
-    <!-- Main Platform Shell: Sidebar + Workspace -->
+    <!-- Main Platform Layout: Dedicated Left Sidebar + Studio Main -->
     <div class="platform-app-shell">
-        <!-- Sidebar Navigation (Matching Screens 2, 3, 4, 5) -->
+        <!-- Sidebar Navigation (Single dedicated sidebar) -->
         <aside class="platform-sidebar" id="platform-sidebar">
-            <div class="sidebar-brand-box">
-                <div class="sidebar-logo-icon">⚡</div>
-                <div class="sidebar-logo-text">
-                    <h3>JobCopilot</h3>
-                    <span>Career Studio</span>
-                </div>
-            </div>
-
             <nav class="sidebar-nav-menu">
                 <button class="sidebar-nav-item active" data-tab="dashboard" onclick="switchAppTab('dashboard')">
                     <span class="sidebar-item-icon">📊</span>
@@ -282,9 +227,9 @@
 
             <!-- Bottom Mini Profile Box -->
             <div class="sidebar-profile-card" onclick="switchAppTab('profile')">
-                <div class="sidebar-profile-avatar" id="sidebar-avatar">V</div>
+                <div class="sidebar-profile-avatar" id="sidebar-avatar">VK</div>
                 <div class="sidebar-profile-info">
-                    <h5 id="sidebar-profile-name">Vishnu Sai</h5>
+                    <h5 id="sidebar-profile-name">Candidate Profile</h5>
                     <span id="sidebar-profile-role">Data Analyst</span>
                 </div>
                 <span class="profile-gear-icon">⚙️</span>
@@ -368,12 +313,12 @@
                     <!-- Dashboard Header Greeting -->
                     <div class="dashboard-greeting-banner">
                         <div class="greeting-left">
-                            <h2 class="greeting-title">Good afternoon, <span id="dash-greeting-name">Vishnu</span> 👋</h2>
+                            <h2 class="greeting-title">Good afternoon, <span id="dash-greeting-name">Candidate</span> 👋</h2>
                             <p class="greeting-subtitle">Here's your career overview</p>
                         </div>
                         <div class="greeting-right">
                             <button class="action-btn-sm btn-primary" onclick="triggerResumeUpload()">
-                                <span>📄</span> Update Resume
+                                <span>📄</span> Upload Resume
                             </button>
                             <button class="action-btn-sm btn-secondary" onclick="switchAppTab('jobs')">
                                 <span>🔍</span> Explore Matches
@@ -635,7 +580,7 @@
                             </div>
                         </div>
 
-                        <!-- Filter Tabs Row (Recommended, Latest, High Match, Saved, Applied) -->
+                        <!-- Filter Tabs Row -->
                         <div class="jobs-filter-tabs-row">
                             <div class="jobs-sub-tabs" id="job-filter-chips">
                                 <button class="filter-tab-btn active" data-filter="all">Recommended</button>
@@ -658,10 +603,9 @@
                     </div>
                 </section>
 
-                <!-- Screen 4 & 16: AI Job Agent & AI Assistant (Conversational Search & Copilot) -->
+                <!-- Screen 4 & 16: AI Job Agent & AI Assistant -->
                 <section id="tab-assistant" class="tab-content" style="display: none;">
                     <div class="ai-agent-full-container">
-                        <!-- AI Assistant Header Card -->
                         <div class="agent-header-card">
                             <div class="agent-title-wrap">
                                 <div class="agent-avatar-circle">🤖</div>
@@ -677,17 +621,14 @@
                         </div>
 
                         <div class="agent-workspace-grid">
-                            <!-- Left: Interactive Chat Stream -->
                             <div class="agent-chat-panel">
                                 <div class="agent-messages-container" id="agent-messages-container">
-                                    <!-- User message example -->
                                     <div class="chat-bubble-row user-bubble-row">
                                         <div class="chat-bubble user-bubble">
                                             Find suitable Data Analyst jobs in Hyderabad for my profile.
                                         </div>
                                     </div>
 
-                                    <!-- Bot reply with mini job cards -->
                                     <div class="chat-bubble-row bot-bubble-row">
                                         <div class="chat-avatar-mini">🤖</div>
                                         <div class="chat-bubble bot-bubble">
@@ -729,14 +670,12 @@
                                     </div>
                                 </div>
 
-                                <!-- Bottom Chat Input Form -->
                                 <form class="agent-input-form" onsubmit="handleAgentChatSubmit(event)">
                                     <input type="text" id="agent-chat-input" class="agent-text-input" placeholder="Ask me anything about jobs, resume, or career..." autocomplete="off">
                                     <button type="submit" class="agent-send-btn" title="Send Prompt">➤</button>
                                 </form>
                             </div>
 
-                            <!-- Right: Daily Priorities & Focus Panel (Screen 16) -->
                             <div class="agent-focus-panel">
                                 <div class="focus-card-header">
                                     <h4>🎯 Today's Action Plan</h4>
@@ -794,11 +733,10 @@
                     </div>
 
                     <div class="resumes-blueprint-grid">
-                        <!-- Screen 5: My Resumes Manager -->
                         <div class="resume-card-box my-resumes-box">
                             <div class="panel-header-flex">
                                 <h3 class="panel-title">My Resumes</h3>
-                                <span class="badge-subtle">4 Versions</span>
+                                <span class="badge-subtle">Versions</span>
                             </div>
 
                             <div class="my-resumes-list">
@@ -806,11 +744,11 @@
                                     <div class="res-doc-icon">📄</div>
                                     <div class="res-doc-info">
                                         <div class="res-doc-name">Master Resume</div>
-                                        <div class="res-doc-date">Updated 12 Oct 2024 • Active Master</div>
+                                        <div class="res-doc-date">Current Active Master</div>
                                     </div>
                                     <div class="res-doc-actions">
                                         <span class="active-pill-badge">Active</span>
-                                        <button class="res-icon-btn" title="View / Download" onclick="exportTailoredPDF()">📥</button>
+                                        <button class="res-icon-btn" title="Download PDF" onclick="exportTailoredPDF()">📥</button>
                                     </div>
                                 </div>
 
@@ -818,7 +756,7 @@
                                     <div class="res-doc-icon">📊</div>
                                     <div class="res-doc-info">
                                         <div class="res-doc-name">Data Analyst Resume</div>
-                                        <div class="res-doc-date">Updated 5 Oct 2024 • 91% ATS Fit</div>
+                                        <div class="res-doc-date">91% ATS Fit Version</div>
                                     </div>
                                     <div class="res-doc-actions">
                                         <button class="action-btn-sm" onclick="openTailorModalForJob('Data Analyst', 'ABC Technologies')">Tailor</button>
@@ -829,7 +767,7 @@
                                     <div class="res-doc-icon">💼</div>
                                     <div class="res-doc-info">
                                         <div class="res-doc-name">Business Analyst Resume</div>
-                                        <div class="res-doc-date">Updated 1 Oct 2024 • 84% ATS Fit</div>
+                                        <div class="res-doc-date">84% ATS Fit Version</div>
                                     </div>
                                     <div class="res-doc-actions">
                                         <button class="action-btn-sm" onclick="openTailorModalForJob('Business Analyst', 'TechCorp')">Tailor</button>
@@ -840,7 +778,7 @@
                                     <div class="res-doc-icon">📈</div>
                                     <div class="res-doc-info">
                                         <div class="res-doc-name">BI Analyst Resume</div>
-                                        <div class="res-doc-date">Updated 28 Sep 2024 • 87% ATS Fit</div>
+                                        <div class="res-doc-date">87% ATS Fit Version</div>
                                     </div>
                                     <div class="res-doc-actions">
                                         <button class="action-btn-sm" onclick="openTailorModalForJob('BI Analyst', 'XYZ Solutions')">Tailor</button>
@@ -849,7 +787,6 @@
                             </div>
                         </div>
 
-                        <!-- Screen 6: Resume Analysis (Score & 6 Dimensions) -->
                         <div class="resume-card-box analysis-score-box">
                             <div class="panel-header-flex">
                                 <h3 class="panel-title">Resume Analysis</h3>
@@ -857,7 +794,6 @@
                             </div>
 
                             <div class="analysis-score-layout">
-                                <!-- Big Circular Score Gauge (82% Resume Score) -->
                                 <div class="resume-gauge-wrap">
                                     <div class="ats-circle-container">
                                         <div class="ats-circle">
@@ -873,7 +809,6 @@
                                     </div>
                                 </div>
 
-                                <!-- 6 Dimension Bars -->
                                 <div class="dimensions-bars-list">
                                     <div class="dim-row">
                                         <div class="dim-label-flex">
@@ -920,7 +855,6 @@
                                 </div>
                             </div>
 
-                            <!-- Missing / Weak Areas Box -->
                             <div class="weak-areas-box">
                                 <h5>⚠️ Missing / Weak Areas</h5>
                                 <ul class="weak-areas-list">
@@ -932,7 +866,6 @@
                             </div>
                         </div>
 
-                        <!-- Screen 8: Resume Tailoring Studio Architecture Preview -->
                         <div class="resume-card-box tailoring-studio-box">
                             <div class="panel-header-flex">
                                 <h3 class="panel-title">AI Resume Tailoring Engine</h3>
@@ -997,9 +930,8 @@
                         </div>
                     </div>
 
-                    <!-- 5-Column Kanban Board (Exact Blueprint Columns) -->
+                    <!-- 5-Column Kanban Board -->
                     <div class="kanban-board-5col">
-                        <!-- Col 1: Saved -->
                         <div class="kanban-column" id="kanban-col-saved-wrap">
                             <div class="kanban-col-header header-saved">
                                 <span>Saved (5)</span>
@@ -1008,7 +940,6 @@
                             <div id="kanban-col-saved" class="kanban-card-list"></div>
                         </div>
 
-                        <!-- Col 2: Applied -->
                         <div class="kanban-column" id="kanban-col-applied-wrap">
                             <div class="kanban-col-header header-applied">
                                 <span>Applied (8)</span>
@@ -1017,7 +948,6 @@
                             <div id="kanban-col-applied" class="kanban-card-list"></div>
                         </div>
 
-                        <!-- Col 3: Assessment -->
                         <div class="kanban-column" id="kanban-col-assess-wrap">
                             <div class="kanban-col-header header-assessment">
                                 <span>Assessment (3)</span>
@@ -1026,7 +956,6 @@
                             <div id="kanban-col-assessment" class="kanban-card-list"></div>
                         </div>
 
-                        <!-- Col 4: Interview -->
                         <div class="kanban-column" id="kanban-col-interview-wrap">
                             <div class="kanban-col-header header-interview">
                                 <span>Interview (2)</span>
@@ -1035,7 +964,6 @@
                             <div id="kanban-col-interview" class="kanban-card-list"></div>
                         </div>
 
-                        <!-- Col 5: Offer -->
                         <div class="kanban-column" id="kanban-col-offer-wrap">
                             <div class="kanban-col-header header-offer">
                                 <span>Offer (1)</span>
@@ -1046,10 +974,9 @@
                     </div>
                 </section>
 
-                <!-- Screen 10: Interview Center (AI Voice & Mock Practice) -->
+                <!-- Screen 10: Interview Center -->
                 <section id="tab-interviews" class="tab-content" style="display: none;">
                     <div class="interview-center-card">
-                        <!-- Subtabs: Prepare | Mock Interview | Company Info | Questions -->
                         <div class="interview-subtabs-row">
                             <div class="subtabs-left">
                                 <button class="interview-subtab-btn" onclick="switchInterviewSubtab('prepare')">Prepare</button>
@@ -1063,7 +990,6 @@
                         </div>
 
                         <div class="interview-center-grid">
-                            <!-- Left: Voice & Question Prompter Console -->
                             <div class="interview-console-card">
                                 <div class="console-header-flex">
                                     <h4>AI Mock Interview</h4>
@@ -1086,7 +1012,6 @@
                                 </div>
                             </div>
 
-                            <!-- Right: Real-Time Rubric & AI Feedback Scorecard -->
                             <div class="interview-feedback-scorecard">
                                 <div class="feedback-card-header">
                                     <h4>AI Feedback</h4>
@@ -1136,7 +1061,7 @@
                     </div>
                 </section>
 
-                <!-- Screen 11: Career Intelligence (Market Demand & Skill Gap) -->
+                <!-- Screen 11: Career Intelligence -->
                 <section id="tab-intel" class="tab-content" style="display: none;">
                     <div class="card career-intel-blueprint-card">
                         <div class="panel-header-flex">
@@ -1148,9 +1073,8 @@
                         </div>
 
                         <div class="intel-blueprint-grid">
-                            <!-- In-Demand Skills for Target Role -->
                             <div class="intel-demand-box">
-                                <h4 class="intel-subheading">Most In-Demand Skills for Data Analyst</h4>
+                                <h4 class="intel-subheading">Most In-Demand Skills for Target Role</h4>
                                 <div class="intel-bars-list">
                                     <div class="demand-bar-row">
                                         <span class="demand-skill-name">SQL</span>
@@ -1195,7 +1119,6 @@
                                 </div>
                             </div>
 
-                            <!-- Your Skill Gap Checklist -->
                             <div class="intel-gap-box">
                                 <h4 class="intel-subheading">Your Skill Gap</h4>
                                 <div class="gap-status-items">
@@ -1233,7 +1156,7 @@
                     </div>
                 </section>
 
-                <!-- Screen 12: Learning Hub (Your Learning Roadmap) -->
+                <!-- Screen 12: Learning Hub -->
                 <section id="tab-learning" class="tab-content" style="display: none;">
                     <div class="learning-hub-card">
                         <div class="panel-header-flex">
@@ -1244,9 +1167,7 @@
                             <button class="view-all-link" onclick="showToast('Loading full curriculum database...', 'info')">View All</button>
                         </div>
 
-                        <!-- Roadmap Modules List -->
                         <div class="learning-modules-list">
-                            <!-- Module 1: Advanced SQL -->
                             <div class="learning-module-item">
                                 <div class="mod-icon-wrap" style="background: rgba(99,102,241,0.15); color: #818cf8;">💾</div>
                                 <div class="mod-content">
@@ -1261,7 +1182,6 @@
                                 <button class="action-btn-sm btn-primary" onclick="openRoadmapDetails('Advanced SQL')">Continue</button>
                             </div>
 
-                            <!-- Module 2: Power BI / DAX -->
                             <div class="learning-module-item">
                                 <div class="mod-icon-wrap" style="background: rgba(245,158,11,0.15); color: #f59e0b;">📊</div>
                                 <div class="mod-content">
@@ -1276,7 +1196,6 @@
                                 <button class="action-btn-sm btn-primary" onclick="openRoadmapDetails('Power BI / DAX')">Continue</button>
                             </div>
 
-                            <!-- Module 3: Statistics -->
                             <div class="learning-module-item">
                                 <div class="mod-icon-wrap" style="background: rgba(16,185,129,0.15); color: #34d399;">📐</div>
                                 <div class="mod-content">
@@ -1291,7 +1210,6 @@
                                 <button class="action-btn-sm btn-secondary" onclick="openRoadmapDetails('Statistics')">Start</button>
                             </div>
 
-                            <!-- Module 4: Azure -->
                             <div class="learning-module-item">
                                 <div class="mod-icon-wrap" style="background: rgba(239,68,68,0.15); color: #f87171;">☁️</div>
                                 <div class="mod-content">
@@ -1307,9 +1225,8 @@
                             </div>
                         </div>
 
-                        <!-- Capstone Starter Kits Container -->
                         <div id="roadmaps-list-container" style="margin-top: 1.5rem;">
-                            <!-- Populated with blueprints by JS -->
+                            <!-- Populated by JS -->
                         </div>
                     </div>
                 </section>
@@ -1317,9 +1234,7 @@
                 <!-- Screen 13: Career Analytics -->
                 <section id="tab-analytics" class="tab-content" style="display: none;">
                     <div class="analytics-blueprint-layout">
-                        <!-- Top Row: Applications Over Time & Application Status -->
                         <div class="analytics-top-grid">
-                            <!-- Line Chart: Applications Over Time -->
                             <div class="analytics-chart-card">
                                 <h4>Applications Over Time</h4>
                                 <div class="chart-canvas-wrap">
@@ -1330,27 +1245,18 @@
                                                 <stop offset="100%" stop-color="var(--primary-color)" stop-opacity="0.0"/>
                                             </linearGradient>
                                         </defs>
-                                        <!-- Grid lines -->
                                         <line x1="40" y1="20" x2="380" y2="20" stroke="rgba(255,255,255,0.06)"/>
                                         <line x1="40" y1="60" x2="380" y2="60" stroke="rgba(255,255,255,0.06)"/>
                                         <line x1="40" y1="100" x2="380" y2="100" stroke="rgba(255,255,255,0.06)"/>
                                         <line x1="40" y1="140" x2="380" y2="140" stroke="rgba(255,255,255,0.06)"/>
-                                        
-                                        <!-- Area Fill -->
                                         <polygon points="50,135 110,110 170,95 230,80 290,60 350,30 350,140 50,140" fill="url(#lineGrad)"/>
-                                        
-                                        <!-- Line Path -->
                                         <polyline points="50,135 110,110 170,95 230,80 290,60 350,30" fill="none" stroke="var(--primary-color)" stroke-width="3" stroke-linecap="round"/>
-                                        
-                                        <!-- Dots -->
                                         <circle cx="50" cy="135" r="4" fill="#38bdf8"/>
                                         <circle cx="110" cy="110" r="4" fill="#38bdf8"/>
                                         <circle cx="170" cy="95" r="4" fill="#38bdf8"/>
                                         <circle cx="230" cy="80" r="4" fill="#38bdf8"/>
                                         <circle cx="290" cy="60" r="4" fill="#38bdf8"/>
                                         <circle cx="350" cy="30" r="5" fill="#a855f7"/>
-
-                                        <!-- Labels -->
                                         <text x="50" y="155" fill="#94a3b8" font-size="10" text-anchor="middle">Jan</text>
                                         <text x="110" y="155" fill="#94a3b8" font-size="10" text-anchor="middle">Feb</text>
                                         <text x="170" y="155" fill="#94a3b8" font-size="10" text-anchor="middle">Mar</text>
@@ -1361,7 +1267,6 @@
                                 </div>
                             </div>
 
-                            <!-- Donut Chart: Application Status -->
                             <div class="analytics-chart-card">
                                 <h4>Application Status</h4>
                                 <div class="donut-chart-flex">
@@ -1385,7 +1290,6 @@
                             </div>
                         </div>
 
-                        <!-- Bottom Row: Gauges (Response Rate & Conversion) -->
                         <div class="analytics-bottom-gauges">
                             <div class="gauge-stat-card">
                                 <h5>Response Rate</h5>
@@ -1409,21 +1313,20 @@
                 <!-- Screen 15: Candidate Profile -->
                 <section id="tab-profile" class="tab-content" style="display: none;">
                     <div class="candidate-profile-layout">
-                        <!-- Profile Header Card -->
                         <div class="profile-main-header-card">
                             <div class="profile-header-left">
                                 <div class="profile-avatar-big" id="profile-avatar-big">VK</div>
                                 <div class="profile-meta-info">
                                     <div class="profile-name-row">
-                                        <h2 id="prof-display-name">Vishnu Kumar</h2>
+                                        <h2 id="prof-display-name">Candidate Profile</h2>
                                         <span class="role-badge-pill" id="prof-display-role">Data Analyst</span>
                                     </div>
                                     <div class="profile-contact-details">
                                         <span id="prof-display-loc">📍 Hyderabad, India</span>
                                         <span>•</span>
-                                        <span id="prof-display-email">✉️ vishnu@email.com</span>
+                                        <span id="prof-display-email">✉️ candidate@email.com</span>
                                         <span>•</span>
-                                        <span id="prof-display-phone">📞 +91 98765 43210</span>
+                                        <span id="prof-display-phone">📞 Phone reference</span>
                                     </div>
                                 </div>
                             </div>
@@ -1431,7 +1334,6 @@
                         </div>
 
                         <div class="profile-body-grid">
-                            <!-- Profile Sidebar Submenu -->
                             <div class="profile-submenu-card">
                                 <button class="prof-menu-btn active">👤 Personal</button>
                                 <button class="prof-menu-btn" onclick="openSettingsModal()">🎓 Education</button>
@@ -1442,12 +1344,10 @@
                                 <button class="prof-menu-btn" onclick="openSettingsModal()">⚙️ Preferences</button>
                             </div>
 
-                            <!-- Profile Details Content -->
                             <div class="profile-details-content">
-                                <!-- Top Skills Section -->
                                 <div class="profile-sec-card">
                                     <h4 class="prof-sec-title">Top Skills</h4>
-                                    <div class="profile-skills-chips">
+                                    <div class="profile-skills-chips" id="prof-skills-container">
                                         <span class="prof-skill-tag">Python</span>
                                         <span class="prof-skill-tag">SQL</span>
                                         <span class="prof-skill-tag">Power BI</span>
@@ -1457,7 +1357,6 @@
                                     </div>
                                 </div>
 
-                                <!-- Preferred Roles -->
                                 <div class="profile-sec-card">
                                     <h4 class="prof-sec-title">Preferred Roles</h4>
                                     <div class="preferred-roles-chips">
@@ -1467,7 +1366,6 @@
                                     </div>
                                 </div>
 
-                                <!-- Work Preferences -->
                                 <div class="profile-sec-card">
                                     <h4 class="prof-sec-title">Work Preferences</h4>
                                     <div class="work-pref-options">
@@ -1484,7 +1382,7 @@
         </main>
     </div>
 
-    <!-- Screen 7: Job Match Analysis Modal (Exact Blueprint Modal) -->
+    <!-- Screen 7: Job Match Analysis Modal -->
     <div id="match-analysis-modal" class="modal-backdrop" style="display: none;">
         <div class="modal-box match-analysis-modal-box">
             <div class="modal-header">
@@ -1499,7 +1397,6 @@
             </div>
 
             <div class="match-analysis-modal-body">
-                <!-- Overall Fit Section -->
                 <div class="match-fit-header-row">
                     <div class="match-gauge-circle-wrap">
                         <div class="match-circle-big">
@@ -1535,7 +1432,6 @@
                     </div>
                 </div>
 
-                <!-- Why You Match vs Potential Gaps -->
                 <div class="match-reasons-grid">
                     <div class="match-why-card">
                         <h5>✓ Why you match</h5>
@@ -1692,7 +1588,7 @@
         </div>
     </div>
 
-    <!-- Settings & Career Preferences Modal -->
+    <!-- Settings & Preferences Modal -->
     <div id="settings-modal" class="modal-backdrop" style="display: none;">
         <div class="modal-box settings-modal-box">
             <div class="modal-header">
@@ -1897,6 +1793,6 @@
     <!-- Toast Notification System -->
     <div id="toast-container" class="toast-container"></div>
 
-    <script src="app.js?v=4.0"></script>
+    <script src="app.js?v=4.5"></script>
 </body>
 </html>
