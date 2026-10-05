@@ -8,7 +8,6 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500;600;700;800&family=Outfit:wght@400;500;600;700;800;900&family=Plus+Jakarta+Sans:wght@400;500;600;700;800;900&family=Space+Grotesk:wght@500;600;700&display=swap" rel="stylesheet">
-    <script src="https://accounts.google.com/gsi/client" async defer></script>
 </head>
 <body>
     <!-- Subtle Background Ambient Glows -->
@@ -103,16 +102,6 @@
                     <span class="nav-upload-text">Upload Resume</span>
                 </button>
                 <input type="file" id="resume-input" accept=".pdf,.docx" style="display: none;">
-
-                <button id="auth-btn" class="nav-auth-btn" title="Sign In with Google Mail">
-                    <svg class="google-icon-sm" width="16" height="16" viewBox="0 0 48 48">
-                        <path fill="#EA4335" d="M24 9.5c3.54 0 6.71 1.22 9.21 3.6l6.85-6.85C35.9 2.38 30.47 0 24 0 14.62 0 6.51 5.38 2.56 13.22l7.98 6.19C12.43 13.72 17.74 9.5 24 9.5z"/>
-                        <path fill="#4285F4" d="M46.98 24.55c0-1.57-.15-3.09-.38-4.55H24v9.02h12.94c-.58 2.96-2.26 5.48-4.78 7.18l7.73 6c4.51-4.18 7.09-10.36 7.09-17.65z"/>
-                        <path fill="#FBBC05" d="M10.53 28.59c-.48-1.45-.76-2.99-.76-4.59s.27-3.14.76-4.59l-7.98-6.19C.92 16.46 0 20.12 0 24c0 3.88.92 7.54 2.56 10.78l7.97-6.19z"/>
-                        <path fill="#34A853" d="M24 48c6.48 0 11.93-2.13 15.89-5.81l-7.73-6c-2.15 1.45-4.92 2.3-8.16 2.3-6.26 0-11.57-4.22-13.47-9.91l-7.98 6.19C6.51 42.62 14.62 48 24 48z"/>
-                    </svg>
-                    <span id="auth-btn-label">Google Sign In</span>
-                </button>
 
                 <div class="nav-notif-wrapper">
                     <button id="notif-btn" class="nav-notif-btn" title="Career Notifications & Alerts" onclick="toggleNotifDrawer()">
@@ -857,28 +846,13 @@
                 </div>
 
                 <div class="settings-section">
-                    <h4 class="settings-sec-title">☁️ Storage Engine & Connected Accounts</h4>
+                    <h4 class="settings-sec-title">☁️ Storage Engine & Database Sync</h4>
                     <div class="connected-accounts-box">
-                        <div class="account-row">
-                            <div class="acc-brand">
-                                <svg class="google-icon" width="22" height="22" viewBox="0 0 48 48">
-                                    <path fill="#EA4335" d="M24 9.5c3.54 0 6.71 1.22 9.21 3.6l6.85-6.85C35.9 2.38 30.47 0 24 0 14.62 0 6.51 5.38 2.56 13.22l7.98 6.19C12.43 13.72 17.74 9.5 24 9.5z"/>
-                                    <path fill="#4285F4" d="M46.98 24.55c0-1.57-.15-3.09-.38-4.55H24v9.02h12.94c-.58 2.96-2.26 5.48-4.78 7.18l7.73 6c4.51-4.18 7.09-10.36 7.09-17.65z"/>
-                                    <path fill="#FBBC05" d="M10.53 28.59c-.48-1.45-.76-2.99-.76-4.59s.27-3.14.76-4.59l-7.98-6.19C.92 16.46 0 20.12 0 24c0 3.88.92 7.54 2.56 10.78l7.97-6.19z"/>
-                                    <path fill="#34A853" d="M24 48c6.48 0 11.93-2.13 15.89-5.81l-7.73-6c-2.15 1.45-4.92 2.3-8.16 2.3-6.26 0-11.57-4.22-13.47-9.91l-7.98 6.19C6.51 42.62 14.62 48 24 48z"/>
-                                </svg>
-                                <div>
-                                    <div class="acc-name">Google Account</div>
-                                    <div class="acc-status" id="setting-google-status">Not Connected</div>
-                                </div>
-                            </div>
-                            <button class="action-btn-sm" id="setting-google-btn" onclick="handleGoogleAuth();">Connect Google</button>
-                        </div>
                         <div class="account-row">
                             <div class="acc-brand">
                                 <span style="font-size: 1.3rem;">🍃</span>
                                 <div>
-                                    <div class="acc-name">MongoDB Database</div>
+                                    <div class="acc-name">MongoDB Database Engine</div>
                                     <div class="acc-status" id="setting-db-status">Active (Cloud & Local Sync)</div>
                                 </div>
                             </div>
@@ -891,64 +865,6 @@
             <div class="modal-footer settings-footer">
                 <button class="action-btn btn-secondary" onclick="closeSettingsModal()">Cancel</button>
                 <button class="action-btn btn-primary" onclick="saveSettingsPreferences()">Save Preferences</button>
-            </div>
-        </div>
-    </div>
-
-
-
-    <!-- Official Google Account Chooser & OAuth Modal -->
-    <div id="google-auth-modal" class="modal-backdrop" style="display: none;">
-        <div class="modal-box official-google-oauth-box">
-            <button class="official-modal-close" onclick="closeGoogleAuthModal()" title="Close">✕</button>
-
-            <div class="google-header-center">
-                <svg class="google-brand-svg" width="40" height="40" viewBox="0 0 48 48">
-                    <path fill="#EA4335" d="M24 9.5c3.54 0 6.71 1.22 9.21 3.6l6.85-6.85C35.9 2.38 30.47 0 24 0 14.62 0 6.51 5.38 2.56 13.22l7.98 6.19C12.43 13.72 17.74 9.5 24 9.5z"/>
-                    <path fill="#4285F4" d="M46.98 24.55c0-1.57-.15-3.09-.38-4.55H24v9.02h12.94c-.58 2.96-2.26 5.48-4.78 7.18l7.73 6c4.51-4.18 7.09-10.36 7.09-17.65z"/>
-                    <path fill="#FBBC05" d="M10.53 28.59c-.48-1.45-.76-2.99-.76-4.59s.27-3.14.76-4.59l-7.98-6.19C.92 16.46 0 20.12 0 24c0 3.88.92 7.54 2.56 10.78l7.97-6.19z"/>
-                    <path fill="#34A853" d="M24 48c6.48 0 11.93-2.13 15.89-5.81l-7.73-6c-2.15 1.45-4.92 2.3-8.16 2.3-6.26 0-11.57-4.22-13.47-9.91l-7.98 6.19C6.51 42.62 14.62 48 24 48z"/>
-                </svg>
-                <h3 id="google-modal-heading" class="google-official-title">Sign in with Google</h3>
-                <p class="google-official-sub">Choose an account to continue to <strong>AI JobAgent Studio</strong></p>
-            </div>
-
-            <div class="google-oauth-content">
-                <!-- Verified Google Profile Account Selector -->
-                <div class="google-profiles-container">
-                    <button type="button" class="google-user-account-card" id="google-fast-account-btn" onclick="confirmGoogleAuthFast()">
-                        <div class="google-user-avatar-circle" id="google-fast-avatar">V</div>
-                        <div class="google-user-text">
-                            <span class="google-user-display-name" id="google-fast-name">Vishnu Sai</span>
-                            <span class="google-user-display-email" id="google-fast-email">vishnusai@gmail.com</span>
-                        </div>
-                        <div class="google-verified-check">✓</div>
-                    </button>
-                </div>
-
-                <div class="google-or-separator">
-                    <span>Use another Google account</span>
-                </div>
-
-                <!-- Custom Google Account Form -->
-                <form id="google-custom-form" class="google-direct-form" onsubmit="handleGoogleCustomSubmit(event)">
-                    <div class="official-form-row">
-                        <label class="official-field-label">Full Name</label>
-                        <input type="text" id="google-custom-name" class="official-form-input" placeholder="e.g. Vishnu Sai" required>
-                    </div>
-                    <div class="official-form-row">
-                        <label class="official-field-label">Google Account Email</label>
-                        <input type="email" id="google-custom-email" class="official-form-input" placeholder="yourname@gmail.com" required>
-                    </div>
-                    <button type="submit" class="official-primary-btn google-continue-submit-btn" id="google-custom-submit-btn">
-                        <span>Continue</span>
-                    </button>
-                </form>
-
-                <div class="google-privacy-disclaimer">
-                    <span class="lock-glyph">🔒</span>
-                    <span>To continue, Google will share your name, email address, and profile details with AI JobAgent. Review our <a href="#" onclick="event.preventDefault()">Privacy Policy</a>.</span>
-                </div>
             </div>
         </div>
     </div>
