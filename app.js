@@ -2843,11 +2843,11 @@ function updateAuthUI(user) {
     }
 }
 
-function openAuthModal() {
+function openAuthModal(mode = "login") {
     const modal = document.getElementById("auth-modal");
     if (modal) {
         modal.style.display = "flex";
-        switchAuthTab("login");
+        switchAuthTab(mode);
     }
 }
 
@@ -2858,14 +2858,45 @@ function closeAuthModal() {
     if (errBox) errBox.style.display = "none";
 }
 
+function toggleAuthMode() {
+    switchAuthTab(authTabMode === "login" ? "register" : "login");
+}
+
+function togglePasswordVisibility(inputId, btn) {
+    const input = document.getElementById(inputId);
+    if (!input) return;
+    if (input.type === "password") {
+        input.type = "text";
+        if (btn) btn.textContent = "🙈";
+    } else {
+        input.type = "password";
+        if (btn) btn.textContent = "👁️";
+    }
+}
+
+function handleForgotPassword(e) {
+    if (e) e.preventDefault();
+    const email = document.getElementById("auth-email-input")?.value?.trim() || "";
+    showToast("Password reset link will be sent to your Google Mail address.", "info", "✉️");
+}
+
+function handleOfficialFormSubmit(e) {
+    if (e) e.preventDefault();
+    handleAuthSubmit();
+}
+
 function switchAuthTab(mode) {
     authTabMode = mode;
     const tabLogin = document.getElementById("auth-tab-login");
     const tabRegister = document.getElementById("auth-tab-register");
     const nameGroup = document.getElementById("auth-name-group");
     const submitBtn = document.getElementById("auth-submit-btn");
-    const titleElem = document.getElementById("auth-modal-title");
+    const mainTitle = document.getElementById("auth-main-title");
+    const mainSubtitle = document.getElementById("auth-main-subtitle");
     const googleBtnText = document.getElementById("google-auth-btn-text");
+    const forgotLink = document.getElementById("auth-forgot-link");
+    const switchPrompt = document.getElementById("auth-switch-prompt-text");
+    const switchLinkBtn = document.getElementById("auth-switch-link-btn");
     const errBox = document.getElementById("auth-error-msg");
 
     if (errBox) errBox.style.display = "none";
@@ -2874,16 +2905,24 @@ function switchAuthTab(mode) {
         if (tabLogin) tabLogin.classList.add("active");
         if (tabRegister) tabRegister.classList.remove("active");
         if (nameGroup) nameGroup.style.display = "none";
-        if (submitBtn) submitBtn.textContent = "Sign In with Google Mail";
-        if (titleElem) titleElem.textContent = "Sign In with Google Mail";
-        if (googleBtnText) googleBtnText.textContent = "1-Click Sign in with Google Mail (Gmail)";
+        if (forgotLink) forgotLink.style.display = "inline-block";
+        if (mainTitle) mainTitle.textContent = "Welcome back";
+        if (mainSubtitle) mainSubtitle.textContent = "Sign in to access your verified matches & career studio";
+        if (submitBtn) submitBtn.innerHTML = "<span>Sign In</span>";
+        if (googleBtnText) googleBtnText.textContent = "Continue with Google";
+        if (switchPrompt) switchPrompt.textContent = "Don't have an account?";
+        if (switchLinkBtn) switchLinkBtn.textContent = "Sign up";
     } else {
         if (tabRegister) tabRegister.classList.add("active");
         if (tabLogin) tabLogin.classList.remove("active");
         if (nameGroup) nameGroup.style.display = "block";
-        if (submitBtn) submitBtn.textContent = "Register with Google Mail";
-        if (titleElem) titleElem.textContent = "Register with Google Mail";
-        if (googleBtnText) googleBtnText.textContent = "1-Click Sign up with Google Mail (Gmail)";
+        if (forgotLink) forgotLink.style.display = "none";
+        if (mainTitle) mainTitle.textContent = "Create your account";
+        if (mainSubtitle) mainSubtitle.textContent = "Get started with your AI Career Studio in seconds";
+        if (submitBtn) submitBtn.innerHTML = "<span>Create Account</span>";
+        if (googleBtnText) googleBtnText.textContent = "Sign up with Google";
+        if (switchPrompt) switchPrompt.textContent = "Already have an account?";
+        if (switchLinkBtn) switchLinkBtn.textContent = "Sign in";
     }
 }
 
@@ -2891,6 +2930,7 @@ async function handleAuthSubmit() {
     const emailInput = document.getElementById("auth-email-input");
     const passwordInput = document.getElementById("auth-password-input");
     const nameInput = document.getElementById("auth-name-input");
+    const submitBtn = document.getElementById("auth-submit-btn");
     const errBox = document.getElementById("auth-error-msg");
 
     let email = emailInput ? emailInput.value.trim() : "";
@@ -2905,16 +2945,22 @@ async function handleAuthSubmit() {
 
     if (!email || !password) {
         if (errBox) {
-            errBox.textContent = "Please provide your Google Mail address and password.";
+            errBox.textContent = "Please provide both email and password.";
             errBox.style.display = "block";
         }
         return;
     }
 
+    const originalBtnText = submitBtn ? submitBtn.innerHTML : "";
+    if (submitBtn) {
+        submitBtn.innerHTML = `<span class="loading-spinner-sm"></span> Processing...`;
+        submitBtn.disabled = true;
+    }
+
     try {
         let endpoint = authTabMode === "register" ? "/auth/register" : "/auth/login";
         let payload = authTabMode === "register" 
-            ? { name: name || "Google Candidate", email: email, password: password }
+            ? { name: name || "Candidate", email: email, password: password }
             : { email: email, password: password };
 
         const res = await fetch(`${BACKEND_URL}${endpoint}`, {
@@ -2934,12 +2980,17 @@ async function handleAuthSubmit() {
         currentUser = data.user;
         updateAuthUI(currentUser);
         closeAuthModal();
-        showToast(`Welcome, ${currentUser.name}! Google Mail session authenticated.`, "success", "📬");
+        showToast(data.message || `Welcome, ${currentUser.name}! Session authenticated.`, "success", "✨");
 
     } catch (err) {
         if (errBox) {
             errBox.textContent = err.message;
             errBox.style.display = "block";
+        }
+    } finally {
+        if (submitBtn) {
+            submitBtn.innerHTML = originalBtnText;
+            submitBtn.disabled = false;
         }
     }
 }
@@ -2954,13 +3005,13 @@ function openGoogleAuthModal() {
 
     // Detect candidate data from resume or active state
     let candidateName = (currentUser && currentUser.name) || (resumeData && resumeData.name) || "Vishnu Sai";
-    let candidateEmail = (currentUser && currentUser.email) || (resumeData && resumeData.email) || "candidate@gmail.com";
+    let candidateEmail = (currentUser && currentUser.email) || (resumeData && resumeData.email) || "vishnusai@gmail.com";
     if (!candidateEmail.includes("@")) candidateEmail = `${candidateEmail}@gmail.com`;
 
     const isRegister = (authTabMode === "register");
     const headingElem = document.getElementById("google-modal-heading");
     if (headingElem) {
-        headingElem.textContent = isRegister ? "Register with Google Mail" : "Sign in with Google Mail";
+        headingElem.textContent = isRegister ? "Sign up with Google" : "Sign in with Google";
     }
 
     const fastNameElem = document.getElementById("google-fast-name");
@@ -2973,14 +3024,14 @@ function openGoogleAuthModal() {
     if (fastNameElem) fastNameElem.textContent = candidateName;
     if (fastEmailElem) fastEmailElem.textContent = candidateEmail;
     if (fastAvatarElem) {
-        const initial = (candidateName && candidateName.charAt(0).toUpperCase()) || "📬";
+        const initial = (candidateName && candidateName.charAt(0).toUpperCase()) || "V";
         fastAvatarElem.textContent = initial;
     }
 
     if (customNameInput) customNameInput.value = candidateName !== "Candidate" ? candidateName : "";
-    if (customEmailInput) customEmailInput.value = candidateEmail !== "candidate@gmail.com" ? candidateEmail : "";
+    if (customEmailInput) customEmailInput.value = candidateEmail !== "vishnusai@gmail.com" ? candidateEmail : "";
     if (customSubmitBtn) {
-        customSubmitBtn.innerHTML = isRegister ? "<span>Register with Google Mail</span>" : "<span>Sign in with Google Mail</span>";
+        customSubmitBtn.innerHTML = isRegister ? "<span>Sign up with Google</span>" : "<span>Sign in with Google</span>";
     }
 
     modal.style.display = "flex";

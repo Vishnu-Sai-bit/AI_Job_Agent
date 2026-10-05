@@ -895,117 +895,147 @@
         </div>
     </div>
 
-    <!-- Authentication Modal (Google Mail & Linear / Stripe Style) -->
+    <!-- Official Enterprise Authentication Modal (Google SSO & Credentials) -->
     <div id="auth-modal" class="modal-backdrop" style="display: none;">
-        <div class="modal-box auth-modal-box">
-            <div class="modal-header">
-                <div class="auth-modal-title-wrap">
-                    <span class="auth-icon-badge">📬</span>
-                    <h3 id="auth-modal-title">Google Mail Authentication</h3>
+        <div class="modal-box official-auth-card">
+            <button class="official-modal-close" onclick="closeAuthModal()" title="Close">✕</button>
+
+            <!-- Brand Header -->
+            <div class="official-auth-header">
+                <div class="official-brand-icon">
+                    <span>⚡</span>
                 </div>
-                <button class="modal-close-btn" onclick="closeAuthModal()">✕</button>
-            </div>
-            
-            <div class="auth-tabs">
-                <button class="auth-tab-btn active" id="auth-tab-login" onclick="switchAuthTab('login')">Sign In with Google Mail</button>
-                <button class="auth-tab-btn" id="auth-tab-register" onclick="switchAuthTab('register')">Register with Google Mail</button>
+                <h2 id="auth-main-title" class="official-auth-title">Welcome to AI JobAgent</h2>
+                <p id="auth-main-subtitle" class="official-auth-subtitle">Sign in or create your account to access your AI Career Studio</p>
             </div>
 
-            <div class="auth-form-container">
-                <!-- Google Mail One-Click OAuth Button -->
-                <button type="button" class="google-auth-btn" id="google-auth-btn" onclick="handleGoogleAuth()">
+            <!-- Auth Mode Switcher Segmented Control -->
+            <div class="official-auth-segmented">
+                <button type="button" class="auth-seg-btn active" id="auth-tab-login" onclick="switchAuthTab('login')">Sign In</button>
+                <button type="button" class="auth-seg-btn" id="auth-tab-register" onclick="switchAuthTab('register')">Create Account</button>
+            </div>
+
+            <div class="official-auth-body">
+                <!-- Official Google Identity Button -->
+                <button type="button" class="official-google-sso-btn" id="google-auth-btn" onclick="handleGoogleAuth()">
                     <svg class="google-icon" width="20" height="20" viewBox="0 0 48 48">
                         <path fill="#EA4335" d="M24 9.5c3.54 0 6.71 1.22 9.21 3.6l6.85-6.85C35.9 2.38 30.47 0 24 0 14.62 0 6.51 5.38 2.56 13.22l7.98 6.19C12.43 13.72 17.74 9.5 24 9.5z"/>
                         <path fill="#4285F4" d="M46.98 24.55c0-1.57-.15-3.09-.38-4.55H24v9.02h12.94c-.58 2.96-2.26 5.48-4.78 7.18l7.73 6c4.51-4.18 7.09-10.36 7.09-17.65z"/>
                         <path fill="#FBBC05" d="M10.53 28.59c-.48-1.45-.76-2.99-.76-4.59s.27-3.14.76-4.59l-7.98-6.19C.92 16.46 0 20.12 0 24c0 3.88.92 7.54 2.56 10.78l7.97-6.19z"/>
                         <path fill="#34A853" d="M24 48c6.48 0 11.93-2.13 15.89-5.81l-7.73-6c-2.15 1.45-4.92 2.3-8.16 2.3-6.26 0-11.57-4.22-13.47-9.91l-7.98 6.19C6.51 42.62 14.62 48 24 48z"/>
                     </svg>
-                    <span id="google-auth-btn-text">1-Click Sign in with Google Mail (Gmail)</span>
+                    <span id="google-auth-btn-text">Continue with Google</span>
                 </button>
 
-                <div class="auth-divider">
-                    <span>or enter Google Mail credentials</span>
+                <div class="official-auth-divider">
+                    <span>OR</span>
                 </div>
 
-                <!-- Registration Specific Name Field -->
-                <div class="form-group" id="auth-name-group" style="display: none;">
-                    <label class="form-label">Full Name</label>
-                    <input type="text" id="auth-name-input" class="form-input" placeholder="e.g. Vishnu Sai">
+                <!-- Credential Form -->
+                <form id="official-auth-form" onsubmit="handleOfficialFormSubmit(event)">
+                    <!-- Registration Full Name Field -->
+                    <div class="official-form-row" id="auth-name-group" style="display: none;">
+                        <label class="official-field-label">Full Name</label>
+                        <div class="official-input-wrapper">
+                            <span class="field-icon">👤</span>
+                            <input type="text" id="auth-name-input" class="official-form-input" placeholder="e.g. Vishnu Sai">
+                        </div>
+                    </div>
+
+                    <!-- Email Field -->
+                    <div class="official-form-row">
+                        <label class="official-field-label">Email address</label>
+                        <div class="official-input-wrapper">
+                            <span class="field-icon">✉️</span>
+                            <input type="email" id="auth-email-input" class="official-form-input" placeholder="name@gmail.com" required>
+                        </div>
+                    </div>
+
+                    <!-- Password Field -->
+                    <div class="official-form-row">
+                        <div class="official-label-row">
+                            <label class="official-field-label">Password</label>
+                            <a href="#" id="auth-forgot-link" class="official-forgot-link" onclick="handleForgotPassword(event)">Forgot password?</a>
+                        </div>
+                        <div class="official-input-wrapper">
+                            <span class="field-icon">🔒</span>
+                            <input type="password" id="auth-password-input" class="official-form-input" placeholder="••••••••" required>
+                            <button type="button" class="pwd-toggle-btn" onclick="togglePasswordVisibility('auth-password-input', this)" title="Show/Hide Password">👁️</button>
+                        </div>
+                    </div>
+
+                    <div id="auth-error-msg" class="official-error-banner" style="display: none;"></div>
+
+                    <!-- Submit Button -->
+                    <button type="submit" id="auth-submit-btn" class="official-primary-btn">
+                        <span>Sign In</span>
+                    </button>
+                </form>
+
+                <!-- Bottom Helper Link Switcher -->
+                <div class="official-auth-footer-prompt">
+                    <span id="auth-switch-prompt-text">Don't have an account?</span>
+                    <button type="button" class="official-link-btn" id="auth-switch-link-btn" onclick="toggleAuthMode()">Sign up</button>
                 </div>
 
-                <div class="form-group">
-                    <label class="form-label">Google Mail Address (Gmail)</label>
-                    <input type="email" id="auth-email-input" class="form-input" placeholder="yourname@gmail.com">
+                <div class="official-legal-notice">
+                    By continuing, you agree to AI JobAgent's <a href="#" onclick="event.preventDefault()">Terms of Service</a> and <a href="#" onclick="event.preventDefault()">Privacy Policy</a>.
                 </div>
-
-                <div class="form-group">
-                    <label class="form-label">Password / Security Passkey</label>
-                    <input type="password" id="auth-password-input" class="form-input" placeholder="••••••••">
-                </div>
-
-                <div id="auth-error-msg" class="auth-error-box" style="display: none;"></div>
-
-                <button id="auth-submit-btn" class="action-btn auth-submit-btn" onclick="handleAuthSubmit()">
-                    Sign In with Google Mail
-                </button>
             </div>
         </div>
     </div>
 
-    <!-- Google OAuth 2.0 Account Picker & Sign-In Modal -->
+    <!-- Official Google Account Chooser & OAuth Modal -->
     <div id="google-auth-modal" class="modal-backdrop" style="display: none;">
-        <div class="modal-box google-oauth-box">
-            <div class="google-modal-header">
-                <div class="google-brand-header">
-                    <svg class="google-brand-svg" width="28" height="28" viewBox="0 0 48 48">
-                        <path fill="#EA4335" d="M24 9.5c3.54 0 6.71 1.22 9.21 3.6l6.85-6.85C35.9 2.38 30.47 0 24 0 14.62 0 6.51 5.38 2.56 13.22l7.98 6.19C12.43 13.72 17.74 9.5 24 9.5z"/>
-                        <path fill="#4285F4" d="M46.98 24.55c0-1.57-.15-3.09-.38-4.55H24v9.02h12.94c-.58 2.96-2.26 5.48-4.78 7.18l7.73 6c4.51-4.18 7.09-10.36 7.09-17.65z"/>
-                        <path fill="#FBBC05" d="M10.53 28.59c-.48-1.45-.76-2.99-.76-4.59s.27-3.14.76-4.59l-7.98-6.19C.92 16.46 0 20.12 0 24c0 3.88.92 7.54 2.56 10.78l7.97-6.19z"/>
-                        <path fill="#34A853" d="M24 48c6.48 0 11.93-2.13 15.89-5.81l-7.73-6c-2.15 1.45-4.92 2.3-8.16 2.3-6.26 0-11.57-4.22-13.47-9.91l-7.98 6.19C6.51 42.62 14.62 48 24 48z"/>
-                    </svg>
-                    <div>
-                        <h3 id="google-modal-heading" class="google-modal-title">Sign in with Google Mail</h3>
-                        <p class="google-modal-sub">Choose a verified Google Mail account to continue to <strong>AI JobAgent</strong></p>
-                    </div>
-                </div>
-                <button class="modal-close-btn" onclick="closeGoogleAuthModal()">✕</button>
+        <div class="modal-box official-google-oauth-box">
+            <button class="official-modal-close" onclick="closeGoogleAuthModal()" title="Close">✕</button>
+
+            <div class="google-header-center">
+                <svg class="google-brand-svg" width="40" height="40" viewBox="0 0 48 48">
+                    <path fill="#EA4335" d="M24 9.5c3.54 0 6.71 1.22 9.21 3.6l6.85-6.85C35.9 2.38 30.47 0 24 0 14.62 0 6.51 5.38 2.56 13.22l7.98 6.19C12.43 13.72 17.74 9.5 24 9.5z"/>
+                    <path fill="#4285F4" d="M46.98 24.55c0-1.57-.15-3.09-.38-4.55H24v9.02h12.94c-.58 2.96-2.26 5.48-4.78 7.18l7.73 6c4.51-4.18 7.09-10.36 7.09-17.65z"/>
+                    <path fill="#FBBC05" d="M10.53 28.59c-.48-1.45-.76-2.99-.76-4.59s.27-3.14.76-4.59l-7.98-6.19C.92 16.46 0 20.12 0 24c0 3.88.92 7.54 2.56 10.78l7.97-6.19z"/>
+                    <path fill="#34A853" d="M24 48c6.48 0 11.93-2.13 15.89-5.81l-7.73-6c-2.15 1.45-4.92 2.3-8.16 2.3-6.26 0-11.57-4.22-13.47-9.91l-7.98 6.19C6.51 42.62 14.62 48 24 48z"/>
+                </svg>
+                <h3 id="google-modal-heading" class="google-official-title">Sign in with Google</h3>
+                <p class="google-official-sub">Choose an account to continue to <strong>AI JobAgent Studio</strong></p>
             </div>
 
-            <div class="google-modal-body">
-                <!-- 1-Click Fast Candidate Account Option -->
-                <div class="google-account-list">
-                    <button type="button" class="google-account-item" id="google-fast-account-btn" onclick="confirmGoogleAuthFast()">
-                        <div class="google-acc-avatar" id="google-fast-avatar">📬</div>
-                        <div class="google-acc-info">
-                            <span class="google-acc-name" id="google-fast-name">Candidate</span>
-                            <span class="google-acc-email" id="google-fast-email">candidate@gmail.com</span>
+            <div class="google-oauth-content">
+                <!-- Verified Google Profile Account Selector -->
+                <div class="google-profiles-container">
+                    <button type="button" class="google-user-account-card" id="google-fast-account-btn" onclick="confirmGoogleAuthFast()">
+                        <div class="google-user-avatar-circle" id="google-fast-avatar">V</div>
+                        <div class="google-user-text">
+                            <span class="google-user-display-name" id="google-fast-name">Vishnu Sai</span>
+                            <span class="google-user-display-email" id="google-fast-email">vishnusai@gmail.com</span>
                         </div>
-                        <span class="google-acc-badge">1-Click Sign In</span>
+                        <div class="google-verified-check">✓</div>
                     </button>
                 </div>
 
-                <div class="google-divider-row">
-                    <span>or continue with custom Google Mail</span>
+                <div class="google-or-separator">
+                    <span>Use another Google account</span>
                 </div>
 
-                <!-- Custom Google Account Entry Form -->
-                <form id="google-custom-form" class="google-custom-form" onsubmit="handleGoogleCustomSubmit(event)">
-                    <div class="form-group">
-                        <label class="form-label" style="font-size: 0.8rem;">Your Full Name</label>
-                        <input type="text" id="google-custom-name" class="form-input" placeholder="e.g. Vishnu Sai" required>
+                <!-- Custom Google Account Form -->
+                <form id="google-custom-form" class="google-direct-form" onsubmit="handleGoogleCustomSubmit(event)">
+                    <div class="official-form-row">
+                        <label class="official-field-label">Full Name</label>
+                        <input type="text" id="google-custom-name" class="official-form-input" placeholder="e.g. Vishnu Sai" required>
                     </div>
-                    <div class="form-group">
-                        <label class="form-label" style="font-size: 0.8rem;">Google Mail (Gmail) Address</label>
-                        <input type="email" id="google-custom-email" class="form-input" placeholder="vishnusai@gmail.com" required>
+                    <div class="official-form-row">
+                        <label class="official-field-label">Google Account Email</label>
+                        <input type="email" id="google-custom-email" class="official-form-input" placeholder="yourname@gmail.com" required>
                     </div>
-                    <button type="submit" class="action-btn auth-submit-btn google-submit-btn" id="google-custom-submit-btn">
-                        <span>Continue with Google Mail</span>
+                    <button type="submit" class="official-primary-btn google-continue-submit-btn" id="google-custom-submit-btn">
+                        <span>Continue</span>
                     </button>
                 </form>
 
-                <div class="google-security-notice">
-                    <span class="google-shield-icon">🔒</span>
-                    <span>To continue, Google securely shares your name, Google Mail address, and authentication status with AI JobAgent.</span>
+                <div class="google-privacy-disclaimer">
+                    <span class="lock-glyph">🔒</span>
+                    <span>To continue, Google will share your name, email address, and profile details with AI JobAgent. Review our <a href="#" onclick="event.preventDefault()">Privacy Policy</a>.</span>
                 </div>
             </div>
         </div>
