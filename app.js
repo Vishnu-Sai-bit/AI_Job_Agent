@@ -2809,35 +2809,35 @@ function updateAuthUI(user) {
         if (authLabel) authLabel.textContent = firstName;
         if (authBtn) {
             authBtn.classList.add("logged-in");
-            authBtn.title = `Signed in as ${user.email} (Click to Sign Out)`;
+            authBtn.title = `Signed in with Google Mail: ${user.email} (Click to Sign Out)`;
         }
         if (drawerUserName) drawerUserName.textContent = user.name;
         if (drawerUserRole) drawerUserRole.textContent = user.email;
-        if (drawerUserAvatar) drawerUserAvatar.textContent = user.name.charAt(0).toUpperCase() || "👤";
+        if (drawerUserAvatar) drawerUserAvatar.textContent = user.name.charAt(0).toUpperCase() || "📬";
         if (drawerAuthTitle) drawerAuthTitle.textContent = `Sign Out (${firstName})`;
         if (drawerAuthIcon) drawerAuthIcon.textContent = "🚪";
 
         if (user.auth_provider === "google") {
             if (settingGoogleStatus) settingGoogleStatus.textContent = `Connected (${user.email})`;
             if (settingGoogleBtn) {
-                settingGoogleBtn.textContent = "Connected ✓";
+                settingGoogleBtn.textContent = "Google Mail Connected ✓";
                 settingGoogleBtn.classList.add("btn-secondary");
             }
         }
     } else {
-        if (authLabel) authLabel.textContent = "Sign In";
+        if (authLabel) authLabel.textContent = "Google Sign In";
         if (authBtn) {
             authBtn.classList.remove("logged-in");
-            authBtn.title = "Account Authentication";
+            authBtn.title = "Sign In or Register with Google Mail";
         }
         if (drawerUserName) drawerUserName.textContent = "Guest Candidate";
         if (drawerUserRole) drawerUserRole.textContent = "Free Career Workspace";
         if (drawerUserAvatar) drawerUserAvatar.textContent = "👤";
-        if (drawerAuthTitle) drawerAuthTitle.textContent = "Sign In / Register";
-        if (drawerAuthIcon) drawerAuthIcon.textContent = "🔑";
+        if (drawerAuthTitle) drawerAuthTitle.textContent = "Google Mail Sign In";
+        if (drawerAuthIcon) drawerAuthIcon.textContent = "📬";
         if (settingGoogleStatus) settingGoogleStatus.textContent = "Not Connected";
         if (settingGoogleBtn) {
-            settingGoogleBtn.textContent = "Connect Google";
+            settingGoogleBtn.textContent = "Connect Google Mail";
             settingGoogleBtn.classList.remove("btn-secondary");
         }
     }
@@ -2874,16 +2874,16 @@ function switchAuthTab(mode) {
         if (tabLogin) tabLogin.classList.add("active");
         if (tabRegister) tabRegister.classList.remove("active");
         if (nameGroup) nameGroup.style.display = "none";
-        if (submitBtn) submitBtn.textContent = "Sign In";
-        if (titleElem) titleElem.textContent = "Sign In to Account";
-        if (googleBtnText) googleBtnText.textContent = "Sign in with Google";
+        if (submitBtn) submitBtn.textContent = "Sign In with Google Mail";
+        if (titleElem) titleElem.textContent = "Sign In with Google Mail";
+        if (googleBtnText) googleBtnText.textContent = "1-Click Sign in with Google Mail (Gmail)";
     } else {
         if (tabRegister) tabRegister.classList.add("active");
         if (tabLogin) tabLogin.classList.remove("active");
         if (nameGroup) nameGroup.style.display = "block";
-        if (submitBtn) submitBtn.textContent = "Create Account";
-        if (titleElem) titleElem.textContent = "Create New Account";
-        if (googleBtnText) googleBtnText.textContent = "Sign up with Google";
+        if (submitBtn) submitBtn.textContent = "Register with Google Mail";
+        if (titleElem) titleElem.textContent = "Register with Google Mail";
+        if (googleBtnText) googleBtnText.textContent = "1-Click Sign up with Google Mail (Gmail)";
     }
 }
 
@@ -2893,13 +2893,19 @@ async function handleAuthSubmit() {
     const nameInput = document.getElementById("auth-name-input");
     const errBox = document.getElementById("auth-error-msg");
 
-    const email = emailInput ? emailInput.value.trim() : "";
+    let email = emailInput ? emailInput.value.trim() : "";
     const password = passwordInput ? passwordInput.value : "";
     const name = nameInput ? nameInput.value.trim() : "";
 
+    // Auto-complete @gmail.com if domain omitted
+    if (email && !email.includes("@")) {
+        email = `${email}@gmail.com`;
+        if (emailInput) emailInput.value = email;
+    }
+
     if (!email || !password) {
         if (errBox) {
-            errBox.textContent = "Please fill in both email and password.";
+            errBox.textContent = "Please provide your Google Mail address and password.";
             errBox.style.display = "block";
         }
         return;
@@ -2908,7 +2914,7 @@ async function handleAuthSubmit() {
     try {
         let endpoint = authTabMode === "register" ? "/auth/register" : "/auth/login";
         let payload = authTabMode === "register" 
-            ? { name: name || "Candidate", email: email, password: password }
+            ? { name: name || "Google Candidate", email: email, password: password }
             : { email: email, password: password };
 
         const res = await fetch(`${BACKEND_URL}${endpoint}`, {
@@ -2928,7 +2934,7 @@ async function handleAuthSubmit() {
         currentUser = data.user;
         updateAuthUI(currentUser);
         closeAuthModal();
-        showToast(`Welcome, ${currentUser.name}! Session authenticated.`, "success", "🔐");
+        showToast(`Welcome, ${currentUser.name}! Google Mail session authenticated.`, "success", "📬");
 
     } catch (err) {
         if (errBox) {
@@ -2949,12 +2955,12 @@ function openGoogleAuthModal() {
     // Detect candidate data from resume or active state
     let candidateName = (currentUser && currentUser.name) || (resumeData && resumeData.name) || "Vishnu Sai";
     let candidateEmail = (currentUser && currentUser.email) || (resumeData && resumeData.email) || "candidate@gmail.com";
-    if (!candidateEmail.includes("@")) candidateEmail = "candidate@gmail.com";
+    if (!candidateEmail.includes("@")) candidateEmail = `${candidateEmail}@gmail.com`;
 
     const isRegister = (authTabMode === "register");
     const headingElem = document.getElementById("google-modal-heading");
     if (headingElem) {
-        headingElem.textContent = isRegister ? "Sign up with Google" : "Sign in with Google";
+        headingElem.textContent = isRegister ? "Register with Google Mail" : "Sign in with Google Mail";
     }
 
     const fastNameElem = document.getElementById("google-fast-name");
@@ -2967,14 +2973,14 @@ function openGoogleAuthModal() {
     if (fastNameElem) fastNameElem.textContent = candidateName;
     if (fastEmailElem) fastEmailElem.textContent = candidateEmail;
     if (fastAvatarElem) {
-        const initial = (candidateName && candidateName.charAt(0).toUpperCase()) || "G";
+        const initial = (candidateName && candidateName.charAt(0).toUpperCase()) || "📬";
         fastAvatarElem.textContent = initial;
     }
 
     if (customNameInput) customNameInput.value = candidateName !== "Candidate" ? candidateName : "";
     if (customEmailInput) customEmailInput.value = candidateEmail !== "candidate@gmail.com" ? candidateEmail : "";
     if (customSubmitBtn) {
-        customSubmitBtn.innerHTML = isRegister ? "<span>Create Account with Google</span>" : "<span>Sign in with Google</span>";
+        customSubmitBtn.innerHTML = isRegister ? "<span>Register with Google Mail</span>" : "<span>Sign in with Google Mail</span>";
     }
 
     modal.style.display = "flex";
