@@ -3006,10 +3006,15 @@ async function handleGoogleCustomSubmit(e) {
     const emailInput = document.getElementById("google-custom-email");
 
     const name = nameInput ? nameInput.value.trim() : "Google Candidate";
-    const email = emailInput ? emailInput.value.trim() : "";
+    let email = emailInput ? emailInput.value.trim() : "";
+
+    if (email && !email.includes("@")) {
+        email = `${email}@gmail.com`;
+        if (emailInput) emailInput.value = email;
+    }
 
     if (!email || !email.includes("@")) {
-        showToast("Please enter a valid Google email address.", "error", "⚠️");
+        showToast("Please enter your Gmail address (e.g. yourname@gmail.com).", "error", "⚠️");
         return;
     }
 
