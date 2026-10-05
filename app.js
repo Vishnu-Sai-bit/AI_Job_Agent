@@ -2843,19 +2843,12 @@ function updateAuthUI(user) {
     }
 }
 
-function openAuthModal(mode = "login") {
-    const modal = document.getElementById("auth-modal");
-    if (modal) {
-        modal.style.display = "flex";
-        switchAuthTab(mode);
-    }
+function openAuthModal() {
+    openGoogleAuthModal();
 }
 
 function closeAuthModal() {
-    const modal = document.getElementById("auth-modal");
-    if (modal) modal.style.display = "none";
-    const errBox = document.getElementById("auth-error-msg");
-    if (errBox) errBox.style.display = "none";
+    closeGoogleAuthModal();
 }
 
 function toggleAuthMode() {
@@ -3045,8 +3038,8 @@ function closeGoogleAuthModal() {
 async function confirmGoogleAuthFast() {
     const fastNameElem = document.getElementById("google-fast-name");
     const fastEmailElem = document.getElementById("google-fast-email");
-    const name = fastNameElem ? fastNameElem.textContent.trim() : "Candidate";
-    const email = fastEmailElem ? fastEmailElem.textContent.trim() : "candidate@gmail.com";
+    const name = fastNameElem ? fastNameElem.textContent.trim() : "Vishnu Sai";
+    const email = (fastEmailElem && fastEmailElem.textContent.trim()) || "vishnusai@gmail.com";
 
     await performGoogleAuth(name, email);
 }
