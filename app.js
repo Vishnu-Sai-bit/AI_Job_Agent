@@ -2769,6 +2769,7 @@ function initAuthEvents() {
         if (e.key === "Escape") {
             closeSideDrawer();
             closeAuthModal();
+            closeGoogleAuthModal();
             closeSettingsModal();
             closeAutoFillModal();
             closeCompanyModal();
@@ -2937,26 +2938,100 @@ async function handleAuthSubmit() {
     }
 }
 
-async function handleGoogleAuth() {
+function handleGoogleAuth() {
+    openGoogleAuthModal();
+}
+
+function openGoogleAuthModal() {
+    const modal = document.getElementById("google-auth-modal");
+    if (!modal) return;
+
+    // Detect candidate data from resume or active state
+    let candidateName = (currentUser && currentUser.name) || (resumeData && resumeData.name) || "Vishnu Sai";
+    let candidateEmail = (currentUser && currentUser.email) || (resumeData && resumeData.email) || "candidate@gmail.com";
+    if (!candidateEmail.includes("@")) candidateEmail = "candidate@gmail.com";
+
+    const isRegister = (authTabMode === "register");
+    const headingElem = document.getElementById("google-modal-heading");
+    if (headingElem) {
+        headingElem.textContent = isRegister ? "Sign up with Google" : "Sign in with Google";
+    }
+
+    const fastNameElem = document.getElementById("google-fast-name");
+    const fastEmailElem = document.getElementById("google-fast-email");
+    const fastAvatarElem = document.getElementById("google-fast-avatar");
+    const customNameInput = document.getElementById("google-custom-name");
+    const customEmailInput = document.getElementById("google-custom-email");
+    const customSubmitBtn = document.getElementById("google-custom-submit-btn");
+
+    if (fastNameElem) fastNameElem.textContent = candidateName;
+    if (fastEmailElem) fastEmailElem.textContent = candidateEmail;
+    if (fastAvatarElem) {
+        const initial = (candidateName && candidateName.charAt(0).toUpperCase()) || "G";
+        fastAvatarElem.textContent = initial;
+    }
+
+    if (customNameInput) customNameInput.value = candidateName !== "Candidate" ? candidateName : "";
+    if (customEmailInput) customEmailInput.value = candidateEmail !== "candidate@gmail.com" ? candidateEmail : "";
+    if (customSubmitBtn) {
+        customSubmitBtn.innerHTML = isRegister ? "<span>Create Account with Google</span>" : "<span>Sign in with Google</span>";
+    }
+
+    modal.style.display = "flex";
+}
+
+function closeGoogleAuthModal() {
+    const modal = document.getElementById("google-auth-modal");
+    if (modal) modal.style.display = "none";
+}
+
+async function confirmGoogleAuthFast() {
+    const fastNameElem = document.getElementById("google-fast-name");
+    const fastEmailElem = document.getElementById("google-fast-email");
+    const name = fastNameElem ? fastNameElem.textContent.trim() : "Candidate";
+    const email = fastEmailElem ? fastEmailElem.textContent.trim() : "candidate@gmail.com";
+
+    await performGoogleAuth(name, email);
+}
+
+async function handleGoogleCustomSubmit(e) {
+    if (e) e.preventDefault();
+    const nameInput = document.getElementById("google-custom-name");
+    const emailInput = document.getElementById("google-custom-email");
+
+    const name = nameInput ? nameInput.value.trim() : "Google Candidate";
+    const email = emailInput ? emailInput.value.trim() : "";
+
+    if (!email || !email.includes("@")) {
+        showToast("Please enter a valid Google email address.", "error", "⚠️");
+        return;
+    }
+
+    await performGoogleAuth(name, email);
+}
+
+async function performGoogleAuth(name, email, googleId = null, avatarUrl = "") {
+    const submitBtn = document.getElementById("google-custom-submit-btn");
+    const originalBtnContent = submitBtn ? submitBtn.innerHTML : "";
+
     try {
-        // Fast, authentic Google OAuth flow simulation / credential bridge
-        let candidateName = (currentUser && currentUser.name) || (resumeData && resumeData.name) || "Candidate";
-        let candidateEmail = (currentUser && currentUser.email) || (resumeData && resumeData.email) || "";
-        
-        const promptEmail = prompt("Enter your Google Account email for 1-Click Verification:", candidateEmail || "candidate@gmail.com");
-        if (!promptEmail) return; // User cancelled
-        
-        const googlePayload = {
-            name: candidateName,
-            email: promptEmail.trim(),
-            google_id: `goog_${Date.now()}_${Math.random().toString(36).substring(2, 8)}`,
-            avatar_url: ""
+        if (submitBtn) {
+            submitBtn.innerHTML = `<span><span class="loading-spinner-sm"></span> Authenticating Google...</span>`;
+            submitBtn.disabled = true;
+        }
+
+        const gid = googleId || `goog_${Date.now()}_${Math.random().toString(36).substring(2, 9)}`;
+        const payload = {
+            name: name || "Google User",
+            email: email.trim().toLowerCase(),
+            google_id: gid,
+            avatar_url: avatarUrl || ""
         };
 
         const res = await fetch(`${BACKEND_URL}/auth/google`, {
             method: "POST",
             headers: { "Content-Type": "application/json" },
-            body: JSON.stringify(googlePayload)
+            body: JSON.stringify(payload)
         });
 
         const data = await res.json();
@@ -2964,18 +3039,27 @@ async function handleGoogleAuth() {
             throw new Error(data.detail || data.message || "Google Authentication failed.");
         }
 
+        // Save session
         localStorage.setItem("jobagent_jwt_token", data.token);
         localStorage.setItem("jobagent_user", JSON.stringify(data.user));
         currentUser = data.user;
+
         updateAuthUI(currentUser);
+        closeGoogleAuthModal();
         closeAuthModal();
         closeSettingsModal();
         closeSideDrawer();
-        showToast(`🚀 Google Authentication Successful! Welcome, ${currentUser.name}`, "success", "✨");
+
+        showToast(data.message || `🚀 Google Authentication Successful! Welcome, ${currentUser.name}`, "success", "✨");
 
     } catch (err) {
         console.error("Google Auth error:", err);
-        showToast(`Google Sign-In Error: ${err.message}`, "error", "❌");
+        showToast(`Google Authentication Error: ${err.message}`, "error", "❌");
+    } finally {
+        if (submitBtn) {
+            submitBtn.innerHTML = originalBtnContent;
+            submitBtn.disabled = false;
+        }
     }
 }
 
