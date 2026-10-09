@@ -1675,17 +1675,60 @@ function parseJwt(token) {
     }
 }
 
+let googleTokenClient = null;
+
 function initGoogleIdentityServices() {
-    if (window.google && google.accounts && google.accounts.id) {
-        try {
-            google.accounts.id.initialize({
-                client_id: "1028374659281-officialjobagentgoogleauth.apps.googleusercontent.com",
-                callback: handleGoogleCredentialResponse,
-                auto_select: false,
-                cancel_on_tap_outside: true
-            });
-        } catch (err) {
-            console.log("Google Identity Services initialization notice:", err);
+    if (window.google && google.accounts) {
+        if (google.accounts.id) {
+            try {
+                google.accounts.id.initialize({
+                    client_id: "1028374659281-officialjobagentgoogleauth.apps.googleusercontent.com",
+                    callback: handleGoogleCredentialResponse,
+                    auto_select: false,
+                    cancel_on_tap_outside: true
+                });
+            } catch (err) {
+                console.log("Google Identity Services notice:", err);
+            }
+        }
+
+        if (google.accounts.oauth2) {
+            try {
+                googleTokenClient = google.accounts.oauth2.initTokenClient({
+                    client_id: "1028374659281-officialjobagentgoogleauth.apps.googleusercontent.com",
+                    scope: "email profile openid",
+                    callback: async (tokenResponse) => {
+                        if (tokenResponse?.access_token) {
+                            showToast("Verifying Google OAuth session...", "info", "🌐");
+                            try {
+                                const res = await fetch(`${BACKEND_URL}/auth/google`, {
+                                    method: "POST",
+                                    headers: { "Content-Type": "application/json" },
+                                    body: JSON.stringify({ accessToken: tokenResponse.access_token })
+                                });
+                                if (res.ok) {
+                                    const data = await res.json();
+                                    if (data.token) localStorage.setItem("auth_token", data.token);
+                                    if (data.user) {
+                                        currentUser = data.user;
+                                        localStorage.setItem("jobcopilot_user", JSON.stringify(currentUser));
+                                        closeAuthModal();
+                                        closeGoogleOAuthModal();
+                                        populateAllViews();
+                                        loadAdminDashboardData();
+                                        showToast(`✨ Welcome, ${data.user.name}! Signed in with Google.`, "success", "🔵");
+                                        return;
+                                    }
+                                }
+                            } catch (err) {
+                                console.warn("Google OAuth backend error:", err);
+                            }
+                        }
+                    }
+                });
+            } catch (err) {
+                console.log("Google token client notice:", err);
+            }
         }
     }
 }
@@ -1707,7 +1750,17 @@ async function handleGoogleCredentialResponse(response) {
 }
 
 function handleGoogleSignIn() {
-    // If Google One Tap is ready, attempt prompt, otherwise open the account chooser dialog
+    // 1. Try Silkverse-style Google OAuth Token Client popup
+    if (googleTokenClient) {
+        try {
+            googleTokenClient.requestAccessToken({ prompt: "select_account" });
+            return;
+        } catch (e) {
+            console.warn("Google token client prompt error:", e);
+        }
+    }
+
+    // 2. Try Google One Tap
     if (window.google && google.accounts && google.accounts.id) {
         try {
             google.accounts.id.prompt((notification) => {
@@ -1720,6 +1773,8 @@ function handleGoogleSignIn() {
             // Fallback to official chooser dialog
         }
     }
+
+    // 3. Open Official Account Chooser Dialog
     openGoogleOAuthModal();
 }
 
