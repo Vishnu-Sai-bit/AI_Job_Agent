@@ -204,10 +204,6 @@
                     <span class="nav-icon">🏠</span>
                     <span class="nav-text">Landing Page</span>
                 </button>
-                <button class="sidebar-nav-btn" data-tab="auth" onclick="switchMainTab('auth')">
-                    <span class="nav-icon">🔐</span>
-                    <span class="nav-text">Login / Register</span>
-                </button>
                 <button class="sidebar-nav-btn" data-tab="dashboard" onclick="switchMainTab('dashboard')">
                     <span class="nav-icon">📊</span>
                     <span class="nav-text">Dashboard</span>
@@ -302,8 +298,7 @@
                             <a href="#blogs" onclick="event.preventDefault(); switchMainTab('learning')">Blogs</a>
                         </div>
                         <div class="landing-auth-buttons">
-                            <button class="landing-btn-secondary" onclick="switchMainTab('auth')">Login</button>
-                            <button class="landing-btn-primary" onclick="switchMainTab('auth')">Sign Up</button>
+                            <button class="landing-btn-primary" onclick="switchMainTab('dashboard')">🚀 Open Dashboard</button>
                         </div>
                     </div>
 
@@ -403,66 +398,6 @@
                 </div>
             </section>
 
-            <!-- ======================================================== -->
-            <!-- 2. LOGIN / REGISTER (Panel 2) -->
-            <!-- ======================================================== -->
-            <section id="panel-auth" class="main-panel" style="display: none;">
-                <div class="auth-page-container">
-                    <div class="auth-card-box">
-                        <div class="auth-form-column">
-                            <div class="auth-heading">
-                                <h2>Welcome Back</h2>
-                                <p class="muted">Login to access your verified career studio</p>
-                            </div>
-
-                            <form class="auth-form-main" onsubmit="event.preventDefault(); loadDemoCandidate('data-analyst');">
-                                <div class="form-group">
-                                    <label class="form-label">Email Address</label>
-                                    <input type="email" class="form-input" placeholder="vishnu@example.com" value="vishnu@email.com" required>
-                                </div>
-                                <div class="form-group">
-                                    <div style="display: flex; justify-content: space-between;">
-                                        <label class="form-label">Password</label>
-                                        <a href="#" onclick="event.preventDefault(); showToast('Password reset link sent.', 'info', '✉️');" style="font-size: 0.75rem; color: #818cf8;">Forgot Password?</a>
-                                    </div>
-                                    <input type="password" class="form-input" value="••••••••••" required>
-                                </div>
-                                <button type="submit" class="action-btn btn-primary" style="width: 100%; padding: 0.75rem; font-size: 0.95rem;">Login</button>
-                            </form>
-
-                            <div class="auth-divider">
-                                <span>or continue with</span>
-                            </div>
-
-                            <div class="sso-buttons-row">
-                                <button class="sso-btn" onclick="loadDemoCandidate('data-analyst')">
-                                    <span>🌐 Google</span>
-                                </button>
-                                <button class="sso-btn" onclick="loadDemoCandidate('data-analyst')">
-                                    <span>💼 LinkedIn</span>
-                                </button>
-                            </div>
-
-                            <p class="auth-switch-text">
-                                Don't have an account? <a href="#" onclick="event.preventDefault(); showToast('Switched to register mode', 'info');">Sign Up</a>
-                            </p>
-                        </div>
-
-                        <div class="auth-promo-column">
-                            <div class="promo-content">
-                                <h3>Start Your Career Journey with AI</h3>
-                                <ul class="promo-checklist">
-                                    <li>✓ Find better job opportunities</li>
-                                    <li>✓ Get AI-powered resume insights</li>
-                                    <li>✓ Track applications easily</li>
-                                    <li>✓ Prepare for live interviews</li>
-                                    <li>✓ Personalized learning roadmap</li>
-                                </ul>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </section>
 
             <!-- ======================================================== -->
             <!-- 3. DASHBOARD (Panel 3) -->
