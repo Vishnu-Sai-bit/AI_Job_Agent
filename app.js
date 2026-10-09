@@ -743,15 +743,21 @@ function renderDashboard() {
         emptyBanner.style.display = resumeData ? "none" : "flex";
     }
 
-    const nameElem = document.getElementById("dash-user-name");
+    const headingElem = document.getElementById("dash-greeting-heading") || document.querySelector(".dash-greeting h2");
     const roleBadge = document.getElementById("dash-role-badge");
     const hubBadge = document.getElementById("dash-hub-badge");
 
     const displayName = (currentUser && currentUser.name)
         ? currentUser.name.split(" ")[0]
-        : (resumeData && resumeData.name ? resumeData.name.split(" ")[0] : "Guest");
+        : (resumeData && resumeData.name ? resumeData.name.split(" ")[0] : null);
 
-    if (nameElem) nameElem.textContent = displayName;
+    if (headingElem) {
+        if (displayName) {
+            headingElem.innerHTML = `Welcome, <span id="dash-user-name">${displayName}</span> 👋`;
+        } else {
+            headingElem.innerHTML = `Welcome to AI Job Agent 👋`;
+        }
+    }
     if (roleBadge) roleBadge.textContent = resumeData?.preferred_role ? `🎯 ${resumeData.preferred_role}` : "🎯 Career Explorer";
     if (hubBadge) hubBadge.textContent = resumeData?.location ? `📍 ${resumeData.location}` : "📍 India & Global Remote";
 
@@ -1150,24 +1156,24 @@ function renderProfileView() {
 
     const name = (currentUser && currentUser.name)
         ? currentUser.name
-        : (resumeData && resumeData.name ? resumeData.name : "Guest User");
+        : (resumeData && resumeData.name ? resumeData.name : "Candidate Profile");
 
     const role = resumeData?.preferred_role || "Career Explorer";
     const loc = resumeData?.location || "India & Global Remote";
-    const email = currentUser?.email || resumeData?.email || "Guest Session";
+    const email = currentUser?.email || resumeData?.email || "";
 
     if (nameElem) nameElem.textContent = name;
-    if (roleElem) roleElem.textContent = `${role} • ${loc} • ${email}`;
+    if (roleElem) roleElem.textContent = email ? `${role} • ${loc} • ${email}` : `${role} • ${loc}`;
     if (sidebarName) sidebarName.textContent = name;
     if (sidebarRole) sidebarRole.textContent = role;
 
-    const initial = name && name !== "Guest User" ? name.charAt(0).toUpperCase() : "👤";
+    const initial = (name && name !== "Candidate Profile") ? name.charAt(0).toUpperCase() : "👤";
     if (sidebarAvatar) sidebarAvatar.textContent = initial;
     if (profAvatar) profAvatar.textContent = initial;
 
-    if (authDisplay) authDisplay.textContent = email;
+    if (authDisplay) authDisplay.textContent = currentUser?.email ? currentUser.email : "Local Workspace";
     if (authStatus) {
-        authStatus.textContent = currentUser ? `Active Session: ${currentUser.email}` : "Guest Mode (Local)";
+        authStatus.textContent = currentUser ? `Active Session: ${currentUser.email}` : "Local Workspace";
     }
     if (authDot) {
         authDot.style.background = currentUser ? "#22c55e" : "#818cf8";
@@ -1691,7 +1697,7 @@ function handleSignOut() {
 
     jobData = JSON.parse(JSON.stringify(AI_JOB_COPILOT_JOBS));
     populateAllViews();
-    showToast("Signed out. Operating in clean Guest mode.", "info", "🔒");
+    showToast("Signed out successfully.", "info", "🔒");
 }
 
 async function handleProfileAuthSubmit(e) {

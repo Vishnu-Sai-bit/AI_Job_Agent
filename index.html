@@ -171,7 +171,7 @@
             <div class="sidebar-user-card" onclick="switchMainTab('profile')" title="View Candidate Profile">
                 <div class="sidebar-avatar" id="sidebar-avatar-text">👤</div>
                 <div class="sidebar-user-details">
-                    <span class="sidebar-user-name" id="sidebar-user-name">Guest User</span>
+                    <span class="sidebar-user-name" id="sidebar-user-name">Candidate Profile</span>
                     <span class="sidebar-user-role" id="sidebar-user-role">Career Explorer</span>
                 </div>
             </div>
@@ -381,7 +381,7 @@
             <!-- 3. DASHBOARD (Panel 3) -->
             <!-- ======================================================== -->
             <section id="panel-dashboard" class="main-panel" style="display: none;">
-                <!-- Empty Resume Upload Banner for New / Guest Users -->
+                <!-- Empty Resume Upload Banner for New Users -->
                 <div class="dash-empty-resume-banner" id="dash-empty-resume-banner">
                     <div class="dash-empty-resume-content">
                         <span style="font-size: 1.8rem;">📄</span>
@@ -397,7 +397,7 @@
 
                 <div class="dashboard-header-row">
                     <div class="dash-greeting">
-                        <h2>Welcome, <span id="dash-user-name">Guest</span> 👋</h2>
+                        <h2 id="dash-greeting-heading">Welcome to AI Job Agent 👋</h2>
                         <p class="dash-sub">Here's your career overview</p>
                     </div>
                     <div class="dash-quick-actions">
@@ -1342,7 +1342,7 @@
                             <div class="profile-avatar-large" id="prof-avatar-large">👤</div>
                             <div class="profile-meta">
                                 <div class="profile-name-row">
-                                    <h2 id="prof-name">Guest User</h2>
+                                    <h2 id="prof-name">Candidate Profile</h2>
                                     <button class="action-btn-sm btn-secondary" onclick="openSettingsModal()">Edit</button>
                                 </div>
                                 <p class="muted" id="prof-role-loc">Career Explorer • India & Global Remote</p>
@@ -1391,7 +1391,7 @@
                             </div>
                             <div class="profile-auth-status-pill" id="profile-auth-status-badge" style="display: flex; align-items: center; gap: 0.5rem; background: rgba(99, 102, 241, 0.15); border: 1px solid rgba(99, 102, 241, 0.3); padding: 0.35rem 0.75rem; border-radius: 999px;">
                                 <span class="live-dot" style="background: #818cf8;" id="profile-auth-dot"></span>
-                                <span style="font-size: 0.78rem; font-weight: 700; color: #a5b4fc;" id="profile-auth-status-text">Guest Mode (Local)</span>
+                                <span style="font-size: 0.78rem; font-weight: 700; color: #a5b4fc;" id="profile-auth-status-text">Local Workspace</span>
                             </div>
                         </div>
 
@@ -1416,7 +1416,7 @@
                                     </button>
                                 </div>
                                 <div style="margin-top: 1rem; display: flex; justify-content: space-between; align-items: center;">
-                                    <span class="muted" style="font-size: 0.75rem;">Status: <strong id="profile-auth-email-display">Guest Session</strong></span>
+                                    <span class="muted" style="font-size: 0.75rem;">Status: <strong id="profile-auth-email-display">Local Workspace</strong></span>
                                     <button class="action-btn-sm btn-secondary" onclick="handleSignOut()" style="font-size: 0.75rem;">Sign Out</button>
                                 </div>
                             </div>
