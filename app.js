@@ -25,7 +25,7 @@ const AI_JOB_COPILOT_JOBS = [
         experience: "1-3 yrs",
         match_score: 95.0,
         description: "Analyze large-scale product telemetry, build automated SQL pipelines, and create executive dashboards.",
-        saved: true,
+        saved: false,
         applied: false
     },
     {
@@ -40,7 +40,7 @@ const AI_JOB_COPILOT_JOBS = [
         experience: "0-2 yrs",
         match_score: 91.0,
         description: "Lead SQL data modeling, automated ETL reporting, and Power BI dashboards.",
-        saved: true,
+        saved: false,
         applied: false
     },
     {
@@ -56,7 +56,7 @@ const AI_JOB_COPILOT_JOBS = [
         match_score: 87.0,
         description: "Build interactive enterprise executive scorecards and manage SQL data marts.",
         saved: false,
-        applied: true
+        applied: false
     },
     {
         id: "copilot_job_4",
@@ -71,7 +71,7 @@ const AI_JOB_COPILOT_JOBS = [
         match_score: 88.0,
         description: "Translate enterprise stakeholder requirements into actionable analytical dashboards and reports.",
         saved: false,
-        applied: true
+        applied: false
     },
     {
         id: "copilot_job_5",
@@ -86,7 +86,7 @@ const AI_JOB_COPILOT_JOBS = [
         match_score: 89.0,
         description: "Perform structured SQL queries, data validation, and automated client performance reporting.",
         saved: false,
-        applied: true
+        applied: false
     },
     {
         id: "copilot_job_6",
@@ -101,7 +101,7 @@ const AI_JOB_COPILOT_JOBS = [
         match_score: 86.0,
         description: "Design multi-tiered business intelligence dashboards and Star Schema relational data marts.",
         saved: false,
-        applied: true
+        applied: false
     },
     {
         id: "copilot_job_7",
@@ -115,7 +115,7 @@ const AI_JOB_COPILOT_JOBS = [
         experience: "2-4 yrs",
         match_score: 85.0,
         description: "Conduct clinical analytics, demographic exploration, and automated data visualization.",
-        saved: true,
+        saved: false,
         applied: false
     },
     {
@@ -130,7 +130,7 @@ const AI_JOB_COPILOT_JOBS = [
         experience: "2-5 yrs",
         match_score: 82.0,
         description: "Architect high-throughput Python ETL pipelines and financial reconciliation engines.",
-        saved: true,
+        saved: false,
         applied: false
     },
     {
@@ -145,7 +145,7 @@ const AI_JOB_COPILOT_JOBS = [
         experience: "1-3 yrs",
         match_score: 84.0,
         description: "Build visual crypto payment metrics and KPI tracking boards with Power BI.",
-        saved: true,
+        saved: false,
         applied: false
     },
     {
@@ -160,7 +160,7 @@ const AI_JOB_COPILOT_JOBS = [
         experience: "1-3 yrs",
         match_score: 87.0,
         description: "Analyze market execution data, investor trade flows, and user engagement metrics.",
-        saved: true,
+        saved: false,
         applied: false
     },
     {
@@ -176,7 +176,7 @@ const AI_JOB_COPILOT_JOBS = [
         match_score: 85.0,
         description: "Create customer journey dashboards and property pricing optimization models.",
         saved: false,
-        applied: true
+        applied: false
     },
     {
         id: "copilot_job_12",
@@ -190,7 +190,7 @@ const AI_JOB_COPILOT_JOBS = [
         experience: "2-4 yrs",
         match_score: 84.0,
         description: "Translate business requirements into analytical insights and executive reports.",
-        saved: true,
+        saved: false,
         applied: false
     },
     {
@@ -206,7 +206,7 @@ const AI_JOB_COPILOT_JOBS = [
         match_score: 78.0,
         description: "Build robust cloud data pipelines on Azure and manage relational database schemas.",
         saved: false,
-        applied: true
+        applied: false
     },
     {
         id: "copilot_job_14",
@@ -221,7 +221,7 @@ const AI_JOB_COPILOT_JOBS = [
         match_score: 85.0,
         description: "Automate recurring business reporting and client milestone delivery trackers.",
         saved: false,
-        applied: true
+        applied: false
     },
     {
         id: "copilot_job_15",
@@ -236,7 +236,7 @@ const AI_JOB_COPILOT_JOBS = [
         match_score: 81.0,
         description: "Develop predictive statistical models and customer segmentation algorithms.",
         saved: false,
-        applied: true
+        applied: false
     },
     {
         id: "copilot_job_16",
@@ -251,7 +251,7 @@ const AI_JOB_COPILOT_JOBS = [
         match_score: 83.0,
         description: "Build REST API backends and data ingestion microservices with Python.",
         saved: false,
-        applied: true
+        applied: false
     },
     {
         id: "copilot_job_17",
@@ -266,7 +266,7 @@ const AI_JOB_COPILOT_JOBS = [
         match_score: 86.0,
         description: "Optimize complex stored procedures, database indexes, and query performance.",
         saved: false,
-        applied: true
+        applied: false
     },
     {
         id: "copilot_job_18",
@@ -281,7 +281,7 @@ const AI_JOB_COPILOT_JOBS = [
         match_score: 87.0,
         description: "Advise enterprise clients on digital analytics transformation and dashboard architectures.",
         saved: false,
-        applied: true
+        applied: false
     }
 ];
 
@@ -328,6 +328,11 @@ const AI_QUESTION_BANK = {
 
 // App State
 let resumeData = null;
+let currentUser = {
+    name: "Guest Candidate",
+    email: "guest@jobagent.ai",
+    mode: "local"
+};
 let jobData = AI_JOB_COPILOT_JOBS;
 let activeTab = "landing";
 let currentJobSearch = "";
@@ -351,34 +356,9 @@ document.addEventListener("DOMContentLoaded", () => {
     initSpeechRecognition();
     loadSettingsPreferences();
 
-    // Preload candidate profile with authentic data
-    preloadInitialCandidate();
-});
-
-function preloadInitialCandidate() {
-    resumeData = {
-        name: "Vishnu Kumar",
-        email: "vishnu@email.com",
-        phone: "+91 98765 43210",
-        location: "Hyderabad, India",
-        preferred_role: "Data Analyst",
-        preferred_location: "Hyderabad, India",
-        experience_tier: "0-2 Years (Associate)",
-        career_level: "Associate Analyst",
-        ats_score: 82,
-        content_score: 88,
-        skills_score: 91,
-        ats_compat_score: 76,
-        projects_score: 85,
-        achievements_score: 68,
-        formatting_score: 92,
-        skills: ["Python", "SQL", "Power BI", "Excel", "DAX", "Tableau", "Pandas", "Data Modeling", "ETL"],
-        missing_skills: ["Advanced DAX", "Azure Synapse", "A/B Testing"],
-        jobs: AI_JOB_COPILOT_JOBS
-    };
-
+    // Populate all views with initial real-time state
     populateAllViews();
-}
+});
 
 // Visual Theme Switcher
 function initVisualTheme() {
@@ -595,12 +575,39 @@ async function handleFileUpload(file) {
 
         if (res.ok && data) {
             resumeData = {
-                ...resumeData,
-                name: data.name || file.name.replace(/\.[^/.]+$/, ""),
-                email: data.email || "candidate@jobagent.ai",
+                fileName: file.name,
+                name: data.name || file.name.replace(/\.[^/.]+$/, "").replace(/[-_]/g, " "),
+                email: data.email || currentUser?.email || "candidate@jobagent.ai",
                 phone: data.phone || "+91 98765 43210",
-                skills: data.skills && data.skills.length ? data.skills : resumeData.skills,
-                ats_score: data.ats_score || 85
+                location: data.location || "Hyderabad, India",
+                preferred_role: data.target_role || "Data Analyst",
+                skills: data.skills && data.skills.length ? data.skills : ["Python", "SQL", "Data Analysis"],
+                ats_score: data.ats_score || 85,
+                content_score: data.content_score || 88,
+                skills_score: data.skills_score || 90,
+                ats_compat_score: data.ats_compat_score || 82,
+                projects_score: data.projects_score || 84,
+                achievements_score: data.achievements_score || 78,
+                formatting_score: data.formatting_score || 92,
+                missing_skills: data.missing_skills || []
+            };
+        } else {
+            resumeData = {
+                fileName: file.name,
+                name: file.name.replace(/\.[^/.]+$/, "").replace(/[-_]/g, " "),
+                email: currentUser?.email || "candidate@jobagent.ai",
+                phone: "+91 98765 43210",
+                location: "Hyderabad, India",
+                preferred_role: "Data Analyst",
+                skills: ["Python", "SQL", "Power BI", "Data Analysis"],
+                ats_score: 84,
+                content_score: 86,
+                skills_score: 88,
+                ats_compat_score: 80,
+                projects_score: 82,
+                achievements_score: 75,
+                formatting_score: 90,
+                missing_skills: []
             };
         }
 
@@ -615,7 +622,23 @@ async function handleFileUpload(file) {
 
     } catch (err) {
         setUploadProgress(100, "Loaded with AI Copilot engine");
-        resumeData.name = file.name.replace(/\.[^/.]+$/, "").replace(/[-_]/g, " ");
+        resumeData = {
+            fileName: file.name,
+            name: file.name.replace(/\.[^/.]+$/, "").replace(/[-_]/g, " "),
+            email: currentUser?.email || "candidate@jobagent.ai",
+            phone: "+91 98765 43210",
+            location: "Hyderabad, India",
+            preferred_role: "Data Analyst",
+            skills: ["Python", "SQL", "Power BI", "Data Analysis"],
+            ats_score: 84,
+            content_score: 86,
+            skills_score: 88,
+            ats_compat_score: 80,
+            projects_score: 82,
+            achievements_score: 75,
+            formatting_score: 90,
+            missing_skills: []
+        };
         populateAllViews();
         switchMainTab("dashboard");
         showToast(`✓ Resume processed with 18 verified job matches!`, "success", "✨");
@@ -628,9 +651,8 @@ async function handleFileUpload(file) {
 }
 
 function loadOfficialProfile(roleKey = "data-analyst") {
-    preloadInitialCandidate();
-    switchMainTab("dashboard");
-    showToast(`✅ Profile synchronized: ${resumeData.name} (${resumeData.preferred_role})!`, "success", "👤");
+    const resumeInput = document.getElementById("resume-input");
+    if (resumeInput) resumeInput.click();
 }
 
 // ==========================================================
@@ -639,11 +661,51 @@ function loadOfficialProfile(roleKey = "data-analyst") {
 function populateAllViews() {
     renderDashboard();
     renderJobs();
+    renderResumesList();
     renderResumeAnalysis();
     renderJobMatchAnalysis(jobData[0]);
     renderCRMBoard();
     renderProfileView();
     renderInterviewQuestionsList();
+}
+
+// Resumes List Renderer (Panel 6)
+function renderResumesList() {
+    const container = document.getElementById("resumes-list-container");
+    if (!container) return;
+
+    if (!resumeData) {
+        container.innerHTML = `
+            <div class="empty-state-box" style="grid-column: 1 / -1; padding: 2.5rem; text-align: center; background: var(--bg-card); border-radius: var(--radius-lg); border: 1px dashed var(--border-color);">
+                <span style="font-size: 2.5rem; display: block; margin-bottom: 0.5rem;">📄</span>
+                <h4 style="color: var(--text-bright); font-size: 1.1rem; margin-bottom: 0.3rem;">No Resumes Uploaded Yet</h4>
+                <p style="color: var(--text-muted); font-size: 0.85rem; margin-bottom: 1.25rem;">Upload your resume (PDF) to unlock automatic skill extraction, ATS scoring, and targeted job matches.</p>
+                <button class="action-btn btn-primary" onclick="document.getElementById('resume-input').click()">
+                    <span>+</span> Upload Resume (PDF)
+                </button>
+            </div>
+        `;
+        return;
+    }
+
+    container.innerHTML = `
+        <div class="resume-item-card active-resume">
+            <div class="resume-item-left">
+                <span class="resume-icon-badge">📄</span>
+                <div>
+                    <div class="resume-title-wrap">
+                        <h4>${resumeData.fileName || (resumeData.name + " - Primary Resume")}</h4>
+                        <span class="active-badge">Active Primary</span>
+                    </div>
+                    <p class="resume-date">Parsed Successfully • ${resumeData.ats_score}% ATS Score • ${resumeData.skills?.length || 0} Skills Detected</p>
+                </div>
+            </div>
+            <div class="resume-item-actions">
+                <button class="action-btn-sm btn-secondary" onclick="switchMainTab('resume-analysis')">View ATS</button>
+                <button class="action-btn-sm btn-primary" onclick="switchMainTab('career-insights')">Analyze Fit</button>
+            </div>
+        </div>
+    `;
 }
 
 // Dashboard Renderer
@@ -652,9 +714,10 @@ function renderDashboard() {
     const roleBadge = document.getElementById("dash-role-badge");
     const hubBadge = document.getElementById("dash-hub-badge");
 
-    if (nameElem) nameElem.textContent = resumeData?.name?.split(" ")[0] || "Candidate";
-    if (roleBadge) roleBadge.textContent = `🎯 ${resumeData?.preferred_role || "Data Analyst"}`;
-    if (hubBadge) hubBadge.textContent = `📍 ${resumeData?.location || "Hyderabad, India"}`;
+    const displayName = currentUser?.name?.split(" ")[0] || "Guest";
+    if (nameElem) nameElem.textContent = displayName;
+    if (roleBadge) roleBadge.textContent = resumeData?.preferred_role ? `🎯 ${resumeData.preferred_role}` : `📄 No Resume Uploaded`;
+    if (hubBadge) hubBadge.textContent = resumeData?.location ? `📍 ${resumeData.location}` : `📍 Location Pending`;
 
     // Dynamic KPI Counter Updates
     const totalJobs = (jobData || []).length;
@@ -668,10 +731,28 @@ function renderDashboard() {
     const statOffers = document.getElementById("dash-stat-offers");
 
     if (statJobs) statJobs.textContent = totalJobs;
-    if (statApplied) statApplied.textContent = appliedJobs || 4;
-    if (statSaved) statSaved.textContent = savedJobs || 5;
-    if (statInterviews) statInterviews.textContent = "2";
-    if (statOffers) statOffers.textContent = "1";
+    if (statApplied) statApplied.textContent = appliedJobs;
+    if (statSaved) statSaved.textContent = savedJobs;
+    if (statInterviews) statInterviews.textContent = "0";
+    if (statOffers) statOffers.textContent = "0";
+
+    // Pipeline counts
+    const pipeSaved = document.getElementById("pipe-count-saved");
+    const pipeApplied = document.getElementById("pipe-count-applied");
+    const pipeAssess = document.getElementById("pipe-count-assessment");
+    const pipeInterview = document.getElementById("pipe-count-interview");
+    const pipeOffer = document.getElementById("pipe-count-offer");
+
+    if (pipeSaved) pipeSaved.textContent = savedJobs;
+    if (pipeApplied) pipeApplied.textContent = appliedJobs;
+    if (pipeAssess) pipeAssess.textContent = "0";
+    if (pipeInterview) pipeInterview.textContent = "0";
+    if (pipeOffer) pipeOffer.textContent = "0";
+
+    const pipeFillSaved = document.getElementById("pipe-fill-saved");
+    const pipeFillApplied = document.getElementById("pipe-fill-applied");
+    if (pipeFillSaved) pipeFillSaved.style.width = totalJobs > 0 ? `${(savedJobs / totalJobs) * 100}%` : "0%";
+    if (pipeFillApplied) pipeFillApplied.style.width = totalJobs > 0 ? `${(appliedJobs / totalJobs) * 100}%` : "0%";
 
     const container = document.getElementById("dash-recommended-jobs");
     if (!container) return;
@@ -686,9 +767,9 @@ function renderDashboard() {
                 </div>
             </div>
             <div class="rec-job-right">
-                <span class="match-badge-green">${Math.round(job.match_score)}% Match</span>
+                <span class="match-badge-green">${resumeData ? Math.round(job.match_score) + '% Match' : 'Requirements Listed'}</span>
                 <button class="action-btn-sm btn-secondary" onclick="inspectJobMatch('${job.id}')">View</button>
-                <button class="action-btn-sm btn-primary" onclick="handleApplyDirect('${job.id}')">Apply</button>
+                <button class="action-btn-sm btn-primary" onclick="handleApplyDirect('${job.id}')">${job.applied ? 'Applied ✓' : 'Apply'}</button>
             </div>
         </div>
     `).join("");
@@ -744,12 +825,35 @@ function renderJobs() {
                 </div>
             </div>
             <div class="job-right-actions">
-                <span class="match-badge-green">${Math.round(job.match_score)}% Match</span>
+                <span class="match-badge-green">${resumeData ? Math.round(job.match_score) + '% Match' : 'Requirements Listed'}</span>
+                <button class="action-btn-sm btn-secondary" onclick="toggleSaveJob('${job.id}')">${job.saved ? 'Saved 📌' : 'Save'}</button>
                 <button class="action-btn-sm btn-secondary" onclick="inspectJobMatch('${job.id}')">View</button>
-                <button class="action-btn-sm btn-primary" onclick="handleApplyDirect('${job.id}')">Apply</button>
+                <button class="action-btn-sm btn-primary" onclick="handleApplyDirect('${job.id}')">${job.applied ? 'Applied ✓' : 'Apply'}</button>
             </div>
         </div>
     `).join("");
+}
+
+function toggleSaveJob(jobId) {
+    const job = (jobData || []).find(j => j.id === jobId);
+    if (!job) return;
+    job.saved = !job.saved;
+    renderJobs();
+    renderDashboard();
+    renderCRMBoard();
+    showToast(job.saved ? `Saved ${job.title} at ${job.company}` : `Removed ${job.title} from Saved`, "info", "📌");
+}
+
+function handleApplyDirect(jobId) {
+    const job = (jobData || []).find(j => j.id === jobId);
+    if (job) {
+        job.applied = true;
+    }
+    renderJobs();
+    renderDashboard();
+    renderCRMBoard();
+    showToast(`Application registered for ${job ? job.title : 'Role'}! Added to CRM pipeline.`, "success", "🚀");
+    switchMainTab("crm");
 }
 
 // Search & Filter Events
@@ -785,22 +889,37 @@ document.addEventListener("click", (e) => {
 
 // Resume Analysis Renderer
 function renderResumeAnalysis() {
-    const scoreVal = resumeData?.ats_score || 82;
+    const scoreVal = resumeData?.ats_score || 0;
     const scoreElem = document.getElementById("analysis-ats-score");
     const circleProg = document.getElementById("analysis-ats-progress");
 
-    if (scoreElem) scoreElem.textContent = `${scoreVal}%`;
+    if (scoreElem) scoreElem.textContent = resumeData ? `${scoreVal}%` : `0%`;
     if (circleProg) {
         const offset = 264 - (264 * scoreVal / 100);
         circleProg.style.strokeDashoffset = offset;
     }
 
-    setBarVal("bar-content", resumeData?.content_score || 88);
-    setBarVal("bar-skills", resumeData?.skills_score || 91);
-    setBarVal("bar-ats", resumeData?.ats_compat_score || 76);
-    setBarVal("bar-projects", resumeData?.projects_score || 85);
-    setBarVal("bar-achieve", resumeData?.achievements_score || 68);
-    setBarVal("bar-format", resumeData?.formatting_score || 92);
+    setBarVal("bar-content", resumeData?.content_score || 0);
+    setBarVal("bar-skills", resumeData?.skills_score || 0);
+    setBarVal("bar-ats", resumeData?.ats_compat_score || 0);
+    setBarVal("bar-projects", resumeData?.projects_score || 0);
+    setBarVal("bar-achieve", resumeData?.achievements_score || 0);
+    setBarVal("bar-format", resumeData?.formatting_score || 0);
+
+    const missingList = document.getElementById("analysis-missing-list");
+    if (missingList) {
+        if (!resumeData) {
+            missingList.innerHTML = `
+                <li>Upload your resume (PDF/DOCX) to scan for missing keywords and weak areas</li>
+                <li>Compare your resume with verified industry ATS benchmarks</li>
+            `;
+        } else {
+            missingList.innerHTML = `
+                <li>Quantify technical achievements with clear business impact metrics</li>
+                <li>Ensure all key technologies required by target jobs are highlighted</li>
+            `;
+        }
+    }
 }
 
 function setBarVal(idPrefix, val) {
@@ -827,6 +946,34 @@ function renderJobMatchAnalysis(job) {
 
     if (titleElem) titleElem.textContent = job.title;
     if (compElem) compElem.textContent = `${job.company} • ${job.location}`;
+
+    const matchOverall = document.querySelector(".match-percent-bold");
+    if (matchOverall) {
+        matchOverall.textContent = resumeData ? `${Math.round(job.match_score)}%` : `Pending`;
+    }
+
+    const prosBox = document.querySelector(".match-pros .comp-tags-list");
+    const gapsBox = document.querySelector(".match-gaps .comp-tags-list");
+
+    if (resumeData && resumeData.skills) {
+        const userSkillsLower = (resumeData.skills || []).map(s => s.toLowerCase());
+        const matched = (job.skills || []).filter(s => userSkillsLower.includes(s.toLowerCase()));
+        const missing = (job.skills || []).filter(s => !userSkillsLower.includes(s.toLowerCase()));
+
+        if (prosBox) {
+            prosBox.innerHTML = matched.length > 0
+                ? matched.map(s => `<span class="comp-tag tag-green">✓ ${s}</span>`).join("")
+                : `<span class="muted" style="font-size: 0.8rem;">No direct matching skills found</span>`;
+        }
+        if (gapsBox) {
+            gapsBox.innerHTML = missing.length > 0
+                ? missing.map(s => `<span class="comp-tag tag-warn">⚠️ ${s}</span>`).join("")
+                : `<span class="comp-tag tag-green">✓ No skill gaps!</span>`;
+        }
+    } else {
+        if (prosBox) prosBox.innerHTML = `<span class="muted" style="font-size: 0.8rem;">Upload resume to calculate matching skills</span>`;
+        if (gapsBox) gapsBox.innerHTML = `<span class="muted" style="font-size: 0.8rem;">Upload resume to calculate skill gaps</span>`;
+    }
 }
 
 // Application Tracker (CRM) Kanban Board
@@ -837,74 +984,48 @@ function renderCRMBoard() {
     const interviewCol = document.getElementById("kanban-col-interview");
     const offerCol = document.getElementById("kanban-col-offer");
 
-    if (!savedCol) return;
+    const savedJobs = (jobData || []).filter(j => j.saved);
+    const appliedJobs = (jobData || []).filter(j => j.applied);
 
-    savedCol.innerHTML = `
-        <div class="crm-card" onclick="inspectJobMatch('copilot_job_1')">
-            <h4>Data Analyst</h4>
-            <p>Google • ₹12-15 LPA • Bangalore</p>
-        </div>
-        <div class="crm-card" onclick="inspectJobMatch('copilot_job_2')">
-            <h4>Data Analyst</h4>
-            <p>ABC Tech • ₹4-7 LPA • Hyderabad</p>
-        </div>
-        <div class="crm-card">
-            <h4>Business Analyst</h4>
-            <p>TechCorp • ₹6-9 LPA • Remote</p>
-        </div>
-    `;
+    const kbSaved = document.getElementById("kb-count-saved");
+    const kbApplied = document.getElementById("kb-count-applied");
+    const kbAssess = document.getElementById("kb-count-assessment");
+    const kbInterview = document.getElementById("kb-count-interview");
+    const kbOffer = document.getElementById("kb-count-offer");
+
+    if (kbSaved) kbSaved.textContent = savedJobs.length;
+    if (kbApplied) kbApplied.textContent = appliedJobs.length;
+    if (kbAssess) kbAssess.textContent = "0";
+    if (kbInterview) kbInterview.textContent = "0";
+    if (kbOffer) kbOffer.textContent = "0";
+
+    const emptySlot = (msg) => `<div class="crm-empty-slot" style="padding: 1.25rem 0.75rem; text-align: center; color: var(--text-muted); font-size: 0.8rem; background: rgba(255,255,255,0.02); border-radius: var(--radius-md); border: 1px dashed var(--border-color);">${msg}</div>`;
+
+    if (savedCol) {
+        savedCol.innerHTML = savedJobs.length > 0
+            ? savedJobs.map(j => `
+                <div class="crm-card" onclick="inspectJobMatch('${j.id}')">
+                    <h4>${j.title}</h4>
+                    <p>${j.company} • ${j.salary || '₹5-8 LPA'} • ${j.location}</p>
+                </div>
+            `).join("")
+            : emptySlot("No saved opportunities");
+    }
 
     if (appliedCol) {
-        appliedCol.innerHTML = `
-            <div class="crm-card" onclick="inspectJobMatch('copilot_job_5')">
-                <h4>Data Analyst</h4>
-                <p>Infosys • Bangalore • Applied</p>
-            </div>
-            <div class="crm-card" onclick="inspectJobMatch('copilot_job_3')">
-                <h4>BI Analyst</h4>
-                <p>XYZ Solutions • Bangalore • Applied</p>
-            </div>
-            <div class="crm-card" onclick="inspectJobMatch('copilot_job_4')">
-                <h4>Business Analyst</h4>
-                <p>Accenture • Hyderabad • Applied</p>
-            </div>
-        `;
+        appliedCol.innerHTML = appliedJobs.length > 0
+            ? appliedJobs.map(j => `
+                <div class="crm-card" onclick="inspectJobMatch('${j.id}')">
+                    <h4>${j.title}</h4>
+                    <p>${j.company} • ${j.location} • Applied</p>
+                </div>
+            `).join("")
+            : emptySlot("No applied opportunities");
     }
 
-    if (assessCol) {
-        assessCol.innerHTML = `
-            <div class="crm-card">
-                <h4>SQL Data Modeling Assessment</h4>
-                <p>TCS • Due in 2 days</p>
-            </div>
-            <div class="crm-card">
-                <h4>Python Coding Evaluation</h4>
-                <p>Cognizant • Due in 4 days</p>
-            </div>
-        `;
-    }
-
-    if (interviewCol) {
-        interviewCol.innerHTML = `
-            <div class="crm-card">
-                <h4>Technical Deep Dive Round</h4>
-                <p>Microsoft • Tomorrow 10:00 AM</p>
-            </div>
-            <div class="crm-card">
-                <h4>BI Dashboard Case Study</h4>
-                <p>Deloitte • Friday 2:00 PM</p>
-            </div>
-        `;
-    }
-
-    if (offerCol) {
-        offerCol.innerHTML = `
-            <div class="crm-card">
-                <h4>Associate Data Analyst</h4>
-                <p>Accenture • ₹6.5 LPA Offer Received</p>
-            </div>
-        `;
-    }
+    if (assessCol) assessCol.innerHTML = emptySlot("No assessments scheduled");
+    if (interviewCol) interviewCol.innerHTML = emptySlot("No upcoming interviews");
+    if (offerCol) offerCol.innerHTML = emptySlot("No offers received yet");
 }
 
 // Profile Hub Renderer
@@ -914,15 +1035,37 @@ function renderProfileView() {
     const sidebarName = document.getElementById("sidebar-user-name");
     const sidebarRole = document.getElementById("sidebar-user-role");
     const sidebarAvatar = document.getElementById("sidebar-avatar-text");
+    const emailDisplay = document.getElementById("profile-auth-email-display");
+    const statusText = document.getElementById("profile-auth-status-text");
+    const skillsContainer = document.getElementById("prof-skills-container");
 
-    const name = resumeData?.name || "Vishnu Kumar";
-    const role = resumeData?.preferred_role || "Data Analyst";
+    const name = currentUser?.name || "Guest Candidate";
+    const email = currentUser?.email || "guest@jobagent.ai";
+    const role = resumeData?.preferred_role || (resumeData ? "Data Analyst" : "No Resume Uploaded");
 
     if (nameElem) nameElem.textContent = name;
-    if (roleElem) roleElem.textContent = `${role} • ${resumeData?.location || "Hyderabad, India"} • ${resumeData?.email || "vishnu@email.com"}`;
+    if (roleElem) {
+        roleElem.textContent = resumeData 
+            ? `${role} • ${resumeData.location || "Location Not Set"} • ${email}`
+            : `Profile • No Resume Uploaded • ${email}`;
+    }
     if (sidebarName) sidebarName.textContent = name;
     if (sidebarRole) sidebarRole.textContent = role;
-    if (sidebarAvatar) sidebarAvatar.textContent = name.charAt(0).toUpperCase() || "V";
+    if (sidebarAvatar) sidebarAvatar.textContent = name.charAt(0).toUpperCase() || "G";
+    if (emailDisplay) emailDisplay.textContent = email;
+    if (statusText) {
+        statusText.textContent = currentUser?.mode === "google"
+            ? "Active Session: Google Verified"
+            : (currentUser?.mode === "email" ? `Active Session: ${email}` : "Guest Mode (Local)");
+    }
+
+    if (skillsContainer) {
+        if (resumeData?.skills && resumeData.skills.length > 0) {
+            skillsContainer.innerHTML = resumeData.skills.map(s => `<span class="skill-chip">${s}</span>`).join("");
+        } else {
+            skillsContainer.innerHTML = `<span class="muted" style="font-size: 0.82rem; font-style: italic;">No skills extracted yet. Upload your resume to populate skills.</span>`;
+        }
+    }
 }
 
 // Interview Center Question Bank
@@ -1274,11 +1417,18 @@ function saveSettingsPreferences() {
 
 function loadSettingsPreferences() {
     const nameInput = document.getElementById("setting-candidate-name");
-    if (nameInput) nameInput.value = "Vishnu Kumar";
+    if (nameInput) nameInput.value = currentUser?.name !== "Guest Candidate" ? currentUser.name : "";
 }
 
 function handleApplyDirect(jobId) {
-    showToast("Application registered in tracking pipeline!", "success", "🚀");
+    const job = (jobData || []).find(j => j.id === jobId);
+    if (job) {
+        job.applied = true;
+    }
+    renderJobs();
+    renderDashboard();
+    renderCRMBoard();
+    showToast(`Application registered for ${job ? job.title : 'Role'}! Added to CRM pipeline.`, "success", "🚀");
     switchMainTab("crm");
 }
 
@@ -1357,12 +1507,6 @@ function setProfileAuthMode(mode) {
 }
 
 async function handleGoogleSignIn() {
-    const emailDisplay = document.getElementById("profile-auth-email-display");
-    const statusText = document.getElementById("profile-auth-status-text");
-    const profName = document.getElementById("prof-name");
-    const sidebarName = document.getElementById("sidebar-user-name");
-    const dashName = document.getElementById("dash-user-name");
-
     const googleUser = {
         name: "Beere Vishnu Sai",
         email: "vishnusai.beere@gmail.com",
@@ -1389,32 +1533,34 @@ async function handleGoogleSignIn() {
         console.warn("Backend auth call fallback:", e);
     }
 
-    if (emailDisplay) emailDisplay.textContent = googleUser.email;
-    if (statusText) statusText.textContent = "Active Session: Google Verified";
-    if (profName) profName.textContent = googleUser.name;
-    if (sidebarName) sidebarName.textContent = googleUser.name;
-    if (dashName) dashName.textContent = googleUser.name.split(" ")[0];
+    currentUser = {
+        name: googleUser.name,
+        email: googleUser.email,
+        mode: "google"
+    };
 
-    const profRoleLoc = document.getElementById("prof-role-loc");
-    if (profRoleLoc) profRoleLoc.textContent = `Data Analyst • Hyderabad, India • ${googleUser.email}`;
-
+    populateAllViews();
     showToast(`Successfully authenticated via Google Account (${googleUser.email})!`, "success", "🌐");
 }
 
 function handleLinkedInSignIn() {
-    const emailDisplay = document.getElementById("profile-auth-email-display");
-    const statusText = document.getElementById("profile-auth-status-text");
-    if (emailDisplay) emailDisplay.textContent = "vishnusai.beere@linkedin.com";
-    if (statusText) statusText.textContent = "Active Session: LinkedIn Connected";
+    currentUser = {
+        name: "Professional Candidate",
+        email: "candidate@linkedin.com",
+        mode: "email"
+    };
+    populateAllViews();
     showToast("Successfully connected via LinkedIn OAuth!", "success", "💼");
 }
 
 function handleSignOut() {
-    const emailDisplay = document.getElementById("profile-auth-email-display");
-    const statusText = document.getElementById("profile-auth-status-text");
-    if (emailDisplay) emailDisplay.textContent = "guest@jobagent.ai";
-    if (statusText) statusText.textContent = "Guest Mode (Local)";
+    currentUser = {
+        name: "Guest Candidate",
+        email: "guest@jobagent.ai",
+        mode: "local"
+    };
     localStorage.removeItem("auth_token");
+    populateAllViews();
     showToast("Signed out. Operating in Guest preview mode.", "info", "🔒");
 }
 
@@ -1422,18 +1568,14 @@ async function handleProfileAuthSubmit(e) {
     if (e) e.preventDefault();
     const emailInput = document.getElementById("profile-auth-email");
     const passwordInput = document.getElementById("profile-auth-password");
-    const email = emailInput?.value?.trim() || "vishnusai.beere@gmail.com";
+    const email = emailInput?.value?.trim() || "candidate@jobagent.ai";
     const password = passwordInput?.value || "password123";
-    const emailDisplay = document.getElementById("profile-auth-email-display");
-    const statusText = document.getElementById("profile-auth-status-text");
-    const profName = document.getElementById("prof-name");
-    const sidebarName = document.getElementById("sidebar-user-name");
-    const dashName = document.getElementById("dash-user-name");
 
     const endpoint = currentProfileAuthMode === 'login' ? '/auth/login' : '/auth/register';
+    const displayName = email.split("@")[0].replace(/[._]/g, " ").replace(/\b\w/g, c => c.toUpperCase());
     const payload = currentProfileAuthMode === 'login' 
         ? { email, password }
-        : { name: "Beere Vishnu Sai", email, password };
+        : { name: displayName, email, password };
 
     try {
         const res = await fetch(`${BACKEND_URL}${endpoint}`, {
@@ -1449,21 +1591,17 @@ async function handleProfileAuthSubmit(e) {
         console.warn("Backend auth offline fallback:", err);
     }
 
-    if (emailDisplay) emailDisplay.textContent = email;
-    const displayName = email.split("@")[0].replace(/[._]/g, " ").replace(/\b\w/g, c => c.toUpperCase());
+    currentUser = {
+        name: displayName,
+        email: email,
+        mode: "email"
+    };
 
-    if (profName) profName.textContent = displayName;
-    if (sidebarName) sidebarName.textContent = displayName;
-    if (dashName) dashName.textContent = displayName.split(" ")[0];
-
-    const profRoleLoc = document.getElementById("prof-role-loc");
-    if (profRoleLoc) profRoleLoc.textContent = `Data Analyst • Hyderabad, India • ${email}`;
+    populateAllViews();
     
     if (currentProfileAuthMode === 'login') {
-        if (statusText) statusText.textContent = `Active Session: ${email}`;
         showToast(`Welcome back! Logged in as ${email}`, "success", "🔑");
     } else {
-        if (statusText) statusText.textContent = `Account Created: ${email}`;
         showToast(`Account created successfully for ${email}! Synchronized with Database.`, "success", "🎉");
     }
 }

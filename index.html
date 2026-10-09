@@ -124,7 +124,7 @@
                 <div class="nav-notif-wrapper">
                     <button id="notif-btn" class="nav-icon-btn" title="Career Alerts & Updates" onclick="toggleNotifDrawer()">
                         <span class="ctrl-icon">🔔</span>
-                        <span class="notif-badge" id="notif-badge-count">4</span>
+                        <span class="notif-badge" id="notif-badge-count">1</span>
                     </button>
                     <div id="notif-dropdown" class="notif-dropdown-menu" style="display: none;">
                         <div class="notif-header">
@@ -132,36 +132,12 @@
                             <span class="notif-clear-btn" onclick="clearNotifications()">Clear</span>
                         </div>
                         <div class="notif-list" id="notif-list-container">
-                            <div class="notif-item unread" onclick="handleNotifClick('job')">
-                                <span class="notif-icon">💼</span>
-                                <div class="notif-content">
-                                    <h5>New 91% Match Job Found</h5>
-                                    <p>Data Analyst at ABC Technologies (Hyderabad • ₹4-7 LPA) verified.</p>
-                                    <span class="notif-time">2 hours ago</span>
-                                </div>
-                            </div>
-                            <div class="notif-item unread" onclick="handleNotifClick('interview')">
-                                <span class="notif-icon">🎤</span>
-                                <div class="notif-content">
-                                    <h5>Interview Tomorrow at 10 AM</h5>
-                                    <p>Microsoft Technical Deep Dive simulation ready for practice.</p>
-                                    <span class="notif-time">5 hours ago</span>
-                                </div>
-                            </div>
-                            <div class="notif-item unread" onclick="handleNotifClick('crm')">
-                                <span class="notif-icon">📋</span>
-                                <div class="notif-content">
-                                    <h5>Follow-Up Required for Your Application</h5>
-                                    <p>4 days since ABC Tech application submitted. Generate outreach note.</p>
-                                    <span class="notif-time">1 day ago</span>
-                                </div>
-                            </div>
-                            <div class="notif-item unread" onclick="handleNotifClick('resume')">
+                            <div class="notif-item unread" onclick="switchMainTab('resumes')">
                                 <span class="notif-icon">📄</span>
                                 <div class="notif-content">
-                                    <h5>Resume Improvement Available</h5>
-                                    <p>Add 2 quantified SQL achievements to increase ATS match to 94%.</p>
-                                    <span class="notif-time">2 days ago</span>
+                                    <h5>Welcome to AI JobAgent</h5>
+                                    <p>Upload your resume (PDF/DOCX) to unlock real-time ATS match scoring and tailored jobs.</p>
+                                    <span class="notif-time">Just now</span>
                                 </div>
                             </div>
                         </div>
@@ -193,10 +169,10 @@
         <!-- Modern Left Sidebar Navigation -->
         <aside class="app-sidebar">
             <div class="sidebar-user-card" onclick="switchMainTab('profile')" title="View Candidate Profile">
-                <div class="sidebar-avatar" id="sidebar-avatar-text">V</div>
+                <div class="sidebar-avatar" id="sidebar-avatar-text">G</div>
                 <div class="sidebar-user-details">
-                    <span class="sidebar-user-name" id="sidebar-user-name">Vishnu Kumar</span>
-                    <span class="sidebar-user-role" id="sidebar-user-role">Data Analyst</span>
+                    <span class="sidebar-user-name" id="sidebar-user-name">Guest Candidate</span>
+                    <span class="sidebar-user-role" id="sidebar-user-role">No Resume Uploaded</span>
                 </div>
             </div>
 
@@ -407,12 +383,12 @@
             <section id="panel-dashboard" class="main-panel" style="display: none;">
                 <div class="dashboard-header-row">
                     <div class="dash-greeting">
-                        <h2>Good afternoon, <span id="dash-user-name">Vishnu</span> 👋</h2>
+                        <h2>Good day, <span id="dash-user-name">Guest</span> 👋</h2>
                         <p class="dash-sub">Here's your career overview</p>
                     </div>
                     <div class="dash-quick-actions">
-                        <span class="role-pill-badge" id="dash-role-badge">🎯 Data Analyst</span>
-                        <span class="hub-pill-badge" id="dash-hub-badge">📍 Hyderabad, India</span>
+                        <span class="role-pill-badge" id="dash-role-badge">📄 No Resume Uploaded</span>
+                        <span class="hub-pill-badge" id="dash-hub-badge">📍 Location Pending</span>
                         <button class="action-btn-sm btn-secondary" onclick="switchMainTab('resumes')">📄 My Resumes</button>
                     </div>
                 </div>
@@ -422,35 +398,35 @@
                     <div class="kpi-card" onclick="switchMainTab('jobs')">
                         <div class="kpi-icon-wrap kpi-jobs">📁</div>
                         <div class="kpi-data">
-                            <span class="kpi-num" id="dash-stat-jobs">186</span>
+                            <span class="kpi-num" id="dash-stat-jobs">18</span>
                             <span class="kpi-label">Jobs Found</span>
                         </div>
                     </div>
                     <div class="kpi-card" onclick="switchMainTab('crm')">
                         <div class="kpi-icon-wrap kpi-applied">📤</div>
                         <div class="kpi-data">
-                            <span class="kpi-num" id="dash-stat-applied">42</span>
+                            <span class="kpi-num" id="dash-stat-applied">0</span>
                             <span class="kpi-label">Applied</span>
                         </div>
                     </div>
                     <div class="kpi-card" onclick="switchMainTab('interviews')">
                         <div class="kpi-icon-wrap kpi-interviews">🎙️</div>
                         <div class="kpi-data">
-                            <span class="kpi-num" id="dash-stat-interviews">6</span>
+                            <span class="kpi-num" id="dash-stat-interviews">0</span>
                             <span class="kpi-label">Interviews</span>
                         </div>
                     </div>
                     <div class="kpi-card" onclick="switchMainTab('crm')">
                         <div class="kpi-icon-wrap kpi-offer">🏆</div>
                         <div class="kpi-data">
-                            <span class="kpi-num" id="dash-stat-offers">1</span>
-                            <span class="kpi-label">Offer</span>
+                            <span class="kpi-num" id="dash-stat-offers">0</span>
+                            <span class="kpi-label">Offers</span>
                         </div>
                     </div>
                     <div class="kpi-card" onclick="switchMainTab('jobs')">
                         <div class="kpi-icon-wrap kpi-saved">🔖</div>
                         <div class="kpi-data">
-                            <span class="kpi-num" id="dash-stat-saved">25</span>
+                            <span class="kpi-num" id="dash-stat-saved">0</span>
                             <span class="kpi-label">Saved</span>
                         </div>
                     </div>
@@ -482,28 +458,28 @@
                             <div class="pipeline-stages-grid">
                                 <div class="stage-cell">
                                     <span class="stage-name">Saved</span>
-                                    <span class="stage-count" id="pipe-count-saved">28</span>
-                                    <div class="stage-bar-track"><div class="stage-bar-fill fill-saved" style="width: 28%;"></div></div>
+                                    <span class="stage-count" id="pipe-count-saved">0</span>
+                                    <div class="stage-bar-track"><div class="stage-bar-fill fill-saved" id="pipe-fill-saved" style="width: 0%;"></div></div>
                                 </div>
                                 <div class="stage-cell">
                                     <span class="stage-name">Applied</span>
-                                    <span class="stage-count" id="pipe-count-applied">42</span>
-                                    <div class="stage-bar-track"><div class="stage-bar-fill fill-applied" style="width: 42%;"></div></div>
+                                    <span class="stage-count" id="pipe-count-applied">0</span>
+                                    <div class="stage-bar-track"><div class="stage-bar-fill fill-applied" id="pipe-fill-applied" style="width: 0%;"></div></div>
                                 </div>
                                 <div class="stage-cell">
                                     <span class="stage-name">Assessment</span>
-                                    <span class="stage-count" id="pipe-count-assessment">12</span>
-                                    <div class="stage-bar-track"><div class="stage-bar-fill fill-assessment" style="width: 24%;"></div></div>
+                                    <span class="stage-count" id="pipe-count-assessment">0</span>
+                                    <div class="stage-bar-track"><div class="stage-bar-fill fill-assessment" id="pipe-fill-assessment" style="width: 0%;"></div></div>
                                 </div>
                                 <div class="stage-cell">
                                     <span class="stage-name">Interview</span>
-                                    <span class="stage-count" id="pipe-count-interview">6</span>
-                                    <div class="stage-bar-track"><div class="stage-bar-fill fill-interview" style="width: 14%;"></div></div>
+                                    <span class="stage-count" id="pipe-count-interview">0</span>
+                                    <div class="stage-bar-track"><div class="stage-bar-fill fill-interview" id="pipe-fill-interview" style="width: 0%;"></div></div>
                                 </div>
                                 <div class="stage-cell">
                                     <span class="stage-name">Offer</span>
-                                    <span class="stage-count" id="pipe-count-offer">1</span>
-                                    <div class="stage-bar-track"><div class="stage-bar-fill fill-offer" style="width: 8%;"></div></div>
+                                    <span class="stage-count" id="pipe-count-offer">0</span>
+                                    <div class="stage-bar-track"><div class="stage-bar-fill fill-offer" id="pipe-fill-offer" style="width: 0%;"></div></div>
                                 </div>
                             </div>
                         </div>
@@ -707,69 +683,13 @@
 
                     <!-- Resumes List -->
                     <div class="resumes-list-grid" id="resumes-list-container">
-                        <div class="resume-item-card active-resume">
-                            <div class="resume-item-left">
-                                <span class="resume-icon-badge">📄</span>
-                                <div>
-                                    <div class="resume-title-wrap">
-                                        <h4>Master Resume</h4>
-                                        <span class="active-badge">Primary</span>
-                                    </div>
-                                    <p class="resume-date">Updated 12 Oct 2026 • 88% ATS Score</p>
-                                </div>
-                            </div>
-                            <div class="resume-item-actions">
-                                <button class="action-btn-sm btn-secondary" onclick="switchMainTab('resume-analysis')">View</button>
-                                <button class="action-btn-sm btn-primary" onclick="openJobTailorModalDefault()">Edit</button>
-                            </div>
-                        </div>
-
-                        <div class="resume-item-card">
-                            <div class="resume-item-left">
-                                <span class="resume-icon-badge">📄</span>
-                                <div>
-                                    <div class="resume-title-wrap">
-                                        <h4>Data Analyst Resume</h4>
-                                    </div>
-                                    <p class="resume-date">Updated 10 Oct 2026 • 91% Match</p>
-                                </div>
-                            </div>
-                            <div class="resume-item-actions">
-                                <button class="action-btn-sm btn-secondary" onclick="switchMainTab('resume-analysis')">View</button>
-                                <button class="action-btn-sm btn-primary" onclick="openJobTailorModalDefault()">Edit</button>
-                            </div>
-                        </div>
-
-                        <div class="resume-item-card">
-                            <div class="resume-item-left">
-                                <span class="resume-icon-badge">📄</span>
-                                <div>
-                                    <div class="resume-title-wrap">
-                                        <h4>Business Analyst Resume</h4>
-                                    </div>
-                                    <p class="resume-date">Updated 05 Oct 2026 • 84% Match</p>
-                                </div>
-                            </div>
-                            <div class="resume-item-actions">
-                                <button class="action-btn-sm btn-secondary" onclick="switchMainTab('resume-analysis')">View</button>
-                                <button class="action-btn-sm btn-primary" onclick="openJobTailorModalDefault()">Edit</button>
-                            </div>
-                        </div>
-
-                        <div class="resume-item-card">
-                            <div class="resume-item-left">
-                                <span class="resume-icon-badge">📄</span>
-                                <div>
-                                    <div class="resume-title-wrap">
-                                        <h4>BI Analyst Resume</h4>
-                                    </div>
-                                    <p class="resume-date">Updated 28 Sep 2026 • 87% Match</p>
-                                </div>
-                            </div>
-                            <div class="resume-item-actions">
-                                <button class="action-btn-sm btn-secondary" onclick="switchMainTab('resume-analysis')">View</button>
-                                <button class="action-btn-sm btn-primary" onclick="openJobTailorModalDefault()">Edit</button>
-                            </div>
+                        <div class="empty-state-box" style="grid-column: 1 / -1; padding: 2.5rem; text-align: center; background: var(--bg-card); border-radius: var(--radius-lg); border: 1px dashed var(--border-color);">
+                            <span style="font-size: 2.5rem; display: block; margin-bottom: 0.5rem;">📄</span>
+                            <h4 style="color: var(--text-bright); font-size: 1.1rem; margin-bottom: 0.3rem;">No Resumes Uploaded Yet</h4>
+                            <p style="color: var(--text-muted); font-size: 0.85rem; margin-bottom: 1.25rem;">Upload your resume (PDF) to unlock automatic skill extraction, ATS scoring, and targeted job matches.</p>
+                            <button class="action-btn btn-primary" onclick="document.getElementById('resume-input').click()">
+                                <span>+</span> Upload Resume (PDF)
+                            </button>
                         </div>
                     </div>
                 </div>
@@ -1428,29 +1348,24 @@
                             <div class="profile-avatar-large">👤</div>
                             <div class="profile-meta">
                                 <div class="profile-name-row">
-                                    <h2 id="prof-name">Vishnu Kumar</h2>
+                                    <h2 id="prof-name">Guest Candidate</h2>
                                     <button class="action-btn-sm btn-secondary" onclick="openSettingsModal()">Edit</button>
                                 </div>
-                                <p class="muted" id="prof-role-loc">Data Analyst • Hyderabad, India • vishnu@email.com</p>
+                                <p class="muted" id="prof-role-loc">Profile • No Resume Uploaded • guest@jobagent.ai</p>
                             </div>
                         </div>
                     </div>
 
                     <div class="profile-details-grid">
                         <div class="profile-sec-box">
-                            <h4>Top Skills</h4>
+                            <h4>Extracted Skills</h4>
                             <div class="skill-pills-row" id="prof-skills-container">
-                                <span class="skill-chip">Python</span>
-                                <span class="skill-chip">SQL</span>
-                                <span class="skill-chip">Power BI</span>
-                                <span class="skill-chip">Excel</span>
-                                <span class="skill-chip">DAX</span>
-                                <span class="skill-chip">Tableau</span>
+                                <span class="muted" style="font-size: 0.82rem; font-style: italic;">No skills extracted yet. Upload your resume to populate skills.</span>
                             </div>
                         </div>
 
                         <div class="profile-sec-box">
-                            <h4>Preferred Roles</h4>
+                            <h4>Target Roles</h4>
                             <div class="role-pills-row">
                                 <span class="role-pill">Data Analyst</span>
                                 <span class="role-pill">BI Analyst</span>
@@ -1475,9 +1390,9 @@
                                 <h3 style="font-size: 1.15rem; font-weight: 800; color: var(--text-bright); margin-bottom: 0.25rem;">🔐 Account Authentication & Security</h3>
                                 <p class="muted" style="font-size: 0.82rem; margin: 0;">Manage your official login, Google Gmail SSO, or create and link accounts</p>
                             </div>
-                            <div class="profile-auth-status-pill" id="profile-auth-status-badge" style="display: flex; align-items: center; gap: 0.5rem; background: rgba(34, 197, 94, 0.15); border: 1px solid rgba(34, 197, 94, 0.3); padding: 0.35rem 0.75rem; border-radius: 999px;">
-                                <span class="live-dot" style="background: #22c55e;"></span>
-                                <span style="font-size: 0.78rem; font-weight: 700; color: #4ade80;" id="profile-auth-status-text">Active Session: Google Verified</span>
+                            <div class="profile-auth-status-pill" id="profile-auth-status-badge" style="display: flex; align-items: center; gap: 0.5rem; background: rgba(99, 102, 241, 0.15); border: 1px solid rgba(99, 102, 241, 0.3); padding: 0.35rem 0.75rem; border-radius: 999px;">
+                                <span class="live-dot" style="background: #818cf8;"></span>
+                                <span style="font-size: 0.78rem; font-weight: 700; color: #818cf8;" id="profile-auth-status-text">Guest Mode (Local)</span>
                             </div>
                         </div>
 
@@ -1502,7 +1417,7 @@
                                     </button>
                                 </div>
                                 <div style="margin-top: 1rem; display: flex; justify-content: space-between; align-items: center;">
-                                    <span class="muted" style="font-size: 0.75rem;">Connected: <strong id="profile-auth-email-display">vishnu@email.com</strong></span>
+                                    <span class="muted" style="font-size: 0.75rem;">Connected: <strong id="profile-auth-email-display">guest@jobagent.ai</strong></span>
                                     <button class="action-btn-sm btn-secondary" onclick="handleSignOut()" style="font-size: 0.75rem;">Sign Out</button>
                                 </div>
                             </div>
@@ -1523,11 +1438,11 @@
                                 <form id="profile-auth-form" onsubmit="handleProfileAuthSubmit(event)" style="display: flex; flex-direction: column; gap: 0.75rem;">
                                     <div class="form-group">
                                         <label class="form-label" style="font-size: 0.75rem;">Email Address</label>
-                                        <input type="email" id="profile-auth-email" class="form-input" placeholder="name@example.com" value="vishnu@email.com" required style="padding: 0.5rem 0.75rem; font-size: 0.82rem;">
+                                        <input type="email" id="profile-auth-email" class="form-input" placeholder="name@example.com" required style="padding: 0.5rem 0.75rem; font-size: 0.82rem;">
                                     </div>
                                     <div class="form-group">
                                         <label class="form-label" style="font-size: 0.75rem;">Password</label>
-                                        <input type="password" id="profile-auth-password" class="form-input" placeholder="••••••••••••" value="password123" required style="padding: 0.5rem 0.75rem; font-size: 0.82rem;">
+                                        <input type="password" id="profile-auth-password" class="form-input" placeholder="••••••••••••" required style="padding: 0.5rem 0.75rem; font-size: 0.82rem;">
                                     </div>
                                     <div id="profile-auth-confirm-group" class="form-group" style="display: none;">
                                         <label class="form-label" style="font-size: 0.75rem;">Confirm Password</label>
