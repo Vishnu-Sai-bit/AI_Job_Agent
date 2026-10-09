@@ -632,7 +632,6 @@ function loadOfficialProfile(roleKey = "data-analyst") {
     switchMainTab("dashboard");
     showToast(`✅ Profile synchronized: ${resumeData.name} (${resumeData.preferred_role})!`, "success", "👤");
 }
-window.loadDemoCandidate = loadOfficialProfile;
 
 // ==========================================================
 // RENDERERS ACROSS ALL PANELS
