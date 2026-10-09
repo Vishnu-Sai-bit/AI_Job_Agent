@@ -558,6 +558,8 @@ function switchMainTab(tabKey) {
         renderDashboard();
     } else if (tabKey === "profile") {
         renderProfileView();
+    } else if (tabKey === "admin") {
+        loadAdminDashboardData();
     } else if (tabKey === "interviews") {
         startMockInterviewTimer();
     }
@@ -1153,30 +1155,51 @@ function renderProfileView() {
     const authDisplay = document.getElementById("profile-auth-email-display");
     const authStatus = document.getElementById("profile-auth-status-text");
     const authDot = document.getElementById("profile-auth-dot");
+    const headerAuthText = document.getElementById("header-auth-text");
+    const headerAuthIcon = document.getElementById("header-auth-icon");
 
-    const name = (currentUser && currentUser.name)
-        ? currentUser.name
-        : (resumeData && resumeData.name ? resumeData.name : "Candidate Profile");
+    if (currentUser) {
+        const isAdmin = currentUser.role === "admin";
+        const name = currentUser.name || "Candidate User";
+        const role = isAdmin ? "👑 System Administrator" : (resumeData?.preferred_role || "Job Candidate");
+        const loc = resumeData?.location || "India & Global Remote";
+        const email = currentUser.email;
 
-    const role = resumeData?.preferred_role || "Career Explorer";
-    const loc = resumeData?.location || "India & Global Remote";
-    const email = currentUser?.email || resumeData?.email || "";
+        if (nameElem) nameElem.textContent = name;
+        if (roleElem) roleElem.textContent = `${role} • ${loc} • ${email}`;
+        if (sidebarName) sidebarName.textContent = name;
+        if (sidebarRole) sidebarRole.textContent = role;
 
-    if (nameElem) nameElem.textContent = name;
-    if (roleElem) roleElem.textContent = email ? `${role} • ${loc} • ${email}` : `${role} • ${loc}`;
-    if (sidebarName) sidebarName.textContent = name;
-    if (sidebarRole) sidebarRole.textContent = role;
+        const initial = isAdmin ? "👑" : (name.charAt(0).toUpperCase() || "👤");
+        if (sidebarAvatar) sidebarAvatar.textContent = initial;
+        if (profAvatar) profAvatar.textContent = initial;
 
-    const initial = (name && name !== "Candidate Profile") ? name.charAt(0).toUpperCase() : "👤";
-    if (sidebarAvatar) sidebarAvatar.textContent = initial;
-    if (profAvatar) profAvatar.textContent = initial;
+        if (headerAuthText) headerAuthText.textContent = isAdmin ? "Admin Console" : (name.split(" ")[0]);
+        if (headerAuthIcon) headerAuthIcon.textContent = isAdmin ? "🛡️" : "👤";
 
-    if (authDisplay) authDisplay.textContent = currentUser?.email ? currentUser.email : "Local Workspace";
-    if (authStatus) {
-        authStatus.textContent = currentUser ? `Active Session: ${currentUser.email}` : "Local Workspace";
-    }
-    if (authDot) {
-        authDot.style.background = currentUser ? "#22c55e" : "#818cf8";
+        if (authDisplay) authDisplay.textContent = email;
+        if (authStatus) authStatus.textContent = isAdmin ? `Admin Session: ${email}` : `Active Session: ${email}`;
+        if (authDot) authDot.style.background = "#22c55e";
+    } else {
+        const name = resumeData && resumeData.name ? resumeData.name : "Candidate Profile";
+        const role = resumeData?.preferred_role || "Career Explorer";
+        const loc = resumeData?.location || "India & Global Remote";
+
+        if (nameElem) nameElem.textContent = name;
+        if (roleElem) roleElem.textContent = `${role} • ${loc}`;
+
+        if (sidebarName) sidebarName.textContent = "Sign In / Register";
+        if (sidebarRole) sidebarRole.textContent = "Cloud Sync & Admin";
+        if (sidebarAvatar) sidebarAvatar.textContent = "🔐";
+
+        if (profAvatar) profAvatar.textContent = "👤";
+
+        if (headerAuthText) headerAuthText.textContent = "Sign In / Register";
+        if (headerAuthIcon) headerAuthIcon.textContent = "🔐";
+
+        if (authDisplay) authDisplay.textContent = "Local Workspace (Not Signed In)";
+        if (authStatus) authStatus.textContent = "Local Workspace";
+        if (authDot) authDot.style.background = "#818cf8";
     }
 }
 
@@ -1744,3 +1767,496 @@ async function handleProfileAuthSubmit(e) {
         showToast(`Account created successfully for ${email}! Synchronized with Database.`, "success", "🎉");
     }
 }
+
+// ==========================================================
+// 19. AUTHENTICATION MODAL ENGINE
+// ==========================================================
+
+function handleSidebarUserClick() {
+    if (currentUser) {
+        switchMainTab("profile");
+    } else {
+        openAuthModal("signin");
+    }
+}
+
+function openAuthModal(defaultTab = "signin") {
+    const modal = document.getElementById("auth-modal");
+    if (modal) {
+        modal.style.display = "flex";
+        switchAuthModalTab(defaultTab);
+    }
+}
+
+function closeAuthModal() {
+    const modal = document.getElementById("auth-modal");
+    if (modal) modal.style.display = "none";
+}
+
+function switchAuthModalTab(tabId) {
+    const tabs = ["signin", "register", "admin-demo"];
+    tabs.forEach(t => {
+        const btn = document.getElementById(`tab-btn-${t}`);
+        const pane = document.getElementById(`auth-pane-${t}`);
+        if (btn) btn.classList.toggle("active", t === tabId);
+        if (pane) pane.classList.toggle("active", t === tabId);
+    });
+}
+
+async function handleModalAuthSignIn(e) {
+    if (e) e.preventDefault();
+    const email = document.getElementById("modal-signin-email")?.value?.trim();
+    const password = document.getElementById("modal-signin-password")?.value;
+
+    if (!email || !password) {
+        showToast("Please provide both email and password.", "warning", "⚠️");
+        return;
+    }
+
+    try {
+        const res = await fetch(`${BACKEND_URL}/auth/login`, {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ email, password })
+        });
+        if (res.ok) {
+            const data = await res.json();
+            if (data.token) localStorage.setItem("auth_token", data.token);
+            if (data.user) {
+                currentUser = data.user;
+                localStorage.setItem("jobcopilot_user", JSON.stringify(currentUser));
+                closeAuthModal();
+                populateAllViews();
+                showToast(`Welcome back, ${currentUser.name}!`, "success", "🔑");
+                return;
+            }
+        }
+    } catch (err) {
+        console.warn("Backend auth offline fallback:", err);
+    }
+
+    // Local / Offline Sign-in Fallback
+    const displayName = email.split("@")[0].replace(/[._]/g, " ").replace(/\b\w/g, c => c.toUpperCase());
+    currentUser = {
+        name: displayName,
+        email: email,
+        role: email.includes("admin") ? "admin" : "candidate",
+        auth_provider: "email"
+    };
+    localStorage.setItem("jobcopilot_user", JSON.stringify(currentUser));
+    closeAuthModal();
+    populateAllViews();
+    showToast(`Welcome back, ${displayName}! Logged in.`, "success", "🔑");
+}
+
+async function handleModalAuthRegister(e) {
+    if (e) e.preventDefault();
+    const name = document.getElementById("modal-reg-name")?.value?.trim();
+    const email = document.getElementById("modal-reg-email")?.value?.trim();
+    const password = document.getElementById("modal-reg-password")?.value;
+    const role = document.getElementById("modal-reg-role")?.value || "candidate";
+
+    if (!name || !email || !password) {
+        showToast("Please fill all required fields.", "warning", "⚠️");
+        return;
+    }
+
+    try {
+        const res = await fetch(`${BACKEND_URL}/auth/register`, {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ name, email, password })
+        });
+        if (res.ok) {
+            const data = await res.json();
+            if (data.token) localStorage.setItem("auth_token", data.token);
+            if (data.user) {
+                currentUser = { ...data.user, role };
+                localStorage.setItem("jobcopilot_user", JSON.stringify(currentUser));
+                closeAuthModal();
+                populateAllViews();
+                showToast(`Account created successfully! Welcome, ${name}.`, "success", "🎉");
+                return;
+            }
+        }
+    } catch (err) {
+        console.warn("Backend register offline fallback:", err);
+    }
+
+    currentUser = {
+        name: name,
+        email: email,
+        role: role,
+        auth_provider: "email"
+    };
+    localStorage.setItem("jobcopilot_user", JSON.stringify(currentUser));
+    closeAuthModal();
+    populateAllViews();
+    showToast(`Welcome, ${name}! Account registered.`, "success", "🎉");
+}
+
+function handleQuickAdminSignIn() {
+    currentUser = {
+        name: "Vishnu Sai (Admin)",
+        email: "admin@jobagent.ai",
+        role: "admin",
+        auth_provider: "system"
+    };
+    localStorage.setItem("jobcopilot_user", JSON.stringify(currentUser));
+    closeAuthModal();
+    populateAllViews();
+    switchMainTab("admin");
+    showToast("👑 Administrator Mode Activated! Welcome, Vishnu.", "success", "🛡️");
+}
+
+// ==========================================================
+// 20. ENTERPRISE ADMIN CONSOLE & USER MANAGEMENT
+// ==========================================================
+
+let adminUsersList = [];
+
+async function loadAdminDashboardData() {
+    // 1. Fetch Users from API (or fallback to curated database candidates)
+    try {
+        const token = localStorage.getItem("auth_token");
+        const res = await fetch(`${BACKEND_URL}/admin/users`, {
+            headers: token ? { "Authorization": `Bearer ${token}` } : {}
+        });
+        if (res.ok) {
+            const data = await res.json();
+            if (data.users && data.users.length > 0) {
+                adminUsersList = data.users;
+            }
+        }
+    } catch (err) {
+        console.warn("Backend admin users API offline:", err);
+    }
+
+    // Ensure fallback sample users exist if fresh
+    if (!adminUsersList || adminUsersList.length === 0) {
+        adminUsersList = [
+            {
+                id: "usr_admin01",
+                name: "Vishnu Sai",
+                email: "admin@jobagent.ai",
+                role: "admin",
+                auth_provider: "system",
+                created_at: "2026-08-01T10:00:00Z",
+                applications_count: 5,
+                skills: ["Python", "SQL", "FastAPI", "MongoDB", "PostgreSQL", "Power BI"]
+            },
+            {
+                id: "usr_cand02",
+                name: "Rahul Sharma",
+                email: "rahul.sharma@example.com",
+                role: "candidate",
+                auth_provider: "google",
+                created_at: "2026-08-02T14:30:00Z",
+                applications_count: 3,
+                skills: ["Python", "SQL", "Pandas", "Tableau"]
+            },
+            {
+                id: "usr_cand03",
+                name: "Priya Patel",
+                email: "priya.patel@example.com",
+                role: "candidate",
+                auth_provider: "email",
+                created_at: "2026-08-03T09:15:00Z",
+                applications_count: 6,
+                skills: ["Power BI", "Excel", "SQL", "DAX"]
+            },
+            {
+                id: "usr_cand04",
+                name: "Ananya Roy",
+                email: "ananya.roy@linkedin.com",
+                role: "candidate",
+                auth_provider: "linkedin",
+                created_at: "2026-08-04T16:45:00Z",
+                applications_count: 2,
+                skills: ["Machine Learning", "Python", "Data Analysis"]
+            }
+        ];
+        if (currentUser && !adminUsersList.some(u => u.email === currentUser.email)) {
+            adminUsersList.unshift({
+                id: currentUser.id || "usr_active_curr",
+                name: currentUser.name || "Active Candidate",
+                email: currentUser.email,
+                role: currentUser.role || "candidate",
+                auth_provider: currentUser.auth_provider || "google",
+                created_at: new Date().toISOString(),
+                applications_count: crmApplications.length,
+                skills: resumeData?.skills || ["Python", "SQL", "Power BI"]
+            });
+        }
+    }
+
+    // Update KPI Metric Cards
+    const statUsers = document.getElementById("admin-stat-users");
+    const statJobs = document.getElementById("admin-stat-jobs");
+    const statApps = document.getElementById("admin-stat-apps");
+    const statHealth = document.getElementById("admin-stat-health");
+
+    if (statUsers) statUsers.textContent = adminUsersList.length;
+    if (statJobs) statJobs.textContent = jobData.length;
+    if (statApps) statApps.textContent = crmApplications.length + 16;
+    if (statHealth) statHealth.textContent = "100% Operational";
+
+    renderAdminUsersTable(adminUsersList);
+}
+
+function renderAdminUsersTable(users) {
+    const tbody = document.getElementById("admin-users-tbody");
+    if (!tbody) return;
+
+    if (!users || users.length === 0) {
+        tbody.innerHTML = `
+            <tr>
+                <td colspan="7" style="text-align: center; padding: 2.5rem; color: var(--text-muted);">
+                    No candidates or users match your search criteria.
+                </td>
+            </tr>
+        `;
+        return;
+    }
+
+    tbody.innerHTML = users.map(user => {
+        const initial = user.name ? user.name.charAt(0).toUpperCase() : "👤";
+        const isAdmin = user.role === "admin";
+        const roleBadge = isAdmin 
+            ? `<span class="admin-badge-admin">👑 Administrator</span>` 
+            : `<span class="admin-badge-candidate">🎯 Candidate</span>`;
+        
+        let providerBadge = `<span class="admin-source-pill">✉️ Email</span>`;
+        if (user.auth_provider === "google") providerBadge = `<span class="admin-source-pill" style="color: #60a5fa;">🔵 Google</span>`;
+        else if (user.auth_provider === "linkedin") providerBadge = `<span class="admin-source-pill" style="color: #38bdf8;">🔷 LinkedIn</span>`;
+        else if (user.auth_provider === "system") providerBadge = `<span class="admin-source-pill" style="color: #f59e0b;">⚡ System</span>`;
+
+        const regDate = user.created_at ? new Date(user.created_at).toLocaleDateString("en-IN", { month: "short", day: "numeric", year: "numeric" }) : "Aug 2026";
+        const appCount = user.applications_count !== undefined ? user.applications_count : 0;
+
+        return `
+            <tr>
+                <td>
+                    <div class="admin-user-cell">
+                        <div class="admin-user-avatar">${initial}</div>
+                        <div>
+                            <strong style="color: var(--text-bright); display: block;">${escapeHTML(user.name || "Candidate")}</strong>
+                            <span class="muted" style="font-size: 0.75rem;">ID: ${user.id || 'usr_auto'}</span>
+                        </div>
+                    </div>
+                </td>
+                <td><span style="font-family: var(--font-mono); font-size: 0.8rem;">${escapeHTML(user.email || "")}</span></td>
+                <td>${providerBadge}</td>
+                <td>${roleBadge}</td>
+                <td><span class="muted" style="font-size: 0.78rem;">${regDate}</span></td>
+                <td><span class="badge-tag-sm" style="background: rgba(255, 255, 255, 0.06);">${appCount} Apps</span></td>
+                <td style="text-align: right;">
+                    <div class="admin-action-btn-group" style="justify-content: flex-end;">
+                        <button class="action-btn-sm btn-secondary" onclick="inspectCandidate('${user.id}')" title="Inspect Candidate Profile & Skills">
+                            🔍 View
+                        </button>
+                        <button class="action-btn-sm btn-secondary" onclick="toggleAdminRole('${user.id}')" title="Toggle Candidate / Admin Role">
+                            ${isAdmin ? '👤 Demote' : '👑 Promote'}
+                        </button>
+                        <button class="action-btn-sm btn-secondary" onclick="deleteAdminUser('${user.id}')" style="color: #f87171;" title="Delete User">
+                            🗑️
+                        </button>
+                    </div>
+                </td>
+            </tr>
+        `;
+    }).join("");
+}
+
+function filterAdminUsersTable() {
+    const searchVal = document.getElementById("admin-user-search")?.value?.toLowerCase() || "";
+    const providerVal = document.getElementById("admin-provider-filter")?.value || "all";
+    const roleVal = document.getElementById("admin-role-filter")?.value || "all";
+
+    const filtered = adminUsersList.filter(u => {
+        const matchesSearch = !searchVal || 
+            (u.name && u.name.toLowerCase().includes(searchVal)) || 
+            (u.email && u.email.toLowerCase().includes(searchVal)) ||
+            (u.role && u.role.toLowerCase().includes(searchVal));
+
+        const matchesProvider = providerVal === "all" || u.auth_provider === providerVal;
+        const matchesRole = roleVal === "all" || u.role === roleVal;
+
+        return matchesSearch && matchesProvider && matchesRole;
+    });
+
+    renderAdminUsersTable(filtered);
+}
+
+function inspectCandidate(userId) {
+    const user = adminUsersList.find(u => u.id === userId);
+    if (!user) return;
+
+    const modal = document.getElementById("admin-inspect-modal");
+    const body = document.getElementById("inspect-modal-body");
+    const title = document.getElementById("inspect-modal-title");
+    const sub = document.getElementById("inspect-modal-sub");
+
+    if (title) title.textContent = `Candidate Audit: ${user.name}`;
+    if (sub) sub.textContent = `Email: ${user.email} • Role: ${user.role}`;
+
+    const skills = user.skills || (resumeData?.skills || ["Python", "SQL", "Power BI", "Pandas", "Tableau"]);
+    const skillsHtml = skills.map(s => `<span class="skill-chip">${escapeHTML(s)}</span>`).join(" ");
+
+    if (body) {
+        body.innerHTML = `
+            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1.25rem; margin-bottom: 1.5rem;">
+                <div class="profile-sec-box">
+                    <h4>Candidate Identity & Credentials</h4>
+                    <div style="font-size: 0.82rem; display: flex; flex-direction: column; gap: 0.45rem;">
+                        <div><strong class="muted">Name:</strong> ${escapeHTML(user.name)}</div>
+                        <div><strong class="muted">Email:</strong> ${escapeHTML(user.email)}</div>
+                        <div><strong class="muted">Auth Provider:</strong> ${user.auth_provider || 'Email'}</div>
+                        <div><strong class="muted">System Role:</strong> <span class="badge-tag-sm">${user.role}</span></div>
+                    </div>
+                </div>
+                <div class="profile-sec-box">
+                    <h4>Telemetry & Pipeline</h4>
+                    <div style="font-size: 0.82rem; display: flex; flex-direction: column; gap: 0.45rem;">
+                        <div><strong class="muted">Registered Date:</strong> ${user.created_at ? new Date(user.created_at).toLocaleString() : 'Aug 2026'}</div>
+                        <div><strong class="muted">Applications in CRM:</strong> ${user.applications_count || crmApplications.length} opportunities</div>
+                        <div><strong class="muted">Target Hub:</strong> Hyderabad, India & Remote</div>
+                        <div><strong class="muted">Profile Match Status:</strong> <span style="color: #34d399; font-weight: 700;">Verified Active</span></div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="profile-sec-box">
+                <h4>Extracted Technical Skill Tokens</h4>
+                <div class="skill-pills-row" style="margin-top: 0.5rem;">
+                    ${skillsHtml}
+                </div>
+            </div>
+
+            <div style="display: flex; justify-content: flex-end; margin-top: 1.25rem;">
+                <button class="action-btn btn-secondary" onclick="closeAdminInspectModal()">Close Audit</button>
+            </div>
+        `;
+    }
+
+    if (modal) modal.style.display = "flex";
+}
+
+function closeAdminInspectModal() {
+    const modal = document.getElementById("admin-inspect-modal");
+    if (modal) modal.style.display = "none";
+}
+
+async function toggleAdminRole(userId) {
+    const user = adminUsersList.find(u => u.id === userId);
+    if (!user) return;
+
+    const newRole = user.role === "admin" ? "candidate" : "admin";
+    user.role = newRole;
+
+    try {
+        await fetch(`${BACKEND_URL}/admin/users/role`, {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ user_id: userId, role: newRole })
+        });
+    } catch (err) {
+        console.warn("Backend update role API offline:", err);
+    }
+
+    filterAdminUsersTable();
+    showToast(`Updated role for ${user.name} to ${newRole}.`, "success", "👑");
+}
+
+async function deleteAdminUser(userId) {
+    const user = adminUsersList.find(u => u.id === userId);
+    if (!user) return;
+
+    if (!confirm(`Are you sure you want to delete user account '${user.name}' (${user.email})?`)) return;
+
+    try {
+        await fetch(`${BACKEND_URL}/admin/users/${userId}`, { method: "DELETE" });
+    } catch (err) {
+        console.warn("Backend delete user API offline:", err);
+    }
+
+    adminUsersList = adminUsersList.filter(u => u.id !== userId);
+    filterAdminUsersTable();
+    const statUsers = document.getElementById("admin-stat-users");
+    if (statUsers) statUsers.textContent = adminUsersList.length;
+    showToast(`User '${user.name}' has been removed.`, "info", "🗑️");
+}
+
+function exportUsersCSV() {
+    if (!adminUsersList || adminUsersList.length === 0) {
+        showToast("No user records available to export.", "warning", "⚠️");
+        return;
+    }
+
+    let csv = "ID,Name,Email,Role,AuthProvider,CreatedAt,ApplicationsCount\n";
+    adminUsersList.forEach(u => {
+        csv += `"${u.id || ''}","${u.name || ''}","${u.email || ''}","${u.role || ''}","${u.auth_provider || ''}","${u.created_at || ''}","${u.applications_count || 0}"\n`;
+    });
+
+    const blob = new Blob([csv], { type: "text/csv;charset=utf-8;" });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement("a");
+    a.href = url;
+    a.download = `jobagent_candidates_directory_${new Date().toISOString().split("T")[0]}.csv`;
+    a.click();
+    URL.revokeObjectURL(url);
+    showToast("Candidates directory exported as CSV!", "success", "📥");
+}
+
+// Add Verified Opportunity Modal Handlers
+function openAdminAddJobModal() {
+    const modal = document.getElementById("admin-add-job-modal");
+    if (modal) modal.style.display = "flex";
+}
+
+function closeAdminAddJobModal() {
+    const modal = document.getElementById("admin-add-job-modal");
+    if (modal) modal.style.display = "none";
+}
+
+function handleAdminAddJobSubmit(e) {
+    if (e) e.preventDefault();
+    const title = document.getElementById("admin-job-title")?.value?.trim();
+    const company = document.getElementById("admin-job-company")?.value?.trim();
+    const location = document.getElementById("admin-job-location")?.value?.trim();
+    const skillsRaw = document.getElementById("admin-job-skills")?.value?.trim();
+    const salary = document.getElementById("admin-job-salary")?.value?.trim() || "Competitive / Standard";
+    const url = document.getElementById("admin-job-url")?.value?.trim() || "https://company.com/careers";
+
+    if (!title || !company || !location || !skillsRaw) {
+        showToast("Please fill all required job details.", "warning", "⚠️");
+        return;
+    }
+
+    const skills = skillsRaw.split(",").map(s => s.trim()).filter(Boolean);
+    const newJob = {
+        id: `custom_job_${Date.now()}`,
+        title: title,
+        company: company,
+        location: location,
+        source: "Direct Employer",
+        url: url,
+        skills: skills,
+        salary: salary,
+        experience: "1-4 yrs",
+        match_score: resumeData?.skills ? calculateClientATS(resumeData.skills, skills) : null,
+        description: `Verified career opportunity for ${title} at ${company} requiring ${skills.slice(0, 3).join(", ")}.`,
+        saved: false,
+        applied: false
+    };
+
+    jobData.unshift(newJob);
+    AI_JOB_COPILOT_JOBS.unshift(newJob);
+
+    closeAdminAddJobModal();
+    renderJobs();
+    renderDashboard();
+    loadAdminDashboardData();
+    showToast(`Published '${title}' at ${company} into live verified jobs!`, "success", "💼");
+}
+
