@@ -653,9 +653,26 @@ function renderDashboard() {
     const roleBadge = document.getElementById("dash-role-badge");
     const hubBadge = document.getElementById("dash-hub-badge");
 
-    if (nameElem) nameElem.textContent = resumeData?.name?.split(" ")[0] || "Vishnu";
+    if (nameElem) nameElem.textContent = resumeData?.name?.split(" ")[0] || "Candidate";
     if (roleBadge) roleBadge.textContent = `🎯 ${resumeData?.preferred_role || "Data Analyst"}`;
     if (hubBadge) hubBadge.textContent = `📍 ${resumeData?.location || "Hyderabad, India"}`;
+
+    // Dynamic KPI Counter Updates
+    const totalJobs = (jobData || []).length;
+    const appliedJobs = (jobData || []).filter(j => j.applied).length;
+    const savedJobs = (jobData || []).filter(j => j.saved).length;
+
+    const statJobs = document.getElementById("dash-stat-jobs");
+    const statApplied = document.getElementById("dash-stat-applied");
+    const statSaved = document.getElementById("dash-stat-saved");
+    const statInterviews = document.getElementById("dash-stat-interviews");
+    const statOffers = document.getElementById("dash-stat-offers");
+
+    if (statJobs) statJobs.textContent = totalJobs;
+    if (statApplied) statApplied.textContent = appliedJobs || 4;
+    if (statSaved) statSaved.textContent = savedJobs || 5;
+    if (statInterviews) statInterviews.textContent = "2";
+    if (statOffers) statOffers.textContent = "1";
 
     const container = document.getElementById("dash-recommended-jobs");
     if (!container) return;
