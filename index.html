@@ -132,11 +132,11 @@
                             <span class="notif-clear-btn" onclick="clearNotifications()">Clear</span>
                         </div>
                         <div class="notif-list" id="notif-list-container">
-                            <div class="notif-item unread" onclick="switchMainTab('resumes')">
-                                <span class="notif-icon">📄</span>
+                            <div class="notif-item unread" onclick="handleNotifClick('job')">
+                                <span class="notif-icon">⚡</span>
                                 <div class="notif-content">
-                                    <h5>Welcome to AI JobAgent</h5>
-                                    <p>Upload your resume (PDF/DOCX) to unlock real-time ATS match scoring and tailored jobs.</p>
+                                    <h5>Welcome to JobCopilot</h5>
+                                    <p>18+ live verified job openings are indexed and ready for exploration.</p>
                                     <span class="notif-time">Just now</span>
                                 </div>
                             </div>
@@ -169,10 +169,10 @@
         <!-- Modern Left Sidebar Navigation -->
         <aside class="app-sidebar">
             <div class="sidebar-user-card" onclick="switchMainTab('profile')" title="View Candidate Profile">
-                <div class="sidebar-avatar" id="sidebar-avatar-text">G</div>
+                <div class="sidebar-avatar" id="sidebar-avatar-text">👤</div>
                 <div class="sidebar-user-details">
-                    <span class="sidebar-user-name" id="sidebar-user-name">Guest Candidate</span>
-                    <span class="sidebar-user-role" id="sidebar-user-role">No Resume Uploaded</span>
+                    <span class="sidebar-user-name" id="sidebar-user-name">Guest User</span>
+                    <span class="sidebar-user-role" id="sidebar-user-role">Career Explorer</span>
                 </div>
             </div>
 
@@ -322,11 +322,11 @@
                             <div class="landing-hero-graphic-card">
                                 <div class="hero-graphic-badge">
                                     <span class="live-pulse-dot"></span>
-                                    <span>186+ Verified Opportunities</span>
+                                    <span id="hero-live-jobs-badge">18+ Verified Opportunities</span>
                                 </div>
                                 <div class="hero-candidate-preview">
                                     <div class="hero-avatar-large">👩‍💼</div>
-                                    <div class="hero-badge-tag">91% Avg Match Fit</div>
+                                    <div class="hero-badge-tag" id="hero-match-badge">AI Match Engine Ready</div>
                                 </div>
                                 <div class="hero-dropzone-box" id="drop-zone" onclick="document.getElementById('resume-input').click()">
                                     <span class="drop-icon">📄</span>
@@ -381,14 +381,28 @@
             <!-- 3. DASHBOARD (Panel 3) -->
             <!-- ======================================================== -->
             <section id="panel-dashboard" class="main-panel" style="display: none;">
+                <!-- Empty Resume Upload Banner for New / Guest Users -->
+                <div class="dash-empty-resume-banner" id="dash-empty-resume-banner">
+                    <div class="dash-empty-resume-content">
+                        <span style="font-size: 1.8rem;">📄</span>
+                        <div>
+                            <h4>No Resume Uploaded Yet</h4>
+                            <p>Upload your PDF or DOCX resume to calculate instant ATS match scores, identify missing skills, and rank verified jobs.</p>
+                        </div>
+                    </div>
+                    <button class="action-btn btn-primary" onclick="document.getElementById('resume-input').click()" style="white-space: nowrap;">
+                        <span>+</span> Upload Resume
+                    </button>
+                </div>
+
                 <div class="dashboard-header-row">
                     <div class="dash-greeting">
-                        <h2>Good day, <span id="dash-user-name">Guest</span> 👋</h2>
+                        <h2>Welcome, <span id="dash-user-name">Guest</span> 👋</h2>
                         <p class="dash-sub">Here's your career overview</p>
                     </div>
                     <div class="dash-quick-actions">
-                        <span class="role-pill-badge" id="dash-role-badge">📄 No Resume Uploaded</span>
-                        <span class="hub-pill-badge" id="dash-hub-badge">📍 Location Pending</span>
+                        <span class="role-pill-badge" id="dash-role-badge">🎯 Career Explorer</span>
+                        <span class="hub-pill-badge" id="dash-hub-badge">📍 India & Global Remote</span>
                         <button class="action-btn-sm btn-secondary" onclick="switchMainTab('resumes')">📄 My Resumes</button>
                     </div>
                 </div>
@@ -420,7 +434,7 @@
                         <div class="kpi-icon-wrap kpi-offer">🏆</div>
                         <div class="kpi-data">
                             <span class="kpi-num" id="dash-stat-offers">0</span>
-                            <span class="kpi-label">Offers</span>
+                            <span class="kpi-label">Offer</span>
                         </div>
                     </div>
                     <div class="kpi-card" onclick="switchMainTab('jobs')">
@@ -487,34 +501,34 @@
                         <!-- Skill Gaps Panel -->
                         <div class="section-box">
                             <div class="section-header-flex">
-                                <h3>Skill Gaps (in Target Roles)</h3>
+                                <h3>In-Demand Market Skills</h3>
                                 <button class="view-all-link" onclick="switchMainTab('learning')">Learning Hub →</button>
                             </div>
                             <div class="dash-skill-gaps-list" id="dash-skill-gaps">
                                 <div class="skill-gap-row">
                                     <span class="skill-name">SQL</span>
                                     <div class="skill-meter"><div class="skill-meter-fill" style="width: 95%;"></div></div>
-                                    <span class="skill-status-tag verified">✓ Mastered</span>
+                                    <span class="skill-status-tag verified">High Demand</span>
                                 </div>
                                 <div class="skill-gap-row">
                                     <span class="skill-name">Python</span>
                                     <div class="skill-meter"><div class="skill-meter-fill" style="width: 88%;"></div></div>
-                                    <span class="skill-status-tag verified">✓ Mastered</span>
+                                    <span class="skill-status-tag verified">High Demand</span>
                                 </div>
                                 <div class="skill-gap-row">
                                     <span class="skill-name">Power BI</span>
                                     <div class="skill-meter"><div class="skill-meter-fill" style="width: 82%;"></div></div>
-                                    <span class="skill-status-tag verified">✓ Mastered</span>
+                                    <span class="skill-status-tag verified">High Demand</span>
                                 </div>
                                 <div class="skill-gap-row">
-                                    <span class="skill-name">DAX</span>
-                                    <div class="skill-meter"><div class="skill-meter-fill fill-warn" style="width: 50%;"></div></div>
-                                    <span class="skill-status-tag warning" onclick="switchMainTab('learning')">⚠️ Improve</span>
+                                    <span class="skill-name">Excel</span>
+                                    <div class="skill-meter"><div class="skill-meter-fill" style="width: 76%;"></div></div>
+                                    <span class="skill-status-tag verified">Core Skill</span>
                                 </div>
                                 <div class="skill-gap-row">
-                                    <span class="skill-name">Azure</span>
-                                    <div class="skill-meter"><div class="skill-meter-fill fill-warn" style="width: 35%;"></div></div>
-                                    <span class="skill-status-tag warning" onclick="switchMainTab('learning')">⚠️ Learn</span>
+                                    <span class="skill-name">DAX / Data Modeling</span>
+                                    <div class="skill-meter"><div class="skill-meter-fill fill-warn" style="width: 60%;"></div></div>
+                                    <span class="skill-status-tag warning" onclick="switchMainTab('learning')">⚡ Learn</span>
                                 </div>
                             </div>
                         </div>
@@ -594,7 +608,7 @@
                             <div class="ai-agent-avatar">🤖</div>
                             <div>
                                 <h3>AI Job Agent</h3>
-                                <p class="ai-agent-sub">I can find and analyze the best job opportunities for you.</p>
+                                <p class="ai-agent-sub">I can find and analyze verified job opportunities and career roadmaps for you.</p>
                             </div>
                         </div>
                         <button class="action-btn-sm btn-secondary" onclick="clearAgentChat()">Clear Chat</button>
@@ -605,8 +619,8 @@
                         <button class="prompt-chip" onclick="sendAgentMessage('Find Data Analyst jobs in Hyderabad')">
                             💼 Find Data Analyst jobs in Hyderabad
                         </button>
-                        <button class="prompt-chip" onclick="sendAgentMessage('What are my top skill gaps for a ₹8 LPA role?')">
-                            📈 Analyze my skill gaps
+                        <button class="prompt-chip" onclick="sendAgentMessage('What are top skills needed for a Data Analyst role?')">
+                            📈 In-demand skill requirements
                         </button>
                         <button class="prompt-chip" onclick="sendAgentMessage('How do I prepare for a Power BI and SQL technical round?')">
                             🎙️ Prepare for Power BI & SQL interview
@@ -621,36 +635,7 @@
                         <div class="agent-msg bot-bubble">
                             <div class="msg-author">🤖 AI Job Agent</div>
                             <div class="msg-content">
-                                Hi Vishnu! 👋 I can find and analyze the best job opportunities for you. What are you looking for?
-                            </div>
-                        </div>
-                        <div class="agent-msg user-bubble">
-                            Find Data Analyst jobs in Hyderabad
-                        </div>
-                        <div class="agent-msg bot-bubble">
-                            <div class="agent-search-steps-list">
-                                <div class="step-check-item">✓ Searching job sources (LinkedIn, Naukri, etc...)</div>
-                                <div class="step-check-item">✓ Extracting job information</div>
-                                <div class="step-check-item">✓ Removing duplicates</div>
-                                <div class="step-check-item">✓ Analyzing job requirements</div>
-                                <div class="step-check-item">✓ Matching with your profile</div>
-                            </div>
-                            <p style="margin-top: 0.75rem;">Found <strong>48 relevant jobs</strong>. Here are the top matches:</p>
-                            <div class="agent-matched-cards-row">
-                                <div class="agent-mini-job-card">
-                                    <div style="display: flex; justify-content: space-between;">
-                                        <strong>Data Analyst</strong>
-                                        <span class="match-badge-green">91% Match</span>
-                                    </div>
-                                    <p>ABC Technologies • Hyderabad • ₹4-7 LPA</p>
-                                </div>
-                                <div class="agent-mini-job-card">
-                                    <div style="display: flex; justify-content: space-between;">
-                                        <strong>BI Analyst</strong>
-                                        <span class="match-badge-green">87% Match</span>
-                                    </div>
-                                    <p>XYZ Solutions • Hyderabad • ₹5-8 LPA</p>
-                                </div>
+                                Hi there! 👋 I am your AI Job Agent. How can I assist your career journey today? You can ask me to search verified jobs, review skill requirements, or prepare for technical interviews.
                             </div>
                         </div>
                     </div>
@@ -683,13 +668,22 @@
 
                     <!-- Resumes List -->
                     <div class="resumes-list-grid" id="resumes-list-container">
-                        <div class="empty-state-box" style="grid-column: 1 / -1; padding: 2.5rem; text-align: center; background: var(--bg-card); border-radius: var(--radius-lg); border: 1px dashed var(--border-color);">
-                            <span style="font-size: 2.5rem; display: block; margin-bottom: 0.5rem;">📄</span>
-                            <h4 style="color: var(--text-bright); font-size: 1.1rem; margin-bottom: 0.3rem;">No Resumes Uploaded Yet</h4>
-                            <p style="color: var(--text-muted); font-size: 0.85rem; margin-bottom: 1.25rem;">Upload your resume (PDF) to unlock automatic skill extraction, ATS scoring, and targeted job matches.</p>
-                            <button class="action-btn btn-primary" onclick="document.getElementById('resume-input').click()">
-                                <span>+</span> Upload Resume (PDF)
-                            </button>
+                        <!-- Populated dynamically by JS -->
+                    </div>
+                </div>
+            </section>
+                                <span class="resume-icon-badge">📄</span>
+                                <div>
+                                    <div class="resume-title-wrap">
+                                        <h4>BI Analyst Resume</h4>
+                                    </div>
+                                    <p class="resume-date">Updated 28 Sep 2026 • 87% Match</p>
+                                </div>
+                            </div>
+                            <div class="resume-item-actions">
+                                <button class="action-btn-sm btn-secondary" onclick="switchMainTab('resume-analysis')">View</button>
+                                <button class="action-btn-sm btn-primary" onclick="openJobTailorModalDefault()">Edit</button>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -985,50 +979,50 @@
 
                 <!-- 5-Column Kanban Board -->
                 <div class="kanban-board-5col">
-                    <!-- Col 1: Saved (5) -->
+                    <!-- Col 1: Saved (0) -->
                     <div class="kanban-column">
                         <div class="kanban-col-head col-saved">
-                            <span>📌 Saved (<span id="kb-count-saved">5</span>)</span>
+                            <span>📌 Saved (<span id="kb-count-saved">0</span>)</span>
                         </div>
                         <div class="kanban-cards-wrapper" id="kanban-col-saved">
                             <!-- Injected by JS -->
                         </div>
                     </div>
 
-                    <!-- Col 2: Applied (8) -->
+                    <!-- Col 2: Applied (0) -->
                     <div class="kanban-column">
                         <div class="kanban-col-head col-applied">
-                            <span>🚀 Applied (<span id="kb-count-applied">8</span>)</span>
+                            <span>🚀 Applied (<span id="kb-count-applied">0</span>)</span>
                         </div>
                         <div class="kanban-cards-wrapper" id="kanban-col-applied">
                             <!-- Injected by JS -->
                         </div>
                     </div>
 
-                    <!-- Col 3: Assessment (3) -->
+                    <!-- Col 3: Assessment (0) -->
                     <div class="kanban-column">
                         <div class="kanban-col-head col-assessment">
-                            <span>📝 Assessment (<span id="kb-count-assessment">3</span>)</span>
+                            <span>📝 Assessment (<span id="kb-count-assessment">0</span>)</span>
                         </div>
                         <div class="kanban-cards-wrapper" id="kanban-col-assessment">
                             <!-- Injected by JS -->
                         </div>
                     </div>
 
-                    <!-- Col 4: Interview (2) -->
+                    <!-- Col 4: Interview (0) -->
                     <div class="kanban-column">
                         <div class="kanban-col-head col-interview">
-                            <span>🎙️ Interview (<span id="kb-count-interview">2</span>)</span>
+                            <span>🎙️ Interview (<span id="kb-count-interview">0</span>)</span>
                         </div>
                         <div class="kanban-cards-wrapper" id="kanban-col-interview">
                             <!-- Injected by JS -->
                         </div>
                     </div>
 
-                    <!-- Col 5: Offer (1) -->
+                    <!-- Col 5: Offer (0) -->
                     <div class="kanban-column">
                         <div class="kanban-col-head col-offer">
-                            <span>🏆 Offer (<span id="kb-count-offer">1</span>)</span>
+                            <span>🏆 Offer (<span id="kb-count-offer">0</span>)</span>
                         </div>
                         <div class="kanban-cards-wrapper" id="kanban-col-offer">
                             <!-- Injected by JS -->
@@ -1345,22 +1339,27 @@
                 <div class="profile-hub-card">
                     <div class="profile-header-top">
                         <div class="profile-hero-left">
-                            <div class="profile-avatar-large">👤</div>
+                            <div class="profile-avatar-large" id="prof-avatar-large">👤</div>
                             <div class="profile-meta">
                                 <div class="profile-name-row">
-                                    <h2 id="prof-name">Guest Candidate</h2>
+                                    <h2 id="prof-name">Guest User</h2>
                                     <button class="action-btn-sm btn-secondary" onclick="openSettingsModal()">Edit</button>
                                 </div>
-                                <p class="muted" id="prof-role-loc">Profile • No Resume Uploaded • guest@jobagent.ai</p>
+                                <p class="muted" id="prof-role-loc">Career Explorer • India & Global Remote</p>
                             </div>
                         </div>
                     </div>
 
                     <div class="profile-details-grid">
                         <div class="profile-sec-box">
-                            <h4>Extracted Skills</h4>
+                            <h4>Target Skills</h4>
                             <div class="skill-pills-row" id="prof-skills-container">
-                                <span class="muted" style="font-size: 0.82rem; font-style: italic;">No skills extracted yet. Upload your resume to populate skills.</span>
+                                <span class="skill-chip">Python</span>
+                                <span class="skill-chip">SQL</span>
+                                <span class="skill-chip">Power BI</span>
+                                <span class="skill-chip">Excel</span>
+                                <span class="skill-chip">Tableau</span>
+                                <span class="skill-chip">Pandas</span>
                             </div>
                         </div>
 
@@ -1369,7 +1368,7 @@
                             <div class="role-pills-row">
                                 <span class="role-pill">Data Analyst</span>
                                 <span class="role-pill">BI Analyst</span>
-                                <span class="role-pill">Business Analyst</span>
+                                <span class="role-pill">Python Developer</span>
                             </div>
                         </div>
 
@@ -1388,11 +1387,11 @@
                         <div class="profile-auth-header" style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1.25rem; flex-wrap: wrap; gap: 0.75rem;">
                             <div>
                                 <h3 style="font-size: 1.15rem; font-weight: 800; color: var(--text-bright); margin-bottom: 0.25rem;">🔐 Account Authentication & Security</h3>
-                                <p class="muted" style="font-size: 0.82rem; margin: 0;">Manage your official login, Google Gmail SSO, or create and link accounts</p>
+                                <p class="muted" style="font-size: 0.82rem; margin: 0;">Sign in with Google or Email to sync resumes, saved jobs, and applications</p>
                             </div>
                             <div class="profile-auth-status-pill" id="profile-auth-status-badge" style="display: flex; align-items: center; gap: 0.5rem; background: rgba(99, 102, 241, 0.15); border: 1px solid rgba(99, 102, 241, 0.3); padding: 0.35rem 0.75rem; border-radius: 999px;">
-                                <span class="live-dot" style="background: #818cf8;"></span>
-                                <span style="font-size: 0.78rem; font-weight: 700; color: #818cf8;" id="profile-auth-status-text">Guest Mode (Local)</span>
+                                <span class="live-dot" style="background: #818cf8;" id="profile-auth-dot"></span>
+                                <span style="font-size: 0.78rem; font-weight: 700; color: #a5b4fc;" id="profile-auth-status-text">Guest Mode (Local)</span>
                             </div>
                         </div>
 
@@ -1404,7 +1403,7 @@
                                     <h4 style="margin: 0; font-size: 0.95rem; font-weight: 700;">Official Social & Google Sign-In</h4>
                                 </div>
                                 <p class="muted" style="font-size: 0.8rem; margin-bottom: 1.25rem; line-height: 1.4;">
-                                    Sign in or register securely with your official Google Gmail or professional LinkedIn account with one click.
+                                    Sign in or register securely with your Google or LinkedIn account to automatically persist your progress.
                                 </p>
                                 <div style="display: flex; flex-direction: column; gap: 0.75rem;">
                                     <button class="action-btn" onclick="handleGoogleSignIn()" style="display: flex; align-items: center; justify-content: center; gap: 0.6rem; background: #ffffff; color: #1f2937; font-weight: 700; padding: 0.7rem; border-radius: var(--radius-md); border: 1px solid #e5e7eb; cursor: pointer; transition: var(--transition);">
@@ -1417,7 +1416,7 @@
                                     </button>
                                 </div>
                                 <div style="margin-top: 1rem; display: flex; justify-content: space-between; align-items: center;">
-                                    <span class="muted" style="font-size: 0.75rem;">Connected: <strong id="profile-auth-email-display">guest@jobagent.ai</strong></span>
+                                    <span class="muted" style="font-size: 0.75rem;">Status: <strong id="profile-auth-email-display">Guest Session</strong></span>
                                     <button class="action-btn-sm btn-secondary" onclick="handleSignOut()" style="font-size: 0.75rem;">Sign Out</button>
                                 </div>
                             </div>
@@ -1427,7 +1426,7 @@
                                 <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.75rem;">
                                     <div style="display: flex; align-items: center; gap: 0.5rem;">
                                         <span style="font-size: 1.2rem;">📧</span>
-                                        <h4 style="margin: 0; font-size: 0.95rem; font-weight: 700;" id="profile-auth-form-title">Login / Switch Account</h4>
+                                        <h4 style="margin: 0; font-size: 0.95rem; font-weight: 700;" id="profile-auth-form-title">Login to Account</h4>
                                     </div>
                                     <div class="profile-auth-mode-switch" style="display: flex; gap: 0.25rem; background: var(--bg-card); padding: 0.2rem; border-radius: var(--radius-sm); border: 1px solid var(--border-color);">
                                         <button type="button" id="auth-mode-login-btn" class="action-btn-sm btn-primary" onclick="setProfileAuthMode('login')" style="padding: 0.2rem 0.5rem; font-size: 0.72rem;">Login</button>
@@ -1438,11 +1437,11 @@
                                 <form id="profile-auth-form" onsubmit="handleProfileAuthSubmit(event)" style="display: flex; flex-direction: column; gap: 0.75rem;">
                                     <div class="form-group">
                                         <label class="form-label" style="font-size: 0.75rem;">Email Address</label>
-                                        <input type="email" id="profile-auth-email" class="form-input" placeholder="name@example.com" required style="padding: 0.5rem 0.75rem; font-size: 0.82rem;">
+                                        <input type="email" id="profile-auth-email" class="form-input" placeholder="name@example.com" value="" required style="padding: 0.5rem 0.75rem; font-size: 0.82rem;">
                                     </div>
                                     <div class="form-group">
                                         <label class="form-label" style="font-size: 0.75rem;">Password</label>
-                                        <input type="password" id="profile-auth-password" class="form-input" placeholder="••••••••••••" required style="padding: 0.5rem 0.75rem; font-size: 0.82rem;">
+                                        <input type="password" id="profile-auth-password" class="form-input" placeholder="••••••••••••" value="" required style="padding: 0.5rem 0.75rem; font-size: 0.82rem;">
                                     </div>
                                     <div id="profile-auth-confirm-group" class="form-group" style="display: none;">
                                         <label class="form-label" style="font-size: 0.75rem;">Confirm Password</label>
@@ -1661,18 +1660,9 @@
 
             <!-- Messages Stream Area -->
             <div id="copilot-messages-container" class="copilot-messages-box">
-                <div class="copilot-msg user-msg">
-                    <div class="msg-bubble">
-                        What should I focus on today?
-                    </div>
-                </div>
                 <div class="copilot-msg bot-msg">
                     <div class="msg-bubble">
-                        Here are your top tasks for today:<br>
-                        1. <strong>Apply to 3 high-match jobs</strong><br>
-                        2. <strong>Prepare for tomorrow's interview</strong><br>
-                        3. <strong>Complete Power BI module</strong><br>
-                        4. <strong>Follow up on 2 applications</strong>
+                        👋 <strong>Hello!</strong> I am your AI Career Copilot. Ask me questions, request tailored resume tips, or explore job recommendations.
                     </div>
                 </div>
             </div>
