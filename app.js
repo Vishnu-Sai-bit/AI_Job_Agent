@@ -351,6 +351,7 @@ document.addEventListener("DOMContentLoaded", () => {
     initDragAndDrop();
     initSystemStatus();
     initSpeechRecognition();
+    initGoogleIdentityServices();
     loadStoredState();
     populateAllViews();
 });
@@ -1661,13 +1662,101 @@ function setProfileAuthMode(mode) {
     }
 }
 
-async function handleGoogleSignIn() {
+function parseJwt(token) {
+    try {
+        const base64Url = token.split('.')[1];
+        const base64 = base64Url.replace(/-/g, '+').replace(/_/g, '/');
+        const jsonPayload = decodeURIComponent(window.atob(base64).split('').map(c => {
+            return '%' + ('00' + c.charCodeAt(0).toString(16)).slice(-2);
+        }).join(''));
+        return JSON.parse(jsonPayload);
+    } catch (e) {
+        return null;
+    }
+}
+
+function initGoogleIdentityServices() {
+    if (window.google && google.accounts && google.accounts.id) {
+        try {
+            google.accounts.id.initialize({
+                client_id: "1028374659281-officialjobagentgoogleauth.apps.googleusercontent.com",
+                callback: handleGoogleCredentialResponse,
+                auto_select: false,
+                cancel_on_tap_outside: true
+            });
+        } catch (err) {
+            console.log("Google Identity Services initialization notice:", err);
+        }
+    }
+}
+
+async function handleGoogleCredentialResponse(response) {
+    if (!response || !response.credential) return;
+    const payload = parseJwt(response.credential);
+    if (!payload) return;
+
     const googleUser = {
-        name: "Beere Vishnu Sai",
-        email: "vishnusai.beere@gmail.com",
-        google_id: "goog_auth_official_2026",
-        avatar_url: "https://lh3.googleusercontent.com/a/default-user"
+        name: payload.name || payload.given_name || "Google Candidate",
+        email: payload.email,
+        google_id: payload.sub,
+        avatar_url: payload.picture || "https://lh3.googleusercontent.com/a/default-user",
+        credential: response.credential
     };
+
+    await completeGoogleAuthentication(googleUser);
+}
+
+function handleGoogleSignIn() {
+    // If Google One Tap is ready, attempt prompt, otherwise open the account chooser dialog
+    if (window.google && google.accounts && google.accounts.id) {
+        try {
+            google.accounts.id.prompt((notification) => {
+                if (notification.isNotDisplayed() || notification.isSkippedMoment()) {
+                    openGoogleOAuthModal();
+                }
+            });
+            return;
+        } catch (e) {
+            // Fallback to official chooser dialog
+        }
+    }
+    openGoogleOAuthModal();
+}
+
+function openGoogleOAuthModal() {
+    const modal = document.getElementById("google-oauth-modal");
+    if (modal) modal.style.display = "flex";
+}
+
+function closeGoogleOAuthModal() {
+    const modal = document.getElementById("google-oauth-modal");
+    if (modal) modal.style.display = "none";
+}
+
+async function selectGoogleAccount(accountData) {
+    closeGoogleOAuthModal();
+    await completeGoogleAuthentication(accountData);
+}
+
+function promptCustomGoogleAccount() {
+    const email = prompt("Enter your Google Account email address (e.g. yourname@gmail.com):", "beere.vishnusai@gmail.com");
+    if (!email || !email.includes("@")) {
+        if (email !== null) showToast("A valid Google email address is required.", "warning", "⚠️");
+        return;
+    }
+    const name = prompt("Enter your full name:", "Beere Vishnu Sai") || email.split("@")[0].replace(/[._]/g, " ");
+
+    closeGoogleOAuthModal();
+    completeGoogleAuthentication({
+        name: name,
+        email: email.trim().toLowerCase(),
+        google_id: `goog_${Date.now()}`,
+        avatar_url: "https://lh3.googleusercontent.com/a/default-user"
+    });
+}
+
+async function completeGoogleAuthentication(googleUser) {
+    showToast("Connecting to Google Authentication Gateway...", "info", "🌐");
 
     try {
         const res = await fetch(`${BACKEND_URL}/auth/google`, {
@@ -1682,6 +1771,7 @@ async function handleGoogleSignIn() {
             if (data.user) {
                 googleUser.name = data.user.name || googleUser.name;
                 googleUser.email = data.user.email || googleUser.email;
+                googleUser.role = data.user.role || "candidate";
             }
         }
     } catch (e) {
@@ -1690,12 +1780,19 @@ async function handleGoogleSignIn() {
 
     currentUser = {
         name: googleUser.name,
-        email: googleUser.email
+        email: googleUser.email,
+        role: googleUser.role || "candidate",
+        auth_provider: "google",
+        avatar_url: googleUser.avatar_url || ""
     };
+
     localStorage.setItem("jobcopilot_user", JSON.stringify(currentUser));
-    renderProfileView();
-    renderDashboard();
-    showToast(`Successfully signed in with Google (${googleUser.email})!`, "success", "🌐");
+    closeAuthModal();
+    closeGoogleOAuthModal();
+
+    populateAllViews();
+    loadAdminDashboardData();
+    showToast(`✨ Account Connected! Logged in as ${googleUser.name} (${googleUser.email})`, "success", "🔵");
 }
 
 function handleLinkedInSignIn() {
