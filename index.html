@@ -8,6 +8,8 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500;600;700;800&family=Outfit:wght@400;500;600;700;800;900&family=Plus+Jakarta+Sans:wght@400;500;600;700;800;900&family=Space+Grotesk:wght@500;600;700&display=swap" rel="stylesheet">
+    <!-- Google Identity Services for Official Login & Register -->
+    <script src="https://accounts.google.com/gsi/client" async defer></script>
 </head>
 <body>
     <!-- Subtle Background Ambient Glows -->
@@ -255,9 +257,9 @@
             </nav>
 
             <div class="sidebar-footer">
-                <button class="sidebar-demo-btn" onclick="loadDemoCandidate('data-analyst')">
-                    <span class="demo-dot"></span>
-                    <span>⚡ Load Live Demo</span>
+                <button class="sidebar-upload-quick-btn" onclick="document.getElementById('resume-input').click()" style="width: 100%; display: flex; align-items: center; justify-content: center; gap: 0.5rem; background: var(--bg-card); border: 1px solid var(--border-color); color: var(--text-bright); padding: 0.65rem; border-radius: var(--radius-md); font-weight: 700; font-size: 0.82rem; cursor: pointer;">
+                    <span class="btn-icon">📄</span>
+                    <span>Upload Resume</span>
                 </button>
             </div>
         </aside>
@@ -315,11 +317,11 @@
 
                             <div class="landing-cta-row">
                                 <button class="landing-cta-btn" onclick="document.getElementById('resume-input').click()">
-                                    <span>Get Started</span>
+                                    <span>Get Started & Upload</span>
                                     <span class="arrow">→</span>
                                 </button>
-                                <button class="landing-demo-btn" onclick="loadDemoCandidate('data-analyst')">
-                                    <span>▶ Watch Demo</span>
+                                <button class="landing-action-secondary-btn" onclick="switchMainTab('jobs')" style="display: flex; align-items: center; gap: 0.5rem; background: var(--bg-surface); border: 1px solid var(--border-color); color: var(--text-bright); padding: 0.75rem 1.25rem; border-radius: var(--radius-md); font-weight: 700; cursor: pointer;">
+                                    <span>💼 Browse 18+ Live Jobs</span>
                                 </button>
                             </div>
 
