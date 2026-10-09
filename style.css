@@ -3232,4 +3232,5 @@ body {
     .roadmap-modules-grid-compact { grid-template-columns: 1fr; }
     .analytics-dashboard-grid { grid-template-columns: 1fr; }
     .auth-card-box { grid-template-columns: 1fr; }
+    .profile-auth-grid { grid-template-columns: 1fr !important; }
 }

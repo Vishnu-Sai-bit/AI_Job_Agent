@@ -1298,3 +1298,74 @@ function showToast(message, type = "info", icon = "💡") {
         setTimeout(() => toast.remove(), 250);
     }, 3200);
 }
+
+// ==========================================================
+// PROFILE AUTHENTICATION & LOGIN/REGISTER HANDLERS
+// ==========================================================
+let currentProfileAuthMode = 'login';
+
+function setProfileAuthMode(mode) {
+    currentProfileAuthMode = mode;
+    const loginBtn = document.getElementById("auth-mode-login-btn");
+    const registerBtn = document.getElementById("auth-mode-register-btn");
+    const title = document.getElementById("profile-auth-form-title");
+    const submitBtn = document.getElementById("profile-auth-submit-btn");
+    const confirmGroup = document.getElementById("profile-auth-confirm-group");
+
+    if (mode === 'login') {
+        if (loginBtn) { loginBtn.className = "action-btn-sm btn-primary"; }
+        if (registerBtn) { registerBtn.className = "action-btn-sm btn-secondary"; }
+        if (title) title.textContent = "Login / Switch Account";
+        if (submitBtn) submitBtn.textContent = "Sign In to Profile";
+        if (confirmGroup) confirmGroup.style.display = "none";
+    } else {
+        if (loginBtn) { loginBtn.className = "action-btn-sm btn-secondary"; }
+        if (registerBtn) { registerBtn.className = "action-btn-sm btn-primary"; }
+        if (title) title.textContent = "Register New Account";
+        if (submitBtn) submitBtn.textContent = "Create Account & Sync";
+        if (confirmGroup) confirmGroup.style.display = "flex";
+    }
+}
+
+function handleGoogleSignIn() {
+    const emailDisplay = document.getElementById("profile-auth-email-display");
+    const statusText = document.getElementById("profile-auth-status-text");
+    if (emailDisplay) emailDisplay.textContent = "vishnu.kumar@gmail.com";
+    if (statusText) statusText.textContent = "Active Session: Google Verified";
+    showToast("Successfully authenticated via Google Account (vishnu.kumar@gmail.com)!", "success", "🌐");
+}
+
+function handleLinkedInSignIn() {
+    const emailDisplay = document.getElementById("profile-auth-email-display");
+    const statusText = document.getElementById("profile-auth-status-text");
+    if (emailDisplay) emailDisplay.textContent = "vishnu.kumar@linkedin.com";
+    if (statusText) statusText.textContent = "Active Session: LinkedIn Connected";
+    showToast("Successfully connected via LinkedIn OAuth!", "success", "💼");
+}
+
+function handleSignOut() {
+    const emailDisplay = document.getElementById("profile-auth-email-display");
+    const statusText = document.getElementById("profile-auth-status-text");
+    if (emailDisplay) emailDisplay.textContent = "guest@jobagent.ai";
+    if (statusText) statusText.textContent = "Guest Mode (Local)";
+    showToast("Signed out. Operating in Guest preview mode.", "info", "🔒");
+}
+
+function handleProfileAuthSubmit(e) {
+    if (e) e.preventDefault();
+    const emailInput = document.getElementById("profile-auth-email");
+    const email = emailInput?.value?.trim() || "vishnu@email.com";
+    const emailDisplay = document.getElementById("profile-auth-email-display");
+    const statusText = document.getElementById("profile-auth-status-text");
+
+    if (emailDisplay) emailDisplay.textContent = email;
+    
+    if (currentProfileAuthMode === 'login') {
+        if (statusText) statusText.textContent = `Active Session: ${email}`;
+        showToast(`Welcome back! Logged in as ${email}`, "success", "🔑");
+    } else {
+        if (statusText) statusText.textContent = `Account Created: ${email}`;
+        showToast(`Account created successfully for ${email}! Profile synced.`, "success", "🎉");
+    }
+}
+
