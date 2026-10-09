@@ -627,11 +627,12 @@ async function handleFileUpload(file) {
     }
 }
 
-function loadDemoCandidate(roleKey = "data-analyst") {
+function loadOfficialProfile(roleKey = "data-analyst") {
     preloadInitialCandidate();
     switchMainTab("dashboard");
-    showToast(`⚡ Loaded live profile: ${resumeData.name} (${resumeData.preferred_role})!`, "success", "🚀");
+    showToast(`✅ Profile synchronized: ${resumeData.name} (${resumeData.preferred_role})!`, "success", "👤");
 }
+window.loadDemoCandidate = loadOfficialProfile;
 
 // ==========================================================
 // RENDERERS ACROSS ALL PANELS
