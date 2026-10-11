@@ -5,6 +5,11 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>AI Job Copilot & Career Intelligence Platform</title>
     <link rel="stylesheet" href="style.css?v=4.5">
+    <link rel="manifest" href="manifest.json">
+    <meta name="theme-color" content="#6366f1">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="apple-mobile-web-app-title" content="JobCopilot">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500;600;700;800&family=Outfit:wght@400;500;600;700;800;900&family=Plus+Jakarta+Sans:wght@400;500;600;700;800;900&family=Space+Grotesk:wght@500;600;700&display=swap" rel="stylesheet">
@@ -21,6 +26,13 @@
     <!-- Top Master Header Bar with 7-Step Workflow Stepper -->
     <header class="master-top-header">
         <div class="header-main-row">
+            <!-- Mobile Hamburger Toggle Button -->
+            <button id="mobile-menu-btn" class="mobile-menu-btn" title="Toggle Navigation Menu" onclick="toggleMobileSidebar()" aria-label="Toggle navigation">
+                <span class="hamburger-line"></span>
+                <span class="hamburger-line"></span>
+                <span class="hamburger-line"></span>
+            </button>
+
             <!-- Brand & Tagline -->
             <div class="brand-block" onclick="switchMainTab('landing')" title="Go to JobCopilot Home">
                 <div class="brand-logo-icon">
@@ -85,6 +97,13 @@
                     <span class="live-dot" id="db-status-dot"></span>
                     <span id="nav-db-text" class="nav-db-text">MongoDB</span>
                 </div>
+
+                <!-- Universal Command Palette Trigger (Ctrl+K) -->
+                <button id="nav-cmd-btn" class="nav-cmd-btn" title="Quick Search & Actions (Ctrl+K)" onclick="openCommandPalette()">
+                    <span class="cmd-icon">🔍</span>
+                    <span class="cmd-text">Search...</span>
+                    <kbd class="cmd-kbd">Ctrl K</kbd>
+                </button>
 
                 <!-- Theme Color Accent Switcher -->
                 <div class="nav-style-wrapper">
@@ -172,8 +191,11 @@
 
     <!-- Main Workspace Container: Sidebar + Content -->
     <div class="app-layout">
+        <!-- Mobile Sidebar Backdrop Overlay -->
+        <div id="mobile-sidebar-backdrop" class="mobile-sidebar-backdrop" onclick="closeMobileSidebar()" style="display: none;"></div>
+
         <!-- Modern Left Sidebar Navigation -->
-        <aside class="app-sidebar">
+        <aside class="app-sidebar" id="app-sidebar">
             <div class="sidebar-user-card" id="sidebar-user-card" onclick="handleSidebarUserClick()" title="Sign In, Register or Manage Profile">
                 <div class="sidebar-avatar" id="sidebar-avatar-text">🔐</div>
                 <div class="sidebar-user-details">
@@ -587,6 +609,9 @@
                                 <option value="internship">Internship</option>
                             </select>
 
+                            <button class="action-btn-sm btn-secondary" onclick="resetJobFilters()" title="Reset All Filters">
+                                <span>↺</span> Reset
+                            </button>
                             <button class="action-btn-sm btn-primary" onclick="openJobImporterModal()" title="Import External Job from URL">
                                 <span>🔗</span> Import Job URL
                             </button>
@@ -599,6 +624,7 @@
                             <button class="job-tab-btn" data-filter="elite">High Match</button>
                             <button class="job-tab-btn" data-filter="remote">Remote</button>
                             <button class="job-tab-btn" data-filter="saved">Saved</button>
+                            <span id="jobs-active-count-badge" class="badge-subtle" style="margin-left: auto; font-size: 0.76rem; padding: 4px 9px;">18 verified openings</span>
                         </div>
                     </div>
 
@@ -983,9 +1009,14 @@
                         <h2>Application Tracker (CRM)</h2>
                         <p class="muted">Manage and track your active job applications across pipeline stages.</p>
                     </div>
-                    <button class="action-btn btn-primary" onclick="openJobImporterModal()">
-                        <span>+</span> Import Opportunity
-                    </button>
+                    <div style="display: flex; gap: 0.6rem; align-items: center; flex-wrap: wrap;">
+                        <button class="action-btn btn-secondary" onclick="exportCRMPipelineCSV()" title="Export Applications to CSV">
+                            <span>📥</span> Export Pipeline (CSV)
+                        </button>
+                        <button class="action-btn btn-primary" onclick="openJobImporterModal()">
+                            <span>+</span> Import Opportunity
+                        </button>
+                    </div>
                 </div>
 
                 <!-- 5-Column Kanban Board -->
@@ -1083,6 +1114,11 @@
                                 <p class="mock-q-text" id="mock-current-question">
                                     "Tell me about your Emergency Room Analytics project and how you handled SQL data modeling."
                                 </p>
+                                <div style="margin-top: 0.6rem; display: flex; gap: 0.5rem;">
+                                    <button class="action-btn-sm btn-secondary" onclick="speakCurrentMockQuestion()" id="mock-speak-q-btn" title="Listen to question aloud">
+                                        <span>🔊</span> Listen to Question Aloud
+                                    </button>
+                                </div>
                             </div>
 
                             <!-- User Answer Recording Area -->
@@ -1480,6 +1516,9 @@
                         </div>
                     </div>
                     <div class="admin-header-actions" style="display: flex; align-items: center; gap: 0.6rem; flex-wrap: wrap;">
+                        <button class="action-btn-sm btn-primary" onclick="triggerLiveJobSync()" title="Trigger Background Job Verification & Sync">
+                            <span>⚡</span> Trigger Scraper Sync
+                        </button>
                         <button class="action-btn-sm btn-secondary" onclick="loadAdminDashboardData()">
                             <span>🔄</span> Refresh Telemetry
                         </button>
@@ -1613,6 +1652,20 @@
                         </div>
                     </div>
                 </div>
+
+                <!-- Live Audit Activity Log Section -->
+                <div class="admin-table-card" style="margin-top: 1.5rem;">
+                    <div class="admin-table-header">
+                        <div>
+                            <h3 style="margin: 0 0 0.25rem 0; font-size: 1.1rem; font-weight: 800; color: var(--text-bright);">Real-Time Audit Activity Log</h3>
+                            <p class="muted" style="margin: 0; font-size: 0.78rem;">Live system events, candidate registrations, and intelligence operations</p>
+                        </div>
+                        <button class="action-btn-sm btn-secondary" onclick="clearAdminAuditLogs()">Clear Logs</button>
+                    </div>
+                    <div id="admin-audit-logs-container" class="admin-audit-logs-list" style="padding: 1rem; max-height: 240px; overflow-y: auto;">
+                        <!-- Injected by JS -->
+                    </div>
+                </div>
             </section>
         </main>
     </div>
@@ -1630,8 +1683,9 @@
                         <p class="muted" style="margin: 0; font-size: 0.8rem;">Optimized for target job description • Preserves truthful experience</p>
                     </div>
                 </div>
-                <div style="display: flex; align-items: center; gap: 0.5rem;">
+                <div style="display: flex; align-items: center; gap: 0.5rem; flex-wrap: wrap;">
                     <button class="action-btn-sm btn-secondary" id="tailor-copy-btn" onclick="copyTailoredContent()">📋 Copy Text</button>
+                    <button class="action-btn-sm btn-secondary" id="tailor-export-doc-btn" onclick="exportTailoredDoc()">📄 Download MD</button>
                     <button class="action-btn-sm btn-primary" id="tailor-export-pdf-btn" onclick="exportTailoredPDF()">📥 Download Resume</button>
                     <button class="modal-close-btn" onclick="closeTailorModal()">✕</button>
                 </div>
@@ -2054,6 +2108,155 @@
                     <button class="action-btn-sm btn-secondary" onclick="closeGoogleOAuthModal()">Cancel</button>
                 </div>
             </div>
+        </div>
+    </div>
+
+    <!-- ======================================================== -->
+    <!-- RICH JOB DETAILS & SKILLS GAP MODAL -->
+    <!-- ======================================================== -->
+    <div id="job-details-modal" class="modal-backdrop" style="display: none;">
+        <div class="modal-box modal-large">
+            <div class="modal-header">
+                <div style="display: flex; align-items: center; gap: 0.75rem;">
+                    <div id="job-modal-avatar" style="width: 44px; height: 44px; border-radius: 10px; background: rgba(99, 102, 241, 0.15); display: flex; align-items: center; justify-content: center; font-size: 1.5rem; color: #818cf8;">💼</div>
+                    <div>
+                        <h3 id="job-modal-title" style="margin: 0; font-size: 1.25rem; font-weight: 800;">Data Analyst</h3>
+                        <p id="job-modal-company" class="muted" style="margin: 0.15rem 0 0 0; font-size: 0.85rem;">Google • Bangalore, India</p>
+                    </div>
+                </div>
+                <div style="display: flex; align-items: center; gap: 0.5rem;">
+                    <span id="job-modal-match-badge" class="match-badge-green">88% Match</span>
+                    <button class="modal-close-btn" onclick="closeJobDetailsModal()">✕</button>
+                </div>
+            </div>
+
+            <div class="modal-body" style="padding: 1.5rem; max-height: 75vh; overflow-y: auto;">
+                <!-- Key Metadata Highlights Bar -->
+                <div class="job-modal-meta-grid" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(130px, 1fr)); gap: 0.75rem; margin-bottom: 1.25rem;">
+                    <div class="meta-stat-pill" style="background: var(--bg-surface); padding: 0.65rem 0.85rem; border-radius: 8px; border: 1px solid var(--border-color);">
+                        <div style="font-size: 0.72rem; color: var(--text-muted);">Salary Range</div>
+                        <strong id="job-modal-salary" style="font-size: 0.88rem; color: #34d399;">₹12 - ₹15 LPA</strong>
+                    </div>
+                    <div class="meta-stat-pill" style="background: var(--bg-surface); padding: 0.65rem 0.85rem; border-radius: 8px; border: 1px solid var(--border-color);">
+                        <div style="font-size: 0.72rem; color: var(--text-muted);">Experience Level</div>
+                        <strong id="job-modal-exp" style="font-size: 0.88rem; color: var(--text-bright);">1-3 yrs</strong>
+                    </div>
+                    <div class="meta-stat-pill" style="background: var(--bg-surface); padding: 0.65rem 0.85rem; border-radius: 8px; border: 1px solid var(--border-color);">
+                        <div style="font-size: 0.72rem; color: var(--text-muted);">Source Verified</div>
+                        <strong id="job-modal-source" style="font-size: 0.88rem; color: #818cf8;">LinkedIn Verified</strong>
+                    </div>
+                    <div class="meta-stat-pill" style="background: var(--bg-surface); padding: 0.65rem 0.85rem; border-radius: 8px; border: 1px solid var(--border-color);">
+                        <div style="font-size: 0.72rem; color: var(--text-muted);">Location Hub</div>
+                        <strong id="job-modal-location" style="font-size: 0.88rem; color: var(--text-bright);">Bangalore, India</strong>
+                    </div>
+                </div>
+
+                <!-- Skills Match vs Gap Breakdown -->
+                <div class="job-modal-skills-section" style="background: var(--bg-surface); border: 1px solid var(--border-color); border-radius: 10px; padding: 1.1rem; margin-bottom: 1.25rem;">
+                    <h4 style="margin: 0 0 0.6rem 0; font-size: 0.92rem; display: flex; align-items: center; justify-content: space-between;">
+                        <span>🎯 Skills Alignment & Gap Analysis</span>
+                        <span id="job-modal-skills-count" style="font-size: 0.75rem; color: var(--text-muted);">4 / 5 Skills Matched</span>
+                    </h4>
+                    <div style="margin-bottom: 0.75rem;">
+                        <span style="font-size: 0.75rem; color: #34d399; font-weight: 700; text-transform: uppercase;">✓ Matched on Your Profile:</span>
+                        <div id="job-modal-matched-skills" class="job-tags-row" style="margin-top: 0.35rem; display: flex; flex-wrap: wrap; gap: 0.4rem;">
+                            <!-- Injected by JS -->
+                        </div>
+                    </div>
+                    <div>
+                        <span style="font-size: 0.75rem; color: #fbbf24; font-weight: 700; text-transform: uppercase;">⚠️ Skills to Add / Learn:</span>
+                        <div id="job-modal-missing-skills" class="job-tags-row" style="margin-top: 0.35rem; display: flex; flex-wrap: wrap; gap: 0.4rem;">
+                            <!-- Injected by JS -->
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Full Job Description -->
+                <div class="job-modal-desc-section" style="margin-bottom: 1.25rem;">
+                    <h4 style="margin: 0 0 0.5rem 0; font-size: 0.95rem; color: var(--text-bright);">Role Overview & Responsibilities</h4>
+                    <div id="job-modal-desc" style="font-size: 0.88rem; line-height: 1.6; color: var(--text-muted); background: var(--bg-card); padding: 1rem; border-radius: 8px; border: 1px solid var(--border-color); white-space: pre-line;">
+                        <!-- Description injected by JS -->
+                    </div>
+                </div>
+            </div>
+
+            <!-- Modal Action Buttons Footer -->
+            <div class="modal-footer" style="display: flex; justify-content: space-between; align-items: center; padding: 1rem 1.5rem; border-top: 1px solid var(--border-color); background: var(--bg-surface); border-radius: 0 0 var(--radius-lg) var(--radius-lg); flex-wrap: wrap; gap: 0.6rem;">
+                <div style="display: flex; gap: 0.5rem;">
+                    <button class="action-btn-sm btn-secondary" id="job-modal-save-btn" onclick="toggleSaveCurrentModalJob()">
+                        <span>⭐</span> <span id="job-modal-save-text">Save Job</span>
+                    </button>
+                    <button class="action-btn-sm btn-secondary" onclick="prepareInterviewFromModal()">
+                        <span>🎤</span> Mock Interview
+                    </button>
+                </div>
+                <div style="display: flex; gap: 0.5rem;">
+                    <button class="action-btn-sm btn-secondary" onclick="tailorResumeFromModal()" style="border-color: #818cf8; color: #818cf8;">
+                        <span>✨</span> Tailor Resume
+                    </button>
+                    <button class="action-btn-sm btn-primary" id="job-modal-apply-btn" onclick="applyDirectFromModal()">
+                        <span>🚀</span> Apply on Site
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- ======================================================== -->
+    <!-- UNIVERSAL COMMAND PALETTE (Ctrl + K) -->
+    <!-- ======================================================== -->
+    <div id="command-palette-modal" class="modal-backdrop cmd-palette-backdrop" style="display: none;">
+        <div class="cmd-palette-box">
+            <div class="cmd-palette-input-wrap">
+                <span class="cmd-palette-icon">🔍</span>
+                <input type="text" id="cmd-palette-input" class="cmd-palette-input" placeholder="Search commands, jobs, pages... (↑ ↓ to navigate, Enter to select)" autocomplete="off">
+                <kbd class="cmd-esc-badge" onclick="closeCommandPalette()">ESC</kbd>
+            </div>
+            <div class="cmd-palette-results" id="cmd-palette-results">
+                <!-- Injected dynamically by JS -->
+            </div>
+            <div class="cmd-palette-footer">
+                <span class="cmd-footer-tip"><kbd>↑</kbd> <kbd>↓</kbd> navigate</span>
+                <span class="cmd-footer-tip"><kbd>↵</kbd> select</span>
+                <span class="cmd-footer-tip"><kbd>ESC</kbd> close</span>
+            </div>
+        </div>
+    </div>
+
+    <!-- ======================================================== -->
+    <!-- APPLICATION NOTES & INTERVIEW DATE LOGGER MODAL -->
+    <!-- ======================================================== -->
+    <div id="crm-notes-modal" class="modal-backdrop" style="display: none;">
+        <div class="modal-box">
+            <div class="modal-header">
+                <div style="display: flex; align-items: center; gap: 0.6rem;">
+                    <span style="font-size: 1.3rem;">📝</span>
+                    <div>
+                        <h3 id="crm-notes-title" style="margin: 0; font-size: 1.1rem; font-weight: 800;">Application Notes</h3>
+                        <p class="muted" id="crm-notes-sub" style="margin: 0; font-size: 0.78rem;">Track interview dates, recruiter feedback, and next steps</p>
+                    </div>
+                </div>
+                <button class="modal-close-btn" onclick="closeCRMNotesModal()">✕</button>
+            </div>
+            <form onsubmit="handleCRMNotesSubmit(event)" class="modal-body" style="padding: 1.25rem; display: flex; flex-direction: column; gap: 0.85rem;">
+                <input type="hidden" id="crm-notes-app-id">
+                <div class="form-group">
+                    <label class="form-label">Interview / Follow-Up Date</label>
+                    <input type="date" id="crm-notes-date" class="form-input">
+                </div>
+                <div class="form-group">
+                    <label class="form-label">Recruiter / Interviewer Contact</label>
+                    <input type="text" id="crm-notes-contact" class="form-input" placeholder="e.g. Talent Acquisition (recruiter@company.com)">
+                </div>
+                <div class="form-group">
+                    <label class="form-label">Key Preparation Notes & Next Steps</label>
+                    <textarea id="crm-notes-text" class="form-input" rows="4" placeholder="e.g. Prepared SQL and Power BI talking points, 2nd technical round scheduled..."></textarea>
+                </div>
+                <div class="modal-footer" style="display: flex; justify-content: flex-end; gap: 0.6rem; padding-top: 0.75rem; border-top: 1px solid var(--border-color); margin-top: 0.5rem;">
+                    <button type="button" class="action-btn btn-secondary" onclick="closeCRMNotesModal()">Cancel</button>
+                    <button type="submit" class="action-btn btn-primary">Save Notes</button>
+                </div>
+            </form>
         </div>
     </div>
 

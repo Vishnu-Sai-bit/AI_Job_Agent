@@ -3631,18 +3631,381 @@ body {
     margin-bottom: 0.75rem;
 }
 
+/* ==========================================================
+   ENHANCED STYLES: MOBILE DRAWER, COMMAND PALETTE,
+   RICH JOB MODAL, CRM DRAG & DROP, AND EXPORT TOOLS
+   ========================================================== */
+
+/* 1. Universal Command Palette Trigger in Header */
+.nav-cmd-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    background: var(--bg-surface);
+    border: 1px solid var(--border-color);
+    border-radius: var(--radius-md);
+    padding: 0.35rem 0.65rem;
+    color: var(--text-muted);
+    font-size: 0.8rem;
+    cursor: pointer;
+    transition: var(--transition);
+}
+
+.nav-cmd-btn:hover {
+    border-color: var(--primary);
+    color: var(--text-bright);
+    background: var(--bg-card);
+}
+
+.cmd-kbd {
+    background: rgba(255, 255, 255, 0.08);
+    border: 1px solid var(--border-color);
+    border-radius: 4px;
+    padding: 1px 5px;
+    font-size: 0.68rem;
+    font-family: var(--font-mono);
+    color: var(--text-muted);
+}
+
+/* 2. Universal Command Palette Modal */
+.cmd-palette-backdrop {
+    align-items: flex-start;
+    padding-top: 10vh;
+}
+
+.cmd-palette-box {
+    background: var(--bg-card);
+    border: 1px solid var(--border-color);
+    border-radius: var(--radius-lg);
+    box-shadow: 0 24px 60px rgba(0, 0, 0, 0.6), 0 0 0 1px rgba(255, 255, 255, 0.08);
+    width: 90%;
+    max-width: 620px;
+    overflow: hidden;
+    animation: modalSlideUp 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+    backdrop-filter: blur(20px);
+}
+
+.cmd-palette-input-wrap {
+    display: flex;
+    align-items: center;
+    padding: 1rem 1.25rem;
+    border-bottom: 1px solid var(--border-color);
+    gap: 0.75rem;
+    background: var(--bg-surface);
+}
+
+.cmd-palette-icon {
+    font-size: 1.15rem;
+    color: var(--text-muted);
+}
+
+.cmd-palette-input {
+    flex: 1;
+    background: transparent;
+    border: none;
+    outline: none;
+    font-size: 1rem;
+    color: var(--text-bright);
+    font-family: inherit;
+}
+
+.cmd-palette-input::placeholder {
+    color: var(--text-muted);
+}
+
+.cmd-esc-badge {
+    background: rgba(255, 255, 255, 0.08);
+    border: 1px solid var(--border-color);
+    border-radius: 4px;
+    padding: 2px 6px;
+    font-size: 0.7rem;
+    font-family: var(--font-mono);
+    color: var(--text-muted);
+    cursor: pointer;
+}
+
+.cmd-palette-results {
+    max-height: 380px;
+    overflow-y: auto;
+    padding: 0.6rem;
+}
+
+.cmd-section-title {
+    font-size: 0.72rem;
+    font-weight: 700;
+    color: var(--text-muted);
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    padding: 0.4rem 0.6rem;
+    margin-top: 0.4rem;
+}
+
+.cmd-item {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0.65rem 0.85rem;
+    border-radius: var(--radius-md);
+    cursor: pointer;
+    transition: background 0.15s ease;
+    color: var(--text-bright);
+    font-size: 0.88rem;
+}
+
+.cmd-item:hover, .cmd-item.active {
+    background: rgba(99, 102, 241, 0.15);
+    color: #fff;
+}
+
+.cmd-item-left {
+    display: flex;
+    align-items: center;
+    gap: 0.65rem;
+}
+
+.cmd-item-icon {
+    font-size: 1.1rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 24px;
+}
+
+.cmd-item-desc {
+    font-size: 0.75rem;
+    color: var(--text-muted);
+    margin-left: 0.35rem;
+}
+
+.cmd-item-badge {
+    font-size: 0.7rem;
+    color: var(--text-muted);
+    background: rgba(255, 255, 255, 0.06);
+    padding: 2px 6px;
+    border-radius: 4px;
+}
+
+.cmd-palette-footer {
+    display: flex;
+    align-items: center;
+    gap: 1.25rem;
+    padding: 0.65rem 1.25rem;
+    border-top: 1px solid var(--border-color);
+    background: var(--bg-surface);
+    font-size: 0.75rem;
+    color: var(--text-muted);
+}
+
+.cmd-footer-tip {
+    display: flex;
+    align-items: center;
+    gap: 0.3rem;
+}
+
+.cmd-footer-tip kbd {
+    background: rgba(255, 255, 255, 0.08);
+    border: 1px solid var(--border-color);
+    border-radius: 3px;
+    padding: 1px 4px;
+    font-size: 0.68rem;
+    font-family: var(--font-mono);
+}
+
+/* 3. Mobile Hamburger Button */
+.mobile-menu-btn {
+    display: none;
+    flex-direction: column;
+    justify-content: space-around;
+    width: 32px;
+    height: 32px;
+    background: transparent;
+    border: none;
+    cursor: pointer;
+    padding: 5px;
+    border-radius: var(--radius-sm);
+    margin-right: 0.5rem;
+}
+
+.mobile-menu-btn:hover {
+    background: rgba(255, 255, 255, 0.08);
+}
+
+.hamburger-line {
+    width: 22px;
+    height: 2px;
+    background: var(--text-bright);
+    border-radius: 2px;
+    transition: var(--transition);
+}
+
+/* 4. CRM Kanban Drag & Drop Visuals */
+.kanban-cards-wrapper.drag-over {
+    background: rgba(99, 102, 241, 0.08);
+    border: 2px dashed rgba(99, 102, 241, 0.4);
+    border-radius: var(--radius-md);
+}
+
+.crm-card {
+    cursor: grab;
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.crm-card:active {
+    cursor: grabbing;
+}
+
+.crm-card.dragging {
+    opacity: 0.4;
+    transform: scale(0.96);
+}
+
+/* 5. Mock Interview Speech & Pulse */
+.mic-record-btn.recording {
+    background: rgba(239, 68, 68, 0.15) !important;
+    border-color: #ef4444 !important;
+    color: #ef4444 !important;
+    animation: pulseMic 1.4s infinite;
+}
+
+@keyframes pulseMic {
+    0% { box-shadow: 0 0 0 0 rgba(239, 68, 68, 0.5); }
+    70% { box-shadow: 0 0 0 10px rgba(239, 68, 68, 0); }
+    100% { box-shadow: 0 0 0 0 rgba(239, 68, 68, 0); }
+}
+
+/* 6. Admin Audit Log List */
+.admin-audit-logs-list {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+}
+
+.audit-log-item {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0.55rem 0.75rem;
+    background: var(--bg-surface);
+    border: 1px solid var(--border-color);
+    border-radius: var(--radius-sm);
+    font-size: 0.8rem;
+}
+
+.audit-log-left {
+    display: flex;
+    align-items: center;
+    gap: 0.6rem;
+}
+
+.audit-log-time {
+    color: var(--text-muted);
+    font-size: 0.72rem;
+    font-family: var(--font-mono);
+}
+
+/* 7. Responsive Breakpoints (Mobile Drawer & Adaptive Layout) */
 @media (max-width: 900px) {
-    .app-sidebar { display: none; }
-    .app-main-content { max-width: 100%; padding: 1rem; }
-    .workflow-stepper-bar { display: none; }
-    .kpi-metric-bar { grid-template-columns: repeat(2, 1fr); }
-    .admin-kpi-grid { grid-template-columns: 1fr; }
-    .analysis-gauge-row { grid-template-columns: 1fr; }
-    .match-dimensions-grid { grid-template-columns: 1fr; }
-    .match-comparison-row { grid-template-columns: 1fr; }
-    .kanban-board-5col { grid-template-columns: 1fr; }
-    .roadmap-modules-grid-compact { grid-template-columns: 1fr; }
-    .analytics-dashboard-grid { grid-template-columns: 1fr; }
-    .auth-card-box { grid-template-columns: 1fr; }
+    .mobile-menu-btn {
+        display: flex !important;
+    }
+
+    .app-sidebar {
+        display: flex !important;
+        position: fixed !important;
+        top: 0 !important;
+        left: -290px !important;
+        width: 280px !important;
+        height: 100vh !important;
+        z-index: 1000 !important;
+        background: var(--bg-surface) !important;
+        box-shadow: 6px 0 30px rgba(0, 0, 0, 0.7) !important;
+        transition: transform 0.28s cubic-bezier(0.16, 1, 0.3, 1) !important;
+        padding-top: 1rem !important;
+    }
+
+    .app-sidebar.mobile-open {
+        transform: translateX(290px) !important;
+    }
+
+    .mobile-sidebar-backdrop {
+        position: fixed;
+        inset: 0;
+        background: rgba(0, 0, 0, 0.65);
+        backdrop-filter: blur(5px);
+        z-index: 999;
+    }
+
+    .workflow-stepper-bar {
+        display: none !important;
+    }
+
+    .nav-db-pill {
+        display: none !important;
+    }
+
+    .nav-cmd-btn .cmd-text, .nav-cmd-btn .cmd-kbd {
+        display: none;
+    }
+
+    .app-main-content {
+        max-width: 100% !important;
+        padding: 1rem !important;
+    }
+
+    .kpi-metric-bar { grid-template-columns: repeat(2, 1fr) !important; }
+    .admin-kpi-grid { grid-template-columns: 1fr !important; }
+    .analysis-gauge-row { grid-template-columns: 1fr !important; }
+    .match-dimensions-grid { grid-template-columns: 1fr !important; }
+    .match-comparison-row { grid-template-columns: 1fr !important; }
+    .kanban-board-5col { grid-template-columns: 1fr !important; }
+    .roadmap-modules-grid-compact { grid-template-columns: 1fr !important; }
+    .analytics-dashboard-grid { grid-template-columns: 1fr !important; }
+    .auth-card-box { grid-template-columns: 1fr !important; }
     .profile-auth-grid { grid-template-columns: 1fr !important; }
 }
+
+/* 8. Print Stylesheet for Clean Resume & Cover Letter Export */
+@media print {
+    body {
+        background: #ffffff !important;
+        color: #111827 !important;
+    }
+
+    .master-top-header,
+    .app-sidebar,
+    .ambient-glows,
+    .modal-backdrop:not(#tailor-modal),
+    .tailor-checklist-pane,
+    .tailor-flow-header,
+    .modal-close-btn,
+    .action-btn-sm,
+    .toast-container {
+        display: none !important;
+    }
+
+    .modal-backdrop#tailor-modal {
+        display: block !important;
+        position: static !important;
+        background: transparent !important;
+        padding: 0 !important;
+    }
+
+    .modal-box.modal-large {
+        box-shadow: none !important;
+        border: none !important;
+        width: 100% !important;
+        max-width: 100% !important;
+        background: transparent !important;
+    }
+
+    .tailor-content-columns {
+        display: block !important;
+    }
+
+    .tailor-preview-pane {
+        width: 100% !important;
+        background: transparent !important;
+        color: #000000 !important;
+    }
+}
+

@@ -1,0 +1,17 @@
+{
+  "short_name": "JobCopilot",
+  "name": "JobCopilot - AI Career Intelligence Platform",
+  "description": "Your AI Job Copilot for verified job matching, ATS resume tailoring, mock interviews, and career growth.",
+  "icons": [
+    {
+      "src": "data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><circle cx='50' cy='50' r='50' fill='%236366f1'/><text x='50' y='65' font-size='50' text-anchor='middle' fill='white'>⚡</text></svg>",
+      "type": "image/svg+xml",
+      "sizes": "192x192 512x512"
+    }
+  ],
+  "start_url": "/",
+  "background_color": "#0b0f19",
+  "theme_color": "#6366f1",
+  "display": "standalone",
+  "orientation": "portrait-primary"
+}
