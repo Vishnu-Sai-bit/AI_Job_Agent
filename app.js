@@ -31,30 +31,30 @@ const AI_JOB_COPILOT_JOBS = [
     {
         id: "copilot_job_2",
         title: "Data Analyst",
-        company: "ABC Technologies",
+        company: "Amazon",
         location: "Hyderabad, India",
-        source: "Company Portal",
-        url: "https://abctech.example.com/careers",
+        source: "Amazon Jobs",
+        url: "https://amazon.jobs",
         skills: ["Python", "SQL", "Power BI", "Excel", "Data Modeling"],
-        salary: "₹4 - ₹7 LPA",
-        experience: "0-2 yrs",
+        salary: "₹14 - ₹18 LPA",
+        experience: "1-3 yrs",
         match_score: null,
-        description: "Lead SQL data modeling, automated ETL reporting, and Power BI dashboards.",
+        description: "Lead automated ETL data pipelines, AWS Redshift data modeling, and business reporting metrics.",
         saved: false,
         applied: false
     },
     {
         id: "copilot_job_3",
         title: "BI Analyst",
-        company: "XYZ Solutions",
+        company: "Microsoft",
         location: "Bangalore, India",
-        source: "LinkedIn",
-        url: "https://xyzsolutions.example.com",
+        source: "Microsoft Careers",
+        url: "https://careers.microsoft.com",
         skills: ["SQL", "Power BI", "DAX", "Excel", "Python"],
-        salary: "₹5 - ₹8 LPA",
+        salary: "₹15 - ₹20 LPA",
         experience: "1-3 yrs",
         match_score: null,
-        description: "Build interactive enterprise executive scorecards and manage SQL data marts.",
+        description: "Build enterprise Power BI analytical dashboards, Azure Synapse workflows, and executive KPI scorecards.",
         saved: false,
         applied: false
     },
@@ -181,15 +181,15 @@ const AI_JOB_COPILOT_JOBS = [
     {
         id: "copilot_job_12",
         title: "Business Analyst",
-        company: "TechCorp",
-        location: "Remote",
-        source: "Indeed",
-        url: "https://indeed.com",
+        company: "Oracle",
+        location: "Bangalore, India",
+        source: "Oracle Careers",
+        url: "https://oracle.com/careers",
         skills: ["SQL", "Excel", "Tableau", "Communication"],
-        salary: "₹6 - ₹9 LPA",
+        salary: "₹10 - ₹14 LPA",
         experience: "2-4 yrs",
         match_score: null,
-        description: "Translate business requirements into analytical insights and executive reports.",
+        description: "Translate enterprise business requirements into analytical insights and cloud database reports.",
         saved: false,
         applied: false
     },
@@ -356,6 +356,75 @@ document.addEventListener("DOMContentLoaded", () => {
     populateAllViews();
 });
 
+// ==========================================================
+// DATA SANITIZATION & DEDUPLICATION UTILITIES
+// ==========================================================
+function sanitizeAndDeduplicateJobs(jobsList) {
+    if (!Array.isArray(jobsList)) return [];
+    const seenKeys = new Set();
+    const seenUrls = new Set();
+    const cleaned = [];
+
+    // Filter out dummy/placeholder companies or URLs
+    const blacklistedCompanies = ["abc technologies", "xyz solutions", "techcorp", "dummy company", "sample company"];
+    const blacklistedDomains = ["example.com", "placeholder.com"];
+
+    jobsList.forEach(job => {
+        if (!job || typeof job !== "object") return;
+        const company = (job.company || "").trim();
+        const title = (job.title || "").trim();
+        const url = (job.url || "").trim();
+
+        if (!company || !title) return;
+
+        const companyLower = company.toLowerCase();
+        const urlLower = url.toLowerCase();
+
+        // Check blacklist
+        if (blacklistedCompanies.some(bc => companyLower.includes(bc))) return;
+        if (blacklistedDomains.some(bd => urlLower.includes(bd))) return;
+
+        // Deduplicate key by title and company
+        const normKey = `${title.toLowerCase().replace(/\s+/g, ' ')}|${companyLower.replace(/\s+/g, ' ')}`;
+        if (seenKeys.has(normKey)) return;
+
+        // Deduplicate specific non-generic application links
+        if (url && url.length > 25 && !url.endsWith(".com") && !url.endsWith(".org") && !url.endsWith(".in")) {
+            if (seenUrls.has(urlLower)) return;
+            seenUrls.add(urlLower);
+        }
+
+        seenKeys.add(normKey);
+        cleaned.push(job);
+    });
+
+    return cleaned;
+}
+
+function sanitizeAndDeduplicateCRM(appList) {
+    if (!Array.isArray(appList)) return [];
+    const seen = new Set();
+    const cleaned = [];
+    const blacklistedCompanies = ["abc technologies", "xyz solutions", "techcorp"];
+
+    appList.forEach(app => {
+        if (!app || typeof app !== "object") return;
+        const company = (app.company || "").trim().toLowerCase();
+        const role = (app.role || app.title || "").trim().toLowerCase();
+        const jobId = (app.jobId || "").trim();
+
+        if (blacklistedCompanies.some(bc => company.includes(bc))) return;
+
+        const key = jobId ? `id:${jobId}` : `cr:${company}|${role}`;
+        if (seen.has(key)) return;
+
+        seen.add(key);
+        cleaned.push(app);
+    });
+
+    return cleaned;
+}
+
 function loadStoredState() {
     try {
         const savedResume = localStorage.getItem("jobcopilot_resume");
@@ -365,7 +434,13 @@ function loadStoredState() {
 
         const savedApps = localStorage.getItem("jobcopilot_applications");
         if (savedApps) {
-            crmApplications = JSON.parse(savedApps);
+            try {
+                const parsedApps = JSON.parse(savedApps);
+                crmApplications = sanitizeAndDeduplicateCRM(parsedApps);
+                localStorage.setItem("jobcopilot_applications", JSON.stringify(crmApplications));
+            } catch (err) {
+                crmApplications = [];
+            }
         }
 
         const savedUser = localStorage.getItem("jobcopilot_user");
@@ -373,31 +448,20 @@ function loadStoredState() {
             currentUser = JSON.parse(savedUser);
         }
 
+        // Initialize and sanitize jobData
+        let baseJobs = JSON.parse(JSON.stringify(AI_JOB_COPILOT_JOBS));
         const savedJobs = localStorage.getItem("jobcopilot_jobs");
         if (savedJobs) {
             try {
                 const parsedJobs = JSON.parse(savedJobs);
                 if (Array.isArray(parsedJobs) && parsedJobs.length > 0) {
-                    const existingKeys = new Set();
-                    const merged = [];
-                    parsedJobs.forEach(j => {
-                        const k = `${(j.title || '').toLowerCase()}|${(j.company || '').toLowerCase()}`;
-                        if (!existingKeys.has(k)) {
-                            existingKeys.add(k);
-                            merged.push(j);
-                        }
-                    });
-                    jobData.forEach(j => {
-                        const k = `${(j.title || '').toLowerCase()}|${(j.company || '').toLowerCase()}`;
-                        if (!existingKeys.has(k)) {
-                            existingKeys.add(k);
-                            merged.push(j);
-                        }
-                    });
-                    jobData = merged;
+                    baseJobs = parsedJobs.concat(baseJobs);
                 }
             } catch (err) {}
         }
+
+        jobData = sanitizeAndDeduplicateJobs(baseJobs);
+        localStorage.setItem("jobcopilot_jobs", JSON.stringify(jobData));
 
         // Sync jobData applied and saved flags with CRM
         syncJobDataWithCRM();
@@ -857,6 +921,7 @@ function renderJobs() {
     const container = document.getElementById("jobs-list-container");
     if (!container) return;
 
+    jobData = sanitizeAndDeduplicateJobs(jobData);
     let filtered = [...jobData];
 
     // 1. Text Search Input
@@ -1118,18 +1183,10 @@ async function fetchLivePortalJobs() {
         const data = await response.json();
         if (data.success && data.jobs && data.jobs.length > 0) {
             // Deduplicate and merge into jobData
-            let newCount = 0;
-            const existingKeys = new Set(jobData.map(j => `${(j.title || '').toLowerCase()}|${(j.company || '').toLowerCase()}`));
-
-            // Prepend new jobs to the beginning of jobData
-            data.jobs.forEach(j => {
-                const key = `${(j.title || '').toLowerCase()}|${(j.company || '').toLowerCase()}`;
-                if (!existingKeys.has(key)) {
-                    existingKeys.add(key);
-                    jobData.unshift(j);
-                    newCount++;
-                }
-            });
+            const prevCount = jobData.length;
+            const merged = data.jobs.concat(jobData);
+            jobData = sanitizeAndDeduplicateJobs(merged);
+            const newCount = Math.max(0, jobData.length - prevCount);
 
             // Persist updated jobs in localStorage
             localStorage.setItem("jobcopilot_jobs", JSON.stringify(jobData));
@@ -2618,7 +2675,7 @@ async function loadAdminDashboardData() {
             {
                 id: "usr_cand02",
                 name: "Rahul Sharma",
-                email: "rahul.sharma@example.com",
+                email: "rahul.sharma@gmail.com",
                 role: "candidate",
                 auth_provider: "google",
                 created_at: "2026-08-02T14:30:00Z",
@@ -2628,7 +2685,7 @@ async function loadAdminDashboardData() {
             {
                 id: "usr_cand03",
                 name: "Priya Patel",
-                email: "priya.patel@example.com",
+                email: "priya.patel@outlook.com",
                 role: "candidate",
                 auth_provider: "email",
                 created_at: "2026-08-03T09:15:00Z",

@@ -47,63 +47,21 @@
                 </div>
             </div>
 
-            <!-- 7-Step Career Journey Workflow Stepper -->
-            <nav class="workflow-stepper-bar" aria-label="Career Journey Steps">
-                <div class="stepper-step active" data-step="landing" onclick="switchMainTab('landing')">
-                    <span class="step-icon">📄</span>
-                    <span class="step-label">Upload Resume</span>
-                </div>
-                <span class="stepper-arrow">→</span>
-
-                <div class="stepper-step" data-step="jobs" onclick="switchMainTab('jobs')">
-                    <span class="step-icon">💼</span>
-                    <span class="step-label">Find Jobs</span>
-                </div>
-                <span class="stepper-arrow">→</span>
-
-                <div class="stepper-step" data-step="resume-analysis" onclick="switchMainTab('resume-analysis')">
-                    <span class="step-icon">🧠</span>
-                    <span class="step-label">AI Insights</span>
-                </div>
-                <span class="stepper-arrow">→</span>
-
-                <div class="stepper-step" data-step="crm" onclick="switchMainTab('crm')">
-                    <span class="step-icon">🚀</span>
-                    <span class="step-label">Apply & Track</span>
-                </div>
-                <span class="stepper-arrow">→</span>
-
-                <div class="stepper-step" data-step="interviews" onclick="switchMainTab('interviews')">
-                    <span class="step-icon">🎤</span>
-                    <span class="step-label">Prepare for Interviews</span>
-                </div>
-                <span class="stepper-arrow">→</span>
-
-                <div class="stepper-step" data-step="learning" onclick="switchMainTab('learning')">
-                    <span class="step-icon">📖</span>
-                    <span class="step-label">Learn & Improve</span>
-                </div>
-                <span class="stepper-arrow">→</span>
-
-                <div class="stepper-step" data-step="analytics" onclick="switchMainTab('analytics')">
-                    <span class="step-icon">🏆</span>
-                    <span class="step-label">Grow Your Career</span>
-                </div>
-            </nav>
+            <!-- Center Universal Search & Command Palette Trigger (Ctrl+K) -->
+            <div class="header-search-center">
+                <button id="nav-cmd-btn" class="nav-cmd-btn" title="Quick Search & Actions (Ctrl+K)" onclick="openCommandPalette()">
+                    <span class="cmd-icon">🔍</span>
+                    <span class="cmd-text">Search jobs, skills, tools...</span>
+                    <kbd class="cmd-kbd">Ctrl K</kbd>
+                </button>
+            </div>
 
             <!-- Top Right Utility Controls -->
             <div class="header-controls">
                 <div class="nav-db-pill" id="nav-db-badge" title="Storage Engine Status">
                     <span class="live-dot" id="db-status-dot"></span>
-                    <span id="nav-db-text" class="nav-db-text">MongoDB</span>
+                    <span id="nav-db-text" class="nav-db-text">PostgreSQL</span>
                 </div>
-
-                <!-- Universal Command Palette Trigger (Ctrl+K) -->
-                <button id="nav-cmd-btn" class="nav-cmd-btn" title="Quick Search & Actions (Ctrl+K)" onclick="openCommandPalette()">
-                    <span class="cmd-icon">🔍</span>
-                    <span class="cmd-text">Search...</span>
-                    <kbd class="cmd-kbd">Ctrl K</kbd>
-                </button>
 
                 <!-- Theme Color Accent Switcher -->
                 <div class="nav-style-wrapper">
@@ -204,65 +162,79 @@
                 </div>
             </div>
 
-            <!-- Navigation Links -->
+            <!-- Categorized Navigation Menu -->
             <nav class="sidebar-nav-menu">
-                <button class="sidebar-nav-btn active" data-tab="landing" onclick="switchMainTab('landing')">
-                    <span class="nav-icon">🏠</span>
-                    <span class="nav-text">Landing Page</span>
-                </button>
-                <button class="sidebar-nav-btn" data-tab="dashboard" onclick="switchMainTab('dashboard')">
-                    <span class="nav-icon">📊</span>
-                    <span class="nav-text">Dashboard</span>
-                </button>
-                <button class="sidebar-nav-btn" data-tab="jobs" onclick="switchMainTab('jobs')">
-                    <span class="nav-icon">💼</span>
-                    <span class="nav-text">Jobs</span>
-                </button>
-                <button class="sidebar-nav-btn" data-tab="crm" onclick="switchMainTab('crm')">
-                    <span class="nav-icon">📋</span>
-                    <span class="nav-text">Applications</span>
-                </button>
-                <button class="sidebar-nav-btn" data-tab="resumes" onclick="switchMainTab('resumes')">
-                    <span class="nav-icon">📄</span>
-                    <span class="nav-text">Resumes</span>
-                </button>
-                <button class="sidebar-nav-btn" data-tab="resume-analysis" onclick="switchMainTab('resume-analysis')">
-                    <span class="nav-icon">🧠</span>
-                    <span class="nav-text">Resume Analysis</span>
-                </button>
-                <button class="sidebar-nav-btn" data-tab="ai-assistant" onclick="switchMainTab('ai-assistant')">
-                    <span class="nav-icon">🤖</span>
-                    <span class="nav-text">AI Job Agent</span>
-                </button>
-                <button class="sidebar-nav-btn" data-tab="interviews" onclick="switchMainTab('interviews')">
-                    <span class="nav-icon">🎤</span>
-                    <span class="nav-text">Interviews</span>
-                </button>
-                <button class="sidebar-nav-btn" data-tab="learning" onclick="switchMainTab('learning')">
-                    <span class="nav-icon">📈</span>
-                    <span class="nav-text">Learning</span>
-                </button>
-                <button class="sidebar-nav-btn" data-tab="analytics" onclick="switchMainTab('analytics')">
-                    <span class="nav-icon">📊</span>
-                    <span class="nav-text">Analytics</span>
-                </button>
-                <button class="sidebar-nav-btn" data-tab="career-insights" onclick="switchMainTab('career-insights')">
-                    <span class="nav-icon">💡</span>
-                    <span class="nav-text">Career Insights</span>
-                </button>
-                <button class="sidebar-nav-btn" data-tab="automations" onclick="switchMainTab('automations')">
-                    <span class="nav-icon">⚡</span>
-                    <span class="nav-text">Automations</span>
-                </button>
-                <button class="sidebar-nav-btn" data-tab="admin" onclick="switchMainTab('admin')" id="nav-btn-admin">
-                    <span class="nav-icon">🛡️</span>
-                    <span class="nav-text">Admin Console</span>
-                    <span class="badge-tag-sm" style="background: linear-gradient(135deg, #ef4444, #f59e0b); color: #fff; font-size: 0.65rem; padding: 2px 6px; border-radius: 4px; margin-left: auto; font-weight: 800;">ADMIN</span>
-                </button>
-                <button class="sidebar-nav-btn" data-tab="profile" onclick="switchMainTab('profile')">
-                    <span class="nav-icon">👤</span>
-                    <span class="nav-text">Profile</span>
-                </button>
+                <!-- Group 1: Core Platform -->
+                <div class="sidebar-nav-section">
+                    <span class="sidebar-nav-heading">CORE PLATFORM</span>
+                    <button class="sidebar-nav-btn active" data-tab="landing" onclick="switchMainTab('landing')">
+                        <span class="nav-icon">🏠</span>
+                        <span class="nav-text">Home</span>
+                    </button>
+                    <button class="sidebar-nav-btn" data-tab="dashboard" onclick="switchMainTab('dashboard')">
+                        <span class="nav-icon">📊</span>
+                        <span class="nav-text">Dashboard</span>
+                    </button>
+                    <button class="sidebar-nav-btn" data-tab="jobs" onclick="switchMainTab('jobs')">
+                        <span class="nav-icon">💼</span>
+                        <span class="nav-text">Job Search</span>
+                    </button>
+                    <button class="sidebar-nav-btn" data-tab="crm" onclick="switchMainTab('crm')">
+                        <span class="nav-icon">📋</span>
+                        <span class="nav-text">Applications CRM</span>
+                    </button>
+                </div>
+
+                <!-- Group 2: AI & Preparation -->
+                <div class="sidebar-nav-section">
+                    <span class="sidebar-nav-heading">AI & PREPARATION</span>
+                    <button class="sidebar-nav-btn" data-tab="resumes" onclick="switchMainTab('resumes')">
+                        <span class="nav-icon">📄</span>
+                        <span class="nav-text">Resumes & ATS</span>
+                    </button>
+                    <button class="sidebar-nav-btn" data-tab="resume-analysis" onclick="switchMainTab('resume-analysis')">
+                        <span class="nav-icon">🧠</span>
+                        <span class="nav-text">AI Resume Analysis</span>
+                    </button>
+                    <button class="sidebar-nav-btn" data-tab="ai-assistant" onclick="switchMainTab('ai-assistant')">
+                        <span class="nav-icon">🤖</span>
+                        <span class="nav-text">AI Job Agent</span>
+                    </button>
+                    <button class="sidebar-nav-btn" data-tab="interviews" onclick="switchMainTab('interviews')">
+                        <span class="nav-icon">🎤</span>
+                        <span class="nav-text">Mock Interviews</span>
+                    </button>
+                    <button class="sidebar-nav-btn" data-tab="learning" onclick="switchMainTab('learning')">
+                        <span class="nav-icon">📈</span>
+                        <span class="nav-text">Skill Roadmaps</span>
+                    </button>
+                </div>
+
+                <!-- Group 3: Intelligence & Administration -->
+                <div class="sidebar-nav-section">
+                    <span class="sidebar-nav-heading">SYSTEM & ADMIN</span>
+                    <button class="sidebar-nav-btn" data-tab="analytics" onclick="switchMainTab('analytics')">
+                        <span class="nav-icon">📈</span>
+                        <span class="nav-text">Market Trends</span>
+                    </button>
+                    <button class="sidebar-nav-btn" data-tab="career-insights" onclick="switchMainTab('career-insights')">
+                        <span class="nav-icon">💡</span>
+                        <span class="nav-text">Career Fit Analysis</span>
+                    </button>
+                    <button class="sidebar-nav-btn" data-tab="automations" onclick="switchMainTab('automations')">
+                        <span class="nav-icon">⚡</span>
+                        <span class="nav-text">Job Automations</span>
+                    </button>
+                    <button class="sidebar-nav-btn" data-tab="admin" onclick="switchMainTab('admin')" id="nav-btn-admin">
+                        <span class="nav-icon">🛡️</span>
+                        <span class="nav-text">Admin Console</span>
+                        <span class="badge-tag-sm" style="background: linear-gradient(135deg, #ef4444, #f59e0b); color: #fff; font-size: 0.65rem; padding: 2px 6px; border-radius: 4px; margin-left: auto; font-weight: 800;">ADMIN</span>
+                    </button>
+                    <button class="sidebar-nav-btn" data-tab="profile" onclick="switchMainTab('profile')">
+                        <span class="nav-icon">👤</span>
+                        <span class="nav-text">User Profile</span>
+                    </button>
+                </div>
             </nav>
 
             <div class="sidebar-footer">
@@ -907,7 +879,7 @@
                         <div>
                             <span class="eyebrow-tag">🎯 Deep-Dive Job Fit</span>
                             <h2 id="match-target-title">Data Analyst</h2>
-                            <p class="muted" id="match-target-company">ABC Technologies • Hyderabad, India</p>
+                            <p class="muted" id="match-target-company">Amazon • Hyderabad, India</p>
                         </div>
                         <div style="display: flex; align-items: center; gap: 0.75rem;">
                             <span class="match-badge-green" style="font-size: 0.95rem; padding: 0.35rem 0.85rem;">91% Match</span>
