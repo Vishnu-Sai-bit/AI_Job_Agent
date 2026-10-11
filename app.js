@@ -1080,6 +1080,8 @@ async function fetchLivePortalJobs() {
     if (document.getElementById("portal-chk-arbeitnow")?.checked) sources.push("arbeitnow");
     if (document.getElementById("portal-chk-remotive")?.checked) sources.push("remotive");
     if (document.getElementById("portal-chk-jobicy")?.checked) sources.push("jobicy");
+    if (document.getElementById("portal-chk-jooble")?.checked) sources.push("jooble");
+    if (document.getElementById("portal-chk-google")?.checked) sources.push("serpapi");
 
     if (sources.length === 0) {
         showToast("Please select at least one job portal to search.", "warning", "⚠️");
