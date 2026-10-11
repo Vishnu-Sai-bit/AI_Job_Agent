@@ -1,7 +1,8 @@
 @echo off
-title AI JobAgent Server
+title AI Job Copilot & Career Intelligence Platform
 echo ===================================================
-echo             Starting AI JobAgent System            
+echo     Starting AI Job Copilot & Career Platform       
+echo     Local Server: http://127.0.0.1:5000
 echo ===================================================
 echo.
 
@@ -11,15 +12,8 @@ if exist venv\Scripts\activate.bat (
     call venv\Scripts\activate.bat
 )
 
-:: Start FastAPI Backend in the background
-echo [System] Starting FastAPI Backend on port 8000...
-start "FastAPI Backend" /b python app.py
-
-:: Wait a moment for FastAPI to initialize
-timeout /t 3 /nobreak >nul
-
-:: Start Streamlit Frontend
-echo [System] Starting Streamlit Frontend on port 8501...
-streamlit run frontend.py --server.port 8501
+:: Run local Flask application
+echo [System] Launching application on port 5000...
+python run.py
 
 pause

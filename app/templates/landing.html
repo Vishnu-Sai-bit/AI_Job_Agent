@@ -1,0 +1,93 @@
+{% extends "base.html" %}
+
+{% block title %}Welcome - AI Job Copilot & Career Intelligence{% endblock %}
+
+{% block content %}
+<div class="py-5 text-center">
+  <div class="row justify-content-center">
+    <div class="col-lg-10">
+      <div class="badge bg-primary px-3 py-2 mb-3 rounded-pill text-uppercase fw-semibold" style="letter-spacing: 1px;">
+        Next-Gen Career Automation
+      </div>
+      <h1 class="display-4 fw-bold text-white mb-3">
+        AI Job Copilot & Career Intelligence Platform
+      </h1>
+      <p class="lead text-secondary mb-4 mx-auto" style="max-width: 750px;">
+        An integrated platform connecting candidate intelligence, automated multi-board job discovery, 6-dimension ATS resume audits, Kanban CRM tracking, and simulated mock interviews.
+      </p>
+
+      <div class="d-flex justify-content-center gap-3 mb-5">
+        <a href="{{ url_for('auth.guest_login') }}" class="btn btn-primary btn-lg px-4 shadow">
+          <i class="bi bi-lightning-charge-fill me-1"></i> Explore Demo Platform
+        </a>
+        <a href="{{ url_for('auth.login') }}" class="btn btn-outline-light btn-lg px-4">
+          <i class="bi bi-box-arrow-in-right me-1"></i> Sign In
+        </a>
+      </div>
+    </div>
+  </div>
+
+  <!-- Feature Cards Grid -->
+  <div class="row g-4 mt-2 text-start">
+    <div class="col-md-4">
+      <div class="card card-custom h-100 p-4">
+        <div class="fs-1 text-primary mb-3"><i class="bi bi-bullseye"></i></div>
+        <h4 class="text-white fw-semibold">Precision Job Matching</h4>
+        <p class="text-secondary small">
+          Calculates role and skill fit percentage dynamically based on your verified resume skills and candidate experience.
+        </p>
+      </div>
+    </div>
+
+    <div class="col-md-4">
+      <div class="card card-custom h-100 p-4">
+        <div class="fs-1 text-info mb-3"><i class="bi bi-file-earmark-check"></i></div>
+        <h4 class="text-white fw-semibold">6-Dimension ATS Audit</h4>
+        <p class="text-secondary small">
+          Evaluates Contact, Skills, Experience, Education, Projects, and Certifications with instant tailoring suggestions.
+        </p>
+      </div>
+    </div>
+
+    <div class="col-md-4">
+      <div class="card card-custom h-100 p-4">
+        <div class="fs-1 text-success mb-3"><i class="bi bi-kanban"></i></div>
+        <h4 class="text-white fw-semibold">Application Pipeline CRM</h4>
+        <p class="text-secondary small">
+          Manage saved, applied, interview, offer, and rejected applications with automated recruiter follow-up messaging.
+        </p>
+      </div>
+    </div>
+
+    <div class="col-md-4">
+      <div class="card card-custom h-100 p-4">
+        <div class="fs-1 text-warning mb-3"><i class="bi bi-mic"></i></div>
+        <h4 class="text-white fw-semibold">AI Mock Interview Room</h4>
+        <p class="text-secondary small">
+          Simulate role-specific technical and STAR behavioral questions with instant rubric evaluation and model answers.
+        </p>
+      </div>
+    </div>
+
+    <div class="col-md-4">
+      <div class="card card-custom h-100 p-4">
+        <div class="fs-1 text-danger mb-3"><i class="bi bi-graph-up"></i></div>
+        <h4 class="text-white fw-semibold">Market Intelligence</h4>
+        <p class="text-secondary small">
+          Analyze real-time market skill gaps and follow step-by-step personalized learning roadmaps to close them.
+        </p>
+      </div>
+    </div>
+
+    <div class="col-md-4">
+      <div class="card card-custom h-100 p-4">
+        <div class="fs-1 text-light mb-3"><i class="bi bi-robot"></i></div>
+        <h4 class="text-white fw-semibold">AI Career Copilot</h4>
+        <p class="text-secondary small">
+          Chat with your intelligent copilot to identify today's high-fit opportunities, optimize match scores, and guide strategy.
+        </p>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}

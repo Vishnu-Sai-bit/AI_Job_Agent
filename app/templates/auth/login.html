@@ -1,0 +1,44 @@
+{% extends "base.html" %}
+
+{% block title %}Sign In - AI Job Copilot{% endblock %}
+
+{% block content %}
+<div class="row justify-content-center py-5">
+  <div class="col-md-5">
+    <div class="card card-custom p-4">
+      <div class="text-center mb-4">
+        <i class="bi bi-shield-lock-fill text-primary display-4"></i>
+        <h3 class="fw-bold text-white mt-2">Sign In</h3>
+        <p class="text-secondary small">Access your career intelligence dashboard</p>
+      </div>
+
+      <form method="POST" action="{{ url_for('auth.login') }}">
+        <div class="mb-3">
+          <label class="form-label text-light">Email Address</label>
+          <input type="email" name="email" class="form-control form-control-dark" placeholder="you@domain.com" required>
+        </div>
+
+        <div class="mb-4">
+          <label class="form-label text-light">Password</label>
+          <input type="password" name="password" class="form-control form-control-dark" placeholder="••••••••" required>
+        </div>
+
+        <button type="submit" class="btn btn-primary w-100 py-2 fw-semibold">
+          Sign In to Account
+        </button>
+      </form>
+
+      <div class="text-center mt-3">
+        <a href="{{ url_for('auth.guest_login') }}" class="btn btn-outline-info w-100 py-2 fw-semibold mb-3">
+          <i class="bi bi-lightning-charge-fill me-1"></i> Continue as Demo Guest
+        </a>
+      </div>
+
+      <div class="text-center text-secondary small">
+        Don't have an account yet?
+        <a href="{{ url_for('auth.register') }}" class="text-primary text-decoration-none">Create Account</a>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}

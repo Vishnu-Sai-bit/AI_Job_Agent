@@ -1,0 +1,10 @@
+{% extends "base.html" %}
+{% block title %}500 Server Error - AI Job Copilot{% endblock %}
+{% block content %}
+<div class="text-center py-5">
+  <h1 class="display-1 fw-bold text-danger">500</h1>
+  <h3 class="text-white mb-3">Internal System Error</h3>
+  <p class="text-secondary mb-4">An error occurred while processing your request. Please try again or return to dashboard.</p>
+  <a href="{{ url_for('main.dashboard') }}" class="btn btn-primary">Return to Dashboard</a>
+</div>
+{% endblock %}

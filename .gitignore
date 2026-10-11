@@ -1,8 +1,28 @@
+# Environment variables
 .env
+.env.local
+
+# Python bytecode & cache
 __pycache__/
-*.pyc
+**/__pycache__/
+*.py[cod]
+*$py.class
+.pytest_cache/
+.coverage
+htmlcov/
+
+# Local databases & uploads
+*.db
+*.sqlite
+*.sqlite3
+storage/uploads/
 uploads/
 temp/
 logs/
 reports/
 matched_jobs.md
+
+# Virtual environments
+venv/
+.venv/
+env/

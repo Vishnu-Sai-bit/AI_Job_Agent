@@ -1,0 +1,10 @@
+{% extends "base.html" %}
+{% block title %}404 Page Not Found - AI Job Copilot{% endblock %}
+{% block content %}
+<div class="text-center py-5">
+  <h1 class="display-1 fw-bold text-warning">404</h1>
+  <h3 class="text-white mb-3">Resource Not Found</h3>
+  <p class="text-secondary mb-4">The career module or resource you requested could not be located.</p>
+  <a href="{{ url_for('main.dashboard') }}" class="btn btn-primary">Return to Dashboard</a>
+</div>
+{% endblock %}

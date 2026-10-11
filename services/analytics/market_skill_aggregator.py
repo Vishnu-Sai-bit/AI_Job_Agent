@@ -37,12 +37,12 @@ def aggregate_market_skill_gaps(
         # Support JobData objects or dicts
         skills = []
         if isinstance(job, JobData):
-            skills = job.skills
+            skills = job.skills or []
         elif isinstance(job, dict):
-            skills = job.get("skills", [])
+            skills = job.get("skills") or []
             
         for s in skills:
-            if s and len(s.strip()) > 1:
+            if s and isinstance(s, str) and len(s.strip()) > 1:
                 skill_counter[s.strip().title()] += 1
 
     top_market_skills = []

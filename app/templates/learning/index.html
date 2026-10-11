@@ -1,0 +1,113 @@
+{% extends "base.html" %}
+
+{% block title %}Learning Hub - AI Job Copilot{% endblock %}
+
+{% block content %}
+<div class="mb-4 d-flex justify-content-between align-items-center flex-wrap gap-3">
+  <div>
+    <h2 class="fw-bold text-white mb-1">Learning Hub & Career Roadmaps</h2>
+    <p class="text-secondary mb-0">Structured learning pathways and capstone portfolio blueprints</p>
+  </div>
+  <a href="{{ url_for('career.career_intelligence') }}" class="btn btn-outline-secondary">
+    <i class="bi bi-arrow-left me-1"></i> Market Skill Gaps
+  </a>
+</div>
+
+<!-- Role Switcher Form -->
+<div class="card card-custom p-3 mb-4">
+  <form method="POST" action="{{ url_for('career.learning') }}" class="row g-2 align-items-center">
+    <div class="col-md-9">
+      <div class="input-group">
+        <span class="input-group-text bg-dark border-secondary text-secondary"><i class="bi bi-mortarboard"></i></span>
+        <input type="text" name="target_role" class="form-control form-control-dark" placeholder="Target Role (e.g. Data Analyst)" value="{{ target_role }}">
+      </div>
+    </div>
+    <div class="col-md-3">
+      <button type="submit" class="btn btn-primary w-100">
+        <i class="bi bi-gear-wide-connected me-1"></i> Generate Pathway
+      </button>
+    </div>
+  </form>
+</div>
+
+<!-- Roadmaps -->
+{% if roadmap and roadmap.roadmaps %}
+  <div class="row g-4">
+    {% for rm in roadmap.roadmaps %}
+      <div class="col-12">
+        <div class="card card-custom p-4">
+          <div class="d-flex justify-content-between align-items-center mb-3 flex-wrap gap-2">
+            <div>
+              <span class="badge bg-primary text-uppercase px-2 py-1 mb-1">Skill Accelerator</span>
+              <h4 class="text-white fw-bold mb-0">{{ rm.skill }}</h4>
+            </div>
+            <span class="badge bg-dark border border-secondary text-info px-3 py-2 fs-6">
+              <i class="bi bi-clock me-1"></i> {{ rm.timeframe }}
+            </span>
+          </div>
+
+          <!-- Weekly Milestones -->
+          <div class="mb-4">
+            <h6 class="text-light small fw-bold text-uppercase mb-3">Weekly Milestones:</h6>
+            <div class="row g-3">
+              {% for step in rm.weekly_plan %}
+                <div class="col-md-4">
+                  <div class="p-3 rounded bg-dark border border-secondary h-100">
+                    <span class="badge bg-secondary mb-2 small">{{ step.week }}</span>
+                    <h6 class="text-white fw-semibold small mb-1">{{ step.focus }}</h6>
+                    <p class="text-secondary small mb-0">{{ step.task }}</p>
+                  </div>
+                </div>
+              {% endfor %}
+            </div>
+          </div>
+
+          <!-- Capstone Portfolio Project Blueprint -->
+          {% if rm.portfolio_project_blueprint %}
+            {% set bp = rm.portfolio_project_blueprint %}
+            <div class="p-3 rounded bg-black border border-primary-subtle mb-4">
+              <div class="d-flex align-items-center gap-2 mb-2">
+                <i class="bi bi-folder-check text-primary fs-5"></i>
+                <h6 class="text-white fw-bold mb-0">Portfolio Project: {{ bp.title }}</h6>
+              </div>
+              <div class="text-secondary small mb-2">
+                <strong class="text-light">Recommended Dataset:</strong> {{ bp.recommended_dataset }}
+              </div>
+              <div class="text-secondary small mb-2">
+                <strong class="text-light">Key Deliverables:</strong>
+                <ul class="mb-0 ps-3">
+                  {% for deliv in bp.key_deliverables %}
+                    <li>{{ deliv }}</li>
+                  {% endfor %}
+                </ul>
+              </div>
+              <div class="text-secondary small">
+                <strong class="text-light">GitHub Blueprint:</strong> {{ bp.github_prompt }}
+              </div>
+            </div>
+          {% endif %}
+
+          <div class="row g-3">
+            <div class="col-md-6">
+              <h6 class="text-light small fw-bold mb-2">Recommended Certifications:</h6>
+              <div class="d-flex flex-wrap gap-2">
+                {% for cert in rm.recommended_certifications %}
+                  <span class="badge bg-info-subtle text-info">{{ cert }}</span>
+                {% endfor %}
+              </div>
+            </div>
+            <div class="col-md-6">
+              <h6 class="text-light small fw-bold mb-2">Free Learning Resources:</h6>
+              <div class="d-flex flex-wrap gap-2">
+                {% for res in rm.free_learning_resources %}
+                  <span class="badge bg-secondary-subtle text-secondary">{{ res }}</span>
+                {% endfor %}
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    {% endfor %}
+  </div>
+{% endif %}
+{% endblock %}

@@ -615,7 +615,9 @@ with st.sidebar:
     st.markdown("### ⚙️ Database & API Keys")
 
     # Cloud DB Indicator
-    db_status_text = "PostgreSQL Connected" if (postgres_manager and postgres_manager.is_connected()) else "Local SQLite Active"
+    pg_ok = getattr(postgres_manager, "is_connected", False) if postgres_manager else False
+    if callable(pg_ok): pg_ok = pg_ok()
+    db_status_text = "PostgreSQL Connected" if pg_ok else "Local SQLite Active"
     st.markdown(f"**Database Status:** `{db_status_text}`")
 
     with st.expander("🔑 Free API Key Settings", expanded=False):

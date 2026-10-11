@@ -1,0 +1,105 @@
+{% extends "base.html" %}
+
+{% block title %}AI Career Copilot - AI Job Copilot{% endblock %}
+
+{% block content %}
+<div class="mb-4">
+  <h2 class="fw-bold text-white mb-1">AI Career Copilot Assistant</h2>
+  <p class="text-secondary mb-0">Personalized career advisor grounded in your live resume, jobs, and applications</p>
+</div>
+
+<div class="row g-4">
+  <div class="col-lg-8">
+    <div class="card card-custom p-4 mb-4">
+      <!-- Quick Prompts -->
+      <div class="mb-3">
+        <span class="text-secondary small fw-bold text-uppercase d-block mb-2">Suggested Inquiries:</span>
+        <div class="d-flex flex-wrap gap-2">
+          <form method="POST" action="{{ url_for('assistant.index') }}" class="d-inline">
+            <input type="hidden" name="query" value="Which jobs should I focus on today?">
+            <button type="submit" class="btn btn-sm btn-outline-primary">🎯 Focus Jobs Today</button>
+          </form>
+          <form method="POST" action="{{ url_for('assistant.index') }}" class="d-inline">
+            <input type="hidden" name="query" value="How can I improve my ATS score?">
+            <button type="submit" class="btn btn-sm btn-outline-success">📊 Boost ATS Score</button>
+          </form>
+          <form method="POST" action="{{ url_for('assistant.index') }}" class="d-inline">
+            <input type="hidden" name="query" value="Prepare me for tomorrow's interview">
+            <button type="submit" class="btn btn-sm btn-outline-warning">🎤 Interview Readiness</button>
+          </form>
+          <form method="POST" action="{{ url_for('assistant.index') }}" class="d-inline">
+            <input type="hidden" name="query" value="Show my pending applications">
+            <button type="submit" class="btn btn-sm btn-outline-info">📋 Application Pipeline</button>
+          </form>
+        </div>
+      </div>
+
+      <!-- AI Response Box -->
+      {% if ai_response %}
+        <div class="p-4 rounded bg-dark border border-secondary mb-4">
+          <div class="d-flex align-items-center gap-2 mb-3">
+            <div class="badge bg-primary rounded-pill p-2"><i class="bi bi-robot fs-6"></i></div>
+            <strong class="text-white">AI Career Copilot</strong>
+          </div>
+          <div class="text-light" style="line-height: 1.8; white-space: pre-line;">
+            {{ ai_response }}
+          </div>
+        </div>
+      {% else %}
+        <div class="p-4 rounded bg-dark border border-secondary mb-4 text-center text-secondary py-5">
+          <i class="bi bi-chat-left-dots text-primary display-4 mb-3 d-block"></i>
+          <h5 class="text-white">Ask your Career Copilot anything</h5>
+          <p class="small mb-0">Select one of the suggested prompts above or type your question below.</p>
+        </div>
+      {% endif %}
+
+      <!-- Query Form -->
+      <form method="POST" action="{{ url_for('assistant.index') }}">
+        <div class="input-group">
+          <input type="text" name="query" class="form-control form-control-dark py-2" placeholder="Ask about jobs, ATS scores, interview questions, or next steps..." value="{{ user_query }}" required>
+          <button type="submit" class="btn btn-primary px-4 fw-semibold">
+            <i class="bi bi-send-fill me-1"></i> Ask
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <div class="col-lg-4">
+    <div class="card card-custom p-4 h-100">
+      <h5 class="fw-bold text-white mb-3">Context Anchors</h5>
+      <p class="text-secondary small mb-3">
+        Your assistant is automatically connected to your live candidate data:
+      </p>
+
+      <ul class="list-group list-group-flush bg-transparent small mb-4">
+        <li class="list-group-item bg-transparent text-secondary px-0 py-2 d-flex justify-content-between">
+          <span>Target Role:</span>
+          <strong class="text-light">{{ candidate.preferred_role }}</strong>
+        </li>
+        <li class="list-group-item bg-transparent text-secondary px-0 py-2 d-flex justify-content-between">
+          <span>ATS Diagnostic:</span>
+          <strong class="text-success">{{ candidate.ats_score }}% Match</strong>
+        </li>
+        <li class="list-group-item bg-transparent text-secondary px-0 py-2 d-flex justify-content-between">
+          <span>Target Location:</span>
+          <strong class="text-light">{{ candidate.preferred_location }}</strong>
+        </li>
+        <li class="list-group-item bg-transparent text-secondary px-0 py-2 d-flex justify-content-between">
+          <span>Core Skill Keywords:</span>
+          <strong class="text-primary">{{ len(candidate.skills) }} verified</strong>
+        </li>
+      </ul>
+
+      <h6 class="text-light small fw-bold mb-2">Recommended Next Steps:</h6>
+      <div class="d-flex flex-column gap-2">
+        {% for act in suggested_actions %}
+          <div class="p-2 rounded bg-dark border border-secondary text-secondary small">
+            {{ act }}
+          </div>
+        {% endfor %}
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}

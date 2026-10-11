@@ -66,6 +66,9 @@ def call_llm(prompt: str, json_format: bool = True) -> str:
                     if response.status_code != 200:
                         err_text = response.text[:200]
                         warning(f"Gemini Key #{key_idx} ({model_name}) HTTP {response.status_code}: {err_text}")
+                        if response.status_code in (400, 401, 403) and ("API_KEY_INVALID" in err_text or "PERMISSION_DENIED" in err_text or response.status_code in (401, 403)):
+                            warning(f"Gemini Key #{key_idx} is invalid or unauthorized. Skipping remaining models for this key.")
+                            break
                         continue
                     
                     data = response.json()
@@ -206,6 +209,18 @@ def call_llm(prompt: str, json_format: bool = True) -> str:
 
     # --- 7. Fallback to Local Ollama ---
     info("No active cloud APIs succeeded. Falling back to local Ollama.")
+    try:
+        tags_url = OLLAMA_URL.replace("/api/chat", "/api/tags") if "/api/chat" in OLLAMA_URL else "http://localhost:11434/api/tags"
+        requests.get(tags_url, timeout=0.8)
+    except Exception:
+        exception("Unable to connect to local Ollama.")
+        detail_msg = "Ollama server is not running."
+        if cloud_errors:
+            detail_msg += " Cloud providers attempted: " + " | ".join(cloud_errors)
+        else:
+            detail_msg += " No cloud API keys were configured in your environment variables."
+        raise OllamaConnectionError(detail_msg)
+
     payload = {
         "model": OLLAMA_MODEL,
         "messages": [{"role": "user", "content": prompt}],
@@ -215,7 +230,7 @@ def call_llm(prompt: str, json_format: bool = True) -> str:
         payload["format"] = "json"
         
     try:
-        response = requests.post(OLLAMA_URL, json=payload, timeout=OLLAMA_TIMEOUT)
+        response = requests.post(OLLAMA_URL, json=payload, timeout=(1.5, 3.0))
         response.raise_for_status()
         return response.json()["message"]["content"]
     except requests.ConnectionError:

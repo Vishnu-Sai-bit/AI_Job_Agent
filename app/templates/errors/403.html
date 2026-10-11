@@ -1,0 +1,10 @@
+{% extends "base.html" %}
+{% block title %}403 Forbidden - AI Job Copilot{% endblock %}
+{% block content %}
+<div class="text-center py-5">
+  <h1 class="display-1 fw-bold text-danger">403</h1>
+  <h3 class="text-white mb-3">Access Denied</h3>
+  <p class="text-secondary mb-4">You do not have permission to access this resource.</p>
+  <a href="{{ url_for('main.dashboard') }}" class="btn btn-primary">Return to Dashboard</a>
+</div>
+{% endblock %}

@@ -1,0 +1,117 @@
+{% extends "base.html" %}
+
+{% block title %}Career Intelligence - AI Job Copilot{% endblock %}
+
+{% block content %}
+<div class="mb-4 d-flex justify-content-between align-items-center flex-wrap gap-3">
+  <div>
+    <h2 class="fw-bold text-white mb-1">Career Intelligence & Market Demand</h2>
+    <p class="text-secondary mb-0">Live market skill analysis for target role <strong class="text-light">{{ target_role }}</strong></p>
+  </div>
+  <a href="{{ url_for('career.learning') }}" class="btn btn-primary">
+    <i class="bi bi-journal-code me-1"></i> Open Learning Roadmaps
+  </a>
+</div>
+
+<!-- Readiness KPI Card -->
+<div class="row g-4 mb-4">
+  <div class="col-lg-4">
+    <div class="card card-custom p-4 h-100 text-center d-flex flex-column justify-content-center">
+      <span class="text-secondary small text-uppercase fw-semibold mb-2">Market Readiness Score</span>
+      <div class="display-3 fw-bold text-success mb-2">
+        {{ market_data.candidate_market_readiness }}%
+      </div>
+      <p class="text-secondary small mb-3">
+        Based on live demand across {{ market_data.total_jobs_analyzed }} verified job listings.
+      </p>
+      <div class="progress mb-3" style="height: 10px; background-color: #334155;">
+        <div class="progress-bar bg-success" style="width: {{ market_data.candidate_market_readiness }}%;"></div>
+      </div>
+      <span class="badge bg-success-subtle text-success p-2 small">
+        <i class="bi bi-check2-circle me-1"></i> Highly Competitive Applicant Profile
+      </span>
+    </div>
+  </div>
+
+  <div class="col-lg-8">
+    <div class="card card-custom p-4 h-100">
+      <h5 class="fw-bold text-white mb-3">Priority Skill Deficits to Close</h5>
+      <p class="text-secondary small mb-3">
+        Skills highly requested by employers that will boost your candidacy:
+      </p>
+
+      <div class="row g-3">
+        {% for gap in market_data.high_priority_gaps %}
+          <div class="col-md-6">
+            <div class="p-3 rounded bg-dark border border-danger">
+              <div class="d-flex justify-content-between align-items-center mb-1">
+                <strong class="text-white">{{ gap.skill }}</strong>
+                <span class="badge bg-danger">HIGH GAP</span>
+              </div>
+              <div class="text-secondary small mb-2">In {{ gap.demand_percentage }}% of active listings ({{ gap.job_count }} jobs)</div>
+              <a href="{{ url_for('career.learning', role=target_role) }}" class="btn btn-sm btn-outline-light w-100">
+                <i class="bi bi-mortarboard me-1"></i> Learn Roadmap
+              </a>
+            </div>
+          </div>
+        {% endfor %}
+
+        {% for gap in market_data.medium_priority_gaps %}
+          <div class="col-md-6">
+            <div class="p-3 rounded bg-dark border border-warning">
+              <div class="d-flex justify-content-between align-items-center mb-1">
+                <strong class="text-white">{{ gap.skill }}</strong>
+                <span class="badge bg-warning text-dark">MEDIUM</span>
+              </div>
+              <div class="text-secondary small mb-2">In {{ gap.demand_percentage }}% of active listings ({{ gap.job_count }} jobs)</div>
+              <a href="{{ url_for('career.learning', role=target_role) }}" class="btn btn-sm btn-outline-light w-100">
+                <i class="bi bi-mortarboard me-1"></i> Learn Roadmap
+              </a>
+            </div>
+          </div>
+        {% endfor %}
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Market Demand Table -->
+<div class="card card-custom p-4">
+  <h5 class="fw-bold text-white mb-3">Top In-Demand Skills in Market</h5>
+  <div class="table-responsive">
+    <table class="table table-dark table-borderless align-middle mb-0">
+      <thead>
+        <tr class="text-secondary small border-bottom border-secondary">
+          <th>Skill Keyword</th>
+          <th>Demand Frequency</th>
+          <th>Market Share</th>
+          <th>Candidate Status</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for s in market_data.top_market_skills %}
+          <tr>
+            <td class="fw-medium text-white">{{ s.skill }}</td>
+            <td class="text-secondary">{{ s.job_count }} postings</td>
+            <td>
+              <div class="d-flex align-items-center gap-2">
+                <div class="progress flex-grow-1" style="height: 6px; background-color: #334155; width: 120px;">
+                  <div class="progress-bar bg-info" style="width: {{ s.demand_percentage }}%;"></div>
+                </div>
+                <span class="small text-secondary">{{ s.demand_percentage }}%</span>
+              </div>
+            </td>
+            <td>
+              {% if s.has_skill %}
+                <span class="badge bg-success-subtle text-success"><i class="bi bi-check me-1"></i>Verified in Resume</span>
+              {% else %}
+                <span class="badge bg-warning-subtle text-warning"><i class="bi bi-exclamation me-1"></i>Skill Gap</span>
+              {% endif %}
+            </td>
+          </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+</div>
+{% endblock %}

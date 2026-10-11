@@ -1,0 +1,114 @@
+{% extends "base.html" %}
+
+{% block title %}Application CRM - AI Job Copilot{% endblock %}
+
+{% block content %}
+<div class="mb-4 d-flex justify-content-between align-items-center flex-wrap gap-3">
+  <div>
+    <h2 class="fw-bold text-white mb-1">Application Pipeline CRM</h2>
+    <p class="text-secondary mb-0">Track and advance job opportunities across every stage of your hiring pipeline</p>
+  </div>
+  <a href="{{ url_for('jobs.index') }}" class="btn btn-primary">
+    <i class="bi bi-plus-lg me-1"></i> Add Opportunity from Jobs
+  </a>
+</div>
+
+<!-- Stage Counts Row -->
+<div class="row g-3 mb-4">
+  <div class="col">
+    <div class="card card-custom p-3 text-center">
+      <div class="text-secondary small fw-semibold">Saved</div>
+      <h3 class="text-white fw-bold mb-0 mt-1">{{ counts.saved }}</h3>
+    </div>
+  </div>
+  <div class="col">
+    <div class="card card-custom p-3 text-center">
+      <div class="text-info small fw-semibold">Applied</div>
+      <h3 class="text-info fw-bold mb-0 mt-1">{{ counts.applied }}</h3>
+    </div>
+  </div>
+  <div class="col">
+    <div class="card card-custom p-3 text-center">
+      <div class="text-warning small fw-semibold">Interview</div>
+      <h3 class="text-warning fw-bold mb-0 mt-1">{{ counts.interview }}</h3>
+    </div>
+  </div>
+  <div class="col">
+    <div class="card card-custom p-3 text-center">
+      <div class="text-success small fw-semibold">Offer</div>
+      <h3 class="text-success fw-bold mb-0 mt-1">{{ counts.offer }}</h3>
+    </div>
+  </div>
+  <div class="col">
+    <div class="card card-custom p-3 text-center">
+      <div class="text-danger small fw-semibold">Rejected</div>
+      <h3 class="text-danger fw-bold mb-0 mt-1">{{ counts.rejected }}</h3>
+    </div>
+  </div>
+</div>
+
+<!-- Applications Kanban Board -->
+<div class="row g-3">
+  {% for stage in stages %}
+    <div class="col-lg">
+      <div class="kanban-col h-100">
+        <div class="d-flex justify-content-between align-items-center mb-3">
+          <h6 class="text-uppercase fw-bold text-light mb-0 small">
+            {{ stage }} ({{ counts[stage] }})
+          </h6>
+        </div>
+
+        <div class="d-flex flex-column gap-3">
+          {% for app in applications if app.stage == stage %}
+            <div class="card bg-dark border border-secondary p-3 shadow-sm">
+              <h6 class="fw-bold text-white mb-1">{{ app.role }}</h6>
+              <div class="text-primary small fw-semibold mb-2">{{ app.company }}</div>
+              
+              <div class="text-secondary small mb-3">
+                <div><i class="bi bi-calendar3 me-1"></i> Date: {{ app.applied_date }}</div>
+                <div><i class="bi bi-cash me-1"></i> {{ app.salary or 'Competitive' }}</div>
+              </div>
+
+              <!-- Update Stage Form -->
+              <form method="POST" action="{{ url_for('applications.update_stage') }}" class="mb-2">
+                <input type="hidden" name="app_id" value="{{ app.id }}">
+                <div class="input-group input-group-sm">
+                  <select name="stage" class="form-select form-select-dark bg-secondary text-white" style="font-size: 0.75rem;">
+                    {% for s in stages %}
+                      <option value="{{ s }}" {% if s == app.stage %}selected{% endif %}>{{ s|capitalize }}</option>
+                    {% endfor %}
+                  </select>
+                  <button type="submit" class="btn btn-sm btn-outline-light">Move</button>
+                </div>
+              </form>
+
+              <div class="d-flex justify-content-between align-items-center pt-2 border-top border-secondary">
+                <button type="button" class="btn btn-link text-info p-0 small text-decoration-none" data-bs-toggle="collapse" data-bs-target="#followup-{{ app.id }}">
+                  <i class="bi bi-envelope me-1"></i> Follow-up
+                </button>
+                <form method="POST" action="{{ url_for('applications.delete_app', app_id=app.id) }}" class="d-inline">
+                  <button type="submit" class="btn btn-link text-danger p-0 small text-decoration-none" onclick="return confirm('Delete this application record?');">
+                    <i class="bi bi-trash"></i>
+                  </button>
+                </form>
+              </div>
+
+              <!-- Collapsible Follow-up draft -->
+              <div class="collapse mt-2" id="followup-{{ app.id }}">
+                <div class="p-2 rounded bg-black border border-secondary text-secondary small" style="font-size: 0.75rem;">
+                  <strong class="text-light">Recruiter Note:</strong><br>
+                  Hi {{ app.company }} Hiring Team, I recently applied for the {{ app.role }} role. Given my hands-on background in SQL and data analytics, I am very enthusiastic about how I can contribute to your team. Looking forward to hearing from you!
+                </div>
+              </div>
+            </div>
+          {% else %}
+            <div class="text-center py-4 text-secondary small">
+              No applications in {{ stage }}.
+            </div>
+          {% endfor %}
+        </div>
+      </div>
+    </div>
+  {% endfor %}
+</div>
+{% endblock %}

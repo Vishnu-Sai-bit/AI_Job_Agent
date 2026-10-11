@@ -1,0 +1,13 @@
+/* Dashboard Custom Styles */
+.metric-kpi-card {
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+.metric-kpi-card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+}
+.progress-thin {
+  height: 6px;
+  background-color: #334155;
+  border-radius: 4px;
+}

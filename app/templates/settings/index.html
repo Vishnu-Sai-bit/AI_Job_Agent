@@ -1,0 +1,51 @@
+{% extends "base.html" %}
+
+{% block title %}Account Settings - AI Job Copilot{% endblock %}
+
+{% block content %}
+<div class="mb-4">
+  <h2 class="fw-bold text-white mb-1">Account & Security Settings</h2>
+  <p class="text-secondary mb-0">Manage security credentials, API keys, and platform preferences</p>
+</div>
+
+<div class="row justify-content-center">
+  <div class="col-lg-8">
+    <div class="card card-custom p-4">
+      <form method="POST" action="{{ url_for('settings.index') }}">
+        <h5 class="fw-bold text-white mb-3">Authentication & Security</h5>
+
+        <div class="mb-3">
+          <label class="form-label text-light small fw-medium">Active Account</label>
+          <input type="text" class="form-control form-control-dark" value="{{ candidate.email }}" disabled>
+        </div>
+
+        <div class="mb-3">
+          <label class="form-label text-light small fw-medium">Change Password</label>
+          <input type="password" name="new_password" class="form-control form-control-dark" placeholder="Enter new password (optional)">
+        </div>
+
+        <hr class="border-secondary my-4">
+
+        <h5 class="fw-bold text-white mb-3">AI & Integration Configuration</h5>
+
+        <div class="mb-3">
+          <label class="form-label text-light small fw-medium">LLM Intelligence Engine</label>
+          <select class="form-select form-control-dark">
+            <option selected>Ollama (Local Llama 3.2)</option>
+            <option>Google Gemini API (Cloud)</option>
+          </select>
+        </div>
+
+        <div class="mb-4">
+          <label class="form-label text-light small fw-medium">Database Persistence Mode</label>
+          <input type="text" class="form-control form-control-dark" value="PostgreSQL / SQLite Dual Gateway Active" disabled>
+        </div>
+
+        <button type="submit" class="btn btn-primary w-100 py-2 fw-semibold">
+          <i class="bi bi-save me-1"></i> Save Account Settings
+        </button>
+      </form>
+    </div>
+  </div>
+</div>
+{% endblock %}

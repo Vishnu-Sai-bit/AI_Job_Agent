@@ -1280,6 +1280,17 @@ async def global_exception_handler(
     }
 
 # ==========================================================
+# Modular Routers (Admin & Users)
+# ==========================================================
+try:
+    from backend.routes.admin_routes import router as admin_router
+    from backend.routes.user_routes import router as user_router
+    app.include_router(admin_router)
+    app.include_router(user_router)
+except Exception:
+    pass
+
+# ==========================================================
 # Run
 # ==========================================================
 
