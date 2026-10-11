@@ -373,6 +373,32 @@ function loadStoredState() {
             currentUser = JSON.parse(savedUser);
         }
 
+        const savedJobs = localStorage.getItem("jobcopilot_jobs");
+        if (savedJobs) {
+            try {
+                const parsedJobs = JSON.parse(savedJobs);
+                if (Array.isArray(parsedJobs) && parsedJobs.length > 0) {
+                    const existingKeys = new Set();
+                    const merged = [];
+                    parsedJobs.forEach(j => {
+                        const k = `${(j.title || '').toLowerCase()}|${(j.company || '').toLowerCase()}`;
+                        if (!existingKeys.has(k)) {
+                            existingKeys.add(k);
+                            merged.push(j);
+                        }
+                    });
+                    jobData.forEach(j => {
+                        const k = `${(j.title || '').toLowerCase()}|${(j.company || '').toLowerCase()}`;
+                        if (!existingKeys.has(k)) {
+                            existingKeys.add(k);
+                            merged.push(j);
+                        }
+                    });
+                    jobData = merged;
+                }
+            } catch (err) {}
+        }
+
         // Sync jobData applied and saved flags with CRM
         syncJobDataWithCRM();
 
@@ -921,7 +947,10 @@ function renderJobs() {
                 <div class="job-header-row">
                     <span style="font-size: 1.3rem;">🏢</span>
                     <div>
-                        <h4 class="job-title-text" onclick="openJobDetailsModal('${job.id}')" style="cursor: pointer;" title="Click to view full job details">${job.title}</h4>
+                        <div style="display: flex; align-items: center; gap: 0.5rem; flex-wrap: wrap;">
+                            <h4 class="job-title-text" onclick="openJobDetailsModal('${job.id}')" style="cursor: pointer;" title="Click to view full job details">${job.title}</h4>
+                            ${getJobSourceBadge(job.source)}
+                        </div>
                         <span class="job-company-sub">${job.company} • ${job.location} • ${job.salary || "₹5-8 LPA"} • ${job.experience || "0-2 yrs"}</span>
                     </div>
                 </div>
@@ -933,10 +962,47 @@ function renderJobs() {
                 ${job.match_score ? `<span class="match-badge-green">${Math.round(job.match_score)}% Match</span>` : `<span class="badge-subtle">Verified</span>`}
                 <button class="action-btn-sm btn-secondary" onclick="openJobDetailsModal('${job.id}')" title="View Full Job Details & Skill Breakdown">View Details</button>
                 <button class="action-btn-sm btn-secondary" onclick="toggleSaveJob('${job.id}')" title="Save Job">${job.saved ? "★ Saved" : "☆ Save"}</button>
-                <button class="action-btn-sm btn-primary" onclick="handleApplyDirect('${job.id}')">${job.applied ? "Applied ✓" : "Apply"}</button>
+                <button class="action-btn-sm btn-primary" onclick="handleApplyDirect('${job.id}')" title="${job.url ? 'Open Job Portal & Track' : 'Track in CRM'}">${job.applied ? "Applied ✓" : "Apply"}</button>
             </div>
         </div>
     `).join("");
+}
+
+function getJobSourceBadge(source) {
+    const s = (source || "Verified").toLowerCase();
+    let badgeClass = "badge-subtle";
+    let icon = "🌐";
+    
+    if (s.includes("linkedin")) {
+        badgeClass = "badge-source-linkedin";
+        icon = "💼";
+    } else if (s.includes("adzuna") || s.includes("naukri") || s.includes("indeed")) {
+        badgeClass = "badge-source-adzuna";
+        icon = "🇮🇳";
+    } else if (s.includes("remoteok")) {
+        badgeClass = "badge-source-remoteok";
+        icon = "🌍";
+    } else if (s.includes("arbeitnow")) {
+        badgeClass = "badge-source-arbeitnow";
+        icon = "⚡";
+    } else if (s.includes("remotive")) {
+        badgeClass = "badge-source-remotive";
+        icon = "🌐";
+    } else if (s.includes("jobicy")) {
+        badgeClass = "badge-source-jobicy";
+        icon = "🎯";
+    } else if (s.includes("rapidapi") || s.includes("jsearch")) {
+        badgeClass = "badge-source-rapidapi";
+        icon = "🚀";
+    } else if (s.includes("jooble")) {
+        badgeClass = "badge-source-jooble";
+        icon = "🔍";
+    } else if (s.includes("serpapi") || s.includes("google")) {
+        badgeClass = "badge-source-serpapi";
+        icon = "🔎";
+    }
+    
+    return `<span class="job-source-tag ${badgeClass}">${icon} ${source || 'Verified'}</span>`;
 }
 
 // Search & Filter Events
@@ -992,6 +1058,199 @@ document.addEventListener("click", (e) => {
     currentJobFilter = chip.getAttribute("data-filter") || "all";
     renderJobs();
 });
+
+// ==========================================================
+// MULTI-PORTAL LIVE JOB SEARCH & FREE API AGGREGATION
+// ==========================================================
+let isLiveJobSearching = false;
+
+async function fetchLivePortalJobs() {
+    if (isLiveJobSearching) return;
+
+    const roleInput = document.getElementById("live-role-input");
+    const locInput = document.getElementById("live-location-input");
+    const role = (roleInput?.value || "").trim() || "Data Analyst";
+    const location = (locInput?.value || "").trim() || "India";
+
+    // Collect active sources
+    const sources = [];
+    if (document.getElementById("portal-chk-linkedin")?.checked) sources.push("linkedin");
+    if (document.getElementById("portal-chk-adzuna")?.checked) sources.push("adzuna");
+    if (document.getElementById("portal-chk-remoteok")?.checked) sources.push("remoteok");
+    if (document.getElementById("portal-chk-arbeitnow")?.checked) sources.push("arbeitnow");
+    if (document.getElementById("portal-chk-remotive")?.checked) sources.push("remotive");
+    if (document.getElementById("portal-chk-jobicy")?.checked) sources.push("jobicy");
+
+    if (sources.length === 0) {
+        showToast("Please select at least one job portal to search.", "warning", "⚠️");
+        return;
+    }
+
+    const btn = document.getElementById("btn-search-live-portals");
+    const btnText = document.getElementById("live-search-btn-text");
+    const btnIcon = document.getElementById("live-search-btn-icon");
+    const banner = document.getElementById("live-search-progress-banner");
+    const bannerText = document.getElementById("live-progress-banner-text");
+
+    isLiveJobSearching = true;
+    if (btn) btn.disabled = true;
+    if (btnText) btnText.textContent = "Querying Portals...";
+    if (btnIcon) btnIcon.textContent = "⏳";
+    if (banner) banner.style.display = "flex";
+    if (bannerText) bannerText.textContent = `Connecting to ${sources.join(", ")} concurrently...`;
+
+    try {
+        const candidateSkills = (resumeData && resumeData.skills) ? resumeData.skills : [];
+        const response = await fetch("/api/jobs/search-live", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({
+                role: role,
+                location: location,
+                sources: sources,
+                candidate_skills: candidateSkills,
+                max_total: 40
+            })
+        });
+
+        const data = await response.json();
+        if (data.success && data.jobs && data.jobs.length > 0) {
+            // Deduplicate and merge into jobData
+            let newCount = 0;
+            const existingKeys = new Set(jobData.map(j => `${(j.title || '').toLowerCase()}|${(j.company || '').toLowerCase()}`));
+
+            // Prepend new jobs to the beginning of jobData
+            data.jobs.forEach(j => {
+                const key = `${(j.title || '').toLowerCase()}|${(j.company || '').toLowerCase()}`;
+                if (!existingKeys.has(key)) {
+                    existingKeys.add(key);
+                    jobData.unshift(j);
+                    newCount++;
+                }
+            });
+
+            // Persist updated jobs in localStorage
+            localStorage.setItem("jobcopilot_jobs", JSON.stringify(jobData));
+
+            renderJobs();
+            showToast(`⚡ Loaded ${data.jobs.length} live jobs (${newCount} new) from ${data.sources_queried.join(", ")}!`, "success", "🌐");
+            if (bannerText) bannerText.textContent = `Completed! ${data.jobs.length} openings aggregated from ${data.sources_queried.join(", ")}.`;
+            setTimeout(() => { if (banner) banner.style.display = "none"; }, 3500);
+        } else {
+            showToast(`Search completed. No active listings found for "${role}" in "${location}".`, "info", "🔍");
+            if (bannerText) bannerText.textContent = `No listings returned from selected providers.`;
+            setTimeout(() => { if (banner) banner.style.display = "none"; }, 2500);
+        }
+    } catch (err) {
+        console.error("Live job search error:", err);
+        showToast("Error querying live job portals. Please try again.", "error", "❌");
+        if (banner) banner.style.display = "none";
+    } finally {
+        isLiveJobSearching = false;
+        if (btn) btn.disabled = false;
+        if (btnText) btnText.textContent = "Search Live Portals";
+        if (btnIcon) btnIcon.textContent = "⚡";
+    }
+}
+
+function openApiKeysModal() {
+    const modal = document.getElementById("api-keys-modal");
+    if (modal) modal.style.display = "flex";
+    loadProviderStatus();
+}
+
+function closeApiKeysModal() {
+    const modal = document.getElementById("api-keys-modal");
+    if (modal) modal.style.display = "none";
+}
+
+async function loadProviderStatus() {
+    const summaryContainer = document.getElementById("api-providers-summary-list");
+    try {
+        const res = await fetch("/api/jobs/providers-status");
+        const data = await res.json();
+        if (data.success && data.providers) {
+            const provList = Array.isArray(data.providers) ? data.providers : Object.values(data.providers);
+            if (summaryContainer) {
+                summaryContainer.innerHTML = provList.map(p => `
+                    <div class="provider-status-card">
+                        <div class="provider-status-top">
+                            <span class="provider-name">${p.name}</span>
+                            <span class="provider-tier-pill ${p.zero_key_required ? 'free' : 'key-free'}">
+                                ${p.zero_key_required ? '100% Free' : (p.status === 'connected' ? 'Active ✓' : 'Free Tier')}
+                            </span>
+                        </div>
+                        <p class="provider-desc">${p.description}</p>
+                    </div>
+                `).join("");
+            }
+
+            // Update badge statuses
+            const adzunaP = provList.find(p => p.name.toLowerCase().includes("adzuna"));
+            const adzunaBadge = document.getElementById("api-badge-adzuna");
+            if (adzunaBadge && adzunaP) {
+                adzunaBadge.className = adzunaP.status === "connected" ? "api-status-badge connected" : "api-status-badge";
+                adzunaBadge.textContent = adzunaP.status === "connected" ? "Active (Naukri, Indeed & India Portals)" : "Not Configured";
+            }
+
+            const rapidP = provList.find(p => p.name.toLowerCase().includes("rapidapi") || p.name.toLowerCase().includes("jsearch"));
+            const rapidBadge = document.getElementById("api-badge-rapidapi");
+            if (rapidBadge && rapidP) {
+                rapidBadge.className = rapidP.key_configured ? "api-status-badge connected" : "api-status-badge";
+                rapidBadge.textContent = rapidP.key_configured ? "Connected ✓" : "Optional (Free 200 req/mo)";
+            }
+
+            const joobleP = provList.find(p => p.name.toLowerCase().includes("jooble"));
+            const joobleBadge = document.getElementById("api-badge-jooble");
+            if (joobleBadge && joobleP) {
+                joobleBadge.className = joobleP.key_configured ? "api-status-badge connected" : "api-status-badge";
+                joobleBadge.textContent = joobleP.key_configured ? "Connected ✓" : "Optional (Free Tier)";
+            }
+
+            const serpP = provList.find(p => p.name.toLowerCase().includes("serpapi"));
+            const serpBadge = document.getElementById("api-badge-serpapi");
+            if (serpBadge && serpP) {
+                serpBadge.className = serpP.key_configured ? "api-status-badge connected" : "api-status-badge";
+                serpBadge.textContent = serpP.key_configured ? "Connected ✓" : "Optional (Free 100 req/mo)";
+            }
+        }
+    } catch (e) {
+        console.error("Failed to load provider status:", e);
+    }
+}
+
+async function saveApiKeysConfig() {
+    const adzunaId = document.getElementById("api-input-adzuna-id")?.value;
+    const adzunaKey = document.getElementById("api-input-adzuna-key")?.value;
+    const rapidKey = document.getElementById("api-input-rapidapi")?.value;
+    const joobleKey = document.getElementById("api-input-jooble")?.value;
+    const serpKey = document.getElementById("api-input-serpapi")?.value;
+
+    const payload = {};
+    if (adzunaId) payload.adzuna_app_id = adzunaId.trim();
+    if (adzunaKey) payload.adzuna_app_key = adzunaKey.trim();
+    if (rapidKey) payload.rapidapi_key = rapidKey.trim();
+    if (joobleKey) payload.jooble_api_key = joobleKey.trim();
+    if (serpKey) payload.serpapi_api_key = serpKey.trim();
+
+    try {
+        const res = await fetch("/api/jobs/save-api-keys", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify(payload)
+        });
+        const data = await res.json();
+        if (data.success) {
+            showToast("Free API credentials successfully saved and activated!", "success", "🔑");
+            loadProviderStatus();
+        } else {
+            showToast("Failed to save credentials: " + (data.message || "Unknown error"), "error", "❌");
+        }
+    } catch (e) {
+        console.error("Error saving API keys:", e);
+        showToast("Error saving credentials to server.", "error", "❌");
+    }
+}
 
 // Resumes List Renderer (Panel 6)
 function renderResumesList() {
@@ -1293,7 +1552,10 @@ function handleApplyDirect(jobId) {
     job.applied = true;
     localStorage.setItem("jobcopilot_applications", JSON.stringify(crmApplications));
     populateAllViews();
-    showToast(`🚀 Application added to CRM pipeline for ${job.title} at ${job.company}!`, "success", "🚀");
+    showToast(`🚀 Application tracked in CRM for ${job.title} at ${job.company}!`, "success", "🚀");
+    if (job.url) {
+        window.open(job.url, "_blank");
+    }
     switchMainTab("crm");
 }
 

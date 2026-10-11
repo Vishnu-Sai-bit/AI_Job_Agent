@@ -574,6 +574,90 @@
             <!-- ======================================================== -->
             <section id="panel-jobs" class="main-panel" style="display: none;">
                 <div class="jobs-view-container">
+                    <!-- Multi-Portal Real-Time Job Search Aggregator Card -->
+                    <div class="live-portal-search-card" id="live-portal-search-bar">
+                        <div class="portal-card-header">
+                            <div class="portal-header-left">
+                                <span class="portal-header-icon">🌐</span>
+                                <div>
+                                    <h3 class="portal-header-title">Multi-Portal Real-Time Job Search</h3>
+                                    <p class="portal-header-sub">Aggregate live verified openings across LinkedIn, Naukri & Indeed (Adzuna), RemoteOK, ArbeitNow, Remotive & Jobicy</p>
+                                </div>
+                            </div>
+                            <div class="portal-header-actions">
+                                <button class="action-btn-sm btn-secondary" onclick="openApiKeysModal()" title="Configure Free API Keys & Portals">
+                                    <span>🔑</span> Free API Keys & Portals
+                                </button>
+                            </div>
+                        </div>
+
+                        <!-- Search Inputs Row -->
+                        <div class="portal-inputs-row">
+                            <div class="portal-input-group flex-2">
+                                <label class="portal-input-label">Job Role / Title</label>
+                                <div class="portal-input-wrap">
+                                    <span class="portal-input-icon">💼</span>
+                                    <input type="text" id="live-role-input" class="portal-text-input" placeholder="e.g. Data Analyst, Python Developer, Data Scientist" value="Data Analyst">
+                                </div>
+                            </div>
+                            <div class="portal-input-group flex-1">
+                                <label class="portal-input-label">Target Location</label>
+                                <div class="portal-input-wrap">
+                                    <span class="portal-input-icon">📍</span>
+                                    <input type="text" id="live-location-input" class="portal-text-input" placeholder="e.g. India, Hyderabad, Bengaluru, Remote" value="India">
+                                </div>
+                            </div>
+                            <div class="portal-action-group">
+                                <label class="portal-input-label">&nbsp;</label>
+                                <button id="btn-search-live-portals" class="action-btn btn-primary portal-search-btn" onclick="fetchLivePortalJobs()">
+                                    <span id="live-search-btn-icon">⚡</span>
+                                    <span id="live-search-btn-text">Search Live Portals</span>
+                                </button>
+                            </div>
+                        </div>
+
+                        <!-- Active Portals Selection Chips -->
+                        <div class="portal-chips-container">
+                            <span class="portal-chips-label">Search Across:</span>
+                            <label class="portal-toggle-chip" title="Direct live guest search - 100% Free">
+                                <input type="checkbox" id="portal-chk-linkedin" checked>
+                                <span class="chip-dot dot-linkedin"></span>
+                                <span class="chip-text">LinkedIn (Direct Guest)</span>
+                            </label>
+                            <label class="portal-toggle-chip" title="Free Developer API - Indian Portals (Naukri & Indeed)">
+                                <input type="checkbox" id="portal-chk-adzuna" checked>
+                                <span class="chip-dot dot-adzuna"></span>
+                                <span class="chip-text">Naukri & Indeed (Adzuna API)</span>
+                            </label>
+                            <label class="portal-toggle-chip" title="Open Public API - 100% Free">
+                                <input type="checkbox" id="portal-chk-remoteok" checked>
+                                <span class="chip-dot dot-remoteok"></span>
+                                <span class="chip-text">RemoteOK (Open API)</span>
+                            </label>
+                            <label class="portal-toggle-chip" title="Open Public API - 100% Free">
+                                <input type="checkbox" id="portal-chk-arbeitnow" checked>
+                                <span class="chip-dot dot-arbeitnow"></span>
+                                <span class="chip-text">ArbeitNow (Open API)</span>
+                            </label>
+                            <label class="portal-toggle-chip" title="Open Public API - 100% Free">
+                                <input type="checkbox" id="portal-chk-remotive" checked>
+                                <span class="chip-dot dot-remotive"></span>
+                                <span class="chip-text">Remotive (Open API)</span>
+                            </label>
+                            <label class="portal-toggle-chip" title="Open Public API - 100% Free">
+                                <input type="checkbox" id="portal-chk-jobicy" checked>
+                                <span class="chip-dot dot-jobicy"></span>
+                                <span class="chip-text">Jobicy (Open API)</span>
+                            </label>
+                        </div>
+
+                        <!-- Live Aggregation Progress Tracker -->
+                        <div id="live-search-progress-banner" class="live-progress-banner" style="display: none;">
+                            <div class="live-spinner"></div>
+                            <span id="live-progress-banner-text">Querying portals concurrently...</span>
+                        </div>
+                    </div>
+
                     <!-- Search and Filter Bar -->
                     <div class="jobs-search-filter-card">
                         <div class="search-input-box">
@@ -2257,6 +2341,111 @@
                     <button type="submit" class="action-btn btn-primary">Save Notes</button>
                 </div>
             </form>
+        </div>
+    <!-- ======================================================== -->
+    <!-- FREE API KEYS & PROVIDERS MODAL -->
+    <!-- ======================================================== -->
+    <div id="api-keys-modal" class="modal-backdrop" style="display: none;">
+        <div class="modal-box" style="max-width: 680px; width: 92%;">
+            <div class="modal-header">
+                <div style="display: flex; align-items: center; gap: 0.65rem;">
+                    <span style="font-size: 1.35rem;">🔑</span>
+                    <div>
+                        <h3 style="margin: 0; font-size: 1.15rem; font-weight: 800;">Free Job Portal API Keys & Status</h3>
+                        <p class="muted" style="margin: 0; font-size: 0.78rem;">Connect 100% free developer tiers for real-time job aggregation across global portals</p>
+                    </div>
+                </div>
+                <button class="modal-close-btn" onclick="closeApiKeysModal()">✕</button>
+            </div>
+
+            <div class="modal-body" style="padding: 1.25rem; max-height: 70vh; overflow-y: auto;">
+                <!-- Active Free Providers Overview Cards -->
+                <div class="api-providers-grid" id="api-providers-summary-list">
+                    <!-- Populated dynamically via loadProviderStatus() -->
+                </div>
+
+                <div class="api-credentials-form-section" style="margin-top: 1.25rem;">
+                    <h4 style="margin: 0 0 0.5rem 0; font-size: 0.95rem; color: var(--text-bright); display: flex; align-items: center; gap: 0.5rem;">
+                        <span>⚙️</span> Manage Your Free Developer Keys
+                    </h4>
+                    <p style="font-size: 0.78rem; color: var(--text-muted); margin-bottom: 1rem;">
+                        All services below offer 100% free developer tiers. Keys are securely stored and activated immediately.
+                    </p>
+
+                    <!-- Adzuna Free Tier (Indian Portals: Naukri, Indeed, Monster) -->
+                    <div class="api-key-input-card">
+                        <div class="api-key-card-header">
+                            <div class="api-key-badge-row">
+                                <span class="badge-source-adzuna job-source-tag">Adzuna</span>
+                                <span class="api-status-badge connected" id="api-badge-adzuna">Active (Naukri, Indeed & India Portals)</span>
+                            </div>
+                            <a href="https://developer.adzuna.com" target="_blank" class="api-link-help">Get Free Adzuna Key ↗</a>
+                        </div>
+                        <div class="api-inputs-split" style="display: grid; grid-template-columns: 1fr 1fr; gap: 0.75rem; margin-top: 0.6rem;">
+                            <div class="form-group">
+                                <label class="form-label" style="font-size: 0.75rem;">Adzuna App ID</label>
+                                <input type="text" id="api-input-adzuna-id" class="form-input" placeholder="e.g. 01f60413">
+                            </div>
+                            <div class="form-group">
+                                <label class="form-label" style="font-size: 0.75rem;">Adzuna App Key</label>
+                                <input type="password" id="api-input-adzuna-key" class="form-input" placeholder="e.g. 84eadc44650991...">
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- RapidAPI JSearch Free Tier -->
+                    <div class="api-key-input-card" style="margin-top: 0.85rem;">
+                        <div class="api-key-card-header">
+                            <div class="api-key-badge-row">
+                                <span class="badge-source-rapidapi job-source-tag">RapidAPI JSearch</span>
+                                <span class="api-status-badge" id="api-badge-rapidapi">Optional</span>
+                            </div>
+                            <a href="https://rapidapi.com/letscrape-6bRBa3QguO5/api/jsearch" target="_blank" class="api-link-help">Get Free RapidAPI Key ↗</a>
+                        </div>
+                        <div class="form-group" style="margin-top: 0.6rem;">
+                            <label class="form-label" style="font-size: 0.75rem;">RapidAPI Key (Free 200 requests/month for LinkedIn, Indeed, Glassdoor)</label>
+                            <input type="password" id="api-input-rapidapi" class="form-input" placeholder="e.g. e6b19e07damsh...">
+                        </div>
+                    </div>
+
+                    <!-- Jooble Free Tier -->
+                    <div class="api-key-input-card" style="margin-top: 0.85rem;">
+                        <div class="api-key-card-header">
+                            <div class="api-key-badge-row">
+                                <span class="badge-source-jooble job-source-tag">Jooble</span>
+                                <span class="api-status-badge" id="api-badge-jooble">Optional</span>
+                            </div>
+                            <a href="https://jooble.org/api/about" target="_blank" class="api-link-help">Get Free Jooble Key ↗</a>
+                        </div>
+                        <div class="form-group" style="margin-top: 0.6rem;">
+                            <label class="form-label" style="font-size: 0.75rem;">Jooble API Key (Free search aggregator)</label>
+                            <input type="password" id="api-input-jooble" class="form-input" placeholder="e.g. 8fa2e0...">
+                        </div>
+                    </div>
+
+                    <!-- SerpApi Google Jobs Free Tier -->
+                    <div class="api-key-input-card" style="margin-top: 0.85rem;">
+                        <div class="api-key-card-header">
+                            <div class="api-key-badge-row">
+                                <span class="badge-source-serpapi job-source-tag">SerpApi (Google Jobs)</span>
+                                <span class="api-status-badge" id="api-badge-serpapi">Optional</span>
+                            </div>
+                            <a href="https://serpapi.com" target="_blank" class="api-link-help">Get Free SerpApi Key ↗</a>
+                        </div>
+                        <div class="form-group" style="margin-top: 0.6rem;">
+                            <label class="form-label" style="font-size: 0.75rem;">SerpApi Key (Free 100 Google Jobs searches/month)</label>
+                            <input type="password" id="api-input-serpapi" class="form-input" placeholder="e.g. 7f98...">
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="modal-footer" style="display: flex; justify-content: space-between; align-items: center; padding: 1rem 1.25rem; border-top: 1px solid var(--border-color); background: var(--bg-surface);">
+                <button type="button" class="action-btn btn-secondary" onclick="closeApiKeysModal()">Close</button>
+                <button type="button" class="action-btn btn-primary" onclick="saveApiKeysConfig()">
+                    <span>💾</span> Save & Apply Keys
+                </button>
+            </div>
         </div>
     </div>
 
