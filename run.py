@@ -18,8 +18,11 @@ from app import create_app
 app = create_app()
 
 if __name__ == "__main__":
+    import os
+    port = int(os.environ.get("PORT", 5000))
+    host = os.environ.get("HOST", "0.0.0.0")
     print("\n" + "="*60)
     print("AI Job Copilot & Career Intelligence Platform")
-    print("Local Server: http://127.0.0.1:5000")
+    print(f"Server running on: http://{host}:{port}")
     print("="*60 + "\n")
-    app.run(host="127.0.0.1", port=5000, debug=False)
+    app.run(host=host, port=port, debug=False)
