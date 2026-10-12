@@ -38,9 +38,7 @@ def login(payload: LoginPayload):
     except Exception as e:
         raise HTTPException(status_code=401, detail=str(e))
 
-@router.post("/guest")
-def guest_login():
-    return user_service.create_guest_session()
+
 
 @router.get("/me")
 def get_me(authorization: Optional[str] = Header(None)):

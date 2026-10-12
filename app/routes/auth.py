@@ -69,11 +69,7 @@ def register():
 
     return render_template("auth/register.html")
 
-@auth_bp.route("/guest", methods=["GET", "POST"])
-@auth_bp.route("/guest-login", methods=["GET", "POST"])
-def guest_login():
-    flash("Demo access has been disabled. Please sign in or create an account.", "info")
-    return redirect(url_for("auth.login"))
+
 
 @auth_bp.route("/google", methods=["GET", "POST"])
 @auth_bp.route("/google-login", methods=["GET", "POST"])

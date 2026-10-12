@@ -848,15 +848,7 @@ def api_auth_login(req: LoginRequest):
     except Exception as e:
         raise HTTPException(status_code=500, detail=str(e))
 
-@app.post("/auth/guest")
-def api_auth_guest():
-    """
-    Create instant guest user session for frictionless guest access.
-    """
-    try:
-        return auth_service.create_guest_session()
-    except Exception as e:
-        raise HTTPException(status_code=500, detail=str(e))
+
 
 @app.post("/auth/google")
 def api_auth_google(req: GoogleAuthRequest):

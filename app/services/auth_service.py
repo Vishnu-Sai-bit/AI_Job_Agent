@@ -30,19 +30,4 @@ class AuthService:
         db.session.commit()
         return user
 
-    @staticmethod
-    def get_or_create_guest() -> User:
-        guest = User.query.filter_by(email="guest@jobcopilot.ai").first()
-        if not guest:
-            guest = User(
-                id="usr_guest_demo",
-                email="guest@jobcopilot.ai",
-                full_name="Guest Candidate",
-                role="candidate"
-            )
-            guest.set_password("guest123")
-            db.session.add(guest)
-            db.session.commit()
-        return guest
-
 auth_service = AuthService()
