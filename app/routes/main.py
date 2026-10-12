@@ -47,6 +47,15 @@ def index():
         return redirect(url_for("main.dashboard"))
     return render_template("landing.html")
 
+@main_bp.route("/career-tools")
+@main_bp.route("/ai-career-tools")
+def career_tools_alias():
+    return redirect(url_for("assistant.index"))
+
+@main_bp.route("/roadmaps")
+def roadmaps_alias():
+    return redirect(url_for("career.career_intelligence"))
+
 @main_bp.route("/dashboard")
 def dashboard():
     candidate = get_candidate_context()

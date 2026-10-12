@@ -14,6 +14,8 @@ career_bp = Blueprint("career", __name__)
 
 @career_bp.route("/career", strict_slashes=False)
 @career_bp.route("/career/", strict_slashes=False)
+@career_bp.route("/roadmaps", strict_slashes=False)
+@career_bp.route("/roadmaps/", strict_slashes=False)
 @career_bp.route("/career-intelligence", strict_slashes=False)
 @career_bp.route("/career-intelligence/", strict_slashes=False)
 def career_intelligence():

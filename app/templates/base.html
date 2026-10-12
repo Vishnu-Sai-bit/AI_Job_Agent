@@ -13,13 +13,34 @@
 </head>
 <body>
   <!-- Top Navigation Bar -->
-  <nav class="navbar navbar-expand-lg navbar-dark border-bottom border-secondary" style="background-color: #0b1120;">
+  <nav class="navbar navbar-expand-lg navbar-dark border-bottom border-secondary sticky-top" style="background-color: #0b0f17; z-index: 1020;">
     <div class="container-fluid px-4">
       <a class="navbar-brand fw-bold d-flex align-items-center gap-2 text-white" href="{{ url_for('main.dashboard') }}">
-        <i class="bi bi-cpu-fill text-primary fs-4"></i>
-        <span>AI Job Copilot</span>
-        <span class="badge bg-primary-subtle text-primary border border-primary-subtle ms-2 px-2 py-1 small" style="font-size: 0.7rem;">v2.0 PRO</span>
+        <span class="badge p-2 rounded-circle" style="background: linear-gradient(135deg, #6366f1, #8b5cf6);"><i class="bi bi-lightning-charge-fill text-white fs-6"></i></span>
+        <div>
+          <span class="fs-5 fw-bold text-white d-block lh-1">AI JobAgent</span>
+          <span class="badge text-uppercase" style="background-color: rgba(99, 102, 241, 0.2); color: #818cf8; font-size: 0.6rem; letter-spacing: 0.8px; padding: 2px 6px;">STUDIO PRO</span>
+        </div>
       </a>
+
+      <!-- Horizontal Navigation Tabs Matching Studio Pro -->
+      <div class="d-none d-lg-flex align-items-center gap-2 ms-4">
+        <a href="{{ url_for('main.dashboard') }}" class="btn btn-sm rounded-pill px-3 {% if active_tab == 'dashboard' %}btn-primary text-white{% else %}btn-dark text-secondary border-0{% endif %}" style="{% if active_tab == 'dashboard' %}background: #1e293b; border: 1px solid #334155;{% endif %}">
+          <span>📊</span> <span class="ms-1 fw-medium">Dashboard & ATS</span>
+        </a>
+        <a href="{{ url_for('jobs.index') }}" class="btn btn-sm rounded-pill px-3 {% if active_tab in ['jobs', 'ai_job_agent'] %}btn-primary text-white{% else %}btn-dark text-secondary border-0{% endif %}" style="{% if active_tab in ['jobs', 'ai_job_agent'] %}background: #1e293b; border: 1px solid #334155;{% endif %}">
+          <span>🎯</span> <span class="ms-1 fw-medium">Job Matches</span>
+        </a>
+        <a href="{{ url_for('applications.index') }}" class="btn btn-sm rounded-pill px-3 {% if active_tab == 'applications' %}btn-primary text-white{% else %}btn-dark text-secondary border-0{% endif %}" style="{% if active_tab == 'applications' %}background: #1e293b; border: 1px solid #334155;{% endif %}">
+          <span>📋</span> <span class="ms-1 fw-medium">Application CRM</span>
+        </a>
+        <a href="{{ url_for('assistant.index') }}" class="btn btn-sm rounded-pill px-3 {% if active_tab == 'assistant' %}btn-primary text-white{% else %}btn-dark text-secondary border-0{% endif %}" style="{% if active_tab == 'assistant' %}background: linear-gradient(135deg, rgba(99, 102, 241, 0.3), rgba(168, 85, 247, 0.35)); border: 1px solid #6366f1; color: #a5b4fc !important;{% endif %}">
+          <span>🧠</span> <span class="ms-1 fw-semibold">AI Career Tools</span>
+        </a>
+        <a href="{{ url_for('career.career_intelligence') }}" class="btn btn-sm rounded-pill px-3 {% if active_tab == 'career_intelligence' %}btn-primary text-white{% else %}btn-dark text-secondary border-0{% endif %}" style="{% if active_tab == 'career_intelligence' %}background: #1e293b; border: 1px solid #334155;{% endif %}">
+          <span>📈</span> <span class="ms-1 fw-medium">Roadmaps</span>
+        </a>
+      </div>
 
       <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#topNavbar">
         <span class="navbar-toggler-icon"></span>
@@ -27,6 +48,22 @@
 
       <div class="collapse navbar-collapse" id="topNavbar">
         <ul class="navbar-nav ms-auto align-items-center gap-3">
+          <!-- Live Storage Status Pill -->
+          <li class="nav-item d-none d-sm-block">
+            <span class="badge rounded-pill px-3 py-2 border d-flex align-items-center gap-2" style="background-color: #0b0f17; border-color: #1e293b !important; color: #34d399; font-size: 0.75rem;">
+              <span class="rounded-circle" style="width: 7px; height: 7px; background-color: #10b981; display: inline-block;"></span>
+              <span>Local Storage Active</span>
+            </span>
+          </li>
+
+          <!-- Upload Resume Button -->
+          <li class="nav-item">
+            <a href="{{ url_for('resumes.index') }}" class="btn btn-sm px-3 rounded-pill text-white fw-semibold d-flex align-items-center gap-2" style="background: linear-gradient(135deg, #6366f1, #8b5cf6); border: none; box-shadow: 0 4px 12px rgba(99, 102, 241, 0.35);">
+              <i class="bi bi-file-earmark-arrow-up"></i>
+              <span>Upload Resume</span>
+            </a>
+          </li>
+
           <!-- Notification Bell Dropdown in Navbar -->
           <li class="nav-item dropdown">
             <a class="nav-link text-light position-relative p-2" href="#" id="navbarNotifDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false" title="Notifications">
@@ -77,7 +114,7 @@
             </li>
           {% else %}
             <li class="nav-item">
-              <a href="{{ url_for('auth.login') }}" class="btn btn-primary btn-sm px-3">
+              <a href="{{ url_for('auth.login') }}" class="btn btn-outline-light btn-sm px-3 rounded-pill">
                 <i class="bi bi-person-fill me-1"></i> Sign In
               </a>
             </li>
