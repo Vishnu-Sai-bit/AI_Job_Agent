@@ -167,8 +167,13 @@ AI_Job_Agent/
     ```
 4.  Run the system locally:
     ```bash
+    # Run Full-Stack AI Job Agent (Port 5000)
+    python run.py
+
+    # Or run via startup script
     .\start.bat
     ```
+    Open [http://127.0.0.1:5000](http://127.0.0.1:5000) in your browser.
 
 ### 🐳 Run with Docker (Containerized)
 If you have Docker and Docker Compose installed:
@@ -177,7 +182,7 @@ If you have Docker and Docker Compose installed:
    ```bash
    docker-compose up --build
    ```
-3. The backend will be live at `http://localhost:8000`.
+3. The platform will be live at `http://localhost:5000`.
 
 ---
 
