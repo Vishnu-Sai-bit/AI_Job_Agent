@@ -65,5 +65,12 @@ def create_app():
 
     return app
 
-# Expose default application instance for WSGI/PaaS runners (gunicorn app:app, etc.)
-app = create_app()
+# Create Flask application instance
+flask_app = create_app()
+
+# Wrap with WSGIMiddleware so ASGI runners (such as Render's 'uvicorn app:app') run Flask seamlessly
+try:
+    from starlette.middleware.wsgi import WSGIMiddleware
+    app = WSGIMiddleware(flask_app)
+except Exception:
+    app = flask_app
