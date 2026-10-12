@@ -75,13 +75,13 @@ def dashboard():
         from services.crm.application_crm import get_all_applications
         total_apps = len(get_all_applications()) or 4
 
-    from app.routes.jobs import load_verified_jobs
+    from app.routes.jobs import load_verified_jobs, match_skills
     all_jobs = load_verified_jobs()
     cand_skills = {s.lower().strip() for s in candidate.get("skills", [])}
     scored = []
     for j in all_jobs:
-        j_skills = j.get("skills") or []
-        m = [s for s in j_skills if s and s.lower().strip() in cand_skills]
+        j_skills = j.get("skills", [])
+        m, _ = match_skills(j_skills, cand_skills)
         pct = int(round((len(m) / max(len(j_skills), 1)) * 100)) if j_skills else 75
         scored.append({
             "id": j.get("id"),
@@ -89,6 +89,7 @@ def dashboard():
             "company": j.get("company"),
             "location": j.get("location"),
             "salary": j.get("salary", "Competitive"),
+            "url": j.get("url", "#"),
             "match_score": min(100, max(45, pct + 25)),
             "skills": j_skills[:4]
         })

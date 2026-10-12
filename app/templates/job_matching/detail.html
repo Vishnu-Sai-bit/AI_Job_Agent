@@ -24,10 +24,10 @@
     <div class="col-lg-6">
       <div class="card card-custom p-4 h-100">
         <h5 class="fw-bold text-white mb-3">Candidate Resume Strengths</h5>
-        <h6 class="text-success small fw-bold text-uppercase mb-2">Matched Keywords ({{ len(matching) }})</h6>
+        <h6 class="text-success small fw-bold text-uppercase mb-2">Matched Keywords ({{ matching|length }})</h6>
         <div class="d-flex flex-wrap gap-2 mb-4">
           {% for m in matching %}
-            <span class="badge badge-skill-match px-3 py-2">{{ m }}</span>
+            <span class="badge badge-skill-match px-3 py-2"><i class="bi bi-check-circle-fill me-1"></i>{{ m }}</span>
           {% else %}
             <span class="text-secondary small">No exact skill matches</span>
           {% endfor %}
@@ -43,17 +43,22 @@
     <div class="col-lg-6">
       <div class="card card-custom p-4 h-100">
         <h5 class="fw-bold text-white mb-3">Qualification Gaps & Next Actions</h5>
-        <h6 class="text-warning small fw-bold text-uppercase mb-2">Missing Skills to Feature ({{ len(missing) }})</h6>
+        <h6 class="text-warning small fw-bold text-uppercase mb-2">Missing Skills to Feature ({{ missing|length }})</h6>
         <div class="d-flex flex-wrap gap-2 mb-4">
           {% for gap in missing %}
-            <span class="badge badge-skill-missing px-3 py-2">{{ gap }}</span>
+            <span class="badge badge-skill-missing px-3 py-2"><i class="bi bi-plus-circle me-1"></i>{{ gap }}</span>
           {% else %}
             <span class="text-secondary small">Zero skill deficits identified!</span>
           {% endfor %}
         </div>
 
-        <div class="pt-3 border-top border-secondary">
-          <a href="{{ url_for('resumes.tailor') }}" class="btn btn-warning w-100 mb-2">
+        <div class="pt-3 border-top border-secondary d-flex flex-column gap-2">
+          {% if job and job.url and job.url != '#' %}
+            <a href="{{ job.url }}" target="_blank" rel="noopener noreferrer" class="btn btn-success w-100 fw-semibold d-flex align-items-center justify-content-center gap-2">
+              <i class="bi bi-send-fill"></i> Apply Now for this Opportunity <i class="bi bi-box-arrow-up-right ms-1"></i>
+            </a>
+          {% endif %}
+          <a href="{{ url_for('resumes.tailor') }}" class="btn btn-warning w-100">
             <i class="bi bi-magic me-1"></i> Tailor Resume for this Vacancy
           </a>
           <a href="{{ url_for('interviews.index', role=job.title if job else 'Data Analyst', company=job.company if job else 'Company') }}" class="btn btn-outline-light w-100">
