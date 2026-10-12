@@ -16,10 +16,6 @@
             <span>✍️</span>
             <span class="fw-semibold">Cover Letter Writer</span>
           </button>
-          <button class="btn btn-tool text-start d-flex align-items-center gap-2 py-2 px-3 rounded-3" data-tool="interview" onclick="selectTool('interview')">
-            <span>💬</span>
-            <span class="fw-semibold">Mock Interview Prep</span>
-          </button>
           <button class="btn btn-tool text-start d-flex align-items-center gap-2 py-2 px-3 rounded-3" data-tool="email" onclick="selectTool('email')">
             <span>✉️</span>
             <span class="fw-semibold">Cold Outreach Generator</span>
@@ -32,6 +28,13 @@
             <span>💰</span>
             <span class="fw-semibold">Salary Range Estimator</span>
           </button>
+        </div>
+        <div class="mt-3 pt-3 border-top border-secondary">
+          <div class="text-secondary small fw-semibold text-uppercase mb-2 px-1" style="font-size: 0.72rem; letter-spacing: 0.5px;">Unified Interview Room</div>
+          <a href="{{ url_for('interviews.index') }}" class="btn btn-outline-info btn-sm w-100 rounded-3 py-2 d-flex align-items-center justify-content-center gap-2">
+            <i class="bi bi-mic-fill"></i>
+            <span class="fw-semibold">Open Mock Interview Studio →</span>
+          </a>
         </div>
       </div>
     </div>
@@ -150,67 +153,6 @@
           <textarea id="cl-desc" rows="4" class="form-control form-control-dark" placeholder="Paste target description to customize metrics..."></textarea>
         </div>
       `;
-    } else if (activeTool === "interview") {
-      container.innerHTML = `
-        <div class="mb-3">
-          <label class="form-label text-light small fw-semibold d-block">Target Company Preset</label>
-          <div class="d-flex flex-wrap gap-2 mb-2" id="company-presets">
-            <span class="badge-preset active" onclick="setCompanyPreset('Microsoft')">🏢 Microsoft</span>
-            <span class="badge-preset" onclick="setCompanyPreset('Amazon')">📦 Amazon</span>
-            <span class="badge-preset" onclick="setCompanyPreset('Google')">🔍 Google</span>
-            <span class="badge-preset" onclick="setCompanyPreset('TCS')">💼 TCS</span>
-            <span class="badge-preset" onclick="setCompanyPreset('Infosys')">⚡ Infosys</span>
-            <span class="badge-preset" onclick="setCompanyPreset('Deloitte')">🏛️ Deloitte</span>
-            <span class="badge-preset" onclick="setCompanyPreset('Startup')">🚀 Startup</span>
-            <span class="badge-preset" onclick="setCompanyPreset('Custom')">✏️ Custom</span>
-          </div>
-          <input type="text" id="int-company" class="form-control form-control-dark mt-2" value="Microsoft">
-        </div>
-        <div class="mb-3">
-          <label class="form-label text-light small fw-semibold d-block">Interview Round Type</label>
-          <div class="d-flex flex-wrap gap-2 mb-2" id="round-presets">
-            <span class="badge-preset active" onclick="setRoundType('Technical Deep Dive')">💻 Technical Deep Dive</span>
-            <span class="badge-preset" onclick="setRoundType('Data Modeling & SQL')">📊 Data Modeling & SQL</span>
-            <span class="badge-preset" onclick="setRoundType('Behavioral STAR')">🧠 Behavioral STAR</span>
-            <span class="badge-preset" onclick="setRoundType('HR & Culture Fit')">🤝 HR & Culture Fit</span>
-          </div>
-          <input type="hidden" id="int-round" value="Technical Deep Dive">
-        </div>
-        <div class="mb-3">
-          <label class="form-label text-light small fw-semibold">Target Role</label>
-          <input type="text" id="int-role" class="form-control form-control-dark" value="${preferredRole}">
-        </div>
-        <div class="mb-3">
-          <label class="form-label text-light small fw-semibold">Difficulty Level</label>
-          <select id="int-difficulty" class="form-select form-control-dark">
-            <option value="Mid-Level Specialist (Practical + STAR)" selected>Mid-Level Specialist (Practical + STAR)</option>
-            <option value="Entry-Level Graduate">Entry-Level Graduate</option>
-            <option value="Senior Specialist / Lead">Senior Specialist / Lead</option>
-          </select>
-        </div>
-        <div class="mb-3">
-          <label class="form-label text-light small fw-semibold">Core Technical Skills (comma separated)</label>
-          <input type="text" id="int-skills" class="form-control form-control-dark" value="${candidateSkills}">
-        </div>
-        <div class="row g-3 mb-2">
-          <div class="col-md-6">
-            <label class="form-label text-light small fw-semibold">Number of Questions</label>
-            <select id="int-count" class="form-select form-control-dark">
-              <option value="3">3 Questions (Quick Practice)</option>
-              <option value="5" selected>5 Questions (Standard Round)</option>
-              <option value="8">8 Questions (Comprehensive Evaluation)</option>
-            </select>
-          </div>
-          <div class="col-md-6">
-            <label class="form-label text-light small fw-semibold">Interviewer Perspective / Tone</label>
-            <select id="int-tone" class="form-select form-control-dark">
-              <option value="Senior Technical Hiring Manager" selected>Senior Technical Hiring Manager</option>
-              <option value="Peer Senior Engineer">Peer Senior Engineer</option>
-              <option value="HR Talent Acquisition Lead">HR Talent Acquisition Lead</option>
-            </select>
-          </div>
-        </div>
-      `;
     } else if (activeTool === "email") {
       container.innerHTML = `
         <div class="mb-3">
@@ -267,22 +209,6 @@
     }
   }
 
-  function setCompanyPreset(comp) {
-    const el = document.getElementById("int-company");
-    if (el) el.value = comp === "Custom" ? "" : comp;
-    document.querySelectorAll("#company-presets .badge-preset").forEach(b => {
-      b.classList.toggle("active", b.textContent.includes(comp));
-    });
-  }
-
-  function setRoundType(rt) {
-    const el = document.getElementById("int-round");
-    if (el) el.value = rt;
-    document.querySelectorAll("#round-presets .badge-preset").forEach(b => {
-      b.classList.toggle("active", b.textContent.includes(rt));
-    });
-  }
-
   async function executeCopilotPrompt() {
     const btn = document.getElementById("run-tool-btn");
     const spinner = document.getElementById("btn-spinner");
@@ -303,14 +229,6 @@
       payload.company = document.getElementById("cl-company").value;
       payload.skills = document.getElementById("cl-skills").value;
       payload.job_desc = document.getElementById("cl-desc").value;
-    } else if (activeTool === "interview") {
-      payload.company = document.getElementById("int-company").value;
-      payload.round_type = document.getElementById("int-round").value;
-      payload.role = document.getElementById("int-role").value;
-      payload.difficulty = document.getElementById("int-difficulty").value;
-      payload.skills = document.getElementById("int-skills").value;
-      payload.count = document.getElementById("int-count").value;
-      payload.tone = document.getElementById("int-tone").value;
     } else if (activeTool === "email") {
       payload.name = document.getElementById("em-name").value;
       payload.role = document.getElementById("em-role").value;
