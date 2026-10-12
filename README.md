@@ -186,16 +186,14 @@ If you have Docker and Docker Compose installed:
 
 ---
 
-## 🌐 Deployment Configuration
+## 🌐 Deployment Configuration (Render)
 
-### 1. Backend (FastAPI on Render)
+### Production Full-Stack Web Service
+*   **Runtime**: Python 3
 *   **Build Command**: `pip install -r requirements.txt`
-*   **Start Command**: `uvicorn app:app --host 0.0.0.0 --port $PORT`
-*   **Environment Variables**: Add your API keys (`GROQ_API_KEY`, `SERPAPI_API_KEY`, etc.) under the Environment Settings tab.
-
-### 2. Frontend (Static Site on Render)
-*   **Publish Directory**: `frontend`
-*   **Build Command**: *(Leave empty)*
+*   **Start Command**: `gunicorn run:app` (configured via `Procfile` and `render.yaml`)
+*   **Port Binding**: Automatically bound to `0.0.0.0:$PORT`
+*   **Authentication**: Google OAuth SSO & Gmail OTP verification enabled
 
 ---
 
