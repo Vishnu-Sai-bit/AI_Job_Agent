@@ -1973,7 +1973,6 @@
             <div class="auth-tabs-nav">
                 <button class="auth-tab-btn active" id="tab-btn-signin" onclick="switchAuthModalTab('signin')">Sign In</button>
                 <button class="auth-tab-btn" id="tab-btn-register" onclick="switchAuthModalTab('register')">Create Account</button>
-                <button class="auth-tab-btn" id="tab-btn-admin-demo" onclick="switchAuthModalTab('admin-demo')">Admin Access</button>
             </div>
 
             <!-- Tab 1: Sign In -->
@@ -2035,27 +2034,7 @@
                 </form>
             </div>
 
-            <!-- Tab 3: Quick Admin Access -->
-            <div class="auth-tab-pane" id="auth-pane-admin-demo">
-                <div style="text-align: center; padding: 0.5rem 0 1rem 0;">
-                    <div style="font-size: 2.2rem; margin-bottom: 0.5rem;">👑</div>
-                    <h4 style="font-size: 1.05rem; font-weight: 800; color: var(--text-bright); margin-bottom: 0.25rem;">Administrator Quick Access</h4>
-                    <p class="muted" style="font-size: 0.82rem; line-height: 1.4;">Authenticate instantly with executive administrator privileges to inspect user profiles, audit telemetry, and manage job records.</p>
-                </div>
-                <div style="background: var(--bg-surface); padding: 1rem; border-radius: var(--radius-md); border: 1px solid var(--border-color); margin-bottom: 1rem; font-size: 0.8rem;">
-                    <div style="display: flex; justify-content: space-between; margin-bottom: 0.3rem;">
-                        <span class="muted">Admin Account:</span>
-                        <strong style="color: var(--text-bright);">admin@jobagent.ai</strong>
-                    </div>
-                    <div style="display: flex; justify-content: space-between;">
-                        <span class="muted">Access Role:</span>
-                        <strong style="color: #f87171;">System Superadmin</strong>
-                    </div>
-                </div>
-                <button class="action-btn btn-primary" onclick="handleQuickAdminSignIn()" style="width: 100%; padding: 0.75rem; font-weight: 800; background: linear-gradient(135deg, #ef4444, #f59e0b);">
-                    ⚡ Sign In as Admin
-                </button>
-            </div>
+
         </div>
     </div>
 

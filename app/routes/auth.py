@@ -72,21 +72,8 @@ def register():
 @auth_bp.route("/guest", methods=["GET", "POST"])
 @auth_bp.route("/guest-login", methods=["GET", "POST"])
 def guest_login():
-    guest_user = User.query.filter_by(email="guest@jobcopilot.ai").first()
-    if not guest_user:
-        guest_user = User(
-            id="usr_guest_demo",
-            email="guest@jobcopilot.ai",
-            full_name="Guest Candidate",
-            role="candidate"
-        )
-        guest_user.set_password("guest123")
-        db.session.add(guest_user)
-        db.session.commit()
-
-    login_user(guest_user)
-    flash("Signed in with Guest Candidate access!", "info")
-    return redirect(url_for("main.dashboard"))
+    flash("Demo access has been disabled. Please sign in or create an account.", "info")
+    return redirect(url_for("auth.login"))
 
 @auth_bp.route("/logout")
 @login_required

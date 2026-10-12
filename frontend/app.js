@@ -2521,7 +2521,7 @@ function closeAuthModal() {
 }
 
 function switchAuthModalTab(tabId) {
-    const tabs = ["signin", "register", "admin-demo"];
+    const tabs = ["signin", "register"];
     tabs.forEach(t => {
         const btn = document.getElementById(`tab-btn-${t}`);
         const pane = document.getElementById(`auth-pane-${t}`);
