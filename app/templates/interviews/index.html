@@ -1,0 +1,282 @@
+{% extends "base.html" %}
+
+{% block title %}Unified AI Mock Interview Studio - AI Job Copilot{% endblock %}
+
+{% block content %}
+<div class="mb-4 d-flex justify-content-between align-items-center flex-wrap gap-3">
+  <div>
+    <h2 class="fw-bold text-white mb-1">
+      <i class="bi bi-mic-fill text-primary me-2"></i>AI Mock Interview Studio
+    </h2>
+    <p class="text-secondary mb-0">Simulate company-specific interview rounds, receive calibrated questions, and evaluate answers with STAR rubric feedback.</p>
+  </div>
+  <div class="d-flex align-items-center gap-2">
+    <span class="badge bg-dark border border-secondary text-info px-3 py-2">
+      <i class="bi bi-building me-1"></i> {{ company }}
+    </span>
+    <span class="badge bg-dark border border-secondary text-light px-3 py-2">
+      <i class="bi bi-person-workspace me-1"></i> {{ role }}
+    </span>
+  </div>
+</div>
+
+<!-- Unified Generator & Preset Configuration Card -->
+<div class="card card-custom p-4 mb-4">
+  <form method="POST" action="{{ url_for('interviews.index') }}" id="interview-gen-form">
+    <input type="hidden" name="action" value="generate">
+
+    <!-- Target Company Preset Selector -->
+    <div class="mb-3">
+      <label class="form-label text-light small fw-semibold d-block">Target Company Preset</label>
+      <div class="d-flex flex-wrap gap-2 mb-2" id="company-presets">
+        <span class="badge-preset {% if company == 'Microsoft' %}active{% endif %}" onclick="setCompanyPreset('Microsoft')">🏢 Microsoft</span>
+        <span class="badge-preset {% if company == 'Amazon' %}active{% endif %}" onclick="setCompanyPreset('Amazon')">📦 Amazon</span>
+        <span class="badge-preset {% if company == 'Google' %}active{% endif %}" onclick="setCompanyPreset('Google')">🔍 Google</span>
+        <span class="badge-preset {% if company == 'TCS' %}active{% endif %}" onclick="setCompanyPreset('TCS')">💼 TCS</span>
+        <span class="badge-preset {% if company == 'Infosys' %}active{% endif %}" onclick="setCompanyPreset('Infosys')">⚡ Infosys</span>
+        <span class="badge-preset {% if company == 'Deloitte' %}active{% endif %}" onclick="setCompanyPreset('Deloitte')">🏛️ Deloitte</span>
+        <span class="badge-preset {% if company == 'Startup' %}active{% endif %}" onclick="setCompanyPreset('Startup')">🚀 Startup</span>
+        <span class="badge-preset {% if company not in ['Microsoft', 'Amazon', 'Google', 'TCS', 'Infosys', 'Deloitte', 'Startup'] %}active{% endif %}" onclick="setCompanyPreset('Custom')">✏️ Custom</span>
+      </div>
+      <input type="text" name="company" id="int-company-input" class="form-control form-control-dark mt-2" value="{{ company }}" placeholder="Target Company Name" required>
+    </div>
+
+    <!-- Interview Round Type Selector -->
+    <div class="mb-3">
+      <label class="form-label text-light small fw-semibold d-block">Interview Round Type</label>
+      <div class="d-flex flex-wrap gap-2 mb-2" id="round-presets">
+        <span class="badge-preset {% if round_type == 'Technical Deep Dive' %}active{% endif %}" onclick="setRoundPreset('Technical Deep Dive')">💻 Technical Deep Dive</span>
+        <span class="badge-preset {% if round_type == 'Data Modeling & SQL' %}active{% endif %}" onclick="setRoundPreset('Data Modeling & SQL')">📊 Data Modeling & SQL</span>
+        <span class="badge-preset {% if round_type == 'Behavioral STAR' %}active{% endif %}" onclick="setRoundPreset('Behavioral STAR')">🧠 Behavioral STAR</span>
+        <span class="badge-preset {% if round_type == 'HR & Culture Fit' %}active{% endif %}" onclick="setRoundPreset('HR & Culture Fit')">🤝 HR & Culture Fit</span>
+      </div>
+      <input type="hidden" name="round_type" id="int-round-input" value="{{ round_type }}">
+    </div>
+
+    <!-- Role, Difficulty, Skills Inputs -->
+    <div class="row g-3 mb-3">
+      <div class="col-md-4">
+        <label class="form-label text-light small fw-semibold">Target Role</label>
+        <input type="text" name="role" class="form-control form-control-dark" value="{{ role }}" required>
+      </div>
+      <div class="col-md-4">
+        <label class="form-label text-light small fw-semibold">Difficulty Level</label>
+        <select name="difficulty" class="form-select form-control-dark">
+          <option value="Mid-Level Specialist (Practical + STAR)" {% if difficulty == 'Mid-Level Specialist (Practical + STAR)' %}selected{% endif %}>Mid-Level Specialist (Practical + STAR)</option>
+          <option value="Entry-Level Graduate" {% if difficulty == 'Entry-Level Graduate' %}selected{% endif %}>Entry-Level Graduate</option>
+          <option value="Senior Specialist / Lead" {% if difficulty == 'Senior Specialist / Lead' %}selected{% endif %}>Senior Specialist / Lead</option>
+        </select>
+      </div>
+      <div class="col-md-4">
+        <label class="form-label text-light small fw-semibold">Core Technical Skills</label>
+        <input type="text" name="skills" class="form-control form-control-dark" value="{{ skills }}" placeholder="e.g. Python, SQL, Tableau">
+      </div>
+    </div>
+
+    <!-- Parameter Selectors & Submit Button -->
+    <div class="row g-3 align-items-end">
+      <div class="col-md-4">
+        <label class="form-label text-light small fw-semibold">Number of Questions</label>
+        <select name="question_count" class="form-select form-control-dark">
+          <option value="3" {% if question_count == 3 %}selected{% endif %}>3 Questions (Quick Practice)</option>
+          <option value="5" {% if question_count == 5 %}selected{% endif %}>5 Questions (Standard Round)</option>
+          <option value="8" {% if question_count == 8 %}selected{% endif %}>8 Questions (Comprehensive Evaluation)</option>
+        </select>
+      </div>
+      <div class="col-md-4">
+        <label class="form-label text-light small fw-semibold">Interviewer Perspective / Tone</label>
+        <select name="interviewer_role" class="form-select form-control-dark">
+          <option value="Senior Technical Hiring Manager" {% if interviewer_role == 'Senior Technical Hiring Manager' %}selected{% endif %}>Senior Technical Hiring Manager</option>
+          <option value="Peer Senior Engineer" {% if interviewer_role == 'Peer Senior Engineer' %}selected{% endif %}>Peer Senior Engineer</option>
+          <option value="HR Talent Acquisition Lead" {% if interviewer_role == 'HR Talent Acquisition Lead' %}selected{% endif %}>HR Talent Acquisition Lead</option>
+        </select>
+      </div>
+      <div class="col-md-4">
+        <button type="submit" class="btn btn-primary w-100 py-2 fw-semibold d-flex align-items-center justify-content-center gap-2" style="background: linear-gradient(135deg, #6366f1 0%, #8b5cf6 100%); border: none; box-shadow: 0 4px 14px rgba(99, 102, 241, 0.4);">
+          <i class="bi bi-lightning-charge-fill"></i>
+          <span>Generate Calibrated Questions</span>
+        </button>
+      </div>
+    </div>
+  </form>
+</div>
+
+<!-- Interactive Workspace: Questions & Practice -->
+<div class="row g-4 mb-4">
+  <!-- Left Column: Calibrated Questions List -->
+  <div class="col-lg-5">
+    <div class="card card-custom p-4 h-100">
+      <div class="d-flex justify-content-between align-items-center mb-3">
+        <h5 class="fw-bold text-white mb-0">Calibrated Questions ({{ questions|length }})</h5>
+        <span class="badge bg-info-subtle text-info small">{{ round_type }}</span>
+      </div>
+      <p class="text-secondary small mb-3">
+        Curated for <strong>{{ role }}</strong> interviews at <strong>{{ company }}</strong>:
+      </p>
+
+      <div class="d-flex flex-column gap-3" style="max-height: 750px; overflow-y: auto;">
+        {% for q in questions %}
+          <div class="p-3 rounded bg-dark border border-secondary question-card">
+            <div class="d-flex justify-content-between align-items-center mb-2">
+              <span class="badge bg-primary-subtle text-primary small">{{ q.type or q.category or 'Technical' }}</span>
+              <button type="button" class="btn btn-outline-info btn-sm py-0 px-2" style="font-size: 0.75rem;" onclick="loadQuestionForPractice({{ q.question | tojson }})">
+                <i class="bi bi-arrow-right-circle me-1"></i>Practice This
+              </button>
+            </div>
+            <div class="text-light fw-medium small mb-2">{{ q.question }}</div>
+            
+            {% if q.answer_tips or q.tip %}
+              <div class="p-2 rounded mb-2 border border-secondary-subtle" style="background-color: rgba(30, 41, 59, 0.7); font-size: 0.78rem;">
+                <span class="text-warning fw-semibold"><i class="bi bi-lightbulb me-1"></i>Talking Points:</span>
+                <span class="text-secondary ms-1">{{ q.answer_tips or q.tip }}</span>
+              </div>
+            {% endif %}
+
+            {% if q.sample_answer %}
+              <div class="p-2 rounded border border-secondary-subtle" style="background-color: rgba(15, 23, 42, 0.7); font-size: 0.78rem;">
+                <span class="text-success fw-semibold"><i class="bi bi-check-circle me-1"></i>Sample Answer:</span>
+                <span class="text-light ms-1">{{ q.sample_answer }}</span>
+              </div>
+            {% endif %}
+          </div>
+        {% else %}
+          <div class="p-4 text-center text-secondary small">
+            Click "Generate Calibrated Questions" above to load tailored questions for your target company.
+          </div>
+        {% endfor %}
+      </div>
+    </div>
+  </div>
+
+  <!-- Right Column: Interactive Practice & AI Answer Evaluation -->
+  <div class="col-lg-7">
+    <div class="card card-custom p-4 h-100">
+      <div class="d-flex justify-content-between align-items-center mb-3">
+        <h5 class="fw-bold text-white mb-0">Practice & AI Answer Evaluation</h5>
+        <span class="badge bg-success-subtle text-success small">STAR Framework Rubric</span>
+      </div>
+
+      <form method="POST" action="{{ url_for('interviews.index') }}" class="mb-4">
+        <input type="hidden" name="action" value="evaluate">
+        <input type="hidden" name="eval_role" value="{{ role }}">
+        <input type="hidden" name="eval_company" value="{{ company }}">
+        <input type="hidden" name="eval_round_type" value="{{ round_type }}">
+        <input type="hidden" name="eval_difficulty" value="{{ difficulty }}">
+        <input type="hidden" name="eval_interviewer_role" value="{{ interviewer_role }}">
+
+        <div class="mb-3">
+          <label class="form-label text-light small fw-semibold">Target Question for Evaluation</label>
+          <input type="text" name="question_text" id="practice-question-input" class="form-control form-control-dark" 
+            value="{% if questions and questions|length > 0 %}{{ questions[0].question }}{% else %}Explain how you optimize complex SQL queries when joining large transactional tables.{% endif %}" required>
+        </div>
+
+        <div class="mb-3">
+          <label class="form-label text-light small fw-semibold d-flex justify-content-between align-items-center">
+            <span>Your Practice Answer</span>
+            <span class="text-info small" style="font-size: 0.75rem;"><i class="bi bi-info-circle me-1"></i>Format: Situation -> Task -> Action -> Result</span>
+          </label>
+          <textarea name="answer_text" id="practice-answer-input" class="form-control form-control-dark" rows="6" 
+            placeholder="Structure your answer using the STAR method:&#10;1. Situation: Describe the context or business challenge.&#10;2. Task: What were you responsible for achieving?&#10;3. Action: Specific steps, queries, and technical tools you deployed.&#10;4. Result: Measurable outcome (e.g. reduced run time by 45%, identified \$50K in savings)." required>{% if evaluation %}{{ request.form.get('answer_text', '') }}{% else %}In my recent project analyzing customer churn, our database queries took over 4 minutes to execute. I was tasked with optimizing the analytical pipeline. I profiled the table query execution plan, added composite indexes on user_id and event_date, and replaced correlated subqueries with window functions. As a result, query latency decreased by 65% and daily reporting refreshed in under 90 seconds.{% endif %}</textarea>
+        </div>
+
+        <button type="submit" class="btn btn-primary w-100 py-2 fw-semibold d-flex align-items-center justify-content-center gap-2" style="background: linear-gradient(135deg, #10b981 0%, #06b6d4 100%); border: none; box-shadow: 0 4px 14px rgba(16, 185, 129, 0.35);">
+          <i class="bi bi-cpu-fill"></i>
+          <span>Evaluate Answer with AI</span>
+        </button>
+      </form>
+
+      {% if evaluation %}
+        <div class="border-top border-secondary pt-3">
+          <div class="d-flex justify-content-between align-items-center mb-3">
+            <h6 class="fw-bold text-white mb-0">AI Rubric Evaluation Feedback</h6>
+            <span class="badge rounded-pill px-3 py-2 fs-6 fw-bold text-white" style="background: linear-gradient(135deg, #10b981, #06b6d4);">
+              {{ evaluation.overall_score or evaluation.score or 8.5 }}/10 Score
+            </span>
+          </div>
+
+          <div class="mb-3">
+            <span class="text-success small fw-bold"><i class="bi bi-check-circle-fill me-1"></i> Strengths:</span>
+            <ul class="text-secondary small mb-0 ps-3 mt-1">
+              {% for s in evaluation.strengths %}
+                <li>{{ s }}</li>
+              {% endfor %}
+            </ul>
+          </div>
+
+          <div class="mb-3">
+            <span class="text-warning small fw-bold"><i class="bi bi-exclamation-triangle-fill me-1"></i> Improvement Areas:</span>
+            <ul class="text-secondary small mb-0 ps-3 mt-1">
+              {% for s in evaluation.improvement_areas or evaluation.suggestions %}
+                <li>{{ s }}</li>
+              {% endfor %}
+            </ul>
+          </div>
+
+          {% set model_ans = evaluation.refined_model_answer or evaluation.model_answer %}
+          {% if model_ans %}
+            <div>
+              <span class="text-info small fw-bold"><i class="bi bi-stars me-1"></i> Exemplary Model Answer (STAR Aligned):</span>
+              <div class="p-3 rounded bg-dark border border-secondary text-secondary small mt-1" style="line-height: 1.6;">
+                {{ model_ans }}
+              </div>
+            </div>
+          {% endif %}
+        </div>
+      {% endif %}
+    </div>
+  </div>
+</div>
+
+<style>
+  .badge-preset {
+    cursor: pointer;
+    background-color: #1e293b;
+    color: #cbd5e1;
+    border: 1px solid #334155;
+    padding: 6px 14px;
+    border-radius: 20px;
+    font-size: 0.82rem;
+    transition: all 0.15s ease;
+  }
+  .badge-preset:hover, .badge-preset.active {
+    background: linear-gradient(135deg, #6366f1 0%, #8b5cf6 100%);
+    color: #ffffff;
+    border-color: #818cf8;
+    box-shadow: 0 2px 10px rgba(99, 102, 241, 0.35);
+  }
+  .question-card {
+    transition: border-color 0.2s ease;
+  }
+  .question-card:hover {
+    border-color: #6366f1 !important;
+  }
+</style>
+
+<script>
+  function setCompanyPreset(company) {
+    document.querySelectorAll("#company-presets .badge-preset").forEach(b => b.classList.remove("active"));
+    const input = document.getElementById("int-company-input");
+    if (company === "Custom") {
+      input.value = "";
+      input.focus();
+    } else {
+      input.value = company;
+    }
+    event.target.classList.add("active");
+  }
+
+  function setRoundPreset(round) {
+    document.querySelectorAll("#round-presets .badge-preset").forEach(b => b.classList.remove("active"));
+    document.getElementById("int-round-input").value = round;
+    event.target.classList.add("active");
+  }
+
+  function loadQuestionForPractice(questionText) {
+    const qInput = document.getElementById("practice-question-input");
+    qInput.value = questionText;
+    qInput.scrollIntoView({ behavior: 'smooth', block: 'center' });
+    qInput.classList.add("border-primary");
+    setTimeout(() => qInput.classList.remove("border-primary"), 1500);
+  }
+</script>
+{% endblock %}

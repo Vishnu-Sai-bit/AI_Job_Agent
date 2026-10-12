@@ -1,0 +1,18 @@
+id,title,company,location,source,url,skills,salary,posted_date
+1,Data Analyst,Google,Bangalore,LinkedIn / Google Careers,https://careers.google.com/jobs/results/?q=Data%20Analyst%20Bangalore,"Python, SQL, Tableau, Data Analysis, Pandas",12 LPA,Today
+2,Data Analyst,Infosys,Bangalore,LinkedIn,https://career.infosys.com/joblist,"SQL, Power BI, Excel, Data Analysis, Python",6.5 LPA,2 days ago
+3,Business Analyst,Accenture,Hyderabad,Naukri,https://www.accenture.com/in-en/careers,"SQL, Tableau, Business Analysis, Communication, Excel",8 LPA,1 day ago
+4,Data Engineer,TCS,Bangalore,Foundit,https://www.tcs.com/careers,"Python, SQL, ETL Pipelines, Data Warehousing, Git",9 LPA,3 days ago
+5,BI Analyst,Deloitte,Hyderabad,LinkedIn,https://jobsindia.deloitte.com/,"Power BI, SQL, DAX, Data Visualization, Excel",10 LPA,Yesterday
+6,Reporting Analyst,Capgemini,Pune,Indeed,https://www.capgemini.com/in-en/careers/,"Excel, Power BI, SQL, Dashboard, Reporting",6 LPA,3 days ago
+7,Data Scientist,Wipro,Chennai,LinkedIn,https://careers.wipro.com/,"Python, Machine Learning, SQL, Pandas, Deep Learning",14 LPA,4 days ago
+8,Python Developer,Cognizant,Bangalore,Naukri,https://careers.cognizant.com/,"Python, FastAPI, Backend Services, SQL, Git",8.5 LPA,2 days ago
+9,SQL Developer,IBM,Hyderabad,Foundit,https://www.ibm.com/careers,"SQL, Database Design, Performance Tuning, MySQL, ETL",9.5 LPA,Yesterday
+10,Power BI Developer,Tech Mahindra,Bangalore,LinkedIn,https://careers.techmahindra.com/,"Power BI, DAX, Data Modeling, SQL, Data Visualization",7.5 LPA,5 days ago
+11,Analytics Consultant,EY,Hyderabad,Indeed,https://www.ey.com/en_in/careers,"Data Analytics, SQL, Tableau, Analytical Thinking, Excel",11 LPA,Today
+12,Senior Data Analyst,Precision Medicine Group,India (Remote),LinkedIn / Greenhouse,https://boards.greenhouse.io/precisionmedicinegroup/jobs/4236928,"Python, SQL, Data Analysis, Statistical Analysis, Tableau",16-22 LPA,Active Opening
+13,Python Developer (Data Eng.),Bluevine,Bangalore,Greenhouse,https://boards.greenhouse.io/bluevine/jobs/4096057,"Python, SQL, ETL Pipelines, Git, Data Processing",15-20 LPA,Active Opening
+14,Python Developer,Particle41,Remote (India),Greenhouse,https://boards.greenhouse.io/particle41/jobs/4102941,"Python, Git, MySQL, API Integration, FastAPI",12-18 LPA,Active Opening
+15,BI Data Analyst,CoinsPaid,Remote,Lever,https://jobs.lever.co/coinspaid/8549,"Power BI, SQL, Data Visualization, Dashboards, Excel",14-18 LPA,Active Opening
+16,Data Analyst,Alpaca,Remote,Greenhouse,https://boards.greenhouse.io/alpaca/jobs/4037592,"Python, SQL, Tableau, Pandas, Exploratory Data Analysis",18-24 LPA,Active Opening
+17,Senior Data Analyst,Dwelly,Remote (India),Greenhouse,https://boards.greenhouse.io/dwelly/jobs/4037382,"Python, SQL, Excel, Tableau, Data Analysis",15-22 LPA,Active Opening

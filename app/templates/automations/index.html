@@ -1,0 +1,78 @@
+{% extends "base.html" %}
+
+{% block title %}Automations Center - AI Job Copilot{% endblock %}
+
+{% block content %}
+<div class="mb-4">
+  <h2 class="fw-bold text-white mb-1">Automation & Alert Center</h2>
+  <p class="text-secondary mb-0">Configure automated background job searches, ATS alerts, and follow-up reminders</p>
+</div>
+
+<div class="row justify-content-center">
+  <div class="col-lg-8">
+    <div class="card card-custom p-4">
+      <form method="POST" action="{{ url_for('automations.index') }}">
+        <h5 class="fw-bold text-white mb-3">Job Alert & Discovery Automation</h5>
+
+        <div class="form-check form-switch mb-3">
+          <input class="form-check-input" type="checkbox" name="daily_digest" id="dailyDigest" {% if settings.daily_digest %}checked{% endif %}>
+          <label class="form-check-label text-light fw-medium" for="dailyDigest">
+            Daily Job Digest
+          </label>
+          <div class="text-secondary small">Automatically scrape and rank new job postings matching your profile every morning.</div>
+        </div>
+
+        <div class="form-check form-switch mb-4">
+          <input class="form-check-input" type="checkbox" name="email_alerts" id="emailAlerts" {% if settings.email_alerts %}checked{% endif %}>
+          <label class="form-check-label text-light fw-medium" for="emailAlerts">
+            High-Fit Notification Alerts
+          </label>
+          <div class="text-secondary small">Send immediate notification when a job with &gt;= 85% match is discovered.</div>
+        </div>
+
+        <hr class="border-secondary my-4">
+
+        <h5 class="fw-bold text-white mb-3">Matching Thresholds & CRM Follow-ups</h5>
+
+        <div class="mb-3">
+          <label class="form-label text-light small fw-medium">Minimum Match Threshold (%)</label>
+          <input type="number" name="min_match_threshold" class="form-control form-control-dark" min="40" max="100" value="{{ settings.min_match_threshold }}">
+          <div class="text-secondary small mt-1">Jobs below this threshold will not trigger notifications.</div>
+        </div>
+
+        <div class="mb-4">
+          <label class="form-label text-light small fw-medium">CRM Follow-Up Reminder (Days)</label>
+          <input type="number" name="auto_followup_reminder_days" class="form-control form-control-dark" min="1" max="30" value="{{ settings.auto_followup_reminder_days }}">
+          <div class="text-secondary small mt-1">Days after submitting an application before suggesting a recruiter follow-up note.</div>
+        </div>
+
+        <hr class="border-secondary my-4">
+
+        <h5 class="fw-bold text-white mb-3">Target Scraping Sources</h5>
+        <div class="d-flex flex-wrap gap-4 mb-4">
+          <div class="form-check">
+            <input class="form-check-input" type="checkbox" name="sources" value="LinkedIn" id="s_li" {% if 'LinkedIn' in settings.preferred_sources %}checked{% endif %}>
+            <label class="form-check-label text-light" for="s_li">LinkedIn</label>
+          </div>
+          <div class="form-check">
+            <input class="form-check-input" type="checkbox" name="sources" value="Naukri" id="s_nk" {% if 'Naukri' in settings.preferred_sources %}checked{% endif %}>
+            <label class="form-check-label text-light" for="s_nk">Naukri</label>
+          </div>
+          <div class="form-check">
+            <input class="form-check-input" type="checkbox" name="sources" value="Indeed" id="s_in" {% if 'Indeed' in settings.preferred_sources %}checked{% endif %}>
+            <label class="form-check-label text-light" for="s_in">Indeed</label>
+          </div>
+          <div class="form-check">
+            <input class="form-check-input" type="checkbox" name="sources" value="RemoteOK" id="s_ro" {% if 'RemoteOK' in settings.preferred_sources %}checked{% endif %}>
+            <label class="form-check-label text-light" for="s_ro">RemoteOK</label>
+          </div>
+        </div>
+
+        <button type="submit" class="btn btn-primary w-100 py-2 fw-semibold">
+          <i class="bi bi-save me-1"></i> Save Automation Preferences
+        </button>
+      </form>
+    </div>
+  </div>
+</div>
+{% endblock %}

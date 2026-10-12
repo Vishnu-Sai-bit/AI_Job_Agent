@@ -1,0 +1,286 @@
+{% extends "base.html" %}
+
+{% block title %}AI Career Tools & Copilot Toolkit - AI JobAgent{% endblock %}
+
+{% block content %}
+<div class="container-fluid px-0">
+  <div class="row g-4">
+    <!-- Left Column: AI Copilot Toolkit Menu -->
+    <div class="col-lg-3 col-md-4">
+      <div class="card card-custom p-3 sticky-top" style="top: 80px; z-index: 10;">
+        <span class="text-secondary small fw-bold text-uppercase mb-3 px-2 d-block" style="letter-spacing: 1px;">
+          AI COPILOT TOOLKIT
+        </span>
+        <div class="d-flex flex-column gap-2" id="toolkit-buttons">
+          <button class="btn btn-tool active text-start d-flex align-items-center gap-2 py-2 px-3 rounded-3" data-tool="cover-letter" onclick="selectTool('cover-letter')">
+            <span>✍️</span>
+            <span class="fw-semibold">Cover Letter Writer</span>
+          </button>
+          <button class="btn btn-tool text-start d-flex align-items-center gap-2 py-2 px-3 rounded-3" data-tool="email" onclick="selectTool('email')">
+            <span>✉️</span>
+            <span class="fw-semibold">Cold Outreach Generator</span>
+          </button>
+          <button class="btn btn-tool text-start d-flex align-items-center gap-2 py-2 px-3 rounded-3" data-tool="linkedin" onclick="selectTool('linkedin')">
+            <span>🔗</span>
+            <span class="fw-semibold">LinkedIn Optimizer</span>
+          </button>
+          <button class="btn btn-tool text-start d-flex align-items-center gap-2 py-2 px-3 rounded-3" data-tool="salary" onclick="selectTool('salary')">
+            <span>💰</span>
+            <span class="fw-semibold">Salary Range Estimator</span>
+          </button>
+        </div>
+        <div class="mt-3 pt-3 border-top border-secondary">
+          <div class="text-secondary small fw-semibold text-uppercase mb-2 px-1" style="font-size: 0.72rem; letter-spacing: 0.5px;">Unified Interview Room</div>
+          <a href="{{ url_for('interviews.index') }}" class="btn btn-outline-info btn-sm w-100 rounded-3 py-2 d-flex align-items-center justify-content-center gap-2">
+            <i class="bi bi-mic-fill"></i>
+            <span class="fw-semibold">Open Mock Interview Studio →</span>
+          </a>
+        </div>
+      </div>
+    </div>
+
+    <!-- Right Column: Interactive Tool Workspace -->
+    <div class="col-lg-9 col-md-8">
+      <!-- Tool Input Form Card -->
+      <div class="card card-custom p-4 mb-4">
+        <div id="tool-form-container">
+          <!-- Dynamic Form injected via JavaScript -->
+        </div>
+
+        <div class="mt-4">
+          <button id="run-tool-btn" class="btn btn-primary px-4 py-2 fw-semibold d-inline-flex align-items-center gap-2" style="background: linear-gradient(135deg, #6366f1 0%, #8b5cf6 100%); border: none; box-shadow: 0 4px 15px rgba(99, 102, 241, 0.4);" onclick="executeCopilotPrompt()">
+            <span id="btn-spinner" class="spinner-border spinner-border-sm d-none" role="status"></span>
+            <i class="bi bi-lightning-charge-fill" id="btn-icon"></i>
+            <span>Execute Copilot Prompt</span>
+          </button>
+        </div>
+      </div>
+
+      <!-- Generated Output Preview Card -->
+      <div class="card card-custom p-4">
+        <div class="d-flex justify-content-between align-items-center mb-3">
+          <h5 class="fw-bold text-white mb-0">Generated Output Preview</h5>
+          <button id="copy-btn" class="btn btn-sm btn-outline-info d-none" onclick="copyOutput()">
+            <i class="bi bi-clipboard me-1"></i> Copy to Clipboard
+          </button>
+        </div>
+        <div id="output-box" class="p-4 rounded-3 text-secondary small" style="background-color: #0b0f17; border: 1px solid #1e293b; min-height: 140px;">
+          Select a career copilot tool and configure settings above to initiate generation.
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<style>
+  .btn-tool {
+    background-color: transparent;
+    color: #94a3b8;
+    border: 1px solid transparent;
+    transition: all 0.2s ease;
+  }
+  .btn-tool:hover {
+    background-color: #1e293b;
+    color: #ffffff;
+    border-color: #334155;
+  }
+  .btn-tool.active {
+    background: linear-gradient(135deg, rgba(99, 102, 241, 0.2), rgba(139, 92, 246, 0.25));
+    color: #a5b4fc;
+    border-color: #6366f1;
+    box-shadow: 0 0 15px rgba(99, 102, 241, 0.2);
+  }
+  .badge-preset {
+    cursor: pointer;
+    background-color: #1e293b;
+    color: #cbd5e1;
+    border: 1px solid #334155;
+    padding: 6px 12px;
+    border-radius: 20px;
+    font-size: 0.8rem;
+    transition: all 0.15s ease;
+  }
+  .badge-preset:hover, .badge-preset.active {
+    background-color: #3b82f6;
+    color: #ffffff;
+    border-color: #60a5fa;
+  }
+</style>
+
+<script>
+  let activeTool = "cover-letter";
+  const candidateName = {{ candidate.candidate_name | tojson }};
+  const preferredRole = {{ candidate.preferred_role | tojson }};
+  const candidateSkills = {{ (candidate.skills | join(', ')) | tojson }};
+  const preferredLocation = {{ candidate.preferred_location | tojson }};
+  const experienceYears = {{ candidate.experience_years | tojson }};
+
+  function selectTool(toolName) {
+    activeTool = toolName;
+    document.querySelectorAll(".btn-tool").forEach(btn => {
+      if (btn.getAttribute("data-tool") === toolName) {
+        btn.classList.add("active");
+      } else {
+        btn.classList.remove("active");
+      }
+    });
+    renderToolForm();
+  }
+
+  function renderToolForm() {
+    const container = document.getElementById("tool-form-container");
+
+    if (activeTool === "cover-letter") {
+      container.innerHTML = `
+        <div class="mb-3">
+          <label class="form-label text-light small fw-semibold">Candidate Name</label>
+          <input type="text" id="cl-name" class="form-control form-control-dark" value="${candidateName}" placeholder="e.g. John Doe">
+        </div>
+        <div class="mb-3">
+          <label class="form-label text-light small fw-semibold">Job Title</label>
+          <input type="text" id="cl-title" class="form-control form-control-dark" value="${preferredRole}" placeholder="e.g. Junior Data Analyst">
+        </div>
+        <div class="mb-3">
+          <label class="form-label text-light small fw-semibold">Company Name</label>
+          <input type="text" id="cl-company" class="form-control form-control-dark" placeholder="e.g. Google">
+        </div>
+        <div class="mb-3">
+          <label class="form-label text-light small fw-semibold">Key Skills (comma separated)</label>
+          <input type="text" id="cl-skills" class="form-control form-control-dark" value="${candidateSkills}" placeholder="e.g. Python, SQL, Tableau">
+        </div>
+        <div class="mb-3">
+          <label class="form-label text-light small fw-semibold">Job Description (Optional)</label>
+          <textarea id="cl-desc" rows="4" class="form-control form-control-dark" placeholder="Paste target description to customize metrics..."></textarea>
+        </div>
+      `;
+    } else if (activeTool === "email") {
+      container.innerHTML = `
+        <div class="mb-3">
+          <label class="form-label text-light small fw-semibold">Your Name</label>
+          <input type="text" id="em-name" class="form-control form-control-dark" value="${candidateName}" placeholder="e.g. John Doe">
+        </div>
+        <div class="mb-3">
+          <label class="form-label text-light small fw-semibold">Target Role</label>
+          <input type="text" id="em-role" class="form-control form-control-dark" value="${preferredRole}" placeholder="e.g. Data Analyst">
+        </div>
+        <div class="mb-3">
+          <label class="form-label text-light small fw-semibold">Company Name</label>
+          <input type="text" id="em-company" class="form-control form-control-dark" placeholder="e.g. Microsoft">
+        </div>
+        <div class="mb-3">
+          <label class="form-label text-light small fw-semibold">Key Skills (comma separated)</label>
+          <input type="text" id="em-skills" class="form-control form-control-dark" value="${candidateSkills}" placeholder="e.g. Python, SQL">
+        </div>
+      `;
+    } else if (activeTool === "linkedin") {
+      container.innerHTML = `
+        <div class="mb-3">
+          <label class="form-label text-light small fw-semibold">Your Name</label>
+          <input type="text" id="li-name" class="form-control form-control-dark" value="${candidateName}" placeholder="e.g. John Doe">
+        </div>
+        <div class="mb-3">
+          <label class="form-label text-light small fw-semibold">Target Role Focus</label>
+          <input type="text" id="li-role" class="form-control form-control-dark" value="${preferredRole}" placeholder="e.g. Business Intelligence Analyst">
+        </div>
+        <div class="mb-3">
+          <label class="form-label text-light small fw-semibold">Core Skills (comma separated)</label>
+          <input type="text" id="li-skills" class="form-control form-control-dark" value="${candidateSkills}" placeholder="e.g. Power BI, DAX, SQL">
+        </div>
+      `;
+    } else if (activeTool === "salary") {
+      container.innerHTML = `
+        <div class="mb-3">
+          <label class="form-label text-light small fw-semibold">Target Role</label>
+          <input type="text" id="sal-role" class="form-control form-control-dark" value="${preferredRole}" placeholder="e.g. Senior Data Analyst">
+        </div>
+        <div class="mb-3">
+          <label class="form-label text-light small fw-semibold">Years of Experience</label>
+          <input type="number" step="0.5" id="sal-exp" class="form-control form-control-dark" value="${experienceYears || 1}">
+        </div>
+        <div class="mb-3">
+          <label class="form-label text-light small fw-semibold">Location Hub</label>
+          <input type="text" id="sal-loc" class="form-control form-control-dark" value="${preferredLocation}" placeholder="e.g. Hyderabad">
+        </div>
+        <div class="mb-3">
+          <label class="form-label text-light small fw-semibold">Key Skills (comma separated)</label>
+          <input type="text" id="sal-skills" class="form-control form-control-dark" value="${candidateSkills}" placeholder="e.g. Python, SQL">
+        </div>
+      `;
+    }
+  }
+
+  async function executeCopilotPrompt() {
+    const btn = document.getElementById("run-tool-btn");
+    const spinner = document.getElementById("btn-spinner");
+    const icon = document.getElementById("btn-icon");
+    const outputBox = document.getElementById("output-box");
+    const copyBtn = document.getElementById("copy-btn");
+
+    btn.disabled = true;
+    spinner.classList.remove("d-none");
+    icon.classList.add("d-none");
+    outputBox.innerHTML = '<div class="text-center py-4"><div class="spinner-border text-primary" role="status"></div><div class="text-secondary small mt-2">Thinking... Synthesizing intelligence for ' + activeTool + '...</div></div>';
+
+    let payload = { tool: activeTool };
+
+    if (activeTool === "cover-letter") {
+      payload.name = document.getElementById("cl-name").value;
+      payload.job_title = document.getElementById("cl-title").value;
+      payload.company = document.getElementById("cl-company").value;
+      payload.skills = document.getElementById("cl-skills").value;
+      payload.job_desc = document.getElementById("cl-desc").value;
+    } else if (activeTool === "email") {
+      payload.name = document.getElementById("em-name").value;
+      payload.role = document.getElementById("em-role").value;
+      payload.company = document.getElementById("em-company").value;
+      payload.skills = document.getElementById("em-skills").value;
+    } else if (activeTool === "linkedin") {
+      payload.name = document.getElementById("li-name").value;
+      payload.role = document.getElementById("li-role").value;
+      payload.skills = document.getElementById("li-skills").value;
+    } else if (activeTool === "salary") {
+      payload.role = document.getElementById("sal-role").value;
+      payload.experience = document.getElementById("sal-exp").value;
+      payload.location = document.getElementById("sal-loc").value;
+      payload.skills = document.getElementById("sal-skills").value;
+    }
+
+    try {
+      const response = await fetch("{{ url_for('assistant.execute_tool') }}", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(payload)
+      });
+      const data = await response.json();
+      if (data.success) {
+        outputBox.innerHTML = data.output;
+        copyBtn.classList.remove("d-none");
+      } else {
+        outputBox.innerHTML = '<div class="text-danger p-3">Error: ' + (data.error || 'Failed to generate output.') + '</div>';
+      }
+    } catch (err) {
+      outputBox.innerHTML = '<div class="text-danger p-3">Request Error: ' + err.message + '</div>';
+    } finally {
+      btn.disabled = false;
+      spinner.classList.add("d-none");
+      icon.classList.remove("d-none");
+    }
+  }
+
+  function copyOutput() {
+    const box = document.getElementById("output-box");
+    navigator.clipboard.writeText(box.innerText).then(() => {
+      const btn = document.getElementById("copy-btn");
+      btn.innerHTML = '<i class="bi bi-check2 me-1"></i> Copied!';
+      setTimeout(() => {
+        btn.innerHTML = '<i class="bi bi-clipboard me-1"></i> Copy to Clipboard';
+      }, 2000);
+    });
+  }
+
+  // Initialize tool on load
+  document.addEventListener("DOMContentLoaded", () => {
+    renderToolForm();
+  });
+</script>
+{% endblock %}

@@ -1,0 +1,111 @@
+{% extends "base.html" %}
+
+{% block title %}Career Analytics - AI Job Copilot{% endblock %}
+
+{% block content %}
+<div class="mb-4">
+  <h2 class="fw-bold text-white mb-1">Career & Hiring Analytics</h2>
+  <p class="text-secondary mb-0">Conversion funnel, match metrics, and diagnostic ATS distribution</p>
+</div>
+
+<!-- Funnel Breakdown Card -->
+<div class="card card-custom p-4 mb-4">
+  <h5 class="fw-bold text-white mb-3">Application Pipeline Funnel</h5>
+  <div class="row g-3 text-center">
+    <div class="col-sm">
+      <div class="p-3 rounded bg-dark border border-secondary">
+        <span class="text-secondary small fw-medium">1. Saved</span>
+        <h3 class="text-white fw-bold my-1">{{ stage_counts.saved }}</h3>
+        <span class="text-secondary small">Pipeline Entry</span>
+      </div>
+    </div>
+    <div class="col-sm">
+      <div class="p-3 rounded bg-dark border border-secondary">
+        <span class="text-info small fw-medium">2. Applied</span>
+        <h3 class="text-info fw-bold my-1">{{ stage_counts.applied }}</h3>
+        <span class="text-secondary small">Submitted</span>
+      </div>
+    </div>
+    <div class="col-sm">
+      <div class="p-3 rounded bg-dark border border-secondary">
+        <span class="text-warning small fw-medium">3. Interview</span>
+        <h3 class="text-warning fw-bold my-1">{{ stage_counts.interview }}</h3>
+        <span class="text-secondary small">Screening / Technical</span>
+      </div>
+    </div>
+    <div class="col-sm">
+      <div class="p-3 rounded bg-dark border border-secondary">
+        <span class="text-success small fw-medium">4. Offer</span>
+        <h3 class="text-success fw-bold my-1">{{ stage_counts.offer }}</h3>
+        <span class="text-secondary small">Final Offer</span>
+      </div>
+    </div>
+    <div class="col-sm">
+      <div class="p-3 rounded bg-dark border border-secondary">
+        <span class="text-danger small fw-medium">5. Rejected</span>
+        <h3 class="text-danger fw-bold my-1">{{ stage_counts.rejected }}</h3>
+        <span class="text-secondary small">Archived</span>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="row g-4">
+  <!-- Match Distribution -->
+  <div class="col-lg-6">
+    <div class="card card-custom p-4 h-100">
+      <h5 class="fw-bold text-white mb-3">Job Match Distribution ({{ total_jobs }} Jobs)</h5>
+      
+      <div class="mb-4">
+        <div class="d-flex justify-content-between small text-light mb-1">
+          <span>High Match (&gt;= 80%)</span>
+          <span class="fw-bold text-success">{{ high_match }} jobs</span>
+        </div>
+        <div class="progress" style="height: 10px; background-color: #334155;">
+          <div class="progress-bar bg-success" style="width: {{ (high_match / (total_jobs or 1)) * 100 }}%;"></div>
+        </div>
+      </div>
+
+      <div class="mb-4">
+        <div class="d-flex justify-content-between small text-light mb-1">
+          <span>Moderate Match (60% - 79%)</span>
+          <span class="fw-bold text-warning">{{ med_match }} jobs</span>
+        </div>
+        <div class="progress" style="height: 10px; background-color: #334155;">
+          <div class="progress-bar bg-warning" style="width: {{ (med_match / (total_jobs or 1)) * 100 }}%;"></div>
+        </div>
+      </div>
+
+      <div class="mb-4">
+        <div class="d-flex justify-content-between small text-light mb-1">
+          <span>Low Match (&lt; 60%)</span>
+          <span class="fw-bold text-danger">{{ low_match }} jobs</span>
+        </div>
+        <div class="progress" style="height: 10px; background-color: #334155;">
+          <div class="progress-bar bg-danger" style="width: {{ (low_match / (total_jobs or 1)) * 100 }}%;"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ATS Component Weighting -->
+  <div class="col-lg-6">
+    <div class="card card-custom p-4 h-100">
+      <h5 class="fw-bold text-white mb-3">ATS Score Contribution</h5>
+      <p class="text-secondary small mb-3">Total Score: <strong class="text-success">{{ candidate.ats_score }}%</strong></p>
+
+      {% for key, val in ats_breakdown.items() %}
+        <div class="mb-3">
+          <div class="d-flex justify-content-between small text-light mb-1">
+            <span class="text-capitalize">{{ key.replace('_', ' ') }}</span>
+            <span class="fw-bold">{{ val }} pts</span>
+          </div>
+          <div class="progress" style="height: 6px; background-color: #334155;">
+            <div class="progress-bar bg-primary" style="width: {{ (val / 30) * 100 }}%;"></div>
+          </div>
+        </div>
+      {% endfor %}
+    </div>
+  </div>
+</div>
+{% endblock %}

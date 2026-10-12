@@ -1,0 +1,12 @@
+/* Responsive UI Adjustments */
+@media (max-width: 768px) {
+  .sidebar {
+    min-height: auto;
+    border-right: none;
+    border-bottom: 1px solid var(--card-border);
+  }
+  .score-badge {
+    font-size: 0.95rem;
+    padding: 0.3rem 0.6rem;
+  }
+}

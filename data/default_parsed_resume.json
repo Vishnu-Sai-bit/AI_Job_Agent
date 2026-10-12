@@ -1,0 +1,159 @@
+{
+  "candidate_name": "Beere Vishnu Sai",
+  "email": "beerevishnusai776600@gmail.com",
+  "phone": "+91 9182679641",
+  "linkedin": "https://www.linkedin.com/in/beerevishnusai",
+  "github": "https://github.com/Vishnu-Sai-bit",
+  "portfolio": "https://beere-vishnu-sai-portfolio.netlify.app/",
+  "preferred_role": "Data Analyst",
+  "preferred_location": "Tirupati",
+  "skills": [
+    "Ad-Hoc Analysis",
+    "Advanced Excel",
+    "Advanced Excel Pivot",
+    "Aggregate Functions",
+    "Analytical Thinking",
+    "Analytics Concepts Eda",
+    "Artificial Intelligence",
+    "As-Is",
+    "Attention To Detail",
+    "Business Intelligence",
+    "Collaboration",
+    "Communication",
+    "Correlated Subqueries",
+    "Cross-Functional Collaboration",
+    "Dashboard",
+    "Dashboard Development",
+    "Data",
+    "Data Analysis",
+    "Data Analytics",
+    "Data Cleaning",
+    "Data Engineering Mysql",
+    "Data Pipeline Design",
+    "Data Validation",
+    "Data Visualization",
+    "Data-Driven Recommendations",
+    "Dax",
+    "Descriptive Analytics",
+    "Dynamic Charts",
+    "Eda",
+    "Etl Pipeline",
+    "Etl Pipeline Design",
+    "Etl Pipelines",
+    "Gap Analysis",
+    "Git",
+    "Github",
+    "Governance",
+    "Kpi",
+    "Kpi Reporting",
+    "Machine Learning",
+    "Matplotlib",
+    "Microsoft Excel",
+    "Mysql",
+    "Numpy",
+    "Oracle Cloud",
+    "Oracle Database",
+    "Pandas",
+    "Power Bi",
+    "Power Bi Data Modelling",
+    "Power Query",
+    "Predictive Analytics",
+    "Problem Solving",
+    "Process Improvement",
+    "Python",
+    "Reporting",
+    "Root Cause Analysis",
+    "Schema Validation",
+    "Scikit-Learn",
+    "Seaborn",
+    "Self-Service Reporting",
+    "Soft Skills Analytical Thinking",
+    "Sql",
+    "Sql Joins",
+    "Stakeholder Communication",
+    "Stakeholder Reporting",
+    "Statistical Analysis",
+    "Storytelling",
+    "Subqueries",
+    "Tableau",
+    "Tables",
+    "Team",
+    "To-Be Analysis",
+    "Trend Analysis",
+    "Variance Analysis",
+    "Vlookup",
+    "Window Functions",
+    "Xlookup"
+  ],
+  "experience_years": 0.5,
+  "education": [
+    {
+      "degree": "B. Tech \u2013 Information Technology | 85.5%",
+      "details": "2022 \u2013 2026 | Sri Venkateswara College of Engineering, Tirupati"
+    },
+    {
+      "degree": "Intermediate \u2013 MPC | 73.9%",
+      "details": "2020 \u2013 2022 | Sri Sai Krupa Jr College, Dharmavaram"
+    },
+    {
+      "degree": "SSC | 97.3%",
+      "details": "2020 | Andhra Pradesh Residential School, Nuthimadugu"
+    }
+  ],
+  "projects": [
+    {
+      "title": "focused MNCs and IT organisations.",
+      "description": " Customer Churn Analysis & Prediction Dashboard | Power BI \u2022 SQL \u2022 Python GitHub Repository: github.com/Vishnu-Sai-bit/Customer-Churn-Analysis-and-Prediction \u2022 Tasked with identifying why a telecom provider was losing customers \u2014 analyzed 6,418 records, isolated 1,732 churned customers (27% overall churn rate), and segmented churn drivers by contract type,",
+      "technologies": []
+    },
+    {
+      "title": "demographics, service usage, and customer tenure.",
+      "description": " \u2022 Translated stakeholder reporting requirements into an interactive Power BI dashboard (Power Query, DAX, data modelling) \u2014 consolidating churn KPIs into a single executive-ready self-service reporting view. \u2022 Authored SQL queries for customer segmentation and churn cohort monitoring \u2014 converting business requirements directly into structured KPI reports from source data without intermediate manual",
+      "technologies": []
+    },
+    {
+      "title": "steps.",
+      "description": " \u2022 Extended analysis into predictive analytics \u2014 trained a Random Forest classification model in Python (82% accuracy, validated on hold-out test set) to score all 6,418 customers by churn probability, enabling proactive targeting of highest-risk retention segments. \u2022 Surfaced that Month-to-Month contracts carried a 46.5% churn rate \u2014 72% above the 27% dataset average \u2014 and identified customer tenure under 12 months as a secondary churn predictor, directly shaping a two-tier targeted retention strategy recommendation.",
+      "technologies": []
+    },
+    {
+      "title": "Pizza Sales Analysis Dashboard | Excel",
+      "description": " GitHub Repository: github.com/Vishnu-Sai-bit/Pizza-Sales-Analysis \u2022 Analyzed 21,000+ orders across $817K in revenue \u2014 identified the top 3 product categories driving 62% of total sales and quantified revenue contribution by SKU, size, and category. \u2022 Built a multi-tab Excel KPI dashboard (Pivot Tables, slicers, dynamic charts) consolidating 6 sales metrics into a single executive-ready view with drill-down by category, size, and time period. \u2022 Identified peak demand windows (Fri\u2013Sat, 6\u20139 PM) and top-performing SKUs \u2014 recommended reallocation of 30%+ of promotional spend to high-conversion time slots, projected to lift weekend",
+      "technologies": []
+    },
+    {
+      "title": "revenue by 15\u201320%.",
+      "description": " Hospital Emergency Room Analysis Dashboard | Power BI \u2022 MySQL",
+      "technologies": []
+    }
+  ],
+  "certifications": [
+    "Oracle Cloud Database Services 2025 Certified Professional \u2013 Oracle University",
+    "Oct 2025",
+    "Oracle Analytics Cloud 2025 Certified Professional \u2013 Oracle University",
+    "Oct 2025",
+    "AI \u2013 Data Quality Analyst Certification \u2013 Rooman Technologies Pvt. Ltd.",
+    "Jul 2025"
+  ],
+  "ats_score": 85.0,
+  "ats_breakdown": {
+    "contact_score": 10.0,
+    "skills_score": 30.0,
+    "experience_score": 5.0,
+    "education_score": 15.0,
+    "projects_score": 15.0,
+    "certifications_score": 10.0
+  },
+  "strengths": [
+    "Strong technical skill set.",
+    "Good project portfolio.",
+    "Multiple certifications.",
+    "LinkedIn profile available.",
+    "GitHub profile available."
+  ],
+  "weaknesses": [],
+  "suggestions": [],
+  "career_summary": "Analytical professional specialized in Data Analyst with proven foundation in Ad-Hoc Analysis, Advanced Excel, Advanced Excel Pivot, Aggregate Functions.",
+  "raw_text": "BEERE VISHNU SAI\nDharmavaram, Andhra Pradesh | beerevishnusai776600@gmail.com | +91 9182679641\nLinkedIn | GitHub | Portfolio\nPROFILE SUMMARY\nResults-driven Data Analyst fresher with cross-domain analytics experience across EV, healthcare, retail, and\ntelecom \u2014 processing 60,000+ records, reducing reporting time by 60%, and delivering predictive models that\ndirectly inform business strategy. Proficient in SQL, Python, Power BI, Tableau, and Excel, with a proven ability\nto translate raw datasets into KPI dashboards, self-service reports, and actionable recommendations for\nstakeholders. Oracle-certified in Analytics Cloud and Database Services (2025). Backed by 4 GitHub-published\nprojects spanning descriptive analytics, root cause analysis, and machine learning \u2014 each demonstrating the\nfull DA workflow from data pipeline design to executive insight delivery. Targeting Data Analyst roles at product-\nfocused MNCs and IT organisations.\nTECHNICAL SKILLS\nProgramming & Querying: Python (Pandas, NumPy, Matplotlib, Seaborn, Scikit-learn), SQL (Joins,\nSubqueries, Correlated Subqueries, Aggregate Functions, Window Functions)\nData Visualization & BI: Tableau, Power BI (Data Modelling, DAX, Power Query), Advanced Excel (Pivot\nTables, VLOOKUP, XLOOKUP, Power Query, Dynamic Charts)\nData Engineering: MySQL, ETL Pipeline Design, Data Cleaning, Data Validation, Schema Validation, Data\nGovernance, Data Pipeline Design, Git, GitHub\nAnalytics Concepts: EDA, Descriptive Analytics, Predictive Analytics, Statistical Analysis, KPI Reporting,\nTrend Analysis, Variance Analysis, Root Cause Analysis, Dashboard Development, Business Intelligence, Data\nStorytelling, Ad-hoc Analysis, Self-Service Reporting, Process Improvement\nBusiness Analysis: Requirements Gathering, Gap Analysis, Stakeholder Reporting, As-Is / To-Be Analysis,\nData-Driven Recommendations, Cross-Functional Collaboration\nSoft Skills: Analytical Thinking, Problem Solving, Attention to Detail, Stakeholder Communication, Team\nCollaboration\nWORK EXPERIENCE\nData Analyst Intern\nOct 2025 \u2013 Mar 2026\nAICTE & APSCHE \u2013 SmartInternz (SmartBridge)\nGitHub Repository: github.com/Vishnu-Sai-bit/Visualization-Tool-for-Electric-Vehicle-Charge-and-Range-Analysis\n\u2022 Delivered end-to-end EV charging data analysis \u2014 from raw ingestion to executive dashboard deployment\n\u2014 across a 240-hour, AICTE-recognised Data Analytics internship with SmartBridge / APSCHE.\n\u2022 Independently designed and executed a full EDA pipeline on 30,000+ EV charging records \u2014\nencompassing schema profiling, missing value treatment, duplicate resolution, and statistical pattern\ndetection \u2014 surfacing battery efficiency degradation trends and cutting manual reporting effort by 40% vs\nprior Excel-based workflows.\n\u2022 Owned end-to-end data quality for a 30,000-record production dataset \u2014 designing validation and\nreconciliation workflows that resolved 1,200+ inconsistencies across null values, duplicate records, and\nschema mismatches, raising verified accuracy to >95% before downstream analysis and dashboard\ndelivery.\n\u2022 Designed 3 interactive Tableau dashboards tracking 8+ KPIs \u2014 enabling self-service reporting that\nreduced stakeholder insight extraction time by 60% against prior manual reporting methods.\n\u2022 Surfaced that charging efficiency declined by ~18% during peak utilisation windows vs off-peak periods\n\u2014 a cross-variable finding incorporated as a primary KPI segmentation dimension in the final stakeholder\nreport and dashboard.\nTools: Tableau, Excel, Python, SQL, Git, GitHub\nPROJECTS\nCustomer Churn Analysis & Prediction Dashboard | Power BI \u2022 SQL \u2022 Python\nGitHub Repository: github.com/Vishnu-Sai-bit/Customer-Churn-Analysis-and-Prediction\n\u2022 Tasked with identifying why a telecom provider was losing customers \u2014 analyzed 6,418 records, isolated\n1,732 churned customers (27% overall churn rate), and segmented churn drivers by contract type,\ndemographics, service usage, and customer tenure.\n\u2022 Translated stakeholder reporting requirements into an interactiv",
+  "source_file": "Beere_Vishnu_Sai_Resume.pdf"
+}
