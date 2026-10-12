@@ -13,7 +13,7 @@ mock_notifications = [
     {
         "id": "notif_1",
         "title": "High Match Job Discovered!",
-        "message": "Junior Data Analyst at GlobalCorp matches 92% of your verified skills.",
+        "message": "Data Analyst at Google (Bangalore) matches 85% of your verified skills.",
         "category": "job_match",
         "time": "10 mins ago",
         "is_read": False
@@ -21,7 +21,7 @@ mock_notifications = [
     {
         "id": "notif_2",
         "title": "Application Follow-up Due",
-        "message": "It has been 5 days since you saved/applied to Scout Inc. Consider sending a follow-up note.",
+        "message": "It has been 5 days since you applied to Accenture. Consider sending a follow-up note.",
         "category": "reminder",
         "time": "2 hours ago",
         "is_read": False
@@ -29,7 +29,7 @@ mock_notifications = [
     {
         "id": "notif_3",
         "title": "ATS Score Updated",
-        "message": "Your latest parsed resume achieved an ATS compatibility score of 79.0%.",
+        "message": "Your latest parsed resume achieved an ATS compatibility score of 80.0%.",
         "category": "ats",
         "time": "1 day ago",
         "is_read": True

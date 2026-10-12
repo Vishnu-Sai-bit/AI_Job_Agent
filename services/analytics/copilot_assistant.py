@@ -44,9 +44,9 @@ class CareerCopilotAssistant:
             
             if not job_bullets:
                 job_bullets = [
-                    f"• **Junior Data Analyst** at **GlobalCorp** (Hyderabad) — `92% Match`",
-                    f"• **Data Analyst** at **Scout Inc** (Hyderabad) — `89% Match`",
-                    f"• **BI Developer** at **CloudScale** (Bengaluru) — `86% Match`"
+                    f"• **Data Analyst** at **Google** (Bangalore) — `85% Match`",
+                    f"• **Data Analyst** at **Infosys** (Bangalore) — `82% Match`",
+                    f"• **BI Analyst** at **Deloitte** (Hyderabad) — `80% Match`"
                 ]
 
             response_text = (
