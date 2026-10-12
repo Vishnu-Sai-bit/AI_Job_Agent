@@ -64,3 +64,6 @@ def create_app():
             app.logger.warning(f"Database initialization warning: {e}")
 
     return app
+
+# Expose default application instance for WSGI/PaaS runners (gunicorn app:app, etc.)
+app = create_app()
