@@ -31,11 +31,13 @@ class GmailSMTPService:
 
     @property
     def username(self) -> str:
-        return os.getenv("GMAIL_USER") or os.getenv("MAIL_USERNAME", "")
+        val = os.getenv("GMAIL_USER") or os.getenv("MAIL_USERNAME") or ""
+        return val.strip()
 
     @property
     def password(self) -> str:
-        return os.getenv("GMAIL_APP_PASSWORD") or os.getenv("MAIL_PASSWORD", "")
+        val = os.getenv("GMAIL_APP_PASSWORD") or os.getenv("MAIL_PASSWORD") or ""
+        return val.strip().replace(" ", "")
 
     @property
     def sender_name(self) -> str:

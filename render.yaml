@@ -10,3 +10,19 @@ services:
         value: 10000
       - key: SECRET_KEY
         generateValue: true
+      - key: JWT_SECRET
+        generateValue: true
+      - key: MAIL_SERVER
+        value: smtp.gmail.com
+      - key: MAIL_PORT
+        value: 587
+      - key: GOOGLE_REDIRECT_URI
+        value: https://ai-job-agent-kna8.onrender.com/auth/google/callback
+      - key: GOOGLE_CLIENT_ID
+        sync: false
+      - key: GOOGLE_CLIENT_SECRET
+        sync: false
+      - key: GMAIL_USER
+        sync: false
+      - key: GMAIL_APP_PASSWORD
+        sync: false

@@ -25,6 +25,14 @@ class User(UserMixin, db.Model):
     avatar_url = db.Column(db.String(512), nullable=True)
     created_at = db.Column(db.DateTime, default=lambda: datetime.now(timezone.utc))
 
+    @property
+    def name(self) -> str:
+        return self.full_name
+
+    @name.setter
+    def name(self, value: str):
+        self.full_name = value
+
     def set_password(self, password: str):
         self.password_hash = hash_password(password)
 

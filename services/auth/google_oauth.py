@@ -31,11 +31,11 @@ class GoogleOAuthService:
 
     @property
     def client_id(self) -> str:
-        return os.getenv("GOOGLE_CLIENT_ID", "")
+        return os.getenv("GOOGLE_CLIENT_ID", "").strip()
 
     @property
     def client_secret(self) -> str:
-        return os.getenv("GOOGLE_CLIENT_SECRET", "")
+        return os.getenv("GOOGLE_CLIENT_SECRET", "").strip()
 
     def is_configured(self) -> bool:
         """Check if Google OAuth credentials are set in environment."""

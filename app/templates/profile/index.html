@@ -63,5 +63,71 @@
       </form>
     </div>
   </div>
+
+  <!-- Account Security & Google OAuth / JWT Status Card -->
+  <div class="col-lg-4 mt-4 mt-lg-0">
+    <div class="card card-custom p-4 h-100">
+      <div class="text-center pb-3 border-bottom border-secondary mb-3">
+        {% if current_user.is_authenticated and current_user.avatar_url %}
+          <img src="{{ current_user.avatar_url }}" alt="Profile" class="rounded-circle border border-2 border-primary mb-2 shadow" style="width: 72px; height: 72px; object-fit: cover;" referrerpolicy="no-referrer">
+        {% else %}
+          <div class="rounded-circle bg-primary bg-opacity-25 text-primary d-inline-flex align-items-center justify-content-center mb-2" style="width: 72px; height: 72px; font-size: 2rem;">
+            <i class="bi bi-person-fill"></i>
+          </div>
+        {% endif %}
+        <h5 class="fw-bold text-white mb-0">{{ current_user.full_name if current_user.is_authenticated else candidate.candidate_name }}</h5>
+        <span class="text-secondary small">{{ current_user.email if current_user.is_authenticated else candidate.email }}</span>
+      </div>
+
+      <h6 class="fw-bold text-white mb-3"><i class="bi bi-shield-check text-success me-2"></i>Security & Authentication</h6>
+
+      <div class="mb-3 p-3 rounded" style="background-color: #0f172a; border: 1px solid #1e293b;">
+        <div class="d-flex justify-content-between align-items-center mb-2">
+          <span class="text-secondary small">Auth Provider:</span>
+          {% if current_user.is_authenticated and current_user.auth_provider == 'google' %}
+            <span class="badge bg-success bg-opacity-25 text-success border border-success-subtle">
+              <i class="bi bi-google me-1"></i> Google OAuth 2.0
+            </span>
+          {% else %}
+            <span class="badge bg-info bg-opacity-25 text-info border border-info-subtle">
+              <i class="bi bi-shield-lock me-1"></i> Local / Email
+            </span>
+          {% endif %}
+        </div>
+
+        <div class="d-flex justify-content-between align-items-center mb-2">
+          <span class="text-secondary small">Google SMTP (Gmail):</span>
+          <span class="badge bg-success bg-opacity-25 text-success border border-success-subtle">
+            <i class="bi bi-check-circle me-1"></i> TLS Active (587)
+          </span>
+        </div>
+
+        <div class="d-flex justify-content-between align-items-center">
+          <span class="text-secondary small">JWT Session:</span>
+          <span class="badge bg-primary bg-opacity-25 text-primary border border-primary-subtle">
+            <i class="bi bi-key me-1"></i> Signed (HS256)
+          </span>
+        </div>
+      </div>
+
+      <div class="mt-auto pt-3 border-top border-secondary">
+        {% if current_user.is_authenticated %}
+          <a href="{{ url_for('auth.forgot_password') }}" class="btn btn-outline-info btn-sm w-100 mb-2">
+            <i class="bi bi-envelope-at me-1"></i> Dispatch OTP Password Reset
+          </a>
+          <a href="{{ url_for('auth.logout') }}" class="btn btn-outline-danger btn-sm w-100">
+            <i class="bi bi-box-arrow-right me-1"></i> Sign Out
+          </a>
+        {% else %}
+          <a href="{{ url_for('auth.google_auth') }}" class="btn btn-light btn-sm w-100 mb-2 text-dark fw-semibold">
+            <i class="bi bi-google me-1"></i> Connect Google Account
+          </a>
+          <a href="{{ url_for('auth.login') }}" class="btn btn-outline-primary btn-sm w-100">
+            <i class="bi bi-person-fill me-1"></i> Sign In to Account
+          </a>
+        {% endif %}
+      </div>
+    </div>
+  </div>
 </div>
 {% endblock %}

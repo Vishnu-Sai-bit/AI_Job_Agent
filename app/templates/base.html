@@ -85,7 +85,11 @@
         {% if current_user.is_authenticated %}
           <li class="nav-item dropdown">
             <a class="nav-link dropdown-toggle text-light d-flex align-items-center gap-2" href="#" id="userMenuDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-              <i class="bi bi-person-circle text-info fs-5"></i>
+              {% if current_user.avatar_url %}
+                <img src="{{ current_user.avatar_url }}" alt="Avatar" class="rounded-circle border border-primary" style="width: 26px; height: 26px; object-fit: cover;" referrerpolicy="no-referrer">
+              {% else %}
+                <i class="bi bi-person-circle text-info fs-5"></i>
+              {% endif %}
               <span class="fw-semibold d-none d-md-inline">{{ current_user.full_name }}</span>
             </a>
             <ul class="dropdown-menu dropdown-menu-end shadow-lg border-secondary" style="background-color: #0f172a;" aria-labelledby="userMenuDropdown">

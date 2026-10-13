@@ -5,6 +5,7 @@ Author : Beere Vishnu Sai
 ==========================================================
 """
 
+import os
 import uuid
 import time
 import random
@@ -16,6 +17,7 @@ from app.models.user import User
 from services.email.gmail_smtp import gmail_service
 from services.auth.google_oauth import google_oauth
 from services.auth.auth_service import AuthService
+from utils.logger import logger
 
 auth_bp = Blueprint("auth", __name__, url_prefix="/auth")
 
@@ -102,6 +104,30 @@ def register():
     return render_template("auth/register.html")
 
 
+def _build_google_callback_uri() -> str:
+    """
+    Build canonical callback URI matching Google Cloud Console configuration.
+    Handles Render reverse proxy (HTTPS) vs local development automatically.
+    """
+    override = os.getenv("GOOGLE_REDIRECT_URI")
+    if override:
+        return override.strip()
+
+    is_production = (
+        "onrender.com" in request.host
+        or request.headers.get("X-Forwarded-Proto") == "https"
+        or request.is_secure
+    )
+
+    scheme = "https" if is_production else "http"
+    callback_url = url_for("auth.google_callback", _external=True, _scheme=scheme)
+
+    if is_production and callback_url.startswith("http://"):
+        callback_url = callback_url.replace("http://", "https://", 1)
+
+    return callback_url
+
+
 @auth_bp.route("/google", methods=["GET", "POST"])
 @auth_bp.route("/google-login", methods=["GET", "POST"])
 def google_auth():
@@ -115,10 +141,7 @@ def google_auth():
 
     # Check if real Google OAuth 2.0 credentials are configured
     if google_oauth.is_configured() and request.method == "GET":
-        redirect_uri = url_for("auth.google_callback", _external=True)
-        # Ensure https in production
-        if request.headers.get("X-Forwarded-Proto") == "https" and redirect_uri.startswith("http://"):
-            redirect_uri = redirect_uri.replace("http://", "https://", 1)
+        redirect_uri = _build_google_callback_uri()
         return redirect(google_oauth.get_authorization_url(redirect_uri))
 
     if request.method == "POST":
@@ -148,7 +171,10 @@ def google_auth():
         login_user(user)
 
         if is_new:
-            gmail_service.send_welcome_email(user.email, user.full_name)
+            try:
+                gmail_service.send_welcome_email(user.email, user.full_name)
+            except Exception as mail_err:
+                logger.warning(f"Welcome email notice: {mail_err}")
 
         flash(f"Signed in with Google as {user.email}!", "success")
         return issue_jwt_response(url_for("main.dashboard"), user)
@@ -161,54 +187,76 @@ def google_callback():
     """
     Google OAuth 2.0 Callback handler:
     Exchanges code for tokens, verifies profile, issues JWT session.
+    Guaranteed zero unhandled exceptions (catches all failure cases and redirects cleanly).
     """
-    code = request.args.get("code")
-    if not code:
-        err = request.args.get("error", "Access denied")
-        flash(f"Google Sign-In was cancelled or failed ({err}).", "warning")
-        return redirect(url_for("auth.login"))
+    try:
+        code = request.args.get("code")
+        if not code:
+            err = request.args.get("error", "Access denied or cancelled by user")
+            flash(f"Google Sign-In was cancelled or failed ({err}).", "warning")
+            return redirect(url_for("auth.login"))
 
-    redirect_uri = url_for("auth.google_callback", _external=True)
-    if request.headers.get("X-Forwarded-Proto") == "https" and redirect_uri.startswith("http://"):
-        redirect_uri = redirect_uri.replace("http://", "https://", 1)
+        redirect_uri = _build_google_callback_uri()
 
-    success, profile, msg = google_oauth.exchange_code_for_user_info(code, redirect_uri)
-    if not success or not profile:
-        flash(f"Google OAuth verification failed: {msg}", "danger")
-        return redirect(url_for("auth.login"))
+        success, profile, msg = google_oauth.exchange_code_for_user_info(code, redirect_uri)
+        if not success or not profile:
+            logger.warning(f"Google OAuth token exchange failed: {msg}")
+            flash(f"Google OAuth verification failed: {msg}", "danger")
+            return redirect(url_for("auth.login"))
 
-    email = profile.get("email")
-    name = profile.get("name", "Google Candidate")
-    picture = profile.get("picture", "https://lh3.googleusercontent.com/a/default-user=s96-c")
-    google_id = profile.get("google_id", "")
+        email = profile.get("email")
+        if not email:
+            flash("Google account did not provide a valid email address.", "danger")
+            return redirect(url_for("auth.login"))
 
-    user = User.query.filter_by(email=email).first()
-    is_new = False
-    if not user:
-        user = User(
-            id=f"usr_{uuid.uuid4().hex[:12]}",
-            email=email,
-            full_name=name,
-            role="candidate",
-            auth_provider="google",
-            google_id=google_id,
-            avatar_url=picture
-        )
-        db.session.add(user)
-        db.session.commit()
-        is_new = True
-    else:
-        if picture and not user.avatar_url:
-            user.avatar_url = picture
+        name = profile.get("name") or profile.get("given_name") or email.split("@")[0].title()
+        picture = profile.get("picture", "https://lh3.googleusercontent.com/a/default-user=s96-c")
+        google_id = profile.get("google_id", "")
+
+        user = User.query.filter_by(email=email).first()
+        is_new = False
+        if not user:
+            user = User(
+                id=f"usr_{uuid.uuid4().hex[:12]}",
+                email=email,
+                full_name=name,
+                role="candidate",
+                auth_provider="google",
+                google_id=google_id,
+                avatar_url=picture
+            )
+            db.session.add(user)
             db.session.commit()
+            is_new = True
+        else:
+            updated = False
+            if picture and not getattr(user, "avatar_url", None):
+                user.avatar_url = picture
+                updated = True
+            if google_id and not getattr(user, "google_id", None):
+                user.google_id = google_id
+                updated = True
+            if getattr(user, "auth_provider", None) != "google":
+                user.auth_provider = "google"
+                updated = True
+            if updated:
+                db.session.commit()
 
-    login_user(user)
+        login_user(user)
 
-    if is_new:
-        gmail_service.send_welcome_email(user.email, user.full_name)
+        if is_new:
+            try:
+                gmail_service.send_welcome_email(user.email, user.full_name)
+            except Exception as mail_err:
+                logger.warning(f"Welcome email delivery warning via Gmail SMTP: {mail_err}")
 
-    flash(f"Signed in with Google as {user.email}!", "success")
-    return issue_jwt_response(url_for("main.dashboard"), user)
+        flash(f"Signed in with Google as {user.email}!", "success")
+        return issue_jwt_response(url_for("main.dashboard"), user)
+
+    except Exception as exc:
+        logger.exception(f"Unhandled exception during Google OAuth callback: {exc}")
+        flash(f"Google Sign-In encountered an issue: {exc}. Please try again or sign in with password.", "danger")
+        return redirect(url_for("auth.login"))
 
 
 @auth_bp.route("/forgot-password", methods=["GET", "POST"])
