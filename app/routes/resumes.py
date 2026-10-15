@@ -27,7 +27,7 @@ def index():
         "resumes/index.html",
         candidate=candidate,
         files=existing_files,
-        active_tab="resumes"
+        active_tab="step_upload"
     )
 
 @resumes_bp.route("/upload", methods=["POST"])
@@ -80,19 +80,38 @@ def upload():
         with open("data/default_parsed_resume.json", "w", encoding="utf-8") as f:
             json.dump(parsed_dict, f, indent=2)
 
-        flash(f"Resume '{file.filename}' parsed successfully! ATS Score: {parsed_dict['ats_score']}%", "success")
-        return redirect(url_for("resumes.analyze"))
+        flash(f"Resume '{file.filename}' uploaded and parsed successfully! ATS Score: {parsed_dict['ats_score']}%", "success")
+        return redirect(url_for("resumes.parsed"))
     except Exception as e:
         flash(f"Analysis error: {e}", "danger")
         return redirect(url_for("resumes.index"))
 
+@resumes_bp.route("/parsed")
+def parsed():
+    candidate = get_candidate_context()
+    return render_template(
+        "resumes/parsing.html",
+        candidate=candidate,
+        active_tab="step_parsing"
+    )
+
+@resumes_bp.route("/ai-analysis")
+def ai_analysis():
+    candidate = get_candidate_context()
+    return render_template(
+        "resumes/ai_analysis.html",
+        candidate=candidate,
+        active_tab="step_ai_analysis"
+    )
+
+@resumes_bp.route("/ats-evaluation")
 @resumes_bp.route("/analyze")
 def analyze():
     candidate = get_candidate_context()
     return render_template(
         "resumes/analysis.html",
         candidate=candidate,
-        active_tab="resume_analysis"
+        active_tab="step_ats"
     )
 
 @resumes_bp.route("/download-report")

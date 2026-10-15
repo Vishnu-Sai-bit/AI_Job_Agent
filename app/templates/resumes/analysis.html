@@ -5,15 +5,16 @@
 {% block content %}
 <div class="mb-4 d-flex justify-content-between align-items-center flex-wrap gap-3">
   <div>
-    <h2 class="fw-bold text-white mb-1">ATS Diagnostic Analysis</h2>
+    <div class="badge bg-danger-subtle text-danger border border-danger-subtle px-2 py-1 mb-2">Step 4 of 9</div>
+    <h2 class="fw-bold text-white mb-1">ATS Evaluation</h2>
     <p class="text-secondary mb-0">ATS compatibility overview and recommendations for candidate <strong class="text-light">{{ candidate.candidate_name }}</strong></p>
   </div>
   <div class="d-flex gap-2">
-    <a href="{{ url_for('resumes.download_report') }}" class="btn btn-outline-info">
-      <i class="bi bi-download me-1"></i> Download ATS Report (.md)
+    <a href="{{ url_for('resumes.ai_analysis') }}" class="btn btn-outline-secondary">
+      <i class="bi bi-arrow-left me-1"></i> Back: AI Analysis
     </a>
-    <a href="{{ url_for('resumes.tailor') }}" class="btn btn-warning">
-      <i class="bi bi-pencil-square me-1"></i> Tailor Resume
+    <a href="{{ url_for('profile.index') }}" class="btn btn-primary fw-semibold">
+      Proceed to Step 5: Job Preferences <i class="bi bi-arrow-right ms-1"></i>
     </a>
   </div>
 </div>

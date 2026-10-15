@@ -1,0 +1,81 @@
+{% extends "base.html" %}
+
+{% block title %}Resume Parsing - AI Job Agent{% endblock %}
+
+{% block content %}
+<div class="mb-4 d-flex justify-content-between align-items-center flex-wrap gap-3">
+  <div>
+    <div class="badge bg-warning-subtle text-warning border border-warning-subtle px-2 py-1 mb-2">Step 2 of 9</div>
+    <h2 class="fw-bold text-white mb-1">Resume Parsing</h2>
+    <p class="text-secondary mb-0">Contact information, credentials, and document layout extracted from your uploaded resume</p>
+  </div>
+  <div class="d-flex gap-2">
+    <a href="{{ url_for('resumes.index') }}" class="btn btn-outline-secondary">
+      <i class="bi bi-arrow-left me-1"></i> Back: Resume Upload
+    </a>
+    <a href="{{ url_for('resumes.ai_analysis') }}" class="btn btn-primary fw-semibold">
+      Proceed to Step 3: AI Analysis <i class="bi bi-arrow-right ms-1"></i>
+    </a>
+  </div>
+</div>
+
+<div class="row g-4 mb-4">
+  <!-- Contact Coordinates Card -->
+  <div class="col-lg-6">
+    <div class="card card-custom p-4 h-100">
+      <h5 class="fw-bold text-white mb-3"><i class="bi bi-person-lines-fill text-primary me-2"></i>Extracted Candidate Coordinates</h5>
+      
+      <div class="d-flex flex-column gap-3">
+        <div class="p-3 rounded bg-dark border border-secondary d-flex justify-content-between align-items-center">
+          <span class="text-secondary">Full Name:</span>
+          <span class="text-light fw-bold">{{ candidate.candidate_name }}</span>
+        </div>
+        <div class="p-3 rounded bg-dark border border-secondary d-flex justify-content-between align-items-center">
+          <span class="text-secondary">Email Address:</span>
+          <span class="text-light fw-semibold">{{ candidate.email }}</span>
+        </div>
+        <div class="p-3 rounded bg-dark border border-secondary d-flex justify-content-between align-items-center">
+          <span class="text-secondary">Phone Number:</span>
+          <span class="text-light fw-semibold">{{ candidate.phone }}</span>
+        </div>
+        <div class="p-3 rounded bg-dark border border-secondary d-flex justify-content-between align-items-center">
+          <span class="text-secondary">Home Location:</span>
+          <span class="text-light fw-semibold">{{ candidate.preferred_location }}</span>
+        </div>
+        <div class="p-3 rounded bg-dark border border-secondary d-flex justify-content-between align-items-center">
+          <span class="text-secondary">Relevant Experience:</span>
+          <span class="text-info fw-bold">{{ candidate.experience_years }} Years</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Digital Footprint & Document Structure -->
+  <div class="col-lg-6">
+    <div class="card card-custom p-4 h-100 d-flex flex-column">
+      <h5 class="fw-bold text-white mb-3"><i class="bi bi-link-45deg text-info me-2"></i>Profiles & Document Metadata</h5>
+
+      <div class="d-flex flex-column gap-3 mb-4">
+        <div class="p-3 rounded bg-dark border border-secondary">
+          <span class="text-secondary small d-block mb-1">LinkedIn Profile:</span>
+          <span class="text-primary fw-medium">{{ candidate.linkedin or 'https://linkedin.com/in/vishnusai' }}</span>
+        </div>
+        <div class="p-3 rounded bg-dark border border-secondary">
+          <span class="text-secondary small d-block mb-1">GitHub Portfolio:</span>
+          <span class="text-light fw-medium">{{ candidate.github or 'https://github.com/vishnusai' }}</span>
+        </div>
+        <div class="p-3 rounded bg-dark border border-secondary">
+          <span class="text-secondary small d-block mb-1">Parsing Status:</span>
+          <span class="badge bg-success-subtle text-success border border-success-subtle px-2 py-1"><i class="bi bi-check-circle-fill me-1"></i>Text Extracted & Normalized</span>
+        </div>
+      </div>
+
+      <div class="mt-auto pt-3 border-top border-secondary text-end">
+        <a href="{{ url_for('resumes.ai_analysis') }}" class="btn btn-primary px-4 fw-semibold">
+          Next: AI Analysis <i class="bi bi-arrow-right ms-1"></i>
+        </a>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}

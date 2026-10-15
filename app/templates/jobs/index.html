@@ -5,12 +5,16 @@
 {% block content %}
 <div class="d-flex justify-content-between align-items-center mb-4 flex-wrap gap-3">
   <div>
-    <h2 class="fw-bold text-white mb-1">Live Job Discovery</h2>
-    <p class="text-secondary mb-0">Explore openings across Remotive, RemoteOK, ArbeitNow, and top tech portals.</p>
+    <div class="badge bg-info-subtle text-info border border-info-subtle px-2 py-1 mb-2">Step 6 of 9</div>
+    <h2 class="fw-bold text-white mb-1">Job Collection</h2>
+    <p class="text-secondary mb-0">Aggregated live openings from Remotive, RemoteOK, ArbeitNow, and verified repositories</p>
   </div>
   <div class="d-flex gap-2">
+    <a href="{{ url_for('profile.index') }}" class="btn btn-outline-secondary">
+      <i class="bi bi-arrow-left me-1"></i> Back: Job Preferences
+    </a>
     <a href="{{ url_for('job_matching.detail') }}" class="btn btn-primary fw-semibold">
-      <i class="bi bi-cpu me-1"></i> View Precision Matching
+      Proceed to Step 7: Job Matching <i class="bi bi-arrow-right ms-1"></i>
     </a>
   </div>
 </div>

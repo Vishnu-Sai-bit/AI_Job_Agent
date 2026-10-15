@@ -6,12 +6,18 @@
 
 <div class="mb-4 d-flex justify-content-between align-items-center flex-wrap gap-3">
   <div>
-    <h2 class="fw-bold text-white mb-1">Resume Tailoring & Application Studio</h2>
+    <div class="badge bg-success-subtle text-success border border-success-subtle px-2 py-1 mb-2">Step 9 of 9</div>
+    <h2 class="fw-bold text-white mb-1">Resume Improvement and Application Assistance</h2>
     <p class="text-secondary mb-0">Craft truthful, job-specific resume variants calibrated for target roles</p>
   </div>
-  <a href="{{ url_for('dashboard.index') }}" class="btn btn-outline-secondary">
-    <i class="bi bi-arrow-left me-1"></i> Back to Dashboard
-  </a>
+  <div class="d-flex gap-2">
+    <a href="{{ url_for('dashboard.index') }}" class="btn btn-outline-secondary">
+      <i class="bi bi-arrow-left me-1"></i> Back: Ranked Results Dashboard
+    </a>
+    <a href="{{ url_for('resumes.index') }}" class="btn btn-primary fw-semibold">
+      <i class="bi bi-arrow-clockwise me-1"></i> Start New Workflow (Step 1)
+    </a>
+  </div>
 </div>
 
 <div class="row g-4 mb-4">

@@ -28,41 +28,7 @@
       <!-- Right Nav Items -->
       <ul class="navbar-nav ms-auto align-items-center gap-2 gap-md-3">
 
-        <!-- Notification Bell Dropdown in Navbar -->
-        <li class="nav-item dropdown">
-          <a class="nav-link text-light position-relative p-2" href="#" id="navbarNotifDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false" title="Notifications">
-            <i class="bi bi-bell-fill fs-5"></i>
-            {% if unread_notifications_count and unread_notifications_count > 0 %}
-              <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger border border-dark" style="font-size: 0.65rem;">
-                {{ unread_notifications_count }}
-              </span>
-            {% endif %}
-          </a>
-          <ul class="dropdown-menu dropdown-menu-end shadow-lg border-secondary p-0" aria-labelledby="navbarNotifDropdown" style="width: 320px; background-color: #0f172a;">
-            <li class="p-3 border-bottom border-secondary d-flex justify-content-between align-items-center">
-              <span class="fw-bold text-white small mb-0"><i class="bi bi-bell me-1 text-primary"></i> Notifications ({{ unread_notifications_count or 0 }})</span>
-              <a href="{{ url_for('notifications.mark_all_read') }}" class="text-info small text-decoration-none" style="font-size: 0.75rem;">Mark all read</a>
-            </li>
-            <div style="max-height: 280px; overflow-y: auto;">
-              {% for notif in navbar_notifications %}
-                <li class="p-2 px-3 border-bottom border-secondary-subtle" style="background-color: {% if not notif.is_read %}#1e293b{% else %}transparent{% endif %};">
-                  <div class="d-flex justify-content-between align-items-start">
-                    <strong class="text-light small">{{ notif.title }}</strong>
-                    <span class="text-secondary" style="font-size: 0.7rem;">{{ notif.time }}</span>
-                  </div>
-                  <p class="text-secondary mb-0 small text-truncate" style="font-size: 0.75rem;">{{ notif.message }}</p>
-                </li>
-              {% else %}
-                <li class="p-3 text-center text-secondary small">No notifications yet.</li>
-              {% endfor %}
-            </div>
-            <li class="p-2 text-center border-top border-secondary">
-              <a href="{{ url_for('notifications.index') }}" class="text-primary small text-decoration-none fw-semibold">
-                Open Notification Center <i class="bi bi-arrow-right ms-1"></i>
-              </a>
-            </li>
-          </ul>
-        </li>
+
 
         {% if current_user.is_authenticated %}
           <li class="nav-item dropdown">
@@ -105,93 +71,91 @@
       <div class="py-3 sticky-top" style="top: 65px; z-index: 1000; height: calc(100vh - 65px); overflow-y: auto;">
         
         <div class="px-3 pt-1 pb-2 text-uppercase text-secondary fw-bold" style="font-size: 0.68rem; letter-spacing: 0.8px;">
-          Navigation
+          Workflow Pipeline
         </div>
 
         <ul class="nav flex-column gap-1">
-          <!-- Dashboard -->
+          <!-- 1. Resume Upload -->
           <li class="nav-item">
-            <a class="nav-link {% if active_tab in ['dashboard', 'main'] %}active{% endif %}" href="{{ url_for('main.dashboard') }}">
+            <a class="nav-link {% if active_tab == 'step_upload' or (active_tab == 'resumes' and request.endpoint == 'resumes.index') %}active{% endif %}" href="{{ url_for('resumes.index') }}" title="Upload PDF, DOCX or TXT resume">
+              <span class="step-num">1</span>
+              <i class="bi bi-cloud-arrow-up-fill text-info"></i>
+              <span class="text-truncate">Resume Upload</span>
+            </a>
+          </li>
+
+          <!-- 2. Resume Parsing -->
+          <li class="nav-item">
+            <a class="nav-link {% if active_tab == 'step_parsing' %}active{% endif %}" href="{{ url_for('resumes.parsed') }}" title="Extracted contact info & candidate structure">
+              <span class="step-num">2</span>
+              <i class="bi bi-file-earmark-text-fill text-warning"></i>
+              <span class="text-truncate">Resume Parsing</span>
+            </a>
+          </li>
+
+          <!-- 3. AI Analysis -->
+          <li class="nav-item">
+            <a class="nav-link {% if active_tab == 'step_ai_analysis' %}active{% endif %}" href="{{ url_for('resumes.ai_analysis') }}" title="AI identifies skills, education, experience & projects">
+              <span class="step-num">3</span>
+              <i class="bi bi-cpu-fill text-primary"></i>
+              <span class="text-truncate">AI Analysis</span>
+            </a>
+          </li>
+
+          <!-- 4. ATS Evaluation -->
+          <li class="nav-item">
+            <a class="nav-link {% if active_tab == 'step_ats' or active_tab in ['ats_report', 'resume_analysis'] %}active{% endif %}" href="{{ url_for('resumes.analyze') }}" title="6-dimension ATS score & recommendations">
+              <span class="step-num">4</span>
+              <i class="bi bi-pie-chart-fill text-danger"></i>
+              <span class="text-truncate">ATS Evaluation</span>
+            </a>
+          </li>
+
+          <!-- 5. Job Preferences -->
+          <li class="nav-item">
+            <a class="nav-link {% if active_tab in ['profile', 'preferences', 'step_preferences'] %}active{% endif %}" href="{{ url_for('profile.index') }}" title="Target role, cities/remote, experience & salary">
+              <span class="step-num">5</span>
+              <i class="bi bi-sliders text-success"></i>
+              <span class="text-truncate">Job Preferences</span>
+            </a>
+          </li>
+
+          <!-- 6. Job Collection -->
+          <li class="nav-item">
+            <a class="nav-link {% if active_tab in ['jobs', 'step_collection'] and request.endpoint == 'jobs.index' %}active{% endif %}" href="{{ url_for('jobs.index') }}" title="Fetch openings from Remotive, RemoteOK, ArbeitNow">
+              <span class="step-num">6</span>
+              <i class="bi bi-collection-fill text-info"></i>
+              <span class="text-truncate">Job Collection</span>
+            </a>
+          </li>
+
+          <!-- 7. Job Matching -->
+          <li class="nav-item">
+            <a class="nav-link {% if active_tab in ['job_matching', 'step_matching'] %}active{% endif %}" href="{{ url_for('job_matching.detail') }}" title="Role, skill, and experience fit scoring">
+              <span class="step-num">7</span>
+              <i class="bi bi-lightning-charge-fill text-warning"></i>
+              <span class="text-truncate">Job Matching</span>
+            </a>
+          </li>
+
+          <!-- 8. Ranked Results Dashboard -->
+          <li class="nav-item">
+            <a class="nav-link {% if active_tab in ['dashboard', 'main', 'step_dashboard'] %}active{% endif %}" href="{{ url_for('main.dashboard') }}" title="Ranked matched openings with apply links">
+              <span class="step-num">8</span>
               <i class="bi bi-speedometer2 text-primary"></i>
-              <span>Dashboard</span>
+              <span class="text-truncate">Ranked Results Dashboard</span>
             </a>
           </li>
 
-          <!-- Job Matches & Discovery -->
+          <!-- 9. Resume Improvement and Application Assistance -->
           <li class="nav-item">
-            <a class="nav-link {% if active_tab == 'jobs' and request.endpoint == 'jobs.index' %}active{% endif %}" href="{{ url_for('jobs.index') }}">
-              <i class="bi bi-briefcase text-info"></i>
-              <span>Job Discovery</span>
-            </a>
-          </li>
-
-          <!-- Precision Matching -->
-          <li class="nav-item">
-            <a class="nav-link {% if active_tab == 'job_matching' %}active{% endif %}" href="{{ url_for('job_matching.detail') }}">
-              <i class="bi bi-cpu text-warning"></i>
-              <span>Job Matching</span>
-            </a>
-          </li>
-
-          <!-- Resume & ATS Analysis -->
-          <li class="nav-item">
-            <a class="nav-link {% if active_tab in ['resumes', 'resume_analysis', 'ats_report'] %}active{% endif %}" href="{{ url_for('resumes.index') }}">
-              <i class="bi bi-file-earmark-person text-success"></i>
-              <span>Resume & ATS</span>
-            </a>
-          </li>
-
-          <!-- Job Preferences -->
-          <li class="nav-item">
-            <a class="nav-link {% if active_tab in ['profile', 'preferences'] %}active{% endif %}" href="{{ url_for('profile.index') }}">
-              <i class="bi bi-sliders text-danger"></i>
-              <span>Job Preferences</span>
-            </a>
-          </li>
-
-          <!-- Resume Tailoring -->
-          <li class="nav-item">
-            <a class="nav-link {% if active_tab == 'resume_tailoring' %}active{% endif %}" href="{{ url_for('resumes.tailor') }}">
-              <i class="bi bi-magic text-warning"></i>
-              <span>Tailor Resume</span>
+            <a class="nav-link {% if active_tab in ['resume_tailoring', 'step_improvement'] %}active{% endif %}" href="{{ url_for('resumes.tailor') }}" title="AI resume tailoring & application bullet points">
+              <span class="step-num">9</span>
+              <i class="bi bi-magic text-success"></i>
+              <span class="text-truncate">Resume Improvement and Application Assistance</span>
             </a>
           </li>
         </ul>
-
-        <hr class="border-secondary mx-3 my-3 opacity-50">
-
-        <!-- Tools -->
-        <div class="px-3 pt-1 pb-2 text-uppercase text-secondary fw-bold" style="font-size: 0.68rem; letter-spacing: 0.8px;">
-          Tools & CRM
-        </div>
-
-        <ul class="nav flex-column gap-1">
-          <li class="nav-item">
-            <a class="nav-link {% if active_tab == 'applications' %}active{% endif %}" href="{{ url_for('applications.index') }}">
-              <i class="bi bi-kanban text-info"></i>
-              <span>Application CRM</span>
-            </a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link {% if active_tab == 'interviews' %}active{% endif %}" href="{{ url_for('interviews.index') }}">
-              <i class="bi bi-mic text-warning"></i>
-              <span>Mock Interview</span>
-            </a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link {% if active_tab in ['career_intelligence', 'learning', 'analytics'] %}active{% endif %}" href="{{ url_for('career.career_intelligence') }}">
-              <i class="bi bi-graph-up text-success"></i>
-              <span>Market Trends</span>
-            </a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link {% if active_tab in ['assistant', 'copilot'] %}active{% endif %}" href="{{ url_for('assistant.index') }}">
-              <i class="bi bi-chat-dots text-primary"></i>
-              <span>AI Copilot</span>
-            </a>
-          </li>
-        </ul>
-
       </div>
     </aside>
 
@@ -200,22 +164,17 @@
       <!-- Mobile Collapsible Sidebar Menu -->
       <div class="collapse d-md-none border-bottom border-secondary" id="mobileSidebar" style="background-color: #0b0f17;">
         <div class="p-3">
-          <div class="text-uppercase text-secondary fw-bold small mb-2">Navigation</div>
-          <ul class="nav flex-column gap-1 mb-3">
-            <li class="nav-item"><a class="nav-link text-light py-2" href="{{ url_for('main.dashboard') }}"><i class="bi bi-speedometer2 text-primary me-2"></i> Dashboard</a></li>
-            <li class="nav-item"><a class="nav-link text-light py-2" href="{{ url_for('jobs.index') }}"><i class="bi bi-briefcase text-info me-2"></i> Job Discovery</a></li>
-            <li class="nav-item"><a class="nav-link text-light py-2" href="{{ url_for('job_matching.detail') }}"><i class="bi bi-cpu text-warning me-2"></i> Job Matching</a></li>
-            <li class="nav-item"><a class="nav-link text-light py-2" href="{{ url_for('resumes.index') }}"><i class="bi bi-file-earmark-person text-success me-2"></i> Resume & ATS</a></li>
-            <li class="nav-item"><a class="nav-link text-light py-2" href="{{ url_for('profile.index') }}"><i class="bi bi-sliders text-danger me-2"></i> Job Preferences</a></li>
-            <li class="nav-item"><a class="nav-link text-light py-2" href="{{ url_for('resumes.tailor') }}"><i class="bi bi-magic text-warning me-2"></i> Tailor Resume</a></li>
-          </ul>
-
-          <div class="text-uppercase text-secondary fw-bold small mb-2">Tools & CRM</div>
-          <ul class="nav flex-column gap-1">
-            <li class="nav-item"><a class="nav-link text-light py-2" href="{{ url_for('applications.index') }}"><i class="bi bi-kanban text-info me-2"></i> Application CRM</a></li>
-            <li class="nav-item"><a class="nav-link text-light py-2" href="{{ url_for('interviews.index') }}"><i class="bi bi-mic text-warning me-2"></i> Mock Interview</a></li>
-            <li class="nav-item"><a class="nav-link text-light py-2" href="{{ url_for('career.career_intelligence') }}"><i class="bi bi-graph-up text-success me-2"></i> Market Trends</a></li>
-            <li class="nav-item"><a class="nav-link text-light py-2" href="{{ url_for('assistant.index') }}"><i class="bi bi-chat-dots text-primary me-2"></i> AI Copilot</a></li>
+          <div class="text-uppercase text-secondary fw-bold small mb-2">Workflow Pipeline</div>
+          <ul class="nav flex-column gap-1 mb-2">
+            <li class="nav-item"><a class="nav-link text-light py-2" href="{{ url_for('resumes.index') }}"><span class="badge bg-secondary me-2">1</span> Resume Upload</a></li>
+            <li class="nav-item"><a class="nav-link text-light py-2" href="{{ url_for('resumes.parsed') }}"><span class="badge bg-secondary me-2">2</span> Resume Parsing</a></li>
+            <li class="nav-item"><a class="nav-link text-light py-2" href="{{ url_for('resumes.ai_analysis') }}"><span class="badge bg-secondary me-2">3</span> AI Analysis</a></li>
+            <li class="nav-item"><a class="nav-link text-light py-2" href="{{ url_for('resumes.analyze') }}"><span class="badge bg-secondary me-2">4</span> ATS Evaluation</a></li>
+            <li class="nav-item"><a class="nav-link text-light py-2" href="{{ url_for('profile.index') }}"><span class="badge bg-secondary me-2">5</span> Job Preferences</a></li>
+            <li class="nav-item"><a class="nav-link text-light py-2" href="{{ url_for('jobs.index') }}"><span class="badge bg-secondary me-2">6</span> Job Collection</a></li>
+            <li class="nav-item"><a class="nav-link text-light py-2" href="{{ url_for('job_matching.detail') }}"><span class="badge bg-secondary me-2">7</span> Job Matching</a></li>
+            <li class="nav-item"><a class="nav-link text-light py-2" href="{{ url_for('main.dashboard') }}"><span class="badge bg-secondary me-2">8</span> Ranked Results Dashboard</a></li>
+            <li class="nav-item"><a class="nav-link text-light py-2" href="{{ url_for('resumes.tailor') }}"><span class="badge bg-secondary me-2">9</span> Resume Improvement and Application Assistance</a></li>
           </ul>
         </div>
       </div>
