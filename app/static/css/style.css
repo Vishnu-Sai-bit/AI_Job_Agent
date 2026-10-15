@@ -27,9 +27,9 @@ body {
 .sidebar {
   background-color: #0b0f17;
   border-right: 1px solid #1e293b;
-  width: 235px;
-  min-width: 235px;
-  max-width: 235px;
+  width: 265px;
+  min-width: 265px;
+  max-width: 265px;
   flex-shrink: 0;
   min-height: calc(100vh - 65px);
 }
@@ -127,4 +127,52 @@ body {
   border-radius: 12px;
   padding: 1rem;
   min-height: 480px;
+}
+
+/* Workflow Step Badges */
+.step-num {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  font-size: 0.7rem;
+  font-weight: 700;
+  background-color: rgba(99, 102, 241, 0.2);
+  color: #a5b4fc;
+  border: 1px solid rgba(99, 102, 241, 0.4);
+  flex-shrink: 0;
+}
+
+.sidebar .nav-link.active .step-num {
+  background-color: #ffffff;
+  color: #4f46e5;
+  border-color: #ffffff;
+}
+
+.workflow-stepper {
+  background: rgba(11, 15, 23, 0.85);
+  backdrop-filter: blur(8px);
+}
+
+.step-pill {
+  transition: all 0.2s ease-in-out;
+  padding: 0.25rem 0.5rem;
+  border-radius: 6px;
+}
+
+.step-pill:hover {
+  background-color: rgba(99, 102, 241, 0.15);
+  color: #ffffff !important;
+}
+
+.step-pill-num {
+  width: 18px;
+  height: 18px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.65rem;
+  font-weight: 700;
 }

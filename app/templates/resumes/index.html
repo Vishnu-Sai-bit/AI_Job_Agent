@@ -19,10 +19,13 @@
 </div>
 
 <div class="row g-4 mb-4">
-  <!-- Upload Card -->
+  <!-- Upload Card (Step 1) -->
   <div class="col-lg-5">
     <div class="card card-custom p-4 h-100">
-      <h5 class="fw-bold text-white mb-3">Upload Candidate Resume</h5>
+      <div class="d-flex align-items-center gap-2 mb-3">
+        <span class="badge bg-primary rounded-circle" style="width: 24px; height: 24px; display: inline-flex; align-items: center; justify-content: center;">1</span>
+        <h5 class="fw-bold text-white mb-0">Step 1 — Upload Resume</h5>
+      </div>
       <p class="text-secondary small mb-3">
         Upload your latest PDF or DOCX resume. Our parser will instantly extract skills, experience, education, and generate an ATS audit.
       </p>
@@ -54,16 +57,19 @@
     </div>
   </div>
 
-  <!-- Active Profile Summary Card -->
-  <div class="col-lg-7">
+  <!-- Active Profile Summary Card (Step 2) -->
+  <div class="col-lg-7" id="extracted-profile">
     <div class="card card-custom p-4 h-100">
       <div class="d-flex justify-content-between align-items-center mb-3">
-        <div>
-          <h5 class="fw-bold text-white mb-0">{{ candidate.candidate_name }}</h5>
-          <span class="text-primary small fw-semibold">{{ candidate.preferred_role }}</span>
+        <div class="d-flex align-items-center gap-2">
+          <span class="badge bg-warning text-dark rounded-circle" style="width: 24px; height: 24px; display: inline-flex; align-items: center; justify-content: center;">2</span>
+          <div>
+            <h5 class="fw-bold text-white mb-0">Step 2 — Parsed Profile ({{ candidate.candidate_name }})</h5>
+            <span class="text-primary small fw-semibold">{{ candidate.preferred_role }}</span>
+          </div>
         </div>
         <span class="score-badge">
-          {{ candidate.ats_score }}% ATS Score
+          {{ candidate.ats_score }}% ATS
         </span>
       </div>
 
@@ -76,7 +82,7 @@
 
       {% if candidate.career_summary %}
         <div class="mb-3">
-          <span class="text-light small fw-bold">Career Summary:</span>
+          <span class="text-light small fw-bold">Parsed Summary:</span>
           <p class="text-secondary small mt-1 mb-0">{{ candidate.career_summary }}</p>
         </div>
       {% endif %}
@@ -90,13 +96,13 @@
         </div>
       </div>
 
-      <div class="mt-auto pt-3 border-top border-secondary d-flex justify-content-end gap-2">
-        <a href="{{ url_for('resumes.analyze') }}" class="btn btn-sm btn-success">
-          <i class="bi bi-pie-chart me-1"></i> Full ATS Diagnostic
-        </a>
-        <a href="{{ url_for('resumes.tailor') }}" class="btn btn-sm btn-warning">
-          <i class="bi bi-pencil-square me-1"></i> Tailor for Job
-        </a>
+      <div class="mt-auto pt-3 border-top border-secondary d-flex justify-content-between align-items-center flex-wrap gap-2">
+        <span class="text-secondary small"><i class="bi bi-info-circle me-1"></i> Ready for deep AI analysis & ATS diagnostic</span>
+        <div class="d-flex gap-2">
+          <a href="{{ url_for('resumes.analyze') }}" class="btn btn-primary btn-sm px-3 fw-semibold">
+            Proceed to Step 3 & 4: ATS Diagnostic <i class="bi bi-arrow-right ms-1"></i>
+          </a>
+        </div>
       </div>
     </div>
   </div>

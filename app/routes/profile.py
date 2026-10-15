@@ -20,15 +20,18 @@ def index():
         candidate["candidate_name"] = request.form.get("candidate_name", candidate.get("candidate_name", "")).strip()
         candidate["email"] = request.form.get("email", candidate.get("email", "")).strip()
         candidate["phone"] = request.form.get("phone", candidate.get("phone", "")).strip()
-        candidate["preferred_role"] = request.form.get("preferred_role", candidate.get("preferred_role", "")).strip()
-        candidate["preferred_location"] = request.form.get("preferred_location", candidate.get("preferred_location", "")).strip()
+        candidate["home_location"] = request.form.get("home_location", candidate.get("home_location", "Hyderabad, India")).strip()
+        candidate["preferred_role"] = request.form.get("preferred_role", candidate.get("preferred_role", "Data Analyst")).strip()
+        candidate["preferred_location"] = request.form.get("preferred_location", candidate.get("preferred_location", "Bengaluru / Remote")).strip()
+        candidate["work_mode"] = request.form.get("work_mode", candidate.get("work_mode", "Remote / Hybrid")).strip()
+        candidate["salary_expectation"] = request.form.get("salary_expectation", candidate.get("salary_expectation", "₹12-18 LPA")).strip()
         
         raw_skills = request.form.get("skills", "")
         if raw_skills:
             candidate["skills"] = [s.strip() for s in raw_skills.split(",") if s.strip()]
 
         try:
-            candidate["experience_years"] = float(request.form.get("experience_years", candidate.get("experience_years", 0.5)))
+            candidate["experience_years"] = float(request.form.get("experience_years", candidate.get("experience_years", 2.0)))
         except ValueError:
             pass
 

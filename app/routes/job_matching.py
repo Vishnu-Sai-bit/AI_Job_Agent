@@ -34,5 +34,5 @@ def detail(job_id=None):
         matching=matching,
         missing=missing,
         candidate=candidate,
-        active_tab="jobs"
+        active_tab="job_matching"
     )

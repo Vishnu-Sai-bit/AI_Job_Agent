@@ -3,17 +3,23 @@
 {% block title %}Dashboard - AI Job Copilot{% endblock %}
 
 {% block content %}
+<div class="mb-3">
+  <span class="badge bg-primary-subtle text-primary border border-primary-subtle px-3 py-1 fw-semibold">
+    <i class="bi bi-speedometer2 me-1"></i> Step 8 of 9: Career Intelligence & Results Dashboard
+  </span>
+</div>
+
 <div class="mb-4 d-flex justify-content-between align-items-center flex-wrap gap-3">
   <div>
     <h2 class="fw-bold text-white mb-1">Career Intelligence Dashboard</h2>
     <p class="text-secondary mb-0">Unified platform overview for candidate <strong class="text-light">{{ candidate.candidate_name }}</strong></p>
   </div>
   <div class="d-flex gap-2">
+    <a href="{{ url_for('resumes.tailor') }}" class="btn btn-warning fw-semibold">
+      Proceed to Step 9: Tailor Resume & Apply <i class="bi bi-arrow-right ms-1"></i>
+    </a>
     <a href="{{ url_for('jobs.index') }}" class="btn btn-primary">
       <i class="bi bi-briefcase-fill me-1"></i> Browse Jobs
-    </a>
-    <a href="{{ url_for('resumes.index') }}" class="btn btn-outline-light">
-      <i class="bi bi-cloud-arrow-up-fill me-1"></i> Upload Resume
     </a>
   </div>
 </div>
