@@ -15,6 +15,14 @@ from dotenv import load_dotenv
 # Load .env file
 load_dotenv()
 
+# Normalize environment variable aliases across cloud providers (Render, Heroku, Local)
+if not os.getenv("GEMINI_API_KEY") and os.getenv("GEMINI_API_KEY_1"):
+    os.environ["GEMINI_API_KEY"] = os.getenv("GEMINI_API_KEY_1", "")
+if not os.getenv("JWT_SECRET") and os.getenv("JWT_SECRET_KEY"):
+    os.environ["JWT_SECRET"] = os.getenv("JWT_SECRET_KEY", "")
+if not os.getenv("POSTGRES_URL") and os.getenv("DATABASE_URL"):
+    os.environ["POSTGRES_URL"] = os.getenv("DATABASE_URL", "")
+
 
 # ==========================================================
 # Project Information
@@ -295,7 +303,7 @@ SERPAPI_API_KEY = os.getenv("SERPAPI_API_KEY", "")
 # Future Database
 # ==========================================================
 
-DATABASE_URL = ""
+DATABASE_URL = os.getenv("DATABASE_URL", "")
 
 DATABASE_NAME = "jobagent"
 

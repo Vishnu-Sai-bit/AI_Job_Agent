@@ -12,7 +12,7 @@ import re
 
 class CareerCopilotAssistant:
     def __init__(self):
-        self.api_key = os.getenv("GEMINI_API_KEY", "")
+        self.api_key = os.getenv("GEMINI_API_KEY") or os.getenv("GEMINI_API_KEY_1") or os.getenv("GEMINI_API_KEY_2", "")
 
     def answer_query(
         self,

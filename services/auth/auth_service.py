@@ -18,7 +18,7 @@ import jwt
 from services.db.mongo_manager import db_manager
 from utils.logger import logger
 
-JWT_SECRET = os.getenv("JWT_SECRET", "ai_job_agent_jwt_secret_key_2026_super_secure_vault")
+JWT_SECRET = os.getenv("JWT_SECRET") or os.getenv("JWT_SECRET_KEY", "ai_job_agent_jwt_secret_key_2026_super_secure_vault")
 JWT_ALGORITHM = "HS256"
 JWT_EXPIRATION_DAYS = 7
 
