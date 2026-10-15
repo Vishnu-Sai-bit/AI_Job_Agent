@@ -258,6 +258,88 @@ p { color: var(--text-secondary); font-size: 0.925rem; line-height: 1.55; }
 .kpi-icon-amber  { background: rgba(245, 158, 11, 0.12); color: #f59e0b; }
 .kpi-icon-purple { background: rgba(139, 92, 246, 0.12); color: #8b5cf6; }
 
+/* Quick Action Gradient Cards (From Design Board Item 7) */
+.quick-action-card {
+  border-radius: 12px;
+  padding: 1.1rem 1.25rem;
+  color: #ffffff;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  text-decoration: none;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.quick-action-card:hover {
+  transform: translateY(-2px);
+  color: #ffffff;
+}
+
+.quick-action-purple {
+  background: linear-gradient(135deg, #6366f1 0%, #8b5cf6 100%);
+  box-shadow: 0 4px 14px rgba(99, 102, 241, 0.35);
+}
+
+.quick-action-blue {
+  background: linear-gradient(135deg, #3b82f6 0%, #2563eb 100%);
+  box-shadow: 0 4px 14px rgba(59, 130, 246, 0.35);
+}
+
+.quick-action-green {
+  background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+  box-shadow: 0 4px 14px rgba(16, 185, 129, 0.35);
+}
+
+/* Filter Segment Tabs (From Design Board Item 10) */
+.filter-tabs-container {
+  display: flex;
+  gap: 0.5rem;
+  padding-bottom: 0.5rem;
+  border-bottom: 1px solid var(--border-light);
+  margin-bottom: 1.25rem;
+  overflow-x: auto;
+}
+
+.filter-tab-pill {
+  padding: 0.4rem 0.95rem;
+  border-radius: 20px;
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: var(--text-secondary);
+  background-color: var(--surface);
+  border: 1px solid var(--border-light);
+  text-decoration: none;
+  transition: all 0.15s ease;
+  white-space: nowrap;
+}
+
+.filter-tab-pill:hover {
+  background-color: var(--surface-alt);
+  color: var(--text-primary);
+}
+
+.filter-tab-pill.active {
+  background: #6366f1;
+  color: #ffffff;
+  border-color: #6366f1;
+  box-shadow: 0 2px 8px rgba(99, 102, 241, 0.35);
+}
+
+/* Extracted Preview Cards (From Design Board Item 8) */
+.extract-preview-card {
+  background: #ffffff;
+  border: 1px solid var(--border-light);
+  border-radius: 12px;
+  padding: 1rem;
+  height: 100%;
+  transition: border-color 0.15s ease, box-shadow 0.15s ease;
+}
+
+.extract-preview-card:hover {
+  border-color: #6366f1;
+  box-shadow: var(--shadow-sm);
+}
+
 /* Circular ATS Gauge (From Design Sheets #6, #8, #14, #16) */
 .ats-gauge-container {
   display: flex;

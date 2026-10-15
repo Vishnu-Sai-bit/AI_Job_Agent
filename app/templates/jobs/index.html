@@ -1,14 +1,14 @@
 {% extends "base.html" %}
 
-{% block title %}Show Job Searches - AI JobAgent{% endblock %}
+{% block title %}Find Jobs - AI JobAgent{% endblock %}
 
 {% block content %}
 <!-- Step Header Banner -->
 <div class="step-header-banner">
   <div>
     <span class="step-indicator-pill mb-2"><i class="bi bi-circle-fill" style="font-size: 0.5rem;"></i> Step 3 of 7</span>
-    <h2 class="fw-bold mb-1">Show Job Searches</h2>
-    <p class="text-secondary mb-0">Aggregated verified live openings across Remotive, RemoteOK, and ArbeitNow ranked by match fit</p>
+    <h2 class="fw-bold mb-1">Find Jobs</h2>
+    <p class="text-secondary mb-0">Discover and apply to relevant job opportunities aggregated across live verified sources</p>
   </div>
   <div class="d-flex gap-2">
     <a href="{{ url_for('resumes.analyze') }}" class="btn btn-outline-custom">
@@ -20,37 +20,62 @@
   </div>
 </div>
 
-<!-- Modern Filter Bar (From Design Sheets #9, #15, #17) -->
+<!-- Modern Filter Bar (From Design Board Item 10) -->
 <div class="card card-clean p-4 mb-4">
   <form method="GET" action="{{ url_for('jobs.index') }}">
     <div class="row g-3 align-items-center">
-      <div class="col-md-5">
-        <label class="form-label text-muted small fw-bold mb-1">Target Job Role</label>
+      <div class="col-md-4">
+        <label class="form-label text-muted small fw-bold mb-1">Job Title</label>
         <div class="input-group">
           <span class="input-group-text bg-light border-end-0 text-secondary"><i class="bi bi-search"></i></span>
-          <input type="text" name="role" class="form-control border-start-0" placeholder="e.g. Data Analyst, Python Developer" value="{{ role_filter }}">
+          <input type="text" name="role" class="form-control border-start-0" placeholder="e.g. Data Analyst" value="{{ role_filter }}">
         </div>
       </div>
 
-      <div class="col-md-4">
-        <label class="form-label text-muted small fw-bold mb-1">Preferred Location</label>
+      <div class="col-md-3">
+        <label class="form-label text-muted small fw-bold mb-1">Location</label>
         <div class="input-group">
           <span class="input-group-text bg-light border-end-0 text-secondary"><i class="bi bi-geo-alt"></i></span>
-          <input type="text" name="location" class="form-control border-start-0" placeholder="e.g. Remote, Bangalore, Hyderabad" value="{{ loc_filter }}">
+          <input type="text" name="location" class="form-control border-start-0" placeholder="e.g. Bangalore" value="{{ loc_filter }}">
         </div>
       </div>
 
-      <div class="col-md-3 d-flex align-items-end gap-2 pt-md-4">
-        <button type="submit" class="btn btn-primary flex-grow-1">
-          <i class="bi bi-funnel-fill me-1"></i> Filter Jobs
+      <div class="col-md-3">
+        <label class="form-label text-muted small fw-bold mb-1">Experience</label>
+        <select name="experience" class="form-select">
+          <option value="">All Levels</option>
+          <option value="0-2">0-2 years (Entry)</option>
+          <option value="2-5">2-5 years (Mid-Level)</option>
+          <option value="5+">5+ years (Senior)</option>
+        </select>
+      </div>
+
+      <div class="col-md-2 d-flex align-items-end pt-md-4">
+        <button type="submit" class="btn btn-primary w-100">
+          <i class="bi bi-search me-1"></i> Search Jobs
         </button>
-        <a href="{{ url_for('jobs.index') }}" class="btn btn-outline-custom" title="Clear Filters">Reset</a>
       </div>
     </div>
   </form>
 </div>
 
-<!-- Job Listings Stream (From Design Sheets #6, #9, #15 Talantium) -->
+<!-- Segment Filter Tabs (From Design Board Item 10) -->
+<div class="filter-tabs-container">
+  <a href="{{ url_for('jobs.index') }}" class="filter-tab-pill {% if not request.args.get('mode') %}active{% endif %}">
+    All Jobs ({{ jobs|length if jobs else 12 }})
+  </a>
+  <a href="{{ url_for('jobs.index') }}?location=Remote&mode=remote" class="filter-tab-pill {% if request.args.get('mode') == 'remote' %}active{% endif %}">
+    Remote (8)
+  </a>
+  <a href="{{ url_for('jobs.index') }}?location=Hyderabad&mode=onsite" class="filter-tab-pill {% if request.args.get('mode') == 'onsite' %}active{% endif %}">
+    On-site (3)
+  </a>
+  <a href="{{ url_for('jobs.index') }}?location=Hybrid&mode=hybrid" class="filter-tab-pill {% if request.args.get('mode') == 'hybrid' %}active{% endif %}">
+    Hybrid (2)
+  </a>
+</div>
+
+<!-- Job Listings Stream (From Design Board Item 10) -->
 {% if jobs %}
   <div class="row g-4">
     {% for job in jobs %}

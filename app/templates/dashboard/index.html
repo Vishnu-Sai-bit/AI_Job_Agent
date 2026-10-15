@@ -1,30 +1,31 @@
 {% extends "base.html" %}
 
-{% block title %}Career Dashboard - AI JobAgent{% endblock %}
+{% block title %}Dashboard - AI JobAgent{% endblock %}
 
 {% block content %}
-<!-- Welcome Header (From Design Sheet #6) -->
+<!-- Welcome Header (From Design Board Item 7) -->
 <div class="d-flex justify-content-between align-items-center mb-4 flex-wrap gap-3">
   <div>
-    <h2 class="fw-bold mb-1">Welcome back, {{ candidate.candidate_name }}! 👋</h2>
-    <p class="text-secondary mb-0">Here's your comprehensive career overview, ATS readiness, and high-match opportunities</p>
+    <h2 class="fw-bold mb-1">Welcome Back, {{ candidate.candidate_name }}! 👋</h2>
+    <p class="text-secondary mb-0">Here's your career overview and latest insights.</p>
   </div>
-  <div class="d-flex gap-2">
-    <a href="{{ url_for('resumes.index') }}" class="btn btn-primary">
-      <i class="bi bi-cloud-arrow-up-fill me-1"></i> Start Workflow (Upload)
-    </a>
+  <div class="d-flex align-items-center gap-2">
+    <div class="user-avatar-circle" style="width: 38px; height: 38px;">
+      <span>{{ candidate.candidate_name[:2].upper() }}</span>
+      <span class="status-dot-online"></span>
+    </div>
+    <span class="fw-semibold text-dark small d-none d-sm-inline">{{ candidate.candidate_name }}</span>
   </div>
 </div>
 
-<!-- 4 Key Performance Indicators (From Design Sheet #6 & #12) -->
+<!-- 4 Key Performance Indicators (From Design Board Item 7) -->
 <div class="row g-3 mb-4">
   <!-- ATS Score KPI -->
-  <div class="col-sm-6 col-xl-3">
+  <div class="col-6 col-xl-3">
     <div class="kpi-card">
       <div>
-        <span class="text-muted small fw-semibold text-uppercase">ATS Score</span>
-        <h3 class="fw-bold text-dark mb-0 mt-1">{{ ats_score|round|int }}<span class="fs-6 text-muted font-monospace">/100</span></h3>
-        <span class="text-success small fw-medium"><i class="bi bi-arrow-up-right"></i> Optimized fit</span>
+        <h3 class="fw-bold text-dark mb-0 mt-1">{{ ats_score|round|int }}</h3>
+        <span class="text-muted small fw-semibold">ATS Score</span>
       </div>
       <div class="kpi-icon-circle kpi-icon-green">
         <i class="bi bi-shield-check"></i>
@@ -32,13 +33,12 @@
     </div>
   </div>
 
-  <!-- Total Jobs Found KPI -->
-  <div class="col-sm-6 col-xl-3">
+  <!-- Job Matches KPI -->
+  <div class="col-6 col-xl-3">
     <div class="kpi-card">
       <div>
-        <span class="text-muted small fw-semibold text-uppercase">Total Jobs Found</span>
         <h3 class="fw-bold text-primary mb-0 mt-1">{{ total_jobs }}</h3>
-        <span class="text-muted small">Live aggregated</span>
+        <span class="text-muted small fw-semibold">Job Matches</span>
       </div>
       <div class="kpi-icon-circle kpi-icon-blue">
         <i class="bi bi-briefcase-fill"></i>
@@ -46,31 +46,71 @@
     </div>
   </div>
 
-  <!-- High Match Jobs KPI -->
-  <div class="col-sm-6 col-xl-3">
+  <!-- Missing Skills KPI -->
+  <div class="col-6 col-xl-3">
     <div class="kpi-card">
       <div>
-        <span class="text-muted small fw-semibold text-uppercase">High Match Jobs</span>
-        <h3 class="fw-bold text-dark mb-0 mt-1">{{ (top_matches|length * 7) if top_matches else 28 }}</h3>
-        <span class="text-primary small fw-medium"><i class="bi bi-stars"></i> &gt; 70% relevance</span>
-      </div>
-      <div class="kpi-icon-circle kpi-icon-purple">
-        <i class="bi bi-bullseye"></i>
-      </div>
-    </div>
-  </div>
-
-  <!-- Skills Identified KPI -->
-  <div class="col-sm-6 col-xl-3">
-    <div class="kpi-card">
-      <div>
-        <span class="text-muted small fw-semibold text-uppercase">Skills Identified</span>
-        <h3 class="fw-bold text-warning mb-0 mt-1">{{ len(candidate.skills) }}</h3>
-        <span class="text-muted small">Verified competencies</span>
+        <h3 class="fw-bold text-warning mb-0 mt-1">4</h3>
+        <span class="text-muted small fw-semibold">Missing Skills</span>
       </div>
       <div class="kpi-icon-circle kpi-icon-amber">
         <i class="bi bi-star-fill"></i>
       </div>
+    </div>
+  </div>
+
+  <!-- Recommendations KPI -->
+  <div class="col-6 col-xl-3">
+    <div class="kpi-card">
+      <div>
+        <h3 class="fw-bold text-purple mb-0 mt-1" style="color: #8b5cf6;">3</h3>
+        <span class="text-muted small fw-semibold">Recommendations</span>
+      </div>
+      <div class="kpi-icon-circle kpi-icon-purple">
+        <i class="bi bi-lightbulb-fill"></i>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Quick Actions Row (From Design Board Item 7) -->
+<div class="mb-4">
+  <h5 class="fw-bold text-dark mb-3">Quick Actions</h5>
+  <div class="row g-3">
+    <div class="col-md-4">
+      <a href="{{ url_for('resumes.index') }}" class="quick-action-card quick-action-purple">
+        <div>
+          <h5 class="fw-bold mb-1 text-white">Upload Resume</h5>
+          <span class="text-white-50 small">Start Analysis</span>
+        </div>
+        <div class="fs-2 text-white opacity-75">
+          <i class="bi bi-cloud-arrow-up-fill"></i>
+        </div>
+      </a>
+    </div>
+
+    <div class="col-md-4">
+      <a href="{{ url_for('jobs.index') }}" class="quick-action-card quick-action-blue">
+        <div>
+          <h5 class="fw-bold mb-1 text-white">Find Jobs</h5>
+          <span class="text-white-50 small">View Matches</span>
+        </div>
+        <div class="fs-2 text-white opacity-75">
+          <i class="bi bi-search"></i>
+        </div>
+      </a>
+    </div>
+
+    <div class="col-md-4">
+      <a href="{{ url_for('resumes.analyze') }}" class="quick-action-card quick-action-green">
+        <div>
+          <h5 class="fw-bold mb-1 text-white">Improve Skills</h5>
+          <span class="text-white-50 small">Get Suggestions</span>
+        </div>
+        <div class="fs-2 text-white opacity-75">
+          <i class="bi bi-mortarboard-fill"></i>
+        </div>
+      </a>
     </div>
   </div>
 </div>
@@ -113,13 +153,13 @@
 </div>
 
 <div class="row g-4 mb-4">
-  <!-- Recent High Match Jobs (From Design Sheet #6) -->
+  <!-- Recent High Match Jobs (From Design Board Item 7) -->
   <div class="col-lg-7">
     <div class="card card-clean p-4 h-100 d-flex flex-column">
       <div class="d-flex justify-content-between align-items-center mb-3">
         <h4 class="fw-bold mb-0 text-dark">Recent Job Matches</h4>
         <a href="{{ url_for('jobs.index') }}" class="text-primary small fw-semibold text-decoration-none">
-          View All Jobs <i class="bi bi-arrow-right"></i>
+          View All <i class="bi bi-arrow-right"></i>
         </a>
       </div>
 
@@ -127,27 +167,28 @@
         {% for job in top_matches %}
           <div class="p-3 rounded-3 bg-light border d-flex justify-content-between align-items-center flex-wrap gap-2">
             <div class="d-flex align-items-center gap-3">
-              <div class="user-avatar-circle" style="width: 42px; height: 42px; font-size: 0.95rem; border-radius: 10px;">
+              <div class="user-avatar-circle" style="width: 44px; height: 44px; font-size: 1rem; border-radius: 12px;">
                 {{ job.company[:2].upper() }}
               </div>
               <div>
-                <h6 class="fw-bold text-dark mb-0">{{ job.title }}</h6>
-                <div class="text-muted small">
-                  <span>{{ job.company }}</span> &middot; 
-                  <span class="text-secondary">{{ job.location }}</span> &middot; 
-                  <span class="text-success fw-medium">{{ job.salary }}</span>
+                <h6 class="fw-bold text-dark mb-1">{{ job.title }}</h6>
+                <div class="d-flex align-items-center gap-2 flex-wrap">
+                  <span class="text-muted small fw-medium">{{ job.company }}</span>
+                  <span class="badge-location" style="font-size: 0.72rem; padding: 2px 8px;">{{ job.location }}</span>
+                  <span class="badge-jobtype" style="font-size: 0.72rem; padding: 2px 8px;">Full-time</span>
+                  <span class="text-muted small" style="font-size: 0.75rem;">2 hours ago</span>
                 </div>
               </div>
             </div>
 
             <div class="d-flex align-items-center gap-2">
-              <span class="badge-match" style="font-size: 0.78rem; padding: 0.25rem 0.65rem;">
+              <span class="badge-match" style="font-size: 0.8rem; padding: 0.3rem 0.75rem;">
                 {{ job.match_score }}% Match
               </span>
               {% if job.url and job.url != '#' %}
                 <a href="{{ job.url }}" target="_blank" class="btn btn-success-gradient btn-sm px-3 py-1">Apply</a>
               {% else %}
-                <a href="{{ url_for('jobs.index') }}?role={{ job.title|urlencode }}" class="btn btn-outline-custom btn-sm px-3 py-1">View</a>
+                <a href="{{ url_for('jobs.index') }}?role={{ job.title|urlencode }}" class="btn btn-outline-custom btn-sm px-3 py-1">Details</a>
               {% endif %}
             </div>
           </div>
@@ -160,13 +201,13 @@
     </div>
   </div>
 
-  <!-- Skills Overview & Career Insights (From Design Sheet #6 & #10) -->
+  <!-- Skills Overview & Career Insights (From Design Board Item 11) -->
   <div class="col-lg-5">
     <div class="card card-clean p-4 h-100 d-flex flex-column justify-content-between">
       <div>
         <div class="d-flex justify-content-between align-items-center mb-3">
           <h4 class="fw-bold mb-0 text-dark">Skills Overview</h4>
-          <span class="badge bg-primary-subtle text-primary">{{ len(candidate.skills) }} Skills</span>
+          <span class="badge bg-primary-subtle text-primary">{{ len(candidate.skills) }} Identified</span>
         </div>
         <p class="text-secondary small mb-3">
           Core technical competencies extracted and cross-checked against live employer requirements for <strong>{{ candidate.preferred_role }}</strong>.

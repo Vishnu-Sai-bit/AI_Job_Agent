@@ -347,8 +347,8 @@ if "current_step_idx" not in st.session_state:
 # Sidebar: Exact 7-Step Flow Navigation & Candidate Status
 # ------------------------------------------------------------------
 with st.sidebar:
-    st.markdown("### 💼 AI Job Agent")
-    st.caption("Autonomous Career Copilot")
+    st.markdown("### 💼 AI JobAgent")
+    st.caption("Your AI-Powered Career Assistant")
     st.markdown("---")
 
     # Candidate Quick Status

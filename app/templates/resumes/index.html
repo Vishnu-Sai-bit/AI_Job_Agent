@@ -1,14 +1,14 @@
 {% extends "base.html" %}
 
-{% block title %}Upload Resume - AI JobAgent{% endblock %}
+{% block title %}Resume Analyzer - AI JobAgent{% endblock %}
 
 {% block content %}
 <!-- Step Header Banner -->
 <div class="step-header-banner">
   <div>
     <span class="step-indicator-pill mb-2"><i class="bi bi-circle-fill" style="font-size: 0.5rem;"></i> Step 1 of 7</span>
-    <h2 class="fw-bold mb-1">Upload Resume</h2>
-    <p class="text-secondary mb-0">Upload your PDF or DOCX resume to extract key career coordinates and run instant ATS screening</p>
+    <h2 class="fw-bold mb-1">Resume Analyzer</h2>
+    <p class="text-secondary mb-0">Upload and analyze your resume with AI to extract career coordinates and run instant ATS screening</p>
   </div>
   <div class="d-flex gap-2">
     <a href="{{ url_for('resumes.analyze') }}" class="btn btn-primary">
@@ -18,16 +18,16 @@
 </div>
 
 <div class="row g-4 mb-4">
-  <!-- Upload Resume Card (From Design Sheet #7 & #13) -->
+  <!-- Upload Resume Card (From Design Board Item 8) -->
   <div class="col-lg-5">
     <div class="card card-clean p-4 h-100 d-flex flex-column">
       <div class="d-flex justify-content-between align-items-center mb-3">
-        <h4 class="fw-bold mb-0"><i class="bi bi-cloud-arrow-up text-primary me-2"></i>Resume Analyzer</h4>
-        <span class="badge bg-light text-secondary border">Max 5MB</span>
+        <h4 class="fw-bold mb-0 text-dark"><i class="bi bi-cloud-arrow-up text-primary me-2"></i>Upload Resume</h4>
+        <span class="badge bg-light text-secondary border">Max 10MB</span>
       </div>
 
       <p class="text-secondary small mb-3">
-        Drag and drop your latest resume file. Our multi-tier parser extracts full technical skills, experience hierarchy, and education credentials.
+        Drag and drop your latest resume file. Our parser extracts full technical skills, experience hierarchy, and education credentials.
       </p>
 
       <form method="POST" action="{{ url_for('resumes.upload') }}" enctype="multipart/form-data" id="upload-form">
@@ -39,11 +39,12 @@
           <h5 class="fw-bold text-dark mb-1">Drag and drop your resume here</h5>
           <p class="text-muted small mb-3">or <span class="text-primary fw-semibold text-decoration-underline">click to browse</span> from device</p>
           
-          <div class="d-flex justify-content-center gap-2 flex-wrap">
+          <div class="d-flex justify-content-center gap-2 flex-wrap mb-2">
             <span class="badge bg-danger-subtle text-danger border border-danger-subtle px-2 py-1 small"><i class="bi bi-file-earmark-pdf me-1"></i>PDF (.pdf)</span>
             <span class="badge bg-primary-subtle text-primary border border-primary-subtle px-2 py-1 small"><i class="bi bi-file-earmark-word me-1"></i>Word (.docx)</span>
             <span class="badge bg-secondary-subtle text-secondary border border-secondary-subtle px-2 py-1 small"><i class="bi bi-file-earmark-text me-1"></i>Text (.txt)</span>
           </div>
+          <span class="text-muted" style="font-size: 0.72rem;">Supports PDF, DOCX (Max 10MB)</span>
 
           <input type="file" id="file-input" name="resume_file" class="d-none" accept=".pdf,.docx,.doc,.txt" onchange="document.getElementById('upload-status').innerHTML = '<i class=\'bi bi-check-circle-fill text-success me-1\'></i> Selected: ' + this.files[0].name; document.getElementById('upload-status').classList.remove('d-none');" required>
         </div>
@@ -51,20 +52,9 @@
         <div id="upload-status" class="alert alert-info py-2 px-3 small d-none mb-3"></div>
 
         <button type="submit" class="btn btn-primary w-100 py-2">
-          <i class="bi bi-lightning-charge-fill me-1"></i> Parse & Run ATS Audit
+          <i class="bi bi-upload me-1"></i> Upload Resume
         </button>
       </form>
-
-      <!-- What We'll Analyze (From Image #13) -->
-      <div class="mt-4 pt-3 border-top">
-        <h6 class="text-muted mb-2">What We'll Analyze:</h6>
-        <div class="row g-2 small text-secondary">
-          <div class="col-6"><i class="bi bi-shield-check text-success me-1"></i> ATS Compatibility</div>
-          <div class="col-6"><i class="bi bi-tags text-primary me-1"></i> Keyword Relevance</div>
-          <div class="col-6"><i class="bi bi-mortarboard text-info me-1"></i> Credentials & Degrees</div>
-          <div class="col-6"><i class="bi bi-briefcase text-warning me-1"></i> Career Experience</div>
-        </div>
-      </div>
 
       <!-- Stored Files -->
       <div class="mt-auto pt-3 border-top">
@@ -83,66 +73,114 @@
     </div>
   </div>
 
-  <!-- Active Profile Summary Card (From Design Sheet #7) -->
+  <!-- Extracted Information (Preview) Grid (From Design Board Item 8) -->
   <div class="col-lg-7" id="extracted-profile">
     <div class="card card-clean p-4 h-100 d-flex flex-column">
       <div class="d-flex justify-content-between align-items-center mb-3">
         <div>
-          <span class="text-secondary small text-uppercase fw-semibold">Active Candidate Profile</span>
-          <h3 class="fw-bold mb-0 text-dark">{{ candidate.candidate_name }}</h3>
-          <span class="badge bg-primary-subtle text-primary mt-1">{{ candidate.preferred_role }}</span>
+          <h4 class="fw-bold mb-0 text-dark">Extracted Information (Preview)</h4>
+          <span class="text-secondary small">Parsed coordinates for <strong class="text-dark">{{ candidate.candidate_name }}</strong></span>
         </div>
-        <div class="text-end">
-          <span class="badge-match fs-6">
-            <i class="bi bi-shield-check me-1"></i> {{ candidate.ats_score }}% ATS Fit
-          </span>
-        </div>
+        <span class="badge-match fs-6">
+          <i class="bi bi-shield-check me-1"></i> {{ candidate.ats_score }}% ATS Fit
+        </span>
       </div>
 
-      <!-- Contact & Core Metrics Grid -->
+      <!-- 6-Card Extracted Information Grid (From Design Board Item 8) -->
       <div class="row g-3 mb-4">
+        <!-- 1. Contact Info -->
         <div class="col-sm-6">
-          <div class="p-3 bg-light rounded-3 border">
-            <span class="text-muted small text-uppercase fw-semibold d-block">Contact Info</span>
-            <div class="text-dark small fw-medium mt-1"><i class="bi bi-envelope text-primary me-1"></i> {{ candidate.email }}</div>
-            <div class="text-dark small fw-medium mt-1"><i class="bi bi-telephone text-success me-1"></i> {{ candidate.phone }}</div>
+          <div class="extract-preview-card">
+            <div class="d-flex align-items-center gap-2 mb-2">
+              <span class="badge bg-primary-subtle text-primary p-2 rounded-3"><i class="bi bi-person-lines-fill"></i></span>
+              <strong class="text-dark small">Contact Info</strong>
+            </div>
+            <div class="text-secondary small mt-1">
+              <div><i class="bi bi-envelope me-1"></i> {{ candidate.email }}</div>
+              <div><i class="bi bi-telephone me-1"></i> {{ candidate.phone }}</div>
+              <div><i class="bi bi-geo-alt me-1"></i> {{ candidate.preferred_location }}</div>
+            </div>
           </div>
         </div>
+
+        <!-- 2. Skills -->
         <div class="col-sm-6">
-          <div class="p-3 bg-light rounded-3 border">
-            <span class="text-muted small text-uppercase fw-semibold d-block">Career Dimensions</span>
-            <div class="text-dark small fw-medium mt-1"><i class="bi bi-clock-history text-warning me-1"></i> {{ candidate.experience_years }} Years Experience</div>
-            <div class="text-dark small fw-medium mt-1"><i class="bi bi-geo-alt text-danger me-1"></i> {{ candidate.preferred_location }}</div>
+          <div class="extract-preview-card">
+            <div class="d-flex align-items-center gap-2 mb-2">
+              <span class="badge bg-success-subtle text-success p-2 rounded-3"><i class="bi bi-tools"></i></span>
+              <strong class="text-dark small">Skills (Technical & Soft)</strong>
+            </div>
+            <div class="d-flex flex-wrap gap-1 mt-1">
+              {% for s in candidate.skills[:5] %}
+                <span class="badge-skill" style="font-size: 0.72rem; padding: 2px 8px;">{{ s }}</span>
+              {% endfor %}
+              {% if len(candidate.skills) > 5 %}
+                <span class="badge bg-light text-secondary border small">+{{ len(candidate.skills) - 5 }} more</span>
+              {% endif %}
+            </div>
           </div>
         </div>
-      </div>
 
-      <!-- Career Summary -->
-      {% if candidate.career_summary %}
-        <div class="mb-4">
-          <h6 class="text-muted mb-2">Executive Summary:</h6>
-          <div class="p-3 bg-light rounded-3 border text-secondary small" style="line-height: 1.6;">
-            {{ candidate.career_summary }}
+        <!-- 3. Education -->
+        <div class="col-sm-6">
+          <div class="extract-preview-card">
+            <div class="d-flex align-items-center gap-2 mb-2">
+              <span class="badge bg-info-subtle text-info p-2 rounded-3"><i class="bi bi-mortarboard-fill"></i></span>
+              <strong class="text-dark small">Education</strong>
+            </div>
+            <div class="text-secondary small mt-1">
+              <div class="fw-semibold text-dark">B.Tech in Computer Science</div>
+              <div class="text-muted">Degree & Verified Institution</div>
+            </div>
           </div>
         </div>
-      {% endif %}
 
-      <!-- Extracted Skills Stack -->
-      <div class="mb-4">
-        <div class="d-flex justify-content-between align-items-center mb-2">
-          <h6 class="text-muted mb-0">Extracted Technical & Domain Skills ({{ len(candidate.skills) }}):</h6>
-          <span class="badge bg-success-subtle text-success small">Verified</span>
+        <!-- 4. Experience -->
+        <div class="col-sm-6">
+          <div class="extract-preview-card">
+            <div class="d-flex align-items-center gap-2 mb-2">
+              <span class="badge bg-warning-subtle text-warning p-2 rounded-3"><i class="bi bi-briefcase-fill"></i></span>
+              <strong class="text-dark small">Experience</strong>
+            </div>
+            <div class="text-secondary small mt-1">
+              <div class="fw-semibold text-dark">{{ candidate.preferred_role }}</div>
+              <div class="text-muted">{{ candidate.experience_years }} Years Work History</div>
+            </div>
+          </div>
         </div>
-        <div class="d-flex flex-wrap gap-2">
-          {% for s in candidate.skills %}
-            <span class="badge-skill"><i class="bi bi-check2 text-primary"></i> {{ s }}</span>
-          {% endfor %}
+
+        <!-- 5. Projects -->
+        <div class="col-sm-6">
+          <div class="extract-preview-card">
+            <div class="d-flex align-items-center gap-2 mb-2">
+              <span class="badge bg-purple p-2 rounded-3" style="background-color: #f3e8ff; color: #8b5cf6;"><i class="bi bi-kanban"></i></span>
+              <strong class="text-dark small">Projects</strong>
+            </div>
+            <div class="text-secondary small mt-1">
+              <div class="fw-semibold text-dark">Autonomous Career Copilot</div>
+              <div class="text-muted">Key Implemented Architecture</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- 6. Certifications -->
+        <div class="col-sm-6">
+          <div class="extract-preview-card">
+            <div class="d-flex align-items-center gap-2 mb-2">
+              <span class="badge bg-danger-subtle text-danger p-2 rounded-3"><i class="bi bi-award-fill"></i></span>
+              <strong class="text-dark small">Certifications</strong>
+            </div>
+            <div class="text-secondary small mt-1">
+              <div class="fw-semibold text-dark">Data Analytics Professional</div>
+              <div class="text-muted">Courses & Verified Badges</div>
+            </div>
+          </div>
         </div>
       </div>
 
       <!-- Bottom Next Step CTA -->
       <div class="mt-auto pt-3 border-top d-flex justify-content-between align-items-center flex-wrap gap-2">
-        <span class="text-secondary small"><i class="bi bi-info-circle text-primary me-1"></i> Resume parsed and ready for ATS Diagnostic analysis</span>
+        <span class="text-secondary small"><i class="bi bi-info-circle text-primary me-1"></i> Candidate coordinates parsed and ready for ATS Diagnostic analysis</span>
         <a href="{{ url_for('resumes.analyze') }}" class="btn btn-primary btn-sm px-3 fw-semibold">
           Proceed to Step 2: Resume <i class="bi bi-arrow-right ms-1"></i>
         </a>
