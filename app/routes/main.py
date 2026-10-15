@@ -170,3 +170,12 @@ def mail_preparation():
         active_tab="mail_preparation"
     )
 
+@main_bp.route("/skills-insights")
+def skills_insights():
+    candidate = get_candidate_context()
+    return render_template(
+        "skills/index.html",
+        candidate=candidate,
+        active_tab="skills_insights"
+    )
+

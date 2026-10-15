@@ -87,10 +87,37 @@ def generate_job_emails(
 
     try:
         content = call_llm(formatted_prompt, json_format=True)
-        return json.loads(content)
+        res = json.loads(content)
+        fu = res.get("follow_up") or res.get("follow_up_email") or {}
+        app_mail = res.get("application_email") or res.get("job_application") or {}
+        res["follow_up"] = fu
+        res["follow_up_email"] = fu
+        res["application_email"] = app_mail
+        res["job_application"] = app_mail
+        return res
     except Exception as e:
         exception(f"Email template generation failed: {e}")
         # Rich Fallback templates
+        fu = {
+            "subject": f"Re: {role} Application — {name}",
+            "body": (
+                f"Hi [Hiring Manager Name],\n\n"
+                f"Following up on my note from earlier this week regarding the {role} role at {company}.\n\n"
+                f"I recently deployed a dashboard analyzing operational records to identify peak bottlenecks and reduce wait times by 20%. I would be thrilled to bring the same data-driven impact to your team.\n\n"
+                f"Whenever you have a brief moment next week, I’d welcome the chance to connect.\n\n"
+                f"Thank you,\n{name}\n📞 {phone} | ✉️ {email}"
+            )
+        }
+        app_mail = {
+            "subject": f"Application for {role} — {name}",
+            "body": (
+                f"Dear Hiring Team,\n\n"
+                f"Please find attached my resume for the {role} position at {company}. "
+                f"With expertise in {skills_str}, I am excited about the opportunity to contribute to your analytics and engineering goals.\n\n"
+                f"Looking forward to the possibility of discussing this further.\n\n"
+                f"Sincerely,\n{name}\n📞 {phone} | ✉️ {email}"
+            )
+        }
         return {
             "cold_outreach": {
                 "subject": f"{role} Opportunity — {name} | Oracle Certified & Data Analytics",
@@ -115,25 +142,9 @@ def generate_job_emails(
                     f"Hi [Name], I admire {company}'s analytics work. As a {role} skilled in {skills_str} with experience delivering KPI dashboards, I'd love to connect and explore potential opportunities with your team! Best, {name}"
                 )
             },
-            "follow_up_email": {
-                "subject": f"Re: {role} Application — {name}",
-                "body": (
-                    f"Hi [Hiring Manager Name],\n\n"
-                    f"Following up on my note from earlier this week regarding the {role} role at {company}.\n\n"
-                    f"I recently deployed a dashboard analyzing operational records to identify peak bottlenecks and reduce wait times by 20%. I would be thrilled to bring the same data-driven impact to your team.\n\n"
-                    f"Whenever you have a brief moment next week, I’d welcome the chance to connect.\n\n"
-                    f"Thank you,\n{name}\n📞 {phone} | ✉️ {email}"
-                )
-            },
-            "job_application": {
-                "subject": f"Application for {role} — {name}",
-                "body": (
-                    f"Dear Hiring Team,\n\n"
-                    f"Please find attached my resume for the {role} position at {company}. "
-                    f"With expertise in {skills_str}, I am excited about the opportunity to contribute to your analytics and engineering goals.\n\n"
-                    f"Looking forward to the possibility of discussing this further.\n\n"
-                    f"Sincerely,\n{name}\n📞 {phone} | ✉️ {email}"
-                )
-            }
+            "follow_up_email": fu,
+            "follow_up": fu,
+            "job_application": app_mail,
+            "application_email": app_mail
         }
 

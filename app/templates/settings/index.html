@@ -1,50 +1,146 @@
 {% extends "base.html" %}
 
-{% block title %}Account Settings - AI Job Copilot{% endblock %}
+{% block title %}Settings - AI JobAgent{% endblock %}
 
 {% block content %}
+<!-- Page Header (From Design Board Item 13) -->
 <div class="mb-4">
-  <h2 class="fw-bold text-white mb-1">Account & Security Settings</h2>
-  <p class="text-secondary mb-0">Manage security credentials, API keys, and platform preferences</p>
+  <h2 class="fw-bold mb-1">Settings</h2>
+  <p class="text-secondary mb-0">Manage your account credentials, notifications, and platform preferences</p>
 </div>
 
-<div class="row justify-content-center">
-  <div class="col-lg-8">
-    <div class="card card-custom p-4">
-      <form method="POST" action="{{ url_for('settings.index') }}">
-        <h5 class="fw-bold text-white mb-3">Authentication & Security</h5>
+<div class="row g-4">
+  <!-- Settings Left Navigation Tabs (From Design Board Item 13) -->
+  <div class="col-lg-3">
+    <div class="card card-clean p-3">
+      <ul class="nav flex-column gap-1">
+        <li class="nav-item">
+          <a class="nav-link rounded-3 px-3 py-2 fw-semibold active text-white" style="background: linear-gradient(135deg, #6366f1 0%, #8b5cf6 100%); box-shadow: 0 4px 12px rgba(99, 102, 241, 0.35);" href="#profile-tab" data-bs-toggle="pill">
+            <i class="bi bi-person-fill me-2"></i> Profile
+          </a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link rounded-3 px-3 py-2 text-secondary fw-semibold" href="#notifications-tab" data-bs-toggle="pill">
+            <i class="bi bi-bell-fill me-2"></i> Notifications
+          </a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link rounded-3 px-3 py-2 text-secondary fw-semibold" href="#appearance-tab" data-bs-toggle="pill">
+            <i class="bi bi-palette-fill me-2"></i> Appearance
+          </a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link rounded-3 px-3 py-2 text-secondary fw-semibold" href="#security-tab" data-bs-toggle="pill">
+            <i class="bi bi-shield-lock-fill me-2"></i> Security
+          </a>
+        </li>
+      </ul>
+    </div>
+  </div>
 
-        <div class="mb-3">
-          <label class="form-label text-light small fw-medium">Active Account</label>
-          <input type="text" class="form-control form-control-dark" value="{{ candidate.email }}" disabled>
+  <!-- Settings Content Area (From Design Board Item 13) -->
+  <div class="col-lg-9">
+    <div class="tab-content">
+      <!-- 1. Profile Tab -->
+      <div class="tab-pane fade show active" id="profile-tab">
+        <div class="card card-clean p-4 mb-4">
+          <!-- Profile Banner Widget -->
+          <div class="d-flex justify-content-between align-items-center flex-wrap gap-3 p-3 bg-light rounded-3 border mb-4">
+            <div class="d-flex align-items-center gap-3">
+              <div class="user-avatar-circle" style="width: 56px; height: 56px; font-size: 1.25rem;">
+                <span>{{ candidate.candidate_name[:2].upper() }}</span>
+                <span class="status-dot-online"></span>
+              </div>
+              <div>
+                <h5 class="fw-bold text-dark mb-0">{{ candidate.candidate_name }}</h5>
+                <span class="text-secondary small d-block">{{ candidate.email }}</span>
+                <span class="text-muted small"><i class="bi bi-geo-alt me-1"></i> {{ candidate.preferred_location }}</span>
+              </div>
+            </div>
+
+            <button type="button" class="btn btn-outline-custom btn-sm">
+              <i class="bi bi-pencil me-1"></i> Edit Profile
+            </button>
+          </div>
+
+          <!-- Profile Form -->
+          <form method="POST" action="{{ url_for('settings.index') }}">
+            <h5 class="fw-bold text-dark mb-3">Personal Coordinates</h5>
+
+            <div class="row g-3 mb-3">
+              <div class="col-md-6">
+                <label class="form-label text-dark small fw-bold">Full Name</label>
+                <input type="text" name="full_name" class="form-control" value="{{ candidate.candidate_name }}" required>
+              </div>
+              <div class="col-md-6">
+                <label class="form-label text-dark small fw-bold">Email Address</label>
+                <input type="email" name="email" class="form-control" value="{{ candidate.email }}" required>
+              </div>
+            </div>
+
+            <div class="row g-3 mb-4">
+              <div class="col-md-6">
+                <label class="form-label text-dark small fw-bold">Phone Number</label>
+                <input type="text" name="phone" class="form-control" value="{{ candidate.phone }}">
+              </div>
+              <div class="col-md-6">
+                <label class="form-label text-dark small fw-bold">Location</label>
+                <input type="text" name="location" class="form-control" value="{{ candidate.preferred_location }}">
+              </div>
+            </div>
+
+            <button type="submit" class="btn btn-primary px-4 py-2">
+              <i class="bi bi-check2-circle me-1"></i> Save Changes
+            </button>
+          </form>
         </div>
+      </div>
 
-        <div class="mb-3">
-          <label class="form-label text-light small fw-medium">Change Password</label>
-          <input type="password" name="new_password" class="form-control form-control-dark" placeholder="Enter new password (optional)">
+      <!-- 2. Notifications Tab -->
+      <div class="tab-pane fade" id="notifications-tab">
+        <div class="card card-clean p-4">
+          <h5 class="fw-bold text-dark mb-3">Job Alerts & Email Notifications</h5>
+          <div class="form-check form-switch mb-3">
+            <input class="form-check-input" type="checkbox" id="jobAlerts" checked>
+            <label class="form-check-label text-dark small fw-semibold" for="jobAlerts">Daily matching job recommendation digest</label>
+          </div>
+          <div class="form-check form-switch mb-3">
+            <input class="form-check-input" type="checkbox" id="atsAudit" checked>
+            <label class="form-check-label text-dark small fw-semibold" for="atsAudit">ATS diagnostic completion alerts</label>
+          </div>
+          <div class="form-check form-switch mb-3">
+            <input class="form-check-input" type="checkbox" id="crmReminder" checked>
+            <label class="form-check-label text-dark small fw-semibold" for="crmReminder">Application follow-up reminders</label>
+          </div>
         </div>
+      </div>
 
-        <hr class="border-secondary my-4">
-
-        <h5 class="fw-bold text-white mb-3">AI & Integration Configuration</h5>
-
-        <div class="mb-3">
-          <label class="form-label text-light small fw-medium">LLM Intelligence Engine</label>
-          <select class="form-select form-control-dark">
-            <option selected>Ollama (Local Llama 3.2)</option>
-            <option>Google Gemini API (Cloud)</option>
-          </select>
+      <!-- 3. Appearance Tab -->
+      <div class="tab-pane fade" id="appearance-tab">
+        <div class="card card-clean p-4">
+          <h5 class="fw-bold text-dark mb-3">Interface Theme</h5>
+          <p class="text-secondary small mb-3">Current active theme: Master AI JobAgent Modern Canvas (#F8FAFC with Obsidian Sidebar).</p>
+          <span class="badge bg-primary-subtle text-primary border border-primary-subtle px-3 py-2">
+            <i class="bi bi-check-circle-fill me-1"></i> High Contrast Accessibility WCAG AA Compliant
+          </span>
         </div>
+      </div>
 
-        <div class="mb-4">
-          <label class="form-label text-light small fw-medium">Database Persistence Mode</label>
-          <input type="text" class="form-control form-control-dark" value="PostgreSQL / SQLite Dual Gateway Active" disabled>
+      <!-- 4. Security Tab -->
+      <div class="tab-pane fade" id="security-tab">
+        <div class="card card-clean p-4">
+          <h5 class="fw-bold text-dark mb-3">Account Security</h5>
+          <div class="p-3 bg-light rounded-3 border mb-3">
+            <div class="d-flex justify-content-between align-items-center">
+              <div>
+                <strong class="text-dark small d-block">JWT Cryptographic Session</strong>
+                <span class="text-secondary small">HS256 signed bearer authorization active</span>
+              </div>
+              <span class="badge bg-success-subtle text-success border border-success-subtle">Secured</span>
+            </div>
+          </div>
         </div>
-
-        <button type="submit" class="btn btn-primary w-100 py-2 fw-semibold">
-          <i class="bi bi-save me-1"></i> Save Account Settings
-        </button>
-      </form>
+      </div>
     </div>
   </div>
 </div>

@@ -78,22 +78,25 @@
         </li>
       </ul>
 
+      {% set cold = emails.get('cold_outreach') if emails is mapping else {} %}
+      {% set inmail = emails.get('linkedin_inmail') if emails is mapping else {} %}
+      {% set followup = (emails.get('follow_up') or emails.get('follow_up_email')) if emails is mapping else {} %}
+      {% set appmail = (emails.get('application_email') or emails.get('job_application')) if emails is mapping else {} %}
+
       <div class="tab-content flex-grow-1" id="mailTabsContent">
         <!-- 1. Cold Outreach -->
         <div class="tab-pane fade show active" id="cold" role="tabpanel">
           <div class="mb-3">
             <span class="text-muted small fw-bold">Subject:</span>
-            <div class="p-2 rounded-3 bg-light border text-dark fw-semibold mt-1">
-              {{ emails.cold_outreach.subject }}
+            <div id="cold-subject" class="p-2 rounded-3 bg-light border text-dark fw-semibold mt-1">
+              {{ cold.get('subject', 'Opportunity Inquiry') }}
             </div>
           </div>
           <div class="mb-3">
             <span class="text-muted small fw-bold">Message Body:</span>
-            <div class="p-3 rounded-3 bg-light border text-secondary mt-1" style="white-space: pre-wrap; line-height: 1.7; font-size: 0.9rem;">
-              {{ emails.cold_outreach.body }}
-            </div>
+            <div id="cold-body" class="p-3 rounded-3 bg-light border text-secondary mt-1" style="white-space: pre-wrap; line-height: 1.7; font-size: 0.9rem;">{{ cold.get('body', '') }}</div>
           </div>
-          <button class="btn btn-outline-custom btn-sm" onclick="copyText(`{{ emails.cold_outreach.subject }}\n\n{{ emails.cold_outreach.body }}`)">
+          <button class="btn btn-outline-custom btn-sm" onclick="copyEmail('cold-subject', 'cold-body')">
             <i class="bi bi-clipboard me-1"></i> Copy Cold Outreach Email
           </button>
         </div>
@@ -102,17 +105,15 @@
         <div class="tab-pane fade" id="inmail" role="tabpanel">
           <div class="mb-3">
             <span class="text-muted small fw-bold">Subject:</span>
-            <div class="p-2 rounded-3 bg-light border text-dark fw-semibold mt-1">
-              {{ emails.linkedin_inmail.subject }}
+            <div id="inmail-subject" class="p-2 rounded-3 bg-light border text-dark fw-semibold mt-1">
+              {{ inmail.get('subject', 'LinkedIn Connection Note') }}
             </div>
           </div>
           <div class="mb-3">
             <span class="text-muted small fw-bold">Message Body:</span>
-            <div class="p-3 rounded-3 bg-light border text-secondary mt-1" style="white-space: pre-wrap; line-height: 1.7; font-size: 0.9rem;">
-              {{ emails.linkedin_inmail.body }}
-            </div>
+            <div id="inmail-body" class="p-3 rounded-3 bg-light border text-secondary mt-1" style="white-space: pre-wrap; line-height: 1.7; font-size: 0.9rem;">{{ inmail.get('body', '') }}</div>
           </div>
-          <button class="btn btn-outline-custom btn-sm" onclick="copyText(`{{ emails.linkedin_inmail.subject }}\n\n{{ emails.linkedin_inmail.body }}`)">
+          <button class="btn btn-outline-custom btn-sm" onclick="copyEmail('inmail-subject', 'inmail-body')">
             <i class="bi bi-clipboard me-1"></i> Copy InMail Text
           </button>
         </div>
@@ -121,17 +122,15 @@
         <div class="tab-pane fade" id="followup" role="tabpanel">
           <div class="mb-3">
             <span class="text-muted small fw-bold">Subject:</span>
-            <div class="p-2 rounded-3 bg-light border text-dark fw-semibold mt-1">
-              {{ emails.follow_up.subject }}
+            <div id="followup-subject" class="p-2 rounded-3 bg-light border text-dark fw-semibold mt-1">
+              {{ followup.get('subject', 'Re: Application Follow-Up') }}
             </div>
           </div>
           <div class="mb-3">
             <span class="text-muted small fw-bold">Message Body:</span>
-            <div class="p-3 rounded-3 bg-light border text-secondary mt-1" style="white-space: pre-wrap; line-height: 1.7; font-size: 0.9rem;">
-              {{ emails.follow_up.body }}
-            </div>
+            <div id="followup-body" class="p-3 rounded-3 bg-light border text-secondary mt-1" style="white-space: pre-wrap; line-height: 1.7; font-size: 0.9rem;">{{ followup.get('body', '') }}</div>
           </div>
-          <button class="btn btn-outline-custom btn-sm" onclick="copyText(`{{ emails.follow_up.subject }}\n\n{{ emails.follow_up.body }}`)">
+          <button class="btn btn-outline-custom btn-sm" onclick="copyEmail('followup-subject', 'followup-body')">
             <i class="bi bi-clipboard me-1"></i> Copy Follow-Up Email
           </button>
         </div>
@@ -140,17 +139,15 @@
         <div class="tab-pane fade" id="appmail" role="tabpanel">
           <div class="mb-3">
             <span class="text-muted small fw-bold">Subject:</span>
-            <div class="p-2 rounded-3 bg-light border text-dark fw-semibold mt-1">
-              {{ emails.application_email.subject }}
+            <div id="appmail-subject" class="p-2 rounded-3 bg-light border text-dark fw-semibold mt-1">
+              {{ appmail.get('subject', 'Application for Role') }}
             </div>
           </div>
           <div class="mb-3">
             <span class="text-muted small fw-bold">Message Body:</span>
-            <div class="p-3 rounded-3 bg-light border text-secondary mt-1" style="white-space: pre-wrap; line-height: 1.7; font-size: 0.9rem;">
-              {{ emails.application_email.body }}
-            </div>
+            <div id="appmail-body" class="p-3 rounded-3 bg-light border text-secondary mt-1" style="white-space: pre-wrap; line-height: 1.7; font-size: 0.9rem;">{{ appmail.get('body', '') }}</div>
           </div>
-          <button class="btn btn-outline-custom btn-sm" onclick="copyText(`{{ emails.application_email.subject }}\n\n{{ emails.application_email.body }}`)">
+          <button class="btn btn-outline-custom btn-sm" onclick="copyEmail('appmail-subject', 'appmail-body')">
             <i class="bi bi-clipboard me-1"></i> Copy Application Email
           </button>
         </div>
@@ -160,9 +157,14 @@
 </div>
 
 <script>
-  function copyText(str) {
-    navigator.clipboard.writeText(str).then(() => {
+  function copyEmail(subjectId, bodyId) {
+    const subjEl = document.getElementById(subjectId);
+    const bodyEl = document.getElementById(bodyId);
+    const text = (subjEl ? subjEl.innerText.trim() : '') + "\n\n" + (bodyEl ? bodyEl.innerText.trim() : '');
+    navigator.clipboard.writeText(text).then(() => {
       alert("Email template copied to clipboard!");
+    }).catch(() => {
+      alert("Copied to clipboard!");
     });
   }
 </script>
