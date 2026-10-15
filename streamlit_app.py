@@ -330,13 +330,13 @@ if "raw_resume_text" not in st.session_state:
 # cover letter preparation, mail preparation, application crm
 # ------------------------------------------------------------------
 WORKFLOW_STEPS = [
-    "1. Upload",
-    "2. Resume",
-    "3. Show Job Searches",
-    "4. Prepare for Interview",
-    "5. Cover Letter Preparation",
-    "6. Mail Preparation",
-    "7. Application CRM"
+    "Upload",
+    "Resume",
+    "Show Job Searches",
+    "Prepare for Interview",
+    "Cover Letter Preparation",
+    "Mail Preparation",
+    "Application CRM"
 ]
 
 if "current_step_idx" not in st.session_state:
@@ -410,7 +410,7 @@ def render_step_footer(prev_idx: Optional[int], next_idx: Optional[int], next_la
     c1, c2, c3 = st.columns([1, 2, 1])
     with c1:
         if prev_idx is not None:
-            if st.button(f"⬅ Back: {WORKFLOW_STEPS[prev_idx].split('. ')[1]}", use_container_width=True):
+            if st.button(f"⬅ Back: {WORKFLOW_STEPS[prev_idx]}", use_container_width=True):
                 st.session_state.current_step_idx = prev_idx
                 st.rerun()
     with c3:
