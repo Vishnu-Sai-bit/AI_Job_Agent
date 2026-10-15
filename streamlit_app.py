@@ -247,38 +247,39 @@ def load_initial_jobs() -> List[JobData]:
     return jobs
 
 def load_initial_profile() -> ResumeData:
-    """Load default candidate profile."""
+    """Load candidate profile if uploaded, otherwise return clean empty profile."""
     default_file = BASE_DIR / "data" / "default_parsed_resume.json"
     if default_file.exists():
         try:
             with open(default_file, "r", encoding="utf-8") as f:
                 d = json.load(f)
-                return ResumeData(
-                    name=d.get("candidate_name", "Beere Vishnu Sai"),
-                    email=d.get("email", "vishnusaibeere124@gmail.com"),
-                    phone=d.get("phone", "+91 9182679641"),
-                    location=d.get("location", "Hyderabad, India"),
-                    preferred_location=d.get("preferred_location", "Hyderabad"),
-                    preferred_role=d.get("preferred_role", "Data Analyst"),
-                    skills=d.get("skills", ["Python", "SQL", "Tableau", "Power BI", "Excel", "Data Analysis", "ETL"]),
-                    experience_years=float(d.get("experience_years", 0.5)),
-                    education=d.get("education", [{"degree": "B.Tech in Computer Science", "institution": "JNTU", "year": "2024"}]),
-                    projects=d.get("projects", [{"title": "Autonomous AI Job Agent", "description": "End-to-end career intelligence and matching platform in Python."}]),
-                    certifications=d.get("certifications", ["Google Data Analytics Professional"]),
-                    career_summary=d.get("career_summary", "Aspiring Data Analyst skilled in Python, SQL, Tableau, Power BI, and statistical analytics."),
-                )
+                if d and d.get("has_resume"):
+                    return ResumeData(
+                        name=d.get("candidate_name", "Candidate"),
+                        email=d.get("email", ""),
+                        phone=d.get("phone", ""),
+                        location=d.get("location", ""),
+                        preferred_location=d.get("preferred_location", ""),
+                        preferred_role=d.get("preferred_role", "Data Analyst"),
+                        skills=d.get("skills", []),
+                        experience_years=float(d.get("experience_years", 0)),
+                        education=d.get("education", []),
+                        projects=d.get("projects", []),
+                        certifications=d.get("certifications", []),
+                        career_summary=d.get("career_summary", ""),
+                    )
         except Exception:
             pass
     return ResumeData(
-        name="Beere Vishnu Sai",
-        email="vishnusaibeere124@gmail.com",
-        phone="+91 9182679641",
-        location="Hyderabad, India",
-        preferred_location="Hyderabad",
+        name="Candidate",
+        email="",
+        phone="",
+        location="",
+        preferred_location="",
         preferred_role="Data Analyst",
-        skills=["Python", "SQL", "Tableau", "Power BI", "Excel", "Data Analysis"],
-        experience_years=0.5,
-        career_summary="Data Analyst skilled in Python, SQL, and business analytics."
+        skills=[],
+        experience_years=0.0,
+        career_summary=""
     )
 
 
@@ -289,7 +290,7 @@ if "resume_data" not in st.session_state or st.session_state.resume_data is None
     st.session_state.resume_data = load_initial_profile()
 
 if "ats_report" not in st.session_state or st.session_state.ats_report is None:
-    st.session_state.ats_report = calculate_ats(st.session_state.resume_data)
+    st.session_state.ats_report = calculate_ats(st.session_state.resume_data) if st.session_state.resume_data.skills else None
 
 if "collected_jobs" not in st.session_state or not st.session_state.collected_jobs:
     st.session_state.collected_jobs = load_initial_jobs()
@@ -304,25 +305,7 @@ if "preferred_location" not in st.session_state:
     st.session_state.preferred_location = "Hyderabad"
 
 if "raw_resume_text" not in st.session_state:
-    st.session_state.raw_resume_text = (
-        "Beere Vishnu Sai\n"
-        "vishnusaibeere124@gmail.com | +91 9182679641 | Hyderabad, India\n"
-        "Target Role: Data Analyst\n\n"
-        "Professional Summary:\n"
-        "Aspiring Data Analyst skilled in Python, SQL, Tableau, Power BI, Excel, and ETL pipelines.\n"
-        "Experienced in extracting business intelligence and optimizing data workflows.\n\n"
-        "Education:\n"
-        "B.Tech in Computer Science and Engineering, JNTU (2020-2024)\n\n"
-        "Experience:\n"
-        "Junior Data Analyst Intern at TechCorp (6 months)\n"
-        "- Analyzed customer churn datasets using Python and pandas.\n"
-        "- Built interactive Tableau dashboards for executive reporting.\n\n"
-        "Projects:\n"
-        "- Autonomous AI Job Agent: Python, Flask, Streamlit career platform.\n"
-        "- Sales Forecast Analysis: SQL, Power BI, Python predictive modeling.\n\n"
-        "Certifications:\n"
-        "- Google Data Analytics Professional Certificate\n"
-    )
+    st.session_state.raw_resume_text = ""
 
 # ------------------------------------------------------------------
 # Define the Exact 7-Step Workflow Requested by User:
@@ -354,14 +337,16 @@ with st.sidebar:
     # Candidate Quick Status
     res = st.session_state.resume_data
     ats = st.session_state.ats_report
-    st.markdown(f"**👤 {res.name}**")
-    st.caption(f"📍 Location: {res.location or 'Hyderabad, India'}")
+    has_res = bool(st.session_state.raw_resume_text or res.skills)
+    st.markdown(f"**👤 {res.name if has_res else 'Candidate'}**")
+    if has_res and res.location:
+        st.caption(f"📍 Location: {res.location}")
     
     col_s1, col_s2 = st.columns(2)
     with col_s1:
-        st.metric("ATS Fit", f"{ats.score:.0f}%" if ats else "85%")
+        st.metric("ATS Fit", f"{ats.score:.0f}%" if (ats and has_res) else "--")
     with col_s2:
-        st.metric("Skills", len(res.skills))
+        st.metric("Skills", len(res.skills) if has_res else 0)
 
     st.markdown("---")
     st.markdown("##### 🧭 Career Workflow Pipeline")
@@ -381,15 +366,12 @@ with st.sidebar:
         st.rerun()
 
     st.markdown("---")
-    if st.button("🔄 Reset Sample Profile", use_container_width=True):
+    if st.button("🔄 Reset Workspace", use_container_width=True):
         st.session_state.resume_data = load_initial_profile()
-        st.session_state.ats_report = calculate_ats(st.session_state.resume_data)
-        st.session_state.collected_jobs = load_initial_jobs()
-        st.session_state.matched_jobs = match_jobs(st.session_state.resume_data, st.session_state.collected_jobs)
-        st.session_state.target_role = "Data Analyst"
-        st.session_state.preferred_location = "Hyderabad"
+        st.session_state.raw_resume_text = ""
+        st.session_state.ats_report = None
         st.session_state.current_step_idx = 0
-        st.success("Loaded Vishnu Sai profile!")
+        st.success("Session reset!")
         st.rerun()
 
     st.caption("Pure Python Architecture • 7 Core Modules")
@@ -450,24 +432,19 @@ if cur_idx == 0:
                 st.session_state.matched_jobs = match_jobs(st.session_state.resume_data, st.session_state.collected_jobs)
             st.success(f"'{uploaded.name}' ingested and processed successfully!")
 
-        st.markdown("---")
-        st.markdown("##### Or Load Pre-Configured Sample")
-        if st.button("Use Sample Vishnu Sai Resume (Data Analyst)", use_container_width=True):
-            st.session_state.resume_data = load_initial_profile()
-            st.session_state.ats_report = calculate_ats(st.session_state.resume_data)
-            st.session_state.matched_jobs = match_jobs(st.session_state.resume_data, st.session_state.collected_jobs)
-            st.success("Sample Data Analyst profile loaded!")
-
     with col_u2:
         st.subheader("📋 Ingestion Summary & Preview")
-        res = st.session_state.resume_data
-        st.write(f"- **Candidate Name:** {res.name}")
-        st.write(f"- **Target Job Title:** {res.preferred_role}")
-        st.write(f"- **Extracted Length:** {len(st.session_state.raw_resume_text)} characters")
-        st.write(f"- **Identified Skills:** {len(res.skills)} verified skills")
+        if st.session_state.raw_resume_text:
+            res = st.session_state.resume_data
+            st.write(f"- **Candidate Name:** {res.name}")
+            st.write(f"- **Target Job Title:** {res.preferred_role}")
+            st.write(f"- **Extracted Length:** {len(st.session_state.raw_resume_text)} characters")
+            st.write(f"- **Identified Skills:** {len(res.skills)} verified skills")
 
-        with st.expander("View Extracted Raw Resume Text", expanded=False):
-            st.text_area("Extracted Text", st.session_state.raw_resume_text, height=220, disabled=True)
+            with st.expander("View Extracted Raw Resume Text", expanded=False):
+                st.text_area("Extracted Text", st.session_state.raw_resume_text, height=220, disabled=True)
+        else:
+            st.info("No resume uploaded yet. Select a PDF or DOCX file on the left to extract your skills and calculate your ATS fit score.")
 
     render_step_footer(None, 1, "Proceed to 2. Resume")
 
@@ -485,73 +462,82 @@ elif cur_idx == 1:
 
     res = st.session_state.resume_data
     ats = st.session_state.ats_report
+    has_res = bool(st.session_state.raw_resume_text or (res and res.skills))
 
-    col_r1, col_r2 = st.columns([1, 1])
+    if not has_res:
+        st.info("No resume uploaded yet. Please upload your resume in Step 1 to generate your ATS audit and profile analysis.")
+        if st.button("⬅ Go to Step 1: Upload", type="primary"):
+            st.session_state.current_step_idx = 0
+            st.rerun()
+        render_step_footer(0, 2, "Proceed to 3. Show Job Searches")
+    else:
+        col_r1, col_r2 = st.columns([1, 1])
 
-    with col_r1:
-        st.subheader("👤 Candidate Profile Coordinates")
-        st.markdown(f"""
-        <div class="job-card">
-            <h4 style="margin: 0; color: #ffffff;">{res.name}</h4>
-            <div style="color: #60a5fa; margin-top: 4px; font-weight: 600;">{res.preferred_role} • {res.experience_years} yrs exp</div>
-            <hr style="border-color: #1f2937;">
-            <p style="margin: 4px 0;"><strong>📧 Email:</strong> {res.email or 'vishnusaibeere124@gmail.com'}</p>
-            <p style="margin: 4px 0;"><strong>📱 Phone:</strong> {res.phone or '+91 9182679641'}</p>
-            <p style="margin: 4px 0;"><strong>📍 Home Location:</strong> {res.location or 'Hyderabad, India'}</p>
-            <p style="margin: 4px 0;"><strong>🎯 Preferred Work Location:</strong> {res.preferred_location or 'Hyderabad'}</p>
-        </div>
-        """, unsafe_allow_html=True)
-
-        st.subheader("🛠 Verified Skills Stack")
-        skills_html = "".join([f'<span class="skill-tag">{s}</span>' for s in res.skills])
-        st.markdown(skills_html, unsafe_allow_html=True)
-
-        if res.career_summary:
-            st.markdown("##### Professional Summary")
-            st.info(res.career_summary)
-
-    with col_r2:
-        st.subheader("📊 6-Dimension ATS Audit")
-        score_val = ats.score if ats else 85.0
-        offset = 251.2 - (251.2 * score_val / 100)
-        
-        st.markdown(f"""
-        <div class="stat-card" style="padding: 1.5rem; margin-bottom: 1rem; display: flex; flex-direction: column; align-items: center;">
-            <span style="color: #94a3b8; text-transform: uppercase; font-size: 0.8rem; font-weight: 700; letter-spacing: 0.05em; margin-bottom: 8px;">Overall ATS Score</span>
-            <div style="position: relative; width: 140px; height: 140px; margin-bottom: 12px;">
-                <svg viewBox="0 0 100 100" style="transform: rotate(-90deg); width: 140px; height: 140px;">
-                    <defs>
-                        <linearGradient id="stScoreGrad" x1="0%" y1="0%" x2="100%" y2="100%">
-                            <stop offset="0%" stop-color="#6366f1" />
-                            <stop offset="100%" stop-color="#ec4899" />
-                        </linearGradient>
-                    </defs>
-                    <circle cx="50" cy="50" r="40" fill="none" stroke="#1f2937" stroke-width="10" />
-                    <circle cx="50" cy="50" r="40" fill="none" stroke="url(#stScoreGrad)" stroke-width="10" stroke-linecap="round" stroke-dasharray="251.2" stroke-dashoffset="{offset}" />
-                </svg>
-                <div style="position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); text-align: center;">
-                    <div style="font-size: 2rem; font-weight: 800; color: #ffffff; line-height: 1;">{score_val:.0f}</div>
-                    <div style="font-size: 0.65rem; color: #94a3b8; text-transform: uppercase; font-weight: 700;">Out of 100</div>
-                </div>
+        with col_r1:
+            st.subheader("👤 Candidate Profile Coordinates")
+            st.markdown(f"""
+            <div class="job-card">
+                <h4 style="margin: 0; color: #ffffff;">{res.name}</h4>
+                <div style="color: #60a5fa; margin-top: 4px; font-weight: 600;">{res.preferred_role} • {res.experience_years} yrs exp</div>
+                <hr style="border-color: #1f2937;">
+                <p style="margin: 4px 0;"><strong>📧 Email:</strong> {res.email or 'Not provided'}</p>
+                <p style="margin: 4px 0;"><strong>📱 Phone:</strong> {res.phone or 'Not provided'}</p>
+                <p style="margin: 4px 0;"><strong>📍 Home Location:</strong> {res.location or 'Not provided'}</p>
+                <p style="margin: 4px 0;"><strong>🎯 Preferred Work Location:</strong> {res.preferred_location or 'Not provided'}</p>
             </div>
-            <span class="score-pill-high">★ GOOD · Ready to Apply</span>
-        </div>
-        """, unsafe_allow_html=True)
+            """, unsafe_allow_html=True)
 
-        st.progress(min(1.0, (ats.contact_score or 10) / 10), text=f"Contact Information: {ats.contact_score or 10}/10")
-        st.progress(min(1.0, (ats.skills_score or 32) / 35), text=f"Skills Alignment: {ats.skills_score or 32}/35")
-        st.progress(min(1.0, (ats.experience_score or 18) / 20), text=f"Experience Fit: {ats.experience_score or 18}/20")
-        st.progress(min(1.0, (ats.education_score or 15) / 15), text=f"Education Verification: {ats.education_score or 15}/15")
-        st.progress(min(1.0, (ats.projects_score or 15) / 15), text=f"Projects Demonstrated: {ats.projects_score or 15}/15")
-        st.progress(min(1.0, (ats.certifications_score or 5) / 5), text=f"Certifications: {ats.certifications_score or 5}/5")
+            st.subheader("🛠 Verified Skills Stack")
+            skills_html = "".join([f'<span class="skill-tag">{s}</span>' for s in res.skills])
+            st.markdown(skills_html or "<span class='text-muted'>No verified skills</span>", unsafe_allow_html=True)
 
-        st.markdown("##### ✅ Strengths & Actionable Advice")
-        for s in (ats.strengths or ["Strong skills keyword alignment", "Complete contact details"])[:2]:
-            st.write(f"• **Strength:** {s}")
-        for sug in (ats.suggestions or ["Add quantifiable outcome percentages"])[:2]:
-            st.write(f"• **Suggestion:** {sug}")
+            if res.career_summary:
+                st.markdown("##### Professional Summary")
+                st.info(res.career_summary)
 
-    render_step_footer(0, 2, "Proceed to 3. Show Job Searches")
+        with col_r2:
+            st.subheader("📊 6-Dimension ATS Audit")
+            score_val = ats.score if ats else 0.0
+            offset = 251.2 - (251.2 * score_val / 100)
+            
+            st.markdown(f"""
+            <div class="stat-card" style="padding: 1.5rem; margin-bottom: 1rem; display: flex; flex-direction: column; align-items: center;">
+                <span style="color: #94a3b8; text-transform: uppercase; font-size: 0.8rem; font-weight: 700; letter-spacing: 0.05em; margin-bottom: 8px;">Overall ATS Score</span>
+                <div style="position: relative; width: 140px; height: 140px; margin-bottom: 12px;">
+                    <svg viewBox="0 0 100 100" style="transform: rotate(-90deg); width: 140px; height: 140px;">
+                        <defs>
+                            <linearGradient id="stScoreGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+                                <stop offset="0%" stop-color="#6366f1" />
+                                <stop offset="100%" stop-color="#ec4899" />
+                            </linearGradient>
+                        </defs>
+                        <circle cx="50" cy="50" r="40" fill="none" stroke="#1f2937" stroke-width="10" />
+                        <circle cx="50" cy="50" r="40" fill="none" stroke="url(#stScoreGrad)" stroke-width="10" stroke-linecap="round" stroke-dasharray="251.2" stroke-dashoffset="{offset}" />
+                    </svg>
+                    <div style="position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); text-align: center;">
+                        <div style="font-size: 2rem; font-weight: 800; color: #ffffff; line-height: 1;">{score_val:.0f}</div>
+                        <div style="font-size: 0.65rem; color: #94a3b8; text-transform: uppercase; font-weight: 700;">Out of 100</div>
+                    </div>
+                </div>
+                <span class="score-pill-high">★ Calibrated ATS Screening</span>
+            </div>
+            """, unsafe_allow_html=True)
+
+            if ats:
+                st.progress(min(1.0, (ats.contact_score or 0) / 10), text=f"Contact Information: {ats.contact_score or 0}/10")
+                st.progress(min(1.0, (ats.skills_score or 0) / 35), text=f"Skills Alignment: {ats.skills_score or 0}/35")
+                st.progress(min(1.0, (ats.experience_score or 0) / 20), text=f"Experience Fit: {ats.experience_score or 0}/20")
+                st.progress(min(1.0, (ats.education_score or 0) / 15), text=f"Education Verification: {ats.education_score or 0}/15")
+                st.progress(min(1.0, (ats.projects_score or 0) / 15), text=f"Projects Demonstrated: {ats.projects_score or 0}/15")
+                st.progress(min(1.0, (ats.certifications_score or 0) / 5), text=f"Certifications: {ats.certifications_score or 0}/5")
+
+                st.markdown("##### ✅ Strengths & Actionable Advice")
+                for s in (ats.strengths or [])[:2]:
+                    st.write(f"• **Strength:** {s}")
+                for sug in (ats.suggestions or [])[:2]:
+                    st.write(f"• **Suggestion:** {sug}")
+
+        render_step_footer(0, 2, "Proceed to 3. Show Job Searches")
 
 
 # ==================================================================

@@ -55,136 +55,180 @@
           <i class="bi bi-upload me-1"></i> Upload Resume
         </button>
       </form>
-
-      <!-- Stored Files -->
-      <div class="mt-auto pt-3 border-top">
-        <h6 class="text-muted mb-2">Saved Resumes in System:</h6>
-        <ul class="list-group list-group-flush">
-          {% for f in files %}
-            <li class="list-group-item bg-transparent px-0 py-1 small d-flex align-items-center justify-content-between text-secondary">
-              <span><i class="bi bi-file-earmark-pdf text-danger me-2"></i>{{ f }}</span>
-              <span class="badge bg-success-subtle text-success border border-success-subtle">Ready</span>
-            </li>
-          {% else %}
-            <li class="list-group-item bg-transparent px-0 py-1 small text-muted">No resume uploaded yet.</li>
-          {% endfor %}
-        </ul>
-      </div>
     </div>
   </div>
 
-  <!-- Extracted Information (Preview) Grid (From Design Board Item 8) -->
+  <!-- Extracted Information / Clean Empty State Grid -->
   <div class="col-lg-7" id="extracted-profile">
     <div class="card card-clean p-4 h-100 d-flex flex-column">
-      <div class="d-flex justify-content-between align-items-center mb-3">
-        <div>
-          <h4 class="fw-bold mb-0 text-dark">Extracted Information (Preview)</h4>
-          <span class="text-secondary small">Parsed coordinates for <strong class="text-dark">{{ candidate.candidate_name }}</strong></span>
+      {% if has_resume %}
+        <div class="d-flex justify-content-between align-items-center mb-3">
+          <div>
+            <h4 class="fw-bold mb-0 text-dark">Extracted Information (Preview)</h4>
+            <span class="text-secondary small">Parsed coordinates for <strong class="text-dark">{{ candidate.candidate_name }}</strong></span>
+          </div>
+          <span class="badge-match fs-6">
+            <i class="bi bi-shield-check me-1"></i> {{ candidate.ats_score }}% ATS Fit
+          </span>
         </div>
-        <span class="badge-match fs-6">
-          <i class="bi bi-shield-check me-1"></i> {{ candidate.ats_score }}% ATS Fit
-        </span>
-      </div>
 
-      <!-- 6-Card Extracted Information Grid (From Design Board Item 8) -->
-      <div class="row g-3 mb-4">
-        <!-- 1. Contact Info -->
-        <div class="col-sm-6">
-          <div class="extract-preview-card">
-            <div class="d-flex align-items-center gap-2 mb-2">
-              <span class="badge bg-primary-subtle text-primary p-2 rounded-3"><i class="bi bi-person-lines-fill"></i></span>
-              <strong class="text-dark small">Contact Info</strong>
+        <!-- 6-Card Extracted Information Grid (From Design Board Item 8) -->
+        <div class="row g-3 mb-4">
+          <!-- 1. Contact Info -->
+          <div class="col-sm-6">
+            <div class="extract-preview-card">
+              <div class="d-flex align-items-center gap-2 mb-2">
+                <span class="badge bg-primary-subtle text-primary p-2 rounded-3"><i class="bi bi-person-lines-fill"></i></span>
+                <strong class="text-dark small">Contact Info</strong>
+              </div>
+              <div class="text-secondary small mt-1">
+                <div><i class="bi bi-envelope me-1"></i> {{ candidate.email or 'Not specified' }}</div>
+                <div><i class="bi bi-telephone me-1"></i> {{ candidate.phone or 'Not specified' }}</div>
+                <div><i class="bi bi-geo-alt me-1"></i> {{ candidate.preferred_location or candidate.location or 'Not specified' }}</div>
+              </div>
             </div>
-            <div class="text-secondary small mt-1">
-              <div><i class="bi bi-envelope me-1"></i> {{ candidate.email }}</div>
-              <div><i class="bi bi-telephone me-1"></i> {{ candidate.phone }}</div>
-              <div><i class="bi bi-geo-alt me-1"></i> {{ candidate.preferred_location }}</div>
+          </div>
+
+          <!-- 2. Skills -->
+          <div class="col-sm-6">
+            <div class="extract-preview-card">
+              <div class="d-flex align-items-center gap-2 mb-2">
+                <span class="badge bg-success-subtle text-success p-2 rounded-3"><i class="bi bi-tools"></i></span>
+                <strong class="text-dark small">Skills (Technical & Soft)</strong>
+              </div>
+              <div class="d-flex flex-wrap gap-1 mt-1">
+                {% for s in candidate.skills[:5] %}
+                  <span class="badge-skill" style="font-size: 0.72rem; padding: 2px 8px;">{{ s }}</span>
+                {% else %}
+                  <span class="text-muted small">No skills parsed yet</span>
+                {% endfor %}
+                {% if len(candidate.skills) > 5 %}
+                  <span class="badge bg-light text-secondary border small">+{{ len(candidate.skills) - 5 }} more</span>
+                {% endif %}
+              </div>
+            </div>
+          </div>
+
+          <!-- 3. Education -->
+          <div class="col-sm-6">
+            <div class="extract-preview-card">
+              <div class="d-flex align-items-center gap-2 mb-2">
+                <span class="badge bg-info-subtle text-info p-2 rounded-3"><i class="bi bi-mortarboard-fill"></i></span>
+                <strong class="text-dark small">Education</strong>
+              </div>
+              <div class="text-secondary small mt-1">
+                {% if candidate.education and len(candidate.education) > 0 %}
+                  <div class="fw-semibold text-dark">{{ candidate.education[0].degree if candidate.education[0] is mapping else candidate.education[0] }}</div>
+                  <div class="text-muted">{{ candidate.education[0].institution if candidate.education[0] is mapping else 'Verified Institution' }}</div>
+                {% else %}
+                  <div class="text-muted">Education credentials</div>
+                {% endif %}
+              </div>
+            </div>
+          </div>
+
+          <!-- 4. Experience -->
+          <div class="col-sm-6">
+            <div class="extract-preview-card">
+              <div class="d-flex align-items-center gap-2 mb-2">
+                <span class="badge bg-warning-subtle text-warning p-2 rounded-3"><i class="bi bi-briefcase-fill"></i></span>
+                <strong class="text-dark small">Experience</strong>
+              </div>
+              <div class="text-secondary small mt-1">
+                <div class="fw-semibold text-dark">{{ candidate.preferred_role or 'Experience Profile' }}</div>
+                <div class="text-muted">{{ candidate.experience_years or 0 }} Years Work History</div>
+              </div>
+            </div>
+          </div>
+
+          <!-- 5. Projects -->
+          <div class="col-sm-6">
+            <div class="extract-preview-card">
+              <div class="d-flex align-items-center gap-2 mb-2">
+                <span class="badge bg-purple p-2 rounded-3" style="background-color: #f3e8ff; color: #8b5cf6;"><i class="bi bi-kanban"></i></span>
+                <strong class="text-dark small">Projects</strong>
+              </div>
+              <div class="text-secondary small mt-1">
+                {% if candidate.projects and len(candidate.projects) > 0 %}
+                  <div class="fw-semibold text-dark">{{ candidate.projects[0].title if candidate.projects[0] is mapping else candidate.projects[0] }}</div>
+                {% else %}
+                  <div class="text-muted">Projects detected</div>
+                {% endif %}
+              </div>
+            </div>
+          </div>
+
+          <!-- 6. Certifications -->
+          <div class="col-sm-6">
+            <div class="extract-preview-card">
+              <div class="d-flex align-items-center gap-2 mb-2">
+                <span class="badge bg-danger-subtle text-danger p-2 rounded-3"><i class="bi bi-award-fill"></i></span>
+                <strong class="text-dark small">Certifications</strong>
+              </div>
+              <div class="text-secondary small mt-1">
+                {% if candidate.certifications and len(candidate.certifications) > 0 %}
+                  <div class="fw-semibold text-dark">{{ candidate.certifications[0] }}</div>
+                {% else %}
+                  <div class="text-muted">Certifications & verified badges</div>
+                {% endif %}
+              </div>
             </div>
           </div>
         </div>
 
-        <!-- 2. Skills -->
-        <div class="col-sm-6">
-          <div class="extract-preview-card">
-            <div class="d-flex align-items-center gap-2 mb-2">
-              <span class="badge bg-success-subtle text-success p-2 rounded-3"><i class="bi bi-tools"></i></span>
-              <strong class="text-dark small">Skills (Technical & Soft)</strong>
+        <!-- Bottom Next Step CTA -->
+        <div class="mt-auto pt-3 border-top d-flex justify-content-between align-items-center flex-wrap gap-2">
+          <span class="text-secondary small"><i class="bi bi-info-circle text-primary me-1"></i> Candidate coordinates parsed and ready for ATS Diagnostic analysis</span>
+          <a href="{{ url_for('resumes.analyze') }}" class="btn btn-primary btn-sm px-3 fw-semibold">
+            Proceed to Step 2: Resume <i class="bi bi-arrow-right ms-1"></i>
+          </a>
+        </div>
+      {% else %}
+        <!-- Clean Empty State When No Resume Uploaded -->
+        <div class="my-auto py-5 text-center">
+          <div class="user-avatar-circle mx-auto mb-3" style="width: 72px; height: 72px; background: rgba(99, 102, 241, 0.1); color: #6366f1; font-size: 2rem;">
+            <i class="bi bi-file-earmark-arrow-up"></i>
+          </div>
+          <h4 class="fw-bold text-dark mb-2">No Resume Uploaded Yet</h4>
+          <p class="text-secondary small mx-auto mb-4" style="max-width: 440px;">
+            Upload your resume document in PDF or Word format on the left to extract skills, calculate your ATS diagnostic score, and find matching jobs.
+          </p>
+
+          <div class="row g-3 text-start mx-auto" style="max-width: 520px;">
+            <div class="col-12">
+              <div class="p-3 rounded-3 bg-light border d-flex align-items-start gap-3">
+                <div class="kpi-icon-circle kpi-icon-indigo" style="width: 40px; height: 40px; font-size: 1.1rem;"><i class="bi bi-cpu"></i></div>
+                <div>
+                  <strong class="text-dark small d-block">Automatic Entity Extraction</strong>
+                  <span class="text-secondary small">Extracts skills, work experience, education, projects, and contact info in seconds.</span>
+                </div>
+              </div>
             </div>
-            <div class="d-flex flex-wrap gap-1 mt-1">
-              {% for s in candidate.skills[:5] %}
-                <span class="badge-skill" style="font-size: 0.72rem; padding: 2px 8px;">{{ s }}</span>
-              {% endfor %}
-              {% if len(candidate.skills) > 5 %}
-                <span class="badge bg-light text-secondary border small">+{{ len(candidate.skills) - 5 }} more</span>
-              {% endif %}
+
+            <div class="col-12">
+              <div class="p-3 rounded-3 bg-light border d-flex align-items-start gap-3">
+                <div class="kpi-icon-circle kpi-icon-green" style="width: 40px; height: 40px; font-size: 1.1rem;"><i class="bi bi-pie-chart-fill"></i></div>
+                <div>
+                  <strong class="text-dark small d-block">Calibrated ATS Scoring</strong>
+                  <span class="text-secondary small">Evaluates keyword density, formatting, and structural readability for applicant tracking systems.</span>
+                </div>
+              </div>
+            </div>
+
+            <div class="col-12">
+              <div class="p-3 rounded-3 bg-light border d-flex align-items-start gap-3">
+                <div class="kpi-icon-circle kpi-icon-blue" style="width: 40px; height: 40px; font-size: 1.1rem;"><i class="bi bi-briefcase-fill"></i></div>
+                <div>
+                  <strong class="text-dark small d-block">Live Job Discovery & Matching</strong>
+                  <span class="text-secondary small">Instantly matches your parsed skills with live job openings across verified boards.</span>
+                </div>
+              </div>
             </div>
           </div>
         </div>
-
-        <!-- 3. Education -->
-        <div class="col-sm-6">
-          <div class="extract-preview-card">
-            <div class="d-flex align-items-center gap-2 mb-2">
-              <span class="badge bg-info-subtle text-info p-2 rounded-3"><i class="bi bi-mortarboard-fill"></i></span>
-              <strong class="text-dark small">Education</strong>
-            </div>
-            <div class="text-secondary small mt-1">
-              <div class="fw-semibold text-dark">B.Tech in Computer Science</div>
-              <div class="text-muted">Degree & Verified Institution</div>
-            </div>
-          </div>
-        </div>
-
-        <!-- 4. Experience -->
-        <div class="col-sm-6">
-          <div class="extract-preview-card">
-            <div class="d-flex align-items-center gap-2 mb-2">
-              <span class="badge bg-warning-subtle text-warning p-2 rounded-3"><i class="bi bi-briefcase-fill"></i></span>
-              <strong class="text-dark small">Experience</strong>
-            </div>
-            <div class="text-secondary small mt-1">
-              <div class="fw-semibold text-dark">{{ candidate.preferred_role }}</div>
-              <div class="text-muted">{{ candidate.experience_years }} Years Work History</div>
-            </div>
-          </div>
-        </div>
-
-        <!-- 5. Projects -->
-        <div class="col-sm-6">
-          <div class="extract-preview-card">
-            <div class="d-flex align-items-center gap-2 mb-2">
-              <span class="badge bg-purple p-2 rounded-3" style="background-color: #f3e8ff; color: #8b5cf6;"><i class="bi bi-kanban"></i></span>
-              <strong class="text-dark small">Projects</strong>
-            </div>
-            <div class="text-secondary small mt-1">
-              <div class="fw-semibold text-dark">Autonomous Career Copilot</div>
-              <div class="text-muted">Key Implemented Architecture</div>
-            </div>
-          </div>
-        </div>
-
-        <!-- 6. Certifications -->
-        <div class="col-sm-6">
-          <div class="extract-preview-card">
-            <div class="d-flex align-items-center gap-2 mb-2">
-              <span class="badge bg-danger-subtle text-danger p-2 rounded-3"><i class="bi bi-award-fill"></i></span>
-              <strong class="text-dark small">Certifications</strong>
-            </div>
-            <div class="text-secondary small mt-1">
-              <div class="fw-semibold text-dark">Data Analytics Professional</div>
-              <div class="text-muted">Courses & Verified Badges</div>
-            </div>
-          </div>
-        </div>
-      </div>
-
-      <!-- Bottom Next Step CTA -->
-      <div class="mt-auto pt-3 border-top d-flex justify-content-between align-items-center flex-wrap gap-2">
-        <span class="text-secondary small"><i class="bi bi-info-circle text-primary me-1"></i> Candidate coordinates parsed and ready for ATS Diagnostic analysis</span>
-        <a href="{{ url_for('resumes.analyze') }}" class="btn btn-primary btn-sm px-3 fw-semibold">
-          Proceed to Step 2: Resume <i class="bi bi-arrow-right ms-1"></i>
-        </a>
-      </div>
+      {% endif %}
+    </div>
+  </div>
     </div>
   </div>
 </div>

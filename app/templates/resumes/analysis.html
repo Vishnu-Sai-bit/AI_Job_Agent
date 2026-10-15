@@ -20,6 +20,22 @@
   </div>
 </div>
 
+{% if not candidate.has_resume %}
+  <div class="card card-clean p-5 text-center my-4">
+    <div class="user-avatar-circle mx-auto mb-3" style="width: 72px; height: 72px; background: rgba(99, 102, 241, 0.1); color: #6366f1; font-size: 2rem;">
+      <i class="bi bi-pie-chart"></i>
+    </div>
+    <h3 class="fw-bold text-dark mb-2">No ATS Report Available</h3>
+    <p class="text-secondary mb-4 mx-auto" style="max-width: 480px;">
+      You have not uploaded a resume yet. Upload your resume in Step 1 to extract your skills, analyze keyword density, and view your calibrated ATS diagnostic report.
+    </p>
+    <div>
+      <a href="{{ url_for('resumes.index') }}" class="btn btn-primary px-4 py-2">
+        <i class="bi bi-cloud-arrow-up me-1"></i> Go to Step 1: Upload Resume
+      </a>
+    </div>
+  </div>
+{% else %}
 <!-- ATS Score Hero Row (From Design Board Item 9) -->
 <div class="row g-4 mb-4">
   <!-- Circular ATS Gauge Card -->
@@ -348,4 +364,5 @@
     Proceed to Step 3: Show Job Searches <i class="bi bi-arrow-right ms-1"></i>
   </a>
 </div>
+{% endif %}
 {% endblock %}

@@ -18,15 +18,10 @@ resumes_bp = Blueprint("resumes", __name__, url_prefix="/resumes")
 @resumes_bp.route("/")
 def index():
     candidate = get_candidate_context()
-    resume_folder = Path("resumes")
-    existing_files = []
-    if resume_folder.exists():
-        existing_files = [f.name for f in resume_folder.glob("*.pdf")] + [f.name for f in resume_folder.glob("*.docx")]
-
     return render_template(
         "resumes/index.html",
         candidate=candidate,
-        files=existing_files,
+        has_resume=bool(candidate.get("has_resume", False)),
         active_tab="step_upload"
     )
 
@@ -47,6 +42,7 @@ def upload():
         ats_report = calculate_ats(resume_data)
 
         parsed_dict = {
+            "has_resume": True,
             "candidate_name": resume_data.name or "Candidate",
             "email": resume_data.email or "candidate@gmail.com",
             "phone": resume_data.phone or "+91 9182679641",
