@@ -238,16 +238,18 @@ def index():
             "location": j_loc,
             "salary": j.get("salary", "Competitive"),
             "experience": j_exp,
-            "experience_fit_note": exp_note,
+            "experience_fit_note": exp_note if has_resume else "",
             "source": j.get("source", "Verified Portal"),
             "url": j.get("url", "https://careers.google.com"),
             "description": j.get("description", ""),
-            "matching_skills": matching,
-            "missing_skills": missing,
-            "match_score": match_score
+            "matching_skills": matching if has_resume else [],
+            "missing_skills": missing if has_resume else [],
+            "skills": j_skills,
+            "match_score": match_score if has_resume else None
         })
 
-    scored_jobs.sort(key=lambda x: x["match_score"], reverse=True)
+    if has_resume:
+        scored_jobs.sort(key=lambda x: x["match_score"] or 0, reverse=True)
 
     # Dynamic location segment counts for matching jobs
     remote_count = sum(1 for j in scored_jobs if "remote" in (j.get("location") or "").lower())

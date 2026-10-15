@@ -583,20 +583,31 @@ elif cur_idx == 2:
             st.success(f"Fetched {len(fresh)} opportunities!")
             st.rerun()
 
-    filtered_jobs = [j for j in st.session_state.matched_jobs if (j.match_score or 0) >= min_fit]
+    if has_res:
+        filtered_jobs = [j for j in st.session_state.matched_jobs if (j.match_score or 0) >= min_fit]
+    else:
+        filtered_jobs = list(st.session_state.collected_jobs)
     
     if target_role_input and target_role_input.strip():
         q = target_role_input.lower().strip()
         filtered_jobs = [j for j in filtered_jobs if q in j.title.lower() or any(q in s.lower() for s in (j.skills or [])) or any(w in j.title.lower() for w in q.split() if len(w) > 3)]
 
-    st.caption(f"Showing **{len(filtered_jobs)} tailored opportunities** matching your candidate criteria:")
+    if has_res:
+        st.caption(f"Showing **{len(filtered_jobs)} tailored opportunities** matching your candidate criteria:")
+    else:
+        st.caption(f"Showing **{len(filtered_jobs)} opportunities in Discovery Mode** (Upload resume in Step 1 to evaluate personalized match scores):")
 
     if not filtered_jobs:
         st.info("No openings match this fit threshold. Lower the slider above or fetch fresh openings.")
     else:
         for job in filtered_jobs:
-            score = job.match_score or 75.0
-            pill_class = "score-pill-high" if score >= 65 else "score-pill-med"
+            if has_res:
+                score = job.match_score or 75.0
+                pill_class = "score-pill-high" if score >= 65 else "score-pill-med"
+                badge_html = f'<span class="{pill_class}">★ {score:.1f}% Match</span>'
+            else:
+                score = None
+                badge_html = '<span style="background: rgba(100, 116, 139, 0.2); color: #94a3b8; border: 1px solid rgba(100, 116, 139, 0.4); border-radius: 20px; padding: 4px 14px; font-weight: 600; font-size: 0.88rem;">👁 Discovery</span>'
             
             with st.container():
                 st.markdown(f"""
@@ -609,20 +620,25 @@ elif cur_idx == 2:
                                 <span style="color: #94a3b8; font-weight: normal;">• 📍 {job.location} • 💰 {job.salary} • 🌐 {job.provider}</span>
                             </div>
                         </div>
-                        <span class="{pill_class}">★ {score:.1f}% Match</span>
+                        {badge_html}
                     </div>
                 </div>
                 """, unsafe_allow_html=True)
 
                 col_details, col_actions = st.columns([3, 1])
                 with col_details:
-                    match_html = "".join([f'<span class="skill-match">✔ {s}</span>' for s in (job.matching_skills or [])])
-                    gap_html = "".join([f'<span class="skill-gap">+ {s}</span>' for s in (job.missing_skills or [])])
-                    
-                    if match_html:
-                        st.markdown(f"**Matched Skills:** {match_html}", unsafe_allow_html=True)
-                    if gap_html:
-                        st.markdown(f"**Missing Skills to Feature:** {gap_html}", unsafe_allow_html=True)
+                    if has_res:
+                        match_html = "".join([f'<span class="skill-match">✔ {s}</span>' for s in (job.matching_skills or [])])
+                        gap_html = "".join([f'<span class="skill-gap">+ {s}</span>' for s in (job.missing_skills or [])])
+                        
+                        if match_html:
+                            st.markdown(f"**Matched Skills:** {match_html}", unsafe_allow_html=True)
+                        if gap_html:
+                            st.markdown(f"**Missing Skills to Feature:** {gap_html}", unsafe_allow_html=True)
+                    else:
+                        req_html = "".join([f'<span class="skill-tag">🏷 {s}</span>' for s in (job.skills or [])[:5]])
+                        if req_html:
+                            st.markdown(f"**Required Skills:** {req_html}", unsafe_allow_html=True)
                     if job.description:
                         st.caption(job.description[:180] + "...")
 
@@ -643,7 +659,7 @@ elif cur_idx == 2:
                             "apply_url": job.apply_url,
                             "status": "applied",
                             "date_applied": datetime.now().strftime("%Y-%m-%d"),
-                            "notes": f"Saved from Job Searches. Match Fit: {score:.1f}%"
+                            "notes": f"Saved from Job Searches. Match Fit: {score:.1f}%" if score is not None else "Saved from Job Searches (Discovery Mode)"
                         })
                         st.toast(f"Saved {job.title} at {job.company} to Application CRM!", icon="💼")
 

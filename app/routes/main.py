@@ -68,6 +68,8 @@ def roadmaps_alias():
 @main_bp.route("/dashboard")
 def dashboard():
     candidate = get_candidate_context()
+    has_resume = bool(candidate.get("has_resume"))
+    
     try:
         total_jobs = Job.query.count()
     except Exception:
@@ -84,33 +86,63 @@ def dashboard():
         from services.crm.application_crm import get_all_applications
         total_apps = len(get_all_applications()) or 4
 
-    from app.routes.jobs import load_verified_jobs, match_skills
-    all_jobs = load_verified_jobs()
-    cand_skills = {s.lower().strip() for s in candidate.get("skills", [])}
-    scored = []
-    for j in all_jobs:
-        j_skills = j.get("skills", [])
-        m, _ = match_skills(j_skills, cand_skills)
-        pct = int(round((len(m) / max(len(j_skills), 1)) * 100)) if j_skills else 75
-        scored.append({
-            "id": j.get("id"),
-            "title": j.get("title"),
-            "company": j.get("company"),
-            "location": j.get("location"),
-            "salary": j.get("salary", "Competitive"),
-            "url": j.get("url", "#"),
-            "match_score": min(100, max(45, pct + 25)),
-            "skills": j_skills[:4]
-        })
-    scored.sort(key=lambda x: x["match_score"], reverse=True)
-    top_matches = scored[:4]
+    top_matches = []
+    total_matches = 0
+
+    if has_resume:
+        from app.routes.jobs import load_verified_jobs, match_skills, is_role_relevant, check_experience_fit
+        all_jobs = load_verified_jobs()
+        cand_skills = {s.lower().strip() for s in candidate.get("skills", [])}
+        cand_role = candidate.get("preferred_role", "").strip()
+        cand_exp = float(candidate.get("experience_years", 0) or 0)
+        
+        scored = []
+        for j in all_jobs:
+            j_title = j.get("title", "")
+            j_loc = j.get("location", "")
+            j_exp = j.get("experience", "1-3 yrs")
+            j_skills = j.get("skills", [])
+            
+            matching, missing = match_skills(j_skills, cand_skills)
+            skill_pct = (len(matching) / len(j_skills) * 100.0) if j_skills else 50.0
+            
+            is_rel, role_score = is_role_relevant(j_title, cand_role)
+            is_exp_fit, exp_score, exp_note = check_experience_fit(cand_exp, j_exp)
+            
+            # Personalization checks:
+            if not is_rel and len(matching) == 0:
+                continue
+            if cand_exp <= 2.0 and any(k in j_exp for k in ["5-8", "5+", "6+", "7+"]):
+                continue
+                
+            match_score = round(0.40 * role_score + 0.40 * skill_pct + 0.20 * exp_score, 1)
+            match_score = min(100.0, max(30.0, match_score))
+            
+            if match_score < 48.0:
+                continue
+                
+            scored.append({
+                "id": j.get("id"),
+                "title": j_title,
+                "company": j.get("company"),
+                "location": j_loc,
+                "salary": j.get("salary", "Competitive"),
+                "url": j.get("url", "#"),
+                "match_score": int(round(match_score)),
+                "skills": j_skills[:4]
+            })
+            
+        scored.sort(key=lambda x: x["match_score"], reverse=True)
+        top_matches = scored[:4]
+        total_matches = len(scored)
 
     return render_template(
         "dashboard/index.html",
         candidate=candidate,
         total_jobs=total_jobs,
+        total_matches=total_matches,
         total_apps=total_apps,
-        ats_score=candidate.get("ats_score", 0) if candidate.get("has_resume") else 0,
+        ats_score=candidate.get("ats_score", 0) if has_resume else 0,
         top_matches=top_matches,
         active_tab="dashboard"
     )

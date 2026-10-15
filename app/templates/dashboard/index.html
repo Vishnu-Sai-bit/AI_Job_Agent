@@ -49,7 +49,7 @@
   <div class="col-6 col-xl-3">
     <div class="kpi-card">
       <div>
-        <h3 class="fw-bold text-primary mb-0 mt-1">{{ total_jobs }}</h3>
+        <h3 class="fw-bold text-primary mb-0 mt-1">{{ total_matches if candidate.has_resume else '--' }}</h3>
         <span class="text-muted small fw-semibold">Job Matches</span>
       </div>
       <div class="kpi-icon-circle kpi-icon-blue">
@@ -171,44 +171,55 @@
       <div class="d-flex justify-content-between align-items-center mb-3">
         <h4 class="fw-bold mb-0 text-dark">Recent Job Matches</h4>
         <a href="{{ url_for('jobs.index') }}" class="text-primary small fw-semibold text-decoration-none">
-          View All <i class="bi bi-arrow-right"></i>
+          {% if candidate.has_resume %}View All Matches{% else %}Explore Jobs{% endif %} <i class="bi bi-arrow-right"></i>
         </a>
       </div>
 
       <div class="d-flex flex-column gap-3">
-        {% for job in top_matches %}
-          <div class="p-3 rounded-3 bg-light border d-flex justify-content-between align-items-center flex-wrap gap-2">
-            <div class="d-flex align-items-center gap-3">
-              <div class="user-avatar-circle" style="width: 44px; height: 44px; font-size: 1rem; border-radius: 12px;">
-                {{ job.company[:2].upper() }}
-              </div>
-              <div>
-                <h6 class="fw-bold text-dark mb-1">{{ job.title }}</h6>
-                <div class="d-flex align-items-center gap-2 flex-wrap">
-                  <span class="text-muted small fw-medium">{{ job.company }}</span>
-                  <span class="badge-location" style="font-size: 0.72rem; padding: 2px 8px;">{{ job.location }}</span>
-                  <span class="badge-jobtype" style="font-size: 0.72rem; padding: 2px 8px;">Full-time</span>
-                  <span class="text-muted small" style="font-size: 0.75rem;">2 hours ago</span>
+        {% if not candidate.has_resume %}
+          <div class="p-4 text-center border rounded-3 bg-light">
+            <div class="fs-1 text-muted mb-2"><i class="bi bi-briefcase"></i></div>
+            <h6 class="fw-bold text-dark mb-1">No Resume Uploaded Yet</h6>
+            <p class="text-secondary small mb-3">Upload your resume in Step 1 to calculate real-time compatibility and discover tailored job openings.</p>
+            <a href="{{ url_for('resumes.index') }}" class="btn btn-primary-gradient btn-sm px-3 py-2">
+              <i class="bi bi-cloud-arrow-up-fill me-1"></i> Upload Resume to Match Jobs
+            </a>
+          </div>
+        {% elif top_matches %}
+          {% for job in top_matches %}
+            <div class="p-3 rounded-3 bg-light border d-flex justify-content-between align-items-center flex-wrap gap-2">
+              <div class="d-flex align-items-center gap-3">
+                <div class="user-avatar-circle" style="width: 44px; height: 44px; font-size: 1rem; border-radius: 12px;">
+                  {{ job.company[:2].upper() }}
+                </div>
+                <div>
+                  <h6 class="fw-bold text-dark mb-1">{{ job.title }}</h6>
+                  <div class="d-flex align-items-center gap-2 flex-wrap">
+                    <span class="text-muted small fw-medium">{{ job.company }}</span>
+                    <span class="badge-location" style="font-size: 0.72rem; padding: 2px 8px;">{{ job.location }}</span>
+                    <span class="badge-jobtype" style="font-size: 0.72rem; padding: 2px 8px;">Full-time</span>
+                    <span class="text-muted small" style="font-size: 0.75rem;">Recently added</span>
+                  </div>
                 </div>
               </div>
-            </div>
 
-            <div class="d-flex align-items-center gap-2">
-              <span class="badge-match" style="font-size: 0.8rem; padding: 0.3rem 0.75rem;">
-                {{ job.match_score }}% Match
-              </span>
-              {% if job.url and job.url != '#' %}
-                <a href="{{ job.url }}" target="_blank" class="btn btn-success-gradient btn-sm px-3 py-1">Apply</a>
-              {% else %}
-                <a href="{{ url_for('jobs.index') }}?role={{ job.title|urlencode }}" class="btn btn-outline-custom btn-sm px-3 py-1">Details</a>
-              {% endif %}
+              <div class="d-flex align-items-center gap-2">
+                <span class="badge-match" style="font-size: 0.8rem; padding: 0.3rem 0.75rem;">
+                  {{ job.match_score }}% Match
+                </span>
+                {% if job.url and job.url != '#' %}
+                  <a href="{{ job.url }}" target="_blank" class="btn btn-success-gradient btn-sm px-3 py-1">Apply</a>
+                {% else %}
+                  <a href="{{ url_for('jobs.index') }}?role={{ job.title|urlencode }}" class="btn btn-outline-custom btn-sm px-3 py-1">Details</a>
+                {% endif %}
+              </div>
             </div>
-          </div>
+          {% endfor %}
         {% else %}
-          <div class="p-4 text-center text-muted small">
-            No matching openings computed yet. Run job search to view live opportunities.
+          <div class="p-4 text-center text-muted small border rounded-3 bg-light">
+            No matching openings computed yet. Update your skills or explore general jobs.
           </div>
-        {% endfor %}
+        {% endif %}
       </div>
     </div>
   </div>
@@ -219,17 +230,23 @@
       <div>
         <div class="d-flex justify-content-between align-items-center mb-3">
           <h4 class="fw-bold mb-0 text-dark">Skills Overview</h4>
-          <span class="badge bg-primary-subtle text-primary">{{ len(candidate.skills) }} Identified</span>
+          <span class="badge bg-primary-subtle text-primary">{{ len(candidate.skills) if candidate.has_resume else 0 }} Identified</span>
         </div>
-        <p class="text-secondary small mb-3">
-          Core technical competencies extracted and cross-checked against live employer requirements for <strong>{{ candidate.preferred_role }}</strong>.
-        </p>
+        {% if candidate.has_resume and candidate.skills %}
+          <p class="text-secondary small mb-3">
+            Core technical competencies extracted and cross-checked against live employer requirements for <strong>{{ candidate.preferred_role }}</strong>.
+          </p>
 
-        <div class="d-flex flex-wrap gap-2 mb-4">
-          {% for s in candidate.skills %}
-            <span class="badge-skill"><i class="bi bi-check2 text-primary"></i> {{ s }}</span>
-          {% endfor %}
-        </div>
+          <div class="d-flex flex-wrap gap-2 mb-4">
+            {% for s in candidate.skills %}
+              <span class="badge-skill"><i class="bi bi-check2 text-primary"></i> {{ s }}</span>
+            {% endfor %}
+          </div>
+        {% else %}
+          <div class="p-3 text-center border rounded-3 bg-light mb-4">
+            <span class="text-muted small">No skills extracted yet. Upload a resume to profile your competencies.</span>
+          </div>
+        {% endif %}
       </div>
 
       <!-- Quick Action Buttons to Tools -->

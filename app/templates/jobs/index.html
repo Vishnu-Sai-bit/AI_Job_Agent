@@ -25,7 +25,7 @@
   <div class="alert alert-success d-flex align-items-center mb-4 rounded-3 border-success-subtle bg-success-subtle py-2 px-3 shadow-sm">
     <i class="bi bi-patch-check-fill text-success fs-3 me-3"></i>
     <div class="small">
-      <strong class="text-success d-block fs-6">Personalized Resume Matching Active</strong>
+      <strong class="text-success d-block fs-6">Personalized Resume Matching Active ({{ jobs|length }} Matches)</strong>
       Showing opportunities specifically matched to your resume: 
       <span class="badge bg-success text-white">{{ candidate.preferred_role or 'Target Role' }}</span>
       <span class="badge bg-primary text-white">{{ candidate.experience_years or 0 }} yrs experience</span>
@@ -37,8 +37,8 @@
   <div class="alert alert-info d-flex align-items-center mb-4 rounded-3 border-info-subtle bg-info-subtle py-2 px-3 shadow-sm">
     <i class="bi bi-info-circle-fill text-primary fs-3 me-3"></i>
     <div class="small">
-      <strong class="text-primary d-block">Discovery Mode</strong>
-      <span><a href="{{ url_for('resumes.index') }}" class="fw-bold text-decoration-underline text-primary">Upload your resume in Step 1</a> to automatically calibrate job search results to your exact skills and experience level.</span>
+      <strong class="text-primary d-block">Discovery Mode ({{ jobs|length }} Openings Available)</strong>
+      <span>No resume uploaded yet. Showing general vacancies across employers. <a href="{{ url_for('resumes.index') }}" class="fw-bold text-decoration-underline text-primary">Upload your resume in Step 1</a> to evaluate your ATS score and unlock personalized job matching tailored to your skills.</span>
     </div>
   </div>
 {% endif %}
@@ -88,7 +88,7 @@
 <!-- Segment Filter Tabs (From Design Board Item 10) -->
 <div class="filter-tabs-container">
   <a href="{{ url_for('jobs.index') }}" class="filter-tab-pill {% if not request.args.get('mode') and not request.args.get('location') %}active{% endif %}">
-    All Opportunities ({{ total_count or jobs|length }})
+    {% if has_resume %}Personalized Matches ({{ total_count or jobs|length }}){% else %}All Opportunities ({{ total_count or jobs|length }}){% endif %}
   </a>
   <a href="{{ url_for('jobs.index') }}?location=Remote&mode=remote" class="filter-tab-pill {% if request.args.get('mode') == 'remote' %}active{% endif %}">
     Remote ({{ remote_count or 6 }})
@@ -139,9 +139,15 @@
 
             <!-- Right: Match Score Badge -->
             <div>
-              <span class="badge-match fs-6">
-                <i class="bi bi-stars"></i> {{ job.match_score }}% Match
-              </span>
+              {% if has_resume and job.match_score %}
+                <span class="badge-match fs-6">
+                  <i class="bi bi-stars"></i> {{ job.match_score }}% Match
+                </span>
+              {% else %}
+                <span class="badge bg-secondary-subtle text-secondary border border-secondary-subtle px-3 py-2 small fw-semibold rounded-pill">
+                  <i class="bi bi-eye"></i> Discovery
+                </span>
+              {% endif %}
             </div>
           </div>
 
@@ -152,15 +158,24 @@
 
           <!-- Skills Compatibility Row -->
           <div class="mb-3">
-            <span class="text-muted small fw-semibold d-block mb-1">Skills Compatibility:</span>
-            <div class="d-flex flex-wrap gap-2">
-              {% for sm in job.matching_skills %}
-                <span class="badge-skill-match"><i class="bi bi-check-circle-fill me-1"></i> {{ sm }}</span>
-              {% endfor %}
-              {% for ms in job.missing_skills %}
-                <span class="badge-skill-missing"><i class="bi bi-plus-circle me-1"></i> {{ ms }}</span>
-              {% endfor %}
-            </div>
+            {% if has_resume %}
+              <span class="text-muted small fw-semibold d-block mb-1">Skills Compatibility:</span>
+              <div class="d-flex flex-wrap gap-2">
+                {% for sm in job.matching_skills %}
+                  <span class="badge-skill-match"><i class="bi bi-check-circle-fill me-1"></i> {{ sm }}</span>
+                {% endfor %}
+                {% for ms in job.missing_skills %}
+                  <span class="badge-skill-missing"><i class="bi bi-plus-circle me-1"></i> {{ ms }}</span>
+                {% endfor %}
+              </div>
+            {% else %}
+              <span class="text-muted small fw-semibold d-block mb-1">Key Required Skills:</span>
+              <div class="d-flex flex-wrap gap-2">
+                {% for s in (job.skills or [])[:6] %}
+                  <span class="badge-skill"><i class="bi bi-tag text-primary me-1"></i> {{ s }}</span>
+                {% endfor %}
+              </div>
+            {% endif %}
           </div>
 
           <!-- Card Bottom Action Row -->
