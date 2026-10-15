@@ -553,20 +553,30 @@ elif cur_idx == 2:
     st.markdown("""
     <div class="step-banner">
         <strong>Step 3 of 7 — Show Job Searches</strong><br>
-        Aggregated live openings across Remotive, RemoteOK, and ArbeitNow, ranked by fit with match percentages and apply links.
+        Curated opportunities matched specifically against your resume, verified skills stack, and experience level.
     </div>
     """, unsafe_allow_html=True)
+
+    res_profile = st.session_state.resume_data
+    has_res = bool(st.session_state.raw_resume_text or (res_profile and res_profile.skills))
+    
+    if has_res:
+        skills_preview = ', '.join(res_profile.skills[:4]) + ('...' if len(res_profile.skills) > 4 else '')
+        st.success(f"🎯 **Personalized Resume Matching Active:** Filtered for **{res_profile.preferred_role or 'Candidate'}** • **{res_profile.experience_years} yrs experience** • **{len(res_profile.skills)} skills** ({skills_preview})")
+    else:
+        st.info("💡 **Tip:** Upload your resume in Step 1 to automatically calibrate job search results to your exact skills and experience level.")
 
     # Search & Filter Controls
     sc1, sc2, sc3 = st.columns([2, 1, 1])
     with sc1:
-        target_role_input = st.text_input("Role Title Filter:", value=st.session_state.target_role)
+        default_role_val = st.session_state.target_role or (res_profile.preferred_role if has_res else "Data Analyst")
+        target_role_input = st.text_input("Role Title Filter:", value=default_role_val)
     with sc2:
         min_fit = st.slider("Min Match Fit %:", min_value=30, max_value=90, value=50, step=5)
     with sc3:
         st.write("&nbsp;")
-        if st.button("🔍 Fetch Live Jobs", type="primary", use_container_width=True):
-            with st.spinner("Fetching live jobs from Remotive, RemoteOK, and ArbeitNow..."):
+        if st.button("🔍 Fetch Live APIs", type="primary", use_container_width=True):
+            with st.spinner("Fetching live jobs from LinkedIn, Adzuna, Remotive, and connected APIs..."):
                 fresh = execute_job_collection(role=target_role_input, location=st.session_state.preferred_location)
                 st.session_state.collected_jobs = fresh
                 st.session_state.matched_jobs = match_jobs(st.session_state.resume_data, fresh)
@@ -574,8 +584,12 @@ elif cur_idx == 2:
             st.rerun()
 
     filtered_jobs = [j for j in st.session_state.matched_jobs if (j.match_score or 0) >= min_fit]
+    
+    if target_role_input and target_role_input.strip():
+        q = target_role_input.lower().strip()
+        filtered_jobs = [j for j in filtered_jobs if q in j.title.lower() or any(q in s.lower() for s in (j.skills or [])) or any(w in j.title.lower() for w in q.split() if len(w) > 3)]
 
-    st.caption(f"Showing {len(filtered_jobs)} matching vacancies:")
+    st.caption(f"Showing **{len(filtered_jobs)} tailored opportunities** matching your candidate criteria:")
 
     if not filtered_jobs:
         st.info("No openings match this fit threshold. Lower the slider above or fetch fresh openings.")

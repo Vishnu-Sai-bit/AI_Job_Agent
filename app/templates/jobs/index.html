@@ -20,6 +20,29 @@
   </div>
 </div>
 
+<!-- Personalized Resume Match Notice -->
+{% if has_resume and candidate.skills %}
+  <div class="alert alert-success d-flex align-items-center mb-4 rounded-3 border-success-subtle bg-success-subtle py-2 px-3 shadow-sm">
+    <i class="bi bi-patch-check-fill text-success fs-3 me-3"></i>
+    <div class="small">
+      <strong class="text-success d-block fs-6">Personalized Resume Matching Active</strong>
+      Showing opportunities specifically matched to your resume: 
+      <span class="badge bg-success text-white">{{ candidate.preferred_role or 'Target Role' }}</span>
+      <span class="badge bg-primary text-white">{{ candidate.experience_years or 0 }} yrs experience</span>
+      <span class="badge bg-dark text-white">{{ candidate.skills|length }} verified skills</span>
+      <span class="text-secondary ms-1">({{ candidate.skills[:5]|join(', ') }}{% if candidate.skills|length > 5 %}...{% endif %})</span>
+    </div>
+  </div>
+{% else %}
+  <div class="alert alert-info d-flex align-items-center mb-4 rounded-3 border-info-subtle bg-info-subtle py-2 px-3 shadow-sm">
+    <i class="bi bi-info-circle-fill text-primary fs-3 me-3"></i>
+    <div class="small">
+      <strong class="text-primary d-block">Discovery Mode</strong>
+      <span><a href="{{ url_for('resumes.index') }}" class="fw-bold text-decoration-underline text-primary">Upload your resume in Step 1</a> to automatically calibrate job search results to your exact skills and experience level.</span>
+    </div>
+  </div>
+{% endif %}
+
 <!-- Modern Filter Bar (From Design Board Item 10) -->
 <div class="card card-clean p-4 mb-4">
   <form method="GET" action="{{ url_for('jobs.index') }}">
@@ -44,9 +67,9 @@
         <label class="form-label text-muted small fw-bold mb-1">Experience</label>
         <select name="experience" class="form-select">
           <option value="">All Levels</option>
-          <option value="0-2">0-2 years (Entry)</option>
-          <option value="2-5">2-5 years (Mid-Level)</option>
-          <option value="5+">5+ years (Senior)</option>
+          <option value="0-2" {% if exp_filter == '0-2' %}selected{% endif %}>0-2 years (Entry)</option>
+          <option value="2-5" {% if exp_filter == '2-5' %}selected{% endif %}>2-5 years (Mid-Level)</option>
+          <option value="5+" {% if exp_filter == '5+' %}selected{% endif %}>5+ years (Senior)</option>
         </select>
       </div>
 
@@ -103,6 +126,9 @@
                   <span class="fw-semibold text-secondary small"><i class="bi bi-building me-1"></i> {{ job.company }}</span>
                   <span class="badge-location"><i class="bi bi-geo-alt-fill"></i> {{ job.location }}</span>
                   <span class="badge-jobtype"><i class="bi bi-briefcase-fill"></i> {{ job.experience or 'Full-time' }}</span>
+                  {% if job.experience_fit_note %}
+                    <span class="badge bg-primary-subtle text-primary border border-primary-subtle px-2 py-1 small fw-semibold"><i class="bi bi-person-badge me-1"></i> {{ job.experience_fit_note }}</span>
+                  {% endif %}
                   {% if job.salary and job.salary != 'Competitive' %}
                     <span class="badge bg-success-subtle text-success border border-success-subtle px-2 py-1 small fw-semibold"><i class="bi bi-cash-stack me-1"></i> {{ job.salary }}</span>
                   {% endif %}

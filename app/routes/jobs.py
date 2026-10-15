@@ -78,14 +78,70 @@ def match_skills(job_skills, candidate_skills_set):
             missing.append(s_clean)
     return matching, missing
 
+def is_role_relevant(job_title: str, target_role: str) -> tuple:
+    """Check if job title matches candidate role or its related domain aliases."""
+    if not target_role:
+        return True, 75.0
+    
+    t_lower = target_role.lower().strip()
+    j_lower = job_title.lower().strip()
+    
+    if t_lower in j_lower:
+        return True, 100.0
+        
+    from services.matcher.job_matcher import ROLE_ALIASES
+    
+    for base_role, aliases in ROLE_ALIASES.items():
+        if base_role in t_lower or t_lower in base_role:
+            if any(alias in j_lower for alias in aliases):
+                return True, 85.0
+                
+    t_words = [w for w in t_lower.split() if len(w) > 2]
+    overlap = sum(1 for w in t_words if w in j_lower)
+    if overlap > 0:
+        return True, round(50.0 + (overlap / len(t_words)) * 35.0, 1)
+        
+    return False, 0.0
+
+def check_experience_fit(cand_exp: float, job_exp_str: str) -> tuple:
+    """Calculate experience alignment."""
+    import re
+    if not job_exp_str:
+        return True, 85.0, "General Exp"
+    
+    nums = re.findall(r"\d+", job_exp_str)
+    if not nums:
+        return True, 85.0, job_exp_str
+        
+    min_exp = float(nums[0])
+    max_exp = float(nums[1]) if len(nums) > 1 else (min_exp + 3.0)
+    
+    if min_exp <= cand_exp <= max_exp:
+        return True, 100.0, f"Aligned ({job_exp_str} fits your {cand_exp:g} yrs)"
+    elif cand_exp >= max_exp:
+        return True, 90.0, f"Qualified ({cand_exp:g} yrs qualifies for {job_exp_str})"
+    elif cand_exp >= (min_exp - 1.0):
+        return True, 75.0, f"Target Fit ({job_exp_str})"
+    else:
+        return False, 30.0, f"Requires {job_exp_str}"
+
 @jobs_bp.route("/")
 def index():
     candidate = get_candidate_context()
+    has_resume = bool(candidate.get("has_resume"))
     candidate_skills = {s.lower().strip() for s in candidate.get("skills", [])}
-    candidate_role = candidate.get("preferred_role", "").lower().strip()
+    candidate_role = candidate.get("preferred_role", "").strip()
+    candidate_exp = float(candidate.get("experience_years", 0) or 0)
+    candidate_loc = candidate.get("preferred_location", "").strip()
 
-    role_filter = request.args.get("role", "").strip()
-    loc_filter = request.args.get("location", "").strip()
+    # Pre-populate filters from candidate resume if user has not entered a custom query
+    requested_role = request.args.get("role")
+    role_filter = requested_role.strip() if requested_role is not None else (candidate_role if has_resume else "")
+    
+    requested_loc = request.args.get("location")
+    loc_filter = requested_loc.strip() if requested_loc is not None else ""
+    
+    exp_filter = request.args.get("experience", "").strip()
     mode_filter = request.args.get("mode", "").strip()
     fetch_live = request.args.get("live", "").lower() in ("true", "1", "yes")
 
@@ -97,7 +153,8 @@ def index():
             from services.jobs.live_job_aggregator import aggregate_live_jobs
             live_res = aggregate_live_jobs(
                 role=role_filter or candidate_role or "Data Analyst",
-                location=loc_filter or "India",
+                location=loc_filter or candidate_loc or "India",
+                candidate_skills=list(candidate_skills),
                 max_total=30
             )
             live_jobs = live_res.get("jobs", [])
@@ -107,15 +164,18 @@ def index():
                 if combo not in seen_combos:
                     seen_combos.add(combo)
                     raw_jobs.append(lj)
-            flash(f"Fetched {len(live_jobs)} live job postings from active APIs!", "success")
+            flash(f"Fetched {len(live_jobs)} live job postings tailored from active APIs!", "success")
         except Exception as e:
             flash(f"Live aggregation notice: {e}", "info")
 
+    active_target_role = role_filter or candidate_role
     scored_jobs = []
 
     for j in raw_jobs:
         j_title = j.get("title", "")
         j_loc = j.get("location", "")
+        j_exp = j.get("experience", "1-3 yrs")
+        j_skills = j.get("skills", [])
         
         # Apply mode filter if present
         if mode_filter == "remote" and "remote" not in j_loc.lower():
@@ -125,19 +185,51 @@ def index():
         elif mode_filter == "hybrid" and "hybrid" not in j_loc.lower():
             continue
 
-        if role_filter and role_filter.lower() not in j_title.lower():
-            continue
+        # Location filter if specified
         if loc_filter and loc_filter.lower() not in j_loc.lower():
             continue
 
-        j_skills = j.get("skills", [])
-        matching, missing = match_skills(j_skills, candidate_skills)
-        
-        skill_pct = (len(matching) / len(j_skills) * 100.0) if j_skills else 80.0
-        role_pct = 100.0 if (candidate_role and candidate_role in j_title.lower()) else (80.0 if "analyst" in j_title.lower() else 55.0)
+        # Experience dropdown filter if selected
+        if exp_filter:
+            if exp_filter == "0-2" and not any(k in j_exp for k in ["0-2", "1-2", "0-1", "fresher"]):
+                continue
+            elif exp_filter == "2-5" and not any(k in j_exp for k in ["2-4", "2-5", "1-3", "3-5"]):
+                continue
+            elif exp_filter == "5+" and not any(k in j_exp for k in ["5+", "5-8", "6+", "7+"]):
+                continue
 
-        match_score = round(0.40 * role_pct + 0.45 * skill_pct + 15.0, 1)
+        # Skill matching
+        matching, missing = match_skills(j_skills, candidate_skills)
+        skill_pct = (len(matching) / len(j_skills) * 100.0) if j_skills else (75.0 if has_resume else 50.0)
+
+        # Role relevance & Experience fit
+        is_rel, role_score = is_role_relevant(j_title, active_target_role)
+        is_exp_fit, exp_score, exp_note = check_experience_fit(candidate_exp, j_exp)
+
+        # Strict Personalized Resume-Based Filtering:
+        # When a resume is present and no custom override keyword is typed,
+        # eliminate irrelevant jobs that do not match the candidate's domain skills or role
+        if has_resume:
+            if requested_role:
+                # Custom search in progress: check keyword match in title or skills
+                q = requested_role.lower().strip()
+                if q not in j_title.lower() and not any(q in s.lower() for s in j_skills):
+                    continue
+            else:
+                # Automatic personalized matching:
+                if not is_rel and len(matching) == 0:
+                    continue
+                # If candidate is junior (<= 2 yrs), exclude senior/lead 5+ yrs postings
+                if candidate_exp <= 2.0 and any(k in j_exp for k in ["5-8", "5+", "6+", "7+"]):
+                    continue
+
+        # Multi-factor score: 40% role relevance + 40% skills alignment + 20% experience fit
+        match_score = round(0.40 * role_score + 0.40 * skill_pct + 0.20 * exp_score, 1)
         match_score = min(100.0, max(30.0, match_score))
+
+        # Filter out very low matches (< 48%) in personalized mode
+        if has_resume and not requested_role and match_score < 48.0:
+            continue
 
         scored_jobs.append({
             "id": j.get("id"),
@@ -145,7 +237,8 @@ def index():
             "company": j.get("company"),
             "location": j_loc,
             "salary": j.get("salary", "Competitive"),
-            "experience": j.get("experience", "1-3 yrs"),
+            "experience": j_exp,
+            "experience_fit_note": exp_note,
             "source": j.get("source", "Verified Portal"),
             "url": j.get("url", "https://careers.google.com"),
             "description": j.get("description", ""),
@@ -156,18 +249,19 @@ def index():
 
     scored_jobs.sort(key=lambda x: x["match_score"], reverse=True)
 
-    # Dynamic location segment counts
-    all_raw = load_verified_jobs()
-    remote_count = sum(1 for j in all_raw if "remote" in (j.get("location") or "").lower())
-    hyd_count = sum(1 for j in all_raw if "hyderabad" in (j.get("location") or "").lower())
-    blr_count = sum(1 for j in all_raw if any(b in (j.get("location") or "").lower() for b in ["bangalore", "bengaluru"]))
+    # Dynamic location segment counts for matching jobs
+    remote_count = sum(1 for j in scored_jobs if "remote" in (j.get("location") or "").lower())
+    hyd_count = sum(1 for j in scored_jobs if "hyderabad" in (j.get("location") or "").lower())
+    blr_count = sum(1 for j in scored_jobs if any(b in (j.get("location") or "").lower() for b in ["bangalore", "bengaluru"]))
 
     return render_template(
         "jobs/index.html",
         jobs=scored_jobs,
         candidate=candidate,
+        has_resume=has_resume,
         role_filter=role_filter,
         loc_filter=loc_filter,
+        exp_filter=exp_filter,
         remote_count=remote_count,
         hyd_count=hyd_count,
         blr_count=blr_count,
