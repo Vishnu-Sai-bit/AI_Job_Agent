@@ -197,12 +197,12 @@
       <!-- Bottom User Profile Pill (From Design Board Item 5) -->
       <div class="sidebar-user-card mt-auto mb-3">
         <div class="user-avatar-circle">
-          <span>{{ (candidate.candidate_name[:2] if candidate and candidate.candidate_name else 'JD').upper() }}</span>
+          <span>{{ (candidate.candidate_name[:2] if candidate is defined and candidate and candidate.candidate_name else 'JD').upper() }}</span>
           <span class="status-dot-online"></span>
         </div>
         <div class="d-flex flex-column text-truncate" style="line-height: 1.2;">
-          <span class="text-white fw-bold small text-truncate">{{ candidate.candidate_name or 'Candidate' }}</span>
-          <span class="text-secondary" style="font-size: 0.72rem;">{{ candidate.preferred_role or 'Job Seeker' }}</span>
+          <span class="text-white fw-bold small text-truncate">{{ (candidate.candidate_name if candidate is defined and candidate else '') or 'Candidate' }}</span>
+          <span class="text-secondary" style="font-size: 0.72rem;">{{ (candidate.preferred_role if candidate is defined and candidate else '') or 'Job Seeker' }}</span>
         </div>
       </div>
     </aside>

@@ -54,6 +54,7 @@ def create_app():
     @app.context_processor
     def utility_processor():
         from app.routes.notifications import mock_notifications
+        from app.routes.main import get_candidate_context
         unread_count = sum(1 for n in mock_notifications if not n.get("is_read"))
         return {
             "round": round,
@@ -63,6 +64,7 @@ def create_app():
             "len": len,
             "navbar_notifications": mock_notifications,
             "unread_notifications_count": unread_count,
+            "candidate": get_candidate_context(),
         }
 
     # Register custom error handlers
