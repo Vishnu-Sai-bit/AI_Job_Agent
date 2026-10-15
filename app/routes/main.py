@@ -4,7 +4,7 @@ AI Job Copilot - Main Routes (Landing & Dashboard)
 ==========================================================
 """
 
-from flask import Blueprint, render_template, redirect, url_for
+from flask import Blueprint, render_template, redirect, url_for, request
 from flask_login import current_user
 import json
 from pathlib import Path
@@ -105,3 +105,68 @@ def dashboard():
         top_matches=top_matches,
         active_tab="dashboard"
     )
+
+@main_bp.route("/cover-letter", methods=["GET", "POST"])
+def cover_letter():
+    candidate = get_candidate_context()
+    from app.routes.jobs import load_verified_jobs
+    all_jobs = load_verified_jobs()
+    
+    selected_company = request.form.get("company") or request.args.get("company") or (all_jobs[0].get("company") if all_jobs else "Google")
+    selected_role = request.form.get("role") or request.args.get("role") or candidate.get("preferred_role", "Data Analyst")
+    job_desc = request.form.get("job_desc") or "Looking for a Data Analyst skilled in Python, SQL query optimization, data modeling, Tableau dashboard development, and business analytics."
+    
+    from services.cover_letter.cover_letter_generator import generate_cover_letter
+    cover_letter_data = generate_cover_letter(
+        name=candidate.get("candidate_name", "Beere Vishnu Sai"),
+        skills=candidate.get("skills", ["Python", "SQL", "Tableau"]),
+        job_title=selected_role,
+        company=selected_company,
+        job_desc=job_desc
+    )
+    
+    return render_template(
+        "cover_letter/index.html",
+        candidate=candidate,
+        jobs=all_jobs,
+        selected_company=selected_company,
+        selected_role=selected_role,
+        job_desc=job_desc,
+        cover_letter=cover_letter_data,
+        active_tab="cover_letter"
+    )
+
+@main_bp.route("/mail-preparation", methods=["GET", "POST"])
+def mail_preparation():
+    candidate = get_candidate_context()
+    from app.routes.jobs import load_verified_jobs
+    all_jobs = load_verified_jobs()
+    
+    company = request.form.get("company") or request.args.get("company") or (all_jobs[0].get("company") if all_jobs else "Google")
+    role = request.form.get("role") or request.args.get("role") or candidate.get("preferred_role", "Data Analyst")
+    recruiter_name = request.form.get("recruiter_name") or "Alex Mercer"
+    
+    from services.email.email_generator import generate_job_emails
+    emails_data = generate_job_emails(
+        name=candidate.get("candidate_name", "Beere Vishnu Sai"),
+        skills=candidate.get("skills", ["Python", "SQL", "Tableau"]),
+        role=role,
+        company=company,
+        email=candidate.get("email", "vishnusaibeere124@gmail.com"),
+        phone=candidate.get("phone", "+91 9182679641"),
+        linkedin=candidate.get("linkedin", "https://linkedin.com/in/vishnusai"),
+        github=candidate.get("github", "https://github.com/vishnusai"),
+        resume_context=candidate.get("career_summary", "")
+    )
+    
+    return render_template(
+        "mail/index.html",
+        candidate=candidate,
+        jobs=all_jobs,
+        company=company,
+        role=role,
+        recruiter_name=recruiter_name,
+        emails=emails_data,
+        active_tab="mail_preparation"
+    )
+

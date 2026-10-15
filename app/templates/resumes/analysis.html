@@ -5,16 +5,16 @@
 {% block content %}
 <div class="mb-4 d-flex justify-content-between align-items-center flex-wrap gap-3">
   <div>
-    <div class="badge bg-danger-subtle text-danger border border-danger-subtle px-2 py-1 mb-2">Step 4 of 9</div>
-    <h2 class="fw-bold text-white mb-1">ATS Evaluation</h2>
-    <p class="text-secondary mb-0">ATS compatibility overview and recommendations for candidate <strong class="text-light">{{ candidate.candidate_name }}</strong></p>
+    <div class="badge bg-warning-subtle text-warning border border-warning-subtle px-2 py-1 mb-2">Step 2 of 7</div>
+    <h2 class="fw-bold text-white mb-1">Resume & ATS Diagnostic</h2>
+    <p class="text-secondary mb-0">Extracted candidate skills, credentials, and 6-dimension ATS audit for <strong class="text-light">{{ candidate.candidate_name }}</strong></p>
   </div>
   <div class="d-flex gap-2">
-    <a href="{{ url_for('resumes.ai_analysis') }}" class="btn btn-outline-secondary">
-      <i class="bi bi-arrow-left me-1"></i> Back: AI Analysis
+    <a href="{{ url_for('resumes.index') }}" class="btn btn-outline-secondary">
+      <i class="bi bi-arrow-left me-1"></i> Back: Upload
     </a>
-    <a href="{{ url_for('profile.index') }}" class="btn btn-primary fw-semibold">
-      Proceed to Step 5: Job Preferences <i class="bi bi-arrow-right ms-1"></i>
+    <a href="{{ url_for('jobs.index') }}" class="btn btn-primary fw-semibold">
+      Proceed to Step 3: Show Job Searches <i class="bi bi-arrow-right ms-1"></i>
     </a>
   </div>
 </div>
@@ -105,9 +105,9 @@
       </div>
 
       <div class="mt-4 pt-3 border-top border-secondary d-flex justify-content-between align-items-center flex-wrap gap-2">
-        <span class="text-secondary small"><i class="bi bi-check-circle-fill text-success me-1"></i> Diagnostic complete. Ready for job matching.</span>
-        <a href="{{ url_for('profile.index') }}" class="btn btn-primary btn-sm px-3 fw-semibold">
-          Configure Job Preferences <i class="bi bi-arrow-right ms-1"></i>
+        <span class="text-secondary small"><i class="bi bi-check-circle-fill text-success me-1"></i> Diagnostic complete. Ready for job searching.</span>
+        <a href="{{ url_for('jobs.index') }}" class="btn btn-primary btn-sm px-3 fw-semibold">
+          Proceed to Step 3: Show Job Searches <i class="bi bi-arrow-right ms-1"></i>
         </a>
       </div>
     </div>

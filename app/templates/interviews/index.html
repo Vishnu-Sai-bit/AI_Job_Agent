@@ -5,18 +5,19 @@
 {% block content %}
 <div class="mb-4 d-flex justify-content-between align-items-center flex-wrap gap-3">
   <div>
+    <div class="badge bg-danger-subtle text-danger border border-danger-subtle px-2 py-1 mb-2">Step 4 of 7</div>
     <h2 class="fw-bold text-white mb-1">
-      <i class="bi bi-mic-fill text-primary me-2"></i>AI Mock Interview Studio
+      <i class="bi bi-mic-fill text-danger me-2"></i>Prepare for Interview
     </h2>
-    <p class="text-secondary mb-0">Simulate company-specific interview rounds, receive calibrated questions, and evaluate answers with STAR rubric feedback.</p>
+    <p class="text-secondary mb-0">Simulate company-specific interview rounds, receive calibrated questions, and evaluate answers with STAR rubric feedback</p>
   </div>
-  <div class="d-flex align-items-center gap-2">
-    <span class="badge bg-dark border border-secondary text-info px-3 py-2">
-      <i class="bi bi-building me-1"></i> {{ company }}
-    </span>
-    <span class="badge bg-dark border border-secondary text-light px-3 py-2">
-      <i class="bi bi-person-workspace me-1"></i> {{ role }}
-    </span>
+  <div class="d-flex gap-2 align-items-center">
+    <a href="{{ url_for('jobs.index') }}" class="btn btn-outline-secondary">
+      <i class="bi bi-arrow-left me-1"></i> Back: Show Job Searches
+    </a>
+    <a href="{{ url_for('main.cover_letter') }}" class="btn btn-primary fw-semibold">
+      Proceed to Step 5: Cover Letter Preparation <i class="bi bi-arrow-right ms-1"></i>
+    </a>
   </div>
 </div>
 

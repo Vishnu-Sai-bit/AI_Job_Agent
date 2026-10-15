@@ -5,13 +5,13 @@
 {% block content %}
 <div class="mb-4 d-flex justify-content-between align-items-center flex-wrap gap-3">
   <div>
-    <div class="badge bg-primary-subtle text-primary border border-primary-subtle px-2 py-1 mb-2">Step 1 of 9</div>
-    <h2 class="fw-bold text-white mb-1">Resume Upload</h2>
+    <div class="badge bg-primary-subtle text-primary border border-primary-subtle px-2 py-1 mb-2">Step 1 of 7</div>
+    <h2 class="fw-bold text-white mb-1">Upload Resume</h2>
     <p class="text-secondary mb-0">Upload your PDF or DOCX resume for automated parsing and analysis</p>
   </div>
   <div class="d-flex gap-2">
-    <a href="{{ url_for('resumes.parsed') }}" class="btn btn-primary fw-semibold">
-      Proceed to Step 2: Resume Parsing <i class="bi bi-arrow-right ms-1"></i>
+    <a href="{{ url_for('resumes.analyze') }}" class="btn btn-primary fw-semibold">
+      Proceed to Step 2: Resume <i class="bi bi-arrow-right ms-1"></i>
     </a>
   </div>
 </div>
@@ -93,8 +93,8 @@
       <div class="mt-auto pt-3 border-top border-secondary d-flex justify-content-between align-items-center flex-wrap gap-2">
         <span class="text-secondary small"><i class="bi bi-info-circle me-1"></i> Ready for ATS diagnostic and scoring</span>
         <div class="d-flex gap-2">
-          <a href="{{ url_for('resumes.parsed') }}" class="btn btn-primary btn-sm px-3 fw-semibold">
-            Proceed to Step 2: Resume Parsing <i class="bi bi-arrow-right ms-1"></i>
+          <a href="{{ url_for('resumes.analyze') }}" class="btn btn-primary btn-sm px-3 fw-semibold">
+            Proceed to Step 2: Resume <i class="bi bi-arrow-right ms-1"></i>
           </a>
         </div>
       </div>

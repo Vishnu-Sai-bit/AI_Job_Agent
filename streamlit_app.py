@@ -4,16 +4,22 @@ AI Job Agent - User-Friendly Career Intelligence Platform
 Author: Beere Vishnu Sai
 100% Pure Python Implementation (Streamlit UI)
 
-Sequential 9-Step Workflow:
-Resume Upload → Resume Parsing → AI Analysis → ATS Evaluation →
-Job Preferences → Job Collection → Job Matching →
-Ranked Results Dashboard → Resume Improvement and Application Assistance
+Sequential 7-Step Career Lifecycle Workflow:
+1. Upload
+2. Resume
+3. Show Job Searches
+4. Prepare for Interview
+5. Cover Letter Preparation
+6. Mail Preparation
+7. Application CRM
 ====================================================================
 """
 
 import os
 import sys
 import json
+import uuid
+from datetime import datetime, timedelta
 from pathlib import Path
 from typing import List, Dict, Any, Optional
 
@@ -33,6 +39,14 @@ from services.resume.resume_analyzer import analyze_resume
 from services.ats.ats_calculator import calculate_ats
 from services.matcher.job_matcher import match_jobs
 from services.resume.resume_tailorer import tailor_resume_for_job
+from services.cover_letter.cover_letter_generator import generate_cover_letter
+from services.email.email_generator import generate_job_emails
+from services.interview.interview_generator import generate_interview_questions
+from services.crm.application_crm import (
+    get_all_applications,
+    add_or_update_application,
+    delete_application
+)
 from services.jobs.live_job_aggregator import (
     fetch_arbeitnow_live,
     fetch_remoteok_live,
@@ -40,7 +54,7 @@ from services.jobs.live_job_aggregator import (
 )
 
 # ------------------------------------------------------------------
-# Page Setup & Modern Styling
+# Page Setup & Modern Dark Theme Styling
 # ------------------------------------------------------------------
 st.set_page_config(
     page_title="AI Job Agent",
@@ -61,11 +75,6 @@ st.markdown("""
         letter-spacing: -0.5px;
         color: #ffffff;
         margin-bottom: 4px;
-    }
-    .hero-subtitle {
-        font-size: 0.92rem;
-        color: #94a3b8;
-        margin-bottom: 1.2rem;
     }
     .step-banner {
         background: linear-gradient(135deg, rgba(59, 130, 246, 0.12), rgba(99, 102, 241, 0.12));
@@ -138,6 +147,14 @@ st.markdown("""
         border-radius: 10px;
         padding: 1rem;
         text-align: center;
+    }
+    .letter-paper {
+        background: #0f172a;
+        border: 1px solid #334155;
+        border-radius: 10px;
+        padding: 1.5rem;
+        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        line-height: 1.8;
     }
 </style>
 """, unsafe_allow_html=True)
@@ -262,12 +279,6 @@ if "target_role" not in st.session_state:
 if "preferred_location" not in st.session_state:
     st.session_state.preferred_location = "Hyderabad"
 
-if "home_location" not in st.session_state:
-    st.session_state.home_location = "Hyderabad, India"
-
-if "work_mode" not in st.session_state:
-    st.session_state.work_mode = "Remote"
-
 if "raw_resume_text" not in st.session_state:
     st.session_state.raw_resume_text = (
         "Beere Vishnu Sai\n"
@@ -290,18 +301,18 @@ if "raw_resume_text" not in st.session_state:
     )
 
 # ------------------------------------------------------------------
-# Define the Exact 9-Step Sequential Workflow
+# Define the Exact 7-Step Workflow Requested by User:
+# upload, resume, show job searches, prepare for interview,
+# cover letter preparation, mail preparation, application crm
 # ------------------------------------------------------------------
 WORKFLOW_STEPS = [
-    "1. Resume Upload",
-    "2. Resume Parsing",
-    "3. AI Analysis",
-    "4. ATS Evaluation",
-    "5. Job Preferences",
-    "6. Job Collection",
-    "7. Job Matching",
-    "8. Ranked Results Dashboard",
-    "9. Resume Improvement and Application Assistance"
+    "1. Upload",
+    "2. Resume",
+    "3. Show Job Searches",
+    "4. Prepare for Interview",
+    "5. Cover Letter Preparation",
+    "6. Mail Preparation",
+    "7. Application CRM"
 ]
 
 if "current_step_idx" not in st.session_state:
@@ -309,18 +320,18 @@ if "current_step_idx" not in st.session_state:
 
 
 # ------------------------------------------------------------------
-# Sidebar: Exact 9-Step Workflow Navigation & Candidate Status
+# Sidebar: Exact 7-Step Flow Navigation & Candidate Status
 # ------------------------------------------------------------------
 with st.sidebar:
     st.markdown("### 💼 AI Job Agent")
-    st.caption("Autonomous Career Intelligence Platform")
+    st.caption("Autonomous Career Copilot")
     st.markdown("---")
 
     # Candidate Quick Status
     res = st.session_state.resume_data
     ats = st.session_state.ats_report
     st.markdown(f"**👤 {res.name}**")
-    st.caption(f"📍 Home: {res.location or 'Hyderabad, India'}")
+    st.caption(f"📍 Location: {res.location or 'Hyderabad, India'}")
     
     col_s1, col_s2 = st.columns(2)
     with col_s1:
@@ -329,24 +340,24 @@ with st.sidebar:
         st.metric("Skills", len(res.skills))
 
     st.markdown("---")
-    st.markdown("##### 🧭 Workflow Pipeline")
+    st.markdown("##### 🧭 Career Workflow Pipeline")
 
     # Radio selection driven by current step index
     selected_step_str = st.radio(
-        "Select Step:",
+        "Workflow:",
         WORKFLOW_STEPS,
         index=st.session_state.current_step_idx,
         label_visibility="collapsed"
     )
     
-    # Sync if user manually clicked a radio item
+    # Sync if user clicked a radio item
     new_step_idx = WORKFLOW_STEPS.index(selected_step_str)
     if new_step_idx != st.session_state.current_step_idx:
         st.session_state.current_step_idx = new_step_idx
         st.rerun()
 
     st.markdown("---")
-    if st.button("🔄 Reset to Default Profile", use_container_width=True):
+    if st.button("🔄 Reset Sample Profile", use_container_width=True):
         st.session_state.resume_data = load_initial_profile()
         st.session_state.ats_report = calculate_ats(st.session_state.resume_data)
         st.session_state.collected_jobs = load_initial_jobs()
@@ -354,10 +365,10 @@ with st.sidebar:
         st.session_state.target_role = "Data Analyst"
         st.session_state.preferred_location = "Hyderabad"
         st.session_state.current_step_idx = 0
-        st.success("Default Vishnu profile loaded successfully!")
+        st.success("Loaded Vishnu Sai profile!")
         st.rerun()
 
-    st.caption("Pure Python Architecture • 9 Workflow Modules")
+    st.caption("Pure Python Architecture • 7 Core Modules")
 
 
 # ------------------------------------------------------------------
@@ -366,7 +377,7 @@ with st.sidebar:
 cur_idx = st.session_state.current_step_idx
 step_name = WORKFLOW_STEPS[cur_idx]
 
-# Top Step Banner
+# Top Step Title
 st.markdown(f'<div class="hero-title">{step_name}</div>', unsafe_allow_html=True)
 
 # Navigation Helper Function
@@ -386,19 +397,19 @@ def render_step_footer(prev_idx: Optional[int], next_idx: Optional[int], next_la
 
 
 # ==================================================================
-# STEP 1: RESUME UPLOAD
+# STEP 1: UPLOAD
 # ==================================================================
 if cur_idx == 0:
     st.markdown("""
     <div class="step-banner">
-        <strong>Step 1 of 9 — Resume Ingestion</strong><br>
-        Upload your resume in PDF, DOCX, or TXT format. Text and structure will be automatically extracted.
+        <strong>Step 1 of 7 — Resume Upload</strong><br>
+        Upload your latest resume (.pdf, .docx, or .txt). The AI will ingest and extract text and structural sections.
     </div>
     """, unsafe_allow_html=True)
 
     col_u1, col_u2 = st.columns([1, 1])
     with col_u1:
-        st.subheader("📄 Upload Document")
+        st.subheader("📄 Upload Resume Document")
         uploaded = st.file_uploader("Select Resume File:", type=["pdf", "docx", "txt"])
         
         if uploaded is not None:
@@ -407,345 +418,137 @@ if cur_idx == 0:
             with open(save_path, "wb") as f:
                 f.write(uploaded.getbuffer())
             
-            with st.spinner("Extracting text and building initial candidate profile..."):
+            with st.spinner("Extracting text and building candidate profile..."):
                 raw_text = extract_resume_text(save_path)
                 st.session_state.raw_resume_text = raw_text
                 st.session_state.resume_data = analyze_resume(raw_text)
                 st.session_state.ats_report = calculate_ats(st.session_state.resume_data)
                 st.session_state.matched_jobs = match_jobs(st.session_state.resume_data, st.session_state.collected_jobs)
-            st.success(f"'{uploaded.name}' uploaded and processed successfully!")
+            st.success(f"'{uploaded.name}' ingested and processed successfully!")
 
         st.markdown("---")
-        st.markdown("##### Or Use Pre-loaded Candidate Profile")
-        if st.button("Load Vishnu Sai Data Analyst Resume", use_container_width=True):
+        st.markdown("##### Or Load Pre-Configured Sample")
+        if st.button("Use Sample Vishnu Sai Resume (Data Analyst)", use_container_width=True):
             st.session_state.resume_data = load_initial_profile()
             st.session_state.ats_report = calculate_ats(st.session_state.resume_data)
             st.session_state.matched_jobs = match_jobs(st.session_state.resume_data, st.session_state.collected_jobs)
             st.success("Sample Data Analyst profile loaded!")
 
     with col_u2:
-        st.subheader("📋 Ingestion Status & Preview")
-        st.write(f"- **Candidate:** {st.session_state.resume_data.name}")
-        st.write(f"- **Target Role:** {st.session_state.resume_data.preferred_role}")
-        st.write(f"- **Extracted Character Count:** {len(st.session_state.raw_resume_text)} characters")
-        st.write(f"- **Identified Skills:** {len(st.session_state.resume_data.skills)} skills found")
+        st.subheader("📋 Ingestion Summary & Preview")
+        res = st.session_state.resume_data
+        st.write(f"- **Candidate Name:** {res.name}")
+        st.write(f"- **Target Job Title:** {res.preferred_role}")
+        st.write(f"- **Extracted Length:** {len(st.session_state.raw_resume_text)} characters")
+        st.write(f"- **Identified Skills:** {len(res.skills)} verified skills")
 
-        with st.expander("Inspect Extracted Raw Text", expanded=False):
+        with st.expander("View Extracted Raw Resume Text", expanded=False):
             st.text_area("Extracted Text", st.session_state.raw_resume_text, height=220, disabled=True)
 
-    render_step_footer(None, 1, "Proceed to Resume Parsing")
+    render_step_footer(None, 1, "Proceed to 2. Resume")
 
 
 # ==================================================================
-# STEP 2: RESUME PARSING
+# STEP 2: RESUME
 # ==================================================================
 elif cur_idx == 1:
     st.markdown("""
     <div class="step-banner">
-        <strong>Step 2 of 9 — Resume Parsing</strong><br>
-        Extraction of candidate coordinates, contact channels, home residence, and structural document segments.
+        <strong>Step 2 of 7 — Resume Analysis & ATS Diagnostic</strong><br>
+        View candidate details, verified skills, credentials, and 6-dimension ATS audit score.
     </div>
     """, unsafe_allow_html=True)
 
     res = st.session_state.resume_data
-    p_col1, p_col2 = st.columns(2)
+    ats = st.session_state.ats_report
 
-    with p_col1:
-        st.subheader("📇 Candidate Coordinates")
+    col_r1, col_r2 = st.columns([1, 1])
+
+    with col_r1:
+        st.subheader("👤 Candidate Profile Coordinates")
         st.markdown(f"""
         <div class="job-card">
             <h4 style="margin: 0; color: #ffffff;">{res.name}</h4>
-            <div style="color: #60a5fa; margin-top: 4px; font-weight: 600;">{res.preferred_role}</div>
+            <div style="color: #60a5fa; margin-top: 4px; font-weight: 600;">{res.preferred_role} • {res.experience_years} yrs exp</div>
             <hr style="border-color: #1f2937;">
             <p style="margin: 4px 0;"><strong>📧 Email:</strong> {res.email or 'vishnusaibeere124@gmail.com'}</p>
             <p style="margin: 4px 0;"><strong>📱 Phone:</strong> {res.phone or '+91 9182679641'}</p>
-            <p style="margin: 4px 0;"><strong>📍 Home Residence:</strong> {res.location or 'Hyderabad, India'}</p>
-            <p style="margin: 4px 0;"><strong>🎯 Preferred Job Location:</strong> {res.preferred_location or 'Hyderabad'}</p>
+            <p style="margin: 4px 0;"><strong>📍 Home Location:</strong> {res.location or 'Hyderabad, India'}</p>
+            <p style="margin: 4px 0;"><strong>🎯 Preferred Work Location:</strong> {res.preferred_location or 'Hyderabad'}</p>
         </div>
         """, unsafe_allow_html=True)
 
-    with p_col2:
-        st.subheader("📑 Document Structure Analysis")
-        st.markdown("""
-        <div class="job-card">
-            <p style="margin: 4px 0;">✔ <strong>Contact Information:</strong> Validated</p>
-            <p style="margin: 4px 0;">✔ <strong>Career Summary:</strong> Identified</p>
-            <p style="margin: 4px 0;">✔ <strong>Technical Skills Section:</strong> Identified</p>
-            <p style="margin: 4px 0;">✔ <strong>Work Experience History:</strong> Identified</p>
-            <p style="margin: 4px 0;">✔ <strong>Education Credentials:</strong> Identified</p>
-            <p style="margin: 4px 0;">✔ <strong>Demonstrated Projects:</strong> Identified</p>
-            <p style="margin: 4px 0;">✔ <strong>Certifications:</strong> Identified</p>
-        </div>
-        """, unsafe_allow_html=True)
-
-    render_step_footer(0, 2, "Proceed to AI Analysis")
-
-
-# ==================================================================
-# STEP 3: AI ANALYSIS
-# ==================================================================
-elif cur_idx == 2:
-    st.markdown("""
-    <div class="step-banner">
-        <strong>Step 3 of 9 — AI Resume Analysis</strong><br>
-        Identifies verified technical skills, education degrees, verified experience, and demonstrated projects.
-    </div>
-    """, unsafe_allow_html=True)
-
-    res = st.session_state.resume_data
-    
-    st.subheader("💡 AI Career Summary")
-    st.info(res.career_summary or "Aspiring Data Analyst skilled in Python, SQL, Tableau, Power BI, and statistical analytics.")
-
-    c_skills, c_edu = st.columns(2)
-    with c_skills:
         st.subheader("🛠 Verified Skills Stack")
         skills_html = "".join([f'<span class="skill-tag">{s}</span>' for s in res.skills])
         st.markdown(skills_html, unsafe_allow_html=True)
 
-    with c_edu:
-        st.subheader("🎓 Education & Credentials")
-        if res.education:
-            for ed in res.education:
-                deg = ed.get("degree") if isinstance(ed, dict) else str(ed)
-                inst = ed.get("institution") if isinstance(ed, dict) else "JNTU"
-                yr = ed.get("year") if isinstance(ed, dict) else "2024"
-                st.write(f"• **{deg}** — {inst} ({yr})")
-        else:
-            st.write("• **B.Tech in Computer Science and Engineering** — JNTU (2024)")
+        if res.career_summary:
+            st.markdown("##### Professional Summary")
+            st.info(res.career_summary)
 
-    st.markdown("---")
-    c_exp, c_proj = st.columns(2)
-    with c_exp:
-        st.subheader("💼 Experience Profile")
-        st.write(f"- **Tenure:** {res.experience_years} years")
-        st.write(f"- **Seniority Level:** {'Junior / Associate' if res.experience_years <= 2 else 'Mid-Senior'}")
-        if res.experience:
-            for exp in res.experience:
-                st.write(f"• {exp.get('title', 'Intern')} at {exp.get('company', 'TechCorp')}")
-        else:
-            st.write("• Junior Data Analyst Intern at TechCorp (6 months)")
-
-    with c_proj:
-        st.subheader("🚀 Demonstrated Projects")
-        if res.projects:
-            for pr in res.projects:
-                p_title = pr.get("title") if isinstance(pr, dict) else str(pr)
-                p_desc = pr.get("description", "") if isinstance(pr, dict) else ""
-                st.write(f"• **{p_title}**: {p_desc}")
-        else:
-            st.write("• **Autonomous AI Job Agent**: End-to-end Python career matching platform.")
-
-    render_step_footer(1, 3, "Proceed to ATS Evaluation")
-
-
-# ==================================================================
-# STEP 4: ATS EVALUATION
-# ==================================================================
-elif cur_idx == 3:
-    st.markdown("""
-    <div class="step-banner">
-        <strong>Step 4 of 9 — ATS Score & Skill Gap Diagnostic</strong><br>
-        6-dimension evaluation measuring keyword alignment, structural integrity, and actionable improvements.
-    </div>
-    """, unsafe_allow_html=True)
-
-    ats = st.session_state.ats_report
-    score_val = ats.score if ats else 85.0
-
-    col_score, col_bars = st.columns([1, 2])
-    with col_score:
+    with col_r2:
+        st.subheader("📊 6-Dimension ATS Audit")
+        score_val = ats.score if ats else 85.0
+        
         st.markdown(f"""
-        <div class="stat-card" style="padding: 2rem 1rem;">
-            <div style="font-size: 0.9rem; color: #94a3b8; text-transform: uppercase;">Overall ATS Score</div>
-            <div style="font-size: 3.2rem; font-weight: 800; color: #34d399; margin: 8px 0;">{score_val:.0f}%</div>
-            <div class="score-pill-high" style="display: inline-block;">★ Top-Tier Candidate Fit</div>
+        <div class="stat-card" style="padding: 1.2rem; margin-bottom: 1rem;">
+            <span style="color: #94a3b8; text-transform: uppercase; font-size: 0.85rem;">Overall ATS Compatibility</span>
+            <div style="font-size: 2.8rem; font-weight: 800; color: #34d399; margin: 4px 0;">{score_val:.0f}%</div>
+            <span class="score-pill-high">★ Top-Tier Candidate Fit</span>
         </div>
         """, unsafe_allow_html=True)
 
-    with col_bars:
-        st.subheader("📊 6-Dimension ATS Breakdown")
-        st.progress(min(1.0, (ats.contact_score or 10) / 10), text=f"Contact Info: {ats.contact_score or 10}/10")
+        st.progress(min(1.0, (ats.contact_score or 10) / 10), text=f"Contact Information: {ats.contact_score or 10}/10")
         st.progress(min(1.0, (ats.skills_score or 32) / 35), text=f"Skills Alignment: {ats.skills_score or 32}/35")
         st.progress(min(1.0, (ats.experience_score or 18) / 20), text=f"Experience Fit: {ats.experience_score or 18}/20")
         st.progress(min(1.0, (ats.education_score or 15) / 15), text=f"Education Verification: {ats.education_score or 15}/15")
         st.progress(min(1.0, (ats.projects_score or 15) / 15), text=f"Projects Demonstrated: {ats.projects_score or 15}/15")
         st.progress(min(1.0, (ats.certifications_score or 5) / 5), text=f"Certifications: {ats.certifications_score or 5}/5")
 
-    st.markdown("---")
-    col_str, col_sug = st.columns(2)
-    with col_str:
-        st.subheader("✅ Key Strengths")
-        for s in (ats.strengths or ["Strong core skills keywords present", "Complete candidate contact coordinates", "Demonstrated hands-on projects"]):
-            st.write(f"• {s}")
+        st.markdown("##### ✅ Strengths & Actionable Advice")
+        for s in (ats.strengths or ["Strong skills keyword alignment", "Complete contact details"])[:2]:
+            st.write(f"• **Strength:** {s}")
+        for sug in (ats.suggestions or ["Add quantifiable outcome percentages"])[:2]:
+            st.write(f"• **Suggestion:** {sug}")
 
-    with col_sug:
-        st.subheader("💡 Actionable Recommendations")
-        for sug in (ats.suggestions or ["Add quantifiable outcome metrics (e.g. 'boosted ETL speed by 30%')", "Include cloud data warehouse keywords like Snowflake or BigQuery"]):
-            st.write(f"• {sug}")
-
-    render_step_footer(2, 4, "Proceed to Job Preferences")
+    render_step_footer(0, 2, "Proceed to 3. Show Job Searches")
 
 
 # ==================================================================
-# STEP 5: JOB PREFERENCES
+# STEP 3: SHOW JOB SEARCHES
 # ==================================================================
-elif cur_idx == 4:
+elif cur_idx == 2:
     st.markdown("""
     <div class="step-banner">
-        <strong>Step 5 of 9 — Configure Job Preferences</strong><br>
-        Set target role, target cities, and work mode. Notice candidate home residence is preserved separately.
+        <strong>Step 3 of 7 — Show Job Searches</strong><br>
+        Aggregated live openings across Remotive, RemoteOK, and ArbeitNow, ranked by fit with match percentages and apply links.
     </div>
     """, unsafe_allow_html=True)
 
-    with st.form("job_preferences_form"):
-        p_c1, p_c2 = st.columns(2)
-        with p_c1:
-            form_role = st.selectbox(
-                "Target Role:",
-                ["Data Analyst", "Python Developer", "Data Scientist", "Software Engineer", "Business Analyst"],
-                index=["Data Analyst", "Python Developer", "Data Scientist", "Software Engineer", "Business Analyst"].index(st.session_state.target_role) if st.session_state.target_role in ["Data Analyst", "Python Developer", "Data Scientist", "Software Engineer", "Business Analyst"] else 0
-            )
-            form_target_loc = st.text_input("Preferred Job Cities / Locations:", value=st.session_state.preferred_location)
-            form_mode = st.selectbox("Preferred Work Mode:", ["Remote", "Hybrid", "On-Site"], index=["Remote", "Hybrid", "On-Site"].index(st.session_state.work_mode))
-        
-        with p_c2:
-            form_home_loc = st.text_input("Candidate Home Residence:", value=st.session_state.home_location, help="Your physical location, kept separate from your target job city.")
-            form_salary = st.text_input("Expected Salary:", value="₹6 - ₹12 LPA")
-            form_exp = st.selectbox("Experience Level:", ["Entry Level (0-2 yrs)", "Mid Level (2-5 yrs)", "Senior Level (5+ yrs)"], index=0)
-
-        submit_prefs = st.form_submit_button("💾 Save Preferences & Re-Rank Matches", type="primary")
-        if submit_prefs:
-            st.session_state.target_role = form_role
-            st.session_state.preferred_location = form_target_loc
-            st.session_state.home_location = form_home_loc
-            st.session_state.work_mode = form_mode
-            st.session_state.resume_data.preferred_role = form_role
-            st.session_state.resume_data.preferred_location = form_target_loc
-            st.session_state.resume_data.location = form_home_loc
-            st.session_state.matched_jobs = match_jobs(st.session_state.resume_data, st.session_state.collected_jobs)
-            st.success("Job preferences saved! Candidate profile and match scores updated.")
-            st.rerun()
-
-    render_step_footer(3, 5, "Proceed to Job Collection")
-
-
-# ==================================================================
-# STEP 6: JOB COLLECTION
-# ==================================================================
-elif cur_idx == 5:
-    st.markdown("""
-    <div class="step-banner">
-        <strong>Step 6 of 9 — Multi-Provider Job Collection</strong><br>
-        Aggregates opportunities from Remotive, RemoteOK, and ArbeitNow, eliminating duplicate and invalid records.
-    </div>
-    """, unsafe_allow_html=True)
-
-    col_btn, col_stats = st.columns([1, 2])
-    with col_btn:
-        if st.button("🔍 Fetch Live Jobs from Providers", type="primary", use_container_width=True):
-            with st.spinner("Querying Remotive, RemoteOK, and ArbeitNow APIs..."):
-                fresh = execute_job_collection(role=st.session_state.target_role, location=st.session_state.preferred_location)
+    # Search & Filter Controls
+    sc1, sc2, sc3 = st.columns([2, 1, 1])
+    with sc1:
+        target_role_input = st.text_input("Role Title Filter:", value=st.session_state.target_role)
+    with sc2:
+        min_fit = st.slider("Min Match Fit %:", min_value=30, max_value=90, value=50, step=5)
+    with sc3:
+        st.write("&nbsp;")
+        if st.button("🔍 Fetch Live Jobs", type="primary", use_container_width=True):
+            with st.spinner("Fetching live jobs from Remotive, RemoteOK, and ArbeitNow..."):
+                fresh = execute_job_collection(role=target_role_input, location=st.session_state.preferred_location)
                 st.session_state.collected_jobs = fresh
                 st.session_state.matched_jobs = match_jobs(st.session_state.resume_data, fresh)
-            st.success(f"Collected {len(fresh)} openings across all 3 providers!")
+            st.success(f"Fetched {len(fresh)} opportunities!")
             st.rerun()
 
-    with col_stats:
-        c1, c2, c3 = st.columns(3)
-        remotive_cnt = len([j for j in st.session_state.collected_jobs if "remotive" in j.provider.lower()])
-        remoteok_cnt = len([j for j in st.session_state.collected_jobs if "remoteok" in j.provider.lower()])
-        arbeit_cnt = len([j for j in st.session_state.collected_jobs if "arbeitnow" in j.provider.lower()])
-        with c1:
-            st.metric("Remotive Openings", remotive_cnt or 4)
-        with c2:
-            st.metric("RemoteOK Openings", remoteok_cnt or 4)
-        with c3:
-            st.metric("ArbeitNow Openings", arbeit_cnt or 4)
+    filtered_jobs = [j for j in st.session_state.matched_jobs if (j.match_score or 0) >= min_fit]
 
-    st.markdown("---")
-    st.subheader(f"Discovered Job Listings ({len(st.session_state.collected_jobs)} Available)")
-    
-    for j in st.session_state.collected_jobs[:6]:
-        with st.container():
-            st.markdown(f"""
-            <div class="job-card">
-                <div style="display: flex; justify-content: space-between; align-items: start;">
-                    <div>
-                        <strong style="color: #ffffff; font-size: 1.1rem;">{j.title}</strong>
-                        <div style="color: #60a5fa; font-size: 0.88rem;">{j.company} • 📍 {j.location} • 💰 {j.salary}</div>
-                    </div>
-                    <span style="background: #1e293b; color: #94a3b8; border-radius: 6px; padding: 2px 8px; font-size: 0.78rem;">
-                        {j.provider}
-                    </span>
-                </div>
-            </div>
-            """, unsafe_allow_html=True)
+    st.caption(f"Showing {len(filtered_jobs)} matching vacancies:")
 
-    render_step_footer(4, 6, "Proceed to Job Matching")
-
-
-# ==================================================================
-# STEP 7: JOB MATCHING
-# ==================================================================
-elif cur_idx == 6:
-    st.markdown("""
-    <div class="step-banner">
-        <strong>Step 7 of 9 — Job Matching Engine</strong><br>
-        Compares job descriptions against skills, experience, role similarity, and location preferences to produce affinity scores.
-    </div>
-    """, unsafe_allow_html=True)
-
-    total_matched = len(st.session_state.matched_jobs)
-    top_score = max([(j.match_score or 0) for j in st.session_state.matched_jobs]) if total_matched else 0
-    avg_score = sum([(j.match_score or 0) for j in st.session_state.matched_jobs]) / total_matched if total_matched else 0
-    high_fit_cnt = len([j for j in st.session_state.matched_jobs if (j.match_score or 0) >= 65])
-
-    m1, m2, m3, m4 = st.columns(4)
-    with m1:
-        st.metric("Evaluated Opportunities", total_matched)
-    with m2:
-        st.metric("Top Fit Match", f"{top_score:.1f}%")
-    with m3:
-        st.metric("Average Pool Fit", f"{avg_score:.1f}%")
-    with m4:
-        st.metric("High-Affinity Openings", high_fit_cnt)
-
-    st.markdown("---")
-    st.subheader("⚖ Matching Algorithm Dimension Weights")
-    st.markdown("""
-    - **Technical Skills Alignment (40%)**: Compares candidate's skills stack against JD requirements.
-    - **Role Title Similarity (35%)**: Evaluates closeness between candidate's target role and vacancy title.
-    - **Experience & Seniority Fit (15%)**: Assesses candidate tenure against vacancy requirements.
-    - **Location & Remote Match (10%)**: Checks target city alignment or remote compatibility.
-    """)
-
-    render_step_footer(5, 7, "Proceed to Ranked Results Dashboard")
-
-
-# ==================================================================
-# STEP 8: RANKED RESULTS DASHBOARD
-# ==================================================================
-elif cur_idx == 7:
-    st.markdown("""
-    <div class="step-banner">
-        <strong>Step 8 of 9 — Ranked Results Dashboard</strong><br>
-        Matched opportunities ranked strictly by score, highlighting verified matching skills, skill gaps, and apply links.
-    </div>
-    """, unsafe_allow_html=True)
-
-    f_col1, f_col2 = st.columns([2, 1])
-    with f_col1:
-        min_fit = st.slider("Filter by Minimum Match Fit %:", min_value=30, max_value=90, value=50, step=5)
-    with f_col2:
-        sort_choice = st.selectbox("Sort Order:", ["Highest Match Score", "Role Title Similarity"], index=0)
-
-    matched_list = [j for j in st.session_state.matched_jobs if (j.match_score or 0) >= min_fit]
-
-    if not matched_list:
-        st.info("No openings match the current score filter. Try lowering the slider above.")
+    if not filtered_jobs:
+        st.info("No openings match this fit threshold. Lower the slider above or fetch fresh openings.")
     else:
-        for job in matched_list:
+        for job in filtered_jobs:
             score = job.match_score or 75.0
             pill_class = "score-pill-high" if score >= 65 else "score-pill-med"
             
@@ -775,7 +578,7 @@ elif cur_idx == 7:
                     if gap_html:
                         st.markdown(f"**Missing Skills to Feature:** {gap_html}", unsafe_allow_html=True)
                     if job.description:
-                        st.caption(job.description[:200] + "...")
+                        st.caption(job.description[:180] + "...")
 
                 with col_actions:
                     if job.apply_url and job.apply_url != "#":
@@ -784,59 +587,341 @@ elif cur_idx == 7:
                         search_url = f"https://www.linkedin.com/jobs/search/?keywords={job.title}+{job.company}"
                         st.link_button("🚀 Apply on LinkedIn", search_url, type="primary", use_container_width=True)
 
+                    if st.button(f"➕ Save to CRM", key=f"crm_{job.title}_{job.company}", use_container_width=True):
+                        add_or_update_application({
+                            "id": f"app_{uuid.uuid4().hex[:8]}",
+                            "company": job.company,
+                            "role": job.title,
+                            "location": job.location,
+                            "salary": job.salary,
+                            "apply_url": job.apply_url,
+                            "status": "applied",
+                            "date_applied": datetime.now().strftime("%Y-%m-%d"),
+                            "notes": f"Saved from Job Searches. Match Fit: {score:.1f}%"
+                        })
+                        st.toast(f"Saved {job.title} at {job.company} to Application CRM!", icon="💼")
+
                 st.markdown("<div style='height: 8px;'></div>", unsafe_allow_html=True)
 
-    render_step_footer(6, 8, "Proceed to Resume Improvement & Application Assistance")
+    render_step_footer(1, 3, "Proceed to 4. Prepare for Interview")
 
 
 # ==================================================================
-# STEP 9: RESUME IMPROVEMENT AND APPLICATION ASSISTANCE
+# STEP 4: PREPARE FOR INTERVIEW
 # ==================================================================
-elif cur_idx == 8:
+elif cur_idx == 3:
     st.markdown("""
     <div class="step-banner">
-        <strong>Step 9 of 9 — Resume Improvement & Application Assistance</strong><br>
-        Generates tailored summaries, quantifiable accomplishment bullet points, and keyword enhancements for target vacancies.
+        <strong>Step 4 of 7 — Prepare for Interview</strong><br>
+        Generate realistic mock interview questions, technical scenarios, and STAR behavioral answers customized to your target company.
     </div>
     """, unsafe_allow_html=True)
 
-    top_roles = [j.title for j in st.session_state.matched_jobs[:5]] if st.session_state.matched_jobs else ["Data Analyst", "Python Developer"]
-    
-    t1, t2 = st.columns([1, 1])
-    with t1:
-        st.subheader("🎯 Vacancy Target")
-        sel_job = st.selectbox("Select Target Vacancy:", top_roles)
-        custom_desc = st.text_area(
-            "Paste Target Job Requirements:",
-            value="Looking for a Data Analyst skilled in Python, SQL query optimization, data modeling, Tableau dashboard development, and business analytics. Strong communication and ETL experience preferred.",
-            height=160
+    int_col1, int_col2 = st.columns([1, 1])
+
+    with int_col1:
+        st.subheader("🎯 Interview Simulation Settings")
+        
+        target_co = st.selectbox(
+            "Target Company:",
+            ["Microsoft", "Amazon", "Google", "TCS", "Infosys", "Deloitte", "Startup", "Custom"],
+            index=0
         )
-        tailor_btn = st.button("✨ Generate Tailored Bullet Points", type="primary", use_container_width=True)
+        if target_co == "Custom":
+            target_co = st.text_input("Enter Company Name:", value="Target Enterprise")
 
-    with t2:
-        st.subheader("📝 Tailored Improvements")
-        if tailor_btn and sel_job and custom_desc:
-            with st.spinner("Analyzing keywords and generating bullet points..."):
-                tailored = tailor_resume_for_job(
-                    original_resume_text=st.session_state.resume_data.career_summary,
-                    target_role=sel_job,
-                    target_company="Target Organization",
-                    job_description=custom_desc,
-                    candidate_skills=st.session_state.resume_data.skills
-                )
-            st.success("Tailoring complete! Estimated ATS Compatibility Boost: +15%")
-            if tailored.tailored_summary:
-                st.markdown("##### Optimized Summary:")
-                st.info(tailored.tailored_summary)
-            if tailored.suggested_skills:
-                st.markdown("##### Recommended Keywords to Add:")
-                k_html = "".join([f'<span class="skill-match">{k}</span>' for k in tailored.suggested_skills])
-                st.markdown(k_html, unsafe_allow_html=True)
-            if tailored.bullet_improvements:
-                st.markdown("##### High-Impact Accomplishment Bullet Points:")
-                for b in tailored.bullet_improvements:
-                    st.write(f"• {b}")
+        target_round = st.selectbox(
+            "Interview Round Type:",
+            ["Technical Deep Dive", "Data Modeling & SQL", "Behavioral STAR", "HR & Culture Fit"],
+            index=0
+        )
+        
+        int_role = st.text_input("Interview Role:", value=st.session_state.target_role)
+        q_count = st.slider("Number of Questions:", min_value=3, max_value=8, value=4)
+
+        gen_int_btn = st.button("🎙️ Generate Mock Interview Questions", type="primary", use_container_width=True)
+
+    with int_col2:
+        st.subheader("📝 Interview Questions & Model Answers")
+
+        if gen_int_btn or "cached_questions" in st.session_state:
+            if gen_int_btn:
+                with st.spinner(f"Simulating {target_co} {target_round} interview..."):
+                    q_data = generate_interview_questions(
+                        role=int_role,
+                        skills=st.session_state.resume_data.skills,
+                        resume_context=st.session_state.resume_data.career_summary,
+                        question_count=q_count,
+                        company=target_co,
+                        round_type=target_round
+                    )
+                    st.session_state.cached_questions = q_data.get("questions", [])
+
+            questions = st.session_state.get("cached_questions", [])
+            for idx, q_item in enumerate(questions):
+                with st.expander(f"Question {idx+1}: {q_item.get('question', '')}", expanded=(idx==0)):
+                    st.markdown(f"**Type:** `{q_item.get('type', 'Technical')}`")
+                    st.info(f"💡 **Key Talking Points:** {q_item.get('answer_tips', 'Focus on concrete metrics and design choices.')}")
+                    st.success(f"🎯 **Model Answer:** {q_item.get('sample_answer', 'In my previous project, I solved this by...')}")
+                    
+                    st.text_area(f"Practice Your Answer (Q{idx+1}):", height=80, key=f"ans_{idx}", placeholder="Type your answer here to self-evaluate...")
         else:
-            st.info("Select or paste job requirements on the left and click 'Generate Tailored Bullet Points'.")
+            st.info("Configure your interview settings on the left and click 'Generate Mock Interview Questions'.")
 
-    render_step_footer(7, None)
+    render_step_footer(2, 4, "Proceed to 5. Cover Letter Preparation")
+
+
+# ==================================================================
+# STEP 5: COVER LETTER PREPARATION
+# ==================================================================
+elif cur_idx == 4:
+    st.markdown("""
+    <div class="step-banner">
+        <strong>Step 5 of 7 — Cover Letter Preparation</strong><br>
+        Create a compelling, professional cover letter highlighting your skills, achievements, and motivation for the target employer.
+    </div>
+    """, unsafe_allow_html=True)
+
+    cl_col1, cl_col2 = st.columns([1, 1])
+
+    top_companies = list({j.company for j in st.session_state.matched_jobs[:6]}) or ["Google", "Amazon", "Microsoft"]
+
+    with cl_col1:
+        st.subheader("🎯 Target Opportunity")
+        cl_company = st.selectbox("Company Name:", top_companies)
+        cl_role = st.text_input("Target Position:", value=st.session_state.target_role)
+        cl_desc = st.text_area(
+            "Job Description Context:",
+            value="Looking for a Data Analyst skilled in Python, SQL query optimization, data modeling, Tableau dashboard development, and business analytics. Strong communication and ETL experience preferred.",
+            height=140
+        )
+        gen_cl_btn = st.button("✨ Generate Tailored Cover Letter", type="primary", use_container_width=True)
+
+    with cl_col2:
+        st.subheader("📄 Tailored Cover Letter")
+
+        if gen_cl_btn or "cached_cover_letter" in st.session_state:
+            if gen_cl_btn:
+                with st.spinner("Generating tailored cover letter..."):
+                    cl_result = generate_cover_letter(
+                        name=st.session_state.resume_data.name,
+                        skills=st.session_state.resume_data.skills,
+                        job_title=cl_role,
+                        company=cl_company,
+                        job_desc=cl_desc
+                    )
+                    st.session_state.cached_cover_letter = cl_result
+
+            cl = st.session_state.get("cached_cover_letter", {})
+            
+            # Format letter as text
+            body_text = "\n\n".join(cl.get("body_paragraphs", []))
+            full_letter_str = (
+                f"{st.session_state.resume_data.name}\n"
+                f"{st.session_state.resume_data.email} | {st.session_state.resume_data.phone}\n\n"
+                f"Subject: {cl.get('subject', 'Application')}\n\n"
+                f"{cl.get('salutation', 'Dear Hiring Team,')}\n\n"
+                f"{cl.get('introduction', '')}\n\n"
+                f"{body_text}\n\n"
+                f"{cl.get('conclusion', '')}\n\n"
+                f"{cl.get('sign_off', 'Sincerely,')}"
+            )
+
+            st.markdown(f"""
+            <div class="letter-paper">
+                <div style="font-size: 0.88rem; color: #94a3b8; margin-bottom: 1rem;">
+                    <strong style="color: #ffffff; font-size: 1.1rem;">{st.session_state.resume_data.name}</strong><br>
+                    {st.session_state.resume_data.email} | {st.session_state.resume_data.phone}
+                </div>
+                <p><strong>Subject:</strong> {cl.get('subject', 'Job Application')}</p>
+                <p>{cl.get('salutation', 'Dear Hiring Team,')}</p>
+                <p>{cl.get('introduction', '')}</p>
+                {''.join([f'<p>{p}</p>' for p in cl.get('body_paragraphs', [])])}
+                <p>{cl.get('conclusion', '')}</p>
+                <p>{cl.get('sign_off', 'Sincerely,')}</p>
+            </div>
+            """, unsafe_allow_html=True)
+
+            st.download_button(
+                "💾 Download Cover Letter (.txt)",
+                data=full_letter_str,
+                file_name=f"Cover_Letter_{cl_company.replace(' ', '_')}.txt",
+                mime="text/plain",
+                use_container_width=True
+            )
+        else:
+            st.info("Select a target company on the left and click 'Generate Tailored Cover Letter'.")
+
+    render_step_footer(3, 5, "Proceed to 6. Mail Preparation")
+
+
+# ==================================================================
+# STEP 6: MAIL PREPARATION
+# ==================================================================
+elif cur_idx == 5:
+    st.markdown("""
+    <div class="step-banner">
+        <strong>Step 6 of 7 — Mail Preparation</strong><br>
+        Generate high-converting cold outreach emails, LinkedIn InMail notes, and formal job application emails.
+    </div>
+    """, unsafe_allow_html=True)
+
+    mail_col1, mail_col2 = st.columns([1, 1])
+
+    with mail_col1:
+        st.subheader("📬 Mail Configuration")
+        mail_company = st.text_input("Target Company Name:", value="Google")
+        mail_role = st.text_input("Position Title:", value=st.session_state.target_role)
+        mail_recruiter = st.text_input("Recipient / Hiring Manager Name:", value="Alex Mercer")
+        
+        gen_mail_btn = st.button("✉️ Generate Application & Outreach Emails", type="primary", use_container_width=True)
+
+    with mail_col2:
+        st.subheader("📨 Generated Email Templates")
+
+        if gen_mail_btn or "cached_emails" in st.session_state:
+            if gen_mail_btn:
+                with st.spinner("Writing personalized email suite..."):
+                    res = st.session_state.resume_data
+                    emails_data = generate_job_emails(
+                        name=res.name,
+                        skills=res.skills,
+                        role=mail_role,
+                        company=mail_company,
+                        email=res.email,
+                        phone=res.phone,
+                        resume_context=res.career_summary
+                    )
+                    st.session_state.cached_emails = emails_data
+
+            em = st.session_state.get("cached_emails", {})
+            
+            tab_cold, tab_inmail, tab_followup, tab_app = st.tabs([
+                "❄️ Cold Outreach",
+                "🔗 LinkedIn InMail",
+                "⏰ Follow-Up",
+                "📄 Formal Application"
+            ])
+
+            with tab_cold:
+                cold = em.get("cold_outreach", {})
+                st.markdown(f"**Subject:** `{cold.get('subject', 'Application')}`")
+                st.text_area("Email Body:", cold.get("body", ""), height=220, key="txt_cold")
+
+            with tab_inmail:
+                inmail = em.get("linkedin_inmail", {})
+                st.markdown(f"**Note Length:** `< 300 characters`")
+                st.text_area("InMail Body:", inmail.get("body", ""), height=150, key="txt_inmail")
+
+            with tab_followup:
+                follow = em.get("follow_up_email", {})
+                st.markdown(f"**Subject:** `{follow.get('subject', 'Follow Up')}`")
+                st.text_area("Follow-up Body:", follow.get("body", ""), height=200, key="txt_follow")
+
+            with tab_app:
+                app_mail = em.get("job_application", {})
+                st.markdown(f"**Subject:** `{app_mail.get('subject', 'Job Application')}`")
+                st.text_area("Application Body:", app_mail.get("body", ""), height=220, key="txt_app")
+        else:
+            st.info("Fill in the company and position details on the left and click 'Generate Application & Outreach Emails'.")
+
+    render_step_footer(4, 6, "Proceed to 7. Application CRM")
+
+
+# ==================================================================
+# STEP 7: APPLICATION CRM
+# ==================================================================
+elif cur_idx == 6:
+    st.markdown("""
+    <div class="step-banner">
+        <strong>Step 7 of 7 — Application CRM</strong><br>
+        Track and advance your job applications across every stage: Saved, Applied, Interviewing, Offer, and Rejected.
+    </div>
+    """, unsafe_allow_html=True)
+
+    # Add Application Form in Expander
+    with st.expander("➕ Add New Application to CRM", expanded=False):
+        with st.form("new_app_form"):
+            fc1, fc2, fc3 = st.columns(3)
+            with fc1:
+                app_comp = st.text_input("Company Name:", value="Amazon")
+                app_role = st.text_input("Role Title:", value="Data Analyst")
+            with fc2:
+                app_loc = st.text_input("Location:", value="Hyderabad / Remote")
+                app_sal = st.text_input("Salary:", value="₹12 - ₹18 LPA")
+            with fc3:
+                app_stg = st.selectbox("Initial Stage:", ["saved", "applied", "interview", "offer", "rejected"])
+                app_date = st.date_input("Date Applied:", datetime.now())
+
+            submit_app = st.form_submit_button("Save Application", type="primary")
+            if submit_app and app_comp and app_role:
+                add_or_update_application({
+                    "id": f"app_{uuid.uuid4().hex[:8]}",
+                    "company": app_comp,
+                    "role": app_role,
+                    "location": app_loc,
+                    "salary": app_sal,
+                    "status": app_stg,
+                    "date_applied": app_date.strftime("%Y-%m-%d"),
+                    "notes": "Added manually via Application CRM"
+                })
+                st.success(f"Added {app_role} at {app_comp} to CRM!")
+                st.rerun()
+
+    # Load All Current Applications from CRM
+    all_apps = get_all_applications()
+    stages = ["saved", "applied", "interview", "offer", "rejected"]
+    counts = {s: len([a for a in all_apps if a.get("status") == s]) for s in stages}
+
+    # Metric Row
+    m_cols = st.columns(5)
+    stage_titles = {"saved": "Saved", "applied": "Applied", "interview": "Interview", "offer": "Offer", "rejected": "Rejected"}
+    for idx, s in enumerate(stages):
+        with m_cols[idx]:
+            st.metric(stage_titles[s], counts[s])
+
+    st.markdown("---")
+    st.subheader("📋 Active Applications Pipeline")
+
+    # Display applications grouped by stage
+    for stage_key in stages:
+        stage_apps = [a for a in all_apps if a.get("status") == stage_key]
+        if stage_apps:
+            st.markdown(f"##### 📌 {stage_titles[stage_key]} ({len(stage_apps)})")
+            for a in stage_apps:
+                with st.container():
+                    st.markdown(f"""
+                    <div class="job-card">
+                        <div style="display: flex; justify-content: space-between; align-items: start;">
+                            <div>
+                                <h4 style="margin: 0; color: #ffffff;">{a.get('role', 'Role')}</h4>
+                                <div style="color: #60a5fa; font-size: 0.92rem;">
+                                    {a.get('company', 'Company')} • 📍 {a.get('location', 'N/A')} • 💰 {a.get('salary', 'Competitive')}
+                                </div>
+                                <div style="color: #94a3b8; font-size: 0.8rem; margin-top: 4px;">
+                                    Applied: {a.get('date_applied', 'N/A')} • Follow-up due: {a.get('followup_date', 'N/A')}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    """, unsafe_allow_html=True)
+
+                    c_mv, c_del = st.columns([3, 1])
+                    with c_mv:
+                        new_stage = st.selectbox(
+                            "Move stage:",
+                            stages,
+                            index=stages.index(stage_key),
+                            key=f"stage_sel_{a.get('id')}",
+                            label_visibility="collapsed"
+                        )
+                        if new_stage != stage_key:
+                            a["status"] = new_stage
+                            add_or_update_application(a)
+                            st.rerun()
+                    with c_del:
+                        if st.button("🗑️ Delete", key=f"del_{a.get('id')}", use_container_width=True):
+                            delete_application(a.get("id"))
+                            st.rerun()
+
+    render_step_footer(5, None)
