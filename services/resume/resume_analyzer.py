@@ -736,7 +736,23 @@ def fallback_deterministic_extraction(text: str) -> dict:
             if clean_cert and len(clean_cert) < 100:
                 certifications.append(clean_cert)
 
+    from services.resume.resume_enricher import (
+        extract_education,
+        extract_work_experience,
+        extract_projects,
+        extract_certifications as enricher_extract_certs,
+        extract_summary
+    )
+
+    extracted_edu = extract_education(text)
+    extracted_exp = extract_work_experience(text)
+    extracted_proj = extract_projects(text)
+    all_projects = (extracted_proj or []) + [p for p in projects if p not in (extracted_proj or [])]
+    extracted_certs = enricher_extract_certs(text)
+    all_certs = list(dict.fromkeys((certifications or []) + (extracted_certs or [])))
+
     top_skills_str = ', '.join(skills[:4]) if skills else 'data analytics and programming'
+    cand_summary = extract_summary(text) or f"Analytical professional specialized in {pref_role} with proven foundation in {top_skills_str}."
 
     return {
         'name': extract_name(text),
@@ -752,12 +768,12 @@ def fallback_deterministic_extraction(text: str) -> dict:
         'preferred_location': loc,
         'skills': skills,
         'soft_skills': ['Problem Solving', 'Communication', 'Team Collaboration', 'Analytical Thinking'],
-        'education': [],
-        'experience': [],
-        'projects': projects[:5],
-        'certifications': certifications[:6],
+        'education': extracted_edu,
+        'experience': extracted_exp,
+        'projects': all_projects[:6],
+        'certifications': all_certs[:8],
         'languages': ['English'],
-        'career_summary': f"Analytical professional specialized in {pref_role} with proven foundation in {top_skills_str}."
+        'career_summary': cand_summary
     }
 
 def analyze_resume(

@@ -82,55 +82,73 @@
           <span class="badge bg-light text-secondary border">Audited Dimensions</span>
         </div>
 
-        <!-- 5 Category Progress Bars -->
+        <!-- Dynamic 6-Dimension Category Progress Bars -->
+        {% set bd = candidate.ats_breakdown if candidate and candidate.ats_breakdown else {} %}
+        {% set pct_contact = [(((bd.contact_score or 0) / 10.0) * 100)|round|int, 100]|min %}
+        {% set pct_skills = [(((bd.skills_score or 0) / 30.0) * 100)|round|int, 100]|min %}
+        {% set pct_exp = [(((bd.experience_score or 0) / 20.0) * 100)|round|int, 100]|min %}
+        {% set pct_edu = [(((bd.education_score or 0) / 15.0) * 100)|round|int, 100]|min %}
+        {% set pct_proj = [(((bd.projects_score or 0) / 15.0) * 100)|round|int, 100]|min %}
+        {% set pct_cert = [(((bd.certifications_score or 0) / 10.0) * 100)|round|int, 100]|min %}
+
         <div class="d-flex flex-column gap-3 mb-4">
           <div>
             <div class="d-flex justify-content-between small fw-bold mb-1">
-              <span class="text-secondary text-uppercase">Contact Info</span>
-              <span class="text-success">90%</span>
+              <span class="text-secondary text-uppercase">Contact Info ({{ bd.contact_score or 0 }}/10 pts)</span>
+              <span class="{% if pct_contact >= 75 %}text-success{% elif pct_contact >= 50 %}text-primary{% else %}text-warning{% endif %}">{{ pct_contact }}%</span>
             </div>
             <div class="progress" style="height: 8px;">
-              <div class="progress-bar bg-success" style="width: 90%;"></div>
+              <div class="progress-bar {% if pct_contact >= 75 %}bg-success{% elif pct_contact >= 50 %}bg-primary{% else %}bg-warning{% endif %}" style="width: {{ pct_contact }}%;"></div>
             </div>
           </div>
 
           <div>
             <div class="d-flex justify-content-between small fw-bold mb-1">
-              <span class="text-secondary text-uppercase">Skills</span>
-              <span class="text-success">80%</span>
+              <span class="text-secondary text-uppercase">Skills Density ({{ bd.skills_score or 0 }}/30 pts)</span>
+              <span class="{% if pct_skills >= 75 %}text-success{% elif pct_skills >= 50 %}text-primary{% else %}text-warning{% endif %}">{{ pct_skills }}%</span>
             </div>
             <div class="progress" style="height: 8px;">
-              <div class="progress-bar bg-success" style="width: 80%;"></div>
+              <div class="progress-bar {% if pct_skills >= 75 %}bg-success{% elif pct_skills >= 50 %}bg-primary{% else %}bg-warning{% endif %}" style="width: {{ pct_skills }}%;"></div>
             </div>
           </div>
 
           <div>
             <div class="d-flex justify-content-between small fw-bold mb-1">
-              <span class="text-secondary text-uppercase">Experience</span>
-              <span class="text-success">85%</span>
+              <span class="text-secondary text-uppercase">Experience Alignment ({{ bd.experience_score or 0 }}/20 pts)</span>
+              <span class="{% if pct_exp >= 75 %}text-success{% elif pct_exp >= 50 %}text-primary{% else %}text-warning{% endif %}">{{ pct_exp }}%</span>
             </div>
             <div class="progress" style="height: 8px;">
-              <div class="progress-bar bg-success" style="width: 85%;"></div>
+              <div class="progress-bar {% if pct_exp >= 75 %}bg-success{% elif pct_exp >= 50 %}bg-primary{% else %}bg-warning{% endif %}" style="width: {{ pct_exp }}%;"></div>
             </div>
           </div>
 
           <div>
             <div class="d-flex justify-content-between small fw-bold mb-1">
-              <span class="text-secondary text-uppercase">Education</span>
-              <span class="text-primary">80%</span>
+              <span class="text-secondary text-uppercase">Education Verification ({{ bd.education_score or 0 }}/15 pts)</span>
+              <span class="{% if pct_edu >= 75 %}text-success{% elif pct_edu >= 50 %}text-primary{% else %}text-warning{% endif %}">{{ pct_edu }}%</span>
             </div>
             <div class="progress" style="height: 8px;">
-              <div class="progress-bar bg-primary" style="width: 80%;"></div>
+              <div class="progress-bar {% if pct_edu >= 75 %}bg-success{% elif pct_edu >= 50 %}bg-primary{% else %}bg-warning{% endif %}" style="width: {{ pct_edu }}%;"></div>
             </div>
           </div>
 
           <div>
             <div class="d-flex justify-content-between small fw-bold mb-1">
-              <span class="text-secondary text-uppercase">Formatting</span>
-              <span class="text-warning">75%</span>
+              <span class="text-secondary text-uppercase">Projects Demonstration ({{ bd.projects_score or 0 }}/15 pts)</span>
+              <span class="{% if pct_proj >= 75 %}text-success{% elif pct_proj >= 50 %}text-primary{% else %}text-warning{% endif %}">{{ pct_proj }}%</span>
             </div>
             <div class="progress" style="height: 8px;">
-              <div class="progress-bar bg-warning" style="width: 75%;"></div>
+              <div class="progress-bar {% if pct_proj >= 75 %}bg-success{% elif pct_proj >= 50 %}bg-primary{% else %}bg-warning{% endif %}" style="width: {{ pct_proj }}%;"></div>
+            </div>
+          </div>
+
+          <div>
+            <div class="d-flex justify-content-between small fw-bold mb-1">
+              <span class="text-secondary text-uppercase">Certifications & Credentials ({{ bd.certifications_score or 0 }}/10 pts)</span>
+              <span class="{% if pct_cert >= 75 %}text-success{% elif pct_cert >= 50 %}text-primary{% else %}text-warning{% endif %}">{{ pct_cert }}%</span>
+            </div>
+            <div class="progress" style="height: 8px;">
+              <div class="progress-bar {% if pct_cert >= 75 %}bg-success{% elif pct_cert >= 50 %}bg-primary{% else %}bg-warning{% endif %}" style="width: {{ pct_cert }}%;"></div>
             </div>
           </div>
         </div>

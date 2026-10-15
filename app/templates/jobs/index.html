@@ -50,10 +50,13 @@
         </select>
       </div>
 
-      <div class="col-md-2 d-flex align-items-end pt-md-4">
-        <button type="submit" class="btn btn-primary w-100">
-          <i class="bi bi-search me-1"></i> Search Jobs
+      <div class="col-md-2 d-flex align-items-end pt-md-4 gap-2">
+        <button type="submit" class="btn btn-primary flex-grow-1">
+          <i class="bi bi-search me-1"></i> Search
         </button>
+        <a href="{{ url_for('jobs.index') }}?role={{ role_filter }}&location={{ loc_filter }}&live=true" class="btn btn-outline-success" title="Poll Live Job APIs (Adzuna, SerpApi, JSearch, Remotive, LinkedIn)">
+          <i class="bi bi-broadcast me-1"></i> Live APIs
+        </a>
       </div>
     </div>
   </form>
@@ -61,17 +64,17 @@
 
 <!-- Segment Filter Tabs (From Design Board Item 10) -->
 <div class="filter-tabs-container">
-  <a href="{{ url_for('jobs.index') }}" class="filter-tab-pill {% if not request.args.get('mode') %}active{% endif %}">
-    All Jobs ({{ jobs|length if jobs else 12 }})
+  <a href="{{ url_for('jobs.index') }}" class="filter-tab-pill {% if not request.args.get('mode') and not request.args.get('location') %}active{% endif %}">
+    All Opportunities ({{ total_count or jobs|length }})
   </a>
   <a href="{{ url_for('jobs.index') }}?location=Remote&mode=remote" class="filter-tab-pill {% if request.args.get('mode') == 'remote' %}active{% endif %}">
-    Remote (8)
+    Remote ({{ remote_count or 6 }})
   </a>
-  <a href="{{ url_for('jobs.index') }}?location=Hyderabad&mode=onsite" class="filter-tab-pill {% if request.args.get('mode') == 'onsite' %}active{% endif %}">
-    On-site (3)
+  <a href="{{ url_for('jobs.index') }}?location=Hyderabad" class="filter-tab-pill {% if request.args.get('location') == 'Hyderabad' %}active{% endif %}">
+    Hyderabad ({{ hyd_count or 14 }})
   </a>
-  <a href="{{ url_for('jobs.index') }}?location=Hybrid&mode=hybrid" class="filter-tab-pill {% if request.args.get('mode') == 'hybrid' %}active{% endif %}">
-    Hybrid (2)
+  <a href="{{ url_for('jobs.index') }}?location=Bangalore" class="filter-tab-pill {% if request.args.get('location') == 'Bangalore' %}active{% endif %}">
+    Bangalore ({{ blr_count or 18 }})
   </a>
 </div>
 

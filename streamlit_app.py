@@ -206,35 +206,41 @@ def convert_to_jobdata(item: Dict[str, Any]) -> JobData:
 convert_dict_to_jobdata = convert_to_jobdata
 
 def execute_job_collection(role: str = "Data Analyst", location: str = "India", providers: Optional[List[str]] = None) -> List[JobData]:
-    """Helper for collecting jobs used in tests and live batch discovery."""
-    collected = []
-    if not providers:
-        providers = ["Remotive", "RemoteOK", "ArbeitNow"]
-    if "Remotive" in providers:
-        try:
-            for j in fetch_remotive_live(role=role, limit=6):
-                collected.append(convert_to_jobdata(j))
-        except Exception:
-            pass
-    if "RemoteOK" in providers:
-        try:
-            for j in fetch_remoteok_live(role=role, limit=6):
-                collected.append(convert_to_jobdata(j))
-        except Exception:
-            pass
-    if "ArbeitNow" in providers:
-        try:
-            for j in fetch_arbeitnow_live(role=role, limit=6):
-                collected.append(convert_to_jobdata(j))
-        except Exception:
-            pass
-    if not collected:
-        collected = load_initial_jobs()
-    return collected
+    """Helper for collecting jobs across verified repository and live multi-portal APIs."""
+    collected: List[JobData] = []
+    
+    # 1. Load from verified jobs catalog
+    initial = load_initial_jobs()
+    role_lower = (role or "").lower().strip()
+    for ij in initial:
+        if not role_lower or role_lower in ij.title.lower() or any(w in ij.title.lower() for w in role_lower.split()):
+            collected.append(ij)
+            
+    # 2. Concurrently fetch live opportunities across connected APIs
+    try:
+        from services.jobs.live_job_aggregator import aggregate_live_jobs
+        live_res = aggregate_live_jobs(role=role or "Data Analyst", location=location or "India", max_total=35)
+        for lj in live_res.get("jobs", []):
+            collected.append(convert_to_jobdata(lj))
+    except Exception:
+        pass
+        
+    # Deduplicate by normalized title & company
+    seen = set()
+    deduped = []
+    for j in collected:
+        key = f"{j.title.strip().lower()}::{(j.company or '').strip().lower()}"
+        if key not in seen:
+            seen.add(key)
+            deduped.append(j)
+            
+    return deduped if deduped else initial
 
 def load_initial_jobs() -> List[JobData]:
     """Load default verified jobs pool."""
     verified_file = BASE_DIR / "data" / "verified_jobs.json"
+    if not verified_file.exists():
+        verified_file = BASE_DIR / "data" / "jobs_export.json"
     jobs = []
     if verified_file.exists():
         try:

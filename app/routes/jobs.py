@@ -86,13 +86,45 @@ def index():
 
     role_filter = request.args.get("role", "").strip()
     loc_filter = request.args.get("location", "").strip()
+    mode_filter = request.args.get("mode", "").strip()
+    fetch_live = request.args.get("live", "").lower() in ("true", "1", "yes")
 
     raw_jobs = load_verified_jobs()
+
+    # If live fetch requested or user searched for specific role, query live aggregator
+    if fetch_live:
+        try:
+            from services.jobs.live_job_aggregator import aggregate_live_jobs
+            live_res = aggregate_live_jobs(
+                role=role_filter or candidate_role or "Data Analyst",
+                location=loc_filter or "India",
+                max_total=30
+            )
+            live_jobs = live_res.get("jobs", [])
+            seen_combos = {f"{(j.get('title') or '').lower()}::{(j.get('company') or '').lower()}" for j in raw_jobs}
+            for lj in live_jobs:
+                combo = f"{(lj.get('title') or '').lower()}::{(lj.get('company') or '').lower()}"
+                if combo not in seen_combos:
+                    seen_combos.add(combo)
+                    raw_jobs.append(lj)
+            flash(f"Fetched {len(live_jobs)} live job postings from active APIs!", "success")
+        except Exception as e:
+            flash(f"Live aggregation notice: {e}", "info")
+
     scored_jobs = []
 
     for j in raw_jobs:
         j_title = j.get("title", "")
         j_loc = j.get("location", "")
+        
+        # Apply mode filter if present
+        if mode_filter == "remote" and "remote" not in j_loc.lower():
+            continue
+        elif mode_filter == "onsite" and ("remote" in j_loc.lower() or "hybrid" in j_loc.lower()):
+            continue
+        elif mode_filter == "hybrid" and "hybrid" not in j_loc.lower():
+            continue
+
         if role_filter and role_filter.lower() not in j_title.lower():
             continue
         if loc_filter and loc_filter.lower() not in j_loc.lower():
@@ -101,8 +133,8 @@ def index():
         j_skills = j.get("skills", [])
         matching, missing = match_skills(j_skills, candidate_skills)
         
-        skill_pct = (len(matching) / len(j_skills) * 100.0) if j_skills else 85.0
-        role_pct = 100.0 if candidate_role in j_title.lower() else (80.0 if "analyst" in j_title.lower() else 55.0)
+        skill_pct = (len(matching) / len(j_skills) * 100.0) if j_skills else 80.0
+        role_pct = 100.0 if (candidate_role and candidate_role in j_title.lower()) else (80.0 if "analyst" in j_title.lower() else 55.0)
 
         match_score = round(0.40 * role_pct + 0.45 * skill_pct + 15.0, 1)
         match_score = min(100.0, max(30.0, match_score))
@@ -124,12 +156,22 @@ def index():
 
     scored_jobs.sort(key=lambda x: x["match_score"], reverse=True)
 
+    # Dynamic location segment counts
+    all_raw = load_verified_jobs()
+    remote_count = sum(1 for j in all_raw if "remote" in (j.get("location") or "").lower())
+    hyd_count = sum(1 for j in all_raw if "hyderabad" in (j.get("location") or "").lower())
+    blr_count = sum(1 for j in all_raw if any(b in (j.get("location") or "").lower() for b in ["bangalore", "bengaluru"]))
+
     return render_template(
         "jobs/index.html",
         jobs=scored_jobs,
         candidate=candidate,
         role_filter=role_filter,
         loc_filter=loc_filter,
+        remote_count=remote_count,
+        hyd_count=hyd_count,
+        blr_count=blr_count,
+        total_count=len(scored_jobs),
         active_tab="jobs"
     )
 

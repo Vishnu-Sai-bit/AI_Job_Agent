@@ -110,7 +110,7 @@ def dashboard():
         candidate=candidate,
         total_jobs=total_jobs,
         total_apps=total_apps,
-        ats_score=candidate.get("ats_score", 79.0),
+        ats_score=candidate.get("ats_score", 0) if candidate.get("has_resume") else 0,
         top_matches=top_matches,
         active_tab="dashboard"
     )

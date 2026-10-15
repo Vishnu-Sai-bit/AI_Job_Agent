@@ -656,13 +656,23 @@ def aggregate_live_jobs(
         
         # Calculate dynamic client match score
         req_skills = job.get("skills") or []
+        title_lower = (job.get("title") or "").lower()
+        role_words = [w for w in role.lower().split() if len(w) > 2]
+        role_overlap = (sum(1 for w in role_words if w in title_lower) / max(len(role_words), 1)) if role_words else 0.5
+
         if req_skills and user_skills_lower:
-            matched_count = sum(1 for s in req_skills if s.lower() in user_skills_lower)
-            score = round(60 + (matched_count / len(req_skills)) * 38, 1)
+            matched_skills = [s for s in req_skills if any(us == s.lower() or us in s.lower() or s.lower() in us for us in user_skills_lower)]
+            missing_skills = [s for s in req_skills if s not in matched_skills]
+            skill_ratio = len(matched_skills) / max(len(req_skills), 1)
+            score = round(35.0 * role_overlap + 55.0 * skill_ratio + 10.0, 1)
+            job["matching_skills"] = matched_skills
+            job["missing_skills"] = missing_skills
         else:
-            score = 80.0
+            score = round(52.0 + role_overlap * 40.0, 1)
+            job["matching_skills"] = req_skills[:2] if req_skills else []
+            job["missing_skills"] = req_skills[2:] if len(req_skills) > 2 else []
         
-        job["match_score"] = min(score, 98.0)
+        job["match_score"] = min(max(score, 35.0), 98.0)
         unique_jobs.append(job)
         
         if len(unique_jobs) >= max_total:

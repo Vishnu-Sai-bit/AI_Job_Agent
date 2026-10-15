@@ -29,6 +29,7 @@ def call_llm(prompt: str, json_format: bool = True) -> str:
             gemini_keys.append(env_v.strip())
 
     groq_key = os.getenv("GROQ_API_KEY", "").strip() or os.getenv("GROQ_API_KEY_1", "").strip()
+    openai_key = os.getenv("OPENAI_API_KEY", "").strip() or os.getenv("OPENAI_KEY", "").strip()
     openrouter_key = os.getenv("OPENROUTER_API_KEY", "").strip() or os.getenv("OPENROUTER_API_KEY_1", "").strip()
     together_key = os.getenv("TOGETHER_API_KEY", "").strip() or os.getenv("TOGETHER_API_KEY_1", "").strip()
     cohere_key = os.getenv("COHERE_API_KEY", "").strip() or os.getenv("COHERE_API_KEY_1", "").strip()
@@ -81,7 +82,35 @@ def call_llm(prompt: str, json_format: bool = True) -> str:
                     cloud_errors.append(err_msg)
 
 
-    # --- 2. Try Groq (Secondary) ---
+    # --- 2. Try OpenAI (Secondary Cloud Provider) ---
+    if openai_key:
+        openai_models = ["gpt-4o-mini", "gpt-4o", "gpt-3.5-turbo"]
+        for o_model in openai_models:
+            try:
+                info(f"Calling OpenAI API ({o_model})...")
+                url = "https://api.openai.com/v1/chat/completions"
+                headers = {
+                    "Authorization": f"Bearer {openai_key}",
+                    "Content-Type": "application/json"
+                }
+                payload = {
+                    "model": o_model,
+                    "messages": [{"role": "user", "content": prompt}],
+                    "temperature": 0.1
+                }
+                if json_format:
+                    payload["response_format"] = {"type": "json_object"}
+                response = requests.post(url, json=payload, headers=headers, timeout=30)
+                if response.status_code == 200:
+                    return response.json()["choices"][0]["message"]["content"]
+                else:
+                    warning(f"OpenAI {o_model} HTTP {response.status_code}: {response.text[:200]}")
+            except Exception as e:
+                err_msg = f"OpenAI ({o_model}) API failed: {e}"
+                exception(err_msg)
+                cloud_errors.append(err_msg)
+
+    # --- 3. Try Groq (Tertiary) ---
     if groq_key:
         groq_models = ["llama-3.3-70b-versatile", "llama-3.1-8b-instant", "mixtral-8x7b-32768"]
         for g_model in groq_models:
