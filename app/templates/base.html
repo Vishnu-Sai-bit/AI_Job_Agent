@@ -3,42 +3,56 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>{% block title %}AI Job Copilot & Career Intelligence{% endblock %}</title>
+  <title>{% block title %}AI JobAgent - Career Intelligence Platform{% endblock %}</title>
+  <!-- Google Fonts: Inter -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
   <!-- Bootstrap 5 CSS -->
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
   <!-- Bootstrap Icons -->
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
-  <!-- Custom CSS -->
+  <!-- Custom Master Design System CSS -->
   <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
 </head>
 <body>
   <!-- Top Navigation Bar -->
-  <nav class="navbar navbar-expand navbar-dark border-bottom border-secondary sticky-top" style="background-color: #0b0f17; z-index: 1020;">
+  <nav class="navbar navbar-expand navbar-dark top-navbar sticky-top">
     <div class="container-fluid px-3 px-md-4">
       <div class="d-flex align-items-center gap-2">
         <button class="btn btn-outline-secondary btn-sm d-md-none text-light me-1" type="button" data-bs-toggle="collapse" data-bs-target="#mobileSidebar" aria-controls="mobileSidebar" aria-expanded="false" aria-label="Toggle Navigation">
           <i class="bi bi-list fs-5"></i>
         </button>
         <a class="navbar-brand fw-bold d-flex align-items-center gap-2 text-white mb-0" href="{{ url_for('main.dashboard') }}">
-          <span class="badge p-2 rounded-3" style="background: linear-gradient(135deg, #6366f1, #06b6d4);"><i class="bi bi-briefcase-fill text-white fs-6"></i></span>
-          <span class="fs-5 fw-bold text-white lh-1">AI Job Agent</span>
+          <span class="brand-badge"><i class="bi bi-briefcase-fill text-white fs-6"></i></span>
+          <span class="fs-5 fw-bold text-white lh-1">AI JobAgent</span>
         </a>
+      </div>
+
+      <!-- Center Search Bar (From Design Board Item 6) -->
+      <div class="d-none d-lg-flex align-items-center ms-4" style="max-width: 380px; width: 100%;">
+        <div class="input-group input-group-sm">
+          <span class="input-group-text bg-dark border-secondary text-secondary" style="border-color: #1e293b !important;"><i class="bi bi-search"></i></span>
+          <input type="text" class="form-control form-control-sm bg-dark border-secondary text-light" style="border-color: #1e293b !important;" placeholder="Search jobs, skills, companies...">
+        </div>
       </div>
 
       <!-- Right Nav Items -->
       <ul class="navbar-nav ms-auto align-items-center gap-2 gap-md-3">
-
-
+        <li class="nav-item">
+          <a class="nav-link text-secondary px-2" href="#" title="Notifications">
+            <i class="bi bi-bell-fill fs-6"></i>
+          </a>
+        </li>
 
         {% if current_user.is_authenticated %}
           <li class="nav-item dropdown">
-            <a class="nav-link dropdown-toggle text-light d-flex align-items-center gap-2" href="#" id="userMenuDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-              {% if current_user.avatar_url %}
-                <img src="{{ current_user.avatar_url }}" alt="Avatar" class="rounded-circle border border-primary" style="width: 26px; height: 26px; object-fit: cover;" referrerpolicy="no-referrer">
-              {% else %}
-                <i class="bi bi-person-circle text-info fs-5"></i>
-              {% endif %}
-              <span class="fw-semibold d-none d-md-inline">{{ current_user.full_name }}</span>
+            <a class="nav-link dropdown-toggle text-light d-flex align-items-center gap-2 p-0" href="#" id="userMenuDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+              <div class="user-avatar-circle">
+                <span>{{ current_user.full_name[:2].upper() }}</span>
+                <span class="status-dot-online"></span>
+              </div>
+              <span class="fw-semibold d-none d-md-inline text-light small">{{ current_user.full_name }}</span>
             </a>
             <ul class="dropdown-menu dropdown-menu-end shadow-lg border-secondary" style="background-color: #0f172a;" aria-labelledby="userMenuDropdown">
               <li><a class="dropdown-item text-light" href="{{ url_for('profile.index') }}"><i class="bi bi-person-gear me-2 text-primary"></i> Profile & Preferences</a></li>
@@ -50,13 +64,12 @@
           </li>
         {% else %}
           <li class="nav-item">
-            <a href="{{ url_for('profile.index') }}" class="nav-link text-secondary" title="Preferences">
-              <i class="bi bi-gear-fill"></i>
-            </a>
-          </li>
-          <li class="nav-item">
-            <a href="{{ url_for('auth.login') }}" class="btn btn-outline-light btn-sm px-3 rounded-pill">
-              <i class="bi bi-person-fill me-1"></i> Sign In
+            <a class="nav-link text-light d-flex align-items-center gap-2 p-0" href="{{ url_for('profile.index') }}">
+              <div class="user-avatar-circle">
+                <span>JD</span>
+                <span class="status-dot-online"></span>
+              </div>
+              <span class="fw-semibold d-none d-md-inline text-light small">Candidate</span>
             </a>
           </li>
         {% endif %}
@@ -65,10 +78,10 @@
   </nav>
 
   <!-- App Layout Container (Sidebar + Content Workspace) -->
-  <div class="d-flex" style="min-height: calc(100vh - 65px);">
+  <div class="d-flex" style="min-height: calc(100vh - 64px);">
     <!-- Left Navigation Sidebar (Desktop) -->
-    <aside class="sidebar d-none d-md-block" style="width: 240px; background-color: #0f172a; border-right: 1px solid #1e293b;">
-      <div class="py-3 sticky-top" style="top: 65px; z-index: 1000; height: calc(100vh - 65px); overflow-y: auto;">
+    <aside class="sidebar d-none d-md-flex flex-column justify-content-between">
+      <div class="py-3 sticky-top" style="top: 64px; z-index: 1000; overflow-y: auto;">
         
         <div class="px-3 pt-1 pb-2 text-uppercase text-secondary fw-bold" style="font-size: 0.68rem; letter-spacing: 0.8px;">
           Workflow Pipeline
@@ -139,6 +152,18 @@
           </li>
         </ul>
       </div>
+
+      <!-- Bottom User Profile Pill (From Design Board Item 5) -->
+      <div class="sidebar-user-card mt-auto mb-3">
+        <div class="user-avatar-circle">
+          <span>VS</span>
+          <span class="status-dot-online"></span>
+        </div>
+        <div class="d-flex flex-column text-truncate" style="line-height: 1.2;">
+          <span class="text-white fw-bold small text-truncate">Vishnu Sai</span>
+          <span class="text-secondary" style="font-size: 0.72rem;">Full Stack Developer</span>
+        </div>
+      </div>
     </aside>
 
     <!-- Main Workspace Area -->
@@ -160,14 +185,14 @@
       </div>
 
       <!-- Main Content Container -->
-      <main class="container-fluid px-3 px-md-4 py-4 flex-grow-1">
+      <main class="main-workspace flex-grow-1">
         <!-- Flash Messages -->
         {% with messages = get_flashed_messages(with_categories=true) %}
           {% if messages %}
             {% for category, message in messages %}
               <div class="alert alert-{{ category if category != 'error' else 'danger' }} alert-dismissible fade show" role="alert">
                 {{ message }}
-                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                <button type="button" data-bs-dismiss="alert" class="btn-close" aria-label="Close"></button>
               </div>
             {% endfor %}
           {% endif %}

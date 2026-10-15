@@ -1,113 +1,138 @@
 {% extends "base.html" %}
 
-{% block title %}Job Opportunities - AI Job Copilot{% endblock %}
+{% block title %}Show Job Searches - AI JobAgent{% endblock %}
 
 {% block content %}
-<div class="d-flex justify-content-between align-items-center mb-4 flex-wrap gap-3">
+<!-- Step Header Banner -->
+<div class="step-header-banner">
   <div>
-    <div class="badge bg-primary-subtle text-primary border border-primary-subtle px-2 py-1 mb-2">Step 3 of 7</div>
-    <h2 class="fw-bold text-white mb-1">Show Job Searches</h2>
-    <p class="text-secondary mb-0">Aggregated live openings across Remotive, RemoteOK, ArbeitNow, and verified portals ranked by match fit</p>
+    <span class="step-indicator-pill mb-2"><i class="bi bi-circle-fill" style="font-size: 0.5rem;"></i> Step 3 of 7</span>
+    <h2 class="fw-bold mb-1">Show Job Searches</h2>
+    <p class="text-secondary mb-0">Aggregated verified live openings across Remotive, RemoteOK, and ArbeitNow ranked by match fit</p>
   </div>
   <div class="d-flex gap-2">
-    <a href="{{ url_for('resumes.analyze') }}" class="btn btn-outline-secondary">
+    <a href="{{ url_for('resumes.analyze') }}" class="btn btn-outline-custom">
       <i class="bi bi-arrow-left me-1"></i> Back: Resume
     </a>
-    <a href="{{ url_for('interviews.index') }}" class="btn btn-primary fw-semibold">
+    <a href="{{ url_for('interviews.index') }}" class="btn btn-primary">
       Proceed to Step 4: Prepare for Interview <i class="bi bi-arrow-right ms-1"></i>
     </a>
   </div>
 </div>
 
-<!-- Filter Bar -->
-<div class="card card-custom p-3 mb-4">
-  <form method="GET" action="{{ url_for('jobs.index') }}" class="row g-2 align-items-center">
-    <div class="col-md-5">
-      <div class="input-group">
-        <span class="input-group-text bg-dark border-secondary text-secondary"><i class="bi bi-search"></i></span>
-        <input type="text" name="role" class="form-control form-control-dark" placeholder="Role or title (e.g. Data Analyst)" value="{{ role_filter }}">
+<!-- Modern Filter Bar (From Design Sheets #9, #15, #17) -->
+<div class="card card-clean p-4 mb-4">
+  <form method="GET" action="{{ url_for('jobs.index') }}">
+    <div class="row g-3 align-items-center">
+      <div class="col-md-5">
+        <label class="form-label text-muted small fw-bold mb-1">Target Job Role</label>
+        <div class="input-group">
+          <span class="input-group-text bg-light border-end-0 text-secondary"><i class="bi bi-search"></i></span>
+          <input type="text" name="role" class="form-control border-start-0" placeholder="e.g. Data Analyst, Python Developer" value="{{ role_filter }}">
+        </div>
       </div>
-    </div>
-    <div class="col-md-4">
-      <div class="input-group">
-        <span class="input-group-text bg-dark border-secondary text-secondary"><i class="bi bi-geo-alt"></i></span>
-        <input type="text" name="location" class="form-control form-control-dark" placeholder="Location (e.g. Hyderabad)" value="{{ loc_filter }}">
+
+      <div class="col-md-4">
+        <label class="form-label text-muted small fw-bold mb-1">Preferred Location</label>
+        <div class="input-group">
+          <span class="input-group-text bg-light border-end-0 text-secondary"><i class="bi bi-geo-alt"></i></span>
+          <input type="text" name="location" class="form-control border-start-0" placeholder="e.g. Remote, Bangalore, Hyderabad" value="{{ loc_filter }}">
+        </div>
       </div>
-    </div>
-    <div class="col-md-3 d-flex gap-2">
-      <button type="submit" class="btn btn-primary flex-grow-1">
-        <i class="bi bi-funnel-fill me-1"></i> Filter
-      </button>
-      <a href="{{ url_for('jobs.index') }}" class="btn btn-outline-secondary">Reset</a>
+
+      <div class="col-md-3 d-flex align-items-end gap-2 pt-md-4">
+        <button type="submit" class="btn btn-primary flex-grow-1">
+          <i class="bi bi-funnel-fill me-1"></i> Filter Jobs
+        </button>
+        <a href="{{ url_for('jobs.index') }}" class="btn btn-outline-custom" title="Clear Filters">Reset</a>
+      </div>
     </div>
   </form>
 </div>
 
-<!-- Jobs List -->
+<!-- Job Listings Stream (From Design Sheets #6, #9, #15 Talantium) -->
 {% if jobs %}
   <div class="row g-4">
     {% for job in jobs %}
       <div class="col-12">
-        <div class="card card-custom p-4">
-          <div class="d-flex justify-content-between align-items-start flex-wrap gap-2 mb-2">
-            <div>
-              <h4 class="fw-bold text-white mb-1">
-                <a href="{{ url_for('jobs.detail', job_id=job.id) }}" class="text-white text-decoration-none">
-                  {{ job.title }}
-                </a>
-              </h4>
-              <div class="text-secondary small d-flex gap-3 flex-wrap">
-                <span><i class="bi bi-building text-primary me-1"></i> <strong>{{ job.company }}</strong></span>
-                <span><i class="bi bi-geo-alt text-danger me-1"></i> {{ job.location }}</span>
-                <span><i class="bi bi-cash text-success me-1"></i> {{ job.salary }}</span>
-                <span><i class="bi bi-clock-history me-1"></i> {{ job.experience }}</span>
-                <span><i class="bi bi-globe me-1"></i> Source: {{ job.source }}</span>
+        <div class="card card-clean p-4">
+          <div class="d-flex justify-content-between align-items-start flex-wrap gap-3 mb-3">
+            <!-- Left: Company Logo + Title + Badges -->
+            <div class="d-flex align-items-start gap-3">
+              <!-- Branded Company Avatar -->
+              <div class="user-avatar-circle" style="width: 48px; height: 48px; font-size: 1.1rem; border-radius: 12px; background: linear-gradient(135deg, #6366f1 0%, #8b5cf6 100%);">
+                {{ job.company[:2].upper() }}
+              </div>
+              
+              <div>
+                <h4 class="fw-bold mb-1">
+                  <a href="{{ url_for('jobs.detail', job_id=job.id) }}" class="text-dark text-decoration-none hover-primary">
+                    {{ job.title }}
+                  </a>
+                </h4>
+                
+                <div class="d-flex align-items-center gap-2 flex-wrap mt-1">
+                  <span class="fw-semibold text-secondary small"><i class="bi bi-building me-1"></i> {{ job.company }}</span>
+                  <span class="badge-location"><i class="bi bi-geo-alt-fill"></i> {{ job.location }}</span>
+                  <span class="badge-jobtype"><i class="bi bi-briefcase-fill"></i> {{ job.experience or 'Full-time' }}</span>
+                  {% if job.salary and job.salary != 'Competitive' %}
+                    <span class="badge bg-success-subtle text-success border border-success-subtle px-2 py-1 small fw-semibold"><i class="bi bi-cash-stack me-1"></i> {{ job.salary }}</span>
+                  {% endif %}
+                  <span class="text-muted small ms-1"><i class="bi bi-globe me-1"></i> Source: {{ job.source }}</span>
+                </div>
               </div>
             </div>
+
+            <!-- Right: Match Score Badge -->
             <div>
-              <span class="score-badge">
-                <i class="bi bi-stars me-1"></i> {{ job.match_score }}% Match
+              <span class="badge-match fs-6">
+                <i class="bi bi-stars"></i> {{ job.match_score }}% Match
               </span>
             </div>
           </div>
 
-          <div class="mt-3">
-            <div class="small text-secondary mb-2 fw-semibold">Skills Compatibility:</div>
+          <!-- Description Snippet -->
+          <p class="text-secondary small mb-3" style="line-height: 1.6;">
+            {{ job.description[:220] }}...
+          </p>
+
+          <!-- Skills Compatibility Row -->
+          <div class="mb-3">
+            <span class="text-muted small fw-semibold d-block mb-1">Skills Compatibility:</span>
             <div class="d-flex flex-wrap gap-2">
               {% for sm in job.matching_skills %}
-                <span class="badge badge-skill-match px-2 py-1"><i class="bi bi-check-circle-fill me-1"></i>{{ sm }}</span>
+                <span class="badge-skill-match"><i class="bi bi-check-circle-fill me-1"></i> {{ sm }}</span>
               {% endfor %}
               {% for ms in job.missing_skills %}
-                <span class="badge badge-skill-missing px-2 py-1"><i class="bi bi-plus-circle me-1"></i>{{ ms }}</span>
+                <span class="badge-skill-missing"><i class="bi bi-plus-circle me-1"></i> {{ ms }}</span>
               {% endfor %}
             </div>
           </div>
 
-          <div class="d-flex justify-content-between align-items-center mt-3 pt-3 border-top border-secondary flex-wrap gap-3">
-            <div class="small text-secondary" style="max-width: 500px;">
-              {{ job.description[:180] }}...
+          <!-- Card Bottom Action Row -->
+          <div class="d-flex justify-content-between align-items-center pt-3 border-top flex-wrap gap-2">
+            <div class="d-flex gap-2">
+              <a href="{{ url_for('jobs.detail', job_id=job.id) }}" class="btn btn-outline-custom btn-sm">
+                <i class="bi bi-info-circle me-1"></i> View Details
+              </a>
+              <a href="{{ url_for('main.cover_letter') }}?role={{ job.title|urlencode }}&company={{ job.company|urlencode }}" class="btn btn-outline-custom btn-sm">
+                <i class="bi bi-file-earmark-text me-1"></i> Cover Letter
+              </a>
+              <a href="{{ url_for('main.mail_preparation') }}?role={{ job.title|urlencode }}&company={{ job.company|urlencode }}" class="btn btn-outline-custom btn-sm">
+                <i class="bi bi-envelope me-1"></i> Draft Email
+              </a>
             </div>
-            <div class="d-flex gap-2 align-items-center flex-wrap">
+
+            <div class="d-flex gap-2 align-items-center">
               {% if job.url and job.url != '#' %}
-                <a href="{{ job.url }}" target="_blank" rel="noopener noreferrer" class="btn btn-sm text-white fw-semibold d-inline-flex align-items-center gap-1 px-3 py-1" style="background: linear-gradient(135deg, #10b981 0%, #06b6d4 100%); border: none; box-shadow: 0 3px 10px rgba(16, 185, 129, 0.35);">
+                <a href="{{ job.url }}" target="_blank" rel="noopener noreferrer" class="btn btn-success-gradient btn-sm px-3 py-2 d-inline-flex align-items-center gap-1">
                   <i class="bi bi-send-fill me-1"></i> Apply Now <i class="bi bi-box-arrow-up-right ms-1" style="font-size: 0.72rem;"></i>
                 </a>
               {% else %}
-                <a href="https://www.linkedin.com/jobs/search/?keywords={{ job.title|urlencode }}+{{ job.company|urlencode }}" target="_blank" rel="noopener noreferrer" class="btn btn-sm text-white fw-semibold d-inline-flex align-items-center gap-1 px-3 py-1" style="background: linear-gradient(135deg, #10b981 0%, #06b6d4 100%); border: none;">
+                <a href="https://www.google.com/search?q={{ job.title|urlencode }}+{{ job.company|urlencode }}+jobs" target="_blank" rel="noopener noreferrer" class="btn btn-success-gradient btn-sm px-3 py-2 d-inline-flex align-items-center gap-1">
                   <i class="bi bi-send-fill me-1"></i> Apply Now <i class="bi bi-box-arrow-up-right ms-1" style="font-size: 0.72rem;"></i>
                 </a>
               {% endif %}
-              <a href="{{ url_for('jobs.detail', job_id=job.id) }}" class="btn btn-sm btn-outline-info">
-                <i class="bi bi-eye me-1"></i> Details
-              </a>
-              <a href="{{ url_for('resumes.tailor') }}" class="btn btn-sm btn-outline-warning">
-                <i class="bi bi-pencil-square me-1"></i> Tailor Resume
-              </a>
-              <form method="POST" action="{{ url_for('jobs.save_job', job_id=job.id) }}" class="d-inline">
-                <button type="submit" class="btn btn-sm btn-outline-success">
-                  <i class="bi bi-bookmark-plus me-1"></i> Save to CRM
-                </button>
-              </form>
             </div>
           </div>
         </div>
@@ -115,13 +140,23 @@
     {% endfor %}
   </div>
 {% else %}
-  <div class="card card-custom p-5 text-center">
-    <div class="fs-1 text-secondary mb-2"><i class="bi bi-search"></i></div>
-    <h4 class="text-white">No jobs matched your filter criteria</h4>
-    <p class="text-secondary">Try searching for "Data Analyst" or clearing the filters.</p>
+  <div class="card card-clean p-5 text-center">
+    <div class="fs-1 text-muted mb-3"><i class="bi bi-inbox"></i></div>
+    <h4 class="fw-bold text-dark mb-1">No Matching Jobs Found</h4>
+    <p class="text-secondary mb-3">Try adjusting your role or location filter criteria above.</p>
     <div>
-      <a href="{{ url_for('jobs.index') }}" class="btn btn-primary">Clear Filters</a>
+      <a href="{{ url_for('jobs.index') }}" class="btn btn-outline-custom">Reset All Filters</a>
     </div>
   </div>
 {% endif %}
+
+<!-- Bottom Navigation Actions -->
+<div class="d-flex justify-content-between align-items-center flex-wrap gap-2 pt-4">
+  <a href="{{ url_for('resumes.analyze') }}" class="btn btn-outline-custom">
+    <i class="bi bi-arrow-left me-1"></i> Back to Step 2: Resume
+  </a>
+  <a href="{{ url_for('interviews.index') }}" class="btn btn-primary px-4 fw-semibold">
+    Proceed to Step 4: Prepare for Interview <i class="bi bi-arrow-right ms-1"></i>
+  </a>
+</div>
 {% endblock %}

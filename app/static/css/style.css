@@ -1,178 +1,606 @@
 /* ==========================================================
-   AI Job Copilot - Executive Modern Theme Styles
+   AI JobAgent - Master Design System Styles
+   Based on the official Figma UI Kit & Design Board:
+   - Primary: #6366F1, Indigo: #4F46E5, Purple: #8B5CF6, Pink: #EC4899
+   - Semantic: Success #10B981, Warning #F59E0B, Error #EF4444, Info #3B82F6
+   - Neutrals: Background #F8FAFC, Surface #FFFFFF, Border #E2E8F0
+   - Text: Primary #0F172A, Secondary #64748B
+   - Dark Nav Sidebar: #0B0F17 / #0F172A
+   - Font: Inter, sans-serif
    ========================================================== */
 
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap');
+
 :root {
-  --primary: #4f46e5;
-  --primary-hover: #4338ca;
-  --secondary: #06b6d4;
-  --bg-dark: #0f172a;
-  --card-bg: #1e293b;
-  --card-border: #334155;
-  --text-main: #f8fafc;
-  --text-muted: #94a3b8;
+  /* Primary & Brand */
+  --primary: #6366f1;
+  --primary-hover: #4f46e5;
+  --indigo: #4f46e5;
+  --purple: #8b5cf6;
+  --pink: #ec4899;
+
+  /* Semantic Colors */
   --success: #10b981;
   --warning: #f59e0b;
   --danger: #ef4444;
+  --info: #3b82f6;
+
+  /* Neutrals (Clean Slate / Light Theme Canvas) */
+  --bg-page: #f8fafc;
+  --surface: #ffffff;
+  --surface-alt: #f1f5f9;
+  --border-light: #e2e8f0;
+  --border-subtle: #edf2f7;
+  --text-primary: #0f172a;
+  --text-secondary: #64748b;
+  --text-muted: #94a3b8;
+
+  /* Dark Elements (Sidebar, Header Highlights) */
+  --sidebar-bg: #0b0f17;
+  --sidebar-surface: #0f172a;
+  --sidebar-border: #1e293b;
+  --sidebar-text: #94a3b8;
+  --sidebar-text-active: #ffffff;
+
+  /* Elevation Shadows */
+  --shadow-sm: 0 1px 2px 0 rgba(15, 23, 42, 0.05);
+  --shadow-md: 0 4px 6px -1px rgba(15, 23, 42, 0.07), 0 2px 4px -2px rgba(15, 23, 42, 0.05);
+  --shadow-lg: 0 10px 25px -3px rgba(15, 23, 42, 0.08), 0 4px 10px -4px rgba(15, 23, 42, 0.04);
+  --shadow-card: 0 4px 20px -2px rgba(15, 23, 42, 0.06), 0 2px 6px -1px rgba(15, 23, 42, 0.03);
 }
 
-body {
-  background-color: var(--bg-dark);
-  color: var(--text-main);
+/* Base Document Setup */
+html, body {
+  background-color: var(--bg-page);
+  color: var(--text-primary);
   font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
   min-height: 100vh;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
 }
 
-/* Sidebar navigation */
+/* Typography Hierarchy */
+h1, .h1 { font-size: 2rem; font-weight: 700; color: var(--text-primary); letter-spacing: -0.025em; }
+h2, .h2 { font-size: 1.5rem; font-weight: 700; color: var(--text-primary); letter-spacing: -0.02em; }
+h3, .h3 { font-size: 1.25rem; font-weight: 600; color: var(--text-primary); letter-spacing: -0.015em; }
+h4, .h4 { font-size: 1.05rem; font-weight: 600; color: var(--text-primary); }
+h5, .h5 { font-size: 0.95rem; font-weight: 600; color: var(--text-primary); }
+h6, .h6 { font-size: 0.825rem; font-weight: 600; color: var(--text-secondary); text-transform: uppercase; letter-spacing: 0.05em; }
+p { color: var(--text-secondary); font-size: 0.925rem; line-height: 1.55; }
+
+/* Navbar */
+.top-navbar {
+  background-color: var(--sidebar-bg);
+  border-bottom: 1px solid var(--sidebar-border);
+  height: 64px;
+  z-index: 1030;
+}
+
+.brand-badge {
+  background: linear-gradient(135deg, #6366f1 0%, #8b5cf6 100%);
+  color: #ffffff;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 36px;
+  height: 36px;
+  border-radius: 10px;
+  box-shadow: 0 4px 12px rgba(99, 102, 241, 0.35);
+}
+
+/* Dark Sidebar Navigation */
 .sidebar {
-  background-color: #0b0f17;
-  border-right: 1px solid #1e293b;
-  width: 265px;
-  min-width: 265px;
-  max-width: 265px;
+  background-color: var(--sidebar-bg);
+  border-right: 1px solid var(--sidebar-border);
+  width: 255px;
+  min-width: 255px;
+  max-width: 255px;
   flex-shrink: 0;
-  min-height: calc(100vh - 65px);
+  min-height: calc(100vh - 64px);
+  display: flex;
+  flex-column: column;
 }
 
 .sidebar .nav-link {
-  color: #94a3b8;
-  font-size: 0.9rem;
+  color: var(--sidebar-text);
+  font-size: 0.885rem;
   font-weight: 500;
-  padding: 0.65rem 1.1rem;
+  padding: 0.65rem 0.95rem;
   border-radius: 10px;
-  margin: 0.2rem 0.75rem;
-  transition: all 0.2s ease-in-out;
+  margin: 0.2rem 0.65rem;
+  transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
   display: flex;
   align-items: center;
-  gap: 0.85rem;
+  gap: 0.75rem;
+  text-decoration: none;
 }
 
 .sidebar .nav-link i {
-  font-size: 1.05rem;
-  width: 1.25rem;
+  font-size: 1.1rem;
+  width: 1.3rem;
   text-align: center;
 }
 
 .sidebar .nav-link:hover {
   color: #ffffff;
   background-color: rgba(99, 102, 241, 0.12);
+  transform: translateX(2px);
 }
 
 .sidebar .nav-link.active {
   color: #ffffff !important;
   background: linear-gradient(135deg, #6366f1 0%, #8b5cf6 100%) !important;
-  box-shadow: 0 4px 14px rgba(99, 102, 241, 0.4) !important;
+  box-shadow: 0 4px 16px rgba(99, 102, 241, 0.35) !important;
   font-weight: 600;
 }
 
-/* Cards */
-.card-custom {
-  background-color: var(--card-bg);
-  border: 1px solid var(--card-border);
-  border-radius: 12px;
-  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
-}
-
-.card-custom:hover {
-  border-color: #475569;
-}
-
-/* Badges & Pills */
-.badge-skill-match {
-  background-color: rgba(16, 185, 129, 0.15);
-  color: #34d399;
-  border: 1px solid rgba(16, 185, 129, 0.3);
-  font-weight: 500;
-  border-radius: 6px;
-  padding: 0.35rem 0.65rem;
-}
-
-.badge-skill-missing {
-  background-color: rgba(245, 158, 11, 0.12);
-  color: #fbbf24;
-  border: 1px solid rgba(245, 158, 11, 0.25);
-  font-weight: 500;
-  border-radius: 6px;
-  padding: 0.35rem 0.65rem;
-}
-
-.score-badge {
-  font-size: 1.1rem;
-  font-weight: 700;
-  padding: 0.4rem 0.8rem;
-  border-radius: 8px;
-  background: linear-gradient(135deg, #4f46e5 0%, #06b6d4 100%);
-  color: #fff;
-}
-
-/* Form controls */
-.form-control-dark {
-  background-color: #0b1120;
-  border: 1px solid var(--card-border);
-  color: #fff;
-  border-radius: 8px;
-}
-
-.form-control-dark:focus {
-  background-color: #0b1120;
-  border-color: var(--primary);
-  color: #fff;
-  box-shadow: 0 0 0 0.25rem rgba(79, 70, 229, 0.25);
-}
-
-/* Kanban column */
-.kanban-col {
-  background-color: #131c31;
-  border: 1px solid var(--card-border);
-  border-radius: 12px;
-  padding: 1rem;
-  min-height: 480px;
-}
-
-/* Workflow Step Badges */
-.step-num {
+.sidebar .step-num {
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  width: 20px;
-  height: 20px;
+  width: 22px;
+  height: 22px;
   border-radius: 50%;
-  font-size: 0.7rem;
+  font-size: 0.72rem;
   font-weight: 700;
-  background-color: rgba(99, 102, 241, 0.2);
-  color: #a5b4fc;
-  border: 1px solid rgba(99, 102, 241, 0.4);
+  background-color: rgba(255, 255, 255, 0.1);
+  color: #cbd5e1;
+  border: 1px solid rgba(255, 255, 255, 0.15);
   flex-shrink: 0;
 }
 
 .sidebar .nav-link.active .step-num {
   background-color: #ffffff;
-  color: #4f46e5;
+  color: #6366f1;
   border-color: #ffffff;
 }
 
-.workflow-stepper {
-  background: rgba(11, 15, 23, 0.85);
-  backdrop-filter: blur(8px);
+/* User Profile Sidebar Pill */
+.sidebar-user-card {
+  margin: 0.75rem;
+  padding: 0.75rem 0.85rem;
+  background-color: rgba(255, 255, 255, 0.04);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 12px;
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
 }
 
-.step-pill {
-  transition: all 0.2s ease-in-out;
-  padding: 0.25rem 0.5rem;
+.user-avatar-circle {
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, #6366f1 0%, #3b82f6 100%);
+  color: #ffffff;
+  font-weight: 700;
+  font-size: 0.85rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  position: relative;
+}
+
+.status-dot-online {
+  width: 9px;
+  height: 9px;
+  background-color: #10b981;
+  border: 2px solid #0b0f17;
+  border-radius: 50%;
+  position: absolute;
+  bottom: -1px;
+  right: -1px;
+}
+
+/* Main Workspace Canvas */
+.main-workspace {
+  background-color: var(--bg-page);
+  min-height: calc(100vh - 64px);
+  padding: 1.75rem 2rem;
+}
+
+/* Clean Cards with Subtle Shadow (From Figma Kit) */
+.card-clean {
+  background-color: var(--surface);
+  border: 1px solid var(--border-light);
+  border-radius: 14px;
+  box-shadow: var(--shadow-card);
+  transition: transform 0.15s ease, box-shadow 0.15s ease, border-color 0.15s ease;
+}
+
+.card-clean:hover {
+  box-shadow: var(--shadow-lg);
+  border-color: #cbd5e1;
+}
+
+/* Backward-compatible card-custom alias */
+.card-custom {
+  background-color: var(--surface);
+  border: 1px solid var(--border-light);
+  border-radius: 14px;
+  box-shadow: var(--shadow-card);
+  transition: transform 0.15s ease, box-shadow 0.15s ease, border-color 0.15s ease;
+}
+
+.card-custom:hover {
+  box-shadow: var(--shadow-lg);
+  border-color: #cbd5e1;
+}
+
+/* KPI Summary Cards */
+.kpi-card {
+  background-color: var(--surface);
+  border: 1px solid var(--border-light);
+  border-radius: 14px;
+  padding: 1.25rem 1.4rem;
+  box-shadow: var(--shadow-card);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+}
+
+.kpi-icon-circle {
+  width: 48px;
+  height: 48px;
+  border-radius: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.35rem;
+  flex-shrink: 0;
+}
+
+.kpi-icon-indigo { background: rgba(99, 102, 241, 0.12); color: #6366f1; }
+.kpi-icon-blue   { background: rgba(59, 130, 246, 0.12); color: #3b82f6; }
+.kpi-icon-green  { background: rgba(16, 185, 129, 0.12); color: #10b981; }
+.kpi-icon-amber  { background: rgba(245, 158, 11, 0.12); color: #f59e0b; }
+.kpi-icon-purple { background: rgba(139, 92, 246, 0.12); color: #8b5cf6; }
+
+/* Circular ATS Gauge (From Design Sheets #6, #8, #14, #16) */
+.ats-gauge-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+}
+
+.ats-gauge-svg {
+  transform: rotate(-90deg);
+  width: 140px;
+  height: 140px;
+}
+
+.ats-gauge-bg {
+  fill: none;
+  stroke: #e2e8f0;
+  stroke-width: 10;
+}
+
+.ats-gauge-meter {
+  fill: none;
+  stroke-width: 10;
+  stroke-linecap: round;
+  transition: stroke-dashoffset 1s ease-in-out;
+}
+
+.ats-gauge-content {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  text-align: center;
+}
+
+.ats-gauge-score {
+  font-size: 2.2rem;
+  font-weight: 800;
+  color: var(--text-primary);
+  line-height: 1;
+}
+
+.ats-gauge-label {
+  font-size: 0.68rem;
+  font-weight: 700;
+  color: var(--text-secondary);
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+}
+
+/* Badges & Pills (From Design Board Item 4 & 9) */
+.badge-skill {
+  background-color: #e0e7ff;
+  color: #4338ca;
+  font-weight: 600;
+  font-size: 0.8rem;
+  padding: 0.35rem 0.75rem;
+  border-radius: 20px;
+  border: 1px solid #c7d2fe;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.3rem;
+}
+
+.badge-location {
+  background-color: #dcfce7;
+  color: #15803d;
+  font-weight: 600;
+  font-size: 0.8rem;
+  padding: 0.35rem 0.75rem;
+  border-radius: 20px;
+  border: 1px solid #bbf7d0;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.3rem;
+}
+
+.badge-jobtype {
+  background-color: #f3e8ff;
+  color: #7e22ce;
+  font-weight: 600;
+  font-size: 0.8rem;
+  padding: 0.35rem 0.75rem;
+  border-radius: 20px;
+  border: 1px solid #e9d5ff;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.3rem;
+}
+
+.badge-match {
+  background: linear-gradient(135deg, #fce7f3 0%, #fee2e2 100%);
+  color: #be123c;
+  font-weight: 700;
+  font-size: 0.85rem;
+  padding: 0.4rem 0.85rem;
+  border-radius: 20px;
+  border: 1px solid #fecdd3;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.3rem;
+}
+
+.badge-skill-match {
+  background-color: #d1fae5;
+  color: #065f46;
+  font-weight: 600;
+  font-size: 0.78rem;
+  padding: 0.3rem 0.65rem;
   border-radius: 6px;
+  border: 1px solid #a7f3d0;
+  display: inline-flex;
+  align-items: center;
 }
 
-.step-pill:hover {
-  background-color: rgba(99, 102, 241, 0.15);
-  color: #ffffff !important;
+.badge-skill-missing {
+  background-color: #fef3c7;
+  color: #92400e;
+  font-weight: 600;
+  font-size: 0.78rem;
+  padding: 0.3rem 0.65rem;
+  border-radius: 6px;
+  border: 1px solid #fde68a;
+  display: inline-flex;
+  align-items: center;
 }
 
-.step-pill-num {
-  width: 18px;
-  height: 18px;
+.score-badge {
+  font-size: 0.95rem;
+  font-weight: 700;
+  padding: 0.45rem 0.9rem;
+  border-radius: 30px;
+  background: linear-gradient(135deg, #6366f1 0%, #8b5cf6 100%);
+  color: #ffffff;
+  box-shadow: 0 4px 12px rgba(99, 102, 241, 0.25);
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+}
+
+/* Drag & Drop Upload Box (From Design Sheets #7 & #13) */
+.dropzone-box {
+  background: #f8fafc;
+  border: 2px dashed #cbd5e1;
+  border-radius: 16px;
+  padding: 2.5rem 1.5rem;
+  text-align: center;
+  transition: all 0.2s ease-in-out;
+  cursor: pointer;
+  position: relative;
+}
+
+.dropzone-box:hover, .dropzone-box.dragover {
+  border-color: #6366f1;
+  background: rgba(99, 102, 241, 0.04);
+}
+
+.dropzone-icon {
+  width: 56px;
+  height: 56px;
+  border-radius: 50%;
+  background: rgba(99, 102, 241, 0.1);
+  color: #6366f1;
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  font-size: 0.65rem;
+  font-size: 1.75rem;
+  margin-bottom: 1rem;
+}
+
+/* Primary Action Buttons */
+.btn-primary {
+  background: linear-gradient(135deg, #6366f1 0%, #4f46e5 100%);
+  border: none;
+  color: #ffffff;
+  font-weight: 600;
+  font-size: 0.9rem;
+  padding: 0.6rem 1.25rem;
+  border-radius: 10px;
+  box-shadow: 0 4px 14px rgba(99, 102, 241, 0.3);
+  transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.btn-primary:hover, .btn-primary:focus {
+  background: linear-gradient(135deg, #4f46e5 0%, #4338ca 100%);
+  box-shadow: 0 6px 20px rgba(99, 102, 241, 0.45);
+  transform: translateY(-1px);
+  color: #ffffff;
+}
+
+.btn-success-gradient {
+  background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+  border: none;
+  color: #ffffff;
+  font-weight: 600;
+  border-radius: 10px;
+  box-shadow: 0 4px 12px rgba(16, 185, 129, 0.3);
+}
+
+.btn-success-gradient:hover {
+  background: linear-gradient(135deg, #059669 0%, #047857 100%);
+  color: #ffffff;
+  box-shadow: 0 6px 18px rgba(16, 185, 129, 0.4);
+}
+
+.btn-outline-custom {
+  background: #ffffff;
+  border: 1px solid #cbd5e1;
+  color: #334155;
+  font-weight: 500;
+  font-size: 0.9rem;
+  padding: 0.55rem 1.15rem;
+  border-radius: 10px;
+  transition: all 0.2s ease;
+}
+
+.btn-outline-custom:hover {
+  background: #f1f5f9;
+  border-color: #94a3b8;
+  color: #0f172a;
+}
+
+/* ATS Section Breakdown Progress Bars (From Image #14) */
+.breakdown-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  margin-bottom: 0.85rem;
+}
+
+.breakdown-label {
+  font-size: 0.825rem;
+  font-weight: 600;
+  color: var(--text-secondary);
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  min-width: 125px;
+}
+
+.breakdown-bar-track {
+  flex-grow: 1;
+  height: 8px;
+  background-color: #e2e8f0;
+  border-radius: 10px;
+  overflow: hidden;
+}
+
+.breakdown-bar-fill {
+  height: 100%;
+  border-radius: 10px;
+  transition: width 0.8s ease-in-out;
+}
+
+.fill-emerald { background-color: #10b981; }
+.fill-amber   { background-color: #f59e0b; }
+.fill-crimson { background-color: #ef4444; }
+
+.breakdown-val {
+  font-size: 0.875rem;
   font-weight: 700;
+  min-width: 32px;
+  text-align: right;
+}
+
+/* Form Controls with Modern Focus */
+.form-control-custom, .form-control {
+  background-color: #ffffff;
+  border: 1px solid #cbd5e1;
+  color: #0f172a;
+  border-radius: 10px;
+  font-size: 0.925rem;
+  padding: 0.65rem 0.95rem;
+  transition: border-color 0.15s ease, box-shadow 0.15s ease;
+}
+
+.form-control-custom:focus, .form-control:focus {
+  border-color: #6366f1;
+  box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.18);
+  outline: none;
+}
+
+/* Kanban Board Styling (Application CRM - Step 7) */
+.kanban-col {
+  background-color: #f1f5f9;
+  border: 1px solid #e2e8f0;
+  border-radius: 14px;
+  padding: 1.15rem;
+  min-height: 520px;
+}
+
+.kanban-col-header {
+  font-weight: 700;
+  font-size: 0.875rem;
+  color: var(--text-secondary);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 1rem;
+}
+
+.kanban-card {
+  background: #ffffff;
+  border: 1px solid #e2e8f0;
+  border-radius: 12px;
+  padding: 1rem;
+  margin-bottom: 0.85rem;
+  box-shadow: var(--shadow-sm);
+  transition: transform 0.15s ease, box-shadow 0.15s ease;
+}
+
+.kanban-card:hover {
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-md);
+  border-color: #cbd5e1;
+}
+
+/* Workflow Step Indicator Banner */
+.step-header-banner {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 1rem;
+  margin-bottom: 1.75rem;
+  padding-bottom: 1.25rem;
+  border-bottom: 1px solid var(--border-light);
+}
+
+.step-indicator-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  background-color: rgba(99, 102, 241, 0.1);
+  color: #4f46e5;
+  font-size: 0.775rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  padding: 0.3rem 0.75rem;
+  border-radius: 20px;
+  border: 1px solid rgba(99, 102, 241, 0.2);
 }

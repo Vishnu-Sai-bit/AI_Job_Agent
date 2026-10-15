@@ -65,6 +65,11 @@ st.set_page_config(
 
 st.markdown("""
 <style>
+    @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap');
+    
+    html, body, [class*="css"] {
+        font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+    }
     .stApp {
         background-color: #0b0f17;
         color: #f1f5f9;
@@ -74,52 +79,56 @@ st.markdown("""
         font-weight: 800;
         letter-spacing: -0.5px;
         color: #ffffff;
-        margin-bottom: 4px;
+        margin-bottom: 6px;
     }
     .step-banner {
-        background: linear-gradient(135deg, rgba(59, 130, 246, 0.12), rgba(99, 102, 241, 0.12));
-        border: 1px solid rgba(59, 130, 246, 0.25);
-        border-radius: 10px;
-        padding: 0.9rem 1.2rem;
-        margin-bottom: 1.2rem;
+        background: linear-gradient(135deg, rgba(99, 102, 241, 0.15), rgba(139, 92, 246, 0.12));
+        border: 1px solid rgba(99, 102, 241, 0.3);
+        border-radius: 12px;
+        padding: 1rem 1.3rem;
+        margin-bottom: 1.25rem;
     }
     .job-card {
         background: #111827;
         border: 1px solid #1f2937;
-        border-radius: 12px;
-        padding: 1.2rem;
+        border-radius: 14px;
+        padding: 1.25rem;
         margin-bottom: 1rem;
+        box-shadow: 0 4px 16px rgba(0, 0, 0, 0.2);
         transition: transform 0.15s ease, border-color 0.15s ease;
     }
     .job-card:hover {
-        border-color: #3b82f6;
+        border-color: #6366f1;
+        transform: translateY(-2px);
     }
     .score-pill-high {
-        background: rgba(16, 185, 129, 0.15);
+        background: linear-gradient(135deg, rgba(16, 185, 129, 0.2), rgba(5, 150, 105, 0.2));
         color: #34d399;
-        border: 1px solid rgba(16, 185, 129, 0.3);
+        border: 1px solid rgba(16, 185, 129, 0.4);
         border-radius: 20px;
         padding: 4px 14px;
         font-weight: 700;
-        font-size: 0.9rem;
+        font-size: 0.88rem;
     }
     .score-pill-med {
-        background: rgba(59, 130, 246, 0.15);
-        color: #60a5fa;
-        border: 1px solid rgba(59, 130, 246, 0.3);
+        background: linear-gradient(135deg, rgba(99, 102, 241, 0.2), rgba(139, 92, 246, 0.2));
+        color: #a5b4fc;
+        border: 1px solid rgba(99, 102, 241, 0.4);
         border-radius: 20px;
         padding: 4px 14px;
         font-weight: 700;
-        font-size: 0.9rem;
+        font-size: 0.88rem;
     }
     .skill-tag {
         display: inline-block;
         background: #1e293b;
         color: #cbd5e1;
-        border-radius: 6px;
-        padding: 3px 10px;
-        font-size: 0.8rem;
-        margin: 2px 4px 2px 0;
+        border: 1px solid #334155;
+        border-radius: 20px;
+        padding: 4px 12px;
+        font-size: 0.82rem;
+        font-weight: 500;
+        margin: 3px 4px 3px 0;
     }
     .skill-match {
         display: inline-block;
@@ -144,17 +153,32 @@ st.markdown("""
     .stat-card {
         background: #111827;
         border: 1px solid #1f2937;
-        border-radius: 10px;
-        padding: 1rem;
+        border-radius: 14px;
+        padding: 1.25rem;
         text-align: center;
+        box-shadow: 0 4px 16px rgba(0, 0, 0, 0.2);
     }
     .letter-paper {
         background: #0f172a;
         border: 1px solid #334155;
-        border-radius: 10px;
-        padding: 1.5rem;
-        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        border-radius: 12px;
+        padding: 1.75rem;
+        font-family: 'Inter', sans-serif;
         line-height: 1.8;
+    }
+    .stButton>button {
+        border-radius: 10px;
+        font-weight: 600;
+        transition: all 0.2s ease;
+    }
+    .stButton>button[kind="primary"] {
+        background: linear-gradient(135deg, #6366f1 0%, #4f46e5 100%);
+        border: none;
+        box-shadow: 0 4px 14px rgba(99, 102, 241, 0.35);
+    }
+    .stButton>button[kind="primary"]:hover {
+        background: linear-gradient(135deg, #4f46e5 0%, #4338ca 100%);
+        box-shadow: 0 6px 18px rgba(99, 102, 241, 0.45);
     }
 </style>
 """, unsafe_allow_html=True)
@@ -489,12 +513,28 @@ elif cur_idx == 1:
     with col_r2:
         st.subheader("📊 6-Dimension ATS Audit")
         score_val = ats.score if ats else 85.0
+        offset = 251.2 - (251.2 * score_val / 100)
         
         st.markdown(f"""
-        <div class="stat-card" style="padding: 1.2rem; margin-bottom: 1rem;">
-            <span style="color: #94a3b8; text-transform: uppercase; font-size: 0.85rem;">Overall ATS Compatibility</span>
-            <div style="font-size: 2.8rem; font-weight: 800; color: #34d399; margin: 4px 0;">{score_val:.0f}%</div>
-            <span class="score-pill-high">★ Top-Tier Candidate Fit</span>
+        <div class="stat-card" style="padding: 1.5rem; margin-bottom: 1rem; display: flex; flex-direction: column; align-items: center;">
+            <span style="color: #94a3b8; text-transform: uppercase; font-size: 0.8rem; font-weight: 700; letter-spacing: 0.05em; margin-bottom: 8px;">Overall ATS Score</span>
+            <div style="position: relative; width: 140px; height: 140px; margin-bottom: 12px;">
+                <svg viewBox="0 0 100 100" style="transform: rotate(-90deg); width: 140px; height: 140px;">
+                    <defs>
+                        <linearGradient id="stScoreGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+                            <stop offset="0%" stop-color="#6366f1" />
+                            <stop offset="100%" stop-color="#ec4899" />
+                        </linearGradient>
+                    </defs>
+                    <circle cx="50" cy="50" r="40" fill="none" stroke="#1f2937" stroke-width="10" />
+                    <circle cx="50" cy="50" r="40" fill="none" stroke="url(#stScoreGrad)" stroke-width="10" stroke-linecap="round" stroke-dasharray="251.2" stroke-dashoffset="{offset}" />
+                </svg>
+                <div style="position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); text-align: center;">
+                    <div style="font-size: 2rem; font-weight: 800; color: #ffffff; line-height: 1;">{score_val:.0f}</div>
+                    <div style="font-size: 0.65rem; color: #94a3b8; text-transform: uppercase; font-weight: 700;">Out of 100</div>
+                </div>
+            </div>
+            <span class="score-pill-high">★ GOOD · Ready to Apply</span>
         </div>
         """, unsafe_allow_html=True)
 

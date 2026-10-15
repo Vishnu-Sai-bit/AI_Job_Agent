@@ -1,90 +1,105 @@
 {% extends "base.html" %}
 
-{% block title %}Welcome - AI Job Copilot & Career Intelligence{% endblock %}
+{% block title %}AI JobAgent - Your AI-Powered Career Companion{% endblock %}
 
 {% block content %}
-<div class="py-5 text-center">
+<div class="py-4 text-center">
   <div class="row justify-content-center">
     <div class="col-lg-10">
-      <div class="badge bg-primary px-3 py-2 mb-3 rounded-pill text-uppercase fw-semibold" style="letter-spacing: 1px;">
-        Next-Gen Career Automation
+      <div class="badge-match mb-3" style="font-size: 0.85rem;">
+        <i class="bi bi-stars me-1"></i> AI-Powered Career Intelligence
       </div>
-      <h1 class="display-4 fw-bold text-white mb-3">
-        AI Job Copilot & Career Intelligence Platform
+      <h1 class="display-4 fw-bold text-dark mb-3">
+        Analyze your resume, get ATS insights, find relevant jobs, and grow with AI.
       </h1>
-      <p class="lead text-secondary mb-4 mx-auto" style="max-width: 750px;">
-        An integrated platform connecting candidate intelligence, automated multi-board job discovery, 6-dimension ATS resume audits, Kanban CRM tracking, and simulated mock interviews.
+      <p class="lead text-secondary mb-4 mx-auto" style="max-width: 760px;">
+        An autonomous career platform connecting candidate intelligence, automated multi-board job discovery, deep ATS resume audits, Kanban CRM tracking, and STAR-format simulated interviews.
       </p>
 
-      <div class="d-flex justify-content-center gap-3 mb-5">
-        <a href="{{ url_for('auth.register') }}" class="btn btn-primary btn-lg px-4 shadow">
-          <i class="bi bi-rocket-takeoff-fill me-1"></i> Get Started
+      <div class="d-flex justify-content-center gap-3 mb-5 flex-wrap">
+        <a href="{{ url_for('resumes.index') }}" class="btn btn-primary btn-lg px-4">
+          <i class="bi bi-rocket-takeoff-fill me-1"></i> Start 7-Step Career Workflow
         </a>
-        <a href="{{ url_for('auth.login') }}" class="btn btn-outline-light btn-lg px-4">
-          <i class="bi bi-box-arrow-in-right me-1"></i> Sign In
+        <a href="{{ url_for('main.dashboard') }}" class="btn btn-outline-custom btn-lg px-4">
+          <i class="bi bi-speedometer2 me-1"></i> View Dashboard
         </a>
       </div>
     </div>
   </div>
 
-  <!-- Feature Cards Grid -->
+  <!-- 6 Canonical Capabilities Grid (From Design Sheet #1) -->
   <div class="row g-4 mt-2 text-start">
     <div class="col-md-4">
-      <div class="card card-custom h-100 p-4">
-        <div class="fs-1 text-primary mb-3"><i class="bi bi-bullseye"></i></div>
-        <h4 class="text-white fw-semibold">Precision Job Matching</h4>
-        <p class="text-secondary small">
-          Calculates role and skill fit percentage dynamically based on your verified resume skills and candidate experience.
+      <div class="card card-clean h-100 p-4">
+        <div class="kpi-icon-circle kpi-icon-indigo mb-3"><i class="bi bi-file-earmark-person"></i></div>
+        <h4 class="text-dark fw-bold">Resume Analysis</h4>
+        <p class="text-secondary small mb-0">
+          Automated extraction across PDF, Word, and text resumes with structural entity recognition and contact normalization.
         </p>
       </div>
     </div>
 
     <div class="col-md-4">
-      <div class="card card-custom h-100 p-4">
-        <div class="fs-1 text-info mb-3"><i class="bi bi-file-earmark-check"></i></div>
-        <h4 class="text-white fw-semibold">6-Dimension ATS Audit</h4>
-        <p class="text-secondary small">
-          Evaluates Contact, Skills, Experience, Education, Projects, and Certifications with instant tailoring suggestions.
+      <div class="card card-clean h-100 p-4">
+        <div class="kpi-icon-circle kpi-icon-green mb-3"><i class="bi bi-shield-check"></i></div>
+        <h4 class="text-dark fw-bold">ATS Diagnostic Scoring</h4>
+        <p class="text-secondary small mb-0">
+          Calibrated 10-dimension audit checking keyword relevance, formatting integrity, distortion risks, and global formatting standards.
         </p>
       </div>
     </div>
 
     <div class="col-md-4">
-      <div class="card card-custom h-100 p-4">
-        <div class="fs-1 text-success mb-3"><i class="bi bi-kanban"></i></div>
-        <h4 class="text-white fw-semibold">Application Pipeline CRM</h4>
-        <p class="text-secondary small">
-          Manage saved, applied, interview, offer, and rejected applications with automated recruiter follow-up messaging.
+      <div class="card card-clean h-100 p-4">
+        <div class="kpi-icon-circle kpi-icon-blue mb-3"><i class="bi bi-search"></i></div>
+        <h4 class="text-dark fw-bold">Job Discovery & Ranking</h4>
+        <p class="text-secondary small mb-0">
+          Live aggregated openings across Remotive, RemoteOK, and ArbeitNow ranked by mathematical skill compatibility.
         </p>
       </div>
     </div>
 
     <div class="col-md-4">
-      <div class="card card-custom h-100 p-4">
-        <div class="fs-1 text-warning mb-3"><i class="bi bi-mic"></i></div>
-        <h4 class="text-white fw-semibold">AI Mock Interview Room</h4>
-        <p class="text-secondary small">
-          Simulate role-specific technical and STAR behavioral questions with instant rubric evaluation and model answers.
+      <div class="card card-clean h-100 p-4">
+        <div class="kpi-icon-circle" style="background: rgba(239, 68, 68, 0.12); color: #ef4444;"><i class="bi bi-mic"></i></div>
+        <h4 class="text-dark fw-bold">Interview Preparation</h4>
+        <p class="text-secondary small mb-0">
+          Mock interview simulator with company question banks (Google, Amazon, Microsoft) and AI STAR-rubric answer feedback.
         </p>
       </div>
     </div>
 
     <div class="col-md-4">
-      <div class="card card-custom h-100 p-4">
-        <div class="fs-1 text-danger mb-3"><i class="bi bi-graph-up"></i></div>
-        <h4 class="text-white fw-semibold">Market Intelligence</h4>
-        <p class="text-secondary small">
-          Analyze real-time market skill gaps and follow step-by-step personalized learning roadmaps to close them.
+      <div class="card card-clean h-100 p-4">
+        <div class="kpi-icon-circle kpi-icon-purple mb-3"><i class="bi bi-file-earmark-text"></i></div>
+        <h4 class="text-dark fw-bold">Cover Letter & Outreach</h4>
+        <p class="text-secondary small mb-0">
+          Targeted cover letter drafting and high-converting cold outreach, follow-up, and LinkedIn InMail generation.
         </p>
       </div>
     </div>
 
     <div class="col-md-4">
-      <div class="card card-custom h-100 p-4">
-        <div class="fs-1 text-light mb-3"><i class="bi bi-robot"></i></div>
-        <h4 class="text-white fw-semibold">AI Career Copilot</h4>
-        <p class="text-secondary small">
-          Chat with your intelligent copilot to identify today's high-fit opportunities, optimize match scores, and guide strategy.
+      <div class="card card-clean h-100 p-4">
+        <div class="kpi-icon-circle kpi-icon-amber mb-3"><i class="bi bi-kanban"></i></div>
+        <h4 class="text-dark fw-bold">Application CRM</h4>
+        <p class="text-secondary small mb-0">
+          End-to-end Kanban tracker for Saved, Applied, Interview, Offer, and Rejected applications with instant outreach triggers.
+        </p>
+      </div>
+    </div>
+  </div>
+
+  <!-- Mission Card (From Design Sheet #1) -->
+  <div class="card card-clean p-4 mt-4 text-start border-primary" style="background: linear-gradient(135deg, rgba(99, 102, 241, 0.05) 0%, rgba(139, 92, 246, 0.05) 100%);">
+    <div class="d-flex align-items-center gap-3">
+      <div class="kpi-icon-circle kpi-icon-indigo">
+        <i class="bi bi-lightbulb-fill"></i>
+      </div>
+      <div>
+        <h5 class="fw-bold text-dark mb-1">Our Mission</h5>
+        <p class="text-secondary small mb-0">
+          To empower job seekers with transparent AI resume analysis, automated multi-platform job aggregation, and precision career copilot tools to land dream opportunities faster.
         </p>
       </div>
     </div>
