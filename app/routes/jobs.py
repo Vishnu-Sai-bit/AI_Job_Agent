@@ -288,6 +288,13 @@ def index():
     hyd_count = sum(1 for j in scored_jobs if "hyderabad" in (j.get("location") or "").lower())
     blr_count = sum(1 for j in scored_jobs if any(b in (j.get("location") or "").lower() for b in ["bangalore", "bengaluru"]))
 
+    # Saved CRM job IDs
+    try:
+        from services.crm.application_crm import get_all_applications
+        saved_job_ids = {str(a.get("jobId")) for a in get_all_applications() if a.get("jobId")}
+    except Exception:
+        saved_job_ids = set()
+
     return render_template(
         "jobs/index.html",
         jobs=scored_jobs,
@@ -305,6 +312,7 @@ def index():
         hyd_count=hyd_count,
         blr_count=blr_count,
         total_count=len(scored_jobs),
+        saved_job_ids=saved_job_ids,
         active_tab="jobs"
     )
 

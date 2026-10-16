@@ -195,10 +195,10 @@
       </div>
     </div>
 
-    <!-- Results Count Bar -->
+    <!-- Results Count Bar with Progressive Indicator -->
     <div class="d-flex justify-content-between align-items-center mb-3">
       <div class="small text-secondary fw-semibold">
-        Showing <span id="visibleJobsCount" class="text-dark fw-bold">{{ jobs|length }}</span> matching roles
+        Showing <span id="visibleJobsCount" class="text-dark fw-bold">{{ [jobs|length, 24]|min }}</span> of <span id="totalMatchingCount" class="text-dark fw-bold">{{ jobs|length }}</span> matching roles
       </div>
     </div>
 
@@ -256,17 +256,42 @@
                   </span>
                 {% endif %}
 
-                {% for s in (job.skills or [])[:3] %}
-                  <span class="tal-tag">{{ s }}</span>
+                <!-- Matched Skills -->
+                {% for s in (job.matching_skills or [])[:2] %}
+                  <span class="tal-tag text-success" style="background: rgba(34, 197, 94, 0.12); font-weight: 600;" title="Matched with your resume skills">
+                    <i class="bi bi-check-circle-fill me-1"></i>{{ s }}
+                  </span>
+                {% endfor %}
+
+                <!-- General or Unmatched Skills -->
+                {% for s in (job.skills or [])[:2] %}
+                  {% if not has_resume or (s not in (job.matching_skills or [])) %}
+                    <span class="tal-tag">{{ s }}</span>
+                  {% endif %}
                 {% endfor %}
               </div>
             </div>
 
-            <!-- Card Bottom Buttons -->
-            <div class="d-flex align-items-center justify-content-between gap-2 pt-2 border-top" style="border-color: rgba(0,0,0,0.06) !important;">
-              <a href="{{ url_for('jobs.detail', job_id=job.id) }}" class="btn btn-sm btn-light rounded-pill px-3 py-1 fw-semibold border" style="font-size: 0.8rem;">
-                Details
-              </a>
+            <!-- Card Bottom Buttons with One-Click Tools -->
+            <div class="d-flex align-items-center justify-content-between gap-1 pt-2 border-top flex-wrap" style="border-color: rgba(0,0,0,0.06) !important;">
+              <div class="d-flex align-items-center gap-1">
+                <a href="{{ url_for('jobs.detail', job_id=job.id) }}" class="btn btn-sm btn-light rounded-pill px-2 py-1 fw-semibold border" style="font-size: 0.78rem;">
+                  Details
+                </a>
+                <a href="{{ url_for('main.cover_letter') }}?role={{ job.title|urlencode }}&company={{ job.company|urlencode }}"
+                   class="btn btn-sm btn-light rounded-pill px-2 py-1 border text-primary"
+                   title="Draft Tailored Cover Letter for {{ job.company }}"
+                   style="font-size: 0.78rem;">
+                  <i class="bi bi-file-earmark-text"></i>
+                </a>
+                <a href="{{ url_for('interviews.index') }}?role={{ job.title|urlencode }}&company={{ job.company|urlencode }}"
+                   class="btn btn-sm btn-light rounded-pill px-2 py-1 border text-danger"
+                   title="Practice Mock Interview for {{ job.title }}"
+                   style="font-size: 0.78rem;">
+                  <i class="bi bi-mic"></i>
+                </a>
+              </div>
+
               <div class="d-flex align-items-center gap-1">
                 <a href="{{ job.url if job.url and job.url != '#' else url_for('jobs.detail', job_id=job.id) }}"
                    target="_blank" rel="noopener noreferrer"
@@ -274,8 +299,10 @@
                   Apply now
                 </a>
                 <form method="POST" action="{{ url_for('jobs.save_job', job_id=job.id) }}" class="d-inline m-0">
-                  <button type="submit" class="btn-tal-heart" title="Save Job">
-                    <i class="bi bi-heart"></i>
+                  <button type="submit"
+                          class="btn-tal-heart {% if job.id|string in (saved_job_ids or []) %}saved{% endif %}"
+                          title="{% if job.id|string in (saved_job_ids or []) %}Saved to Applications CRM{% else %}Save to CRM{% endif %}">
+                    <i class="bi {% if job.id|string in (saved_job_ids or []) %}bi-heart-fill text-danger{% else %}bi-heart{% endif %}"></i>
                   </button>
                 </form>
               </div>
@@ -283,6 +310,13 @@
           </div>
         </div>
       {% endfor %}
+    </div>
+
+    <!-- Progressive Load More Button Container -->
+    <div id="loadMoreContainer" class="text-center my-4 py-2">
+      <button type="button" id="loadMoreBtn" class="btn btn-outline-dark rounded-pill px-4 py-2 fw-semibold shadow-sm">
+        <i class="bi bi-arrow-down-circle me-1"></i> Load More Opportunities (<span id="loadMoreRemaining">24</span> remaining)
+      </button>
     </div>
 
     <!-- Client-side No Matches Banner -->
@@ -307,17 +341,24 @@
   </div>
 </div>
 
-<!-- Instant Client-Side & Server Filter Controller Script -->
+<!-- Instant Client-Side Filter Engine + Progressive Batch Loader -->
 <script>
 document.addEventListener('DOMContentLoaded', function () {
   const checkLabels = document.querySelectorAll('.tal-check-label');
   const roleInput = document.getElementById('roleSearchInput');
   const jobCols = document.querySelectorAll('.job-item-col');
-  const countEl = document.getElementById('visibleJobsCount');
+  const visibleCountEl = document.getElementById('visibleJobsCount');
+  const totalCountEl = document.getElementById('totalMatchingCount');
   const noMatchesEl = document.getElementById('noClientMatches');
   const chipsWrapper = document.getElementById('activeChipsWrapper');
   const resetBtn = document.getElementById('resetAllFiltersBtn');
   const resetEmptyBtn = document.getElementById('resetFromEmptyBtn');
+  const loadMoreContainer = document.getElementById('loadMoreContainer');
+  const loadMoreBtn = document.getElementById('loadMoreBtn');
+  const loadMoreRemaining = document.getElementById('loadMoreRemaining');
+
+  const BATCH_SIZE = 24;
+  let currentDisplayLimit = BATCH_SIZE;
 
   // Friendly display names for filter values
   const filterNames = {
@@ -346,7 +387,11 @@ document.addEventListener('DOMContentLoaded', function () {
     return checked;
   }
 
-  function applyFilters() {
+  function applyFilters(resetLimit = true) {
+    if (resetLimit) {
+      currentDisplayLimit = BATCH_SIZE;
+    }
+
     const schedules = getCheckedValues('schedule');
     const employments = getCheckedValues('employment');
     const workstyles = getCheckedValues('workstyle');
@@ -354,7 +399,7 @@ document.addEventListener('DOMContentLoaded', function () {
     const searchQuery = (roleInput ? roleInput.value : '').toLowerCase().trim();
     const searchTerms = searchQuery ? searchQuery.split(/\s+/).filter(t => t.length > 0) : [];
 
-    let visibleCount = 0;
+    const matchingCols = [];
 
     jobCols.forEach(col => {
       const title = col.getAttribute('data-title') || '';
@@ -399,21 +444,45 @@ document.addEventListener('DOMContentLoaded', function () {
       }
 
       if (textMatch && schedMatch && workstyleMatch && empMatch && expMatch) {
-        col.classList.remove('d-none');
-        visibleCount++;
+        matchingCols.push(col);
       } else {
         col.classList.add('d-none');
       }
     });
 
+    const totalMatching = matchingCols.length;
+
+    // Display only up to currentDisplayLimit
+    matchingCols.forEach((col, index) => {
+      if (index < currentDisplayLimit) {
+        col.classList.remove('d-none');
+      } else {
+        col.classList.add('d-none');
+      }
+    });
+
+    const currentlyVisible = Math.min(currentDisplayLimit, totalMatching);
+
     // Update count display
-    if (countEl) {
-      countEl.textContent = visibleCount;
+    if (visibleCountEl) visibleCountEl.textContent = currentlyVisible;
+    if (totalCountEl) totalCountEl.textContent = totalMatching;
+
+    // Manage Load More button
+    if (loadMoreContainer) {
+      if (totalMatching > currentDisplayLimit) {
+        loadMoreContainer.classList.remove('d-none');
+        const remaining = totalMatching - currentDisplayLimit;
+        if (loadMoreRemaining) {
+          loadMoreRemaining.textContent = Math.min(BATCH_SIZE, remaining);
+        }
+      } else {
+        loadMoreContainer.classList.add('d-none');
+      }
     }
 
     // Toggle empty state if cards exist in DOM
     if (noMatchesEl) {
-      if (visibleCount === 0 && jobCols.length > 0) {
+      if (totalMatching === 0 && jobCols.length > 0) {
         noMatchesEl.classList.remove('d-none');
       } else {
         noMatchesEl.classList.add('d-none');
@@ -422,6 +491,14 @@ document.addEventListener('DOMContentLoaded', function () {
 
     // Render active chips
     renderChips(searchQuery, schedules, employments, workstyles, experiences);
+  }
+
+  // Load More button click
+  if (loadMoreBtn) {
+    loadMoreBtn.addEventListener('click', function () {
+      currentDisplayLimit += BATCH_SIZE;
+      applyFilters(false);
+    });
   }
 
   function renderChips(query, schedules, employments, workstyles, experiences) {
@@ -434,7 +511,7 @@ document.addEventListener('DOMContentLoaded', function () {
       chip.innerHTML = `<span>${escapeHtml(query)}</span><span class="tal-chip-close" style="cursor:pointer;" title="Remove filter">&times;</span>`;
       chip.querySelector('.tal-chip-close').addEventListener('click', () => {
         if (roleInput) roleInput.value = '';
-        applyFilters();
+        applyFilters(true);
       });
       chipsWrapper.appendChild(chip);
     }
@@ -458,7 +535,7 @@ document.addEventListener('DOMContentLoaded', function () {
           const parentLabel = cb.closest('.tal-check-label');
           if (parentLabel) parentLabel.classList.remove('checked');
         }
-        applyFilters();
+        applyFilters(true);
       });
       chipsWrapper.appendChild(chip);
     });
@@ -482,7 +559,7 @@ document.addEventListener('DOMContentLoaded', function () {
         } else {
           this.classList.remove('checked');
         }
-        applyFilters();
+        applyFilters(true);
       }
     });
   });
@@ -492,7 +569,7 @@ document.addEventListener('DOMContentLoaded', function () {
   if (roleInput) {
     roleInput.addEventListener('input', function () {
       clearTimeout(debounceTimer);
-      debounceTimer = setTimeout(applyFilters, 120);
+      debounceTimer = setTimeout(() => applyFilters(true), 120);
     });
   }
 
@@ -504,14 +581,14 @@ document.addEventListener('DOMContentLoaded', function () {
       const parentLabel = cb.closest('.tal-check-label');
       if (parentLabel) parentLabel.classList.remove('checked');
     });
-    applyFilters();
+    applyFilters(true);
   }
 
   if (resetBtn) resetBtn.addEventListener('click', resetAll);
   if (resetEmptyBtn) resetEmptyBtn.addEventListener('click', resetAll);
 
   // Initial filter application on page load
-  applyFilters();
+  applyFilters(true);
 });
 </script>
 {% endblock %}
