@@ -25,15 +25,15 @@
 
       <!-- Candidate Profile Avatar & Role -->
       <div class="mockai-profile-chip">
-        <div class="mockai-profile-avatar">
-          <span>{{ (candidate.candidate_name[:2] if candidate.candidate_name else 'SI').upper() }}</span>
+        <div class="mockai-profile-avatar" style="background: {% if candidate.has_resume %}linear-gradient(135deg, #7c3aed 0%, #6366f1 100%){% else %}#94a3b8{% endif %};">
+          <span>{{ (candidate.candidate_name[:2] if candidate.has_resume and candidate.candidate_name else 'CA').upper() }}</span>
         </div>
         <div class="d-none d-sm-flex flex-column text-start" style="line-height: 1.2;">
           <span class="fw-bold text-dark" style="font-size: 0.88rem; letter-spacing: 0.02em;">
-            {{ (candidate.candidate_name if candidate.candidate_name else 'SAZZATUL ISLAM').upper() }}
+            {{ (candidate.candidate_name if candidate.has_resume and candidate.candidate_name else 'Candidate').upper() }}
           </span>
           <span class="text-secondary" style="font-size: 0.72rem;">
-            {{ candidate.preferred_role or 'Sr. Creative Director' }}
+            {{ (candidate.preferred_role if candidate.has_resume and candidate.preferred_role else 'No Resume Uploaded') }}
           </span>
         </div>
       </div>
@@ -138,22 +138,26 @@
             </defs>
             <!-- Background Ring -->
             <circle cx="80" cy="80" r="62" fill="none" stroke="#f1f5f9" stroke-width="16" />
-            <!-- Progress Arc (65%) -->
+            <!-- Progress Arc -->
             <circle cx="80" cy="80" r="62" fill="none" stroke="url(#purpleGaugeGrad)" stroke-width="16"
-                    stroke-dasharray="390" stroke-dashoffset="136" stroke-linecap="round"
+                    stroke-dasharray="390" stroke-dashoffset="{% if candidate.has_resume %}136{% else %}390{% endif %}" stroke-linecap="round"
                     transform="rotate(-90 80 80)" />
           </svg>
           <div class="growth-donut-center">
-            <div class="growth-donut-pct">65%</div>
-            <div class="growth-donut-sub">650/1000 XP</div>
+            <div class="growth-donut-pct">{{ (overall_score|string + '%') if candidate.has_resume else '--' }}</div>
+            <div class="growth-donut-sub">{{ '650/1000 XP' if candidate.has_resume else '0/1000 XP' }}</div>
           </div>
         </div>
 
         <!-- Bottom Level Status Link -->
         <div class="text-center pt-2">
           <span class="text-secondary small fw-medium">
+            {% if candidate.has_resume %}
             Current Level <strong class="text-dark">Level 04</strong> &bull;
             <a href="{{ url_for('career.career_intelligence') }}" class="text-dark fw-bold text-decoration-underline">Visit</a>
+            {% else %}
+            <span class="text-muted">Upload resume to calculate level</span>
+            {% endif %}
           </span>
         </div>
       </div>
@@ -179,139 +183,75 @@
 
       <!-- Job Cards Stream -->
       <div class="job-matches-container">
-        <!-- Job Card 1: Fuel Labs -->
-        <div class="mockai-job-item">
-          <div class="d-flex justify-content-between align-items-start flex-wrap gap-2 mb-2">
-            <div class="d-flex align-items-center gap-3">
-              <div class="mockai-job-logo" style="background: #10b981;">
-                <i class="bi bi-chevron-right fs-5 fw-bold text-white"></i>
-              </div>
-              <div>
-                <h6 class="fw-bold text-dark mb-0" style="font-size: 0.96rem;">
-                  UX &amp; Graphic Designer- Crypto Trading Platform
-                </h6>
-                <div class="d-flex align-items-center gap-2 text-secondary small mt-1 flex-wrap" style="font-size: 0.78rem;">
-                  <span class="fw-semibold text-dark d-inline-flex align-items-center gap-1">
-                    Fuel Labs <i class="bi bi-patch-check-fill text-primary" style="font-size: 0.75rem;"></i>
-                  </span>
-                  <span>&bull;</span>
-                  <span><i class="bi bi-people me-1"></i>5-11</span>
-                  <span>&bull;</span>
-                  <span><i class="bi bi-cash me-1"></i>150k-180k USD</span>
+        {% if not candidate.has_resume %}
+        <!-- Empty State CTA when no resume is uploaded -->
+        <div class="mockai-job-item text-center py-5">
+          <div class="mb-3">
+            <div class="d-inline-flex align-items-center justify-content-center"
+                 style="width: 56px; height: 56px; border-radius: 16px; background: rgba(124, 58, 237, 0.08); color: #7c3aed;">
+              <i class="bi bi-briefcase fs-3"></i>
+            </div>
+          </div>
+          <h5 class="fw-bold text-dark mb-1">No Resume Uploaded Yet</h5>
+          <p class="text-secondary small mb-3" style="max-width: 440px; margin: 0 auto;">
+            Upload your resume to calculate real-time compatibility and discover tailored job openings.
+          </p>
+          <a href="{{ url_for('resumes.index') }}" class="btn btn-sm px-4 py-2 fw-semibold text-white"
+             style="border-radius: 20px; background: #7c3aed; border: none;">
+            <i class="bi bi-cloud-arrow-up-fill me-1"></i> Upload Resume to Match Jobs
+          </a>
+        </div>
+        {% elif top_matches %}
+          {% for job in top_matches %}
+          <div class="mockai-job-item">
+            <div class="d-flex justify-content-between align-items-start flex-wrap gap-2 mb-2">
+              <div class="d-flex align-items-center gap-3">
+                <div class="mockai-job-logo" style="background: linear-gradient(135deg, #7c3aed 0%, #6366f1 100%);">
+                  <span class="fw-bold text-white fs-6">{{ (job.company[:2] if job.company else 'JB').upper() }}</span>
+                </div>
+                <div>
+                  <h6 class="fw-bold text-dark mb-0" style="font-size: 0.96rem;">
+                    {{ job.title }}
+                  </h6>
+                  <div class="d-flex align-items-center gap-2 text-secondary small mt-1 flex-wrap" style="font-size: 0.78rem;">
+                    <span class="fw-semibold text-dark d-inline-flex align-items-center gap-1">
+                      {{ job.company }} <i class="bi bi-patch-check-fill text-primary" style="font-size: 0.75rem;"></i>
+                    </span>
+                    <span>&bull;</span>
+                    <span><i class="bi bi-geo-alt me-1"></i>{{ job.location }}</span>
+                    <span>&bull;</span>
+                    <span><i class="bi bi-cash me-1"></i>{{ job.salary }}</span>
+                  </div>
                 </div>
               </div>
+              <div class="text-end">
+                <span class="badge" style="background: rgba(124, 58, 237, 0.12); color: #7c3aed; font-size: 0.8rem; font-weight: 700; border-radius: 20px; padding: 4px 12px;">
+                  {{ job.match_score }}% Match
+                </span>
+                <strong class="text-dark d-block mt-1" style="font-size: 0.88rem;">{{ job.salary }}</strong>
+              </div>
             </div>
-            <div class="text-end">
-              <span class="text-muted small d-block" style="font-size: 0.72rem;">1 day ago</span>
-              <strong class="text-dark d-block" style="font-size: 0.92rem;">150k-180k USD</strong>
-            </div>
-          </div>
 
-          <div class="d-flex justify-content-between align-items-center flex-wrap gap-2 pt-2 border-top mt-2">
-            <div class="d-flex align-items-center gap-2 flex-wrap">
-              <span class="mockai-job-tag">
-                <span class="me-1">🇧🇷</span> Brazil
-              </span>
-              <span class="mockai-job-tag">Full Time</span>
-              <span class="mockai-job-tag">Marketing</span>
-            </div>
-            <div class="d-flex align-items-center gap-2">
-              <a href="{{ url_for('jobs.index') }}" class="mockai-btn-details">Job Details</a>
-              <a href="{{ url_for('jobs.index') }}" class="mockai-btn-apply">Apply Now</a>
+            <div class="d-flex justify-content-between align-items-center flex-wrap gap-2 pt-2 border-top mt-2">
+              <div class="d-flex align-items-center gap-2 flex-wrap">
+                <span class="mockai-job-tag"><i class="bi bi-geo-alt"></i> {{ job.location }}</span>
+                <span class="mockai-job-tag">Full Time</span>
+                {% for s in job.skills[:2] %}
+                <span class="mockai-job-tag">{{ s }}</span>
+                {% endfor %}
+              </div>
+              <div class="d-flex align-items-center gap-2">
+                <a href="{{ url_for('jobs.index') }}" class="mockai-btn-details">Job Details</a>
+                <a href="{{ job.url if job.url and job.url != '#' else url_for('jobs.index') }}" class="mockai-btn-apply" target="_blank">Apply Now</a>
+              </div>
             </div>
           </div>
+          {% endfor %}
+        {% else %}
+        <div class="mockai-job-item text-center py-4 text-muted small">
+          No matching jobs computed yet. Update your skills or explore general jobs.
         </div>
-
-        <!-- Job Card 2: Sleeko Studio -->
-        <div class="mockai-job-item">
-          <div class="d-flex justify-content-between align-items-start flex-wrap gap-2 mb-2">
-            <div class="d-flex align-items-center gap-3">
-              <div class="mockai-job-logo" style="background: #ef4444;">
-                <i class="bi bi-star-fill text-white" style="font-size: 0.95rem;"></i>
-              </div>
-              <div>
-                <h6 class="fw-bold text-dark mb-0" style="font-size: 0.96rem;">
-                  Director of User Experience Design
-                </h6>
-                <div class="d-flex align-items-center gap-2 text-secondary small mt-1 flex-wrap" style="font-size: 0.78rem;">
-                  <span class="fw-semibold text-dark d-inline-flex align-items-center gap-1">
-                    Sleeko Studio <i class="bi bi-patch-check-fill text-primary" style="font-size: 0.75rem;"></i>
-                  </span>
-                  <span>&bull;</span>
-                  <span><i class="bi bi-people me-1"></i>5-11</span>
-                  <span>&bull;</span>
-                  <span><i class="bi bi-cash me-1"></i>240K-270K USD</span>
-                  <span>&bull;</span>
-                  <span><i class="bi bi-briefcase me-1"></i>Benefits</span>
-                </div>
-              </div>
-            </div>
-            <div class="text-end">
-              <span class="text-muted small d-block" style="font-size: 0.72rem;">46 min ago</span>
-              <strong class="text-dark d-block" style="font-size: 0.92rem;">240K-270K USD</strong>
-            </div>
-          </div>
-
-          <div class="d-flex justify-content-between align-items-center flex-wrap gap-2 pt-2 border-top mt-2">
-            <div class="d-flex align-items-center gap-2 flex-wrap">
-              <span class="mockai-job-tag">
-                <span class="me-1">🇧🇩</span> Bangladesh States Only
-              </span>
-              <span class="mockai-job-tag">Full Time</span>
-              <span class="mockai-job-tag">On Site</span>
-              <span class="mockai-job-tag">Design</span>
-            </div>
-            <div class="d-flex align-items-center gap-2">
-              <a href="{{ url_for('jobs.index') }}" class="mockai-btn-details">Job Details</a>
-              <a href="{{ url_for('jobs.index') }}" class="mockai-btn-apply">Apply Now</a>
-            </div>
-          </div>
-        </div>
-
-        <!-- Job Card 3: Innovate Tech (PolicyMe) -->
-        <div class="mockai-job-item">
-          <div class="d-flex justify-content-between align-items-start flex-wrap gap-2 mb-2">
-            <div class="d-flex align-items-center gap-3">
-              <div class="mockai-job-logo" style="background: #f1f5f9; color: #0284c7; border: 1px solid #e2e8f0;">
-                <span class="fw-bold" style="font-size: 0.68rem; color: #0284c7;">PolicyMe</span>
-              </div>
-              <div>
-                <h6 class="fw-bold text-dark mb-0" style="font-size: 0.96rem;">
-                  Senior Product Designer
-                </h6>
-                <div class="d-flex align-items-center gap-2 text-secondary small mt-1 flex-wrap" style="font-size: 0.78rem;">
-                  <span class="fw-semibold text-dark d-inline-flex align-items-center gap-1">
-                    Innovate Tech <i class="bi bi-patch-check-fill text-primary" style="font-size: 0.75rem;"></i>
-                  </span>
-                  <span>&bull;</span>
-                  <span><i class="bi bi-people me-1"></i>51-200</span>
-                  <span>&bull;</span>
-                  <span><i class="bi bi-cash me-1"></i>120K-150K USD</span>
-                  <span>&bull;</span>
-                  <span><i class="bi bi-briefcase me-1"></i>Benefits</span>
-                </div>
-              </div>
-            </div>
-            <div class="text-end">
-              <span class="text-muted small d-block" style="font-size: 0.72rem;">2 hours ago</span>
-              <strong class="text-dark d-block" style="font-size: 0.92rem;">120K-150K USD</strong>
-            </div>
-          </div>
-
-          <div class="d-flex justify-content-between align-items-center flex-wrap gap-2 pt-2 border-top mt-2">
-            <div class="d-flex align-items-center gap-2 flex-wrap">
-              <span class="mockai-job-tag">
-                <span class="me-1">🇨🇦</span> Canada Only
-              </span>
-              <span class="mockai-job-tag">Full Time</span>
-              <span class="mockai-job-tag">Product</span>
-            </div>
-            <div class="d-flex align-items-center gap-2">
-              <a href="{{ url_for('jobs.index') }}" class="mockai-btn-details">Job Details</a>
-              <a href="{{ url_for('jobs.index') }}" class="mockai-btn-apply">Apply Now</a>
-            </div>
-          </div>
-        </div>
+        {% endif %}
       </div>
     </div>
 
@@ -334,100 +274,23 @@
 
         <!-- Heatmap Hours Grid -->
         <div class="streak-heatmap-grid">
-          <!-- Row 1: 5 hrs -->
+          {% for hr_label in ['5 hrs', '4.5 hrs', '4 hrs', '3.5 hrs', '3 hrs', '2.5 hrs'] %}
           <div class="streak-row">
-            <span class="streak-hour-label">5 hrs</span>
-            <div class="streak-cell"></div>
-            <div class="streak-cell"></div>
-            <div class="streak-cell"></div>
-            <div class="streak-cell"></div>
-            <div class="streak-cell"></div>
-            <div class="streak-cell"></div>
-            <div class="streak-cell"></div>
-            <div class="streak-cell"></div>
-            <div class="streak-cell"></div>
-            <div class="streak-cell"></div>
+            <span class="streak-hour-label">{{ hr_label }}</span>
+            {% for col in range(10) %}
+            <div class="streak-cell {% if candidate.has_resume %}{% if hr_label == '3.5 hrs' and col in [5, 7] %}lvl-2{% elif hr_label == '3 hrs' and col in [2, 3, 5, 6, 7] %}lvl-{{ col % 4 + 1 }}{% elif hr_label == '2.5 hrs' and col in [5, 6] %}lvl-3{% endif %}{% endif %}"></div>
+            {% endfor %}
           </div>
-
-          <!-- Row 2: 4.5 hrs -->
-          <div class="streak-row">
-            <span class="streak-hour-label">4.5 hrs</span>
-            <div class="streak-cell"></div>
-            <div class="streak-cell"></div>
-            <div class="streak-cell"></div>
-            <div class="streak-cell"></div>
-            <div class="streak-cell"></div>
-            <div class="streak-cell"></div>
-            <div class="streak-cell"></div>
-            <div class="streak-cell"></div>
-            <div class="streak-cell"></div>
-            <div class="streak-cell"></div>
-          </div>
-
-          <!-- Row 3: 4 hrs -->
-          <div class="streak-row">
-            <span class="streak-hour-label">4 hrs</span>
-            <div class="streak-cell"></div>
-            <div class="streak-cell"></div>
-            <div class="streak-cell"></div>
-            <div class="streak-cell"></div>
-            <div class="streak-cell"></div>
-            <div class="streak-cell"></div>
-            <div class="streak-cell"></div>
-            <div class="streak-cell"></div>
-            <div class="streak-cell lvl-1"></div>
-            <div class="streak-cell"></div>
-          </div>
-
-          <!-- Row 4: 3.5 hrs -->
-          <div class="streak-row">
-            <span class="streak-hour-label">3.5 hrs</span>
-            <div class="streak-cell"></div>
-            <div class="streak-cell"></div>
-            <div class="streak-cell"></div>
-            <div class="streak-cell"></div>
-            <div class="streak-cell"></div>
-            <div class="streak-cell lvl-2"></div>
-            <div class="streak-cell lvl-1"></div>
-            <div class="streak-cell lvl-3"></div>
-            <div class="streak-cell"></div>
-            <div class="streak-cell"></div>
-          </div>
-
-          <!-- Row 5: 3 hrs -->
-          <div class="streak-row">
-            <span class="streak-hour-label">3 hrs</span>
-            <div class="streak-cell"></div>
-            <div class="streak-cell"></div>
-            <div class="streak-cell lvl-1"></div>
-            <div class="streak-cell lvl-2"></div>
-            <div class="streak-cell"></div>
-            <div class="streak-cell lvl-2"></div>
-            <div class="streak-cell lvl-4"></div>
-            <div class="streak-cell lvl-1"></div>
-            <div class="streak-cell"></div>
-            <div class="streak-cell"></div>
-          </div>
-
-          <!-- Row 6: 2.5 hrs -->
-          <div class="streak-row">
-            <span class="streak-hour-label">2.5 hrs</span>
-            <div class="streak-cell"></div>
-            <div class="streak-cell"></div>
-            <div class="streak-cell"></div>
-            <div class="streak-cell"></div>
-            <div class="streak-cell"></div>
-            <div class="streak-cell lvl-3"></div>
-            <div class="streak-cell lvl-2"></div>
-            <div class="streak-cell"></div>
-            <div class="streak-cell"></div>
-            <div class="streak-cell"></div>
-          </div>
+          {% endfor %}
         </div>
 
         <div class="pt-3 border-top mt-3 text-center">
           <span class="text-secondary small" style="font-size: 0.74rem;">
+            {% if candidate.has_resume %}
             Consistent practice unlocks higher tier job matches
+            {% else %}
+            0 hrs logged &bull; Upload resume to start tracking activity
+            {% endif %}
           </span>
         </div>
       </div>

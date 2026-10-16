@@ -30,18 +30,26 @@
     </div>
 
     {% if not candidate.has_resume %}
-    <!-- Informative Notice when no resume is uploaded yet -->
-    <div class="alert alert-info d-flex align-items-center justify-content-between p-3 rounded-3 mb-4" style="background: rgba(99, 102, 241, 0.08); border-color: rgba(99, 102, 241, 0.25);">
-      <div class="d-flex align-items-center gap-2">
-        <i class="bi bi-info-circle-fill text-primary fs-5"></i>
-        <span class="text-dark small">Displaying sample benchmark audit below. Upload your resume to calculate your candidate-specific ATS score.</span>
+    <!-- Informative Empty State when no resume is uploaded yet -->
+    <div class="card p-5 text-center border rounded-4 bg-white shadow-sm mb-4">
+      <div class="mb-3">
+        <div class="d-inline-flex align-items-center justify-content-center"
+             style="width: 64px; height: 64px; border-radius: 20px; background: rgba(124, 58, 237, 0.08); color: #7c3aed;">
+          <i class="bi bi-file-earmark-medical fs-2"></i>
+        </div>
       </div>
-      <a href="{{ url_for('resumes.index') }}" class="btn btn-primary btn-sm px-3 fw-semibold">
-        <i class="bi bi-cloud-arrow-up me-1"></i> Upload Your Resume
-      </a>
+      <h4 class="fw-bold text-dark mb-1">No Resume Uploaded Yet</h4>
+      <p class="text-secondary small mb-4" style="max-width: 480px; margin: 0 auto; line-height: 1.55;">
+        Upload your resume to perform automated ATS parsing, calculate your real-time compatibility score, and view the diagnostic checklist.
+      </p>
+      <div>
+        <a href="{{ url_for('resumes.index') }}" class="btn btn-sm px-4 py-2 fw-semibold text-white"
+           style="border-radius: 20px; background: #7c3aed; border: none;">
+          <i class="bi bi-cloud-arrow-up-fill me-1"></i> Upload Resume to Run ATS Diagnostic
+        </a>
+      </div>
     </div>
-    {% endif %}
-
+    {% else %}
     <!-- Top Row: Left Circular Gauge Score + Right Performance Summary -->
     <div class="row g-4 mb-4">
       <!-- Left Card: Circular Gauge Score -->
@@ -282,6 +290,7 @@
         </div>
       </div>
     </div>
+    {% endif %}
 
     <!-- Action Navigation Footer -->
     <div class="d-flex justify-content-between align-items-center pt-4 border-top mt-4 flex-wrap gap-2">

@@ -25,12 +25,12 @@
 
     <!-- User Profile Badge -->
     <div class="d-flex align-items-center gap-2">
-      <div class="user-avatar-circle" style="width: 38px; height: 38px; border-radius: 50%; background: linear-gradient(135deg, #f59e0b 0%, #d97706 100%);">
-        <span>{{ (candidate.candidate_name[:2] if candidate.candidate_name else 'SI').upper() }}</span>
+      <div class="user-avatar-circle" style="width: 38px; height: 38px; border-radius: 50%; background: {% if candidate.has_resume %}linear-gradient(135deg, #7c3aed 0%, #6366f1 100%){% else %}#94a3b8{% endif %};">
+        <span>{{ (candidate.candidate_name[:2] if candidate.has_resume and candidate.candidate_name else 'CA').upper() }}</span>
       </div>
       <div class="d-none d-sm-flex flex-column" style="line-height: 1.15;">
-        <span class="fw-bold text-dark" style="font-size: 0.85rem;">{{ candidate.candidate_name or 'SAZZATUL ISLAM' }}</span>
-        <span class="text-secondary" style="font-size: 0.7rem;">{{ candidate.preferred_role or 'Sr. Creative Director' }}</span>
+        <span class="fw-bold text-dark" style="font-size: 0.85rem;">{{ (candidate.candidate_name if candidate.has_resume and candidate.candidate_name else 'Candidate') }}</span>
+        <span class="text-secondary" style="font-size: 0.7rem;">{{ (candidate.preferred_role if candidate.has_resume and candidate.preferred_role else 'No Resume Uploaded') }}</span>
       </div>
     </div>
   </div>
@@ -59,17 +59,17 @@
       <form method="POST" action="{{ url_for('resumes.upload') }}" enctype="multipart/form-data" id="mockaiUploadForm">
         <!-- Mint Green Dashed File Selected Dropzone -->
         <div class="mockai-dropzone" onclick="document.getElementById('resumeFileInput').click();" id="dropzoneBox">
-          <div class="mockai-dropzone-icon" id="dropzoneIcon">
-            <i class="bi bi-check-lg fw-bold"></i>
+          <div class="mockai-dropzone-icon" id="dropzoneIcon" style="background: #ede9fe; color: #7c3aed;">
+            <i class="bi bi-cloud-arrow-up-fill fs-4"></i>
           </div>
           <div class="fw-bold text-dark mb-1" id="fileStatusText" style="font-size: 1.05rem;">
-            File Selected
+            Choose a resume or drop it here
           </div>
           <div class="text-secondary small" id="fileNameText">
-            Resume.pdf
+            Supported PDF, Word (.docx) &bull; Max 5MB
           </div>
-          <span class="text-muted d-block mt-2" style="font-size: 0.72rem;">
-            Click to change or select from device
+          <span class="text-primary d-block mt-2 fw-semibold" style="font-size: 0.74rem;">
+            Click to browse from your device
           </span>
           <input type="file" id="resumeFileInput" name="resume_file" class="d-none" accept=".pdf,.docx,.doc"
                  onchange="handleFileSelect(this)">
@@ -139,53 +139,25 @@
           <a href="{{ url_for('jobs.index') }}" class="text-primary text-decoration-none small fw-semibold">View All</a>
         </div>
 
-        <!-- 1. IDEO -->
-        <div class="mockai-job-item">
-          <div class="d-flex align-items-center gap-2">
-            <span class="badge bg-dark text-white p-2 rounded-3" style="font-size: 0.75rem;">IDEO</span>
-            <div>
-              <strong class="text-dark small d-block">Senior UX Designer</strong>
-              <span class="text-secondary" style="font-size: 0.72rem;">IDEO &bull; Full-Time</span>
+        {% if candidate.has_resume and top_matches %}
+          {% for job in top_matches[:4] %}
+          <div class="mockai-job-item">
+            <div class="d-flex align-items-center gap-2">
+              <span class="badge bg-primary text-white p-2 rounded-3" style="font-size: 0.75rem;">{{ (job.company[:2] if job.company else 'JB').upper() }}</span>
+              <div>
+                <strong class="text-dark small d-block">{{ job.title }}</strong>
+                <span class="text-secondary" style="font-size: 0.72rem;">{{ job.company }} &bull; {{ job.location }}</span>
+              </div>
             </div>
+            <a href="{{ url_for('jobs.index') }}" class="btn btn-sm btn-outline-secondary py-1 px-2" style="font-size: 0.75rem; border-radius: 8px;">Details</a>
           </div>
-          <a href="{{ url_for('jobs.index') }}" class="btn btn-sm btn-outline-secondary py-1 px-2" style="font-size: 0.75rem; border-radius: 8px;">Details</a>
-        </div>
-
-        <!-- 2. Medium -->
-        <div class="mockai-job-item">
-          <div class="d-flex align-items-center gap-2">
-            <span class="badge bg-danger text-white p-2 rounded-3" style="font-size: 0.75rem;">M</span>
-            <div>
-              <strong class="text-dark small d-block">Product Designer</strong>
-              <span class="text-secondary" style="font-size: 0.72rem;">Medium &bull; Remote</span>
-            </div>
+          {% endfor %}
+        {% else %}
+          <div class="p-4 text-center border rounded-3 bg-light text-muted small my-2">
+            <i class="bi bi-briefcase fs-3 text-secondary d-block mb-1"></i>
+            No resume uploaded yet. Select and upload your file in the modal to calculate real compatibility and discover matched roles.
           </div>
-          <a href="{{ url_for('jobs.index') }}" class="btn btn-sm btn-outline-secondary py-1 px-2" style="font-size: 0.75rem; border-radius: 8px;">Details</a>
-        </div>
-
-        <!-- 3. Discord -->
-        <div class="mockai-job-item">
-          <div class="d-flex align-items-center gap-2">
-            <span class="badge text-white p-2 rounded-3" style="background: #5865F2; font-size: 0.75rem;">Discord</span>
-            <div>
-              <strong class="text-dark small d-block">Senior UX Designer</strong>
-              <span class="text-secondary" style="font-size: 0.72rem;">Discord &bull; San Francisco, CA</span>
-            </div>
-          </div>
-          <a href="{{ url_for('jobs.index') }}" class="btn btn-sm btn-outline-secondary py-1 px-2" style="font-size: 0.75rem; border-radius: 8px;">Details</a>
-        </div>
-
-        <!-- 4. UX Researcher -->
-        <div class="mockai-job-item">
-          <div class="d-flex align-items-center gap-2">
-            <span class="badge bg-dark text-white p-2 rounded-3" style="font-size: 0.75rem;">UX</span>
-            <div>
-              <strong class="text-dark small d-block">UX Researcher</strong>
-              <span class="text-secondary" style="font-size: 0.72rem;">Remote &bull; Los Angeles, CA &bull; $7,000 / Month</span>
-            </div>
-          </div>
-          <a href="{{ url_for('jobs.index') }}" class="btn btn-sm btn-primary py-1 px-3" style="font-size: 0.75rem; border-radius: 8px;">Apply Now</a>
-        </div>
+        {% endif %}
       </div>
     </div>
 
@@ -210,44 +182,44 @@
           <!-- Col SUN -->
           <div class="streak-cell"></div>
           <div class="streak-cell"></div>
-          <div class="streak-cell active-1"></div>
-          <div class="streak-cell active-3"></div>
+          <div class="streak-cell {% if candidate.has_resume %}active-1{% endif %}"></div>
+          <div class="streak-cell {% if candidate.has_resume %}active-3{% endif %}"></div>
           <div class="streak-cell"></div>
           <div class="streak-cell"></div>
           <div class="streak-cell"></div>
 
           <!-- Col MON -->
           <div class="streak-cell"></div>
-          <div class="streak-cell active-2"></div>
-          <div class="streak-cell active-4"></div>
-          <div class="streak-cell active-2"></div>
+          <div class="streak-cell {% if candidate.has_resume %}active-2{% endif %}"></div>
+          <div class="streak-cell {% if candidate.has_resume %}active-4{% endif %}"></div>
+          <div class="streak-cell {% if candidate.has_resume %}active-2{% endif %}"></div>
           <div class="streak-cell"></div>
           <div class="streak-cell"></div>
           <div class="streak-cell"></div>
 
           <!-- Col TUE -->
           <div class="streak-cell"></div>
-          <div class="streak-cell active-3"></div>
-          <div class="streak-cell active-4"></div>
-          <div class="streak-cell active-3"></div>
+          <div class="streak-cell {% if candidate.has_resume %}active-3{% endif %}"></div>
+          <div class="streak-cell {% if candidate.has_resume %}active-4{% endif %}"></div>
+          <div class="streak-cell {% if candidate.has_resume %}active-3{% endif %}"></div>
           <div class="streak-cell"></div>
           <div class="streak-cell"></div>
           <div class="streak-cell"></div>
 
           <!-- Col WED -->
-          <div class="streak-cell active-1"></div>
-          <div class="streak-cell active-4"></div>
-          <div class="streak-cell active-4"></div>
-          <div class="streak-cell active-4"></div>
-          <div class="streak-cell active-2"></div>
+          <div class="streak-cell {% if candidate.has_resume %}active-1{% endif %}"></div>
+          <div class="streak-cell {% if candidate.has_resume %}active-4{% endif %}"></div>
+          <div class="streak-cell {% if candidate.has_resume %}active-4{% endif %}"></div>
+          <div class="streak-cell {% if candidate.has_resume %}active-4{% endif %}"></div>
+          <div class="streak-cell {% if candidate.has_resume %}active-2{% endif %}"></div>
           <div class="streak-cell"></div>
           <div class="streak-cell"></div>
 
           <!-- Col THU -->
           <div class="streak-cell"></div>
-          <div class="streak-cell active-2"></div>
-          <div class="streak-cell active-4"></div>
-          <div class="streak-cell active-3"></div>
+          <div class="streak-cell {% if candidate.has_resume %}active-2{% endif %}"></div>
+          <div class="streak-cell {% if candidate.has_resume %}active-4{% endif %}"></div>
+          <div class="streak-cell {% if candidate.has_resume %}active-3{% endif %}"></div>
           <div class="streak-cell"></div>
           <div class="streak-cell"></div>
           <div class="streak-cell"></div>
@@ -255,8 +227,8 @@
           <!-- Col FRI -->
           <div class="streak-cell"></div>
           <div class="streak-cell"></div>
-          <div class="streak-cell active-3"></div>
-          <div class="streak-cell active-2"></div>
+          <div class="streak-cell {% if candidate.has_resume %}active-3{% endif %}"></div>
+          <div class="streak-cell {% if candidate.has_resume %}active-2{% endif %}"></div>
           <div class="streak-cell"></div>
           <div class="streak-cell"></div>
           <div class="streak-cell"></div>
@@ -264,7 +236,7 @@
           <!-- Col SAT -->
           <div class="streak-cell"></div>
           <div class="streak-cell"></div>
-          <div class="streak-cell active-1"></div>
+          <div class="streak-cell {% if candidate.has_resume %}active-1{% endif %}"></div>
           <div class="streak-cell"></div>
           <div class="streak-cell"></div>
           <div class="streak-cell"></div>
@@ -289,6 +261,7 @@
           <span class="badge bg-light text-secondary border">Weekly <i class="bi bi-chevron-down"></i></span>
         </div>
 
+        {% if candidate.has_resume %}
         <!-- Monday Plan -->
         <div class="mockai-plan-card mockai-plan-green">
           <strong class="d-block" style="font-size: 0.82rem;">Monday</strong>
@@ -306,6 +279,11 @@
           <strong class="d-block" style="font-size: 0.82rem;">Wednesday</strong>
           <span style="font-size: 0.74rem;">Resume optimization</span>
         </div>
+        {% else %}
+        <div class="p-3 text-center border rounded-3 bg-light text-muted small">
+          Upload your resume to generate a personalized weekly preparation plan.
+        </div>
+        {% endif %}
       </div>
     </div>
   </div>
