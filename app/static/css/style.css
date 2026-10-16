@@ -2769,6 +2769,133 @@ p, .p2 {
   color: #ffffff;
 }
 
+/* ══════════════════════════════════════════════════════════
+   SKILLCOACH.IO FIT SCORE & SKILLS GAP ANALYSIS DESIGN
+   ══════════════════════════════════════════════════════════ */
+
+.skillcoach-container {
+  background: #ffffff;
+  border: 1px solid #e2e8f0;
+  border-radius: 24px;
+  box-shadow: 0 4px 20px rgba(15, 23, 42, 0.04);
+  overflow: hidden;
+}
+
+.fit-score-box {
+  background: #ffffff;
+  border: 1px solid #f1f5f9;
+  border-radius: 20px;
+  padding: 1.75rem 1.5rem;
+  text-align: center;
+  box-shadow: 0 2px 8px rgba(15, 23, 42, 0.02);
+  margin-bottom: 1.25rem;
+}
+
+.fit-badge-high {
+  background-color: #10b981;
+  color: #ffffff;
+  border-radius: 20px;
+  padding: 4px 18px;
+  font-weight: 700;
+  font-size: 0.78rem;
+  display: inline-block;
+  margin-top: 4px;
+}
+
+.fit-star-callout {
+  background-color: #eff6ff;
+  border: 1px solid #dbeafe;
+  border-radius: 14px;
+  padding: 1rem 1.25rem;
+  font-size: 0.82rem;
+  color: #1e40af;
+  line-height: 1.5;
+}
+
+/* Strength & Missing Skills Cards */
+.skillcoach-subpanel {
+  background: #ffffff;
+  border: 1px solid #f1f5f9;
+  border-radius: 18px;
+  padding: 1.5rem;
+  box-shadow: 0 2px 8px rgba(15, 23, 42, 0.02);
+}
+
+.skill-row-strength {
+  background-color: #f8fafc;
+  border: 1px solid #f1f5f9;
+  border-radius: 10px;
+  padding: 10px 14px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 8px;
+  font-size: 0.85rem;
+  color: #1e293b;
+  font-weight: 500;
+}
+
+.skill-row-missing {
+  background-color: #f8fafc;
+  border: 1px solid #f1f5f9;
+  border-radius: 10px;
+  padding: 10px 14px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 8px;
+  font-size: 0.85rem;
+  color: #1e293b;
+  font-weight: 500;
+}
+
+/* Recommended Courses */
+.course-item-card {
+  background-color: #ffffff;
+  border: 1px solid #f1f5f9;
+  border-radius: 14px;
+  padding: 12px 16px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 10px;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.02);
+  transition: all 0.15s ease;
+}
+.course-item-card:hover {
+  border-color: #cbd5e1;
+  box-shadow: 0 4px 12px rgba(15, 23, 42, 0.06);
+}
+
+.course-icon-box {
+  width: 40px;
+  height: 40px;
+  border-radius: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.2rem;
+  color: #ffffff;
+  flex-shrink: 0;
+}
+
+.btn-ver-curso {
+  background-color: #2563eb;
+  color: #ffffff !important;
+  border-radius: 20px;
+  padding: 6px 18px;
+  font-size: 0.82rem;
+  font-weight: 600;
+  border: none;
+  text-decoration: none;
+  transition: background-color 0.15s ease;
+  white-space: nowrap;
+}
+.btn-ver-curso:hover {
+  background-color: #1d4ed8;
+}
+
+
 
 
 

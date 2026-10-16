@@ -1,202 +1,277 @@
 {% extends "base.html" %}
 
-{% block title %}Skills & Career Insights - AI JobAgent{% endblock %}
+{% block title %}Skills & Career Insights - SkillCoach.io{% endblock %}
 
 {% block content %}
-<!-- Page Header (From Design Board Item 11) -->
-<div class="mb-4 d-flex justify-content-between align-items-center flex-wrap gap-3">
-  <div>
-    <span class="badge-match mb-2"><i class="bi bi-stars me-1"></i> Career Intelligence</span>
-    <h2 class="fw-bold mb-1">Skills & Career Insights</h2>
-    <p class="text-secondary mb-0">Understand your skills and get personalized recommendations to maximize your hiring fit</p>
+<!-- Top Header Banner (SkillCoach.io) -->
+<div class="d-flex justify-content-between align-items-center mb-4 flex-wrap gap-3">
+  <div class="d-flex align-items-center gap-3">
+    <div class="user-avatar-circle" style="width: 44px; height: 44px; border-radius: 12px; background: #2563eb; color: #ffffff; font-size: 1.25rem;">
+      <i class="bi bi-patch-check-fill"></i>
+    </div>
+    <div>
+      <h3 class="fw-bold text-dark mb-0" style="font-size: 1.45rem; letter-spacing: -0.02em;">
+        SkillCoach.io
+      </h3>
+      <span class="text-secondary small">Fit Score &amp; Career Intelligence Engine</span>
+    </div>
   </div>
-  <div class="d-flex gap-2">
-    <a href="{{ url_for('jobs.index') }}" class="btn btn-primary">
-      <i class="bi bi-search me-1"></i> View Matching Jobs
+
+  <div class="d-flex align-items-center gap-2">
+    <a href="{{ url_for('jobs.index') }}" class="btn btn-primary px-3 fw-semibold rounded-pill">
+      <i class="bi bi-briefcase-fill me-1"></i> View Matched Jobs
+    </a>
+    <a href="{{ url_for('resumes.analyze') }}" class="btn btn-outline-custom rounded-pill">
+      <i class="bi bi-pie-chart me-1"></i> ATS Diagnostic
     </a>
   </div>
 </div>
 
-<!-- Skills Overview & High-Demand Gaps (From Design Board Item 11) -->
-<div class="row g-4 mb-4">
-  <!-- Your Skills -->
-  <div class="col-lg-6">
-    <div class="card card-clean p-4 h-100">
-      <div class="d-flex justify-content-between align-items-center mb-3">
-        <h5 class="fw-bold text-dark mb-0"><i class="bi bi-tools text-primary me-2"></i>Your Verified Skills</h5>
-        <span class="badge bg-primary-subtle text-primary border border-primary-subtle">Active Stack</span>
-      </div>
-      <p class="text-secondary small mb-3">
-        Extracted directly from your parsed resume profile and verified against ATS benchmark filters.
-      </p>
+<!-- Main Canvas: Left Column (Fit Score) + Right Column (Skills Gap & Recommended Courses) -->
+<div class="row g-4">
+  <!-- Left Column: Fit Score & Callout Card -->
+  <div class="col-lg-4">
+    <div class="skillcoach-container p-4 h-100 d-flex flex-column justify-content-between">
+      <div>
+        <h5 class="fw-bold text-dark mb-3" style="font-size: 1.15rem;">Fit Score</h5>
 
-      <div class="d-flex flex-wrap gap-2">
-        <span class="badge-skill">Python</span>
-        <span class="badge-skill">SQL</span>
-        <span class="badge-skill">Data Analysis</span>
-        <span class="badge-skill">Power BI</span>
-        <span class="badge-skill">Excel</span>
-        <span class="badge-skill">Machine Learning</span>
-        <span class="badge-skill">Statistics</span>
-        <span class="badge-skill">Data Visualization</span>
-      </div>
-    </div>
-  </div>
+        <!-- Fit Score Gauge Box -->
+        <div class="fit-score-box">
+          <!-- 3-Segmented Semi-Donut Gauge SVG -->
+          <div class="position-relative d-inline-block mb-2" style="width: 190px; height: 190px;">
+            <svg class="w-100 h-100" viewBox="0 0 100 100" style="transform: rotate(-90deg);">
+              <defs>
+                <linearGradient id="segBlue" x1="0%" y1="0%" x2="100%" y2="100%">
+                  <stop offset="0%" stop-color="#1e40af" />
+                  <stop offset="100%" stop-color="#2563eb" />
+                </linearGradient>
+                <linearGradient id="segCyan" x1="0%" y1="0%" x2="100%" y2="100%">
+                  <stop offset="0%" stop-color="#0284c7" />
+                  <stop offset="100%" stop-color="#06b6d4" />
+                </linearGradient>
+                <linearGradient id="segTeal" x1="0%" y1="0%" x2="100%" y2="100%">
+                  <stop offset="0%" stop-color="#0d9488" />
+                  <stop offset="100%" stop-color="#10b981" />
+                </linearGradient>
+              </defs>
 
-  <!-- Missing Skills (High Demand) -->
-  <div class="col-lg-6">
-    <div class="card card-clean p-4 h-100">
-      <div class="d-flex justify-content-between align-items-center mb-3">
-        <h5 class="fw-bold text-dark mb-0"><i class="bi bi-fire text-danger me-2"></i>Missing Skills (High Demand)</h5>
-        <span class="badge bg-danger-subtle text-danger border border-danger-subtle">Target Lift</span>
-      </div>
-      <p class="text-secondary small mb-3">
-        Skills heavily requested by employers in your target role that are not yet featured on your resume.
-      </p>
+              <!-- Track background -->
+              <circle cx="50" cy="50" r="40" fill="none" stroke="#f1f5f9" stroke-width="8" />
 
-      <div class="d-flex flex-wrap gap-2">
-        <span class="badge bg-warning-subtle text-warning border border-warning-subtle px-3 py-2 fw-semibold">Azure</span>
-        <span class="badge bg-warning-subtle text-warning border border-warning-subtle px-3 py-2 fw-semibold">AWS</span>
-        <span class="badge bg-warning-subtle text-warning border border-warning-subtle px-3 py-2 fw-semibold">Tableau</span>
-        <span class="badge bg-warning-subtle text-warning border border-warning-subtle px-3 py-2 fw-semibold">Cloud Computing</span>
-        <span class="badge bg-warning-subtle text-warning border border-warning-subtle px-3 py-2 fw-semibold">Big Data</span>
-        <span class="badge bg-warning-subtle text-warning border border-warning-subtle px-3 py-2 fw-semibold">ETL</span>
-        <span class="badge bg-warning-subtle text-warning border border-warning-subtle px-3 py-2 fw-semibold">Airflow</span>
-        <span class="badge bg-warning-subtle text-warning border border-warning-subtle px-3 py-2 fw-semibold">Docker</span>
-      </div>
-    </div>
-  </div>
-</div>
+              <!-- Segment 1: Deep Blue (0-30%) -->
+              <circle cx="50" cy="50" r="40" fill="none" stroke="url(#segBlue)" stroke-width="8"
+                      stroke-dasharray="75.36 251.2" stroke-dashoffset="0" />
 
-<!-- Skill Gap Analysis (From Design Board Item 11) -->
-<div class="card card-clean p-4 mb-4">
-  <div class="d-flex justify-content-between align-items-center mb-3">
-    <div>
-      <h5 class="fw-bold text-dark mb-0"><i class="bi bi-graph-up-arrow text-primary me-2"></i>Skill Gap Analysis</h5>
-      <p class="text-secondary small mb-0">Competency depth comparison against top hiring employer expectations</p>
-    </div>
-    <span class="badge bg-light text-secondary border">Role: {{ candidate.preferred_role }}</span>
-  </div>
+              <!-- Segment 2: Sky Blue (30-65%) -->
+              <circle cx="50" cy="50" r="40" fill="none" stroke="url(#segCyan)" stroke-width="8"
+                      stroke-dasharray="87.92 251.2" stroke-dashoffset="-77" />
 
-  <div class="row g-4">
-    <div class="col-md-6">
-      <div class="mb-3">
-        <div class="d-flex justify-content-between small fw-bold mb-1">
-          <span class="text-secondary">Python</span>
-          <span class="text-primary fw-bold">90%</span>
-        </div>
-        <div class="progress" style="height: 8px;">
-          <div class="progress-bar" style="background-color: #6366f1; width: 90%;"></div>
+              <!-- Segment 3: Emerald Green (65-90%) -->
+              <circle cx="50" cy="50" r="40" fill="none" stroke="url(#segTeal)" stroke-width="8"
+                      stroke-dasharray="62.8 251.2" stroke-dashoffset="-167" />
+            </svg>
+
+            <!-- Center Score & Badge -->
+            <div class="position-absolute top-50 start-50 translate-middle text-center" style="line-height: 1.15;">
+              <div class="fw-bold mb-0" style="font-size: 2.6rem; color: #0f172a; letter-spacing: -0.03em;">
+                {{ candidate.ats_score|round|int if candidate.has_resume else 89 }}
+              </div>
+              <div class="fit-badge-high">High Fit</div>
+            </div>
+          </div>
+
+          <p class="text-secondary small mb-0 mt-3 px-2" style="font-size: 0.78rem; line-height: 1.55;">
+            Tu perfil coincide en gran medida para el rol de <strong>{{ candidate.preferred_role or 'Data Scientist' }}</strong> basado en sus habilidades actuales.
+          </p>
         </div>
       </div>
 
-      <div class="mb-3">
-        <div class="d-flex justify-content-between small fw-bold mb-1">
-          <span class="text-secondary">SQL</span>
-          <span class="text-primary fw-bold">85%</span>
-        </div>
-        <div class="progress" style="height: 8px;">
-          <div class="progress-bar" style="background-color: #6366f1; width: 85%;"></div>
-        </div>
-      </div>
-
-      <div class="mb-3">
-        <div class="d-flex justify-content-between small fw-bold mb-1">
-          <span class="text-secondary">Data Analysis</span>
-          <span class="text-primary fw-bold">80%</span>
-        </div>
-        <div class="progress" style="height: 8px;">
-          <div class="progress-bar" style="background-color: #6366f1; width: 80%;"></div>
-        </div>
-      </div>
-    </div>
-
-    <div class="col-md-6">
-      <div class="mb-3">
-        <div class="d-flex justify-content-between small fw-bold mb-1">
-          <span class="text-secondary">Power BI</span>
-          <span class="text-primary fw-bold">72%</span>
-        </div>
-        <div class="progress" style="height: 8px;">
-          <div class="progress-bar" style="background-color: #8b5cf6; width: 72%;"></div>
-        </div>
-      </div>
-
-      <div class="mb-3">
-        <div class="d-flex justify-content-between small fw-bold mb-1">
-          <span class="text-secondary">Machine Learning</span>
-          <span class="text-primary fw-bold">60%</span>
-        </div>
-        <div class="progress" style="height: 8px;">
-          <div class="progress-bar" style="background-color: #8b5cf6; width: 60%;"></div>
-        </div>
-      </div>
-
-      <div class="mb-3">
-        <div class="d-flex justify-content-between small fw-bold mb-1">
-          <span class="text-secondary">Cloud Architecture</span>
-          <span class="text-warning fw-bold">45%</span>
-        </div>
-        <div class="progress" style="height: 8px;">
-          <div class="progress-bar bg-warning" style="width: 45%;"></div>
+      <!-- Informative Star Callout Box (From Mockup) -->
+      <div class="fit-star-callout">
+        <div class="d-flex align-items-start gap-2">
+          <span class="fs-5 text-warning">&starf;</span>
+          <div>
+            <strong>Perfil Altamente Compatible:</strong>
+            <p class="mb-0 mt-1" style="font-size: 0.76rem; color: #1e3a8a;">
+              Tu perfil coincide en gran medida para el rol de {{ candidate.preferred_role or 'Data Scientist' }} basado en sus habilidades actuales.
+            </p>
+          </div>
         </div>
       </div>
     </div>
   </div>
-</div>
 
-<!-- Recommended Learning (From Design Board Item 11) -->
-<div class="card card-clean p-4 mb-4">
-  <div class="d-flex justify-content-between align-items-center mb-3">
-    <div>
-      <h5 class="fw-bold text-dark mb-0"><i class="bi bi-mortarboard-fill text-primary me-2"></i>Recommended Learning</h5>
-      <p class="text-secondary small mb-0">Targeted online courses to bridge skill gaps and boost your ATS affinity</p>
-    </div>
-    <span class="badge bg-success-subtle text-success border border-success-subtle">AI Curated</span>
-  </div>
+  <!-- Right Column: Skills Gap Analysis (Top) + Recommended Courses (Bottom) -->
+  <div class="col-lg-8">
+    <div class="d-flex flex-column gap-4">
+      <!-- 1. Análisis de Brecha de Habilidades (Skills Gap Analysis) -->
+      <div class="skillcoach-subpanel">
+        <h5 class="fw-bold text-dark mb-3" style="font-size: 1.15rem;">
+          Análisis de Brecha de Habilidades
+        </h5>
 
-  <div class="row g-3">
-    <div class="col-sm-6 col-lg-3">
-      <div class="p-3 bg-light rounded-3 border h-100 d-flex flex-column justify-content-between">
-        <div>
-          <span class="badge bg-primary-subtle text-primary mb-2">Microsoft</span>
-          <h6 class="fw-bold text-dark small mb-1">Azure Data Fundamentals</h6>
-          <p class="text-secondary small mb-2">DP-900 Core Cloud Storage & Analytics</p>
+        <div class="row g-4">
+          <!-- Left Sub-column: Fortalezas Actuales -->
+          <div class="col-sm-6">
+            <h6 class="fw-bold text-primary mb-3" style="font-size: 0.95rem;">
+              Fortalezas Actuales
+            </h6>
+
+            <!-- Strength 1: Python -->
+            <div class="skill-row-strength">
+              <div class="d-flex align-items-center gap-2">
+                <i class="bi bi-check-circle-fill text-success"></i>
+                <span>Python</span>
+              </div>
+              <i class="bi bi-check2 text-success fw-bold"></i>
+            </div>
+
+            <!-- Strength 2: Machine Learning -->
+            <div class="skill-row-strength">
+              <div class="d-flex align-items-center gap-2">
+                <i class="bi bi-check-circle-fill text-success"></i>
+                <span>Machine Learning</span>
+              </div>
+              <i class="bi bi-check2 text-success fw-bold"></i>
+            </div>
+
+            <!-- Strength 3: SQL -->
+            <div class="skill-row-strength">
+              <div class="d-flex align-items-center gap-2">
+                <i class="bi bi-check-circle-fill text-success"></i>
+                <span>SQL</span>
+              </div>
+              <i class="bi bi-check2 text-success fw-bold"></i>
+            </div>
+          </div>
+
+          <!-- Right Sub-column: Habilidades Faltantes -->
+          <div class="col-sm-6">
+            <h6 class="fw-bold mb-3" style="color: #be185d; font-size: 0.95rem;">
+              Habilidades Faltantes
+            </h6>
+
+            <!-- Missing 1: Deep Learning -->
+            <div class="skill-row-missing justify-content-between">
+              <div class="d-flex align-items-center gap-2">
+                <i class="bi bi-x-circle-fill text-danger"></i>
+                <span>Deep Learning</span>
+              </div>
+              <div style="width: 70px;">
+                <div class="progress" style="height: 6px; background: #e2e8f0;">
+                  <div class="progress-bar" style="width: 40%; background: #94a3b8;"></div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Missing 2: Cloud Computing -->
+            <div class="skill-row-missing justify-content-between">
+              <div class="d-flex align-items-center gap-2">
+                <i class="bi bi-x-circle-fill text-danger"></i>
+                <span>Cloud Computing</span>
+              </div>
+              <div style="width: 70px;">
+                <div class="progress" style="height: 6px; background: #e2e8f0;">
+                  <div class="progress-bar" style="width: 25%; background: #94a3b8;"></div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Additional Gap Progress Indicators -->
+            <div class="mt-3 pt-2">
+              <div class="progress mb-2" style="height: 6px; background: #f1f5f9;">
+                <div class="progress-bar" style="width: 75%; background: #38bdf8;"></div>
+              </div>
+              <div class="progress" style="height: 6px; background: #f1f5f9;">
+                <div class="progress-bar" style="width: 90%; background: #34d399;"></div>
+              </div>
+            </div>
+          </div>
         </div>
-        <a href="https://learn.microsoft.com" target="_blank" class="btn btn-outline-custom btn-sm w-100 mt-2">View Course</a>
       </div>
-    </div>
 
-    <div class="col-sm-6 col-lg-3">
-      <div class="p-3 bg-light rounded-3 border h-100 d-flex flex-column justify-content-between">
-        <div>
-          <span class="badge bg-warning-subtle text-warning mb-2">Amazon</span>
-          <h6 class="fw-bold text-dark small mb-1">AWS Cloud Practitioner</h6>
-          <p class="text-secondary small mb-2">Foundational Cloud Infrastructure</p>
-        </div>
-        <a href="https://aws.amazon.com/training" target="_blank" class="btn btn-outline-custom btn-sm w-100 mt-2">View Course</a>
-      </div>
-    </div>
+      <!-- 2. Cursos recomendados para Data Scientist (Recommended Courses) -->
+      <div class="skillcoach-subpanel">
+        <h5 class="fw-bold text-dark mb-3" style="font-size: 1.15rem;">
+          Cursos recomendados para {{ candidate.preferred_role or 'Data Scientist' }}
+        </h5>
 
-    <div class="col-sm-6 col-lg-3">
-      <div class="p-3 bg-light rounded-3 border h-100 d-flex flex-column justify-content-between">
-        <div>
-          <span class="badge bg-info-subtle text-info mb-2">Udemy</span>
-          <h6 class="fw-bold text-dark small mb-1">Tableau for Data Analyst</h6>
-          <p class="text-secondary small mb-2">Interactive Executive Dashboards</p>
-        </div>
-        <a href="https://www.udemy.com" target="_blank" class="btn btn-outline-custom btn-sm w-100 mt-2">View Course</a>
-      </div>
-    </div>
+        <div class="d-flex flex-column gap-2">
+          <!-- Course 1: Fundamentos de Deep Learning -->
+          <div class="course-item-card">
+            <div class="d-flex align-items-center gap-3">
+              <div class="course-icon-box" style="background: linear-gradient(135deg, #2563eb 0%, #1d4ed8 100%);">
+                <i class="bi bi-display"></i>
+              </div>
+              <div>
+                <strong class="text-dark d-block" style="font-size: 0.92rem;">
+                  Fundamentos de Deep Learning
+                </strong>
+                <span class="text-secondary small" style="font-size: 0.76rem;">
+                  Scores &bull; 20 lessons &bull; 94% fit
+                </span>
+              </div>
+            </div>
 
-    <div class="col-sm-6 col-lg-3">
-      <div class="p-3 bg-light rounded-3 border h-100 d-flex flex-column justify-content-between">
-        <div>
-          <span class="badge bg-success-subtle text-success mb-2">Udemy</span>
-          <h6 class="fw-bold text-dark small mb-1">Machine Learning A-Z</h6>
-          <p class="text-secondary small mb-2">Hands-on Python Predictive Modeling</p>
+            <div class="d-flex align-items-center gap-3">
+              <span class="badge text-white px-2 py-1 fw-bold" style="background: #2563eb; font-size: 0.72rem; border-radius: 6px;">95</span>
+              <span class="text-secondary small fw-bold" style="font-size: 0.8rem;">95</span>
+              <a href="https://www.coursera.org/search?query=Deep+Learning" target="_blank" rel="noopener noreferrer" class="btn-ver-curso">
+                Ver curso
+              </a>
+            </div>
+          </div>
+
+          <!-- Course 2: Cloud Computing Aplicado -->
+          <div class="course-item-card">
+            <div class="d-flex align-items-center gap-3">
+              <div class="course-icon-box" style="background: linear-gradient(135deg, #ef4444 0%, #dc2626 100%);">
+                <i class="bi bi-cloud-arrow-up"></i>
+              </div>
+              <div>
+                <strong class="text-dark d-block" style="font-size: 0.92rem;">
+                  Cloud Computing Aplicado
+                </strong>
+                <span class="text-secondary small" style="font-size: 0.76rem;">
+                  Scores &bull; 20 lessons &bull; 94% fit
+                </span>
+              </div>
+            </div>
+
+            <div class="d-flex align-items-center gap-3">
+              <span class="badge text-white px-2 py-1 fw-bold" style="background: #2563eb; font-size: 0.72rem; border-radius: 6px;">95</span>
+              <span class="text-secondary small fw-bold" style="font-size: 0.8rem;">93</span>
+              <a href="https://www.coursera.org/search?query=Cloud+Computing" target="_blank" rel="noopener noreferrer" class="btn-ver-curso">
+                Ver curso
+              </a>
+            </div>
+          </div>
+
+          <!-- Course 3: Modelado Avanzado de Machine Learning -->
+          <div class="course-item-card">
+            <div class="d-flex align-items-center gap-3">
+              <div class="course-icon-box" style="background: linear-gradient(135deg, #10b981 0%, #059669 100%);">
+                <i class="bi bi-graph-up-arrow"></i>
+              </div>
+              <div>
+                <strong class="text-dark d-block" style="font-size: 0.92rem;">
+                  Modelado Avanzado de Machine Learning
+                </strong>
+                <span class="text-secondary small" style="font-size: 0.76rem;">
+                  Scores &bull; 25 lessons &bull; 93% fit
+                </span>
+              </div>
+            </div>
+
+            <div class="d-flex align-items-center gap-3">
+              <span class="badge text-white px-2 py-1 fw-bold" style="background: #2563eb; font-size: 0.72rem; border-radius: 6px;">95</span>
+              <span class="text-secondary small fw-bold" style="font-size: 0.8rem;">93</span>
+              <a href="https://www.coursera.org/search?query=Machine+Learning" target="_blank" rel="noopener noreferrer" class="btn-ver-curso">
+                Ver curso
+              </a>
+            </div>
+          </div>
         </div>
-        <a href="https://www.udemy.com" target="_blank" class="btn btn-outline-custom btn-sm w-100 mt-2">View Course</a>
       </div>
     </div>
   </div>
