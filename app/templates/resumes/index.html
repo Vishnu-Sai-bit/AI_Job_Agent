@@ -1,247 +1,330 @@
 {% extends "base.html" %}
 
-{% block title %}Resume Analyzer - AI JobAgent{% endblock %}
+{% block title %}Resume Analyzer - MockAI{% endblock %}
 
 {% block content %}
-<!-- Step Header Banner -->
-<div class="step-header-banner">
+<!-- Top Header Bar (From MockAI UI Mockup) -->
+<div class="d-flex justify-content-between align-items-center mb-4 flex-wrap gap-3">
   <div>
-    <span class="step-indicator-pill mb-2"><i class="bi bi-circle-fill" style="font-size: 0.5rem;"></i> Step 1 of 7</span>
-    <h2 class="fw-bold mb-1">Resume Analyzer</h2>
-    <p class="text-secondary mb-0">Upload and analyze your resume with AI to extract career coordinates and run instant ATS screening</p>
+    <h2 class="fw-bold mb-0 text-dark" style="font-size: 1.55rem; letter-spacing: -0.02em;">
+      Resume Analyzer
+    </h2>
   </div>
-  <div class="d-flex gap-2">
-    {% if has_resume %}
-      <a href="{{ url_for('jobs.index') }}" class="btn btn-primary">
-        <i class="bi bi-briefcase-fill me-1"></i> View Matched Jobs <i class="bi bi-arrow-right ms-1"></i>
-      </a>
-      <a href="{{ url_for('resumes.analyze') }}" class="btn btn-outline-custom">
-        <i class="bi bi-pie-chart me-1"></i> ATS Report
-      </a>
-    {% else %}
-      <a href="{{ url_for('resumes.analyze') }}" class="btn btn-primary">
-        Proceed to Step 2: Resume <i class="bi bi-arrow-right ms-1"></i>
-      </a>
-    {% endif %}
+
+  <div class="d-flex align-items-center gap-3">
+    <!-- Notification Bell with Active Red Indicator -->
+    <a href="#" class="btn-circle-action position-relative" title="Notifications" style="width: 38px; height: 38px; border-radius: 50%;">
+      <i class="bi bi-bell-fill text-secondary" style="font-size: 0.95rem;"></i>
+      <span class="position-absolute p-1 bg-danger border border-light rounded-circle" style="top: 7px; right: 9px;"></span>
+    </a>
+
+    <!-- Settings Cog -->
+    <a href="{{ url_for('settings.index') }}" class="btn-circle-action" title="Settings" style="width: 38px; height: 38px; border-radius: 50%;">
+      <i class="bi bi-gear-fill text-secondary" style="font-size: 0.95rem;"></i>
+    </a>
+
+    <!-- User Profile Badge -->
+    <div class="d-flex align-items-center gap-2">
+      <div class="user-avatar-circle" style="width: 38px; height: 38px; border-radius: 50%; background: linear-gradient(135deg, #f59e0b 0%, #d97706 100%);">
+        <span>{{ (candidate.candidate_name[:2] if candidate.candidate_name else 'SI').upper() }}</span>
+      </div>
+      <div class="d-none d-sm-flex flex-column" style="line-height: 1.15;">
+        <span class="fw-bold text-dark" style="font-size: 0.85rem;">{{ candidate.candidate_name or 'SAZZATUL ISLAM' }}</span>
+        <span class="text-secondary" style="font-size: 0.7rem;">{{ candidate.preferred_role or 'Sr. Creative Director' }}</span>
+      </div>
+    </div>
   </div>
 </div>
 
-<div class="row g-4 mb-4">
-  <!-- Upload Resume Card (From Design Board Item 8) -->
-  <div class="col-lg-5">
-    <div class="card card-clean p-4 h-100 d-flex flex-column">
-      <div class="d-flex justify-content-between align-items-center mb-3">
-        <h4 class="fw-bold mb-0 text-dark"><i class="bi bi-cloud-arrow-up text-primary me-2"></i>Upload Resume</h4>
-        <span class="badge bg-light text-secondary border">Max 10MB</span>
+<!-- Main Canvas: Relative container hosting background cards + Centered Modal -->
+<div class="position-relative" style="min-height: 580px;">
+
+  <!-- ── 1. The Centered "Upload Your Resume" Modal (From Mockup) ── -->
+  <div class="mockai-modal-wrapper my-3" id="uploadModalWrapper">
+    <div class="mockai-upload-modal shadow-lg">
+      <!-- Close Button -->
+      <button type="button" class="mockai-modal-close" onclick="document.getElementById('uploadModalWrapper').style.display='none';" title="Close">
+        <i class="bi bi-x-lg"></i>
+      </button>
+
+      <!-- Modal Header -->
+      <div class="text-center mb-4">
+        <h4 class="fw-bold text-dark mb-1" style="font-size: 1.35rem;">Upload Your Resume</h4>
+        <p class="text-secondary small mb-0">Get instant ATS score and personalized feedback,</p>
+        <p class="text-secondary small mb-0">Supported PDF(.pdf), Word (.docx)</p>
+        <span class="text-muted" style="font-size: 0.72rem;">Maximum file size: 5MB</span>
       </div>
 
-      <p class="text-secondary small mb-3">
-        Drag and drop your latest resume file. Our parser extracts full technical skills, experience hierarchy, and education credentials.
-      </p>
-
-      <form method="POST" action="{{ url_for('resumes.upload') }}" enctype="multipart/form-data" id="upload-form">
-        <!-- Modern Drag & Drop Zone -->
-        <div class="dropzone-box mb-3" onclick="document.getElementById('file-input').click();">
-          <div class="dropzone-icon">
-            <i class="bi bi-cloud-arrow-up-fill"></i>
+      <!-- Upload Form -->
+      <form method="POST" action="{{ url_for('resumes.upload') }}" enctype="multipart/form-data" id="mockaiUploadForm">
+        <!-- Mint Green Dashed File Selected Dropzone -->
+        <div class="mockai-dropzone" onclick="document.getElementById('resumeFileInput').click();" id="dropzoneBox">
+          <div class="mockai-dropzone-icon" id="dropzoneIcon">
+            <i class="bi bi-check-lg fw-bold"></i>
           </div>
-          <h5 class="fw-bold text-dark mb-1">Drag and drop your resume here</h5>
-          <p class="text-muted small mb-3">or <span class="text-primary fw-semibold text-decoration-underline">click to browse</span> from device</p>
-          
-          <div class="d-flex justify-content-center gap-2 flex-wrap mb-2">
-            <span class="badge bg-danger-subtle text-danger border border-danger-subtle px-2 py-1 small"><i class="bi bi-file-earmark-pdf me-1"></i>PDF (.pdf)</span>
-            <span class="badge bg-primary-subtle text-primary border border-primary-subtle px-2 py-1 small"><i class="bi bi-file-earmark-word me-1"></i>Word (.docx)</span>
-            <span class="badge bg-secondary-subtle text-secondary border border-secondary-subtle px-2 py-1 small"><i class="bi bi-file-earmark-text me-1"></i>Text (.txt)</span>
+          <div class="fw-bold text-dark mb-1" id="fileStatusText" style="font-size: 1.05rem;">
+            File Selected
           </div>
-          <span class="text-muted" style="font-size: 0.72rem;">Supports PDF, DOCX (Max 10MB)</span>
-
-          <input type="file" id="file-input" name="resume_file" class="d-none" accept=".pdf,.docx,.doc,.txt" onchange="document.getElementById('upload-status').innerHTML = '<i class=\'bi bi-check-circle-fill text-success me-1\'></i> Selected: ' + this.files[0].name; document.getElementById('upload-status').classList.remove('d-none');" required>
+          <div class="text-secondary small" id="fileNameText">
+            Resume.pdf
+          </div>
+          <span class="text-muted d-block mt-2" style="font-size: 0.72rem;">
+            Click to change or select from device
+          </span>
+          <input type="file" id="resumeFileInput" name="resume_file" class="d-none" accept=".pdf,.docx,.doc"
+                 onchange="handleFileSelect(this)">
         </div>
 
-        <div id="upload-status" class="alert alert-info py-2 px-3 small d-none mb-3"></div>
+        <!-- "What We'll Analyze" Section -->
+        <div class="mb-4">
+          <h6 class="fw-bold mb-2" style="color: #7c3aed; font-size: 0.88rem;">What We'll Analyze</h6>
+          <div class="row g-3">
+            <div class="col-sm-6">
+              <div class="d-flex align-items-start gap-2">
+                <span class="text-secondary">&bull;</span>
+                <div>
+                  <strong class="text-dark small d-block">ATS Compatibility</strong>
+                  <span class="text-secondary" style="font-size: 0.74rem; line-height: 1.35; display: block;">
+                    How well your resume works with ATS systems
+                  </span>
+                </div>
+              </div>
+            </div>
+            <div class="col-sm-6">
+              <div class="d-flex align-items-start gap-2">
+                <span class="text-secondary">&bull;</span>
+                <div>
+                  <strong class="text-dark small d-block">Keyword Matching</strong>
+                  <span class="text-secondary" style="font-size: 0.74rem; line-height: 1.35; display: block;">
+                    Industry-relevant keywords and skills
+                  </span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
 
-        <button type="submit" class="btn btn-primary w-100 py-2">
-          <i class="bi bi-upload me-1"></i> Upload Resume
+        <!-- Full-Width Purple Gradient Submit Button -->
+        <button type="submit" class="mockai-btn-analyze" id="btnAnalyzeResume">
+          Analyze Resume
         </button>
       </form>
     </div>
   </div>
 
-  <!-- Extracted Information / Clean Empty State Grid -->
-  <div class="col-lg-7" id="extracted-profile">
-    <div class="card card-clean p-4 h-100 d-flex flex-column">
-      {% if has_resume %}
-        <div class="d-flex justify-content-between align-items-center mb-3">
+  <!-- ── 2. Background Dashboard Content (Mock Interviews, Job Matches, Activity Streak, Plans) ── -->
+  <div class="row g-4 mt-2">
+    <!-- Left Background Column: Start Mock + Job Matches -->
+    <div class="col-lg-6">
+      <!-- Start Mock Interview Banner -->
+      <div class="card card-clean p-3 mb-3 d-flex flex-row align-items-center justify-content-between" style="border-radius: 16px;">
+        <div class="d-flex align-items-center gap-3">
+          <div class="p-2 rounded-3" style="background: rgba(139, 92, 246, 0.12); color: #7c3aed; font-size: 1.4rem;">
+            <i class="bi bi-robot"></i>
+          </div>
           <div>
-            <h4 class="fw-bold mb-0 text-dark">Extracted Information (Preview)</h4>
-            <span class="text-secondary small">Parsed coordinates for <strong class="text-dark">{{ candidate.candidate_name }}</strong></span>
+            <h6 class="fw-bold text-dark mb-0" style="font-size: 0.95rem;">Start Mock Interview</h6>
+            <span class="text-secondary small">Engage in interactive AI mock sessions and sharpen your speaking skills.</span>
           </div>
-          <span class="badge-match fs-6">
-            <i class="bi bi-shield-check me-1"></i> {{ candidate.ats_score }}% ATS Fit
-          </span>
+        </div>
+        <a href="{{ url_for('interviews.index') }}" class="btn btn-outline-custom btn-sm text-nowrap rounded-pill">
+          Start Practice
+        </a>
+      </div>
+
+      <!-- Job Matches Stream -->
+      <div class="card card-clean p-3" style="border-radius: 16px;">
+        <div class="d-flex justify-content-between align-items-center mb-3">
+          <h6 class="fw-bold text-dark mb-0">Job Matches</h6>
+          <a href="{{ url_for('jobs.index') }}" class="text-primary text-decoration-none small fw-semibold">View All</a>
         </div>
 
-        <!-- 6-Card Extracted Information Grid (From Design Board Item 8) -->
-        <div class="row g-3 mb-4">
-          <!-- 1. Contact Info -->
-          <div class="col-sm-6">
-            <div class="extract-preview-card">
-              <div class="d-flex align-items-center gap-2 mb-2">
-                <span class="badge bg-primary-subtle text-primary p-2 rounded-3"><i class="bi bi-person-lines-fill"></i></span>
-                <strong class="text-dark small">Contact Info</strong>
-              </div>
-              <div class="text-secondary small mt-1">
-                <div><i class="bi bi-envelope me-1"></i> {{ candidate.email or 'Not specified' }}</div>
-                <div><i class="bi bi-telephone me-1"></i> {{ candidate.phone or 'Not specified' }}</div>
-                <div><i class="bi bi-geo-alt me-1"></i> {{ candidate.preferred_location or candidate.location or 'Not specified' }}</div>
-              </div>
+        <!-- 1. IDEO -->
+        <div class="mockai-job-item">
+          <div class="d-flex align-items-center gap-2">
+            <span class="badge bg-dark text-white p-2 rounded-3" style="font-size: 0.75rem;">IDEO</span>
+            <div>
+              <strong class="text-dark small d-block">Senior UX Designer</strong>
+              <span class="text-secondary" style="font-size: 0.72rem;">IDEO &bull; Full-Time</span>
             </div>
           </div>
+          <a href="{{ url_for('jobs.index') }}" class="btn btn-sm btn-outline-secondary py-1 px-2" style="font-size: 0.75rem; border-radius: 8px;">Details</a>
+        </div>
 
-          <!-- 2. Skills -->
-          <div class="col-sm-6">
-            <div class="extract-preview-card">
-              <div class="d-flex align-items-center gap-2 mb-2">
-                <span class="badge bg-success-subtle text-success p-2 rounded-3"><i class="bi bi-tools"></i></span>
-                <strong class="text-dark small">Skills (Technical & Soft)</strong>
-              </div>
-              <div class="d-flex flex-wrap gap-1 mt-1">
-                {% for s in candidate.skills[:5] %}
-                  <span class="badge-skill" style="font-size: 0.72rem; padding: 2px 8px;">{{ s }}</span>
-                {% else %}
-                  <span class="text-muted small">No skills parsed yet</span>
-                {% endfor %}
-                {% if len(candidate.skills) > 5 %}
-                  <span class="badge bg-light text-secondary border small">+{{ len(candidate.skills) - 5 }} more</span>
-                {% endif %}
-              </div>
+        <!-- 2. Medium -->
+        <div class="mockai-job-item">
+          <div class="d-flex align-items-center gap-2">
+            <span class="badge bg-danger text-white p-2 rounded-3" style="font-size: 0.75rem;">M</span>
+            <div>
+              <strong class="text-dark small d-block">Product Designer</strong>
+              <span class="text-secondary" style="font-size: 0.72rem;">Medium &bull; Remote</span>
             </div>
           </div>
+          <a href="{{ url_for('jobs.index') }}" class="btn btn-sm btn-outline-secondary py-1 px-2" style="font-size: 0.75rem; border-radius: 8px;">Details</a>
+        </div>
 
-          <!-- 3. Education -->
-          <div class="col-sm-6">
-            <div class="extract-preview-card">
-              <div class="d-flex align-items-center gap-2 mb-2">
-                <span class="badge bg-info-subtle text-info p-2 rounded-3"><i class="bi bi-mortarboard-fill"></i></span>
-                <strong class="text-dark small">Education</strong>
-              </div>
-              <div class="text-secondary small mt-1">
-                {% if candidate.education and len(candidate.education) > 0 %}
-                  <div class="fw-semibold text-dark">{{ candidate.education[0].degree if candidate.education[0] is mapping else candidate.education[0] }}</div>
-                  <div class="text-muted">{{ candidate.education[0].institution if candidate.education[0] is mapping else 'Verified Institution' }}</div>
-                {% else %}
-                  <div class="text-muted">Education credentials</div>
-                {% endif %}
-              </div>
+        <!-- 3. Discord -->
+        <div class="mockai-job-item">
+          <div class="d-flex align-items-center gap-2">
+            <span class="badge text-white p-2 rounded-3" style="background: #5865F2; font-size: 0.75rem;">Discord</span>
+            <div>
+              <strong class="text-dark small d-block">Senior UX Designer</strong>
+              <span class="text-secondary" style="font-size: 0.72rem;">Discord &bull; San Francisco, CA</span>
             </div>
           </div>
+          <a href="{{ url_for('jobs.index') }}" class="btn btn-sm btn-outline-secondary py-1 px-2" style="font-size: 0.75rem; border-radius: 8px;">Details</a>
+        </div>
 
-          <!-- 4. Experience -->
-          <div class="col-sm-6">
-            <div class="extract-preview-card">
-              <div class="d-flex align-items-center gap-2 mb-2">
-                <span class="badge bg-warning-subtle text-warning p-2 rounded-3"><i class="bi bi-briefcase-fill"></i></span>
-                <strong class="text-dark small">Experience</strong>
-              </div>
-              <div class="text-secondary small mt-1">
-                <div class="fw-semibold text-dark">{{ candidate.preferred_role or 'Experience Profile' }}</div>
-                <div class="text-muted">{{ candidate.experience_years or 0 }} Years Work History</div>
-              </div>
+        <!-- 4. UX Researcher -->
+        <div class="mockai-job-item">
+          <div class="d-flex align-items-center gap-2">
+            <span class="badge bg-dark text-white p-2 rounded-3" style="font-size: 0.75rem;">UX</span>
+            <div>
+              <strong class="text-dark small d-block">UX Researcher</strong>
+              <span class="text-secondary" style="font-size: 0.72rem;">Remote &bull; Los Angeles, CA &bull; $7,000 / Month</span>
             </div>
           </div>
+          <a href="{{ url_for('jobs.index') }}" class="btn btn-sm btn-primary py-1 px-3" style="font-size: 0.75rem; border-radius: 8px;">Apply Now</a>
+        </div>
+      </div>
+    </div>
 
-          <!-- 5. Projects -->
-          <div class="col-sm-6">
-            <div class="extract-preview-card">
-              <div class="d-flex align-items-center gap-2 mb-2">
-                <span class="badge bg-purple p-2 rounded-3" style="background-color: #f3e8ff; color: #8b5cf6;"><i class="bi bi-kanban"></i></span>
-                <strong class="text-dark small">Projects</strong>
-              </div>
-              <div class="text-secondary small mt-1">
-                {% if candidate.projects and len(candidate.projects) > 0 %}
-                  <div class="fw-semibold text-dark">{{ candidate.projects[0].title if candidate.projects[0] is mapping else candidate.projects[0] }}</div>
-                {% else %}
-                  <div class="text-muted">Projects detected</div>
-                {% endif %}
-              </div>
-            </div>
-          </div>
-
-          <!-- 6. Certifications -->
-          <div class="col-sm-6">
-            <div class="extract-preview-card">
-              <div class="d-flex align-items-center gap-2 mb-2">
-                <span class="badge bg-danger-subtle text-danger p-2 rounded-3"><i class="bi bi-award-fill"></i></span>
-                <strong class="text-dark small">Certifications</strong>
-              </div>
-              <div class="text-secondary small mt-1">
-                {% if candidate.certifications and len(candidate.certifications) > 0 %}
-                  <div class="fw-semibold text-dark">{{ candidate.certifications[0] }}</div>
-                {% else %}
-                  <div class="text-muted">Certifications & verified badges</div>
-                {% endif %}
-              </div>
-            </div>
+    <!-- Right Background Column: Activity Streak Heatmap + Weekly Plans -->
+    <div class="col-lg-6">
+      <!-- Activity Streak Heatmap Card -->
+      <div class="card card-clean p-3 mb-3" style="border-radius: 16px;">
+        <div class="d-flex justify-content-between align-items-center mb-2">
+          <h6 class="fw-bold text-dark mb-0">Activity Streak</h6>
+          <div class="d-flex align-items-center gap-1 small text-secondary" style="font-size: 0.7rem;">
+            <span>Less</span>
+            <span class="streak-cell d-inline-block" style="width: 9px; height: 9px; background: #ede9fe; border-radius: 2px;"></span>
+            <span class="streak-cell d-inline-block" style="width: 9px; height: 9px; background: #ddd6fe; border-radius: 2px;"></span>
+            <span class="streak-cell d-inline-block" style="width: 9px; height: 9px; background: #c4b5fd; border-radius: 2px;"></span>
+            <span class="streak-cell d-inline-block" style="width: 9px; height: 9px; background: #8b5cf6; border-radius: 2px;"></span>
+            <span>More</span>
           </div>
         </div>
 
-        <!-- Bottom Next Step CTA -->
-        <div class="mt-auto pt-3 border-top d-flex justify-content-between align-items-center flex-wrap gap-2">
-          <span class="text-secondary small"><i class="bi bi-info-circle text-primary me-1"></i> Candidate coordinates parsed and ready for ATS Diagnostic analysis</span>
-          <div class="d-flex gap-2">
-            <a href="{{ url_for('resumes.analyze') }}" class="btn btn-outline-custom btn-sm px-3">
-              <i class="bi bi-pie-chart me-1"></i> Step 2: ATS Report
-            </a>
-            <a href="{{ url_for('jobs.index') }}" class="btn btn-primary btn-sm px-3 fw-semibold">
-              <i class="bi bi-briefcase-fill me-1"></i> Step 3: View Matched Jobs <i class="bi bi-arrow-right ms-1"></i>
-            </a>
-          </div>
+        <!-- 7-Column Heatmap Grid -->
+        <div class="streak-heatmap">
+          <!-- Col SUN -->
+          <div class="streak-cell"></div>
+          <div class="streak-cell"></div>
+          <div class="streak-cell active-1"></div>
+          <div class="streak-cell active-3"></div>
+          <div class="streak-cell"></div>
+          <div class="streak-cell"></div>
+          <div class="streak-cell"></div>
+
+          <!-- Col MON -->
+          <div class="streak-cell"></div>
+          <div class="streak-cell active-2"></div>
+          <div class="streak-cell active-4"></div>
+          <div class="streak-cell active-2"></div>
+          <div class="streak-cell"></div>
+          <div class="streak-cell"></div>
+          <div class="streak-cell"></div>
+
+          <!-- Col TUE -->
+          <div class="streak-cell"></div>
+          <div class="streak-cell active-3"></div>
+          <div class="streak-cell active-4"></div>
+          <div class="streak-cell active-3"></div>
+          <div class="streak-cell"></div>
+          <div class="streak-cell"></div>
+          <div class="streak-cell"></div>
+
+          <!-- Col WED -->
+          <div class="streak-cell active-1"></div>
+          <div class="streak-cell active-4"></div>
+          <div class="streak-cell active-4"></div>
+          <div class="streak-cell active-4"></div>
+          <div class="streak-cell active-2"></div>
+          <div class="streak-cell"></div>
+          <div class="streak-cell"></div>
+
+          <!-- Col THU -->
+          <div class="streak-cell"></div>
+          <div class="streak-cell active-2"></div>
+          <div class="streak-cell active-4"></div>
+          <div class="streak-cell active-3"></div>
+          <div class="streak-cell"></div>
+          <div class="streak-cell"></div>
+          <div class="streak-cell"></div>
+
+          <!-- Col FRI -->
+          <div class="streak-cell"></div>
+          <div class="streak-cell"></div>
+          <div class="streak-cell active-3"></div>
+          <div class="streak-cell active-2"></div>
+          <div class="streak-cell"></div>
+          <div class="streak-cell"></div>
+          <div class="streak-cell"></div>
+
+          <!-- Col SAT -->
+          <div class="streak-cell"></div>
+          <div class="streak-cell"></div>
+          <div class="streak-cell active-1"></div>
+          <div class="streak-cell"></div>
+          <div class="streak-cell"></div>
+          <div class="streak-cell"></div>
+          <div class="streak-cell"></div>
         </div>
-      {% else %}
-        <!-- Clean Empty State When No Resume Uploaded -->
-        <div class="my-auto py-5 text-center">
-          <div class="user-avatar-circle mx-auto mb-3" style="width: 72px; height: 72px; background: rgba(99, 102, 241, 0.1); color: #6366f1; font-size: 2rem;">
-            <i class="bi bi-file-earmark-arrow-up"></i>
-          </div>
-          <h4 class="fw-bold text-dark mb-2">No Resume Uploaded Yet</h4>
-          <p class="text-secondary small mx-auto mb-4" style="max-width: 440px;">
-            Upload your resume document in PDF or Word format on the left to extract skills, calculate your ATS diagnostic score, and find matching jobs.
-          </p>
 
-          <div class="row g-3 text-start mx-auto" style="max-width: 520px;">
-            <div class="col-12">
-              <div class="p-3 rounded-3 bg-light border d-flex align-items-start gap-3">
-                <div class="kpi-icon-circle kpi-icon-indigo" style="width: 40px; height: 40px; font-size: 1.1rem;"><i class="bi bi-cpu"></i></div>
-                <div>
-                  <strong class="text-dark small d-block">Automatic Entity Extraction</strong>
-                  <span class="text-secondary small">Extracts skills, work experience, education, projects, and contact info in seconds.</span>
-                </div>
-              </div>
-            </div>
-
-            <div class="col-12">
-              <div class="p-3 rounded-3 bg-light border d-flex align-items-start gap-3">
-                <div class="kpi-icon-circle kpi-icon-green" style="width: 40px; height: 40px; font-size: 1.1rem;"><i class="bi bi-pie-chart-fill"></i></div>
-                <div>
-                  <strong class="text-dark small d-block">Calibrated ATS Scoring</strong>
-                  <span class="text-secondary small">Evaluates keyword density, formatting, and structural readability for applicant tracking systems.</span>
-                </div>
-              </div>
-            </div>
-
-            <div class="col-12">
-              <div class="p-3 rounded-3 bg-light border d-flex align-items-start gap-3">
-                <div class="kpi-icon-circle kpi-icon-blue" style="width: 40px; height: 40px; font-size: 1.1rem;"><i class="bi bi-briefcase-fill"></i></div>
-                <div>
-                  <strong class="text-dark small d-block">Live Job Discovery & Matching</strong>
-                  <span class="text-secondary small">Instantly matches your parsed skills with live job openings across verified boards.</span>
-                </div>
-              </div>
-            </div>
-          </div>
+        <div class="d-flex justify-content-between text-secondary pt-2 px-1" style="font-size: 0.68rem; font-weight: 600;">
+          <span>SUN</span>
+          <span>MON</span>
+          <span>TUE</span>
+          <span>WED</span>
+          <span>THU</span>
+          <span>FRI</span>
+          <span>SAT</span>
         </div>
-      {% endif %}
+      </div>
+
+      <!-- Weekly Plans Card -->
+      <div class="card card-clean p-3" style="border-radius: 16px;">
+        <div class="d-flex justify-content-between align-items-center mb-3">
+          <h6 class="fw-bold text-dark mb-0">Plans</h6>
+          <span class="badge bg-light text-secondary border">Weekly <i class="bi bi-chevron-down"></i></span>
+        </div>
+
+        <!-- Monday Plan -->
+        <div class="mockai-plan-card mockai-plan-green">
+          <strong class="d-block" style="font-size: 0.82rem;">Monday</strong>
+          <span style="font-size: 0.74rem;">Practice behavioral questions</span>
+        </div>
+
+        <!-- Tuesday Plan -->
+        <div class="mockai-plan-card mockai-plan-lightgreen">
+          <strong class="d-block" style="font-size: 0.82rem;">Tuesday</strong>
+          <span style="font-size: 0.74rem;">Technical interview prep</span>
+        </div>
+
+        <!-- Wednesday Plan -->
+        <div class="mockai-plan-card" style="background: #f8fafc; border: 1px solid #e2e8f0; color: #475569;">
+          <strong class="d-block" style="font-size: 0.82rem;">Wednesday</strong>
+          <span style="font-size: 0.74rem;">Resume optimization</span>
+        </div>
+      </div>
     </div>
   </div>
+
 </div>
+{% endblock %}
+
+{% block scripts %}
+<script>
+  function handleFileSelect(input) {
+    if (input.files && input.files[0]) {
+      const file = input.files[0];
+      document.getElementById('fileStatusText').textContent = 'File Selected';
+      document.getElementById('fileNameText').textContent = file.name;
+      document.getElementById('dropzoneBox').style.backgroundColor = '#ecfdf5';
+      document.getElementById('dropzoneBox').style.borderColor = '#10b981';
+      document.getElementById('dropzoneIcon').innerHTML = '<i class="bi bi-check-lg fw-bold"></i>';
+      document.getElementById('dropzoneIcon').style.backgroundColor = '#10b981';
+    }
+  }
+</script>
 {% endblock %}

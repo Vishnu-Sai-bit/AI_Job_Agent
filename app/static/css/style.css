@@ -2269,4 +2269,156 @@ p, .p2 {
   background-color: #2563eb;
 }
 
+/* ══════════════════════════════════════════════════════════
+   MOCKAI RESUME ANALYZER & UPLOAD MODAL DESIGN SYSTEM
+   ══════════════════════════════════════════════════════════ */
+
+/* Modal Container & Overlay */
+.mockai-modal-wrapper {
+  position: relative;
+  z-index: 100;
+}
+
+.mockai-upload-modal {
+  background: #ffffff;
+  border-radius: 24px;
+  box-shadow: 0 20px 60px rgba(15, 23, 42, 0.16);
+  border: 1px solid rgba(226, 232, 240, 0.8);
+  padding: 2.25rem;
+  max-width: 540px;
+  margin: 0 auto;
+  position: relative;
+}
+
+.mockai-modal-close {
+  position: absolute;
+  top: 20px;
+  right: 20px;
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  background: #f1f5f9;
+  border: none;
+  color: #64748b;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.9rem;
+  cursor: pointer;
+  transition: all 0.15s ease;
+}
+.mockai-modal-close:hover {
+  background: #e2e8f0;
+  color: #0f172a;
+}
+
+/* Mint Green Selected Dropzone Box */
+.mockai-dropzone {
+  background-color: #ecfdf5;
+  border: 2px dashed #10b981;
+  border-radius: 16px;
+  padding: 2rem 1.5rem;
+  text-align: center;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  margin-bottom: 1.5rem;
+}
+.mockai-dropzone:hover {
+  background-color: #d1fae5;
+  border-color: #059669;
+}
+
+.mockai-dropzone-icon {
+  width: 46px;
+  height: 46px;
+  border-radius: 12px;
+  background-color: #10b981;
+  color: #ffffff;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.35rem;
+  margin-bottom: 0.75rem;
+  box-shadow: 0 4px 12px rgba(16, 185, 129, 0.3);
+}
+
+.mockai-btn-analyze {
+  background: linear-gradient(135deg, #8b5cf6 0%, #6366f1 100%);
+  color: #ffffff !important;
+  border: none;
+  border-radius: 12px;
+  height: 46px;
+  font-weight: 600;
+  font-size: 0.95rem;
+  width: 100%;
+  box-shadow: 0 4px 16px rgba(139, 92, 246, 0.35);
+  transition: all 0.2s ease;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+}
+.mockai-btn-analyze:hover {
+  background: linear-gradient(135deg, #7c3aed 0%, #4f46e5 100%);
+  box-shadow: 0 6px 20px rgba(139, 92, 246, 0.5);
+  transform: translateY(-1px);
+}
+
+/* Background Job Matches Card */
+.mockai-job-item {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 10px 14px;
+  border-radius: 12px;
+  background: #ffffff;
+  border: 1px solid #f1f5f9;
+  margin-bottom: 8px;
+  transition: all 0.15s ease;
+}
+.mockai-job-item:hover {
+  border-color: #e2e8f0;
+  background: #f8fafc;
+}
+
+/* Activity Streak Heatmap */
+.streak-heatmap {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  gap: 8px;
+  margin-top: 1rem;
+}
+.streak-cell {
+  aspect-ratio: 1;
+  border-radius: 8px;
+  background-color: #f1f5f9;
+  transition: all 0.15s ease;
+}
+.streak-cell.active-1 { background-color: #ede9fe; }
+.streak-cell.active-2 { background-color: #ddd6fe; }
+.streak-cell.active-3 { background-color: #c4b5fd; }
+.streak-cell.active-4 { background-color: #8b5cf6; }
+
+/* Weekly Plans Cards */
+.mockai-plan-card {
+  padding: 10px 14px;
+  border-radius: 10px;
+  margin-bottom: 8px;
+  font-size: 0.82rem;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+.mockai-plan-green {
+  background-color: #f0fdf4;
+  border: 1px solid #bbf7d0;
+  color: #166534;
+}
+.mockai-plan-lightgreen {
+  background-color: #f0fdf4;
+  border: 1px solid #dcfce7;
+  color: #15803d;
+}
+
+
 
