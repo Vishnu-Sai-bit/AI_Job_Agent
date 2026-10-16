@@ -28,7 +28,8 @@ def get_candidate_context():
         "candidate_name": "",
         "email": "",
         "phone": "",
-        "preferred_role": "Data Analyst",
+        "resume_role": "",
+        "preferred_role": "",
         "preferred_location": "",
         "skills": [],
         "experience_years": 0,
@@ -47,7 +48,8 @@ def get_candidate_context():
         "strengths": [],
         "weaknesses": [],
         "suggestions": [],
-        "has_resume": False
+        "has_resume": False,
+        "has_preferences": False
     }
 
 @main_bp.route("/")
@@ -93,7 +95,10 @@ def dashboard():
         from app.routes.jobs import load_verified_jobs, match_skills, is_role_relevant, check_experience_fit
         all_jobs = load_verified_jobs()
         cand_skills = {s.lower().strip() for s in candidate.get("skills", [])}
-        cand_role = candidate.get("preferred_role", "").strip()
+        has_preferences = bool(candidate.get("has_preferences"))
+        pref_role = candidate.get("preferred_role", "").strip() if has_preferences else ""
+        resume_role = candidate.get("resume_role", "").strip() or candidate.get("preferred_role", "").strip()
+        cand_role = pref_role if (has_preferences and pref_role) else resume_role
         cand_exp = float(candidate.get("experience_years", 0) or 0)
         
         scored = []

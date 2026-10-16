@@ -5,85 +5,112 @@
 {% block content %}
 <div class="row justify-content-center mb-4">
   <div class="col-lg-10 col-xl-9">
-    <!-- Master Job Preferences Modal Container (From Mockup) -->
+    <!-- Master Job Preferences Modal Container -->
     <div class="pref-modal-card">
       <!-- Modal Header -->
-      <div class="d-flex justify-content-between align-items-center mb-4 pb-2 border-bottom">
+      <div class="d-flex justify-content-between align-items-center mb-3 pb-2 border-bottom">
         <div class="d-flex align-items-center gap-2">
-          <i class="bi bi-robot text-primary fs-5"></i>
+          <i class="bi bi-sliders2 text-primary fs-5"></i>
           <h4 class="fw-bold text-dark mb-0" style="font-size: 1.25rem;">
             Job Preferences
           </h4>
         </div>
-        <a href="{{ url_for('main.dashboard') }}" class="btn-circle-action" title="Close" style="width: 32px; height: 32px; border-radius: 50%;">
+        <a href="{{ url_for('jobs.index') }}" class="btn-circle-action" title="Close" style="width: 32px; height: 32px; border-radius: 50%;">
           <i class="bi bi-x-lg" style="font-size: 0.8rem;"></i>
         </a>
       </div>
+
+      <!-- Preference Status Banner -->
+      {% if candidate.has_preferences and candidate.preferred_role %}
+        <div class="alert alert-success d-flex align-items-center justify-content-between mb-4 py-2 px-3 rounded-3 small">
+          <div class="d-flex align-items-center">
+            <i class="bi bi-check-circle-fill text-success fs-5 me-2"></i>
+            <div>
+              <strong class="text-success">Job Preferences Active:</strong> 
+              Target roles: <strong>{{ candidate.preferred_role }}</strong>
+              {% if candidate.preferred_location %} | Locations: <strong>{{ candidate.preferred_location }}</strong>{% endif %}
+            </div>
+          </div>
+          <form method="POST" action="{{ url_for('profile.index') }}" class="m-0">
+            <input type="hidden" name="preferred_role" value="">
+            <input type="hidden" name="preferred_location" value="">
+            <input type="hidden" name="reset_prefs" value="true">
+            <button type="submit" class="btn btn-outline-secondary btn-sm py-0 px-2 rounded-pill" style="font-size: 0.75rem;" title="Remove preference overrides and revert to pure resume matching">
+              Reset to Resume Only
+            </button>
+          </form>
+        </div>
+      {% else %}
+        <div class="alert alert-info d-flex align-items-center mb-4 py-2 px-3 rounded-3 small">
+          <i class="bi bi-info-circle-fill text-primary fs-5 me-2"></i>
+          <div>
+            <strong>Job Preferences Not Yet Configured:</strong>
+            Currently, job matching runs 100% directly off your uploaded resume ({{ candidate.resume_role or 'Extracted Resume Profile' }}).
+            Enter your target preferences below to apply custom role and location targets.
+          </div>
+        </div>
+      {% endif %}
 
       <form method="POST" action="{{ url_for('profile.index') }}" id="preferencesForm">
         <!-- 1. Target Roles Section -->
         <div class="mb-4">
           <div class="d-flex justify-content-between align-items-center mb-2">
             <label class="fw-bold text-dark mb-0" style="font-size: 0.95rem;">Target Roles</label>
-            <a href="#" class="text-primary text-decoration-none small" onclick="clearTags('targetRoleTags'); return false;">Clear</a>
+            <a href="#" class="text-primary text-decoration-none small" onclick="clearTags('targetRoleTags'); return false;">Clear all</a>
           </div>
 
           <!-- Add Job Title Input -->
-          <div class="position-relative mb-2">
-            <i class="bi bi-search position-absolute text-muted" style="left: 14px; top: 11px; font-size: 0.85rem;"></i>
-            <input type="text" class="form-control ps-5" id="newRoleInput"
-                   style="border-radius: 10px; height: 42px; font-size: 0.88rem;"
-                   placeholder="add job title (e.g Product Manager)"
+          <div class="input-group mb-2">
+            <span class="input-group-text bg-white border-end-0 text-muted">
+              <i class="bi bi-search" style="font-size: 0.85rem;"></i>
+            </span>
+            <input type="text" class="form-control border-start-0 ps-1" id="newRoleInput"
+                   style="border-radius: 0 10px 10px 0; height: 42px; font-size: 0.88rem;"
+                   placeholder="Type target job title (e.g. Software Engineer, Data Analyst) and press Enter"
                    onkeydown="if(event.key === 'Enter'){ event.preventDefault(); addTag('targetRoleTags', this); }">
+            <button type="button" class="btn btn-dark btn-sm px-3 rounded-end-3" onclick="addTag('targetRoleTags', document.getElementById('newRoleInput'));">
+              Add Role
+            </button>
           </div>
 
-          <!-- Removable Blue Outline Tag Pills -->
+          <!-- Removable Target Role Tag Pills -->
           <div class="d-flex flex-wrap gap-2 mb-3" id="targetRoleTags">
-            <span class="pref-tag-pill">
-              <span>Sales Manager</span>
-              <span class="pref-tag-close" onclick="this.parentElement.remove();">&times;</span>
-            </span>
-            <span class="pref-tag-pill">
-              <span>Product Manager</span>
-              <span class="pref-tag-close" onclick="this.parentElement.remove();">&times;</span>
-            </span>
-            <span class="pref-tag-pill">
-              <span>UIUX Design</span>
-              <span class="pref-tag-close" onclick="this.parentElement.remove();">&times;</span>
-            </span>
-            <span class="pref-tag-pill">
-              <span>Motion Graphic</span>
-              <span class="pref-tag-close" onclick="this.parentElement.remove();">&times;</span>
-            </span>
-            <span class="pref-tag-pill">
-              <span>IT Support</span>
-              <span class="pref-tag-close" onclick="this.parentElement.remove();">&times;</span>
-            </span>
+            {% if candidate.preferred_role %}
+              {% for r in candidate.preferred_role.split(',') %}
+                {% if r.strip() %}
+                <span class="pref-tag-pill">
+                  <span>{{ r.strip() }}</span>
+                  <span class="pref-tag-close" onclick="this.parentElement.remove();">&times;</span>
+                </span>
+                {% endif %}
+              {% endfor %}
+            {% elif candidate.resume_role %}
+              <span class="pref-tag-pill" title="Inferred from uploaded resume">
+                <span>{{ candidate.resume_role }}</span>
+                <span class="pref-tag-close" onclick="this.parentElement.remove();">&times;</span>
+              </span>
+            {% endif %}
           </div>
 
           <!-- Seniority Level Checkboxes -->
           <div>
             <div class="fw-bold text-dark mb-2" style="font-size: 0.9rem;">Seniority Level</div>
-            <div class="d-flex flex-wrap align-items-center">
-              <label class="pref-check-item checked">
+            <div class="d-flex flex-wrap align-items-center gap-1">
+              <label class="pref-check-item {% if candidate.experience_years <= 1 %}checked{% endif %}" onclick="this.classList.toggle('checked');">
                 <span class="pref-check-box"><i class="bi bi-check-lg"></i></span>
-                <span>Fresh Graduate</span>
+                <span>Fresh Graduate / 0-1 yrs</span>
               </label>
-              <label class="pref-check-item" onclick="this.classList.toggle('checked');">
+              <label class="pref-check-item {% if candidate.experience_years > 1 and candidate.experience_years <= 3 %}checked{% endif %}" onclick="this.classList.toggle('checked');">
                 <span class="pref-check-box"><i class="bi bi-check-lg"></i></span>
-                <span>Entry-Level</span>
+                <span>Entry-Level / 1-3 yrs</span>
               </label>
-              <label class="pref-check-item" onclick="this.classList.toggle('checked');">
+              <label class="pref-check-item {% if candidate.experience_years > 3 and candidate.experience_years <= 5 %}checked{% endif %}" onclick="this.classList.toggle('checked');">
                 <span class="pref-check-box"><i class="bi bi-check-lg"></i></span>
-                <span>Mid-Level</span>
+                <span>Mid-Level / 3-5 yrs</span>
               </label>
-              <label class="pref-check-item" onclick="this.classList.toggle('checked');">
+              <label class="pref-check-item {% if candidate.experience_years > 5 %}checked{% endif %}" onclick="this.classList.toggle('checked');">
                 <span class="pref-check-box"><i class="bi bi-check-lg"></i></span>
-                <span>Senior</span>
-              </label>
-              <label class="pref-check-item" onclick="this.classList.toggle('checked');">
-                <span class="pref-check-box"><i class="bi bi-check-lg"></i></span>
-                <span>Leader</span>
+                <span>Senior / 5+ yrs</span>
               </label>
             </div>
           </div>
@@ -94,113 +121,94 @@
         <!-- 2. Location Section -->
         <div class="mb-4">
           <div class="d-flex justify-content-between align-items-center mb-2">
-            <label class="fw-bold text-dark mb-0" style="font-size: 0.95rem;">Location</label>
+            <label class="fw-bold text-dark mb-0" style="font-size: 0.95rem;">Target Locations</label>
             <div class="d-flex align-items-center gap-2">
-              <span class="small text-secondary fw-semibold">Remote Only</span>
+              <span class="small text-secondary fw-semibold">Remote Preference</span>
               <div class="form-check form-switch mb-0">
-                <input class="form-check-input" type="checkbox" id="remoteOnlySwitch" checked style="cursor: pointer;">
+                <input class="form-check-input" type="checkbox" id="remoteOnlySwitch" name="remote_only" checked style="cursor: pointer;">
               </div>
             </div>
           </div>
 
           <!-- Add City Input -->
-          <div class="position-relative mb-2">
-            <i class="bi bi-search position-absolute text-muted" style="left: 14px; top: 11px; font-size: 0.85rem;"></i>
-            <input type="text" class="form-control ps-5" id="newCityInput"
-                   style="border-radius: 10px; height: 42px; font-size: 0.88rem;"
-                   placeholder="add city title (e.g Jakarta, Semarang etc)"
+          <div class="input-group mb-2">
+            <span class="input-group-text bg-white border-end-0 text-muted">
+              <i class="bi bi-geo-alt" style="font-size: 0.85rem;"></i>
+            </span>
+            <input type="text" class="form-control border-start-0 ps-1" id="newCityInput"
+                   style="border-radius: 0 10px 10px 0; height: 42px; font-size: 0.88rem;"
+                   placeholder="Type city or region (e.g. Bangalore, Hyderabad, Remote) and press Enter"
                    onkeydown="if(event.key === 'Enter'){ event.preventDefault(); addTag('locationTags', this); }">
+            <button type="button" class="btn btn-dark btn-sm px-3 rounded-end-3" onclick="addTag('locationTags', document.getElementById('newCityInput'));">
+              Add City
+            </button>
           </div>
 
           <!-- Removable Location Tag Pills -->
           <div class="d-flex flex-wrap gap-2" id="locationTags">
-            <span class="pref-tag-pill">
-              <span>Jakarta</span>
-              <span class="pref-tag-close" onclick="this.parentElement.remove();">&times;</span>
-            </span>
-            <span class="pref-tag-pill">
-              <span>Tangerang</span>
-              <span class="pref-tag-close" onclick="this.parentElement.remove();">&times;</span>
-            </span>
-            <span class="pref-tag-pill">
-              <span>Yogyakarta</span>
-              <span class="pref-tag-close" onclick="this.parentElement.remove();">&times;</span>
-            </span>
+            {% if candidate.preferred_location %}
+              {% for l in candidate.preferred_location.split(',') %}
+                {% if l.strip() %}
+                <span class="pref-tag-pill">
+                  <span>{{ l.strip() }}</span>
+                  <span class="pref-tag-close" onclick="this.parentElement.remove();">&times;</span>
+                </span>
+                {% endif %}
+              {% endfor %}
+            {% else %}
+              <span class="pref-tag-pill">
+                <span>Remote</span>
+                <span class="pref-tag-close" onclick="this.parentElement.remove();">&times;</span>
+              </span>
+              <span class="pref-tag-pill">
+                <span>Bangalore</span>
+                <span class="pref-tag-close" onclick="this.parentElement.remove();">&times;</span>
+              </span>
+              <span class="pref-tag-pill">
+                <span>Hyderabad</span>
+                <span class="pref-tag-close" onclick="this.parentElement.remove();">&times;</span>
+              </span>
+            {% endif %}
           </div>
         </div>
 
         <hr class="border-light my-4">
 
-        <!-- 3. Compensation Range Section -->
-        <div class="mb-4">
-          <div class="d-flex justify-content-between align-items-center mb-2">
-            <label class="fw-bold text-dark mb-0" style="font-size: 0.95rem;">Compensation</label>
-            <a href="#" class="text-primary text-decoration-none small">Clear</a>
-          </div>
-
-          <!-- Slider Range Visual -->
-          <div class="position-relative py-3">
-            <div class="progress" style="height: 6px; background: #e2e8f0; border-radius: 3px;">
-              <div class="progress-bar" style="width: 25%; background: #2563eb;"></div>
-            </div>
-            <!-- Slider Thumb Left -->
-            <div class="position-absolute rounded-circle bg-white border border-primary border-3"
-                 style="width: 18px; height: 18px; top: 10px; left: 0%; transform: translateX(-50%); box-shadow: 0 1px 3px rgba(0,0,0,0.2);"></div>
-            <!-- Slider Thumb Right -->
-            <div class="position-absolute rounded-circle bg-white border border-primary border-3"
-                 style="width: 18px; height: 18px; top: 10px; left: 25%; transform: translateX(-50%); box-shadow: 0 1px 3px rgba(0,0,0,0.2);"></div>
-          </div>
-
-          <div class="d-flex justify-content-between align-items-center text-dark fw-bold" style="font-size: 0.9rem;">
-            <span>Rp. 500.000</span>
-            <span>Rp. 50.000.000</span>
-          </div>
-        </div>
-
-        <hr class="border-light my-4">
-
-        <!-- 4. AI Matching Strictness Section -->
+        <!-- 3. AI Matching Strictness Section -->
         <div class="pref-ai-matching-card mb-4">
           <div class="d-flex justify-content-between align-items-center mb-1">
-            <h6 class="fw-bold text-dark mb-0" style="font-size: 0.95rem;">AI Matching</h6>
-            <i class="bi bi-info-circle text-muted"></i>
+            <h6 class="fw-bold text-dark mb-0" style="font-size: 0.95rem;">AI Recommendation Strictness</h6>
+            <i class="bi bi-shield-check text-success"></i>
           </div>
           <div class="text-secondary small mb-2">
-            Strictness Level: <strong class="text-primary">Balance</strong>
+            Recommendation Mode: <strong class="text-primary">Balanced (Resume + Preferences)</strong>
           </div>
 
-          <!-- Strictness Slider Box -->
           <div class="pref-ai-slider-box text-center">
             <div class="text-secondary small mb-3">
-              Applying to jobs matching at least <strong class="text-primary">80%</strong> of your criteria
+              Matches jobs ranking highest by skills alignment, role relevance, and career stage.
             </div>
 
-            <!-- 3-Tick Slider Visual -->
             <div class="position-relative px-3 py-2 mb-2">
               <div class="progress" style="height: 4px; background: #e2e8f0;">
-                <div class="progress-bar" style="width: 50%; background: #94a3b8;"></div>
+                <div class="progress-bar" style="width: 50%; background: #6366f1;"></div>
               </div>
-              <!-- Left Tick -->
-              <div class="position-absolute rounded-circle bg-secondary"
-                   style="width: 8px; height: 8px; top: 6px; left: 16px;"></div>
-              <!-- Center Handle (80%) -->
-              <div class="position-absolute rounded-circle bg-white border border-primary border-3"
-                   style="width: 16px; height: 16px; top: 2px; left: 50%; transform: translateX(-50%);"></div>
-              <!-- Right Tick -->
-              <div class="position-absolute rounded-circle bg-secondary"
-                   style="width: 8px; height: 8px; top: 6px; right: 16px;"></div>
+              <div class="position-absolute rounded-circle bg-secondary" style="width: 8px; height: 8px; top: 6px; left: 16px;"></div>
+              <div class="position-absolute rounded-circle bg-white border border-primary border-3" style="width: 16px; height: 16px; top: 2px; left: 50%; transform: translateX(-50%);"></div>
+              <div class="position-absolute rounded-circle bg-secondary" style="width: 8px; height: 8px; top: 6px; right: 16px;"></div>
             </div>
 
             <div class="d-flex justify-content-between text-secondary small px-2" style="font-size: 0.76rem;">
-              <span>Broad</span>
-              <span>Strict</span>
+              <span>Broad (All Tech)</span>
+              <span>Balanced</span>
+              <span>Strict Focus</span>
             </div>
           </div>
         </div>
 
-        <!-- Hidden input for standard backend persistence -->
-        <input type="hidden" name="preferred_role" id="hiddenPreferredRole" value="{{ candidate.preferred_role or 'Sales Manager, Product Manager' }}">
-        <input type="hidden" name="preferred_location" id="hiddenPreferredLocation" value="{{ candidate.preferred_location or 'Jakarta, Tangerang' }}">
+        <!-- Hidden inputs updated on submit -->
+        <input type="hidden" name="preferred_role" id="hiddenPreferredRole" value="{{ candidate.preferred_role or '' }}">
+        <input type="hidden" name="preferred_location" id="hiddenPreferredLocation" value="{{ candidate.preferred_location or '' }}">
 
         <!-- Action Buttons -->
         <div class="d-flex justify-content-between align-items-center pt-2">
@@ -225,7 +233,7 @@
     const container = document.getElementById(containerId);
     const span = document.createElement('span');
     span.className = 'pref-tag-pill';
-    span.innerHTML = `<span>${val}</span><span class="pref-tag-close" onclick="this.parentElement.remove();">&times;</span>`;
+    span.innerHTML = `<span>${escapeHtml(val)}</span><span class="pref-tag-close" onclick="this.parentElement.remove();">&times;</span>`;
     container.appendChild(span);
     inputElement.value = '';
   }
@@ -233,5 +241,28 @@
   function clearTags(containerId) {
     document.getElementById(containerId).innerHTML = '';
   }
+
+  function escapeHtml(text) {
+    return text.replace(/[&<>"']/g, function(m) {
+      return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#039;' }[m];
+    });
+  }
+
+  // Before submitting, pack active tags into hidden inputs
+  document.getElementById('preferencesForm').addEventListener('submit', function (e) {
+    const roleTags = [];
+    document.querySelectorAll('#targetRoleTags .pref-tag-pill > span:first-child').forEach(s => {
+      const txt = s.textContent.trim();
+      if (txt) roleTags.push(txt);
+    });
+    document.getElementById('hiddenPreferredRole').value = roleTags.join(', ');
+
+    const locTags = [];
+    document.querySelectorAll('#locationTags .pref-tag-pill > span:first-child').forEach(s => {
+      const txt = s.textContent.trim();
+      if (txt) locTags.push(txt);
+    });
+    document.getElementById('hiddenPreferredLocation').value = locTags.join(', ');
+  });
 </script>
 {% endblock %}

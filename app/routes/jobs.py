@@ -129,17 +129,21 @@ def check_experience_fit(cand_exp: float, job_exp_str: str) -> tuple:
 def index():
     candidate = get_candidate_context()
     has_resume = bool(candidate.get("has_resume"))
+    has_preferences = bool(candidate.get("has_preferences"))
     candidate_skills = {s.lower().strip() for s in candidate.get("skills", [])}
-    candidate_role = candidate.get("preferred_role", "").strip()
     candidate_exp = float(candidate.get("experience_years", 0) or 0)
-    candidate_loc = candidate.get("preferred_location", "").strip()
 
-    # Pre-populate filters from candidate resume if user has not entered a custom query
+    # 1. Distinguish between inferred resume role and user-entered job preferences
+    resume_role = (candidate.get("resume_role") or "").strip()
+    pref_role = (candidate.get("preferred_role") or "").strip() if has_preferences else ""
+    pref_loc = (candidate.get("preferred_location") or "").strip() if has_preferences else ""
+
+    # Search keyword filter from URL query parameter (not pre-filled with dummy preference)
     requested_role = request.args.get("role")
-    role_filter = requested_role.strip() if requested_role is not None else (candidate_role if has_resume else "")
+    role_filter = requested_role.strip() if requested_role is not None else ""
     
     requested_loc = request.args.get("location")
-    loc_filter = requested_loc.strip() if requested_loc is not None else ""
+    loc_filter = requested_loc.strip() if requested_loc is not None else (pref_loc if has_preferences else "")
     
     exp_filter = request.args.get("experience", "").strip()
     mode_filter = request.args.get("mode", "").strip()
@@ -147,15 +151,28 @@ def index():
 
     raw_jobs = load_verified_jobs()
 
-    # Auto-fetch live jobs when resume is present OR when explicitly requested
-    # This ensures personalized matches come from multiple live portals
+    # Target role determination:
+    # - If user searched: active search term is used.
+    # - If user entered preferences: preference role is used.
+    # - If only resume is uploaded: uploaded resume role is used.
+    # - Otherwise: open discovery.
+    if role_filter:
+        active_target_role = role_filter
+    elif has_preferences and pref_role:
+        active_target_role = pref_role
+    elif has_resume and resume_role:
+        active_target_role = resume_role
+    else:
+        active_target_role = ""
+
+    # Auto-fetch live jobs when explicitly requested or low catalog
     should_fetch_live = fetch_live or (has_resume and len(raw_jobs) < 25)
     if should_fetch_live:
         try:
             from services.jobs.live_job_aggregator import aggregate_live_jobs
             live_res = aggregate_live_jobs(
-                role=role_filter or candidate_role or "Data Analyst",
-                location=loc_filter or candidate_loc or "India",
+                role=role_filter or active_target_role or "Data Analyst",
+                location=loc_filter or "India",
                 candidate_skills=list(candidate_skills),
                 max_total=100
             )
@@ -174,7 +191,6 @@ def index():
             if fetch_live:
                 flash(f"Live aggregation notice: {e}", "info")
 
-    active_target_role = role_filter or candidate_role
     scored_jobs = []
 
     schedule_filter = request.args.get("schedule", "").strip().lower()
@@ -277,6 +293,9 @@ def index():
         jobs=scored_jobs,
         candidate=candidate,
         has_resume=has_resume,
+        has_preferences=has_preferences,
+        active_target_role=active_target_role,
+        resume_role=resume_role,
         role_filter=role_filter,
         loc_filter=loc_filter,
         exp_filter=exp_filter,

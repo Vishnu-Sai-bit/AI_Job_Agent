@@ -11,9 +11,20 @@
       <div class="small">
         <strong class="text-success d-block fs-6">Personalized Resume Matching Active ({{ jobs|length }} Matches)</strong>
         Showing opportunities matched specifically to your profile: 
-        <span class="badge bg-success text-white">{{ candidate.preferred_role or 'Target Role' }}</span>
+        {% if has_preferences and candidate.preferred_role %}
+          <span class="badge bg-success text-white">Target Preference: {{ candidate.preferred_role }}</span>
+        {% elif candidate.resume_role %}
+          <span class="badge bg-success text-white">Resume Role: {{ candidate.resume_role }}</span>
+        {% else %}
+          <span class="badge bg-success text-white">Resume Profile</span>
+        {% endif %}
         <span class="badge bg-primary text-white">{{ candidate.experience_years or 0 }} yrs experience</span>
         <span class="badge bg-dark text-white">{{ candidate.skills|length }} verified skills</span>
+        {% if not has_preferences %}
+          <span class="badge bg-white text-secondary border ms-1" title="Preferences not entered yet - matching directly from uploaded resume">
+            <i class="bi bi-info-circle me-1"></i> Preferences: Not set (Using Resume)
+          </span>
+        {% endif %}
       </div>
     </div>
     <div class="d-flex gap-2 align-items-center">

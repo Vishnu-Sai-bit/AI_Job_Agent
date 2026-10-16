@@ -12,6 +12,7 @@ from services.resume.resume_parser import extract_resume_text
 from services.resume.resume_analyzer import analyze_resume
 from services.ats.ats_calculator import calculate_ats
 from services.resume.resume_tailorer import tailor_resume_for_job
+from services.resume.resume_enricher import infer_role
 
 resumes_bp = Blueprint("resumes", __name__, url_prefix="/resumes")
 
@@ -41,16 +42,32 @@ def upload():
         resume_data = analyze_resume(raw_text)
         ats_report = calculate_ats(resume_data)
 
+        # Determine role directly from uploaded resume
+        extracted_role = (resume_data.preferred_role or "").strip()
+        if not extracted_role or extracted_role.lower() in ("job seeker", "candidate", "target role"):
+            try:
+                extracted_role = infer_role(raw_text) or ""
+            except Exception:
+                extracted_role = ""
+
+        # Job preferences only apply if user explicitly entered them
+        existing_ctx = get_candidate_context()
+        has_user_prefs = bool(existing_ctx.get("has_preferences"))
+        user_pref_role = existing_ctx.get("preferred_role", "").strip() if has_user_prefs else ""
+        user_pref_loc = existing_ctx.get("preferred_location", "").strip() if has_user_prefs else ""
+
         parsed_dict = {
             "has_resume": True,
+            "has_preferences": has_user_prefs,
             "candidate_name": resume_data.name or "Candidate",
-            "email": resume_data.email or "candidate@gmail.com",
-            "phone": resume_data.phone or "+91 9182679641",
+            "email": resume_data.email or "",
+            "phone": resume_data.phone or "",
             "linkedin": resume_data.linkedin or "",
             "github": resume_data.github or "",
             "portfolio": resume_data.portfolio or "",
-            "preferred_role": resume_data.preferred_role or "Data Analyst",
-            "preferred_location": resume_data.preferred_location or "Hyderabad",
+            "resume_role": extracted_role,
+            "preferred_role": user_pref_role,
+            "preferred_location": user_pref_loc,
             "skills": resume_data.skills,
             "experience_years": resume_data.experience_years,
             "education": resume_data.education,
