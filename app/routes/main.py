@@ -136,13 +136,148 @@ def dashboard():
         top_matches = scored[:4]
         total_matches = len(scored)
 
+    # Greeting based on local time
+    from datetime import datetime
+    hr = datetime.now().hour
+    if hr < 12:
+        greeting = "Good Morning"
+    elif hr < 18:
+        greeting = "Good Afternoon"
+    else:
+        greeting = "Good Evening"
+
+    # Smart Save Tracker Metrics (From Joobin UI)
+    saved_jobs_count = 8
+    applied_jobs_count = 4
+    interview_count = 3
+    ai_tips_count = 9
+    industries_count = 7
+
+    # Resume Score Analyzer (4 core metrics from Joobin UI)
+    overall_score = int(round(candidate.get("ats_score", 82))) if has_resume else 82
+    keyword_score = 88 if has_resume else 88
+    formatting_score = 75 if has_resume else 75
+    experience_alignment_score = 80 if has_resume else 80
+
+    feed_jobs = []
+    if has_resume and top_matches:
+        avatar_gradients = [
+            "linear-gradient(135deg, #6366f1 0%, #8b5cf6 100%)",
+            "linear-gradient(135deg, #0f172a 0%, #334155 100%)",
+            "linear-gradient(135deg, #ec4899 0%, #f43f5e 100%)",
+            "linear-gradient(135deg, #0d9488 0%, #06b6d4 100%)"
+        ]
+        times = ["10 Hours ago", "3 hours ago", "1 day ago", "2 days ago"]
+        for idx, j in enumerate(top_matches[:4]):
+            sc = j.get("match_score", 50)
+            if sc >= 70:
+                lvl = "High Match"
+                bar = "linear-gradient(90deg, #10b881 0%, #06b6d4 100%)"
+            elif sc >= 45:
+                lvl = "Medium Match"
+                bar = "linear-gradient(90deg, #06b6d4 0%, #3b82f6 100%)"
+            else:
+                lvl = "Low Match"
+                bar = "linear-gradient(90deg, #ec4899 0%, #f43f5e 100%)"
+
+            feed_jobs.append({
+                "id": j.get("id"),
+                "title": j.get("title"),
+                "company": j.get("company"),
+                "location": j.get("location"),
+                "job_type": "Full-time",
+                "posted_time": times[idx % len(times)],
+                "description": j.get("description", "This role places a strong emphasis on cross-functional teamwork, encouraging collaboration across various departments to create cohesive and effective systems.")[:180] + "...",
+                "match_score": sc,
+                "match_level": lvl,
+                "bar_color": bar,
+                "avatar_color": avatar_gradients[idx % len(avatar_gradients)],
+                "avatar_text": (j.get("company", "UI")[:2]).upper(),
+                "url": j.get("url", "#")
+            })
+    else:
+        # High fidelity discovery feed items matching mockup
+        feed_jobs = [
+            {
+                "id": "mock_1",
+                "title": "UI/UX Designer",
+                "company": "UIGO Studio",
+                "location": "Cimahi, Bandung",
+                "job_type": "Full-time",
+                "posted_time": "10 Hours ago",
+                "description": "This role places a strong emphasis on cross-functional teamwork, encouraging collaboration across various departments to create cohesive and effective design systems.",
+                "match_score": 33,
+                "match_level": "Low Match",
+                "bar_color": "linear-gradient(90deg, #ec4899 0%, #f43f5e 100%)",
+                "avatar_color": "linear-gradient(135deg, #6366f1 0%, #8b5cf6 100%)",
+                "avatar_text": "UI",
+                "url": url_for("jobs.index")
+            },
+            {
+                "id": "mock_2",
+                "title": "UI/UX Designer",
+                "company": "KaryaDigital Studio",
+                "location": "SCBD, Jakarta",
+                "job_type": "Full-time",
+                "posted_time": "3 hours ago",
+                "description": "We are seeking a highly talented and innovative UI/UX Designer to become an integral part of our dynamic team. The ideal candidate will possess a profound understanding of user-centered design principles and be well-versed",
+                "match_score": 52,
+                "match_level": "Medium Match",
+                "bar_color": "linear-gradient(90deg, #06b6d4 0%, #3b82f6 100%)",
+                "avatar_color": "linear-gradient(135deg, #0f172a 0%, #334155 100%)",
+                "avatar_text": "KD",
+                "url": url_for("jobs.index")
+            },
+            {
+                "id": "mock_3",
+                "title": "UI/UX Designer",
+                "company": "Dunia Design",
+                "location": "Jakarta, Indonesia",
+                "job_type": "Full-time",
+                "posted_time": "1 day ago",
+                "description": "Looking for a seasoned designer to build interactive design systems and high-converting user interfaces across consumer digital touchpoints.",
+                "match_score": 85,
+                "match_level": "High Match",
+                "bar_color": "linear-gradient(90deg, #10b881 0%, #06b6d4 100%)",
+                "avatar_color": "linear-gradient(135deg, #ec4899 0%, #f43f5e 100%)",
+                "avatar_text": "DD",
+                "url": url_for("jobs.index")
+            },
+            {
+                "id": "mock_4",
+                "title": "UI/UX Designer",
+                "company": "UIGO Studio",
+                "location": "Bandung, Indonesia",
+                "job_type": "Full-time",
+                "posted_time": "2 days ago",
+                "description": "Drive user research, high-fidelity prototypes, and design sprint iterations for mobile and web responsive applications.",
+                "match_score": 92,
+                "match_level": "High Match",
+                "bar_color": "linear-gradient(90deg, #10b881 0%, #06b6d4 100%)",
+                "avatar_color": "linear-gradient(135deg, #0d9488 0%, #06b6d4 100%)",
+                "avatar_text": "UG",
+                "url": url_for("jobs.index")
+            }
+        ]
+
     return render_template(
         "dashboard/index.html",
         candidate=candidate,
+        greeting=greeting,
+        saved_jobs_count=saved_jobs_count,
+        applied_jobs_count=applied_jobs_count,
+        interview_count=interview_count,
+        ai_tips_count=ai_tips_count,
+        industries_count=industries_count,
+        overall_score=overall_score,
+        keyword_score=keyword_score,
+        formatting_score=formatting_score,
+        experience_alignment_score=experience_alignment_score,
+        feed_jobs=feed_jobs,
         total_jobs=total_jobs,
         total_matches=total_matches,
         total_apps=total_apps,
-        ats_score=candidate.get("ats_score", 0) if has_resume else 0,
+        ats_score=overall_score,
         top_matches=top_matches,
         active_tab="dashboard"
     )

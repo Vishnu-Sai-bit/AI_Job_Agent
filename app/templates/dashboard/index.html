@@ -3,18 +3,44 @@
 {% block title %}Dashboard - AI JobAgent{% endblock %}
 
 {% block content %}
-<!-- Welcome Header (From Design Board Item 7) -->
+<!-- Top Greeting Header (From Joobin UI Mockup) -->
 <div class="d-flex justify-content-between align-items-center mb-4 flex-wrap gap-3">
   <div>
-    <h2 class="fw-bold mb-1">Welcome Back{{ (', ' + candidate.candidate_name) if candidate.candidate_name else '' }}! 👋</h2>
-    <p class="text-secondary mb-0">Here's your career overview and latest insights.</p>
+    <h2 class="fw-bold mb-0 text-dark" style="font-size: 1.6rem; letter-spacing: -0.02em;">
+      {{ greeting }} {{ candidate.candidate_name or 'Praja' }} 🖐️
+    </h2>
   </div>
-  <div class="d-flex align-items-center gap-2">
-    <div class="user-avatar-circle" style="width: 38px; height: 38px;">
-      <span>{{ (candidate.candidate_name[:2] if candidate.candidate_name else 'JD').upper() }}</span>
+  
+  <div class="d-flex align-items-center gap-2 flex-wrap">
+    <!-- Search Bar -->
+    <div class="position-relative" style="width: 260px;">
+      <i class="bi bi-search position-absolute text-muted" style="left: 12px; top: 10px; font-size: 0.85rem;"></i>
+      <input type="text" class="form-control form-control-sm ps-4 pe-4 bg-white border"
+             style="border-radius: 10px; height: 38px; font-size: 0.82rem;"
+             placeholder="Search Job">
+      <span class="position-absolute text-muted small" style="right: 10px; top: 10px; font-size: 0.72rem;">⌘K</span>
+    </div>
+
+    <!-- Filter Toggle Button -->
+    <a href="{{ url_for('jobs.index') }}" class="btn-circle-action" title="Job Filters">
+      <i class="bi bi-sliders"></i>
+    </a>
+
+    <!-- Notification Bell -->
+    <a href="#" class="btn-circle-action" title="Notifications">
+      <i class="bi bi-bell"></i>
+    </a>
+
+    <!-- Plus Create Action -->
+    <a href="{{ url_for('resumes.index') }}" class="btn-circle-action text-primary" style="background: rgba(83, 102, 241, 0.08); border-color: rgba(83, 102, 241, 0.2);" title="Upload Resume">
+      <i class="bi bi-plus-lg fw-bold"></i>
+    </a>
+
+    <!-- User Profile Avatar -->
+    <div class="user-avatar-circle ms-1" style="width: 38px; height: 38px;">
+      <span>{{ (candidate.candidate_name[:2] if candidate.candidate_name else 'PR').upper() }}</span>
       <span class="status-dot-online"></span>
     </div>
-    <span class="fw-semibold text-dark small d-none d-sm-inline">{{ candidate.candidate_name or 'Candidate' }}</span>
   </div>
 </div>
 
@@ -22,260 +48,331 @@
 <div class="alert alert-primary d-flex align-items-center justify-content-between p-3 rounded-3 mb-4 flex-wrap gap-2" style="background: rgba(99, 102, 241, 0.08); border-color: rgba(99, 102, 241, 0.25);">
   <div class="d-flex align-items-center gap-2">
     <i class="bi bi-cloud-arrow-up-fill text-primary fs-5"></i>
-    <span class="text-dark small"><strong>No resume uploaded yet</strong> — Upload your resume to unlock real-time ATS diagnostic scoring and AI-powered job matching.</span>
+    <span class="text-dark small"><strong>No Resume Uploaded Yet</strong> — Upload your resume to unlock real-time ATS diagnostic scoring and AI-powered job matching.</span>
   </div>
   <a href="{{ url_for('resumes.index') }}" class="btn btn-primary btn-sm px-3 fw-semibold">
-    Upload Resume
+    <i class="bi bi-cloud-arrow-up-fill me-1"></i> Upload Resume to Match Jobs
   </a>
 </div>
 {% endif %}
 
-<!-- 4 Key Performance Indicators (From Design Board Item 7) -->
-<div class="row g-3 mb-4">
-  <!-- ATS Score KPI -->
-  <div class="col-6 col-xl-3">
-    <div class="kpi-card">
-      <div>
-        <h3 class="fw-bold text-dark mb-0 mt-1">{{ ats_score|round|int if candidate.has_resume else '--' }}</h3>
-        <span class="text-muted small fw-semibold">ATS Score</span>
-      </div>
-      <div class="kpi-icon-circle kpi-icon-green">
-        <i class="bi bi-shield-check"></i>
-      </div>
+<!-- AI Filter Suggestions Banner (From Joobin UI Mockup) -->
+<div class="joobin-filter-banner mb-4 d-flex justify-content-between align-items-center flex-wrap gap-3">
+  <div class="d-flex align-items-start gap-3">
+    <div class="p-2 rounded-3 text-primary" style="background: rgba(83, 102, 241, 0.1); font-size: 1.25rem;">
+      <i class="bi bi-stars"></i>
+    </div>
+    <div>
+      <h6 class="fw-bold text-dark mb-1 text-capitalize" style="font-size: 0.95rem; letter-spacing: normal;">
+        AI Filter Suggestions
+      </h6>
+      <p class="text-secondary small mb-0" style="font-size: 0.83rem; line-height: 1.45;">
+        Not sure which filters will help you find the right job faster? Let our AI recommend smart, personalized filters based on your skills and preferences
+      </p>
     </div>
   </div>
-
-  <!-- Job Matches KPI -->
-  <div class="col-6 col-xl-3">
-    <div class="kpi-card">
-      <div>
-        <h3 class="fw-bold text-primary mb-0 mt-1">{{ total_matches if candidate.has_resume else '--' }}</h3>
-        <span class="text-muted small fw-semibold">Job Matches</span>
-      </div>
-      <div class="kpi-icon-circle kpi-icon-blue">
-        <i class="bi bi-briefcase-fill"></i>
-      </div>
-    </div>
-  </div>
-
-  <!-- Missing Skills KPI (Dynamic) -->
-  <div class="col-6 col-xl-3">
-    <div class="kpi-card">
-      <div>
-        {% if candidate.has_resume %}
-          {% set cand_skills_lower = candidate.skills | map('lower') | list %}
-          {% set hd_skills = ['azure', 'aws', 'tableau', 'cloud computing', 'big data', 'etl', 'airflow', 'docker', 'spark', 'databricks', 'snowflake', 'kubernetes', 'tensorflow', 'pytorch', 'scikit-learn', 'fastapi', 'dbt', 'looker', 'redshift', 'gcp'] %}
-          {% set missing_cnt = namespace(n=0) %}
-          {% for sk in hd_skills %}{% if sk not in cand_skills_lower %}{% set missing_cnt.n = missing_cnt.n + 1 %}{% endif %}{% endfor %}
-          <h3 class="fw-bold text-warning mb-0 mt-1">{{ missing_cnt.n }}</h3>
-        {% else %}
-          <h3 class="fw-bold text-warning mb-0 mt-1">--</h3>
-        {% endif %}
-        <span class="text-muted small fw-semibold">Missing Skills</span>
-      </div>
-      <div class="kpi-icon-circle kpi-icon-amber">
-        <i class="bi bi-star-fill"></i>
-      </div>
-    </div>
-  </div>
-
-  <!-- Recommendations KPI (from ATS suggestions) -->
-  <div class="col-6 col-xl-3">
-    <div class="kpi-card">
-      <div>
-        <h3 class="fw-bold mb-0 mt-1" style="color: #8b5cf6;">{{ candidate.suggestions|length if candidate.has_resume and candidate.suggestions else ('--' if not candidate.has_resume else 3) }}</h3>
-        <span class="text-muted small fw-semibold">Recommendations</span>
-      </div>
-      <div class="kpi-icon-circle kpi-icon-purple">
-        <i class="bi bi-lightbulb-fill"></i>
-      </div>
-    </div>
-  </div>
+  <button type="button" class="btn btn-sm text-secondary p-1" onclick="this.closest('.joobin-filter-banner').style.display='none';" title="Dismiss">
+    <i class="bi bi-x-lg" style="font-size: 0.85rem;"></i>
+  </button>
 </div>
 
-<!-- Quick Actions Row (From Design Board Item 7) -->
-<div class="mb-4">
-  <h5 class="fw-bold text-dark mb-3">Quick Actions</h5>
-  <div class="row g-3">
-    <div class="col-md-4">
-      <a href="{{ url_for('resumes.index') }}" class="quick-action-card quick-action-purple">
-        <div>
-          <h5 class="fw-bold mb-1 text-white">Upload Resume</h5>
-          <span class="text-white-50 small">Start Analysis</span>
-        </div>
-        <div class="fs-2 text-white opacity-75">
-          <i class="bi bi-cloud-arrow-up-fill"></i>
-        </div>
-      </a>
-    </div>
-
-    <div class="col-md-4">
-      <a href="{{ url_for('jobs.index') }}" class="quick-action-card quick-action-blue">
-        <div>
-          <h5 class="fw-bold mb-1 text-white">Find Jobs</h5>
-          <span class="text-white-50 small">View Matches</span>
-        </div>
-        <div class="fs-2 text-white opacity-75">
-          <i class="bi bi-search"></i>
-        </div>
-      </a>
-    </div>
-
-    <div class="col-md-4">
-      <a href="{{ url_for('resumes.analyze') }}" class="quick-action-card quick-action-green">
-        <div>
-          <h5 class="fw-bold mb-1 text-white">Improve Skills</h5>
-          <span class="text-white-50 small">Get Suggestions</span>
-        </div>
-        <div class="fs-2 text-white opacity-75">
-          <i class="bi bi-mortarboard-fill"></i>
-        </div>
-      </a>
-    </div>
-  </div>
-</div>
-
-<!-- 7-Step Workflow Pipeline Navigation Strip -->
-<div class="card card-clean p-3 mb-4">
-  <div class="d-flex justify-content-between align-items-center mb-2 px-2">
-    <span class="text-muted small fw-bold text-uppercase">Sequential 7-Step Career Lifecycle</span>
-    <span class="badge bg-primary-subtle text-primary border border-primary-subtle">Integrated</span>
-  </div>
-  <div class="d-flex justify-content-between align-items-center flex-wrap gap-2 px-2">
-    <a href="{{ url_for('resumes.index') }}" class="btn btn-outline-custom btn-sm flex-fill text-truncate">
-      <span class="step-num me-1">1</span> Upload
-    </a>
-    <i class="bi bi-chevron-right text-muted small d-none d-md-inline"></i>
-    <a href="{{ url_for('resumes.analyze') }}" class="btn btn-outline-custom btn-sm flex-fill text-truncate">
-      <span class="step-num me-1">2</span> Resume
-    </a>
-    <i class="bi bi-chevron-right text-muted small d-none d-md-inline"></i>
-    <a href="{{ url_for('jobs.index') }}" class="btn btn-outline-custom btn-sm flex-fill text-truncate">
-      <span class="step-num me-1">3</span> Show Job Searches
-    </a>
-    <i class="bi bi-chevron-right text-muted small d-none d-md-inline"></i>
-    <a href="{{ url_for('interviews.index') }}" class="btn btn-outline-custom btn-sm flex-fill text-truncate">
-      <span class="step-num me-1">4</span> Prepare Interview
-    </a>
-    <i class="bi bi-chevron-right text-muted small d-none d-md-inline"></i>
-    <a href="{{ url_for('main.cover_letter') }}" class="btn btn-outline-custom btn-sm flex-fill text-truncate">
-      <span class="step-num me-1">5</span> Cover Letter
-    </a>
-    <i class="bi bi-chevron-right text-muted small d-none d-md-inline"></i>
-    <a href="{{ url_for('main.mail_preparation') }}" class="btn btn-outline-custom btn-sm flex-fill text-truncate">
-      <span class="step-num me-1">6</span> Mail Preparation
-    </a>
-    <i class="bi bi-chevron-right text-muted small d-none d-md-inline"></i>
-    <a href="{{ url_for('applications.index') }}" class="btn btn-outline-custom btn-sm flex-fill text-truncate">
-      <span class="step-num me-1">7</span> Application CRM
-    </a>
-  </div>
-</div>
-
+<!-- Middle Section: Smart Save Tracker + Resume Score Analyzer + Career Growth Tracker -->
 <div class="row g-4 mb-4">
-  <!-- Recent High Match Jobs (From Design Board Item 7) -->
-  <div class="col-lg-7">
-    <div class="card card-clean p-4 h-100 d-flex flex-column">
-      <div class="d-flex justify-content-between align-items-center mb-3">
-        <h4 class="fw-bold mb-0 text-dark">Recent Job Matches</h4>
-        <a href="{{ url_for('jobs.index') }}" class="text-primary small fw-semibold text-decoration-none">
-          {% if candidate.has_resume %}View All Matches{% else %}Explore Jobs{% endif %} <i class="bi bi-arrow-right"></i>
-        </a>
-      </div>
-
-      <div class="d-flex flex-column gap-3">
-        {% if not candidate.has_resume %}
-          <div class="p-4 text-center border rounded-3 bg-light">
-            <div class="fs-1 text-muted mb-2"><i class="bi bi-briefcase"></i></div>
-            <h6 class="fw-bold text-dark mb-1">No Resume Uploaded Yet</h6>
-            <p class="text-secondary small mb-3">Upload your resume in Step 1 to calculate real-time compatibility and discover tailored job openings.</p>
-            <a href="{{ url_for('resumes.index') }}" class="btn btn-primary-gradient btn-sm px-3 py-2">
-              <i class="bi bi-cloud-arrow-up-fill me-1"></i> Upload Resume to Match Jobs
-            </a>
-          </div>
-        {% elif top_matches %}
-          {% for job in top_matches %}
-            <div class="p-3 rounded-3 bg-light border d-flex justify-content-between align-items-center flex-wrap gap-2">
-              <div class="d-flex align-items-center gap-3">
-                <div class="user-avatar-circle" style="width: 44px; height: 44px; font-size: 1rem; border-radius: 12px;">
-                  {{ job.company[:2].upper() }}
-                </div>
-                <div>
-                  <h6 class="fw-bold text-dark mb-1">{{ job.title }}</h6>
-                  <div class="d-flex align-items-center gap-2 flex-wrap">
-                    <span class="text-muted small fw-medium">{{ job.company }}</span>
-                    <span class="badge-location" style="font-size: 0.72rem; padding: 2px 8px;">{{ job.location }}</span>
-                    <span class="badge-jobtype" style="font-size: 0.72rem; padding: 2px 8px;">Full-time</span>
-                    <span class="text-muted small" style="font-size: 0.75rem;">Recently added</span>
-                  </div>
-                </div>
-              </div>
-
-              <div class="d-flex align-items-center gap-2">
-                <span class="badge-match" style="font-size: 0.8rem; padding: 0.3rem 0.75rem;">
-                  {{ job.match_score }}% Match
-                </span>
-                {% if job.url and job.url != '#' %}
-                  <a href="{{ job.url }}" target="_blank" class="btn btn-success-gradient btn-sm px-3 py-1">Apply</a>
-                {% else %}
-                  <a href="{{ url_for('jobs.index') }}?role={{ job.title|urlencode }}" class="btn btn-outline-custom btn-sm px-3 py-1">Details</a>
-                {% endif %}
-              </div>
-            </div>
-          {% endfor %}
-        {% else %}
-          <div class="p-4 text-center text-muted small border rounded-3 bg-light">
-            No matching openings computed yet. Update your skills or explore general jobs.
-          </div>
-        {% endif %}
-      </div>
-    </div>
-  </div>
-
-  <!-- Skills Overview & Career Insights (From Design Board Item 11) -->
+  <!-- Left Column: Smart Save Tracker Card -->
   <div class="col-lg-5">
     <div class="card card-clean p-4 h-100 d-flex flex-column justify-content-between">
       <div>
-        <div class="d-flex justify-content-between align-items-center mb-3">
-          <h4 class="fw-bold mb-0 text-dark">Skills Overview</h4>
-          <span class="badge bg-primary-subtle text-primary">{{ len(candidate.skills) if candidate.has_resume else 0 }} Identified</span>
+        <div class="d-flex justify-content-between align-items-center mb-4">
+          <h5 class="fw-bold text-dark mb-0">Smart Save Tracker</h5>
+          <div class="dropdown">
+            <button class="btn btn-sm text-muted p-0" type="button" data-bs-toggle="dropdown">
+              <i class="bi bi-three-dots-vertical"></i>
+            </button>
+            <ul class="dropdown-menu dropdown-menu-end shadow-sm">
+              <li><a class="dropdown-item small" href="{{ url_for('applications.index') }}">View Applications CRM</a></li>
+              <li><a class="dropdown-item small" href="{{ url_for('jobs.index') }}">Explore More Jobs</a></li>
+            </ul>
+          </div>
         </div>
-        {% if candidate.has_resume and candidate.skills %}
-          <p class="text-secondary small mb-3">
-            Core technical competencies extracted and cross-checked against live employer requirements for <strong>{{ candidate.preferred_role }}</strong>.
-          </p>
 
-          <div class="d-flex flex-wrap gap-2 mb-4">
-            {% for s in candidate.skills %}
-              <span class="badge-skill"><i class="bi bi-check2 text-primary"></i> {{ s }}</span>
-            {% endfor %}
+        <!-- Donut Chart & Legend Row -->
+        <div class="row align-items-center g-3 mb-4">
+          <!-- Circular Multi-Color Donut -->
+          <div class="col-sm-6 text-center">
+            <div class="position-relative d-inline-block" style="width: 160px; height: 160px;">
+              <svg viewBox="0 0 100 100" style="transform: rotate(-90deg); width: 100%; height: 100%;">
+                <!-- Background Ring -->
+                <circle cx="50" cy="50" r="38" fill="none" stroke="#f1f5f9" stroke-width="11" />
+                <!-- Segment 1: Teal / Cyan (Saved Jobs) -->
+                <circle cx="50" cy="50" r="38" fill="none" stroke="#06b6d4" stroke-width="11"
+                        stroke-dasharray="238.7" stroke-dashoffset="0" stroke-linecap="round" />
+                <!-- Segment 2: Light Sky Blue (Applied Jobs) -->
+                <circle cx="50" cy="50" r="38" fill="none" stroke="#38bdf8" stroke-width="11"
+                        stroke-dasharray="238.7" stroke-dashoffset="80" stroke-linecap="round" />
+                <!-- Segment 3: Deep Blue (Interviews) -->
+                <circle cx="50" cy="50" r="38" fill="none" stroke="#4f46e5" stroke-width="11"
+                        stroke-dasharray="238.7" stroke-dashoffset="130" stroke-linecap="round" />
+                <!-- Segment 4: Magenta / Pink (AI Tips) -->
+                <circle cx="50" cy="50" r="38" fill="none" stroke="#ec4899" stroke-width="11"
+                        stroke-dasharray="238.7" stroke-dashoffset="175" stroke-linecap="round" />
+              </svg>
+              <!-- Center Text -->
+              <div class="position-absolute top-50 start-50 translate-middle text-center" style="width: 100px;">
+                <div class="fw-bold text-dark lh-1" style="font-size: 1.85rem; letter-spacing: -0.02em;">100%</div>
+                <div class="text-muted" style="font-size: 0.65rem; margin-top: 4px; font-weight: 500;">AI-powered by jobi-ai</div>
+              </div>
+            </div>
           </div>
-        {% else %}
-          <div class="p-3 text-center border rounded-3 bg-light mb-4">
-            <span class="text-muted small">No skills extracted yet. Upload a resume to profile your competencies.</span>
+
+          <!-- Legend Counters -->
+          <div class="col-sm-6">
+            <div class="d-flex flex-column gap-2">
+              <div class="d-flex justify-content-between align-items-center small">
+                <div class="d-flex align-items-center gap-2">
+                  <span style="width: 8px; height: 8px; border-radius: 50%; background: #06b6d4;"></span>
+                  <span class="text-secondary">Saved Jobs</span>
+                </div>
+                <strong class="text-dark">{{ saved_jobs_count }}</strong>
+              </div>
+
+              <div class="d-flex justify-content-between align-items-center small">
+                <div class="d-flex align-items-center gap-2">
+                  <span style="width: 8px; height: 8px; border-radius: 50%; background: #38bdf8;"></span>
+                  <span class="text-secondary">Applied Jobs</span>
+                </div>
+                <strong class="text-dark">{{ applied_jobs_count }}</strong>
+              </div>
+
+              <div class="d-flex justify-content-between align-items-center small">
+                <div class="d-flex align-items-center gap-2">
+                  <span style="width: 8px; height: 8px; border-radius: 50%; background: #4f46e5;"></span>
+                  <span class="text-secondary">Interview Scheduled</span>
+                </div>
+                <strong class="text-dark">{{ interview_count }}</strong>
+              </div>
+
+              <div class="d-flex justify-content-between align-items-center small">
+                <div class="d-flex align-items-center gap-2">
+                  <span style="width: 8px; height: 8px; border-radius: 50%; background: #ec4899;"></span>
+                  <span class="text-secondary">AI Tips Reviewed</span>
+                </div>
+                <strong class="text-dark">{{ ai_tips_count }}</strong>
+              </div>
+            </div>
           </div>
-        {% endif %}
+        </div>
       </div>
 
-      <!-- Quick Action Buttons to Tools -->
-      <div class="p-3 bg-light rounded-3 border">
-        <span class="text-muted small fw-bold text-uppercase d-block mb-2">Instant Application Boosters:</span>
-        <div class="d-flex flex-column gap-2">
-          <a href="{{ url_for('main.cover_letter') }}" class="btn btn-outline-custom btn-sm text-start d-flex align-items-center justify-content-between">
-            <span><i class="bi bi-file-earmark-text text-primary me-2"></i>Generate Target Cover Letter</span>
-            <i class="bi bi-arrow-right text-muted"></i>
-          </a>
-          <a href="{{ url_for('main.mail_preparation') }}" class="btn btn-outline-custom btn-sm text-start d-flex align-items-center justify-content-between">
-            <span><i class="bi bi-envelope text-info me-2"></i>Draft Recruiter Cold Outreach</span>
-            <i class="bi bi-arrow-right text-muted"></i>
-          </a>
-          <a href="{{ url_for('interviews.index') }}" class="btn btn-outline-custom btn-sm text-start d-flex align-items-center justify-content-between">
-            <span><i class="bi bi-mic text-danger me-2"></i>Simulate Technical Mock Interview</span>
-            <i class="bi bi-arrow-right text-muted"></i>
-          </a>
+      <!-- Footer Info Strip with Sparkle Icon -->
+      <div class="pt-3 border-top d-flex align-items-center gap-2 text-muted" style="font-size: 0.76rem;">
+        <i class="bi bi-stars text-primary fs-6"></i>
+        <span>Easily track high-growth job roles with real-time insights powered by AI trend analysis engine</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- Right Column: Resume Score Analyzer + Career Growth Tracker -->
+  <div class="col-lg-7 d-flex flex-column gap-4">
+    <!-- Card 1: Resume Score Analyzer -->
+    <div class="card card-clean p-4">
+      <div class="d-flex justify-content-between align-items-center mb-3">
+        <h5 class="fw-bold text-dark mb-0">Resume Score Analyzer</h5>
+        <a href="{{ url_for('resumes.analyze') }}" class="btn btn-sm text-muted p-0" title="Full Report">
+          <i class="bi bi-three-dots-vertical"></i>
+        </a>
+      </div>
+
+      <!-- 4 Core Dimension Metric Tiles (2x2 Grid) -->
+      <div class="row g-3">
+        <!-- 1. Overall Score -->
+        <div class="col-sm-6">
+          <div class="metric-tile">
+            <div class="d-flex justify-content-between align-items-center mb-2">
+              <div class="d-flex align-items-center gap-2">
+                <i class="bi bi-shield-check text-primary"></i>
+                <span class="fw-semibold text-secondary small">Overall Score</span>
+              </div>
+              <span class="text-muted small">•••</span>
+            </div>
+            <div class="d-flex align-items-baseline gap-2">
+              <span class="metric-tile-score">{{ overall_score }}/100</span>
+            </div>
+            <span class="metric-tile-label">Balanced keyword</span>
+          </div>
+        </div>
+
+        <!-- 2. Keyword Relevance -->
+        <div class="col-sm-6">
+          <div class="metric-tile">
+            <div class="d-flex justify-content-between align-items-center mb-2">
+              <div class="d-flex align-items-center gap-2">
+                <i class="bi bi-list-check text-info"></i>
+                <span class="fw-semibold text-secondary small">Keyword Relevance</span>
+              </div>
+              <span class="text-muted small">•••</span>
+            </div>
+            <div class="d-flex align-items-baseline gap-2">
+              <span class="metric-tile-score">{{ keyword_score }}%</span>
+            </div>
+            <span class="metric-tile-label">Strong alignment</span>
+          </div>
+        </div>
+
+        <!-- 3. Formatting -->
+        <div class="col-sm-6">
+          <div class="metric-tile">
+            <div class="d-flex justify-content-between align-items-center mb-2">
+              <div class="d-flex align-items-center gap-2">
+                <i class="bi bi-layout-text-window text-purple" style="color: #8b5cf6;"></i>
+                <span class="fw-semibold text-secondary small">Formatting</span>
+              </div>
+              <span class="text-muted small">•••</span>
+            </div>
+            <div class="d-flex align-items-baseline gap-2">
+              <span class="metric-tile-score">{{ formatting_score }}%</span>
+            </div>
+            <span class="metric-tile-label">Clean Formatting</span>
+          </div>
+        </div>
+
+        <!-- 4. Experience Alignment -->
+        <div class="col-sm-6">
+          <div class="metric-tile">
+            <div class="d-flex justify-content-between align-items-center mb-2">
+              <div class="d-flex align-items-center gap-2">
+                <i class="bi bi-briefcase text-success"></i>
+                <span class="fw-semibold text-secondary small">Experience Alignment</span>
+              </div>
+              <span class="text-muted small">•••</span>
+            </div>
+            <div class="d-flex align-items-baseline gap-2">
+              <span class="metric-tile-score">{{ experience_alignment_score }}%</span>
+            </div>
+            <span class="metric-tile-label">Experience Fit</span>
+          </div>
         </div>
       </div>
     </div>
+
+    <!-- Card 2: Career Growth Tracker -->
+    <div class="card card-clean p-4">
+      <div class="d-flex justify-content-between align-items-center mb-3">
+        <h5 class="fw-bold text-dark mb-0">Career Growth Tracker</h5>
+        <div class="dropdown">
+          <button class="btn btn-sm text-muted p-0" type="button" data-bs-toggle="dropdown">
+            <i class="bi bi-three-dots-vertical"></i>
+          </button>
+          <ul class="dropdown-menu dropdown-menu-end shadow-sm">
+            <li><a class="dropdown-item small" href="{{ url_for('applications.index') }}">Open CRM</a></li>
+          </ul>
+        </div>
+      </div>
+
+      <!-- Segmented Gradient Bar -->
+      <div class="growth-segment-bar mb-3">
+        <div style="width: 50%; background: linear-gradient(90deg, #10b881 0%, #06b6d4 100%);"></div>
+        <div style="width: 30%; background: #38bdf8;"></div>
+        <div style="width: 20%; background: #a5f3fc;"></div>
+      </div>
+
+      <!-- Stats Line -->
+      <div class="d-flex justify-content-between align-items-center small text-secondary flex-wrap gap-2">
+        <span>Saved Jobs : <strong class="text-dark">{{ saved_jobs_count }}</strong></span>
+        <span><span class="text-secondary">Job Matches</span> : <strong class="text-dark">{{ total_matches if candidate.has_resume else '--' }}</strong></span>
+        <span>Industries Explored : <strong class="text-dark">{{ industries_count }}</strong></span>
+        <span>Roles Applied : <strong class="text-dark">{{ applied_jobs_count }}</strong></span>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Bottom Section: Personalized Job Feed (From Joobin UI Mockup) -->
+<div class="mb-4">
+  <div class="d-flex justify-content-between align-items-center mb-3 flex-wrap gap-2">
+    <h4 class="fw-bold text-dark mb-0" style="font-size: 1.25rem;">Personalized Job Feed</h4>
+    <div class="dropdown">
+      <button class="btn btn-outline-secondary btn-sm dropdown-toggle fw-semibold text-dark bg-white"
+              style="border-color: #e2e8f0; border-radius: 10px;" type="button" data-bs-toggle="dropdown">
+        <i class="bi bi-stars text-primary me-1"></i> AI Recommended Only
+      </button>
+      <ul class="dropdown-menu dropdown-menu-end shadow-sm border-light">
+        <li><a class="dropdown-item small" href="{{ url_for('jobs.index') }}">All Opportunities</a></li>
+        <li><a class="dropdown-item small" href="{{ url_for('jobs.index') }}?location=Remote">Remote Only</a></li>
+      </ul>
+    </div>
+  </div>
+
+  <!-- 2-Column Grid of Modern Cards -->
+  <div class="row g-4">
+    {% for job in feed_jobs %}
+      <div class="col-md-6">
+        <div class="joobin-job-card">
+          <!-- Top Row: Avatar + Title + Company -->
+          <div>
+            <div class="d-flex align-items-start gap-3 mb-3">
+              <div class="user-avatar-circle" style="width: 46px; height: 46px; font-size: 1.05rem; border-radius: 12px; background: {{ job.avatar_color }}; color: #ffffff;">
+                {{ job.avatar_text }}
+              </div>
+              <div class="flex-grow-1">
+                <h5 class="fw-bold mb-0 text-dark">
+                  <a href="{{ job.url }}" class="text-dark text-decoration-none hover-primary">{{ job.title }}</a>
+                </h5>
+                <span class="text-secondary small">{{ job.company }}</span>
+              </div>
+            </div>
+
+            <!-- Tags Row -->
+            <div class="d-flex align-items-center gap-2 flex-wrap mb-3">
+              <span class="badge-tag-location"><i class="bi bi-geo-alt-fill me-1"></i> {{ job.location }}</span>
+              <span class="badge-tag-jobtype"><i class="bi bi-briefcase-fill me-1"></i> {{ job.job_type }}</span>
+              <span class="badge-tag-time"><i class="bi bi-clock-fill me-1"></i> {{ job.posted_time }}</span>
+            </div>
+
+            <!-- Description -->
+            <p class="text-secondary small mb-3" style="line-height: 1.55; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden;">
+              {{ job.description }}
+            </p>
+          </div>
+
+          <!-- Bottom: Match Bar + Actions -->
+          <div>
+            <!-- Progress Bar with Label and % -->
+            <div class="mb-3">
+              <div class="d-flex justify-content-between small fw-bold mb-1" style="font-size: 0.74rem;">
+                <span class="text-secondary">{{ job.match_level }}</span>
+                <span class="text-dark">{{ job.match_score }}%</span>
+              </div>
+              <div class="progress" style="height: 6px; background: #f1f5f9;">
+                <div class="progress-bar" style="width: {{ job.match_score }}%; background: {{ job.bar_color }};"></div>
+              </div>
+            </div>
+
+            <!-- Action Buttons Row -->
+            <div class="d-flex justify-content-between align-items-center pt-2 border-top">
+              <form method="POST" action="{{ url_for('jobs.save_job', job_id=job.id) }}" class="d-inline">
+                <button type="submit" class="btn-circle-action" title="Bookmark Job">
+                  <i class="bi bi-bookmark"></i>
+                </button>
+              </form>
+
+              {% if job.url and job.url != '#' %}
+                <a href="{{ job.url }}" target="_blank" rel="noopener noreferrer" class="btn-joobin-apply">
+                  Apply Job <i class="bi bi-arrow-right"></i>
+                </a>
+              {% else %}
+                <a href="{{ url_for('jobs.index') }}" class="btn-joobin-apply">
+                  Apply Job <i class="bi bi-arrow-right"></i>
+                </a>
+              {% endif %}
+
+              <button type="button" class="btn-circle-action" title="Hide Opportunity" onclick="this.closest('.col-md-6').style.display='none';">
+                <i class="bi bi-eye-slash"></i>
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    {% endfor %}
   </div>
 </div>
 {% endblock %}
