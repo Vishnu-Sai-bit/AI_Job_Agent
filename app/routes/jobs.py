@@ -177,31 +177,62 @@ def index():
     active_target_role = role_filter or candidate_role
     scored_jobs = []
 
+    schedule_filter = request.args.get("schedule", "").strip().lower()
+    workstyle_filter = (request.args.get("workstyle") or request.args.get("mode", "")).strip().lower()
+    if workstyle_filter:
+        mode_filter = workstyle_filter
+
     for j in raw_jobs:
         j_title = j.get("title", "")
         j_loc = j.get("location", "")
         j_exp = j.get("experience", "1-3 yrs")
         j_skills = j.get("skills", [])
         
-        # Apply mode filter if present
+        # 1. Role keyword filter (Applies whether has_resume or not!)
+        if requested_role:
+            q = requested_role.lower().strip()
+            q_terms = [t for t in q.replace("/", " ").replace("-", " ").split() if len(t) > 2]
+            
+            in_title = q in j_title.lower()
+            in_skills = any(q in s.lower() for s in j_skills)
+            in_company = q in (j.get("company") or "").lower()
+            terms_in_title = any(t in j_title.lower() for t in q_terms) if q_terms else False
+            terms_in_skills = any(any(t in s.lower() for t in q_terms) for s in j_skills) if q_terms else False
+            
+            if not (in_title or in_skills or in_company or terms_in_title or terms_in_skills):
+                continue
+
+        # 2. Work style / Mode filter
         if mode_filter == "remote" and "remote" not in j_loc.lower():
             continue
-        elif mode_filter == "onsite" and ("remote" in j_loc.lower() or "hybrid" in j_loc.lower()):
+        elif mode_filter in ["office", "onsite"] and ("remote" in j_loc.lower() or "hybrid" in j_loc.lower()):
             continue
         elif mode_filter == "hybrid" and "hybrid" not in j_loc.lower():
             continue
 
-        # Location filter if specified
+        # 3. Schedule filter
+        if schedule_filter:
+            j_sched_text = (j_exp + " " + j_title + " " + (j.get("description") or "")).lower()
+            if schedule_filter == "full-time" and not any(k in j_sched_text for k in ["full-time", "full day", "fulltime"]):
+                continue
+            elif schedule_filter == "part-time" and not any(k in j_sched_text for k in ["part-time", "parttime"]):
+                continue
+            elif schedule_filter == "internship" and not any(k in j_sched_text for k in ["intern", "internship", "fresher"]):
+                continue
+            elif schedule_filter == "project" and not any(k in j_sched_text for k in ["project", "contract", "freelance"]):
+                continue
+
+        # 4. Location filter if specified
         if loc_filter and loc_filter.lower() not in j_loc.lower():
             continue
 
-        # Experience dropdown filter if selected
+        # 5. Experience dropdown filter if selected
         if exp_filter:
-            if exp_filter == "0-2" and not any(k in j_exp for k in ["0-2", "1-2", "0-1", "fresher"]):
+            if exp_filter == "0-2" and not any(k in j_exp for k in ["0-2", "1-2", "0-1", "fresher", "intern"]):
                 continue
             elif exp_filter == "2-5" and not any(k in j_exp for k in ["2-4", "2-5", "1-3", "3-5"]):
                 continue
-            elif exp_filter == "5+" and not any(k in j_exp for k in ["5+", "5-8", "6+", "7+"]):
+            elif exp_filter == "5+" and not any(k in j_exp for k in ["5+", "5-8", "6+", "7+", "senior", "lead"]):
                 continue
 
         # Skill matching
@@ -212,22 +243,12 @@ def index():
         is_rel, role_score = is_role_relevant(j_title, active_target_role)
         is_exp_fit, exp_score, exp_note = check_experience_fit(candidate_exp, j_exp)
 
-        # Personalized Resume-Based Filtering:
-        # When a resume is present and no custom override keyword is typed,
-        # include jobs that match on EITHER role OR skills (OR both) — show maximum relevant results
-        if has_resume:
-            if requested_role:
-                # Custom search: keyword must appear in title or skills
-                q = requested_role.lower().strip()
-                if q not in j_title.lower() and not any(q in s.lower() for s in j_skills):
-                    continue
-            else:
-                # Auto personalized matching — include if role matches OR any skills match
-                # Only hard-exclude jobs with zero relevance whatsoever
-                has_role_match = is_rel
-                has_skill_match = len(matching) > 0
-                if not has_role_match and not has_skill_match:
-                    continue
+        # Auto personalized matching when candidate has resume and did not search custom keyword
+        if has_resume and not requested_role:
+            has_role_match = is_rel
+            has_skill_match = len(matching) > 0
+            if not has_role_match and not has_skill_match:
+                continue
 
         # Multi-factor score: 40% role relevance + 40% skills alignment + 20% experience fit
         match_score = round(0.40 * role_score + 0.40 * skill_pct + 0.20 * exp_score, 1)
@@ -270,6 +291,8 @@ def index():
         role_filter=role_filter,
         loc_filter=loc_filter,
         exp_filter=exp_filter,
+        schedule_filter=schedule_filter,
+        workstyle_filter=workstyle_filter,
         remote_count=remote_count,
         hyd_count=hyd_count,
         blr_count=blr_count,

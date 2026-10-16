@@ -42,36 +42,41 @@
 
 <!-- Main 2-Column Layout (Filters Sidebar + Job Grid) -->
 <div class="row g-4">
-  <!-- Left Column: Filter Sidebar (Talantium Style - Salary Removed) -->
+  <!-- Left Column: Filter Sidebar (Talantium Style - Interactive & Salary Removed) -->
   <div class="col-lg-3">
     <div class="tal-filter-card">
       <div class="d-flex justify-content-between align-items-center mb-3">
         <h5 class="fw-bold text-dark mb-0" style="font-size: 1.1rem;">Filters</h5>
-        <a href="{{ url_for('jobs.index') }}" class="text-primary text-decoration-none small fw-semibold">Reset all</a>
+        <button type="button" id="resetAllFiltersBtn" class="btn btn-link p-0 text-primary text-decoration-none small fw-semibold">Reset all</button>
       </div>
 
       <!-- 1. Work Schedule Section -->
       <div class="mb-4">
         <div class="tal-section-title">Work schedule</div>
-        <div class="d-flex flex-column">
-          <label class="tal-check-label checked">
+        <div class="d-flex flex-column gap-1">
+          <label class="tal-check-label {% if schedule_filter == 'full-time' %}checked{% endif %}" data-group="schedule" data-value="full-time">
+            <input type="checkbox" class="tal-filter-checkbox d-none" data-group="schedule" value="full-time" {% if schedule_filter == 'full-time' %}checked{% endif %}>
             <span class="tal-check-box"><i class="bi bi-check-lg"></i></span>
             <span>Full-time</span>
           </label>
-          <label class="tal-check-label">
-            <span class="tal-check-box"></span>
+          <label class="tal-check-label {% if schedule_filter == 'part-time' %}checked{% endif %}" data-group="schedule" data-value="part-time">
+            <input type="checkbox" class="tal-filter-checkbox d-none" data-group="schedule" value="part-time" {% if schedule_filter == 'part-time' %}checked{% endif %}>
+            <span class="tal-check-box"><i class="bi bi-check-lg"></i></span>
             <span>Part-time</span>
           </label>
-          <label class="tal-check-label">
-            <span class="tal-check-box"></span>
+          <label class="tal-check-label {% if schedule_filter == 'internship' %}checked{% endif %}" data-group="schedule" data-value="internship">
+            <input type="checkbox" class="tal-filter-checkbox d-none" data-group="schedule" value="internship" {% if schedule_filter == 'internship' %}checked{% endif %}>
+            <span class="tal-check-box"><i class="bi bi-check-lg"></i></span>
             <span>Internship</span>
           </label>
-          <label class="tal-check-label checked">
+          <label class="tal-check-label {% if schedule_filter == 'project' %}checked{% endif %}" data-group="schedule" data-value="project">
+            <input type="checkbox" class="tal-filter-checkbox d-none" data-group="schedule" value="project" {% if schedule_filter == 'project' %}checked{% endif %}>
             <span class="tal-check-box"><i class="bi bi-check-lg"></i></span>
             <span>Project work</span>
           </label>
-          <label class="tal-check-label">
-            <span class="tal-check-box"></span>
+          <label class="tal-check-label {% if schedule_filter == 'volunteering' %}checked{% endif %}" data-group="schedule" data-value="volunteering">
+            <input type="checkbox" class="tal-filter-checkbox d-none" data-group="schedule" value="volunteering" {% if schedule_filter == 'volunteering' %}checked{% endif %}>
+            <span class="tal-check-box"><i class="bi bi-check-lg"></i></span>
             <span>Volunteering</span>
           </label>
         </div>
@@ -80,21 +85,25 @@
       <!-- 2. Employment Type Section -->
       <div class="mb-4">
         <div class="tal-section-title">Employment type</div>
-        <div class="d-flex flex-column">
-          <label class="tal-check-label checked">
+        <div class="d-flex flex-column gap-1">
+          <label class="tal-check-label" data-group="employment" data-value="full-day">
+            <input type="checkbox" class="tal-filter-checkbox d-none" data-group="employment" value="full-day">
             <span class="tal-check-box"><i class="bi bi-check-lg"></i></span>
             <span>Full day</span>
           </label>
-          <label class="tal-check-label">
-            <span class="tal-check-box"></span>
+          <label class="tal-check-label" data-group="employment" data-value="flexible">
+            <input type="checkbox" class="tal-filter-checkbox d-none" data-group="employment" value="flexible">
+            <span class="tal-check-box"><i class="bi bi-check-lg"></i></span>
             <span>Flexible schedule</span>
           </label>
-          <label class="tal-check-label checked">
+          <label class="tal-check-label" data-group="employment" data-value="shift">
+            <input type="checkbox" class="tal-filter-checkbox d-none" data-group="employment" value="shift">
             <span class="tal-check-box"><i class="bi bi-check-lg"></i></span>
             <span>Shift work</span>
           </label>
-          <label class="tal-check-label">
-            <span class="tal-check-box"></span>
+          <label class="tal-check-label" data-group="employment" data-value="distant">
+            <input type="checkbox" class="tal-filter-checkbox d-none" data-group="employment" value="distant">
+            <span class="tal-check-box"><i class="bi bi-check-lg"></i></span>
             <span>Distant work</span>
           </label>
         </div>
@@ -103,16 +112,19 @@
       <!-- 3. Work Style Section -->
       <div class="mb-4">
         <div class="tal-section-title">Work style</div>
-        <div class="d-flex flex-column">
-          <label class="tal-check-label">
-            <span class="tal-check-box"></span>
+        <div class="d-flex flex-column gap-1">
+          <label class="tal-check-label {% if workstyle_filter in ['office', 'onsite'] %}checked{% endif %}" data-group="workstyle" data-value="office">
+            <input type="checkbox" class="tal-filter-checkbox d-none" data-group="workstyle" value="office" {% if workstyle_filter in ['office', 'onsite'] %}checked{% endif %}>
+            <span class="tal-check-box"><i class="bi bi-check-lg"></i></span>
             <span>Office</span>
           </label>
-          <label class="tal-check-label checked">
+          <label class="tal-check-label {% if workstyle_filter == 'hybrid' %}checked{% endif %}" data-group="workstyle" data-value="hybrid">
+            <input type="checkbox" class="tal-filter-checkbox d-none" data-group="workstyle" value="hybrid" {% if workstyle_filter == 'hybrid' %}checked{% endif %}>
             <span class="tal-check-box"><i class="bi bi-check-lg"></i></span>
             <span>Hybrid</span>
           </label>
-          <label class="tal-check-label checked">
+          <label class="tal-check-label {% if workstyle_filter == 'remote' %}checked{% endif %}" data-group="workstyle" data-value="remote">
+            <input type="checkbox" class="tal-filter-checkbox d-none" data-group="workstyle" value="remote" {% if workstyle_filter == 'remote' %}checked{% endif %}>
             <span class="tal-check-box"><i class="bi bi-check-lg"></i></span>
             <span>Remote</span>
           </label>
@@ -122,19 +134,22 @@
       <!-- 4. Experience Level Section -->
       <div>
         <div class="tal-section-title">Experience Level</div>
-        <div class="d-flex flex-column">
-          <a href="{{ url_for('jobs.index') }}?experience=0-2" class="text-decoration-none tal-check-label {% if exp_filter == '0-2' %}checked{% endif %}">
-            <span class="tal-check-box">{% if exp_filter == '0-2' %}<i class="bi bi-check-lg"></i>{% endif %}</span>
+        <div class="d-flex flex-column gap-1">
+          <label class="tal-check-label {% if exp_filter == '0-2' %}checked{% endif %}" data-group="experience" data-value="0-2">
+            <input type="checkbox" class="tal-filter-checkbox d-none" data-group="experience" value="0-2" {% if exp_filter == '0-2' %}checked{% endif %}>
+            <span class="tal-check-box"><i class="bi bi-check-lg"></i></span>
             <span>0&ndash;2 years (Junior)</span>
-          </a>
-          <a href="{{ url_for('jobs.index') }}?experience=2-5" class="text-decoration-none tal-check-label {% if exp_filter == '2-5' %}checked{% endif %}">
-            <span class="tal-check-box">{% if exp_filter == '2-5' %}<i class="bi bi-check-lg"></i>{% endif %}</span>
+          </label>
+          <label class="tal-check-label {% if exp_filter == '2-5' %}checked{% endif %}" data-group="experience" data-value="2-5">
+            <input type="checkbox" class="tal-filter-checkbox d-none" data-group="experience" value="2-5" {% if exp_filter == '2-5' %}checked{% endif %}>
+            <span class="tal-check-box"><i class="bi bi-check-lg"></i></span>
             <span>2&ndash;5 years (Mid-Level)</span>
-          </a>
-          <a href="{{ url_for('jobs.index') }}?experience=5+" class="text-decoration-none tal-check-label {% if exp_filter == '5+' %}checked{% endif %}">
-            <span class="tal-check-box">{% if exp_filter == '5+' %}<i class="bi bi-check-lg"></i>{% endif %}</span>
+          </label>
+          <label class="tal-check-label {% if exp_filter == '5+' %}checked{% endif %}" data-group="experience" data-value="5+">
+            <input type="checkbox" class="tal-filter-checkbox d-none" data-group="experience" value="5+" {% if exp_filter == '5+' %}checked{% endif %}>
+            <span class="tal-check-box"><i class="bi bi-check-lg"></i></span>
             <span>5+ years (Senior)</span>
-          </a>
+          </label>
         </div>
       </div>
     </div>
@@ -145,37 +160,22 @@
     <!-- Top Search Bar with Active Removable Filter Chips -->
     <div class="d-flex justify-content-between align-items-center mb-4 flex-wrap gap-3">
       <!-- Search Form with Search Icon -->
-      <form method="GET" action="{{ url_for('jobs.index') }}" class="d-flex align-items-center gap-2 flex-grow-1" style="max-width: 480px;">
+      <form id="jobSearchForm" method="GET" action="{{ url_for('jobs.index') }}" class="d-flex align-items-center gap-2 flex-grow-1" style="max-width: 480px;">
         <i class="bi bi-search text-dark fs-5"></i>
-        <input type="text" name="role" class="form-control form-control-lg border-0 bg-transparent fw-bold text-dark px-1"
+        <input type="text" id="roleSearchInput" name="role" class="form-control form-control-lg border-0 bg-transparent fw-bold text-dark px-1"
                style="font-size: 1.25rem; box-shadow: none;"
                value="{{ role_filter }}"
                placeholder="Search job title, skill, or company">
         {% if loc_filter %}<input type="hidden" name="location" value="{{ loc_filter }}">{% endif %}
         {% if exp_filter %}<input type="hidden" name="experience" value="{{ exp_filter }}">{% endif %}
+        {% if schedule_filter %}<input type="hidden" name="schedule" value="{{ schedule_filter }}">{% endif %}
+        {% if workstyle_filter %}<input type="hidden" name="mode" value="{{ workstyle_filter }}">{% endif %}
         <button type="submit" class="btn btn-dark btn-sm rounded-pill px-3 py-1">Search</button>
       </form>
 
       <!-- Active Removable Chips & Live APIs button -->
       <div class="d-flex align-items-center gap-2 flex-wrap">
-        {% if role_filter %}
-        <a href="{{ url_for('jobs.index') }}?location={{ loc_filter }}&experience={{ exp_filter }}" class="tal-chip">
-          <span>{{ role_filter }}</span>
-          <span class="tal-chip-close">&times;</span>
-        </a>
-        {% endif %}
-        {% if loc_filter %}
-        <a href="{{ url_for('jobs.index') }}?role={{ role_filter }}&experience={{ exp_filter }}" class="tal-chip">
-          <span>{{ loc_filter }}</span>
-          <span class="tal-chip-close">&times;</span>
-        </a>
-        {% endif %}
-        {% if exp_filter %}
-        <a href="{{ url_for('jobs.index') }}?role={{ role_filter }}&location={{ loc_filter }}" class="tal-chip">
-          <span>{{ exp_filter }} yrs</span>
-          <span class="tal-chip-close">&times;</span>
-        </a>
-        {% endif %}
+        <div id="activeChipsWrapper" class="d-flex align-items-center gap-2 flex-wrap"></div>
         <a href="{{ url_for('jobs.index') }}?role={{ role_filter }}&location={{ loc_filter }}&live=true"
            class="btn btn-outline-success btn-sm rounded-pill px-3"
            title="Poll Live APIs for latest roles">
@@ -184,13 +184,31 @@
       </div>
     </div>
 
+    <!-- Results Count Bar -->
+    <div class="d-flex justify-content-between align-items-center mb-3">
+      <div class="small text-secondary fw-semibold">
+        Showing <span id="visibleJobsCount" class="text-dark fw-bold">{{ jobs|length }}</span> matching roles
+      </div>
+    </div>
+
     <!-- Dynamic Pastel Job Grid (Salary Completely Removed) -->
     {% if jobs %}
-    <div class="row g-4">
+    <div id="jobCardsGrid" class="row g-4">
       {% for job in jobs %}
         {% set theme_classes = ['tal-card-purple', 'tal-card-blue', 'tal-card-green', 'tal-card-rose', 'tal-card-slate'] %}
         {% set card_theme = theme_classes[loop.index0 % 5] %}
-        <div class="col-md-6 col-lg-4">
+        {% set j_exp_str = (job.experience or '')|lower %}
+        {% set j_loc_str = (job.location or '')|lower %}
+        {% set j_title_str = (job.title or '')|lower %}
+        <div class="col-md-6 col-lg-4 job-item-col"
+             data-title="{{ j_title_str }}"
+             data-company="{{ (job.company or '')|lower }}"
+             data-location="{{ j_loc_str }}"
+             data-skills="{{ (job.skills or [])|join(' ')|lower }}"
+             data-experience="{% if '0-1' in j_exp_str or '0-2' in j_exp_str or '1-2' in j_exp_str or 'fresher' in j_exp_str or 'intern' in j_exp_str %}0-2{% elif '2-4' in j_exp_str or '2-5' in j_exp_str or '1-3' in j_exp_str or '3-5' in j_exp_str %}2-5{% else %}5+{% endif %}"
+             data-workstyle="{% if 'remote' in j_loc_str %}remote{% elif 'hybrid' in j_loc_str %}hybrid{% else %}office{% endif %}"
+             data-schedule="{% if 'part-time' in j_exp_str or 'part-time' in j_title_str %}part-time{% elif 'intern' in j_exp_str or 'intern' in j_title_str or 'fresher' in j_exp_str %}internship{% elif 'project' in j_exp_str or 'contract' in j_title_str or 'freelance' in j_title_str %}project{% else %}full-time{% endif %}"
+             data-employment="full-day {% if 'remote' in j_loc_str or 'hybrid' in j_loc_str %}flexible distant{% endif %} {% if 'support' in j_title_str or 'analyst' in j_title_str or 'operations' in j_title_str %}shift{% endif %}">
           <div class="tal-job-card {{ card_theme }}">
             <div>
               <div class="d-flex justify-content-between align-items-start mb-2">
@@ -255,6 +273,16 @@
         </div>
       {% endfor %}
     </div>
+
+    <!-- Client-side No Matches Banner -->
+    <div id="noClientMatches" class="card card-clean p-5 text-center my-4 d-none">
+      <div class="fs-1 text-muted mb-3"><i class="bi bi-funnel"></i></div>
+      <h4 class="fw-bold text-dark mb-1">No Matching Jobs Found</h4>
+      <p class="text-secondary mb-3">No positions match your selected filter criteria. Try unchecking some filters or clearing your search keywords.</p>
+      <div>
+        <button type="button" class="btn btn-outline-custom rounded-pill px-4" id="resetFromEmptyBtn">Reset All Filters</button>
+      </div>
+    </div>
     {% else %}
     <div class="card card-clean p-5 text-center my-4">
       <div class="fs-1 text-muted mb-3"><i class="bi bi-inbox"></i></div>
@@ -267,4 +295,212 @@
     {% endif %}
   </div>
 </div>
+
+<!-- Instant Client-Side & Server Filter Controller Script -->
+<script>
+document.addEventListener('DOMContentLoaded', function () {
+  const checkLabels = document.querySelectorAll('.tal-check-label');
+  const roleInput = document.getElementById('roleSearchInput');
+  const jobCols = document.querySelectorAll('.job-item-col');
+  const countEl = document.getElementById('visibleJobsCount');
+  const noMatchesEl = document.getElementById('noClientMatches');
+  const chipsWrapper = document.getElementById('activeChipsWrapper');
+  const resetBtn = document.getElementById('resetAllFiltersBtn');
+  const resetEmptyBtn = document.getElementById('resetFromEmptyBtn');
+
+  // Friendly display names for filter values
+  const filterNames = {
+    'full-time': 'Full-time',
+    'part-time': 'Part-time',
+    'internship': 'Internship',
+    'project': 'Project work',
+    'volunteering': 'Volunteering',
+    'full-day': 'Full day',
+    'flexible': 'Flexible schedule',
+    'shift': 'Shift work',
+    'distant': 'Distant work',
+    'office': 'Office',
+    'hybrid': 'Hybrid',
+    'remote': 'Remote',
+    '0-2': '0-2 yrs',
+    '2-5': '2-5 yrs',
+    '5+': '5+ yrs'
+  };
+
+  function getCheckedValues(group) {
+    const checked = [];
+    document.querySelectorAll(`.tal-filter-checkbox[data-group="${group}"]:checked`).forEach(cb => {
+      checked.push(cb.value);
+    });
+    return checked;
+  }
+
+  function applyFilters() {
+    const schedules = getCheckedValues('schedule');
+    const employments = getCheckedValues('employment');
+    const workstyles = getCheckedValues('workstyle');
+    const experiences = getCheckedValues('experience');
+    const searchQuery = (roleInput ? roleInput.value : '').toLowerCase().trim();
+    const searchTerms = searchQuery ? searchQuery.split(/\s+/).filter(t => t.length > 0) : [];
+
+    let visibleCount = 0;
+
+    jobCols.forEach(col => {
+      const title = col.getAttribute('data-title') || '';
+      const company = col.getAttribute('data-company') || '';
+      const location = col.getAttribute('data-location') || '';
+      const skills = col.getAttribute('data-skills') || '';
+      const exp = col.getAttribute('data-experience') || '';
+      const workstyle = col.getAttribute('data-workstyle') || '';
+      const schedule = col.getAttribute('data-schedule') || '';
+      const employment = col.getAttribute('data-employment') || '';
+
+      const searchableText = `${title} ${company} ${location} ${skills}`;
+
+      // 1. Text keyword search
+      let textMatch = true;
+      if (searchTerms.length > 0) {
+        textMatch = searchTerms.every(term => searchableText.includes(term));
+      }
+
+      // 2. Schedule match
+      let schedMatch = true;
+      if (schedules.length > 0) {
+        schedMatch = schedules.includes(schedule);
+      }
+
+      // 3. Workstyle match
+      let workstyleMatch = true;
+      if (workstyles.length > 0) {
+        workstyleMatch = workstyles.includes(workstyle);
+      }
+
+      // 4. Employment match
+      let empMatch = true;
+      if (employments.length > 0) {
+        empMatch = employments.some(emp => employment.includes(emp));
+      }
+
+      // 5. Experience match
+      let expMatch = true;
+      if (experiences.length > 0) {
+        expMatch = experiences.includes(exp);
+      }
+
+      if (textMatch && schedMatch && workstyleMatch && empMatch && expMatch) {
+        col.classList.remove('d-none');
+        visibleCount++;
+      } else {
+        col.classList.add('d-none');
+      }
+    });
+
+    // Update count display
+    if (countEl) {
+      countEl.textContent = visibleCount;
+    }
+
+    // Toggle empty state if cards exist in DOM
+    if (noMatchesEl) {
+      if (visibleCount === 0 && jobCols.length > 0) {
+        noMatchesEl.classList.remove('d-none');
+      } else {
+        noMatchesEl.classList.add('d-none');
+      }
+    }
+
+    // Render active chips
+    renderChips(searchQuery, schedules, employments, workstyles, experiences);
+  }
+
+  function renderChips(query, schedules, employments, workstyles, experiences) {
+    if (!chipsWrapper) return;
+    chipsWrapper.innerHTML = '';
+
+    if (query) {
+      const chip = document.createElement('div');
+      chip.className = 'tal-chip';
+      chip.innerHTML = `<span>${escapeHtml(query)}</span><span class="tal-chip-close" style="cursor:pointer;" title="Remove filter">&times;</span>`;
+      chip.querySelector('.tal-chip-close').addEventListener('click', () => {
+        if (roleInput) roleInput.value = '';
+        applyFilters();
+      });
+      chipsWrapper.appendChild(chip);
+    }
+
+    const allChecked = [
+      ...schedules.map(v => ({ group: 'schedule', value: v })),
+      ...employments.map(v => ({ group: 'employment', value: v })),
+      ...workstyles.map(v => ({ group: 'workstyle', value: v })),
+      ...experiences.map(v => ({ group: 'experience', value: v }))
+    ];
+
+    allChecked.forEach(item => {
+      const chip = document.createElement('div');
+      chip.className = 'tal-chip';
+      const label = filterNames[item.value] || item.value;
+      chip.innerHTML = `<span>${escapeHtml(label)}</span><span class="tal-chip-close" style="cursor:pointer;" title="Remove filter">&times;</span>`;
+      chip.querySelector('.tal-chip-close').addEventListener('click', () => {
+        const cb = document.querySelector(`.tal-filter-checkbox[data-group="${item.group}"][value="${item.value}"]`);
+        if (cb) {
+          cb.checked = false;
+          const parentLabel = cb.closest('.tal-check-label');
+          if (parentLabel) parentLabel.classList.remove('checked');
+        }
+        applyFilters();
+      });
+      chipsWrapper.appendChild(chip);
+    });
+  }
+
+  function escapeHtml(text) {
+    return text.replace(/[&<>"']/g, function(m) {
+      return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#039;' }[m];
+    });
+  }
+
+  // Checkbox toggle click handling
+  checkLabels.forEach(label => {
+    label.addEventListener('click', function (e) {
+      e.preventDefault();
+      const cb = this.querySelector('.tal-filter-checkbox');
+      if (cb) {
+        cb.checked = !cb.checked;
+        if (cb.checked) {
+          this.classList.add('checked');
+        } else {
+          this.classList.remove('checked');
+        }
+        applyFilters();
+      }
+    });
+  });
+
+  // Debounced search input handler
+  let debounceTimer;
+  if (roleInput) {
+    roleInput.addEventListener('input', function () {
+      clearTimeout(debounceTimer);
+      debounceTimer = setTimeout(applyFilters, 120);
+    });
+  }
+
+  // Reset all filters function
+  function resetAll() {
+    if (roleInput) roleInput.value = '';
+    document.querySelectorAll('.tal-filter-checkbox').forEach(cb => {
+      cb.checked = false;
+      const parentLabel = cb.closest('.tal-check-label');
+      if (parentLabel) parentLabel.classList.remove('checked');
+    });
+    applyFilters();
+  }
+
+  if (resetBtn) resetBtn.addEventListener('click', resetAll);
+  if (resetEmptyBtn) resetEmptyBtn.addEventListener('click', resetAll);
+
+  // Initial filter application on page load
+  applyFilters();
+});
+</script>
 {% endblock %}
