@@ -2420,5 +2420,129 @@ p, .p2 {
   color: #15803d;
 }
 
+/* ══════════════════════════════════════════════════════════
+   OFFICIAL ATS ANALYSIS & DIAGNOSTIC MODAL DESIGN
+   ══════════════════════════════════════════════════════════ */
+.ats-analysis-wrapper {
+  background: #ffffff;
+  border-radius: 24px;
+  box-shadow: 0 10px 40px rgba(15, 23, 42, 0.08);
+  border: 1px solid #e2e8f0;
+  overflow: hidden;
+  position: relative;
+}
+
+.ats-top-gradient-bar {
+  height: 4px;
+  width: 100%;
+  background: linear-gradient(90deg, #3b82f6 0%, #8b5cf6 50%, #ec4899 100%);
+}
+
+.ats-header-icon {
+  width: 38px;
+  height: 38px;
+  border-radius: 10px;
+  background: rgba(99, 102, 241, 0.12);
+  color: #6366f1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.15rem;
+  flex-shrink: 0;
+}
+
+/* Gauge Left Card */
+.ats-gauge-card {
+  background: #ffffff;
+  border: 1px solid #e2e8f0;
+  border-radius: 18px;
+  padding: 2rem 1.5rem;
+  text-align: center;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.ats-status-badge-good {
+  background-color: #fef3c7;
+  color: #d97706;
+  font-weight: 700;
+  border-radius: 20px;
+  padding: 4px 18px;
+  font-size: 0.72rem;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  display: inline-block;
+  margin-top: 1rem;
+}
+
+/* Performance Summary Right Card */
+.ats-summary-card {
+  background: #ffffff;
+  border: 1px solid #e2e8f0;
+  border-radius: 18px;
+  padding: 1.75rem 2rem;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.ats-subcard-item {
+  background-color: #f8fafc;
+  border: 1px solid #f1f5f9;
+  border-radius: 14px;
+  padding: 1rem 1.25rem;
+  height: 100%;
+}
+
+/* 10 Section Breakdown Tiles */
+.section-breakdown-title {
+  font-size: 0.76rem;
+  font-weight: 700;
+  color: #64748b;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  margin-bottom: 1rem;
+}
+
+.section-tile-card {
+  background: #ffffff;
+  border: 1px solid #f1f5f9;
+  border-radius: 14px;
+  padding: 12px 16px;
+  box-shadow: 0 1px 4px rgba(15, 23, 42, 0.02);
+  transition: transform 0.15s ease, box-shadow 0.15s ease;
+}
+.section-tile-card:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 4px 12px rgba(15, 23, 42, 0.05);
+}
+
+.section-tile-bar {
+  height: 6px;
+  border-radius: 3px;
+  background-color: #f1f5f9;
+  overflow: hidden;
+  margin-top: 6px;
+}
+.section-tile-fill {
+  height: 100%;
+  border-radius: 3px;
+  transition: width 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+}
+.section-tile-fill.color-green {
+  background-color: #10b981;
+}
+.section-tile-fill.color-orange {
+  background-color: #f97316;
+}
+.section-tile-fill.color-red {
+  background-color: #ef4444;
+}
+
+
 
 
