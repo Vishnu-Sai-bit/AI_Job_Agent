@@ -143,6 +143,37 @@
   --shadow-card: 0 2px 12px rgba(15,23,42,.06), 0 1px 3px rgba(15,23,42,.04);
   --shadow-glow: 0 4px 20px rgba(30,122,227,.25);
 
+  /* Typography Scale Tokens (Official System Base Typography) */
+  --font-t1-size: 36px;
+  --font-t1-lh:   40px;
+  --font-t1-wt:   700;
+
+  --font-t2-size: 28px;
+  --font-t2-lh:   32px;
+  --font-t2-wt:   700;
+
+  --font-t3-size: 24px;
+  --font-t3-lh:   28px;
+  --font-t3-wt:   700;
+
+  --font-t4-size: 18px;
+  --font-t4-lh:   24px;
+  --font-t4-wt:   600;
+
+  --font-t5-size: 14px;
+  --font-t5-lh:   20px;
+  --font-t5-wt:   600;
+
+  --font-t6-size: 12px;
+  --font-t6-lh:   16px;
+  --font-t6-wt:   600;
+
+  --font-p1-size: 16px;
+  --font-p1-lh:   24px;
+
+  --font-p2-size: 14px;
+  --font-p2-lh:   20px;
+
   /* Radii */
   --radius-sm: 8px;
   --radius-md: 12px;
@@ -160,21 +191,98 @@ html, body {
   background-color: var(--bg-page);
   color: var(--text-primary);
   font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-  font-size: 14px;
-  line-height: 1.5;
+  font-size: var(--font-p2-size);
+  line-height: calc(20 / 14);
   min-height: 100vh;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
 
-/* ── Typography ─────────────────────────────────────────── */
-h1, .h1 { font-size: 2rem;    font-weight: 800; color: var(--text-primary); letter-spacing: -0.03em; }
-h2, .h2 { font-size: 1.5rem;  font-weight: 700; color: var(--text-primary); letter-spacing: -0.025em; }
-h3, .h3 { font-size: 1.25rem; font-weight: 700; color: var(--text-primary); letter-spacing: -0.02em; }
-h4, .h4 { font-size: 1.05rem; font-weight: 600; color: var(--text-primary); }
-h5, .h5 { font-size: 0.95rem; font-weight: 600; color: var(--text-primary); }
-h6, .h6 { font-size: 0.8rem;  font-weight: 600; color: var(--text-secondary); text-transform: uppercase; letter-spacing: 0.06em; }
-p { color: var(--text-secondary); font-size: 0.9rem; line-height: 1.6; }
+/* ── Official System Base Typography ─────────────────────── */
+/* T1 — Title 1 (36px / 40px, Bold 700) */
+h1, .h1, .t1 {
+  font-size: var(--font-t1-size);
+  line-height: var(--font-t1-lh);
+  font-weight: var(--font-t1-wt);
+  color: var(--text-primary);
+  letter-spacing: -0.025em;
+}
+
+/* T2 — Title 2 (28px / 32px, Bold 700) */
+h2, .h2, .t2 {
+  font-size: var(--font-t2-size);
+  line-height: var(--font-t2-lh);
+  font-weight: var(--font-t2-wt);
+  color: var(--text-primary);
+  letter-spacing: -0.02em;
+}
+
+/* T3 — Title 3 (24px / 28px, Bold 700) */
+h3, .h3, .t3 {
+  font-size: var(--font-t3-size);
+  line-height: var(--font-t3-lh);
+  font-weight: var(--font-t3-wt);
+  color: var(--text-primary);
+  letter-spacing: -0.015em;
+}
+
+/* T4 — Title 4 (18px / 24px, Semibold 600) */
+h4, .h4, .t4 {
+  font-size: var(--font-t4-size);
+  line-height: var(--font-t4-lh);
+  font-weight: var(--font-t4-wt);
+  color: var(--text-primary);
+  letter-spacing: -0.01em;
+}
+
+/* T5 — Title 5 (14px / 20px, Semibold 600) */
+h5, .h5, .t5 {
+  font-size: var(--font-t5-size);
+  line-height: var(--font-t5-lh);
+  font-weight: var(--font-t5-wt);
+  color: var(--text-primary);
+}
+
+/* T6 — Title 6 (12px / 16px, Semibold 600) */
+h6, .h6, .t6 {
+  font-size: var(--font-t6-size);
+  line-height: var(--font-t6-lh);
+  font-weight: var(--font-t6-wt);
+  color: var(--text-secondary);
+}
+
+/* P1 — Body Large (16px / 24px, Regular 400 / Medium 500) */
+.p1, .lead {
+  font-size: var(--font-p1-size);
+  line-height: var(--font-p1-lh);
+  font-weight: 400;
+  color: var(--text-secondary);
+}
+.p1-medium {
+  font-size: var(--font-p1-size);
+  line-height: var(--font-p1-lh);
+  font-weight: 500;
+}
+
+/* P2 — Body Base (14px / 20px, Regular 400 / Medium 500) */
+p, .p2 {
+  font-size: var(--font-p2-size);
+  line-height: var(--font-p2-lh);
+  font-weight: 400;
+  color: var(--text-secondary);
+  margin-bottom: 0.5rem;
+}
+.p2-medium {
+  font-size: var(--font-p2-size);
+  line-height: var(--font-p2-lh);
+  font-weight: 500;
+}
+
+/* Font weight helper utilities */
+.weight-regular { font-weight: 400 !important; }
+.weight-medium  { font-weight: 500 !important; }
+.weight-semibold{ font-weight: 600 !important; }
+.weight-bold    { font-weight: 700 !important; }
 
 /* ── Top Navigation Bar ─────────────────────────────────── */
 .top-navbar {
