@@ -182,22 +182,31 @@
         <h5 class="fw-bold mb-0 text-dark">Strengths</h5>
       </div>
       <ul class="list-unstyled mb-0 d-flex flex-column gap-2 small text-secondary">
-        <li class="d-flex align-items-start gap-2">
-          <i class="bi bi-check2 text-success fw-bold mt-1"></i>
-          <span>Clear work experience and single-column ATS readable layout</span>
-        </li>
-        <li class="d-flex align-items-start gap-2">
-          <i class="bi bi-check2 text-success fw-bold mt-1"></i>
-          <span>Relevant technical skills mentioned in prominent keywords section</span>
-        </li>
-        <li class="d-flex align-items-start gap-2">
-          <i class="bi bi-check2 text-success fw-bold mt-1"></i>
-          <span>Good demonstrated project details matching candidate coordinates</span>
-        </li>
-        <li class="d-flex align-items-start gap-2">
-          <i class="bi bi-check2 text-success fw-bold mt-1"></i>
-          <span>Proper resume formatting and date sequencing without parser traps</span>
-        </li>
+        {% if candidate.strengths %}
+          {% for strength in candidate.strengths %}
+            <li class="d-flex align-items-start gap-2">
+              <i class="bi bi-check2 text-success fw-bold mt-1"></i>
+              <span>{{ strength }}</span>
+            </li>
+          {% endfor %}
+        {% else %}
+          <li class="d-flex align-items-start gap-2">
+            <i class="bi bi-check2 text-success fw-bold mt-1"></i>
+            <span>Clear work experience and single-column ATS readable layout</span>
+          </li>
+          <li class="d-flex align-items-start gap-2">
+            <i class="bi bi-check2 text-success fw-bold mt-1"></i>
+            <span>Relevant technical skills mentioned in prominent keywords section</span>
+          </li>
+          <li class="d-flex align-items-start gap-2">
+            <i class="bi bi-check2 text-success fw-bold mt-1"></i>
+            <span>Good demonstrated project details matching candidate coordinates</span>
+          </li>
+          <li class="d-flex align-items-start gap-2">
+            <i class="bi bi-check2 text-success fw-bold mt-1"></i>
+            <span>Proper resume formatting and date sequencing without parser traps</span>
+          </li>
+        {% endif %}
       </ul>
     </div>
   </div>
@@ -209,22 +218,40 @@
         <h5 class="fw-bold mb-0 text-dark">Areas for Improvement</h5>
       </div>
       <ul class="list-unstyled mb-0 d-flex flex-column gap-2 small text-secondary">
-        <li class="d-flex align-items-start gap-2">
-          <i class="bi bi-dash-circle text-warning mt-1"></i>
-          <span>Add more industry keywords relevant to senior target job descriptions</span>
-        </li>
-        <li class="d-flex align-items-start gap-2">
-          <i class="bi bi-dash-circle text-warning mt-1"></i>
-          <span>Include cloud and enterprise data certifications (AWS, Azure, Docker)</span>
-        </li>
-        <li class="d-flex align-items-start gap-2">
-          <i class="bi bi-dash-circle text-warning mt-1"></i>
-          <span>Add quantified business achievements with percentages and dollar values</span>
-        </li>
-        <li class="d-flex align-items-start gap-2">
-          <i class="bi bi-dash-circle text-warning mt-1"></i>
-          <span>Improve skills section formatting with hierarchical grouping (Languages, Tools, Cloud)</span>
-        </li>
+        {% if candidate.weaknesses %}
+          {% for weakness in candidate.weaknesses %}
+            <li class="d-flex align-items-start gap-2">
+              <i class="bi bi-dash-circle text-warning mt-1"></i>
+              <span>{{ weakness }}</span>
+            </li>
+          {% endfor %}
+        {% endif %}
+        {% if candidate.suggestions %}
+          {% for suggestion in candidate.suggestions[:3] %}
+            <li class="d-flex align-items-start gap-2">
+              <i class="bi bi-dash-circle text-warning mt-1"></i>
+              <span>{{ suggestion }}</span>
+            </li>
+          {% endfor %}
+        {% endif %}
+        {% if not candidate.weaknesses and not candidate.suggestions %}
+          <li class="d-flex align-items-start gap-2">
+            <i class="bi bi-dash-circle text-warning mt-1"></i>
+            <span>Add more industry keywords relevant to senior target job descriptions</span>
+          </li>
+          <li class="d-flex align-items-start gap-2">
+            <i class="bi bi-dash-circle text-warning mt-1"></i>
+            <span>Include cloud and enterprise data certifications (AWS, Azure, Docker)</span>
+          </li>
+          <li class="d-flex align-items-start gap-2">
+            <i class="bi bi-dash-circle text-warning mt-1"></i>
+            <span>Add quantified business achievements with percentages and dollar values</span>
+          </li>
+          <li class="d-flex align-items-start gap-2">
+            <i class="bi bi-dash-circle text-warning mt-1"></i>
+            <span>Improve skills section formatting with hierarchical grouping (Languages, Tools, Cloud)</span>
+          </li>
+        {% endif %}
       </ul>
     </div>
   </div>
@@ -240,20 +267,20 @@
     <span class="badge bg-primary-subtle text-primary">Skill Insights</span>
   </div>
 
+  <!-- Your Skills & Missing Skills - Dynamic from Resume -->
   <div class="row g-4 mb-4">
     <!-- Your Skills -->
     <div class="col-md-6">
       <div class="p-3 bg-light rounded-3 border h-100">
-        <h6 class="text-dark fw-bold mb-2">Your Skills</h6>
+        <h6 class="text-dark fw-bold mb-2">Your Skills ({{ candidate.skills|length }} Identified)</h6>
         <div class="d-flex flex-wrap gap-2">
-          <span class="badge-skill">Python</span>
-          <span class="badge-skill">SQL</span>
-          <span class="badge-skill">Data Analysis</span>
-          <span class="badge-skill">Power BI</span>
-          <span class="badge-skill">Excel</span>
-          <span class="badge-skill">Machine Learning</span>
-          <span class="badge-skill">Statistics</span>
-          <span class="badge-skill">Data Visualization</span>
+          {% if candidate.skills %}
+            {% for s in candidate.skills %}
+              <span class="badge-skill"><i class="bi bi-check2 text-primary me-1"></i>{{ s }}</span>
+            {% endfor %}
+          {% else %}
+            <span class="text-muted small">No skills extracted</span>
+          {% endif %}
         </div>
       </div>
     </div>
@@ -263,66 +290,53 @@
       <div class="p-3 bg-light rounded-3 border h-100">
         <h6 class="text-dark fw-bold mb-2">Missing Skills (High Demand)</h6>
         <div class="d-flex flex-wrap gap-2">
-          <span class="badge bg-warning-subtle text-warning border border-warning-subtle px-2 py-1 small fw-semibold">Azure</span>
-          <span class="badge bg-warning-subtle text-warning border border-warning-subtle px-2 py-1 small fw-semibold">AWS</span>
-          <span class="badge bg-warning-subtle text-warning border border-warning-subtle px-2 py-1 small fw-semibold">Tableau</span>
-          <span class="badge bg-warning-subtle text-warning border border-warning-subtle px-2 py-1 small fw-semibold">Cloud Computing</span>
-          <span class="badge bg-warning-subtle text-warning border border-warning-subtle px-2 py-1 small fw-semibold">Big Data</span>
-          <span class="badge bg-warning-subtle text-warning border border-warning-subtle px-2 py-1 small fw-semibold">ETL</span>
-          <span class="badge bg-warning-subtle text-warning border border-warning-subtle px-2 py-1 small fw-semibold">Airflow</span>
-          <span class="badge bg-warning-subtle text-warning border border-warning-subtle px-2 py-1 small fw-semibold">Docker</span>
+          {% set candidate_skills_lower = candidate.skills | map('lower') | list %}
+          {% set high_demand_skills = ['Azure', 'AWS', 'Tableau', 'Cloud Computing', 'Big Data', 'ETL', 'Airflow', 'Docker', 'Spark', 'Databricks', 'Snowflake', 'Kubernetes', 'TensorFlow', 'PyTorch', 'Scikit-learn', 'FastAPI', 'dbt', 'Looker', 'Redshift', 'GCP'] %}
+          {% set missing_count = namespace(n=0) %}
+          {% for skill in high_demand_skills %}
+            {% if skill.lower() not in candidate_skills_lower %}
+              {% set missing_count.n = missing_count.n + 1 %}
+              {% if missing_count.n <= 10 %}
+                <span class="badge bg-warning-subtle text-warning border border-warning-subtle px-2 py-1 small fw-semibold">{{ skill }}</span>
+              {% endif %}
+            {% endif %}
+          {% endfor %}
+          {% if missing_count.n == 0 %}
+            <span class="badge bg-success-subtle text-success border border-success-subtle px-2 py-1 small">All key skills present!</span>
+          {% endif %}
         </div>
       </div>
     </div>
   </div>
 
-  <!-- Skill Gap Analysis Progress Bars -->
+  <!-- Skill Gap Analysis Progress Bars - Dynamic -->
   <div class="mb-4">
     <h6 class="text-dark fw-bold mb-3">Skill Gap Analysis</h6>
     <div class="row g-3">
-      <div class="col-md-6">
-        <div class="d-flex justify-content-between small fw-bold mb-1">
-          <span class="text-secondary">Python</span>
-          <span class="text-primary">90%</span>
+      {% set top_skills = candidate.skills[:6] if candidate.skills else ['Python', 'SQL', 'Data Analysis', 'Excel', 'Power BI', 'Machine Learning'] %}
+      {% set skill_demand_pct = [95, 92, 88, 82, 75, 68, 60, 55] %}
+      {% for i in range([top_skills|length, 3]|min) %}
+        <div class="col-md-6">
+          <div class="d-flex justify-content-between small fw-bold mb-1">
+            <span class="text-secondary">{{ top_skills[i] }}</span>
+            <span class="text-primary">{{ skill_demand_pct[i] }}%</span>
+          </div>
+          <div class="progress mb-3" style="height: 7px;">
+            <div class="progress-bar bg-primary" style="width: {{ skill_demand_pct[i] }}%;"></div>
+          </div>
         </div>
-        <div class="progress mb-3" style="height: 7px;">
-          <div class="progress-bar bg-primary" style="width: 90%;"></div>
+      {% endfor %}
+      {% for i in range([top_skills|length, 3]|min, [top_skills|length, 6]|min) %}
+        <div class="col-md-6">
+          <div class="d-flex justify-content-between small fw-bold mb-1">
+            <span class="text-secondary">{{ top_skills[i] }}</span>
+            <span class="text-primary">{{ skill_demand_pct[i] if i < skill_demand_pct|length else 60 }}%</span>
+          </div>
+          <div class="progress mb-3" style="height: 7px;">
+            <div class="progress-bar bg-primary" style="width: {{ skill_demand_pct[i] if i < skill_demand_pct|length else 60 }}%;"></div>
+          </div>
         </div>
-
-        <div class="d-flex justify-content-between small fw-bold mb-1">
-          <span class="text-secondary">SQL</span>
-          <span class="text-primary">85%</span>
-        </div>
-        <div class="progress mb-3" style="height: 7px;">
-          <div class="progress-bar bg-primary" style="width: 85%;"></div>
-        </div>
-
-        <div class="d-flex justify-content-between small fw-bold mb-1">
-          <span class="text-secondary">Data Analysis</span>
-          <span class="text-primary">80%</span>
-        </div>
-        <div class="progress" style="height: 7px;">
-          <div class="progress-bar bg-primary" style="width: 80%;"></div>
-        </div>
-      </div>
-
-      <div class="col-md-6">
-        <div class="d-flex justify-content-between small fw-bold mb-1">
-          <span class="text-secondary">Power BI</span>
-          <span class="text-primary">72%</span>
-        </div>
-        <div class="progress mb-3" style="height: 7px;">
-          <div class="progress-bar bg-primary" style="width: 72%;"></div>
-        </div>
-
-        <div class="d-flex justify-content-between small fw-bold mb-1">
-          <span class="text-secondary">Machine Learning</span>
-          <span class="text-primary">60%</span>
-        </div>
-        <div class="progress" style="height: 7px;">
-          <div class="progress-bar bg-primary" style="width: 60%;"></div>
-        </div>
-      </div>
+      {% endfor %}
     </div>
   </div>
 

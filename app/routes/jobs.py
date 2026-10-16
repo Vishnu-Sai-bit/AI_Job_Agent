@@ -147,26 +147,32 @@ def index():
 
     raw_jobs = load_verified_jobs()
 
-    # If live fetch requested or user searched for specific role, query live aggregator
-    if fetch_live:
+    # Auto-fetch live jobs when resume is present OR when explicitly requested
+    # This ensures personalized matches come from multiple live portals
+    should_fetch_live = fetch_live or (has_resume and len(raw_jobs) < 25)
+    if should_fetch_live:
         try:
             from services.jobs.live_job_aggregator import aggregate_live_jobs
             live_res = aggregate_live_jobs(
                 role=role_filter or candidate_role or "Data Analyst",
                 location=loc_filter or candidate_loc or "India",
                 candidate_skills=list(candidate_skills),
-                max_total=30
+                max_total=50
             )
             live_jobs = live_res.get("jobs", [])
             seen_combos = {f"{(j.get('title') or '').lower()}::{(j.get('company') or '').lower()}" for j in raw_jobs}
+            added = 0
             for lj in live_jobs:
                 combo = f"{(lj.get('title') or '').lower()}::{(lj.get('company') or '').lower()}"
                 if combo not in seen_combos:
                     seen_combos.add(combo)
                     raw_jobs.append(lj)
-            flash(f"Fetched {len(live_jobs)} live job postings tailored from active APIs!", "success")
+                    added += 1
+            if fetch_live:
+                flash(f"Fetched {added} additional live job postings from active APIs!", "success")
         except Exception as e:
-            flash(f"Live aggregation notice: {e}", "info")
+            if fetch_live:
+                flash(f"Live aggregation notice: {e}", "info")
 
     active_target_role = role_filter or candidate_role
     scored_jobs = []
@@ -206,29 +212,29 @@ def index():
         is_rel, role_score = is_role_relevant(j_title, active_target_role)
         is_exp_fit, exp_score, exp_note = check_experience_fit(candidate_exp, j_exp)
 
-        # Strict Personalized Resume-Based Filtering:
+        # Personalized Resume-Based Filtering:
         # When a resume is present and no custom override keyword is typed,
-        # eliminate irrelevant jobs that do not match the candidate's domain skills or role
+        # include jobs that match on EITHER role OR skills (OR both) — show maximum relevant results
         if has_resume:
             if requested_role:
-                # Custom search in progress: check keyword match in title or skills
+                # Custom search: keyword must appear in title or skills
                 q = requested_role.lower().strip()
                 if q not in j_title.lower() and not any(q in s.lower() for s in j_skills):
                     continue
             else:
-                # Automatic personalized matching:
-                if not is_rel and len(matching) == 0:
-                    continue
-                # If candidate is junior (<= 2 yrs), exclude senior/lead 5+ yrs postings
-                if candidate_exp <= 2.0 and any(k in j_exp for k in ["5-8", "5+", "6+", "7+"]):
+                # Auto personalized matching — include if role matches OR any skills match
+                # Only hard-exclude jobs with zero relevance whatsoever
+                has_role_match = is_rel
+                has_skill_match = len(matching) > 0
+                if not has_role_match and not has_skill_match:
                     continue
 
         # Multi-factor score: 40% role relevance + 40% skills alignment + 20% experience fit
         match_score = round(0.40 * role_score + 0.40 * skill_pct + 0.20 * exp_score, 1)
         match_score = min(100.0, max(30.0, match_score))
 
-        # Filter out very low matches (< 48%) in personalized mode
-        if has_resume and not requested_role and match_score < 48.0:
+        # Only filter out truly irrelevant jobs (< 35%) in personalized mode
+        if has_resume and not requested_role and match_score < 35.0:
             continue
 
         scored_jobs.append({

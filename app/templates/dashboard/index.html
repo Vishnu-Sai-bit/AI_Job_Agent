@@ -58,11 +58,19 @@
     </div>
   </div>
 
-  <!-- Missing Skills KPI -->
+  <!-- Missing Skills KPI (Dynamic) -->
   <div class="col-6 col-xl-3">
     <div class="kpi-card">
       <div>
-        <h3 class="fw-bold text-warning mb-0 mt-1">{{ 4 if candidate.has_resume else '--' }}</h3>
+        {% if candidate.has_resume %}
+          {% set cand_skills_lower = candidate.skills | map('lower') | list %}
+          {% set hd_skills = ['azure', 'aws', 'tableau', 'cloud computing', 'big data', 'etl', 'airflow', 'docker', 'spark', 'databricks', 'snowflake', 'kubernetes', 'tensorflow', 'pytorch', 'scikit-learn', 'fastapi', 'dbt', 'looker', 'redshift', 'gcp'] %}
+          {% set missing_cnt = namespace(n=0) %}
+          {% for sk in hd_skills %}{% if sk not in cand_skills_lower %}{% set missing_cnt.n = missing_cnt.n + 1 %}{% endif %}{% endfor %}
+          <h3 class="fw-bold text-warning mb-0 mt-1">{{ missing_cnt.n }}</h3>
+        {% else %}
+          <h3 class="fw-bold text-warning mb-0 mt-1">--</h3>
+        {% endif %}
         <span class="text-muted small fw-semibold">Missing Skills</span>
       </div>
       <div class="kpi-icon-circle kpi-icon-amber">
@@ -71,11 +79,11 @@
     </div>
   </div>
 
-  <!-- Recommendations KPI -->
+  <!-- Recommendations KPI (from ATS suggestions) -->
   <div class="col-6 col-xl-3">
     <div class="kpi-card">
       <div>
-        <h3 class="fw-bold text-purple mb-0 mt-1" style="color: #8b5cf6;">{{ 3 if candidate.has_resume else '--' }}</h3>
+        <h3 class="fw-bold mb-0 mt-1" style="color: #8b5cf6;">{{ candidate.suggestions|length if candidate.has_resume and candidate.suggestions else ('--' if not candidate.has_resume else 3) }}</h3>
         <span class="text-muted small fw-semibold">Recommendations</span>
       </div>
       <div class="kpi-icon-circle kpi-icon-purple">
