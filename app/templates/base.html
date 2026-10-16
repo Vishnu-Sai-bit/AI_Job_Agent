@@ -187,13 +187,13 @@
             </a>
           </li>
 
-          <!-- 6. Question -->
+          <!-- 6. AI Copilot -->
           <li>
             <a href="{{ url_for('assistant.index') }}"
-               class="mockai-nav-link {% if request.endpoint in ['assistant.index', 'assistant.chat'] or active_tab in ['assistant', 'question'] %}active{% endif %}"
-               title="Question">
-              <span class="mockai-nav-icon"><i class="bi bi-patch-question-fill"></i></span>
-              <span class="mockai-nav-label">Question</span>
+               class="mockai-nav-link {% if request.endpoint in ['assistant.index', 'assistant.chat'] or active_tab in ['assistant', 'copilot', 'question'] %}active{% endif %}"
+               title="AI Copilot">
+              <span class="mockai-nav-icon"><i class="bi bi-stars"></i></span>
+              <span class="mockai-nav-label">AI Copilot</span>
             </a>
           </li>
 
@@ -247,7 +247,7 @@
             <li><a class="nav-link text-light py-2" href="{{ url_for('career.career_intelligence') }}">
               <i class="bi bi-clock-history text-info me-2"></i> Progress</a></li>
             <li><a class="nav-link text-light py-2" href="{{ url_for('assistant.index') }}">
-              <i class="bi bi-patch-question-fill text-warning me-2"></i> Question</a></li>
+              <i class="bi bi-stars text-warning me-2"></i> AI Copilot</a></li>
             <li><a class="nav-link text-light py-2" href="{{ url_for('analytics.index') }}">
               <i class="bi bi-lightbulb-fill text-success me-2"></i> Insights</a></li>
           </ul>
