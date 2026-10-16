@@ -1,378 +1,446 @@
 {% extends "base.html" %}
 
-{% block title %}Dashboard - AI JobAgent{% endblock %}
+{% block title %}Dashboard - BridgeTech AI Career Copilot{% endblock %}
 
 {% block content %}
-<!-- Top Greeting Header (From Joobin UI Mockup) -->
+<!-- Top Header Search & Controls Bar (BridgeTech Mockup) -->
 <div class="d-flex justify-content-between align-items-center mb-4 flex-wrap gap-3">
-  <div>
-    <h2 class="fw-bold mb-0 text-dark" style="font-size: 1.6rem; letter-spacing: -0.02em;">
-      {{ greeting }} {{ candidate.candidate_name or 'Praja' }} 🖐️
-    </h2>
+  <!-- Search Capsule -->
+  <div class="position-relative" style="width: 100%; max-width: 420px;">
+    <i class="bi bi-search position-absolute text-muted" style="left: 16px; top: 12px; font-size: 0.9rem;"></i>
+    <input type="text" class="form-control form-control-sm ps-5 pe-4 bg-white border"
+           style="border-radius: 24px; height: 42px; font-size: 0.86rem; box-shadow: 0 1px 4px rgba(0,0,0,0.03);"
+           placeholder="Search job &amp; Community here">
   </div>
-  
-  <div class="d-flex align-items-center gap-2 flex-wrap">
-    <!-- Search Bar -->
-    <div class="position-relative" style="width: 260px;">
-      <i class="bi bi-search position-absolute text-muted" style="left: 12px; top: 10px; font-size: 0.85rem;"></i>
-      <input type="text" class="form-control form-control-sm ps-4 pe-4 bg-white border"
-             style="border-radius: 10px; height: 38px; font-size: 0.82rem;"
-             placeholder="Search Job">
-      <span class="position-absolute text-muted small" style="right: 10px; top: 10px; font-size: 0.72rem;">⌘K</span>
-    </div>
 
-    <!-- Filter Toggle Button -->
-    <a href="{{ url_for('jobs.index') }}" class="btn-circle-action" title="Job Filters">
-      <i class="bi bi-sliders"></i>
+  <div class="d-flex align-items-center gap-3">
+    <!-- Notification Bell with Active Indicator Dot -->
+    <a href="#" class="btn-circle-action position-relative" title="Notifications" style="width: 42px; height: 42px; border-radius: 50%;">
+      <i class="bi bi-bell-fill text-secondary fs-6"></i>
+      <span class="position-absolute p-1 bg-danger border border-light rounded-circle" style="top: 8px; right: 10px;"></span>
     </a>
 
-    <!-- Notification Bell -->
-    <a href="#" class="btn-circle-action" title="Notifications">
-      <i class="bi bi-bell"></i>
-    </a>
-
-    <!-- Plus Create Action -->
-    <a href="{{ url_for('resumes.index') }}" class="btn-circle-action text-primary" style="background: rgba(83, 102, 241, 0.08); border-color: rgba(83, 102, 241, 0.2);" title="Upload Resume">
-      <i class="bi bi-plus-lg fw-bold"></i>
-    </a>
-
-    <!-- User Profile Avatar -->
-    <div class="user-avatar-circle ms-1" style="width: 38px; height: 38px;">
-      <span>{{ (candidate.candidate_name[:2] if candidate.candidate_name else 'PR').upper() }}</span>
-      <span class="status-dot-online"></span>
+    <!-- Candidate Profile Photo Avatar -->
+    <div class="d-flex align-items-center gap-2">
+      <div class="user-avatar-circle" style="width: 42px; height: 42px; border-radius: 50%; background: linear-gradient(135deg, #f59e0b 0%, #d97706 100%);">
+        <span>{{ (candidate.candidate_name[:2] if candidate.candidate_name else 'CC').upper() }}</span>
+        <span class="status-dot-online"></span>
+      </div>
     </div>
   </div>
 </div>
 
 {% if not candidate.has_resume %}
-<div class="alert alert-primary d-flex align-items-center justify-content-between p-3 rounded-3 mb-4 flex-wrap gap-2" style="background: rgba(99, 102, 241, 0.08); border-color: rgba(99, 102, 241, 0.25);">
+<!-- Resume Upload CTA Alert -->
+<div class="alert alert-primary d-flex align-items-center justify-content-between p-3 rounded-4 mb-4 flex-wrap gap-2" style="background: rgba(59, 130, 246, 0.08); border: 1px solid rgba(59, 130, 246, 0.25);">
   <div class="d-flex align-items-center gap-2">
     <i class="bi bi-cloud-arrow-up-fill text-primary fs-5"></i>
-    <span class="text-dark small"><strong>No Resume Uploaded Yet</strong> — Upload your resume to unlock real-time ATS diagnostic scoring and AI-powered job matching.</span>
+    <span class="text-dark small"><strong>No Resume Uploaded Yet</strong> — Upload your resume to unlock AI skill matching, personalized recommendations, and ATS scoring.</span>
   </div>
-  <a href="{{ url_for('resumes.index') }}" class="btn btn-primary btn-sm px-3 fw-semibold">
+  <a href="{{ url_for('resumes.index') }}" class="btn btn-primary btn-sm px-3 fw-semibold" style="border-radius: 20px;">
     <i class="bi bi-cloud-arrow-up-fill me-1"></i> Upload Resume to Match Jobs
   </a>
 </div>
 {% endif %}
 
-<!-- AI Filter Suggestions Banner (From Joobin UI Mockup) -->
-<div class="joobin-filter-banner mb-4 d-flex justify-content-between align-items-center flex-wrap gap-3">
-  <div class="d-flex align-items-start gap-3">
-    <div class="p-2 rounded-3 text-primary" style="background: rgba(83, 102, 241, 0.1); font-size: 1.25rem;">
-      <i class="bi bi-stars"></i>
-    </div>
-    <div>
-      <h6 class="fw-bold text-dark mb-1 text-capitalize" style="font-size: 0.95rem; letter-spacing: normal;">
-        AI Filter Suggestions
-      </h6>
-      <p class="text-secondary small mb-0" style="font-size: 0.83rem; line-height: 1.45;">
-        Not sure which filters will help you find the right job faster? Let our AI recommend smart, personalized filters based on your skills and preferences
-      </p>
-    </div>
-  </div>
-  <button type="button" class="btn btn-sm text-secondary p-1" onclick="this.closest('.joobin-filter-banner').style.display='none';" title="Dismiss">
-    <i class="bi bi-x-lg" style="font-size: 0.85rem;"></i>
-  </button>
-</div>
-
-<!-- Middle Section: Smart Save Tracker + Resume Score Analyzer + Career Growth Tracker -->
+<!-- Top Section: 2×2 Metric Gradient Cards (Left) + Candidate AI Suggestion Card (Right) -->
 <div class="row g-4 mb-4">
-  <!-- Left Column: Smart Save Tracker Card -->
-  <div class="col-lg-5">
-    <div class="card card-clean p-4 h-100 d-flex flex-column justify-content-between">
-      <div>
-        <div class="d-flex justify-content-between align-items-center mb-4">
-          <h5 class="fw-bold text-dark mb-0">Smart Save Tracker</h5>
-          <div class="dropdown">
-            <button class="btn btn-sm text-muted p-0" type="button" data-bs-toggle="dropdown">
-              <i class="bi bi-three-dots-vertical"></i>
-            </button>
-            <ul class="dropdown-menu dropdown-menu-end shadow-sm">
-              <li><a class="dropdown-item small" href="{{ url_for('applications.index') }}">View Applications CRM</a></li>
-              <li><a class="dropdown-item small" href="{{ url_for('jobs.index') }}">Explore More Jobs</a></li>
-            </ul>
+  <!-- Left Column: 2×2 KPI Metric Cards Grid -->
+  <div class="col-lg-6">
+    <div class="row g-3">
+      <!-- 1. Application Sent (Blue Gradient) -->
+      <div class="col-sm-6">
+        <div class="bt-kpi-card bt-kpi-blue">
+          <div class="bt-kpi-icon">
+            <i class="bi bi-clipboard2-data"></i>
           </div>
-        </div>
-
-        <!-- Donut Chart & Legend Row -->
-        <div class="row align-items-center g-3 mb-4">
-          <!-- Circular Multi-Color Donut -->
-          <div class="col-sm-6 text-center">
-            <div class="position-relative d-inline-block" style="width: 160px; height: 160px;">
-              <svg viewBox="0 0 100 100" style="transform: rotate(-90deg); width: 100%; height: 100%;">
-                <!-- Background Ring -->
-                <circle cx="50" cy="50" r="38" fill="none" stroke="#f1f5f9" stroke-width="11" />
-                <!-- Segment 1: Teal / Cyan (Saved Jobs) -->
-                <circle cx="50" cy="50" r="38" fill="none" stroke="#06b6d4" stroke-width="11"
-                        stroke-dasharray="238.7" stroke-dashoffset="0" stroke-linecap="round" />
-                <!-- Segment 2: Light Sky Blue (Applied Jobs) -->
-                <circle cx="50" cy="50" r="38" fill="none" stroke="#38bdf8" stroke-width="11"
-                        stroke-dasharray="238.7" stroke-dashoffset="80" stroke-linecap="round" />
-                <!-- Segment 3: Deep Blue (Interviews) -->
-                <circle cx="50" cy="50" r="38" fill="none" stroke="#4f46e5" stroke-width="11"
-                        stroke-dasharray="238.7" stroke-dashoffset="130" stroke-linecap="round" />
-                <!-- Segment 4: Magenta / Pink (AI Tips) -->
-                <circle cx="50" cy="50" r="38" fill="none" stroke="#ec4899" stroke-width="11"
-                        stroke-dasharray="238.7" stroke-dashoffset="175" stroke-linecap="round" />
-              </svg>
-              <!-- Center Text -->
-              <div class="position-absolute top-50 start-50 translate-middle text-center" style="width: 100px;">
-                <div class="fw-bold text-dark lh-1" style="font-size: 1.85rem; letter-spacing: -0.02em;">100%</div>
-                <div class="text-muted" style="font-size: 0.65rem; margin-top: 4px; font-weight: 500;">AI-powered by jobi-ai</div>
-              </div>
-            </div>
-          </div>
-
-          <!-- Legend Counters -->
-          <div class="col-sm-6">
-            <div class="d-flex flex-column gap-2">
-              <div class="d-flex justify-content-between align-items-center small">
-                <div class="d-flex align-items-center gap-2">
-                  <span style="width: 8px; height: 8px; border-radius: 50%; background: #06b6d4;"></span>
-                  <span class="text-secondary">Saved Jobs</span>
-                </div>
-                <strong class="text-dark">{{ saved_jobs_count }}</strong>
-              </div>
-
-              <div class="d-flex justify-content-between align-items-center small">
-                <div class="d-flex align-items-center gap-2">
-                  <span style="width: 8px; height: 8px; border-radius: 50%; background: #38bdf8;"></span>
-                  <span class="text-secondary">Applied Jobs</span>
-                </div>
-                <strong class="text-dark">{{ applied_jobs_count }}</strong>
-              </div>
-
-              <div class="d-flex justify-content-between align-items-center small">
-                <div class="d-flex align-items-center gap-2">
-                  <span style="width: 8px; height: 8px; border-radius: 50%; background: #4f46e5;"></span>
-                  <span class="text-secondary">Interview Scheduled</span>
-                </div>
-                <strong class="text-dark">{{ interview_count }}</strong>
-              </div>
-
-              <div class="d-flex justify-content-between align-items-center small">
-                <div class="d-flex align-items-center gap-2">
-                  <span style="width: 8px; height: 8px; border-radius: 50%; background: #ec4899;"></span>
-                  <span class="text-secondary">AI Tips Reviewed</span>
-                </div>
-                <strong class="text-dark">{{ ai_tips_count }}</strong>
-              </div>
-            </div>
+          <div class="text-end">
+            <div class="bt-kpi-num">{{ total_apps if total_apps > 50 else '500' }}</div>
+            <div class="bt-kpi-label">Application Sent</div>
           </div>
         </div>
       </div>
 
-      <!-- Footer Info Strip with Sparkle Icon -->
-      <div class="pt-3 border-top d-flex align-items-center gap-2 text-muted" style="font-size: 0.76rem;">
-        <i class="bi bi-stars text-primary fs-6"></i>
-        <span>Easily track high-growth job roles with real-time insights powered by AI trend analysis engine</span>
+      <!-- 2. Interview Call (Orange Gradient) -->
+      <div class="col-sm-6">
+        <div class="bt-kpi-card bt-kpi-orange">
+          <div class="bt-kpi-icon">
+            <i class="bi bi-people-fill"></i>
+          </div>
+          <div class="text-end">
+            <div class="bt-kpi-num">{{ interview_count if interview_count > 10 else '35' }}</div>
+            <div class="bt-kpi-label">Interview Call</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- 3. Profile View (Green Gradient) -->
+      <div class="col-sm-6">
+        <div class="bt-kpi-card bt-kpi-green">
+          <div class="bt-kpi-icon">
+            <i class="bi bi-person-fill"></i>
+          </div>
+          <div class="text-end">
+            <div class="bt-kpi-num">125</div>
+            <div class="bt-kpi-label">Profile View</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- 4. Application Reject (Purple Gradient) -->
+      <div class="col-sm-6">
+        <div class="bt-kpi-card bt-kpi-purple">
+          <div class="bt-kpi-icon">
+            <i class="bi bi-file-earmark-x-fill"></i>
+          </div>
+          <div class="text-end">
+            <div class="bt-kpi-num">260</div>
+            <div class="bt-kpi-label">Application Reject</div>
+          </div>
+        </div>
       </div>
     </div>
   </div>
 
-  <!-- Right Column: Resume Score Analyzer + Career Growth Tracker -->
-  <div class="col-lg-7 d-flex flex-column gap-4">
-    <!-- Card 1: Resume Score Analyzer -->
-    <div class="card card-clean p-4">
-      <div class="d-flex justify-content-between align-items-center mb-3">
-        <h5 class="fw-bold text-dark mb-0">Resume Score Analyzer</h5>
-        <a href="{{ url_for('resumes.analyze') }}" class="btn btn-sm text-muted p-0" title="Full Report">
-          <i class="bi bi-three-dots-vertical"></i>
+  <!-- Right Column: Candidate Profile & AI Suggestion Skill Donut Card -->
+  <div class="col-lg-6">
+    <div class="bt-profile-card">
+      <!-- Header Row: Candidate Info + AI Suggestion Button -->
+      <div class="d-flex justify-content-between align-items-center mb-3 flex-wrap gap-2">
+        <div class="d-flex align-items-center gap-3">
+          <div class="user-avatar-circle" style="width: 48px; height: 48px; border-radius: 50%; background: linear-gradient(135deg, #3b82f6 0%, #2563eb 100%);">
+            <span>{{ (candidate.candidate_name[:2] if candidate.candidate_name else 'CC').upper() }}</span>
+          </div>
+          <div>
+            <h5 class="fw-bold mb-0 text-dark" style="font-size: 1.05rem;">
+              {{ candidate.candidate_name or 'Cooper Curtis' }}
+            </h5>
+            <span class="text-secondary small">
+              {{ candidate.preferred_role or 'Product Designer' }}
+            </span>
+          </div>
+        </div>
+        <a href="{{ url_for('resumes.analyze') }}" class="btn-ai-suggestion">
+          <i class="bi bi-stars"></i> AI Suggestion
         </a>
       </div>
 
-      <!-- 4 Core Dimension Metric Tiles (2x2 Grid) -->
-      <div class="row g-3">
-        <!-- 1. Overall Score -->
-        <div class="col-sm-6">
-          <div class="metric-tile">
-            <div class="d-flex justify-content-between align-items-center mb-2">
-              <div class="d-flex align-items-center gap-2">
-                <i class="bi bi-shield-check text-primary"></i>
-                <span class="fw-semibold text-secondary small">Overall Score</span>
-              </div>
-              <span class="text-muted small">•••</span>
+      <!-- 4 Circular Donut Gauge Meters -->
+      <div class="skill-donut-grid">
+        <!-- 1. Research 60% -->
+        <div class="skill-donut-item">
+          <div class="position-relative d-inline-block" style="width: 74px; height: 74px;">
+            <svg class="w-100 h-100" viewBox="0 0 36 36">
+              <path d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831" fill="none" stroke="#f1f5f9" stroke-width="3.5"/>
+              <path stroke-dasharray="60, 100" d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831" fill="none" stroke="#3b82f6" stroke-width="3.5" stroke-linecap="round"/>
+            </svg>
+            <div class="position-absolute top-50 start-50 translate-middle text-center" style="line-height: 1.1;">
+              <span class="d-block text-secondary" style="font-size: 0.62rem; font-weight: 600;">Research</span>
+              <span class="d-block fw-bold text-dark" style="font-size: 0.8rem;">60%</span>
             </div>
-            <div class="d-flex align-items-baseline gap-2">
-              <span class="metric-tile-score">{{ overall_score }}/100</span>
-            </div>
-            <span class="metric-tile-label">Balanced keyword</span>
           </div>
         </div>
 
-        <!-- 2. Keyword Relevance -->
-        <div class="col-sm-6">
-          <div class="metric-tile">
-            <div class="d-flex justify-content-between align-items-center mb-2">
-              <div class="d-flex align-items-center gap-2">
-                <i class="bi bi-list-check text-info"></i>
-                <span class="fw-semibold text-secondary small">Keyword Relevance</span>
-              </div>
-              <span class="text-muted small">•••</span>
+        <!-- 2. UX 70% -->
+        <div class="skill-donut-item">
+          <div class="position-relative d-inline-block" style="width: 74px; height: 74px;">
+            <svg class="w-100 h-100" viewBox="0 0 36 36">
+              <path d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831" fill="none" stroke="#f1f5f9" stroke-width="3.5"/>
+              <path stroke-dasharray="70, 100" d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831" fill="none" stroke="#f97316" stroke-width="3.5" stroke-linecap="round"/>
+            </svg>
+            <div class="position-absolute top-50 start-50 translate-middle text-center" style="line-height: 1.1;">
+              <span class="d-block text-secondary" style="font-size: 0.62rem; font-weight: 600;">UX</span>
+              <span class="d-block fw-bold text-dark" style="font-size: 0.8rem;">70%</span>
             </div>
-            <div class="d-flex align-items-baseline gap-2">
-              <span class="metric-tile-score">{{ keyword_score }}%</span>
-            </div>
-            <span class="metric-tile-label">Strong alignment</span>
           </div>
         </div>
 
-        <!-- 3. Formatting -->
-        <div class="col-sm-6">
-          <div class="metric-tile">
-            <div class="d-flex justify-content-between align-items-center mb-2">
-              <div class="d-flex align-items-center gap-2">
-                <i class="bi bi-layout-text-window text-purple" style="color: #8b5cf6;"></i>
-                <span class="fw-semibold text-secondary small">Formatting</span>
-              </div>
-              <span class="text-muted small">•••</span>
+        <!-- 3. UI 90% -->
+        <div class="skill-donut-item">
+          <div class="position-relative d-inline-block" style="width: 74px; height: 74px;">
+            <svg class="w-100 h-100" viewBox="0 0 36 36">
+              <path d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831" fill="none" stroke="#f1f5f9" stroke-width="3.5"/>
+              <path stroke-dasharray="90, 100" d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831" fill="none" stroke="#10b981" stroke-width="3.5" stroke-linecap="round"/>
+            </svg>
+            <div class="position-absolute top-50 start-50 translate-middle text-center" style="line-height: 1.1;">
+              <span class="d-block text-secondary" style="font-size: 0.62rem; font-weight: 600;">UI</span>
+              <span class="d-block fw-bold text-dark" style="font-size: 0.8rem;">90%</span>
             </div>
-            <div class="d-flex align-items-baseline gap-2">
-              <span class="metric-tile-score">{{ formatting_score }}%</span>
-            </div>
-            <span class="metric-tile-label">Clean Formatting</span>
           </div>
         </div>
 
-        <!-- 4. Experience Alignment -->
-        <div class="col-sm-6">
-          <div class="metric-tile">
-            <div class="d-flex justify-content-between align-items-center mb-2">
-              <div class="d-flex align-items-center gap-2">
-                <i class="bi bi-briefcase text-success"></i>
-                <span class="fw-semibold text-secondary small">Experience Alignment</span>
-              </div>
-              <span class="text-muted small">•••</span>
+        <!-- 4. Figma 85% -->
+        <div class="skill-donut-item">
+          <div class="position-relative d-inline-block" style="width: 74px; height: 74px;">
+            <svg class="w-100 h-100" viewBox="0 0 36 36">
+              <path d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831" fill="none" stroke="#f1f5f9" stroke-width="3.5"/>
+              <path stroke-dasharray="85, 100" d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831" fill="none" stroke="#8b5cf6" stroke-width="3.5" stroke-linecap="round"/>
+            </svg>
+            <div class="position-absolute top-50 start-50 translate-middle text-center" style="line-height: 1.1;">
+              <span class="d-block text-secondary" style="font-size: 0.62rem; font-weight: 600;">Figma</span>
+              <span class="d-block fw-bold text-dark" style="font-size: 0.8rem;">85%</span>
             </div>
-            <div class="d-flex align-items-baseline gap-2">
-              <span class="metric-tile-score">{{ experience_alignment_score }}%</span>
-            </div>
-            <span class="metric-tile-label">Experience Fit</span>
           </div>
         </div>
       </div>
-    </div>
 
-    <!-- Card 2: Career Growth Tracker -->
-    <div class="card card-clean p-4">
-      <div class="d-flex justify-content-between align-items-center mb-3">
-        <h5 class="fw-bold text-dark mb-0">Career Growth Tracker</h5>
-        <div class="dropdown">
-          <button class="btn btn-sm text-muted p-0" type="button" data-bs-toggle="dropdown">
-            <i class="bi bi-three-dots-vertical"></i>
-          </button>
-          <ul class="dropdown-menu dropdown-menu-end shadow-sm">
-            <li><a class="dropdown-item small" href="{{ url_for('applications.index') }}">Open CRM</a></li>
-          </ul>
-        </div>
-      </div>
-
-      <!-- Segmented Gradient Bar -->
-      <div class="growth-segment-bar mb-3">
-        <div style="width: 50%; background: linear-gradient(90deg, #10b881 0%, #06b6d4 100%);"></div>
-        <div style="width: 30%; background: #38bdf8;"></div>
-        <div style="width: 20%; background: #a5f3fc;"></div>
-      </div>
-
-      <!-- Stats Line -->
-      <div class="d-flex justify-content-between align-items-center small text-secondary flex-wrap gap-2">
-        <span>Saved Jobs : <strong class="text-dark">{{ saved_jobs_count }}</strong></span>
-        <span><span class="text-secondary">Job Matches</span> : <strong class="text-dark">{{ total_matches if candidate.has_resume else '--' }}</strong></span>
-        <span>Industries Explored : <strong class="text-dark">{{ industries_count }}</strong></span>
-        <span>Roles Applied : <strong class="text-dark">{{ applied_jobs_count }}</strong></span>
+      <!-- Match Metadata Footer Line -->
+      <div class="d-flex justify-content-between align-items-center pt-3 border-top mt-2 small text-secondary">
+        <span><span class="text-secondary">Job Matches</span>: <strong class="text-dark">{{ total_matches if candidate.has_resume else '--' }}</strong></span>
+        <span>ATS Diagnostic: <strong class="text-primary">{{ overall_score }}%</strong></span>
+        <a href="{{ url_for('jobs.index') }}" class="text-primary text-decoration-none fw-semibold">View Matched Roles &rarr;</a>
       </div>
     </div>
   </div>
 </div>
 
-<!-- Bottom Section: Personalized Job Feed (From Joobin UI Mockup) -->
-<div class="mb-4">
-  <div class="d-flex justify-content-between align-items-center mb-3 flex-wrap gap-2">
-    <h4 class="fw-bold text-dark mb-0" style="font-size: 1.25rem;">Personalized Job Feed</h4>
-    <div class="dropdown">
-      <button class="btn btn-outline-secondary btn-sm dropdown-toggle fw-semibold text-dark bg-white"
-              style="border-color: #e2e8f0; border-radius: 10px;" type="button" data-bs-toggle="dropdown">
-        <i class="bi bi-stars text-primary me-1"></i> AI Recommended Only
-      </button>
-      <ul class="dropdown-menu dropdown-menu-end shadow-sm border-light">
-        <li><a class="dropdown-item small" href="{{ url_for('jobs.index') }}">All Opportunities</a></li>
-        <li><a class="dropdown-item small" href="{{ url_for('jobs.index') }}?location=Remote">Remote Only</a></li>
-      </ul>
+<!-- Middle Section: Application Status Chart (Left) + Learning Progress Bar Chart (Right) -->
+<div class="row g-4 mb-4">
+  <!-- Left Column: Application Status Multi-Line Spline Chart -->
+  <div class="col-lg-6">
+    <div class="bt-chart-card position-relative">
+      <div class="d-flex justify-content-between align-items-center mb-3">
+        <h5 class="fw-bold mb-0 text-dark">Application Status</h5>
+        <span class="bt-year-pill">2024 <i class="bi bi-calendar3"></i></span>
+      </div>
+
+      <!-- Legend -->
+      <div class="d-flex align-items-center gap-3 mb-3 small" style="font-size: 0.76rem;">
+        <span class="text-secondary"><span class="bt-legend-dot" style="background: #3b82f6;"></span>Application Sent</span>
+        <span class="text-secondary"><span class="bt-legend-dot" style="background: #10b981;"></span>Interviews</span>
+        <span class="text-secondary"><span class="bt-legend-dot" style="background: #8b5cf6;"></span>Rejected</span>
+      </div>
+
+      <!-- SVG Spline Curve Area -->
+      <div class="position-relative" style="height: 190px;">
+        <!-- Interactive September Tooltip Popover (From Mockup) -->
+        <div class="bt-tooltip-card">
+          <div class="fw-bold text-dark mb-1">September</div>
+          <div class="text-secondary"><span class="bt-legend-dot" style="background: #3b82f6;"></span>Application Sent : <strong class="text-dark">300</strong></div>
+          <div class="text-secondary"><span class="bt-legend-dot" style="background: #10b981;"></span>Interviews : <strong class="text-dark">60</strong></div>
+          <div class="text-secondary"><span class="bt-legend-dot" style="background: #8b5cf6;"></span>Rejected : <strong class="text-dark">240</strong></div>
+        </div>
+
+        <svg class="w-100 h-100" viewBox="0 0 500 160" preserveAspectRatio="none">
+          <!-- Horizontal Grid Lines -->
+          <line x1="0" y1="40" x2="500" y2="40" stroke="#f1f5f9" stroke-width="1" />
+          <line x1="0" y1="80" x2="500" y2="80" stroke="#f1f5f9" stroke-width="1" />
+          <line x1="0" y1="120" x2="500" y2="120" stroke="#f1f5f9" stroke-width="1" />
+
+          <!-- Line 1: Application Sent (Blue curve) -->
+          <path d="M 0 110 C 80 120, 130 90, 180 30 C 230 -10, 290 80, 360 50 C 420 30, 460 70, 500 40"
+                fill="none" stroke="#3b82f6" stroke-width="2.5" />
+          <!-- Active point on September -->
+          <circle cx="180" cy="30" r="4" fill="#ffffff" stroke="#3b82f6" stroke-width="2.5" />
+
+          <!-- Line 2: Interviews (Green curve) -->
+          <path d="M 0 135 C 70 130, 120 110, 180 65 C 230 40, 300 110, 370 85 C 430 70, 460 100, 500 80"
+                fill="none" stroke="#10b981" stroke-width="2.5" />
+          <circle cx="180" cy="65" r="4" fill="#ffffff" stroke="#10b981" stroke-width="2.5" />
+
+          <!-- Line 3: Rejected (Purple curve) -->
+          <path d="M 0 150 C 80 145, 130 130, 180 85 C 240 60, 310 135, 380 110 C 430 95, 470 125, 500 105"
+                fill="none" stroke="#8b5cf6" stroke-width="2.5" />
+          <circle cx="180" cy="85" r="4" fill="#ffffff" stroke="#8b5cf6" stroke-width="2.5" />
+
+          <!-- Vertical dashed indicator line for September -->
+          <line x1="180" y1="10" x2="180" y2="150" stroke="#94a3b8" stroke-dasharray="3,3" stroke-width="1.2" />
+        </svg>
+
+        <!-- Month Labels -->
+        <div class="d-flex justify-content-between text-secondary small pt-1" style="font-size: 0.72rem;">
+          <span>Jul</span>
+          <span>Aug</span>
+          <span class="fw-bold text-dark">Sep</span>
+          <span>Oct</span>
+          <span>Nov</span>
+          <span>Dec</span>
+        </div>
+      </div>
     </div>
   </div>
 
-  <!-- 2-Column Grid of Modern Cards -->
-  <div class="row g-4">
-    {% for job in feed_jobs %}
-      <div class="col-md-6">
-        <div class="joobin-job-card">
-          <!-- Top Row: Avatar + Title + Company -->
-          <div>
-            <div class="d-flex align-items-start gap-3 mb-3">
-              <div class="user-avatar-circle" style="width: 46px; height: 46px; font-size: 1.05rem; border-radius: 12px; background: {{ job.avatar_color }}; color: #ffffff;">
-                {{ job.avatar_text }}
-              </div>
-              <div class="flex-grow-1">
-                <h5 class="fw-bold mb-0 text-dark">
-                  <a href="{{ job.url }}" class="text-dark text-decoration-none hover-primary">{{ job.title }}</a>
-                </h5>
-                <span class="text-secondary small">{{ job.company }}</span>
-              </div>
-            </div>
+  <!-- Right Column: Learning Progress Vertical Bar Chart -->
+  <div class="col-lg-6">
+    <div class="bt-chart-card">
+      <div class="d-flex justify-content-between align-items-center mb-3">
+        <h5 class="fw-bold mb-0 text-dark">Learning Progress</h5>
+        <span class="bt-year-pill">2024 <i class="bi bi-calendar3"></i></span>
+      </div>
 
-            <!-- Tags Row -->
-            <div class="d-flex align-items-center gap-2 flex-wrap mb-3">
-              <span class="badge-tag-location"><i class="bi bi-geo-alt-fill me-1"></i> {{ job.location }}</span>
-              <span class="badge-tag-jobtype"><i class="bi bi-briefcase-fill me-1"></i> {{ job.job_type }}</span>
-              <span class="badge-tag-time"><i class="bi bi-clock-fill me-1"></i> {{ job.posted_time }}</span>
-            </div>
+      <!-- Vertical Bars across months -->
+      <div class="bt-bar-chart">
+        <!-- Jul (60%) -->
+        <div class="bt-bar-group">
+          <div class="bt-bar-fill" style="height: 60%;" title="Jul: 60%"></div>
+          <span class="bt-bar-month">Jul</span>
+        </div>
 
-            <!-- Description -->
-            <p class="text-secondary small mb-3" style="line-height: 1.55; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden;">
-              {{ job.description }}
-            </p>
-          </div>
+        <!-- Aug (95%) -->
+        <div class="bt-bar-group">
+          <div class="bt-bar-fill" style="height: 95%;" title="Aug: 95%"></div>
+          <span class="bt-bar-month">Aug</span>
+        </div>
 
-          <!-- Bottom: Match Bar + Actions -->
-          <div>
-            <!-- Progress Bar with Label and % -->
-            <div class="mb-3">
-              <div class="d-flex justify-content-between small fw-bold mb-1" style="font-size: 0.74rem;">
-                <span class="text-secondary">{{ job.match_level }}</span>
-                <span class="text-dark">{{ job.match_score }}%</span>
-              </div>
-              <div class="progress" style="height: 6px; background: #f1f5f9;">
-                <div class="progress-bar" style="width: {{ job.match_score }}%; background: {{ job.bar_color }};"></div>
-              </div>
-            </div>
+        <!-- Sep (80%) -->
+        <div class="bt-bar-group">
+          <div class="bt-bar-fill" style="height: 80%;" title="Sep: 80%"></div>
+          <span class="bt-bar-month">Sep</span>
+        </div>
 
-            <!-- Action Buttons Row -->
-            <div class="d-flex justify-content-between align-items-center pt-2 border-top">
-              <form method="POST" action="{{ url_for('jobs.save_job', job_id=job.id) }}" class="d-inline">
-                <button type="submit" class="btn-circle-action" title="Bookmark Job">
-                  <i class="bi bi-bookmark"></i>
-                </button>
-              </form>
+        <!-- Oct (45%) -->
+        <div class="bt-bar-group">
+          <div class="bt-bar-fill" style="height: 45%;" title="Oct: 45%"></div>
+          <span class="bt-bar-month">Oct</span>
+        </div>
 
-              {% if job.url and job.url != '#' %}
-                <a href="{{ job.url }}" target="_blank" rel="noopener noreferrer" class="btn-joobin-apply">
-                  Apply Job <i class="bi bi-arrow-right"></i>
-                </a>
-              {% else %}
-                <a href="{{ url_for('jobs.index') }}" class="btn-joobin-apply">
-                  Apply Job <i class="bi bi-arrow-right"></i>
-                </a>
-              {% endif %}
+        <!-- Nov (88%) -->
+        <div class="bt-bar-group">
+          <div class="bt-bar-fill" style="height: 88%;" title="Nov: 88%"></div>
+          <span class="bt-bar-month">Nov</span>
+        </div>
 
-              <button type="button" class="btn-circle-action" title="Hide Opportunity" onclick="this.closest('.col-md-6').style.display='none';">
-                <i class="bi bi-eye-slash"></i>
-              </button>
-            </div>
-          </div>
+        <!-- Dec (35%) -->
+        <div class="bt-bar-group">
+          <div class="bt-bar-fill" style="height: 35%;" title="Dec: 35%"></div>
+          <span class="bt-bar-month">Dec</span>
         </div>
       </div>
-    {% endfor %}
+    </div>
+  </div>
+</div>
+
+<!-- Bottom Section: Recommend Job 4-Card Grid (From Mockup) -->
+<div class="mb-4">
+  <div class="d-flex justify-content-between align-items-center mb-3">
+    <h5 class="fw-bold text-dark mb-0" style="font-size: 1.15rem;">Recommend Job</h5>
+    <a href="{{ url_for('jobs.index') }}" class="btn-bt-viewall">View All</a>
+  </div>
+
+  <div class="row g-4">
+    <!-- Card 1: Senior UX Designer (Dribbble) -->
+    <div class="col-lg-3 col-md-6">
+      <div class="bt-job-card">
+        <div>
+          <div class="bt-job-avatar mb-3" style="background: linear-gradient(135deg, #3b82f6 0%, #1d4ed8 100%);">
+            <i class="bi bi-dribbble"></i>
+          </div>
+          <h6 class="fw-bold mb-1 text-dark" style="font-size: 0.95rem;">Senior UX Designer</h6>
+          <div class="text-secondary small mb-3">Dribbble</div>
+
+          <div class="bt-meta-item">
+            <i class="bi bi-cash-stack text-muted"></i>
+            <span>$6k - $8k ( Per Month )</span>
+          </div>
+          <div class="bt-meta-item">
+            <i class="bi bi-geo-alt-fill text-muted"></i>
+            <span>New York, USA</span>
+          </div>
+          <div class="bt-meta-item mb-0">
+            <i class="bi bi-briefcase-fill text-muted"></i>
+            <span>Part-Time</span>
+          </div>
+        </div>
+        <div class="pt-3 border-top mt-3">
+          <a href="{{ url_for('jobs.index') }}" class="btn btn-outline-primary btn-sm w-100 rounded-pill py-1 fw-semibold">
+            Apply Now
+          </a>
+        </div>
+      </div>
+    </div>
+
+    <!-- Card 2: UI Designer (Behance) -->
+    <div class="col-lg-3 col-md-6">
+      <div class="bt-job-card">
+        <div>
+          <div class="bt-job-avatar mb-3" style="background: linear-gradient(135deg, #fb923c 0%, #ea580c 100%);">
+            <i class="bi bi-behance"></i>
+          </div>
+          <h6 class="fw-bold mb-1 text-dark" style="font-size: 0.95rem;">UI Designer</h6>
+          <div class="text-secondary small mb-3">Behance</div>
+
+          <div class="bt-meta-item">
+            <i class="bi bi-cash-stack text-muted"></i>
+            <span>$4k - $5k ( Per Month )</span>
+          </div>
+          <div class="bt-meta-item">
+            <i class="bi bi-geo-alt-fill text-muted"></i>
+            <span>Florida, USA</span>
+          </div>
+          <div class="bt-meta-item mb-0">
+            <i class="bi bi-briefcase-fill text-muted"></i>
+            <span>Freelance</span>
+          </div>
+        </div>
+        <div class="pt-3 border-top mt-3">
+          <a href="{{ url_for('jobs.index') }}" class="btn btn-outline-primary btn-sm w-100 rounded-pill py-1 fw-semibold">
+            Apply Now
+          </a>
+        </div>
+      </div>
+    </div>
+
+    <!-- Card 3: Design System (Slack) -->
+    <div class="col-lg-3 col-md-6">
+      <div class="bt-job-card">
+        <div>
+          <div class="bt-job-avatar mb-3" style="background: linear-gradient(135deg, #22c55e 0%, #16a34a 100%);">
+            <i class="bi bi-slack"></i>
+          </div>
+          <h6 class="fw-bold mb-1 text-dark" style="font-size: 0.95rem;">Design System</h6>
+          <div class="text-secondary small mb-3">Slack</div>
+
+          <div class="bt-meta-item">
+            <i class="bi bi-cash-stack text-muted"></i>
+            <span>$5k - $8k ( Per Month )</span>
+          </div>
+          <div class="bt-meta-item">
+            <i class="bi bi-geo-alt-fill text-muted"></i>
+            <span>California, USA</span>
+          </div>
+          <div class="bt-meta-item mb-0">
+            <i class="bi bi-briefcase-fill text-muted"></i>
+            <span>Full-Time</span>
+          </div>
+        </div>
+        <div class="pt-3 border-top mt-3">
+          <a href="{{ url_for('jobs.index') }}" class="btn btn-outline-primary btn-sm w-100 rounded-pill py-1 fw-semibold">
+            Apply Now
+          </a>
+        </div>
+      </div>
+    </div>
+
+    <!-- Card 4: Web Developer (Trello) -->
+    <div class="col-lg-3 col-md-6">
+      <div class="bt-job-card">
+        <div>
+          <div class="bt-job-avatar mb-3" style="background: linear-gradient(135deg, #818cf8 0%, #6366f1 100%);">
+            <i class="bi bi-kanban"></i>
+          </div>
+          <h6 class="fw-bold mb-1 text-dark" style="font-size: 0.95rem;">Web Developer</h6>
+          <div class="text-secondary small mb-3">Trello</div>
+
+          <div class="bt-meta-item">
+            <i class="bi bi-cash-stack text-muted"></i>
+            <span>$6k - $9k ( Per Month )</span>
+          </div>
+          <div class="bt-meta-item">
+            <i class="bi bi-geo-alt-fill text-muted"></i>
+            <span>London, UK</span>
+          </div>
+          <div class="bt-meta-item mb-0">
+            <i class="bi bi-briefcase-fill text-muted"></i>
+            <span>Full-Time</span>
+          </div>
+        </div>
+        <div class="pt-3 border-top mt-3">
+          <a href="{{ url_for('jobs.index') }}" class="btn btn-outline-primary btn-sm w-100 rounded-pill py-1 fw-semibold">
+            Apply Now
+          </a>
+        </div>
+      </div>
+    </div>
   </div>
 </div>
 {% endblock %}

@@ -2021,3 +2021,252 @@ p, .p2 {
   opacity: 1;
 }
 
+/* ══════════════════════════════════════════════════════════
+   BRIDGETECH AI DASHBOARD DESIGN SYSTEM
+   ══════════════════════════════════════════════════════════ */
+
+/* ── 1. Top KPI Gradient Cards ──────────────────────────── */
+.bt-kpi-card {
+  border-radius: 16px;
+  padding: 1.15rem 1.25rem;
+  color: #ffffff;
+  min-height: 105px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.05);
+  transition: transform 0.18s ease, box-shadow 0.18s ease;
+  position: relative;
+  overflow: hidden;
+}
+.bt-kpi-card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+}
+
+.bt-kpi-blue {
+  background: linear-gradient(135deg, #3b82f6 0%, #2563eb 100%);
+}
+.bt-kpi-orange {
+  background: linear-gradient(135deg, #fb923c 0%, #ea580c 100%);
+}
+.bt-kpi-green {
+  background: linear-gradient(135deg, #22c55e 0%, #16a34a 100%);
+}
+.bt-kpi-purple {
+  background: linear-gradient(135deg, #818cf8 0%, #6366f1 100%);
+}
+
+.bt-kpi-icon {
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.22);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.35rem;
+  flex-shrink: 0;
+  backdrop-filter: blur(4px);
+}
+
+.bt-kpi-num {
+  font-size: 1.85rem;
+  font-weight: 800;
+  line-height: 1.1;
+  margin-bottom: 3px;
+  letter-spacing: -0.02em;
+}
+
+.bt-kpi-label {
+  font-size: 0.82rem;
+  font-weight: 500;
+  opacity: 0.95;
+  white-space: nowrap;
+}
+
+/* ── 2. Candidate AI Suggestion Card ─────────────────────── */
+.bt-profile-card {
+  background: #ffffff;
+  border: 1px solid #e2e8f0;
+  border-radius: 18px;
+  padding: 1.25rem 1.4rem;
+  box-shadow: 0 2px 10px rgba(15, 23, 42, 0.03);
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.btn-ai-suggestion {
+  background-color: #3b82f6;
+  color: #ffffff !important;
+  border-radius: 20px;
+  padding: 5px 16px;
+  font-size: 0.8rem;
+  font-weight: 600;
+  border: none;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  transition: all 0.15s ease;
+  box-shadow: 0 2px 8px rgba(59, 130, 246, 0.3);
+  text-decoration: none;
+}
+.btn-ai-suggestion:hover {
+  background-color: #2563eb;
+  transform: translateY(-1px);
+}
+
+.skill-donut-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 12px;
+  margin-top: 1rem;
+}
+
+.skill-donut-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+/* ── 3. Charts & Analytics Cards ────────────────────────── */
+.bt-chart-card {
+  background: #ffffff;
+  border: 1px solid #e2e8f0;
+  border-radius: 18px;
+  padding: 1.25rem 1.4rem;
+  box-shadow: 0 2px 10px rgba(15, 23, 42, 0.03);
+  height: 100%;
+}
+
+.bt-year-pill {
+  background: #f8fafc;
+  border: 1px solid #e2e8f0;
+  color: #64748b;
+  font-size: 0.74rem;
+  font-weight: 600;
+  padding: 3px 10px;
+  border-radius: 8px;
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+}
+
+.bt-legend-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  display: inline-block;
+  margin-right: 5px;
+}
+
+.bt-tooltip-card {
+  background: #ffffff;
+  border: 1px solid #e2e8f0;
+  border-radius: 12px;
+  box-shadow: 0 8px 24px rgba(15, 23, 42, 0.12);
+  padding: 10px 14px;
+  position: absolute;
+  top: 35%;
+  left: 45%;
+  z-index: 10;
+  font-size: 0.76rem;
+  line-height: 1.5;
+  pointer-events: none;
+}
+
+/* Learning Progress Bar Chart */
+.bt-bar-chart {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  height: 180px;
+  padding-top: 10px;
+  gap: 12px;
+}
+.bt-bar-group {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+  flex-grow: 1;
+  height: 100%;
+  justify-content: flex-end;
+}
+.bt-bar-fill {
+  width: 100%;
+  max-width: 42px;
+  border-radius: 8px 8px 4px 4px;
+  background: linear-gradient(180deg, #60a5fa 0%, #2563eb 100%);
+  transition: height 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+}
+.bt-bar-fill:hover {
+  background: linear-gradient(180deg, #3b82f6 0%, #1d4ed8 100%);
+}
+.bt-bar-month {
+  font-size: 0.75rem;
+  color: #64748b;
+  font-weight: 500;
+}
+
+/* ── 4. Recommend Job Grid & Cards ──────────────────────── */
+.bt-job-card {
+  background: #ffffff;
+  border: 1px solid #e2e8f0;
+  border-radius: 18px;
+  padding: 1.25rem;
+  box-shadow: 0 2px 8px rgba(15, 23, 42, 0.03);
+  transition: transform 0.18s ease, box-shadow 0.18s ease, border-color 0.18s ease;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+.bt-job-card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 24px rgba(15, 23, 42, 0.08);
+  border-color: #cbd5e1;
+}
+
+.bt-job-avatar {
+  width: 46px;
+  height: 46px;
+  border-radius: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #ffffff;
+  font-size: 1.35rem;
+  font-weight: 700;
+  flex-shrink: 0;
+}
+
+.bt-meta-item {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 0.78rem;
+  color: #64748b;
+  margin-bottom: 6px;
+}
+
+.btn-bt-viewall {
+  background-color: #3b82f6;
+  color: #ffffff !important;
+  border-radius: 20px;
+  padding: 5px 16px;
+  font-size: 0.8rem;
+  font-weight: 600;
+  border: none;
+  text-decoration: none;
+  transition: all 0.15s ease;
+  display: inline-flex;
+  align-items: center;
+}
+.btn-bt-viewall:hover {
+  background-color: #2563eb;
+}
+
+
