@@ -1,74 +1,91 @@
 {% extends "base.html" %}
 
-{% block title %}Automations Center - AI Job Copilot{% endblock %}
+{% block title %}Automations Center - AI JobAgent{% endblock %}
 
 {% block content %}
 <div class="mb-4">
-  <h2 class="fw-bold text-white mb-1">Automation & Alert Center</h2>
-  <p class="text-secondary mb-0">Configure automated background job searches, ATS alerts, and follow-up reminders</p>
+  <div class="d-flex align-items-center gap-3">
+    <div style="width: 44px; height: 44px; border-radius: 12px; background: linear-gradient(135deg, #3b82f6 0%, #1d4ed8 100%); display: flex; align-items: center; justify-content: center; color: #ffffff; box-shadow: 0 4px 12px rgba(59,130,246,0.25);">
+      <i class="bi bi-robot" style="font-size: 1.25rem;"></i>
+    </div>
+    <div>
+      <h2 class="fw-bold mb-1" style="color: #0f172a; font-family: 'Plus Jakarta Sans', sans-serif; font-size: 1.55rem; letter-spacing: -0.02em;">
+        Automation &amp; Alert Center
+      </h2>
+      <p class="text-secondary mb-0" style="font-size: 0.88rem;">
+        Configure automated background job searches, ATS alerts, and follow-up reminders
+      </p>
+    </div>
+  </div>
 </div>
 
 <div class="row justify-content-center">
   <div class="col-lg-8">
-    <div class="card card-custom p-4">
+    <div class="card card-custom p-4 p-md-5 border-0" style="border-radius: 16px; box-shadow: 0 2px 14px rgba(15,23,42,0.06); background: #ffffff;">
       <form method="POST" action="{{ url_for('automations.index') }}">
-        <h5 class="fw-bold text-white mb-3">Job Alert & Discovery Automation</h5>
+        <h5 class="fw-bold mb-3" style="color: #0f172a; font-family: 'Plus Jakarta Sans', sans-serif;">
+          Job Alert &amp; Discovery Automation
+        </h5>
 
-        <div class="form-check form-switch mb-3">
-          <input class="form-check-input" type="checkbox" name="daily_digest" id="dailyDigest" {% if settings.daily_digest %}checked{% endif %}>
-          <label class="form-check-label text-light fw-medium" for="dailyDigest">
+        <div class="form-check form-switch mb-3 p-3 rounded-3" style="background: #f8fafc; border: 1px solid #e2e8f0;">
+          <input class="form-check-input ms-0 me-3" type="checkbox" name="daily_digest" id="dailyDigest" {% if settings.daily_digest %}checked{% endif %} style="cursor: pointer;">
+          <label class="form-check-label fw-bold text-dark d-block" for="dailyDigest" style="cursor: pointer;">
             Daily Job Digest
           </label>
-          <div class="text-secondary small">Automatically scrape and rank new job postings matching your profile every morning.</div>
+          <div class="text-secondary small mt-1">Automatically scrape and rank new job postings matching your profile every morning.</div>
         </div>
 
-        <div class="form-check form-switch mb-4">
-          <input class="form-check-input" type="checkbox" name="email_alerts" id="emailAlerts" {% if settings.email_alerts %}checked{% endif %}>
-          <label class="form-check-label text-light fw-medium" for="emailAlerts">
+        <div class="form-check form-switch mb-4 p-3 rounded-3" style="background: #f8fafc; border: 1px solid #e2e8f0;">
+          <input class="form-check-input ms-0 me-3" type="checkbox" name="email_alerts" id="emailAlerts" {% if settings.email_alerts %}checked{% endif %} style="cursor: pointer;">
+          <label class="form-check-label fw-bold text-dark d-block" for="emailAlerts" style="cursor: pointer;">
             High-Fit Notification Alerts
           </label>
-          <div class="text-secondary small">Send immediate notification when a job with &gt;= 85% match is discovered.</div>
+          <div class="text-secondary small mt-1">Send immediate notification when a job with &gt;= 85% match is discovered.</div>
         </div>
 
-        <hr class="border-secondary my-4">
+        <hr class="my-4" style="border-color: #e2e8f0;">
 
-        <h5 class="fw-bold text-white mb-3">Matching Thresholds & CRM Follow-ups</h5>
+        <h5 class="fw-bold mb-3" style="color: #0f172a; font-family: 'Plus Jakarta Sans', sans-serif;">
+          Matching Thresholds &amp; CRM Follow-ups
+        </h5>
 
         <div class="mb-3">
-          <label class="form-label text-light small fw-medium">Minimum Match Threshold (%)</label>
-          <input type="number" name="min_match_threshold" class="form-control form-control-dark" min="40" max="100" value="{{ settings.min_match_threshold }}">
+          <label class="form-label text-dark small fw-bold">Minimum Match Threshold (%)</label>
+          <input type="number" name="min_match_threshold" class="form-control" style="border-color: #cbd5e1; border-radius: 8px;" min="40" max="100" value="{{ settings.min_match_threshold }}">
           <div class="text-secondary small mt-1">Jobs below this threshold will not trigger notifications.</div>
         </div>
 
         <div class="mb-4">
-          <label class="form-label text-light small fw-medium">CRM Follow-Up Reminder (Days)</label>
-          <input type="number" name="auto_followup_reminder_days" class="form-control form-control-dark" min="1" max="30" value="{{ settings.auto_followup_reminder_days }}">
+          <label class="form-label text-dark small fw-bold">CRM Follow-Up Reminder (Days)</label>
+          <input type="number" name="auto_followup_reminder_days" class="form-control" style="border-color: #cbd5e1; border-radius: 8px;" min="1" max="30" value="{{ settings.auto_followup_reminder_days }}">
           <div class="text-secondary small mt-1">Days after submitting an application before suggesting a recruiter follow-up note.</div>
         </div>
 
-        <hr class="border-secondary my-4">
+        <hr class="my-4" style="border-color: #e2e8f0;">
 
-        <h5 class="fw-bold text-white mb-3">Target Scraping Sources</h5>
+        <h5 class="fw-bold mb-3" style="color: #0f172a; font-family: 'Plus Jakarta Sans', sans-serif;">
+          Target Scraping Sources
+        </h5>
         <div class="d-flex flex-wrap gap-4 mb-4">
           <div class="form-check">
             <input class="form-check-input" type="checkbox" name="sources" value="LinkedIn" id="s_li" {% if 'LinkedIn' in settings.preferred_sources %}checked{% endif %}>
-            <label class="form-check-label text-light" for="s_li">LinkedIn</label>
+            <label class="form-check-label text-dark fw-medium" for="s_li">LinkedIn</label>
           </div>
           <div class="form-check">
             <input class="form-check-input" type="checkbox" name="sources" value="Naukri" id="s_nk" {% if 'Naukri' in settings.preferred_sources %}checked{% endif %}>
-            <label class="form-check-label text-light" for="s_nk">Naukri</label>
+            <label class="form-check-label text-dark fw-medium" for="s_nk">Naukri</label>
           </div>
           <div class="form-check">
             <input class="form-check-input" type="checkbox" name="sources" value="Indeed" id="s_in" {% if 'Indeed' in settings.preferred_sources %}checked{% endif %}>
-            <label class="form-check-label text-light" for="s_in">Indeed</label>
+            <label class="form-check-label text-dark fw-medium" for="s_in">Indeed</label>
           </div>
           <div class="form-check">
             <input class="form-check-input" type="checkbox" name="sources" value="RemoteOK" id="s_ro" {% if 'RemoteOK' in settings.preferred_sources %}checked{% endif %}>
-            <label class="form-check-label text-light" for="s_ro">RemoteOK</label>
+            <label class="form-check-label text-dark fw-medium" for="s_ro">RemoteOK</label>
           </div>
         </div>
 
-        <button type="submit" class="btn btn-primary w-100 py-2 fw-semibold">
+        <button type="submit" class="btn btn-primary w-100 py-2.5 fw-semibold rounded-pill" style="font-family: 'Plus Jakarta Sans', sans-serif;">
           <i class="bi bi-save me-1"></i> Save Automation Preferences
         </button>
       </form>

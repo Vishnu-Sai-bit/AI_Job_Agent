@@ -1,29 +1,42 @@
 {% extends "base.html" %}
 
-{% block title %}Learning Hub - AI Job Copilot{% endblock %}
+{% block title %}Learning Hub - AI JobAgent{% endblock %}
 
 {% block content %}
-<div class="mb-4 d-flex justify-content-between align-items-center flex-wrap gap-3">
-  <div>
-    <h2 class="fw-bold text-white mb-1">Learning Hub & Career Roadmaps</h2>
-    <p class="text-secondary mb-0">Structured learning pathways and capstone portfolio blueprints</p>
+<!-- Page Header -->
+<div class="d-flex justify-content-between align-items-center mb-4 flex-wrap gap-3">
+  <div class="d-flex align-items-center gap-3">
+    <div style="width: 44px; height: 44px; border-radius: 12px; background: linear-gradient(135deg, #6366f1 0%, #4f46e5 100%); display: flex; align-items: center; justify-content: center; color: #ffffff; box-shadow: 0 4px 12px rgba(99,102,241,0.25);">
+      <i class="bi bi-mortarboard-fill" style="font-size: 1.25rem;"></i>
+    </div>
+    <div>
+      <h2 class="fw-bold mb-1" style="color: #0f172a; font-family: 'Plus Jakarta Sans', sans-serif; font-size: 1.55rem; letter-spacing: -0.02em;">
+        Learning Hub &amp; Career Roadmaps
+      </h2>
+      <p class="text-secondary mb-0" style="font-size: 0.88rem;">
+        Structured skill acceleration pathways and capstone portfolio blueprints
+      </p>
+    </div>
   </div>
-  <a href="{{ url_for('career.career_intelligence') }}" class="btn btn-outline-secondary">
+
+  <a href="{{ url_for('career.career_intelligence') }}" class="btn btn-outline-secondary px-3 fw-semibold rounded-pill" style="font-family: 'Plus Jakarta Sans', sans-serif; font-size: 0.88rem; background: #ffffff; border-color: #cbd5e1; color: #334155;">
     <i class="bi bi-arrow-left me-1"></i> Market Skill Gaps
   </a>
 </div>
 
 <!-- Role Switcher Form -->
-<div class="card card-custom p-3 mb-4">
+<div class="card card-custom p-3 mb-4 border-0" style="border-radius: 16px; box-shadow: 0 2px 14px rgba(15,23,42,0.06); background: #ffffff;">
   <form method="POST" action="{{ url_for('career.learning') }}" class="row g-2 align-items-center">
     <div class="col-md-9">
       <div class="input-group">
-        <span class="input-group-text bg-dark border-secondary text-secondary"><i class="bi bi-mortarboard"></i></span>
-        <input type="text" name="target_role" class="form-control form-control-dark" placeholder="Target Role (e.g. Data Analyst)" value="{{ target_role }}">
+        <span class="input-group-text bg-light border-end-0 text-muted" style="border-color: #e2e8f0; border-radius: 10px 0 0 10px;">
+          <i class="bi bi-mortarboard"></i>
+        </span>
+        <input type="text" name="target_role" class="form-control border-start-0" style="border-color: #e2e8f0; border-radius: 0 10px 10px 0;" placeholder="Target Role (e.g. Data Analyst)" value="{{ target_role }}">
       </div>
     </div>
     <div class="col-md-3">
-      <button type="submit" class="btn btn-primary w-100">
+      <button type="submit" class="btn btn-primary w-100 fw-semibold rounded-3" style="font-family: 'Plus Jakarta Sans', sans-serif;">
         <i class="bi bi-gear-wide-connected me-1"></i> Generate Pathway
       </button>
     </div>
@@ -35,26 +48,32 @@
   <div class="row g-4">
     {% for rm in roadmap.roadmaps %}
       <div class="col-12">
-        <div class="card card-custom p-4">
+        <div class="card card-custom p-4 border-0" style="border-radius: 16px; box-shadow: 0 2px 14px rgba(15,23,42,0.06); background: #ffffff;">
           <div class="d-flex justify-content-between align-items-center mb-3 flex-wrap gap-2">
             <div>
-              <span class="badge bg-primary text-uppercase px-2 py-1 mb-1">Skill Accelerator</span>
-              <h4 class="text-white fw-bold mb-0">{{ rm.skill }}</h4>
+              <span class="badge rounded-pill px-2.5 py-1 mb-1 text-uppercase" style="background: #e0e7ff; color: #4338ca; font-weight: 700; font-size: 0.72rem;">
+                Skill Accelerator
+              </span>
+              <h4 class="fw-bold mb-0" style="color: #0f172a; font-family: 'Plus Jakarta Sans', sans-serif;">{{ rm.skill }}</h4>
             </div>
-            <span class="badge bg-dark border border-secondary text-info px-3 py-2 fs-6">
+            <span class="badge rounded-pill px-3 py-2" style="background: #f1f5f9; color: #0284c7; border: 1px solid #e2e8f0; font-size: 0.85rem; font-weight: 600;">
               <i class="bi bi-clock me-1"></i> {{ rm.timeframe }}
             </span>
           </div>
 
           <!-- Weekly Milestones -->
           <div class="mb-4">
-            <h6 class="text-light small fw-bold text-uppercase mb-3">Weekly Milestones:</h6>
+            <h6 class="text-uppercase fw-bold text-muted small mb-3" style="font-size: 0.75rem; letter-spacing: 0.05em;">
+              Weekly Milestones:
+            </h6>
             <div class="row g-3">
               {% for step in rm.weekly_plan %}
                 <div class="col-md-4">
-                  <div class="p-3 rounded bg-dark border border-secondary h-100">
-                    <span class="badge bg-secondary mb-2 small">{{ step.week }}</span>
-                    <h6 class="text-white fw-semibold small mb-1">{{ step.focus }}</h6>
+                  <div class="p-3 rounded-4 h-100" style="background: #f8fafc; border: 1px solid #e2e8f0;">
+                    <span class="badge rounded-pill mb-2 px-2 py-1" style="background: #e2e8f0; color: #334155; font-weight: 700; font-size: 0.72rem;">
+                      {{ step.week }}
+                    </span>
+                    <h6 class="fw-bold text-dark small mb-1" style="font-family: 'Plus Jakarta Sans', sans-serif;">{{ step.focus }}</h6>
                     <p class="text-secondary small mb-0">{{ step.task }}</p>
                   </div>
                 </div>
@@ -65,42 +84,44 @@
           <!-- Capstone Portfolio Project Blueprint -->
           {% if rm.portfolio_project_blueprint %}
             {% set bp = rm.portfolio_project_blueprint %}
-            <div class="p-3 rounded bg-black border border-primary-subtle mb-4">
+            <div class="p-4 rounded-4 mb-4" style="background: #f0fdf4; border: 1px solid #bbf7d0;">
               <div class="d-flex align-items-center gap-2 mb-2">
-                <i class="bi bi-folder-check text-primary fs-5"></i>
-                <h6 class="text-white fw-bold mb-0">Portfolio Project: {{ bp.title }}</h6>
+                <i class="bi bi-folder-check text-success fs-5"></i>
+                <h6 class="fw-bold mb-0" style="color: #14532d; font-family: 'Plus Jakarta Sans', sans-serif;">
+                  Portfolio Project: {{ bp.title }}
+                </h6>
               </div>
               <div class="text-secondary small mb-2">
-                <strong class="text-light">Recommended Dataset:</strong> {{ bp.recommended_dataset }}
+                <strong class="text-dark">Recommended Dataset:</strong> {{ bp.recommended_dataset }}
               </div>
               <div class="text-secondary small mb-2">
-                <strong class="text-light">Key Deliverables:</strong>
-                <ul class="mb-0 ps-3">
+                <strong class="text-dark">Key Deliverables:</strong>
+                <ul class="mb-0 ps-3 mt-1 text-secondary">
                   {% for deliv in bp.key_deliverables %}
                     <li>{{ deliv }}</li>
                   {% endfor %}
                 </ul>
               </div>
               <div class="text-secondary small">
-                <strong class="text-light">GitHub Blueprint:</strong> {{ bp.github_prompt }}
+                <strong class="text-dark">GitHub Blueprint:</strong> {{ bp.github_prompt }}
               </div>
             </div>
           {% endif %}
 
           <div class="row g-3">
             <div class="col-md-6">
-              <h6 class="text-light small fw-bold mb-2">Recommended Certifications:</h6>
+              <h6 class="text-muted small fw-bold text-uppercase mb-2" style="font-size: 0.75rem; letter-spacing: 0.05em;">Recommended Certifications:</h6>
               <div class="d-flex flex-wrap gap-2">
                 {% for cert in rm.recommended_certifications %}
-                  <span class="badge bg-info-subtle text-info">{{ cert }}</span>
+                  <span class="badge rounded-pill px-2.5 py-1" style="background: #e0f2fe; color: #0369a1; border: 1px solid #bae6fd; font-weight: 600;">{{ cert }}</span>
                 {% endfor %}
               </div>
             </div>
             <div class="col-md-6">
-              <h6 class="text-light small fw-bold mb-2">Free Learning Resources:</h6>
+              <h6 class="text-muted small fw-bold text-uppercase mb-2" style="font-size: 0.75rem; letter-spacing: 0.05em;">Free Learning Resources:</h6>
               <div class="d-flex flex-wrap gap-2">
                 {% for res in rm.free_learning_resources %}
-                  <span class="badge bg-secondary-subtle text-secondary">{{ res }}</span>
+                  <span class="badge rounded-pill px-2.5 py-1" style="background: #f1f5f9; color: #475569; border: 1px solid #e2e8f0; font-weight: 600;">{{ res }}</span>
                 {% endfor %}
               </div>
             </div>

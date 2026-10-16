@@ -1,55 +1,92 @@
 {% extends "base.html" %}
 
-{% block title %}Career Intelligence - AI Job Copilot{% endblock %}
+{% block title %}Career Intelligence - AI JobAgent{% endblock %}
 
 {% block content %}
-<div class="mb-4 d-flex justify-content-between align-items-center flex-wrap gap-3">
-  <div>
-    <h2 class="fw-bold text-white mb-1">Career Intelligence & Market Demand</h2>
-    <p class="text-secondary mb-0">Live market skill analysis for target role <strong class="text-light">{{ target_role }}</strong></p>
-  </div>
-  <a href="{{ url_for('career.learning') }}" class="btn btn-primary">
-    <i class="bi bi-journal-code me-1"></i> Open Learning Roadmaps
-  </a>
-</div>
-
-<!-- Readiness KPI Card -->
-<div class="row g-4 mb-4">
-  <div class="col-lg-4">
-    <div class="card card-custom p-4 h-100 text-center d-flex flex-column justify-content-center">
-      <span class="text-secondary small text-uppercase fw-semibold mb-2">Market Readiness Score</span>
-      <div class="display-3 fw-bold text-success mb-2">
-        {{ market_data.candidate_market_readiness }}%
-      </div>
-      <p class="text-secondary small mb-3">
-        Based on live demand across {{ market_data.total_jobs_analyzed }} verified job listings.
+<!-- Page Header -->
+<div class="d-flex justify-content-between align-items-center mb-4 flex-wrap gap-3">
+  <div class="d-flex align-items-center gap-3">
+    <div style="width: 44px; height: 44px; border-radius: 12px; background: linear-gradient(135deg, #0ea5e9 0%, #2563eb 100%); display: flex; align-items: center; justify-content: center; color: #ffffff; box-shadow: 0 4px 12px rgba(14,165,233,0.25);">
+      <i class="bi bi-speedometer2" style="font-size: 1.25rem;"></i>
+    </div>
+    <div>
+      <h2 class="fw-bold mb-1" style="color: #0f172a; font-family: 'Plus Jakarta Sans', sans-serif; font-size: 1.55rem; letter-spacing: -0.02em;">
+        Career Intelligence &amp; Market Demand
+      </h2>
+      <p class="text-secondary mb-0" style="font-size: 0.88rem;">
+        Live market skill analysis for target role <strong class="badge rounded-pill px-2.5 py-1 text-primary" style="background: #e0f2fe; border: 1px solid #bae6fd; font-size: 0.8rem;">{{ target_role }}</strong>
       </p>
-      <div class="progress mb-3" style="height: 10px; background-color: #334155;">
-        <div class="progress-bar bg-success" style="width: {{ market_data.candidate_market_readiness }}%;"></div>
-      </div>
-      <span class="badge bg-success-subtle text-success p-2 small">
-        <i class="bi bi-check2-circle me-1"></i> Highly Competitive Applicant Profile
-      </span>
     </div>
   </div>
 
+  <div class="d-flex align-items-center gap-2">
+    <a href="{{ url_for('career.learning', role=target_role) }}" class="btn btn-primary px-3 fw-semibold rounded-pill" style="font-family: 'Plus Jakarta Sans', sans-serif; font-size: 0.88rem;">
+      <i class="bi bi-journal-code me-1"></i> Open Learning Roadmaps
+    </a>
+    <a href="{{ url_for('jobs.index') }}" class="btn btn-outline-secondary px-3 fw-semibold rounded-pill" style="font-family: 'Plus Jakarta Sans', sans-serif; font-size: 0.88rem; background: #ffffff; border-color: #cbd5e1; color: #334155;">
+      <i class="bi bi-briefcase me-1"></i> Matched Jobs
+    </a>
+  </div>
+</div>
+
+<!-- Readiness KPI Card & Deficits -->
+<div class="row g-4 mb-4">
+  <!-- Left: Readiness Score Card -->
+  <div class="col-lg-4">
+    <div class="card card-custom p-4 h-100 text-center d-flex flex-column justify-content-between border-0" style="border-radius: 16px; box-shadow: 0 2px 14px rgba(15,23,42,0.06); background: #ffffff;">
+      <div>
+        <span class="text-uppercase fw-bold text-muted small" style="letter-spacing: 0.05em; font-size: 0.76rem;">
+          Market Readiness Score
+        </span>
+        <div class="my-3">
+          <span class="display-3 fw-bold" style="color: #10b981; font-family: 'Outfit', sans-serif; font-size: 3.8rem; line-height: 1;">
+            {{ market_data.candidate_market_readiness }}%
+          </span>
+        </div>
+        <p class="text-muted small mb-3">
+          Synthesized from live employer requirements across <strong class="text-dark">{{ market_data.total_jobs_analyzed }}</strong> active market listings.
+        </p>
+        <div class="progress mb-4" style="height: 10px; background-color: #f1f5f9; border-radius: 10px;">
+          <div class="progress-bar" style="width: {{ market_data.candidate_market_readiness }}%; background: linear-gradient(90deg, #10b981 0%, #059669 100%); border-radius: 10px;"></div>
+        </div>
+      </div>
+      <div>
+        <span class="badge w-100 p-2.5 rounded-pill" style="background: #ecfdf5; color: #047857; border: 1px solid #a7f3d0; font-size: 0.82rem; font-weight: 600;">
+          <i class="bi bi-check2-circle me-1 fs-6"></i> Highly Competitive Applicant Profile
+        </span>
+      </div>
+    </div>
+  </div>
+
+  <!-- Right: Priority Skill Deficits to Close -->
   <div class="col-lg-8">
-    <div class="card card-custom p-4 h-100">
-      <h5 class="fw-bold text-white mb-3">Priority Skill Deficits to Close</h5>
-      <p class="text-secondary small mb-3">
-        Skills highly requested by employers that will boost your candidacy:
+    <div class="card card-custom p-4 h-100 border-0" style="border-radius: 16px; box-shadow: 0 2px 14px rgba(15,23,42,0.06); background: #ffffff;">
+      <div class="d-flex justify-content-between align-items-center mb-1">
+        <h5 class="fw-bold mb-0" style="color: #0f172a; font-family: 'Plus Jakarta Sans', sans-serif; font-size: 1.15rem;">
+          Priority Skill Deficits to Close
+        </h5>
+        <span class="badge rounded-pill px-3 py-1.5" style="background: #fef2f2; color: #dc2626; border: 1px solid #fecaca; font-weight: 600; font-size: 0.78rem;">
+          Action Recommended
+        </span>
+      </div>
+      <p class="text-muted small mb-3">
+        In-demand skills identified in top job postings that will immediately increase your interview match rate:
       </p>
 
       <div class="row g-3">
         {% for gap in market_data.high_priority_gaps %}
           <div class="col-md-6">
-            <div class="p-3 rounded bg-dark border border-danger">
-              <div class="d-flex justify-content-between align-items-center mb-1">
-                <strong class="text-white">{{ gap.skill }}</strong>
-                <span class="badge bg-danger">HIGH GAP</span>
+            <div class="p-3 rounded-4 h-100 d-flex flex-column justify-content-between transition-all" style="background: #ffffff; border: 1px solid #fecdd3; border-top: 4px solid #f43f5e; box-shadow: 0 2px 8px rgba(244,63,94,0.05);">
+              <div>
+                <div class="d-flex justify-content-between align-items-center mb-1">
+                  <strong style="color: #0f172a; font-family: 'Plus Jakarta Sans', sans-serif; font-size: 0.98rem;">{{ gap.skill }}</strong>
+                  <span class="badge rounded-pill px-2 py-0.5" style="background: #fee2e2; color: #b91c1c; font-weight: 700; font-size: 0.7rem;">HIGH GAP</span>
+                </div>
+                <div class="text-muted small mb-3" style="font-size: 0.8rem;">
+                  In <strong class="text-dark">{{ gap.demand_percentage }}%</strong> of active listings ({{ gap.job_count }} jobs)
+                </div>
               </div>
-              <div class="text-secondary small mb-2">In {{ gap.demand_percentage }}% of active listings ({{ gap.job_count }} jobs)</div>
-              <a href="{{ url_for('career.learning', role=target_role) }}" class="btn btn-sm btn-outline-light w-100">
+              <a href="{{ url_for('career.learning', role=target_role) }}" class="btn btn-sm w-100 rounded-pill fw-semibold" style="background: #fff1f2; color: #be123c; border: 1px solid #fecdd3; font-size: 0.82rem;">
                 <i class="bi bi-mortarboard me-1"></i> Learn Roadmap
               </a>
             </div>
@@ -58,13 +95,17 @@
 
         {% for gap in market_data.medium_priority_gaps %}
           <div class="col-md-6">
-            <div class="p-3 rounded bg-dark border border-warning">
-              <div class="d-flex justify-content-between align-items-center mb-1">
-                <strong class="text-white">{{ gap.skill }}</strong>
-                <span class="badge bg-warning text-dark">MEDIUM</span>
+            <div class="p-3 rounded-4 h-100 d-flex flex-column justify-content-between transition-all" style="background: #ffffff; border: 1px solid #fde68a; border-top: 4px solid #f59e0b; box-shadow: 0 2px 8px rgba(245,158,11,0.05);">
+              <div>
+                <div class="d-flex justify-content-between align-items-center mb-1">
+                  <strong style="color: #0f172a; font-family: 'Plus Jakarta Sans', sans-serif; font-size: 0.98rem;">{{ gap.skill }}</strong>
+                  <span class="badge rounded-pill px-2 py-0.5" style="background: #fef3c7; color: #92400e; font-weight: 700; font-size: 0.7rem;">MEDIUM</span>
+                </div>
+                <div class="text-muted small mb-3" style="font-size: 0.8rem;">
+                  In <strong class="text-dark">{{ gap.demand_percentage }}%</strong> of active listings ({{ gap.job_count }} jobs)
+                </div>
               </div>
-              <div class="text-secondary small mb-2">In {{ gap.demand_percentage }}% of active listings ({{ gap.job_count }} jobs)</div>
-              <a href="{{ url_for('career.learning', role=target_role) }}" class="btn btn-sm btn-outline-light w-100">
+              <a href="{{ url_for('career.learning', role=target_role) }}" class="btn btn-sm w-100 rounded-pill fw-semibold" style="background: #fffbeb; color: #b45309; border: 1px solid #fde68a; font-size: 0.82rem;">
                 <i class="bi bi-mortarboard me-1"></i> Learn Roadmap
               </a>
             </div>
@@ -76,36 +117,59 @@
 </div>
 
 <!-- Market Demand Table -->
-<div class="card card-custom p-4">
-  <h5 class="fw-bold text-white mb-3">Top In-Demand Skills in Market</h5>
+<div class="card card-custom p-4 border-0" style="border-radius: 16px; box-shadow: 0 2px 14px rgba(15,23,42,0.06); background: #ffffff;">
+  <div class="d-flex justify-content-between align-items-center mb-3">
+    <div>
+      <h5 class="fw-bold mb-1" style="color: #0f172a; font-family: 'Plus Jakarta Sans', sans-serif; font-size: 1.15rem;">
+        Top In-Demand Skills in Market
+      </h5>
+      <span class="text-muted small">Real-time keyword frequency across employer requirements</span>
+    </div>
+    <span class="badge rounded-pill px-3 py-1.5" style="background: #f1f5f9; color: #334155; font-weight: 600; font-size: 0.8rem;">
+      <i class="bi bi-shield-check me-1"></i> Verified Alignment
+    </span>
+  </div>
+
   <div class="table-responsive">
-    <table class="table table-dark table-borderless align-middle mb-0">
+    <table class="table table-hover align-middle mb-0" style="border-collapse: separate; border-spacing: 0;">
       <thead>
-        <tr class="text-secondary small border-bottom border-secondary">
-          <th>Skill Keyword</th>
-          <th>Demand Frequency</th>
-          <th>Market Share</th>
-          <th>Candidate Status</th>
+        <tr style="background: #f8fafc; border-bottom: 2px solid #e2e8f0;">
+          <th class="py-3 px-3 text-muted text-uppercase small fw-bold" style="font-size: 0.75rem; letter-spacing: 0.05em; border-top-left-radius: 10px;">Skill Keyword</th>
+          <th class="py-3 px-3 text-muted text-uppercase small fw-bold" style="font-size: 0.75rem; letter-spacing: 0.05em;">Demand Frequency</th>
+          <th class="py-3 px-3 text-muted text-uppercase small fw-bold" style="font-size: 0.75rem; letter-spacing: 0.05em;">Market Share</th>
+          <th class="py-3 px-3 text-muted text-uppercase small fw-bold" style="font-size: 0.75rem; letter-spacing: 0.05em; border-top-right-radius: 10px;">Candidate Status</th>
         </tr>
       </thead>
       <tbody>
         {% for s in market_data.top_market_skills %}
-          <tr>
-            <td class="fw-medium text-white">{{ s.skill }}</td>
-            <td class="text-secondary">{{ s.job_count }} postings</td>
-            <td>
+          <tr style="border-bottom: 1px solid #f1f5f9; transition: background 0.15s ease;">
+            <td class="py-3 px-3">
+              <span class="fw-bold text-dark" style="font-family: 'Plus Jakarta Sans', sans-serif; font-size: 0.92rem;">
+                {{ s.skill }}
+              </span>
+            </td>
+            <td class="py-3 px-3 text-secondary" style="font-size: 0.88rem;">
+              {{ s.job_count }} postings
+            </td>
+            <td class="py-3 px-3">
               <div class="d-flex align-items-center gap-2">
-                <div class="progress flex-grow-1" style="height: 6px; background-color: #334155; width: 120px;">
-                  <div class="progress-bar bg-info" style="width: {{ s.demand_percentage }}%;"></div>
+                <div class="progress flex-grow-1" style="height: 8px; background-color: #f1f5f9; width: 130px; border-radius: 10px;">
+                  <div class="progress-bar" style="width: {{ s.demand_percentage }}%; background: linear-gradient(90deg, #0284c7 0%, #06b6d4 100%); border-radius: 10px;"></div>
                 </div>
-                <span class="small text-secondary">{{ s.demand_percentage }}%</span>
+                <span class="small fw-semibold text-secondary" style="font-family: 'Outfit', sans-serif; font-size: 0.85rem; width: 38px;">
+                  {{ s.demand_percentage }}%
+                </span>
               </div>
             </td>
-            <td>
+            <td class="py-3 px-3">
               {% if s.has_skill %}
-                <span class="badge bg-success-subtle text-success"><i class="bi bi-check me-1"></i>Verified in Resume</span>
+                <span class="badge rounded-pill px-2.5 py-1.5" style="background: #ecfdf5; color: #047857; border: 1px solid #a7f3d0; font-weight: 600; font-size: 0.78rem;">
+                  <i class="bi bi-check2-circle me-1"></i> Verified in Resume
+                </span>
               {% else %}
-                <span class="badge bg-warning-subtle text-warning"><i class="bi bi-exclamation me-1"></i>Skill Gap</span>
+                <span class="badge rounded-pill px-2.5 py-1.5" style="background: #fffbeb; color: #b45309; border: 1px solid #fde68a; font-weight: 600; font-size: 0.78rem;">
+                  <i class="bi bi-exclamation-triangle me-1"></i> Skill Gap
+                </span>
               {% endif %}
             </td>
           </tr>

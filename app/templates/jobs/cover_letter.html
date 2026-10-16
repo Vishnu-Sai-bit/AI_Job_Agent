@@ -1,37 +1,41 @@
 {% extends "base.html" %}
 
-{% block title %}Cover Letter: {{ job.title }} at {{ job.company }} - AI Job Copilot{% endblock %}
+{% block title %}Cover Letter: {{ job.title }} at {{ job.company }} - AI JobAgent{% endblock %}
 
 {% block content %}
 <div class="mb-4">
-  <div class="d-flex justify-content-between align-items-center flex-wrap gap-3 mb-3">
+  <div class="d-flex justify-content-between align-items-center flex-wrap gap-3 mb-4">
     <div>
-      <a href="{{ url_for('jobs.detail', job_id=job.id) }}" class="btn btn-outline-secondary btn-sm mb-2">
+      <a href="{{ url_for('jobs.detail', job_id=job.id) }}" class="btn btn-outline-secondary btn-sm mb-2 rounded-pill px-3" style="background: #ffffff; border-color: #cbd5e1; color: #334155;">
         <i class="bi bi-arrow-left me-1"></i> Back to {{ job.title }}
       </a>
-      <h2 class="fw-bold text-white mb-1">Tailored AI Cover Letter</h2>
-      <p class="text-secondary mb-0">Custom crafted for <strong class="text-light">{{ job.title }}</strong> at <strong class="text-primary">{{ job.company }}</strong></p>
+      <h2 class="fw-bold mb-1" style="color: #0f172a; font-family: 'Plus Jakarta Sans', sans-serif; font-size: 1.55rem; letter-spacing: -0.02em;">
+        Tailored AI Cover Letter
+      </h2>
+      <p class="text-secondary mb-0" style="font-size: 0.88rem;">
+        Custom crafted for <strong class="text-dark">{{ job.title }}</strong> at <strong class="text-primary">{{ job.company }}</strong>
+      </p>
     </div>
     <div class="d-flex gap-2">
-      <button class="btn btn-outline-info" onclick="copyCoverLetter()">
+      <button class="btn btn-outline-primary fw-semibold rounded-pill px-3" style="font-family: 'Plus Jakarta Sans', sans-serif;" onclick="copyCoverLetter()">
         <i class="bi bi-clipboard me-1"></i> Copy to Clipboard
       </button>
-      <button class="btn btn-primary" onclick="downloadCoverLetter()">
+      <button class="btn btn-primary fw-semibold rounded-pill px-3" style="font-family: 'Plus Jakarta Sans', sans-serif;" onclick="downloadCoverLetter()">
         <i class="bi bi-download me-1"></i> Download Letter (.txt)
       </button>
     </div>
   </div>
 
-  <div class="card card-custom p-4 p-md-5">
-    <!-- Letter Paper Style -->
-    <div id="coverLetterText" class="p-4 rounded bg-dark border border-secondary text-light" style="font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; line-height: 1.8;">
-      <div class="mb-4 text-secondary small">
-        <strong class="text-white d-block fs-5">{{ candidate.candidate_name }}</strong>
-        {{ candidate.email }} | {{ candidate.phone }} | {{ candidate.preferred_location }}
+  <div class="card card-custom p-4 p-md-5 border-0" style="border-radius: 16px; box-shadow: 0 4px 20px rgba(15,23,42,0.06); background: #ffffff;">
+    <!-- Elegant Stationery Letter Paper Style -->
+    <div id="coverLetterText" class="p-4 p-md-5 rounded-4" style="background: #fdfdfd; border: 1px solid #e2e8f0; font-family: 'Inter', -apple-system, sans-serif; line-height: 1.85; color: #1e293b; box-shadow: inset 0 2px 8px rgba(0,0,0,0.02);">
+      <div class="mb-4 pb-3 border-bottom" style="border-color: #e2e8f0 !important;">
+        <strong class="d-block fs-5 text-dark" style="font-family: 'Plus Jakarta Sans', sans-serif; letter-spacing: -0.01em;">{{ candidate.candidate_name }}</strong>
+        <span class="text-muted small">{{ candidate.email }} | {{ candidate.phone }} | {{ candidate.preferred_location }}</span>
       </div>
 
       <div class="mb-4">
-        <strong>Subject:</strong> {{ cover_letter.subject or 'Application for ' ~ job.title ~ ' - ' ~ candidate.candidate_name }}
+        <strong class="text-dark">Subject:</strong> {{ cover_letter.subject or 'Application for ' ~ job.title ~ ' - ' ~ candidate.candidate_name }}
       </div>
 
       <div class="mb-4">
@@ -52,9 +56,9 @@
         {{ cover_letter.conclusion }}
       </p>
 
-      <div>
+      <div class="mt-4 pt-2">
         <p class="mb-1">{{ cover_letter.sign_off or 'Sincerely,' }}</p>
-        <strong class="text-white">{{ candidate.candidate_name }}</strong>
+        <strong class="text-dark" style="font-family: 'Plus Jakarta Sans', sans-serif;">{{ candidate.candidate_name }}</strong>
       </div>
     </div>
   </div>

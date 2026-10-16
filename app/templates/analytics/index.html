@@ -1,50 +1,111 @@
 {% extends "base.html" %}
 
-{% block title %}Career Analytics - AI Job Copilot{% endblock %}
+{% block title %}Career Analytics - AI JobAgent{% endblock %}
 
 {% block content %}
-<div class="mb-4">
-  <h2 class="fw-bold text-white mb-1">Career & Hiring Analytics</h2>
-  <p class="text-secondary mb-0">Conversion funnel, match metrics, and diagnostic ATS distribution</p>
+<!-- Page Header -->
+<div class="d-flex justify-content-between align-items-center mb-4 flex-wrap gap-3">
+  <div class="d-flex align-items-center gap-3">
+    <div style="width: 44px; height: 44px; border-radius: 12px; background: linear-gradient(135deg, #4f46e5 0%, #2563eb 100%); display: flex; align-items: center; justify-content: center; color: #ffffff; box-shadow: 0 4px 12px rgba(79,70,229,0.25);">
+      <i class="bi bi-bar-chart-line-fill" style="font-size: 1.25rem;"></i>
+    </div>
+    <div>
+      <h2 class="fw-bold mb-1" style="color: #0f172a; font-family: 'Plus Jakarta Sans', sans-serif; font-size: 1.55rem; letter-spacing: -0.02em;">
+        Career &amp; Hiring Analytics
+      </h2>
+      <p class="text-secondary mb-0" style="font-size: 0.88rem;">
+        Conversion funnel, match metrics, and diagnostic ATS distribution
+      </p>
+    </div>
+  </div>
+
+  <div class="d-flex align-items-center gap-2">
+    <a href="{{ url_for('jobs.index') }}" class="btn btn-primary px-3 fw-semibold rounded-pill" style="font-family: 'Plus Jakarta Sans', sans-serif; font-size: 0.88rem;">
+      <i class="bi bi-briefcase-fill me-1"></i> Explore Jobs
+    </a>
+    <a href="{{ url_for('resumes.analyze') }}" class="btn btn-outline-secondary px-3 fw-semibold rounded-pill" style="font-family: 'Plus Jakarta Sans', sans-serif; font-size: 0.88rem; background: #ffffff; border-color: #cbd5e1; color: #334155;">
+      <i class="bi bi-pie-chart me-1"></i> Full ATS Report
+    </a>
+  </div>
 </div>
 
 <!-- Funnel Breakdown Card -->
-<div class="card card-custom p-4 mb-4">
-  <h5 class="fw-bold text-white mb-3">Application Pipeline Funnel</h5>
-  <div class="row g-3 text-center">
-    <div class="col-sm">
-      <div class="p-3 rounded bg-dark border border-secondary">
-        <span class="text-secondary small fw-medium">1. Saved</span>
-        <h3 class="text-white fw-bold my-1">{{ stage_counts.saved }}</h3>
-        <span class="text-secondary small">Pipeline Entry</span>
+<div class="card card-custom p-4 mb-4 border-0" style="border-radius: 16px; box-shadow: 0 2px 14px rgba(15,23,42,0.06); background: #ffffff;">
+  <div class="d-flex justify-content-between align-items-center mb-3">
+    <div>
+      <h5 class="fw-bold mb-1" style="color: #0f172a; font-family: 'Plus Jakarta Sans', sans-serif; font-size: 1.15rem;">
+        Application Pipeline Funnel
+      </h5>
+      <span class="text-muted small">Tracking your job search momentum across 5 recruitment stages</span>
+    </div>
+    <span class="badge rounded-pill px-3 py-2" style="background: #f1f5f9; color: #475569; font-weight: 600; font-size: 0.8rem;">
+      <i class="bi bi-funnel me-1"></i> Active Pipeline
+    </span>
+  </div>
+
+  <div class="row g-3">
+    <!-- 1. Saved -->
+    <div class="col-6 col-md">
+      <div class="p-3 rounded-4 h-100 text-center transition-all" style="background: #f8fafc; border: 1px solid #e2e8f0; border-top: 4px solid #6366f1;">
+        <span class="badge rounded-pill mb-2 px-2.5 py-1" style="background: rgba(99,102,241,0.12); color: #4f46e5; font-weight: 600; font-size: 0.75rem;">
+          1. Saved
+        </span>
+        <h3 class="fw-bold my-1" style="color: #0f172a; font-family: 'Outfit', sans-serif; font-size: 2.1rem; line-height: 1.1;">
+          {{ stage_counts.saved }}
+        </h3>
+        <span class="text-muted small fw-medium" style="font-size: 0.78rem;">Pipeline Entry</span>
       </div>
     </div>
-    <div class="col-sm">
-      <div class="p-3 rounded bg-dark border border-secondary">
-        <span class="text-info small fw-medium">2. Applied</span>
-        <h3 class="text-info fw-bold my-1">{{ stage_counts.applied }}</h3>
-        <span class="text-secondary small">Submitted</span>
+
+    <!-- 2. Applied -->
+    <div class="col-6 col-md">
+      <div class="p-3 rounded-4 h-100 text-center transition-all" style="background: #f0f9ff; border: 1px solid #bae6fd; border-top: 4px solid #0284c7;">
+        <span class="badge rounded-pill mb-2 px-2.5 py-1" style="background: rgba(2,132,199,0.15); color: #0284c7; font-weight: 600; font-size: 0.75rem;">
+          2. Applied
+        </span>
+        <h3 class="fw-bold my-1" style="color: #0284c7; font-family: 'Outfit', sans-serif; font-size: 2.1rem; line-height: 1.1;">
+          {{ stage_counts.applied }}
+        </h3>
+        <span class="text-muted small fw-medium" style="font-size: 0.78rem;">Submitted</span>
       </div>
     </div>
-    <div class="col-sm">
-      <div class="p-3 rounded bg-dark border border-secondary">
-        <span class="text-warning small fw-medium">3. Interview</span>
-        <h3 class="text-warning fw-bold my-1">{{ stage_counts.interview }}</h3>
-        <span class="text-secondary small">Screening / Technical</span>
+
+    <!-- 3. Interview -->
+    <div class="col-6 col-md">
+      <div class="p-3 rounded-4 h-100 text-center transition-all" style="background: #fffbeb; border: 1px solid #fde68a; border-top: 4px solid #f59e0b;">
+        <span class="badge rounded-pill mb-2 px-2.5 py-1" style="background: rgba(245,158,11,0.15); color: #b45309; font-weight: 600; font-size: 0.75rem;">
+          3. Interview
+        </span>
+        <h3 class="fw-bold my-1" style="color: #b45309; font-family: 'Outfit', sans-serif; font-size: 2.1rem; line-height: 1.1;">
+          {{ stage_counts.interview }}
+        </h3>
+        <span class="text-muted small fw-medium" style="font-size: 0.78rem;">Screening / Tech</span>
       </div>
     </div>
-    <div class="col-sm">
-      <div class="p-3 rounded bg-dark border border-secondary">
-        <span class="text-success small fw-medium">4. Offer</span>
-        <h3 class="text-success fw-bold my-1">{{ stage_counts.offer }}</h3>
-        <span class="text-secondary small">Final Offer</span>
+
+    <!-- 4. Offer -->
+    <div class="col-6 col-md">
+      <div class="p-3 rounded-4 h-100 text-center transition-all" style="background: #ecfdf5; border: 1px solid #a7f3d0; border-top: 4px solid #10b981;">
+        <span class="badge rounded-pill mb-2 px-2.5 py-1" style="background: rgba(16,185,129,0.15); color: #047857; font-weight: 600; font-size: 0.75rem;">
+          4. Offer
+        </span>
+        <h3 class="fw-bold my-1" style="color: #047857; font-family: 'Outfit', sans-serif; font-size: 2.1rem; line-height: 1.1;">
+          {{ stage_counts.offer }}
+        </h3>
+        <span class="text-muted small fw-medium" style="font-size: 0.78rem;">Final Offer</span>
       </div>
     </div>
-    <div class="col-sm">
-      <div class="p-3 rounded bg-dark border border-secondary">
-        <span class="text-danger small fw-medium">5. Rejected</span>
-        <h3 class="text-danger fw-bold my-1">{{ stage_counts.rejected }}</h3>
-        <span class="text-secondary small">Archived</span>
+
+    <!-- 5. Rejected -->
+    <div class="col-6 col-md">
+      <div class="p-3 rounded-4 h-100 text-center transition-all" style="background: #fff1f2; border: 1px solid #fecdd3; border-top: 4px solid #f43f5e;">
+        <span class="badge rounded-pill mb-2 px-2.5 py-1" style="background: rgba(244,63,94,0.12); color: #be123c; font-weight: 600; font-size: 0.75rem;">
+          5. Rejected
+        </span>
+        <h3 class="fw-bold my-1" style="color: #be123c; font-family: 'Outfit', sans-serif; font-size: 2.1rem; line-height: 1.1;">
+          {{ stage_counts.rejected }}
+        </h3>
+        <span class="text-muted small fw-medium" style="font-size: 0.78rem;">Archived</span>
       </div>
     </div>
   </div>
@@ -53,36 +114,56 @@
 <div class="row g-4">
   <!-- Match Distribution -->
   <div class="col-lg-6">
-    <div class="card card-custom p-4 h-100">
-      <h5 class="fw-bold text-white mb-3">Job Match Distribution ({{ total_jobs }} Jobs)</h5>
+    <div class="card card-custom p-4 h-100 border-0" style="border-radius: 16px; box-shadow: 0 2px 14px rgba(15,23,42,0.06); background: #ffffff;">
+      <div class="d-flex justify-content-between align-items-center mb-3">
+        <h5 class="fw-bold mb-0" style="color: #0f172a; font-family: 'Plus Jakarta Sans', sans-serif; font-size: 1.15rem;">
+          Job Match Distribution
+        </h5>
+        <span class="badge rounded-pill px-3 py-1.5" style="background: #f1f5f9; color: #334155; font-weight: 600; font-size: 0.8rem;">
+          {{ total_jobs }} Jobs Total
+        </span>
+      </div>
+      <p class="text-muted small mb-4">Compatibility classification of candidate profile against available opportunities</p>
       
+      <!-- High Match -->
       <div class="mb-4">
-        <div class="d-flex justify-content-between small text-light mb-1">
-          <span>High Match (&gt;= 80%)</span>
-          <span class="fw-bold text-success">{{ high_match }} jobs</span>
+        <div class="d-flex justify-content-between small mb-1.5" style="font-size: 0.88rem;">
+          <span class="fw-semibold text-dark d-flex align-items-center gap-1.5">
+            <span style="width: 8px; height: 8px; border-radius: 50%; background: #10b981; display: inline-block;"></span>
+            High Match (&gt;= 80%)
+          </span>
+          <span class="fw-bold" style="color: #059669; font-family: 'Outfit', sans-serif;">{{ high_match }} jobs</span>
         </div>
-        <div class="progress" style="height: 10px; background-color: #334155;">
-          <div class="progress-bar bg-success" style="width: {{ (high_match / (total_jobs or 1)) * 100 }}%;"></div>
+        <div class="progress" style="height: 10px; background-color: #f1f5f9; border-radius: 10px;">
+          <div class="progress-bar" style="width: {{ (high_match / (total_jobs or 1)) * 100 }}%; background: linear-gradient(90deg, #10b981 0%, #059669 100%); border-radius: 10px;"></div>
         </div>
       </div>
 
+      <!-- Moderate Match -->
       <div class="mb-4">
-        <div class="d-flex justify-content-between small text-light mb-1">
-          <span>Moderate Match (60% - 79%)</span>
-          <span class="fw-bold text-warning">{{ med_match }} jobs</span>
+        <div class="d-flex justify-content-between small mb-1.5" style="font-size: 0.88rem;">
+          <span class="fw-semibold text-dark d-flex align-items-center gap-1.5">
+            <span style="width: 8px; height: 8px; border-radius: 50%; background: #f59e0b; display: inline-block;"></span>
+            Moderate Match (60% - 79%)
+          </span>
+          <span class="fw-bold" style="color: #d97706; font-family: 'Outfit', sans-serif;">{{ med_match }} jobs</span>
         </div>
-        <div class="progress" style="height: 10px; background-color: #334155;">
-          <div class="progress-bar bg-warning" style="width: {{ (med_match / (total_jobs or 1)) * 100 }}%;"></div>
+        <div class="progress" style="height: 10px; background-color: #f1f5f9; border-radius: 10px;">
+          <div class="progress-bar" style="width: {{ (med_match / (total_jobs or 1)) * 100 }}%; background: linear-gradient(90deg, #f59e0b 0%, #d97706 100%); border-radius: 10px;"></div>
         </div>
       </div>
 
-      <div class="mb-4">
-        <div class="d-flex justify-content-between small text-light mb-1">
-          <span>Low Match (&lt; 60%)</span>
-          <span class="fw-bold text-danger">{{ low_match }} jobs</span>
+      <!-- Low Match -->
+      <div class="mb-2">
+        <div class="d-flex justify-content-between small mb-1.5" style="font-size: 0.88rem;">
+          <span class="fw-semibold text-dark d-flex align-items-center gap-1.5">
+            <span style="width: 8px; height: 8px; border-radius: 50%; background: #f43f5e; display: inline-block;"></span>
+            Low Match (&lt; 60%)
+          </span>
+          <span class="fw-bold" style="color: #e11d48; font-family: 'Outfit', sans-serif;">{{ low_match }} jobs</span>
         </div>
-        <div class="progress" style="height: 10px; background-color: #334155;">
-          <div class="progress-bar bg-danger" style="width: {{ (low_match / (total_jobs or 1)) * 100 }}%;"></div>
+        <div class="progress" style="height: 10px; background-color: #f1f5f9; border-radius: 10px;">
+          <div class="progress-bar" style="width: {{ (low_match / (total_jobs or 1)) * 100 }}%; background: linear-gradient(90deg, #f43f5e 0%, #e11d48 100%); border-radius: 10px;"></div>
         </div>
       </div>
     </div>
@@ -90,18 +171,25 @@
 
   <!-- ATS Component Weighting -->
   <div class="col-lg-6">
-    <div class="card card-custom p-4 h-100">
-      <h5 class="fw-bold text-white mb-3">ATS Score Contribution</h5>
-      <p class="text-secondary small mb-3">Total Score: <strong class="text-success">{{ candidate.ats_score }}%</strong></p>
+    <div class="card card-custom p-4 h-100 border-0" style="border-radius: 16px; box-shadow: 0 2px 14px rgba(15,23,42,0.06); background: #ffffff;">
+      <div class="d-flex justify-content-between align-items-center mb-2">
+        <h5 class="fw-bold mb-0" style="color: #0f172a; font-family: 'Plus Jakarta Sans', sans-serif; font-size: 1.15rem;">
+          ATS Score Contribution
+        </h5>
+        <span class="badge rounded-pill px-3 py-1.5" style="background: #ecfdf5; color: #059669; border: 1px solid #a7f3d0; font-weight: 700; font-size: 0.85rem; font-family: 'Outfit', sans-serif;">
+          Score: {{ candidate.ats_score }}%
+        </span>
+      </div>
+      <p class="text-muted small mb-4">Breakdown of resume algorithmic screening parameters</p>
 
       {% for key, val in ats_breakdown.items() %}
         <div class="mb-3">
-          <div class="d-flex justify-content-between small text-light mb-1">
-            <span class="text-capitalize">{{ key.replace('_', ' ') }}</span>
-            <span class="fw-bold">{{ val }} pts</span>
+          <div class="d-flex justify-content-between small mb-1.5" style="font-size: 0.85rem;">
+            <span class="fw-semibold text-dark text-capitalize">{{ key.replace('_', ' ') }}</span>
+            <span class="fw-bold text-primary" style="font-family: 'Outfit', sans-serif;">{{ val }} pts</span>
           </div>
-          <div class="progress" style="height: 6px; background-color: #334155;">
-            <div class="progress-bar bg-primary" style="width: {{ (val / 30) * 100 }}%;"></div>
+          <div class="progress" style="height: 7px; background-color: #f1f5f9; border-radius: 10px;">
+            <div class="progress-bar" style="width: {{ (val / 30) * 100 }}%; background: linear-gradient(90deg, #3b82f6 0%, #6366f1 100%); border-radius: 10px;"></div>
           </div>
         </div>
       {% endfor %}

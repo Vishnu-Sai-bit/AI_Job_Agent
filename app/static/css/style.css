@@ -22,7 +22,7 @@
    Font:         Inter, sans-serif
    ========================================================== */
 
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Outfit:wght@400;500;600;700;800;900&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap');
 
 /* ── CSS Custom Properties (Official Design System Token Palette) ── */
 :root {
@@ -143,6 +143,11 @@
   --shadow-card: 0 2px 12px rgba(15,23,42,.06), 0 1px 3px rgba(15,23,42,.04);
   --shadow-glow: 0 4px 20px rgba(30,122,227,.25);
 
+  /* Typography Families */
+  --font-sans:    'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  --font-heading: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  --font-display: 'Outfit', 'Plus Jakarta Sans', sans-serif;
+
   /* Typography Scale Tokens (Official System Base Typography) */
   --font-t1-size: 36px;
   --font-t1-lh:   40px;
@@ -201,6 +206,7 @@ html, body {
 /* ── Official System Base Typography ─────────────────────── */
 /* T1 — Title 1 (36px / 40px, Bold 700) */
 h1, .h1, .t1 {
+  font-family: var(--font-heading);
   font-size: var(--font-t1-size);
   line-height: var(--font-t1-lh);
   font-weight: var(--font-t1-wt);
@@ -210,6 +216,7 @@ h1, .h1, .t1 {
 
 /* T2 — Title 2 (28px / 32px, Bold 700) */
 h2, .h2, .t2 {
+  font-family: var(--font-heading);
   font-size: var(--font-t2-size);
   line-height: var(--font-t2-lh);
   font-weight: var(--font-t2-wt);
@@ -219,6 +226,7 @@ h2, .h2, .t2 {
 
 /* T3 — Title 3 (24px / 28px, Bold 700) */
 h3, .h3, .t3 {
+  font-family: var(--font-heading);
   font-size: var(--font-t3-size);
   line-height: var(--font-t3-lh);
   font-weight: var(--font-t3-wt);
@@ -228,6 +236,7 @@ h3, .h3, .t3 {
 
 /* T4 — Title 4 (18px / 24px, Semibold 600) */
 h4, .h4, .t4 {
+  font-family: var(--font-heading);
   font-size: var(--font-t4-size);
   line-height: var(--font-t4-lh);
   font-weight: var(--font-t4-wt);
@@ -237,6 +246,7 @@ h4, .h4, .t4 {
 
 /* T5 — Title 5 (14px / 20px, Semibold 600) */
 h5, .h5, .t5 {
+  font-family: var(--font-heading);
   font-size: var(--font-t5-size);
   line-height: var(--font-t5-lh);
   font-weight: var(--font-t5-wt);
@@ -245,10 +255,17 @@ h5, .h5, .t5 {
 
 /* T6 — Title 6 (12px / 16px, Semibold 600) */
 h6, .h6, .t6 {
+  font-family: var(--font-heading);
   font-size: var(--font-t6-size);
   line-height: var(--font-t6-lh);
   font-weight: var(--font-t6-wt);
   color: var(--text-secondary);
+}
+
+/* High-Impact Stat / KPI Display Typography (Outfit) */
+.stat-value, .display-1, .display-2, .display-3, .display-4,
+.kpi-number, .score-value, .fit-score-number, .funnel-number {
+  font-family: var(--font-display);
 }
 
 /* P1 — Body Large (16px / 24px, Regular 400 / Medium 500) */
@@ -3307,19 +3324,22 @@ p, .p2 {
   padding: 10px 14px;
   border-radius: 12px;
   color: #94a3b8;
+  font-family: var(--font-heading);
   font-size: 0.88rem;
   font-weight: 500;
   text-decoration: none;
   transition: all 0.15s ease;
+  letter-spacing: -0.01em;
 }
 .mockai-nav-link:hover {
   color: #ffffff;
   background: rgba(255, 255, 255, 0.06);
 }
 .mockai-nav-link.active {
-  background: rgba(124, 58, 237, 0.2);
-  color: #c4b5fd !important;
+  background: linear-gradient(90deg, rgba(37, 99, 235, 0.22) 0%, rgba(99, 102, 241, 0.12) 100%);
+  color: #93c5fd !important;
   font-weight: 600;
+  box-shadow: inset 3px 0 0 #3b82f6;
 }
 .mockai-nav-icon {
   font-size: 1.15rem;
