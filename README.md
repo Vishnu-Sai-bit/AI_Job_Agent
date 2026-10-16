@@ -7,6 +7,8 @@
 
 An advanced, MNC-grade enterprise job agent that parses resumes, calculates ATS matching scores, queries multiple global job search engines, automatically identifies skill gaps, constructs visual learning roadmaps, and provides a suite of generative AI career acceleration tools.
 
+> 📖 **Full Technical Documentation**: For the exhaustive architecture breakdown, dual-mode matching rules, multi-tier AI fallback, batch loader mechanics, and API references, see [DOCUMENTATION.md](DOCUMENTATION.md).
+
 ---
 
 ## 🎥 Platform Walkthrough & Architecture Overview
