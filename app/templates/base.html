@@ -109,20 +109,16 @@
   <!-- ── App Layout ─────────────────────────────────────── -->
   <div class="d-flex" style="min-height: calc(100vh - 60px);">
 
-    <!-- Left Sidebar (Desktop - Taurus Smart System) -->
+    <!-- Left Sidebar (Desktop - MockAI Navigation) -->
     <aside class="sidebar d-none d-md-flex flex-column justify-content-between" id="appSidebar">
       <!-- Header with Brand & Circular Toggle Button -->
       <div class="sidebar-header">
         <div class="sidebar-brand-wrapper d-flex align-items-center gap-2 overflow-hidden">
-          <div class="sidebar-logo-icon">
-            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-              <path d="M4 4C6 8 8 9 12 9C16 9 18 8 20 4C19 11 16 13 12 13C8 13 5 11 4 4Z" fill="#8B5CF6"/>
-              <path d="M7 12L12 21L17 12C14.5 13.5 9.5 13.5 7 12Z" fill="#A78BFA"/>
-            </svg>
+          <div class="sidebar-logo-icon" style="background: linear-gradient(135deg, #7c3aed 0%, #6366f1 100%); width: 32px; height: 32px; border-radius: 9px; display: flex; align-items: center; justify-content: center; flex-shrink: 0;">
+            <i class="bi bi-stars text-white" style="font-size: 1.05rem;"></i>
           </div>
           <div class="sidebar-brand-text d-flex flex-column" style="line-height: 1.15;">
-            <span class="fw-bold text-white fs-6" style="letter-spacing: -0.01em;">Taurus</span>
-            <span class="text-secondary" style="font-size: 0.62rem; font-weight: 700; letter-spacing: 0.08em;">SMART SYSTEM</span>
+            <span class="fw-bold text-white fs-6" style="letter-spacing: -0.01em;">mockai</span>
           </div>
         </div>
         <button type="button" class="sidebar-toggle-btn" id="sidebarToggleBtn" title="Collapse / Expand Sidebar">
@@ -130,212 +126,108 @@
         </button>
       </div>
 
-      <!-- Scrollable Navigation Tree Container -->
-      <div class="sidebar-scrollable">
-        <!-- 1. Top-Level Dashboard Item (Vibrant Violet Pill) -->
-        <div class="sidebar-item-container mb-3">
-          <a href="{{ url_for('main.dashboard') }}" class="sidebar-pill-active" title="Dashboard">
-            <div class="sidebar-pill-icon">
-              <i class="bi bi-grid-fill"></i>
-            </div>
-            <span class="sidebar-pill-label">Dashboard</span>
-          </a>
+      <!-- Scrollable Navigation Container -->
+      <div class="sidebar-scrollable px-2">
+        <!-- Search Input Capsule -->
+        <div class="sidebar-search-box">
+          <i class="bi bi-search text-muted" style="font-size: 0.8rem;"></i>
+          <input type="text" placeholder="Search..." aria-label="Search">
+          <span class="sidebar-search-kbd">⌘/</span>
         </div>
 
-        <!-- 2. Bank Profile / Resume Coordinates Group -->
-        <div class="sidebar-group-item">
-          <div class="sidebar-parent-label" title="Bank Profile">
-            <i class="bi bi-bank parent-icon"></i>
-            <span class="parent-text">Bank Profile</span>
-          </div>
-          <ul class="sidebar-tree">
-            <li class="sidebar-tree-item">
-              <a href="{{ url_for('resumes.index') }}" class="sidebar-tree-link {% if active_tab in ['step_upload', 'resumes'] and request.endpoint == 'resumes.index' %}active{% endif %}" title="Bank Information">
-                <i class="bi bi-card-heading tree-icon"></i>
-                <span class="tree-text">Bank Information</span>
-              </a>
-            </li>
-            <li class="sidebar-tree-item">
-              <a href="{{ url_for('resumes.analyze') }}" class="sidebar-tree-link {% if active_tab in ['step_ats', 'ats_report', 'resume_analysis'] and request.endpoint == 'resumes.analyze' %}active{% endif %}" title="Bank Products">
-                <i class="bi bi-briefcase tree-icon"></i>
-                <span class="tree-text">Bank Products</span>
-              </a>
-            </li>
-          </ul>
+        <!-- 7 Primary Menu Items (Exact MockAI Mockup) -->
+        <ul class="mockai-nav-list">
+          <!-- 1. Dashboard -->
+          <li>
+            <a href="{{ url_for('main.dashboard') }}"
+               class="mockai-nav-link {% if request.endpoint in ['main.dashboard', 'dashboard.index'] %}active{% endif %}"
+               title="Dashboard">
+              <span class="mockai-nav-icon"><i class="bi bi-grid-fill"></i></span>
+              <span class="mockai-nav-label">Dashboard</span>
+            </a>
+          </li>
 
-          <!-- Flyout menu for collapsed state -->
-          <div class="sidebar-flyout">
-            <div class="sidebar-flyout-tooltip">Bank Profile</div>
-            <div class="sidebar-flyout-card">
-              <ul class="sidebar-tree">
-                <li class="sidebar-tree-item">
-                  <a href="{{ url_for('resumes.index') }}" class="sidebar-tree-link">
-                    <i class="bi bi-card-heading tree-icon"></i>
-                    <span>Bank Information</span>
-                  </a>
-                </li>
-                <li class="sidebar-tree-item">
-                  <a href="{{ url_for('resumes.analyze') }}" class="sidebar-tree-link">
-                    <i class="bi bi-briefcase tree-icon"></i>
-                    <span>Bank Products</span>
-                  </a>
-                </li>
-              </ul>
-            </div>
+          <!-- 2. Mock Interviews -->
+          <li>
+            <a href="{{ url_for('interviews.index') }}"
+               class="mockai-nav-link {% if request.endpoint in ['interviews.index', 'interviews.session', 'interviews.prep'] or active_tab == 'interviews' %}active{% endif %}"
+               title="Mock Interviews">
+              <span class="mockai-nav-icon"><i class="bi bi-person-video"></i></span>
+              <span class="mockai-nav-label">Mock Interviews</span>
+            </a>
+          </li>
+
+          <!-- 3. Resume Analyzer -->
+          <li>
+            <a href="{{ url_for('resumes.index') }}"
+               class="mockai-nav-link {% if request.endpoint in ['resumes.index', 'resumes.analyze'] or active_tab in ['resumes', 'step_upload', 'ats_report'] %}active{% endif %}"
+               title="Resume Analyzer">
+              <span class="mockai-nav-icon"><i class="bi bi-file-earmark-text-fill"></i></span>
+              <span class="mockai-nav-label">Resume Analyzer</span>
+            </a>
+          </li>
+
+          <!-- 4. Jobs -->
+          <li>
+            <a href="{{ url_for('jobs.index') }}"
+               class="mockai-nav-link {% if request.endpoint in ['jobs.index', 'job_matching.detail'] or active_tab in ['jobs', 'job_matching'] %}active{% endif %}"
+               title="Jobs">
+              <span class="mockai-nav-icon"><i class="bi bi-briefcase-fill"></i></span>
+              <span class="mockai-nav-label">Jobs</span>
+            </a>
+          </li>
+
+          <!-- 5. Progress -->
+          <li>
+            <a href="{{ url_for('career.career_intelligence') }}"
+               class="mockai-nav-link {% if request.endpoint in ['career.career_intelligence', 'learning_hub.index', 'applications.index'] or active_tab in ['career', 'progress', 'applications'] %}active{% endif %}"
+               title="Progress">
+              <span class="mockai-nav-icon"><i class="bi bi-clock-history"></i></span>
+              <span class="mockai-nav-label">Progress</span>
+            </a>
+          </li>
+
+          <!-- 6. Question -->
+          <li>
+            <a href="{{ url_for('assistant.index') }}"
+               class="mockai-nav-link {% if request.endpoint in ['assistant.index', 'assistant.chat'] or active_tab in ['assistant', 'question'] %}active{% endif %}"
+               title="Question">
+              <span class="mockai-nav-icon"><i class="bi bi-patch-question-fill"></i></span>
+              <span class="mockai-nav-label">Question</span>
+            </a>
+          </li>
+
+          <!-- 7. Insights -->
+          <li>
+            <a href="{{ url_for('analytics.index') }}"
+               class="mockai-nav-link {% if request.endpoint in ['analytics.index', 'main.skills_insights'] or active_tab in ['analytics', 'insights', 'skills_insights'] %}active{% endif %}"
+               title="Insights">
+              <span class="mockai-nav-icon"><i class="bi bi-lightbulb-fill"></i></span>
+              <span class="mockai-nav-label">Insights</span>
+            </a>
+          </li>
+        </ul>
+
+        <!-- Bottom MockAI Upgrade Promo Card (From Mockup) -->
+        <div class="sidebar-promo-card">
+          <div class="sidebar-promo-star">
+            <i class="bi bi-star-fill text-warning"></i>
           </div>
+          <div class="fw-bold fs-6 text-white mb-0" style="letter-spacing: -0.01em;">mockai</div>
+          <div class="small text-white-50 mb-1" style="font-size: 0.74rem;">Interview + Job Search</div>
+          <div class="small text-white mb-3" style="font-size: 0.7rem; opacity: 0.9;">
+            289,727/600,000 Monthly Limit
+          </div>
+          <a href="{{ url_for('profile.index') }}" class="sidebar-promo-btn-white">Learn More</a>
+          <a href="{{ url_for('profile.index') }}" class="sidebar-promo-btn-black">Upgrade Now</a>
         </div>
 
-        <!-- 3. Orders / Matching Group -->
-        <div class="sidebar-group-item">
-          <div class="sidebar-parent-label" title="Orders">
-            <i class="bi bi-clipboard-check parent-icon"></i>
-            <span class="parent-text">Orders</span>
-          </div>
-          <ul class="sidebar-tree">
-            <li class="sidebar-tree-item">
-              <a href="{{ url_for('jobs.index') }}" class="sidebar-tree-link {% if active_tab in ['jobs', 'job_matching'] and request.endpoint in ['jobs.index', 'job_matching.detail'] %}active{% endif %}" title="Order Management">
-                <i class="bi bi-file-earmark-text tree-icon"></i>
-                <span class="tree-text">Order Management</span>
-              </a>
-            </li>
-            <li class="sidebar-tree-item">
-              <a href="{{ url_for('profile.index') }}" class="sidebar-tree-link {% if request.endpoint == 'profile.index' %}active{% endif %}" title="Order Setting">
-                <i class="bi bi-gear tree-icon"></i>
-                <span class="tree-text">Order Setting</span>
-              </a>
-            </li>
-          </ul>
-
-          <!-- Flyout menu for collapsed state -->
-          <div class="sidebar-flyout">
-            <div class="sidebar-flyout-tooltip">Orders</div>
-            <div class="sidebar-flyout-card">
-              <ul class="sidebar-tree">
-                <li class="sidebar-tree-item">
-                  <a href="{{ url_for('jobs.index') }}" class="sidebar-tree-link">
-                    <i class="bi bi-file-earmark-text tree-icon"></i>
-                    <span>Order Management</span>
-                  </a>
-                </li>
-                <li class="sidebar-tree-item">
-                  <a href="{{ url_for('profile.index') }}" class="sidebar-tree-link">
-                    <i class="bi bi-gear tree-icon"></i>
-                    <span>Order Setting</span>
-                  </a>
-                </li>
-              </ul>
-            </div>
-          </div>
-        </div>
-
-        <!-- 4. Inventory Management Group -->
-        <div class="sidebar-group-item">
-          <div class="sidebar-parent-label" title="Inventory Management">
-            <i class="bi bi-box-seam parent-icon"></i>
-            <span class="parent-text">Inventory Management</span>
-          </div>
-          <ul class="sidebar-tree">
-            <li class="sidebar-tree-item">
-              <a href="{{ url_for('interviews.index') }}" class="sidebar-tree-link {% if active_tab == 'interviews' %}active{% endif %}" title="Credit Cards">
-                <i class="bi bi-credit-card tree-icon"></i>
-                <span class="tree-text">Credit Cards</span>
-              </a>
-            </li>
-            <li class="sidebar-tree-item">
-              <a href="{{ url_for('main.cover_letter') }}" class="sidebar-tree-link {% if active_tab == 'cover_letter' %}active{% endif %}" title="Cars Inventory">
-                <i class="bi bi-car-front tree-icon"></i>
-                <span class="tree-text">Cars Inventory</span>
-              </a>
-            </li>
-            <li class="sidebar-tree-item">
-              <a href="{{ url_for('applications.index') }}" class="sidebar-tree-link {% if active_tab == 'applications' %}active{% endif %}" title="Property Inventory">
-                <i class="bi bi-building tree-icon"></i>
-                <span class="tree-text">Property Inventory</span>
-              </a>
-            </li>
-          </ul>
-
-          <!-- Flyout menu for collapsed state -->
-          <div class="sidebar-flyout">
-            <div class="sidebar-flyout-tooltip">Inventory Management</div>
-            <div class="sidebar-flyout-card">
-              <ul class="sidebar-tree">
-                <li class="sidebar-tree-item">
-                  <a href="{{ url_for('interviews.index') }}" class="sidebar-tree-link">
-                    <i class="bi bi-credit-card tree-icon"></i>
-                    <span>Credit Cards</span>
-                  </a>
-                </li>
-                <li class="sidebar-tree-item">
-                  <a href="{{ url_for('main.cover_letter') }}" class="sidebar-tree-link">
-                    <i class="bi bi-car-front tree-icon"></i>
-                    <span>Cars Inventory</span>
-                  </a>
-                </li>
-                <li class="sidebar-tree-item">
-                  <a href="{{ url_for('applications.index') }}" class="sidebar-tree-link">
-                    <i class="bi bi-building tree-icon"></i>
-                    <span>Property Inventory</span>
-                  </a>
-                </li>
-              </ul>
-            </div>
-          </div>
-        </div>
-
-        <!-- 5. Rule Management Group -->
-        <div class="sidebar-group-item">
-          <div class="sidebar-parent-label" title="Rule Management">
-            <i class="bi bi-shield-check parent-icon"></i>
-            <span class="parent-text">Rule Management</span>
-          </div>
-          <ul class="sidebar-tree">
-            <li class="sidebar-tree-item">
-              <a href="{{ url_for('settings.index') }}" class="sidebar-tree-link {% if active_tab == 'settings' %}active{% endif %}" title="Decision Rule">
-                <i class="bi bi-sliders tree-icon"></i>
-                <span class="tree-text">Decision Rule</span>
-              </a>
-            </li>
-            <li class="sidebar-tree-item">
-              <a href="{{ url_for('main.skills_insights') }}" class="sidebar-tree-link {% if active_tab == 'skills_insights' %}active{% endif %}" title="Risk Grading">
-                <i class="bi bi-card-checklist tree-icon"></i>
-                <span class="tree-text">Risk Grading</span>
-              </a>
-            </li>
-            <li class="sidebar-tree-item">
-              <a href="{{ url_for('main.mail_preparation') }}" class="sidebar-tree-link {% if active_tab == 'mail_preparation' %}active{% endif %}" title="Scoring">
-                <i class="bi bi-speedometer2 tree-icon"></i>
-                <span class="tree-text">Scoring</span>
-              </a>
-            </li>
-          </ul>
-
-          <!-- Flyout menu for collapsed state -->
-          <div class="sidebar-flyout">
-            <div class="sidebar-flyout-tooltip">Rule Management</div>
-            <div class="sidebar-flyout-card">
-              <ul class="sidebar-tree">
-                <li class="sidebar-tree-item">
-                  <a href="{{ url_for('settings.index') }}" class="sidebar-tree-link">
-                    <i class="bi bi-sliders tree-icon"></i>
-                    <span>Decision Rule</span>
-                  </a>
-                </li>
-                <li class="sidebar-tree-item">
-                  <a href="{{ url_for('main.skills_insights') }}" class="sidebar-tree-link">
-                    <i class="bi bi-card-checklist tree-icon"></i>
-                    <span>Risk Grading</span>
-                  </a>
-                </li>
-                <li class="sidebar-tree-item">
-                  <a href="{{ url_for('main.mail_preparation') }}" class="sidebar-tree-link">
-                    <i class="bi bi-speedometer2 tree-icon"></i>
-                    <span>Scoring</span>
-                  </a>
-                </li>
-              </ul>
-            </div>
-          </div>
+        <div class="sidebar-promo-footer-links">
+          <a href="#">Terms &amp; Use</a>
+          <span>&bull;</span>
+          <a href="#">Privacy Policy</a>
+          <span>&bull;</span>
+          <a href="#">Cookies</a>
         </div>
       </div>
 
@@ -366,28 +258,19 @@
           <div class="text-uppercase text-secondary fw-bold small mb-2">Navigation</div>
           <ul class="nav flex-column gap-1 mb-2">
             <li><a class="nav-link text-light py-2" href="{{ url_for('main.dashboard') }}">
-              <i class="bi bi-house-door-fill text-primary me-2"></i> Dashboard</a></li>
-            <li><a class="nav-link text-light py-2" href="{{ url_for('resumes.index') }}">
-              <i class="bi bi-file-earmark-person-fill text-info me-2"></i> Resume Analyzer</a></li>
-            <li><a class="nav-link text-light py-2" href="{{ url_for('resumes.analyze') }}">
-              <i class="bi bi-pie-chart-fill text-warning me-2"></i> ATS Report</a></li>
-            <li><a class="nav-link text-light py-2" href="{{ url_for('jobs.index') }}">
-              <i class="bi bi-briefcase-fill text-primary me-2"></i> Find Jobs</a></li>
-            <li><a class="nav-link text-light py-2" href="{{ url_for('main.skills_insights') }}">
-              <i class="bi bi-stars text-info me-2"></i> Skills &amp; Insights</a></li>
-            <li><a class="nav-link text-light py-2" href="{{ url_for('profile.index') }}">
-              <i class="bi bi-sliders text-warning me-2"></i> Job Preferences</a></li>
-            <li><a class="nav-link text-light py-2" href="{{ url_for('settings.index') }}">
-              <i class="bi bi-gear-fill text-secondary me-2"></i> Settings</a></li>
-            <li><hr class="border-secondary my-1"></li>
+              <i class="bi bi-grid-fill text-primary me-2"></i> Dashboard</a></li>
             <li><a class="nav-link text-light py-2" href="{{ url_for('interviews.index') }}">
-              <i class="bi bi-mic-fill text-danger me-2"></i> Prepare Interview</a></li>
-            <li><a class="nav-link text-light py-2" href="{{ url_for('main.cover_letter') }}">
-              <i class="bi bi-file-earmark-text-fill text-success me-2"></i> Cover Letter</a></li>
-            <li><a class="nav-link text-light py-2" href="{{ url_for('main.mail_preparation') }}">
-              <i class="bi bi-envelope-fill text-info me-2"></i> Mail Preparation</a></li>
-            <li><a class="nav-link text-light py-2" href="{{ url_for('applications.index') }}">
-              <i class="bi bi-kanban-fill text-warning me-2"></i> Application CRM</a></li>
+              <i class="bi bi-person-video text-info me-2"></i> Mock Interviews</a></li>
+            <li><a class="nav-link text-light py-2" href="{{ url_for('resumes.index') }}">
+              <i class="bi bi-file-earmark-text-fill text-warning me-2"></i> Resume Analyzer</a></li>
+            <li><a class="nav-link text-light py-2" href="{{ url_for('jobs.index') }}">
+              <i class="bi bi-briefcase-fill text-primary me-2"></i> Jobs</a></li>
+            <li><a class="nav-link text-light py-2" href="{{ url_for('career.career_intelligence') }}">
+              <i class="bi bi-clock-history text-info me-2"></i> Progress</a></li>
+            <li><a class="nav-link text-light py-2" href="{{ url_for('assistant.index') }}">
+              <i class="bi bi-patch-question-fill text-warning me-2"></i> Question</a></li>
+            <li><a class="nav-link text-light py-2" href="{{ url_for('analytics.index') }}">
+              <i class="bi bi-lightbulb-fill text-success me-2"></i> Insights</a></li>
           </ul>
         </div>
       </div>

@@ -3290,6 +3290,166 @@ p, .p2 {
   display: inline-block;
 }
 
+/* ── MockAI Sidebar Navigation System (media_1792136147918_2dcb9baf.png) ── */
+.mockai-nav-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.mockai-nav-link {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 10px 14px;
+  border-radius: 12px;
+  color: #94a3b8;
+  font-size: 0.88rem;
+  font-weight: 500;
+  text-decoration: none;
+  transition: all 0.15s ease;
+}
+.mockai-nav-link:hover {
+  color: #ffffff;
+  background: rgba(255, 255, 255, 0.06);
+}
+.mockai-nav-link.active {
+  background: rgba(124, 58, 237, 0.2);
+  color: #c4b5fd !important;
+  font-weight: 600;
+}
+.mockai-nav-icon {
+  font-size: 1.15rem;
+  width: 22px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+.mockai-nav-link.active .mockai-nav-icon {
+  color: #a78bfa;
+}
+
+/* Sidebar Search Capsule */
+.sidebar-search-box {
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 10px;
+  padding: 6px 12px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 1.25rem;
+}
+.sidebar-search-box input {
+  background: transparent;
+  border: none;
+  color: #ffffff;
+  font-size: 0.8rem;
+  width: 100%;
+  outline: none;
+}
+.sidebar-search-box input::placeholder {
+  color: #64748b;
+}
+.sidebar-search-kbd {
+  font-size: 0.68rem;
+  color: #64748b;
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  border-radius: 4px;
+  padding: 1px 4px;
+  font-family: inherit;
+}
+
+/* Sidebar MockAI Upgrade Promo Card */
+.sidebar-promo-card {
+  background: linear-gradient(135deg, #7c3aed 0%, #4f46e5 100%);
+  border-radius: 16px;
+  padding: 1.1rem;
+  color: #ffffff;
+  margin: 1.25rem 0.25rem 0.5rem 0.25rem;
+  position: relative;
+  overflow: hidden;
+  box-shadow: 0 4px 16px rgba(124, 58, 237, 0.3);
+}
+.sidebar-promo-star {
+  width: 28px;
+  height: 28px;
+  border-radius: 8px;
+  background: rgba(255, 255, 255, 0.2);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.9rem;
+  margin-bottom: 8px;
+}
+.sidebar-promo-btn-white {
+  background: #ffffff;
+  color: #0f172a !important;
+  font-weight: 600;
+  font-size: 0.76rem;
+  border-radius: 20px;
+  padding: 6px 12px;
+  text-decoration: none;
+  display: inline-block;
+  text-align: center;
+  width: 100%;
+  margin-bottom: 6px;
+  transition: all 0.15s ease;
+}
+.sidebar-promo-btn-white:hover {
+  background: #f1f5f9;
+}
+.sidebar-promo-btn-black {
+  background: #0f172a;
+  color: #ffffff !important;
+  font-weight: 600;
+  font-size: 0.76rem;
+  border-radius: 20px;
+  padding: 6px 12px;
+  text-decoration: none;
+  display: inline-block;
+  text-align: center;
+  width: 100%;
+  transition: all 0.15s ease;
+}
+.sidebar-promo-btn-black:hover {
+  background: #1e293b;
+}
+
+.sidebar-promo-footer-links {
+  display: flex;
+  justify-content: center;
+  gap: 8px;
+  font-size: 0.65rem;
+  color: #64748b;
+  margin-top: 8px;
+  padding-bottom: 4px;
+}
+.sidebar-promo-footer-links a {
+  color: #64748b;
+  text-decoration: none;
+}
+.sidebar-promo-footer-links a:hover {
+  color: #94a3b8;
+}
+
+/* Collapsed Sidebar Adjustments */
+.sidebar.is-collapsed .sidebar-search-box,
+.sidebar.is-collapsed .sidebar-promo-card,
+.sidebar.is-collapsed .sidebar-promo-footer-links,
+.sidebar.is-collapsed .mockai-nav-label {
+  display: none !important;
+}
+.sidebar.is-collapsed .mockai-nav-link {
+  justify-content: center;
+  padding: 10px 0;
+}
+
+
 
 
 
