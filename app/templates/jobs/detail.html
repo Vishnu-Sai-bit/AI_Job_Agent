@@ -20,9 +20,6 @@
           <div class="d-flex gap-2 text-secondary flex-wrap small">
             <span class="badge-location"><i class="bi bi-geo-alt-fill"></i> {{ job.location }}</span>
             <span class="badge-jobtype"><i class="bi bi-briefcase-fill"></i> {{ job.experience or 'Full-time' }}</span>
-            {% if job.salary and job.salary != 'Competitive' %}
-              <span class="badge bg-success-subtle text-success border border-success-subtle fw-semibold px-2 py-1"><i class="bi bi-cash-stack me-1"></i> {{ job.salary }}</span>
-            {% endif %}
             <span class="text-muted small ms-1"><i class="bi bi-globe me-1"></i> Source: {{ job.source }}</span>
           </div>
         </div>

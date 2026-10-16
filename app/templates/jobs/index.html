@@ -42,7 +42,7 @@
 
 <!-- Main 2-Column Layout (Filters Sidebar + Job Grid) -->
 <div class="row g-4">
-  <!-- Left Column: Filter Sidebar (From Mockup) -->
+  <!-- Left Column: Filter Sidebar (Talantium Style - Salary Removed) -->
   <div class="col-lg-3">
     <div class="tal-filter-card">
       <div class="d-flex justify-content-between align-items-center mb-3">
@@ -58,8 +58,8 @@
             <span class="tal-check-box"><i class="bi bi-check-lg"></i></span>
             <span>Full-time</span>
           </label>
-          <label class="tal-check-label checked">
-            <span class="tal-check-box"><i class="bi bi-check-lg"></i></span>
+          <label class="tal-check-label">
+            <span class="tal-check-box"></span>
             <span>Part-time</span>
           </label>
           <label class="tal-check-label">
@@ -77,45 +77,7 @@
         </div>
       </div>
 
-      <!-- 2. Salary Range Section with Histogram -->
-      <div class="mb-4">
-        <div class="tal-section-title">Salary range</div>
-        <!-- Histogram Graphic -->
-        <div class="tal-histogram">
-          <div class="tal-histogram-bar" style="height: 25%;"></div>
-          <div class="tal-histogram-bar" style="height: 40%;"></div>
-          <div class="tal-histogram-bar active" style="height: 60%;"></div>
-          <div class="tal-histogram-bar active" style="height: 90%;"></div>
-          <div class="tal-histogram-bar active" style="height: 100%;"></div>
-          <div class="tal-histogram-bar active" style="height: 75%;"></div>
-          <div class="tal-histogram-bar active" style="height: 85%;"></div>
-          <div class="tal-histogram-bar active" style="height: 55%;"></div>
-          <div class="tal-histogram-bar active" style="height: 45%;"></div>
-          <div class="tal-histogram-bar active" style="height: 65%;"></div>
-          <div class="tal-histogram-bar active" style="height: 40%;"></div>
-          <div class="tal-histogram-bar active" style="height: 50%;"></div>
-          <div class="tal-histogram-bar active" style="height: 35%;"></div>
-          <div class="tal-histogram-bar active" style="height: 30%;"></div>
-          <div class="tal-histogram-bar active" style="height: 45%;"></div>
-          <div class="tal-histogram-bar" style="height: 20%;"></div>
-          <div class="tal-histogram-bar" style="height: 15%;"></div>
-          <div class="tal-histogram-bar" style="height: 25%;"></div>
-        </div>
-
-        <div class="d-flex justify-content-between align-items-center gap-2">
-          <div class="input-group input-group-sm">
-            <input type="text" class="form-control text-center bg-light border-0 fw-bold" style="border-radius: 8px;" value="2,500">
-            <span class="input-group-text bg-light border-0 text-muted">$</span>
-          </div>
-          <span class="text-muted">-</span>
-          <div class="input-group input-group-sm">
-            <input type="text" class="form-control text-center bg-light border-0 fw-bold" style="border-radius: 8px;" value="10,000">
-            <span class="input-group-text bg-light border-0 text-muted">$</span>
-          </div>
-        </div>
-      </div>
-
-      <!-- 3. Employment Type Section -->
+      <!-- 2. Employment Type Section -->
       <div class="mb-4">
         <div class="tal-section-title">Employment type</div>
         <div class="d-flex flex-column">
@@ -138,8 +100,8 @@
         </div>
       </div>
 
-      <!-- 4. Work Style Section -->
-      <div>
+      <!-- 3. Work Style Section -->
+      <div class="mb-4">
         <div class="tal-section-title">Work style</div>
         <div class="d-flex flex-column">
           <label class="tal-check-label">
@@ -156,248 +118,153 @@
           </label>
         </div>
       </div>
+
+      <!-- 4. Experience Level Section -->
+      <div>
+        <div class="tal-section-title">Experience Level</div>
+        <div class="d-flex flex-column">
+          <a href="{{ url_for('jobs.index') }}?experience=0-2" class="text-decoration-none tal-check-label {% if exp_filter == '0-2' %}checked{% endif %}">
+            <span class="tal-check-box">{% if exp_filter == '0-2' %}<i class="bi bi-check-lg"></i>{% endif %}</span>
+            <span>0&ndash;2 years (Junior)</span>
+          </a>
+          <a href="{{ url_for('jobs.index') }}?experience=2-5" class="text-decoration-none tal-check-label {% if exp_filter == '2-5' %}checked{% endif %}">
+            <span class="tal-check-box">{% if exp_filter == '2-5' %}<i class="bi bi-check-lg"></i>{% endif %}</span>
+            <span>2&ndash;5 years (Mid-Level)</span>
+          </a>
+          <a href="{{ url_for('jobs.index') }}?experience=5+" class="text-decoration-none tal-check-label {% if exp_filter == '5+' %}checked{% endif %}">
+            <span class="tal-check-box">{% if exp_filter == '5+' %}<i class="bi bi-check-lg"></i>{% endif %}</span>
+            <span>5+ years (Senior)</span>
+          </a>
+        </div>
+      </div>
     </div>
   </div>
 
-  <!-- Right Column: Top Search Capsule + 6-Card Pastel Grid (From Mockup) -->
+  <!-- Right Column: Top Search Capsule + Dynamic Pastel Job Grid -->
   <div class="col-lg-9">
     <!-- Top Search Bar with Active Removable Filter Chips -->
     <div class="d-flex justify-content-between align-items-center mb-4 flex-wrap gap-3">
-      <!-- Search Box with Search Icon -->
-      <div class="d-flex align-items-center gap-2 flex-grow-1" style="max-width: 440px;">
+      <!-- Search Form with Search Icon -->
+      <form method="GET" action="{{ url_for('jobs.index') }}" class="d-flex align-items-center gap-2 flex-grow-1" style="max-width: 480px;">
         <i class="bi bi-search text-dark fs-5"></i>
-        <form method="GET" action="{{ url_for('jobs.index') }}" class="w-100">
-          <input type="text" name="role" class="form-control form-control-lg border-0 bg-transparent fw-bold text-dark px-1"
-                 style="font-size: 1.35rem; box-shadow: none;"
-                 value="{{ role_filter or 'UX/UI Designer' }}"
-                 placeholder="Job Title, skill, or role">
-        </form>
-      </div>
+        <input type="text" name="role" class="form-control form-control-lg border-0 bg-transparent fw-bold text-dark px-1"
+               style="font-size: 1.25rem; box-shadow: none;"
+               value="{{ role_filter }}"
+               placeholder="Search job title, skill, or company">
+        {% if loc_filter %}<input type="hidden" name="location" value="{{ loc_filter }}">{% endif %}
+        {% if exp_filter %}<input type="hidden" name="experience" value="{{ exp_filter }}">{% endif %}
+        <button type="submit" class="btn btn-dark btn-sm rounded-pill px-3 py-1">Search</button>
+      </form>
 
-      <!-- Active Removable Chips -->
+      <!-- Active Removable Chips & Live APIs button -->
       <div class="d-flex align-items-center gap-2 flex-wrap">
-        <a href="{{ url_for('jobs.index') }}" class="tal-chip">
-          <span>{{ loc_filter or 'United States' }}</span>
+        {% if role_filter %}
+        <a href="{{ url_for('jobs.index') }}?location={{ loc_filter }}&experience={{ exp_filter }}" class="tal-chip">
+          <span>{{ role_filter }}</span>
           <span class="tal-chip-close">&times;</span>
         </a>
-        <a href="{{ url_for('jobs.index') }}" class="tal-chip">
-          <span>{{ exp_filter or '5+ years experience' }}</span>
+        {% endif %}
+        {% if loc_filter %}
+        <a href="{{ url_for('jobs.index') }}?role={{ role_filter }}&experience={{ exp_filter }}" class="tal-chip">
+          <span>{{ loc_filter }}</span>
           <span class="tal-chip-close">&times;</span>
+        </a>
+        {% endif %}
+        {% if exp_filter %}
+        <a href="{{ url_for('jobs.index') }}?role={{ role_filter }}&location={{ loc_filter }}" class="tal-chip">
+          <span>{{ exp_filter }} yrs</span>
+          <span class="tal-chip-close">&times;</span>
+        </a>
+        {% endif %}
+        <a href="{{ url_for('jobs.index') }}?role={{ role_filter }}&location={{ loc_filter }}&live=true"
+           class="btn btn-outline-success btn-sm rounded-pill px-3"
+           title="Poll Live APIs for latest roles">
+          <i class="bi bi-broadcast me-1"></i> Live APIs
         </a>
       </div>
     </div>
 
-    <!-- 6-Card Pastel Job Grid (From Mockup) -->
+    <!-- Dynamic Pastel Job Grid (Salary Completely Removed) -->
+    {% if jobs %}
     <div class="row g-4">
-      <!-- Card 1: UX Researcher (Motorola - Lavender Pastel) -->
-      <div class="col-md-4">
-        <div class="tal-job-card tal-card-purple">
-          <div>
-            <div class="d-flex justify-content-between align-items-start mb-2">
-              <div>
-                <div class="tal-card-salary">$7,800<span style="font-size: 0.85rem; font-weight: 500;">/month</span></div>
-                <div class="tal-card-title">UX Researcher</div>
-                <div class="tal-card-company">Motorolla</div>
+      {% for job in jobs %}
+        {% set theme_classes = ['tal-card-purple', 'tal-card-blue', 'tal-card-green', 'tal-card-rose', 'tal-card-slate'] %}
+        {% set card_theme = theme_classes[loop.index0 % 5] %}
+        <div class="col-md-6 col-lg-4">
+          <div class="tal-job-card {{ card_theme }}">
+            <div>
+              <div class="d-flex justify-content-between align-items-start mb-2">
+                <div>
+                  <h6 class="tal-card-title mb-1" style="font-size: 1.05rem;">
+                    <a href="{{ url_for('jobs.detail', job_id=job.id) }}" class="text-dark text-decoration-none">
+                      {{ job.title }}
+                    </a>
+                  </h6>
+                  <div class="tal-card-company fw-semibold">{{ job.company }}</div>
+                </div>
+                <div class="tal-logo-box text-dark">
+                  <span class="fw-bold" style="font-size: 0.82rem;">{{ (job.company[:2] if job.company else 'JB').upper() }}</span>
+                </div>
               </div>
-              <div class="tal-logo-box text-dark">
-                <i class="bi bi-phone"></i>
+
+              <!-- Location & Source -->
+              <div class="small text-secondary mb-1">
+                <i class="bi bi-geo-alt text-muted me-1"></i> {{ job.location or 'Multiple Locations' }}
+              </div>
+              <div class="small text-secondary mb-3">
+                <i class="bi bi-clock text-muted me-1"></i> {{ job.experience or 'Full-time' }} &bull; {{ job.source or 'Verified Portal' }}
+              </div>
+
+              <!-- Tags / Skills (NO SALARY) -->
+              <div class="d-flex gap-2 flex-wrap mb-4">
+                {% if has_resume and job.match_score %}
+                  <span class="badge" style="background: rgba(124, 58, 237, 0.15); color: #7c3aed; font-size: 0.76rem; font-weight: 700; border-radius: 20px; padding: 4px 10px;">
+                    <i class="bi bi-stars"></i> {{ job.match_score }}% Match
+                  </span>
+                {% else %}
+                  <span class="tal-tag" style="background: rgba(59, 130, 246, 0.12); color: #2563eb; font-weight: 600;">
+                    Discovery
+                  </span>
+                {% endif %}
+
+                {% for s in (job.skills or [])[:3] %}
+                  <span class="tal-tag">{{ s }}</span>
+                {% endfor %}
               </div>
             </div>
 
-            <div class="small text-secondary mb-1">
-              <i class="bi bi-geo text-muted me-1"></i> Houston, TX
+            <!-- Card Bottom Buttons -->
+            <div class="d-flex align-items-center justify-content-between gap-2 pt-2 border-top" style="border-color: rgba(0,0,0,0.06) !important;">
+              <a href="{{ url_for('jobs.detail', job_id=job.id) }}" class="btn btn-sm btn-light rounded-pill px-3 py-1 fw-semibold border" style="font-size: 0.8rem;">
+                Details
+              </a>
+              <div class="d-flex align-items-center gap-1">
+                <a href="{{ job.url if job.url and job.url != '#' else url_for('jobs.detail', job_id=job.id) }}"
+                   target="_blank" rel="noopener noreferrer"
+                   class="btn-tal-apply">
+                  Apply now
+                </a>
+                <form method="POST" action="{{ url_for('jobs.save_job', job_id=job.id) }}" class="d-inline m-0">
+                  <button type="submit" class="btn-tal-heart" title="Save Job">
+                    <i class="bi bi-heart"></i>
+                  </button>
+                </form>
+              </div>
             </div>
-            <div class="small text-secondary mb-3">
-              <i class="bi bi-clock text-muted me-1"></i> 5 September &bull; 159 applicants
-            </div>
-
-            <div class="d-flex gap-2 flex-wrap mb-4">
-              <span class="tal-tag">Full-time</span>
-              <span class="tal-tag">Hybrid</span>
-              <span class="tal-tag">4&ndash;6 years</span>
-            </div>
-          </div>
-
-          <div class="d-flex align-items-center gap-2 pt-2">
-            <a href="{{ url_for('jobs.index') }}" class="btn-tal-apply">Apply now</a>
-            <button type="button" class="btn-tal-heart" title="Save Job" onclick="this.classList.toggle('saved');">
-              <i class="bi bi-heart"></i>
-            </button>
           </div>
         </div>
-      </div>
-
-      <!-- Card 2: Find Your Dream Job (Deep Purple Promo Gradient Card) -->
-      <div class="col-md-4">
-        <div class="tal-job-card tal-card-promo text-center justify-content-between">
-          <div class="pt-3">
-            <h3 class="fw-bold mb-2 text-white" style="font-size: 1.6rem; letter-spacing: -0.02em;">
-              Find your<br>dream job
-            </h3>
-            <p class="text-white-50 small mb-4 px-2" style="line-height: 1.5;">
-              Get hired faster with premium perks! Boost your visibility!
-            </p>
-          </div>
-          <div class="pb-2">
-            <a href="{{ url_for('resumes.index') }}" class="btn btn-light w-100 rounded-pill py-2 fw-bold text-dark" style="font-size: 0.88rem; box-shadow: 0 4px 14px rgba(0,0,0,0.25);">
-              Get PRO for $12 per month
-            </a>
-          </div>
-        </div>
-      </div>
-
-      <!-- Card 3: Lead UX Researcher (PayPal - Sky Blue Pastel) -->
-      <div class="col-md-4">
-        <div class="tal-job-card tal-card-blue">
-          <div>
-            <div class="d-flex justify-content-between align-items-start mb-2">
-              <div>
-                <div class="tal-card-salary">$6,000<span style="font-size: 0.85rem; font-weight: 500;">/month</span></div>
-                <div class="tal-card-title">Lead UX Researcher</div>
-                <div class="tal-card-company">PayPal</div>
-              </div>
-              <div class="tal-logo-box text-primary">
-                <i class="bi bi-paypal"></i>
-              </div>
-            </div>
-
-            <div class="small text-secondary mb-1">
-              <i class="bi bi-geo text-muted me-1"></i> Los-Angeles, CA
-            </div>
-            <div class="small text-secondary mb-3">
-              <i class="bi bi-clock text-muted me-1"></i> 3 September &bull; 179 applicants
-            </div>
-
-            <div class="d-flex gap-2 flex-wrap mb-4">
-              <span class="tal-tag">Project work</span>
-              <span class="tal-tag">Office</span>
-              <span class="tal-tag">8+ years</span>
-            </div>
-          </div>
-
-          <div class="d-flex align-items-center gap-2 pt-2">
-            <a href="{{ url_for('jobs.index') }}" class="btn-tal-apply">Apply now</a>
-            <button type="button" class="btn-tal-heart saved" title="Saved" onclick="this.classList.toggle('saved');">
-              <i class="bi bi-heart-fill"></i>
-            </button>
-          </div>
-        </div>
-      </div>
-
-      <!-- Card 4: Middle UI Designer (Microsoft - Mint Green Pastel) -->
-      <div class="col-md-4">
-        <div class="tal-job-card tal-card-green">
-          <div>
-            <div class="d-flex justify-content-between align-items-start mb-2">
-              <div>
-                <div class="tal-card-salary">$5,250<span style="font-size: 0.85rem; font-weight: 500;">/month</span></div>
-                <div class="tal-card-title">Middle UI Designer</div>
-                <div class="tal-card-company">Microsoft</div>
-              </div>
-              <div class="tal-logo-box">
-                <i class="bi bi-microsoft text-success"></i>
-              </div>
-            </div>
-
-            <div class="small text-secondary mb-1">
-              <i class="bi bi-geo text-muted me-1"></i> Redmond, WA
-            </div>
-            <div class="small text-secondary mb-3">
-              <i class="bi bi-clock text-muted me-1"></i> 2 September &bull; 196 applicants
-            </div>
-
-            <div class="d-flex gap-2 flex-wrap mb-4">
-              <span class="tal-tag">Full-time</span>
-              <span class="tal-tag">Office</span>
-              <span class="tal-tag">4&ndash;6 years</span>
-            </div>
-          </div>
-
-          <div class="d-flex align-items-center gap-2 pt-2">
-            <a href="{{ url_for('jobs.index') }}" class="btn-tal-apply">Apply now</a>
-            <button type="button" class="btn-tal-heart" title="Save Job" onclick="this.classList.toggle('saved');">
-              <i class="bi bi-heart"></i>
-            </button>
-          </div>
-        </div>
-      </div>
-
-      <!-- Card 5: Interface designer (Netflix - Peach/Rose Pastel) -->
-      <div class="col-md-4">
-        <div class="tal-job-card tal-card-rose">
-          <div>
-            <div class="d-flex justify-content-between align-items-start mb-2">
-              <div>
-                <div class="tal-card-salary">$3,700<span style="font-size: 0.85rem; font-weight: 500;">/month</span></div>
-                <div class="tal-card-title">Interface designer</div>
-                <div class="tal-card-company">Netflix</div>
-              </div>
-              <div class="tal-logo-box text-danger">
-                <span class="fw-bold fs-4">N</span>
-              </div>
-            </div>
-
-            <div class="small text-secondary mb-1">
-              <i class="bi bi-geo text-muted me-1"></i> San-Francisco, CA
-            </div>
-            <div class="small text-secondary mb-3">
-              <i class="bi bi-clock text-muted me-1"></i> 29 August &bull; 115 applicants
-            </div>
-
-            <div class="d-flex gap-2 flex-wrap mb-4">
-              <span class="tal-tag">Part-time</span>
-              <span class="tal-tag">Office</span>
-              <span class="tal-tag">4&ndash;6 years</span>
-            </div>
-          </div>
-
-          <div class="d-flex align-items-center gap-2 pt-2">
-            <a href="{{ url_for('jobs.index') }}" class="btn-tal-apply">Apply now</a>
-            <button type="button" class="btn-tal-heart saved" title="Saved" onclick="this.classList.toggle('saved');">
-              <i class="bi bi-heart-fill"></i>
-            </button>
-          </div>
-        </div>
-      </div>
-
-      <!-- Card 6: Art Director (X Corp. - Slate/Gray Pastel) -->
-      <div class="col-md-4">
-        <div class="tal-job-card tal-card-slate">
-          <div>
-            <div class="d-flex justify-content-between align-items-start mb-2">
-              <div>
-                <div class="tal-card-salary">$9,500<span style="font-size: 0.85rem; font-weight: 500;">/month</span></div>
-                <div class="tal-card-title">Art Director</div>
-                <div class="tal-card-company">X Corp.</div>
-              </div>
-              <div class="tal-logo-box text-dark">
-                <i class="bi bi-twitter-x"></i>
-              </div>
-            </div>
-
-            <div class="small text-secondary mb-1">
-              <i class="bi bi-geo text-muted me-1"></i> Houston, TX
-            </div>
-            <div class="small text-secondary mb-3">
-              <i class="bi bi-clock text-muted me-1"></i> 28 August &bull; 159 applicants
-            </div>
-
-            <div class="d-flex gap-2 flex-wrap mb-4">
-              <span class="tal-tag">Full-time</span>
-              <span class="tal-tag">Hybrid</span>
-              <span class="tal-tag">7&ndash;10 years</span>
-            </div>
-          </div>
-
-          <div class="d-flex align-items-center gap-2 pt-2">
-            <a href="{{ url_for('jobs.index') }}" class="btn-tal-apply">Apply now</a>
-            <button type="button" class="btn-tal-heart" title="Save Job" onclick="this.classList.toggle('saved');">
-              <i class="bi bi-heart"></i>
-            </button>
-          </div>
-        </div>
+      {% endfor %}
+    </div>
+    {% else %}
+    <div class="card card-clean p-5 text-center my-4">
+      <div class="fs-1 text-muted mb-3"><i class="bi bi-inbox"></i></div>
+      <h4 class="fw-bold text-dark mb-1">No Matching Jobs Found</h4>
+      <p class="text-secondary mb-3">Try adjusting your search keywords or resetting filters.</p>
+      <div>
+        <a href="{{ url_for('jobs.index') }}" class="btn btn-outline-custom rounded-pill px-4">Reset All Filters</a>
       </div>
     </div>
+    {% endif %}
   </div>
 </div>
 {% endblock %}
