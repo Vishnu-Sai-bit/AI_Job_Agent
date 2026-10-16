@@ -76,8 +76,8 @@ def upload():
         with open("data/default_parsed_resume.json", "w", encoding="utf-8") as f:
             json.dump(parsed_dict, f, indent=2)
 
-        flash(f"Resume '{file.filename}' uploaded and parsed successfully! ATS Score: {parsed_dict['ats_score']}%", "success")
-        return redirect(url_for("resumes.parsed"))
+        flash(f"Resume '{file.filename}' uploaded and analyzed successfully! Found {len(parsed_dict['skills'])} skills. Showing tailored jobs matching your resume profile:", "success")
+        return redirect(url_for("jobs.index"))
     except Exception as e:
         flash(f"Analysis error: {e}", "danger")
         return redirect(url_for("resumes.index"))
