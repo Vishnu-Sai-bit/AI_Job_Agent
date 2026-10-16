@@ -1137,3 +1137,624 @@ p, .p2 {
   overflow: hidden;
   background: #e2e8f0;
 }
+
+/* ══════════════════════════════════════════════════════════
+   OFFICIAL SYSTEM UI COMPONENTS (DESIGN SYSTEM KIT)
+   ══════════════════════════════════════════════════════════ */
+
+/* ── 1. Buttons & Variants ──────────────────────────────── */
+.btn-sys-primary,
+.btn-primary-solid {
+  background-color: var(--primary-600);
+  color: #ffffff !important;
+  border: 1px solid transparent;
+  border-radius: 8px;
+  padding: 8px 16px;
+  font-size: var(--font-p2-size);
+  font-weight: 600;
+  line-height: var(--font-p2-lh);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  cursor: pointer;
+  transition: all var(--transition);
+  text-decoration: none;
+}
+.btn-sys-primary:hover,
+.btn-primary-solid:hover {
+  background-color: var(--primary-700);
+  color: #ffffff;
+}
+.btn-sys-primary:focus,
+.btn-primary-solid:focus {
+  background-color: var(--primary-700);
+  box-shadow: 0 0 0 3px rgba(30, 122, 227, 0.35);
+  outline: none;
+}
+.btn-sys-primary:disabled,
+.btn-primary-solid:disabled,
+.btn-sys-primary.disabled {
+  background-color: var(--primary-200);
+  color: #ffffff;
+  cursor: not-allowed;
+  opacity: 0.7;
+}
+
+/* Secondary Button */
+.btn-sys-secondary {
+  background-color: var(--neutral-100);
+  color: var(--neutral-800) !important;
+  border: 1px solid transparent;
+  border-radius: 8px;
+  padding: 8px 16px;
+  font-size: var(--font-p2-size);
+  font-weight: 600;
+  line-height: var(--font-p2-lh);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  cursor: pointer;
+  transition: all var(--transition);
+  text-decoration: none;
+}
+.btn-sys-secondary:hover {
+  background-color: var(--neutral-200);
+  color: var(--neutral-900);
+}
+.btn-sys-secondary:focus {
+  background-color: var(--neutral-200);
+  box-shadow: 0 0 0 3px rgba(100, 116, 139, 0.25);
+  outline: none;
+}
+.btn-sys-secondary:disabled,
+.btn-sys-secondary.disabled {
+  background-color: var(--neutral-50);
+  color: var(--neutral-300);
+  cursor: not-allowed;
+}
+
+/* Outline Button */
+.btn-sys-outline {
+  background-color: #ffffff;
+  color: var(--neutral-800) !important;
+  border: 1px solid var(--neutral-300);
+  border-radius: 8px;
+  padding: 8px 16px;
+  font-size: var(--font-p2-size);
+  font-weight: 600;
+  line-height: var(--font-p2-lh);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  cursor: pointer;
+  transition: all var(--transition);
+  text-decoration: none;
+}
+.btn-sys-outline:hover {
+  background-color: var(--neutral-50);
+  border-color: var(--neutral-400);
+  color: var(--neutral-900);
+}
+.btn-sys-outline:focus {
+  border-color: var(--primary-500);
+  box-shadow: 0 0 0 3px rgba(30, 122, 227, 0.2);
+  outline: none;
+}
+.btn-sys-outline:disabled,
+.btn-sys-outline.disabled {
+  background-color: #ffffff;
+  border-color: var(--neutral-200);
+  color: var(--neutral-300);
+  cursor: not-allowed;
+}
+
+/* Danger / Destructive Button */
+.btn-sys-danger,
+.btn-danger-solid {
+  background-color: var(--error-500);
+  color: #ffffff !important;
+  border: 1px solid transparent;
+  border-radius: 8px;
+  padding: 8px 16px;
+  font-size: var(--font-p2-size);
+  font-weight: 600;
+  line-height: var(--font-p2-lh);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  cursor: pointer;
+  transition: all var(--transition);
+  text-decoration: none;
+}
+.btn-sys-danger:hover,
+.btn-danger-solid:hover {
+  background-color: var(--error-600);
+}
+.btn-sys-danger:focus,
+.btn-danger-solid:focus {
+  background-color: var(--error-600);
+  box-shadow: 0 0 0 3px rgba(239, 68, 68, 0.35);
+  outline: none;
+}
+.btn-sys-danger:disabled,
+.btn-danger-solid:disabled {
+  background-color: var(--error-200);
+  cursor: not-allowed;
+}
+
+/* Square Icon Buttons */
+.btn-sys-icon {
+  width: 38px;
+  height: 38px;
+  border-radius: 8px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid transparent;
+  cursor: pointer;
+  transition: all var(--transition);
+}
+.btn-sys-icon-primary {
+  background-color: var(--primary-600);
+  color: #ffffff;
+}
+.btn-sys-icon-primary:hover {
+  background-color: var(--primary-700);
+}
+.btn-sys-icon-secondary {
+  background-color: var(--neutral-100);
+  color: var(--neutral-700);
+}
+.btn-sys-icon-secondary:hover {
+  background-color: var(--neutral-200);
+  color: var(--neutral-900);
+}
+.btn-sys-icon-outline {
+  background-color: #ffffff;
+  border: 1px solid var(--neutral-300);
+  color: var(--neutral-700);
+}
+.btn-sys-icon-outline:hover {
+  background-color: var(--neutral-50);
+  border-color: var(--neutral-400);
+}
+.btn-sys-icon-danger {
+  background-color: var(--error-500);
+  color: #ffffff;
+}
+.btn-sys-icon-danger:hover {
+  background-color: var(--error-600);
+}
+
+/* Quick Add Soft Circle / Rounded Square Buttons */
+.btn-action-add {
+  width: 40px;
+  height: 40px;
+  border-radius: 10px;
+  border: none;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.1rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: transform var(--transition), filter var(--transition);
+}
+.btn-action-add:hover {
+  transform: scale(1.05);
+}
+.btn-action-add.pill-rounded {
+  border-radius: 50%;
+}
+.btn-action-add-red {
+  background-color: var(--error-50);
+  color: var(--error-500);
+}
+.btn-action-add-green {
+  background-color: var(--success-50);
+  color: var(--success-600);
+}
+.btn-action-add-amber {
+  background-color: var(--warning-50);
+  color: var(--warning-600);
+}
+.btn-action-add-blue {
+  background-color: var(--primary-50);
+  color: var(--primary-600);
+}
+.btn-action-add-neutral {
+  background-color: var(--neutral-100);
+  color: var(--neutral-600);
+}
+
+/* ── 2. Form Input Controls ──────────────────────────────── */
+.sys-input-group {
+  margin-bottom: 1rem;
+  display: flex;
+  flex-direction: column;
+}
+.sys-input-label,
+.form-label {
+  font-size: var(--font-t5-size);
+  font-weight: var(--font-t5-wt);
+  line-height: var(--font-t5-lh);
+  color: var(--neutral-900);
+  margin-bottom: 6px;
+}
+.sys-input-wrapper {
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+.sys-input-wrapper .sys-input-icon {
+  position: absolute;
+  left: 12px;
+  color: var(--neutral-400);
+  font-size: 1rem;
+  pointer-events: none;
+}
+.sys-input,
+.form-control {
+  width: 100%;
+  border-radius: 8px;
+  border: 1px solid var(--neutral-300);
+  background-color: #ffffff;
+  color: var(--neutral-900);
+  font-size: var(--font-p2-size);
+  line-height: var(--font-p2-lh);
+  padding: 9px 14px;
+  transition: border-color var(--transition), box-shadow var(--transition);
+}
+.sys-input-wrapper .sys-input,
+.sys-input-wrapper .form-control {
+  padding-left: 36px;
+}
+.sys-input:focus,
+.form-control:focus {
+  border-color: var(--primary-500);
+  box-shadow: 0 0 0 3px rgba(30, 122, 227, 0.2);
+  outline: none;
+}
+.sys-input:disabled,
+.form-control:disabled {
+  background-color: var(--neutral-50);
+  border-color: var(--neutral-200);
+  color: var(--neutral-400);
+  cursor: not-allowed;
+}
+.sys-input-helper,
+.form-text {
+  font-size: var(--font-t6-size);
+  line-height: var(--font-t6-lh);
+  color: var(--neutral-500);
+  margin-top: 5px;
+}
+
+/* ── 3. Status Badges & Chips ───────────────────────────── */
+.sys-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 4px 10px;
+  border-radius: 9999px;
+  font-size: var(--font-t6-size);
+  font-weight: 600;
+  line-height: var(--font-t6-lh);
+  text-decoration: none;
+  border: 1px solid transparent;
+}
+
+.sys-badge-featured {
+  background-color: var(--primary-50);
+  color: var(--primary-700);
+  border-color: var(--primary-200);
+}
+.sys-badge-failed {
+  background-color: var(--error-50);
+  color: var(--error-700);
+  border-color: var(--error-200);
+}
+.sys-badge-in-review {
+  background-color: var(--warning-50);
+  color: var(--warning-700);
+  border-color: var(--warning-200);
+}
+.sys-badge-success {
+  background-color: var(--success-50);
+  color: var(--success-700);
+  border-color: var(--success-200);
+}
+.sys-badge-draft {
+  background-color: var(--neutral-100);
+  color: var(--neutral-700);
+  border-color: var(--neutral-200);
+}
+
+/* Status badge dot indicator */
+.sys-badge-dot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  display: inline-block;
+  flex-shrink: 0;
+}
+.sys-badge-featured .sys-badge-dot { background-color: var(--primary-600); }
+.sys-badge-failed .sys-badge-dot   { background-color: var(--error-500); }
+.sys-badge-in-review .sys-badge-dot{ background-color: var(--warning-500); }
+.sys-badge-success .sys-badge-dot  { background-color: var(--success-500); }
+.sys-badge-draft .sys-badge-dot    { background-color: var(--neutral-500); }
+
+/* Removable close icon on badges */
+.sys-badge-close {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.75rem;
+  margin-left: 2px;
+  opacity: 0.65;
+  cursor: pointer;
+  transition: opacity 0.15s ease;
+}
+.sys-badge-close:hover {
+  opacity: 1;
+}
+
+/* ── 4. Avatars with Online Status Indicator ─────────────── */
+.sys-avatar-wrapper {
+  position: relative;
+  display: inline-block;
+  line-height: 1;
+}
+.sys-avatar-img {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 2px solid #ffffff;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+}
+.sys-avatar-initials {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  background-color: var(--neutral-100);
+  color: var(--neutral-700);
+  font-weight: 700;
+  font-size: 15px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border: 2px solid #ffffff;
+}
+.sys-avatar-status-dot {
+  position: absolute;
+  bottom: 0;
+  right: 0;
+  width: 10px;
+  height: 10px;
+  background-color: var(--success-500);
+  border: 2px solid #ffffff;
+  border-radius: 50%;
+}
+
+/* ── 5. Segmented Navigation Tabs & Meta Counts ──────────── */
+.sys-segmented-tabs {
+  background-color: var(--neutral-100);
+  padding: 4px;
+  border-radius: 10px;
+  display: inline-flex;
+  gap: 4px;
+}
+.sys-segmented-tab {
+  padding: 6px 16px;
+  border-radius: 8px;
+  font-size: var(--font-t5-size);
+  font-weight: 500;
+  color: var(--neutral-600);
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  transition: all 0.15s ease;
+  text-decoration: none;
+}
+.sys-segmented-tab:hover {
+  color: var(--neutral-900);
+}
+.sys-segmented-tab.active {
+  background-color: #ffffff;
+  color: var(--neutral-900);
+  font-weight: 600;
+  box-shadow: 0 1px 4px rgba(15, 23, 42, 0.08);
+}
+
+.sys-meta-counts {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  font-size: var(--font-t5-size);
+  color: var(--neutral-500);
+  margin-top: 10px;
+}
+.sys-meta-counts .count-item {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  cursor: pointer;
+}
+.sys-meta-counts .count-item.active {
+  color: var(--neutral-900);
+  font-weight: 600;
+}
+
+/* ── 6. File Upload Progress ─────────────────────────────── */
+.sys-file-upload-card {
+  background-color: #ffffff;
+  border: 1px solid var(--neutral-200);
+  border-radius: 10px;
+  padding: 12px 16px;
+  box-shadow: var(--shadow-sm);
+}
+.sys-file-upload-meta {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 6px;
+  font-size: var(--font-t5-size);
+  font-weight: 500;
+  color: var(--neutral-800);
+}
+.sys-file-upload-status {
+  font-size: var(--font-t6-size);
+  color: var(--neutral-500);
+}
+.sys-file-upload-bar {
+  height: 6px;
+  border-radius: 3px;
+  background-color: var(--neutral-200);
+  overflow: hidden;
+}
+.sys-file-upload-fill {
+  height: 100%;
+  border-radius: 3px;
+  background-color: var(--primary-600);
+  transition: width 0.3s ease;
+}
+
+/* ── 7. Toggle Switch ────────────────────────────────────── */
+.sys-toggle-wrapper {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 0.75rem;
+  cursor: pointer;
+}
+.sys-switch {
+  position: relative;
+  display: inline-block;
+  width: 42px;
+  height: 22px;
+  flex-shrink: 0;
+}
+.sys-switch input {
+  opacity: 0;
+  width: 0;
+  height: 0;
+}
+.sys-switch-slider {
+  position: absolute;
+  cursor: pointer;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: var(--neutral-300);
+  border-radius: 22px;
+  transition: background-color var(--transition);
+}
+.sys-switch-slider:before {
+  position: absolute;
+  content: "";
+  height: 16px;
+  width: 16px;
+  left: 3px;
+  bottom: 3px;
+  background-color: #ffffff;
+  border-radius: 50%;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.2);
+  transition: transform var(--transition);
+}
+.sys-switch input:checked + .sys-switch-slider {
+  background-color: var(--primary-600);
+}
+.sys-switch input:checked + .sys-switch-slider:before {
+  transform: translateX(20px);
+}
+.sys-switch input:disabled + .sys-switch-slider {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+/* ── 8. Radio & Checkbox Controls ────────────────────────── */
+.sys-control-label {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  cursor: pointer;
+  font-size: var(--font-p2-size);
+  color: var(--neutral-800);
+  user-select: none;
+}
+.sys-radio-input,
+.sys-checkbox-input {
+  width: 18px;
+  height: 18px;
+  accent-color: var(--primary-600);
+  cursor: pointer;
+}
+
+/* ── 9. Nav Menu Cards & Lists ───────────────────────────── */
+.sys-nav-card {
+  background: #ffffff;
+  border: 1px solid var(--neutral-200);
+  border-radius: 12px;
+  overflow: hidden;
+  box-shadow: var(--shadow-sm);
+}
+.sys-nav-item {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 12px 16px;
+  border-bottom: 1px solid var(--neutral-100);
+  color: var(--neutral-700);
+  font-size: var(--font-p2-size);
+  font-weight: 500;
+  text-decoration: none;
+  transition: all 0.15s ease;
+}
+.sys-nav-item:last-child {
+  border-bottom: none;
+}
+.sys-nav-item:hover {
+  background-color: var(--neutral-50);
+  color: var(--neutral-900);
+}
+.sys-nav-item.active {
+  background-color: var(--primary-50);
+  color: var(--primary-700);
+  font-weight: 600;
+}
+
+/* ── 10. Tags / Filter Chips ─────────────────────────────── */
+.sys-tag {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 5px 12px;
+  border-radius: 6px;
+  font-size: var(--font-t6-size);
+  font-weight: 500;
+  border: 1px solid var(--neutral-300);
+  background-color: #ffffff;
+  color: var(--neutral-800);
+  text-decoration: none;
+  transition: all 0.15s ease;
+  cursor: pointer;
+}
+.sys-tag:hover {
+  background-color: var(--neutral-100);
+  border-color: var(--neutral-400);
+  color: var(--neutral-900);
+}
+.sys-tag-removable .sys-tag-close {
+  opacity: 0.6;
+  margin-left: 2px;
+}
+.sys-tag-removable .sys-tag-close:hover {
+  opacity: 1;
+}
+
