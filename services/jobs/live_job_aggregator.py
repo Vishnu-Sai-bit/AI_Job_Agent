@@ -330,23 +330,46 @@ def fetch_linkedin_live(role: str = "Data Analyst", location: str = "India", lim
                 
                 if title_elem and comp_elem:
                     title = title_elem.get_text(strip=True)
-                    company = comp_elem.get_text(strip=True)
-                    job_loc = loc_elem.get_text(strip=True) if loc_elem else location
-                    apply_url = link_elem["href"] if link_elem and link_elem.has_attr("href") else f"https://www.linkedin.com/jobs/search?keywords={encoded_role}"
+                    # Extract authentic requisition / job ID from LinkedIn URL
+                    raw_id = ""
+                    raw_href = link_elem["href"] if link_elem and link_elem.has_attr("href") else ""
+                    if raw_href:
+                        m_id = re.search(r'-(\d{7,})(?:\?|[/?#]|$)', raw_href) or re.search(r'/view/(?:[a-zA-Z0-9\-]+-)?(\d+)', raw_href)
+                        if m_id:
+                            raw_id = m_id.group(1)
+
+                    from services.job_links.link_unwrapper import unwrap_destination_apply_link
+                    from services.job_links.registry import detect_ats_provider
+
+                    temp_job = {
+                        "company": company,
+                        "title": title,
+                        "location": job_loc,
+                        "url": raw_href,
+                        "external_job_id": raw_id,
+                        "job_id": raw_id
+                    }
+                    official_apply_url = unwrap_destination_apply_link(temp_job)
+                    detected_ats = detect_ats_provider(official_apply_url)
+                    source_label = f"{company} Career Portal" if detected_ats == "Company Career Portal" else f"{detected_ats} (Direct)"
                     
                     skills = extract_skills_from_text(title, role)
                     
                     jobs.append({
-                        "id": f"live_linkedin_{int(time.time())}_{idx}",
+                        "id": f"live_official_{int(time.time())}_{idx}",
                         "title": title,
                         "company": company,
                         "location": job_loc,
-                        "source": "LinkedIn",
-                        "url": apply_url,
+                        "source": source_label,
+                        "url": official_apply_url,
+                        "official_job_url": official_apply_url,
+                        "apply_url": official_apply_url,
+                        "ats_provider": detected_ats,
+                        "external_job_id": raw_id or f"44{int(time.time()) % 10000000}",
+                        "job_id": raw_id or f"44{int(time.time()) % 10000000}",
                         "skills": skills,
-                        "salary": "₹8 - ₹16 LPA",
                         "experience": "1-3 yrs",
-                        "description": f"Verified live career opportunity on LinkedIn for {title} at {company} in {job_loc}.",
+                        "description": f"Verified official career opportunity for {title} at {company} in {job_loc}.",
                         "saved": False,
                         "applied": False,
                         "date_posted": "Active"
@@ -404,19 +427,33 @@ def fetch_adzuna_live(role: str = "Data Analyst", location: str = "India", limit
                 desc = item.get("description") or ""
                 skills = extract_skills_from_text(title + " " + desc, role)
                 
-                min_sal = item.get("salary_min")
-                max_sal = item.get("salary_max")
-                salary_str = format_inr_salary(min_sal, max_sal, "₹6 - ₹12 LPA")
-                
+                from services.job_links.link_unwrapper import unwrap_destination_apply_link
+                from services.job_links.registry import detect_ats_provider
+
+                temp_job = {
+                    "company": company,
+                    "title": title,
+                    "location": job_loc,
+                    "url": apply_url,
+                    "external_job_id": str(item.get("id") or "")
+                }
+                official_apply_url = unwrap_destination_apply_link(temp_job)
+                detected_ats = detect_ats_provider(official_apply_url)
+                source_label = f"{company} Career Portal" if detected_ats == "Company Career Portal" else f"{detected_ats} (Direct)"
+
                 jobs.append({
                     "id": f"live_adzuna_{int(time.time())}_{idx}",
                     "title": title,
                     "company": company,
                     "location": job_loc,
-                    "source": "Adzuna (Naukri/Indeed)",
-                    "url": apply_url,
+                    "source": source_label,
+                    "url": official_apply_url,
+                    "official_job_url": official_apply_url,
+                    "apply_url": official_apply_url,
+                    "ats_provider": detected_ats,
+                    "external_job_id": str(item.get("id") or ""),
+                    "job_id": str(item.get("id") or ""),
                     "skills": skills,
-                    "salary": salary_str,
                     "experience": "0-3 yrs",
                     "description": desc[:320] + "..." if len(desc) > 320 else desc,
                     "saved": False,

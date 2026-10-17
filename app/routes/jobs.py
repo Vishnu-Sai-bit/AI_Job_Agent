@@ -73,15 +73,10 @@ def resolve_exact_job_url(job: dict) -> str:
             job_id = f"44{seed}"
     job["job_id"] = str(job_id)
 
-    # 3. Direct to exact official company careers / ATS portal
-    from services.job_links.registry import build_authentic_company_job_url
-    return build_authentic_company_job_url(
-        company=company,
-        title=title,
-        location=loc,
-        current_url=current_url,
-        job_id=str(job_id)
-    )
+    # 3. Direct to exact job on LinkedIn with currentJobId preselected
+    encoded_query = urllib.parse.quote_plus(f"{title} {company}")
+    encoded_loc = urllib.parse.quote_plus(loc)
+    return f"https://www.linkedin.com/jobs/search/?keywords={encoded_query}&location={encoded_loc}&currentJobId={job_id}"
 
 def load_verified_jobs():
     normalized = []
@@ -638,7 +633,7 @@ def apply_redirect(job_id):
     target_url = resolution.get("destination_url")
 
     # Final guarantee: unwrap any legacy LinkedIn or aggregator redirect directly to employer ATS portal
-    if target_url and ("linkedin.com" in target_url.lower() or "adzuna." in target_url.lower()):
+    if target_url and any(agg in target_url.lower() for agg in ["linkedin.com", "adzuna.", "indeed.", "shine.", "glassdoor."]):
         from services.job_links.link_unwrapper import unwrap_destination_apply_link
         direct_url = unwrap_destination_apply_link(job)
         if direct_url and "linkedin.com" not in direct_url.lower():

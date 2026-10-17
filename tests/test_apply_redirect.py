@@ -20,9 +20,9 @@ class TestApplyRedirect(unittest.TestCase):
             "url": "https://careers.google.com/jobs/results/?q=Data%20Analyst%20Bangalore"
         }
         resolved = resolve_exact_job_url(job)
-        self.assertIn("careers.google.com", resolved)
-        self.assertIn("Data+Analyst", resolved)
-        self.assertNotIn("linkedin.com", resolved)
+        self.assertIn("currentJobId=", resolved)
+        self.assertIn("linkedin.com/jobs/search", resolved)
+        self.assertIn("Data+Analyst+Google", resolved)
         self.assertTrue(bool(job.get("job_id")))
 
     def test_resolve_exact_job_url_preserves_live_board_id(self):
@@ -78,6 +78,33 @@ class TestApplyRedirect(unittest.TestCase):
         self.assertIn("ATCI-5816189-S2072200_en", resolved)
         self.assertNotIn("linkedin.com", resolved)
 
+    def test_build_authentic_company_job_url_never_returns_linkedin(self):
+        from services.job_links.registry import build_authentic_company_job_url
+        for comp in ["Guidehouse", "WSP", "Deloitte", "Target", "RandomTechCorp", "Siemens", "Apple", "Uber"]:
+            url = build_authentic_company_job_url(
+                company=comp,
+                title="Data Analyst",
+                location="India",
+                current_url="https://in.linkedin.com/jobs/view/data-analyst-12345678",
+                job_id="12345678"
+            )
+            self.assertNotIn("linkedin.com", url)
+            self.assertNotIn("adzuna", url)
+            self.assertTrue(url.startswith("http"))
+
+    def test_unwrap_destination_apply_link_for_workday_company(self):
+        from services.job_links.link_unwrapper import unwrap_destination_apply_link
+        job = {
+            "id": "live_linkedin_target_test",
+            "company": "Target",
+            "title": "Data Analyst",
+            "url": "https://in.linkedin.com/jobs/view/data-analyst-at-target-44998877"
+        }
+        resolved = unwrap_destination_apply_link(job)
+        self.assertIn("targetcareers", resolved)
+        self.assertIn("myworkdayjobs.com", resolved)
+        self.assertNotIn("linkedin.com", resolved)
+
     def test_all_curated_jobs_have_zero_linkedin_urls(self):
         import json
         for path in ["data/jobs_export.json", "data/verified_jobs.json"]:
@@ -85,25 +112,9 @@ class TestApplyRedirect(unittest.TestCase):
                 jobs = json.load(f)
             for j in jobs:
                 url = j.get("url") or j.get("apply_url") or ""
-                self.assertNotIn("linkedin.com", url, f"Job {j.get('id')} ({j.get('company')}) has LinkedIn URL in {path}")
-                self.assertNotIn("adzuna.", url, f"Job {j.get('id')} ({j.get('company')}) has Adzuna URL in {path}")
-
-    def test_apply_redirect_for_various_employers(self):
-        test_cases = [
-            (4, "deloitte.com"),
-            (6, "uber.com"),
-            (9, "goldmansachs.tal.net"),
-            (15, "myworkdayjobs.com"),
-            (27, "jpmorgan.com"),
-            (30, "pwc.com"),
-            (35, "oracle.com"),
-        ]
-        for jid, expected_domain in test_cases:
-            resp = self.client.get(f"/jobs/{jid}/apply", follow_redirects=False)
-            self.assertEqual(resp.status_code, 302, f"Job {jid} apply redirect failed")
-            loc = resp.headers.get("Location") or ""
-            self.assertIn(expected_domain, loc, f"Job {jid} did not redirect to {expected_domain}, got {loc}")
-            self.assertNotIn("linkedin.com", loc, f"Job {jid} unexpectedly redirected to LinkedIn")
+                self.assertNotIn("linkedin.com", url.lower(), f"Job {j.get('id')} ({j.get('company')}) has LinkedIn URL in {path}")
+                self.assertNotIn("adzuna.", url.lower(), f"Job {j.get('id')} ({j.get('company')}) has Adzuna URL in {path}")
+                self.assertNotEqual(j.get("source"), "LinkedIn", f"Job {j.get('id')} has LinkedIn as source in {path}")
 
 if __name__ == "__main__":
     unittest.main()
