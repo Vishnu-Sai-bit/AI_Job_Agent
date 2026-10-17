@@ -242,9 +242,9 @@
                 <i class="bi bi-geo-alt text-muted me-1"></i> {{ job.location or 'Multiple Locations' }}
               </div>
               <div class="small text-secondary mb-3 d-flex align-items-center justify-content-between flex-wrap gap-1">
-                <span><i class="bi bi-clock text-muted me-1"></i> {{ job.experience or 'Full-time' }} &bull; {{ job.source or 'Verified Portal' }}</span>
-                <span class="badge bg-light text-secondary border px-2 py-0.5 rounded-pill font-monospace" style="font-size: 0.72rem;" title="Official Job ID">
-                  <i class="bi bi-hash text-primary"></i>{{ job.job_id or job.id }}
+                <span><i class="bi bi-clock text-muted me-1"></i> {{ job.experience or 'Full-time' }} &bull; <span class="badge bg-primary-subtle text-primary border border-primary-subtle px-1.5 py-0.5 rounded-pill" style="font-size: 0.70rem;"><i class="bi bi-cpu me-1"></i>{{ job.ats_provider or job.source or 'Official Portal' }}</span></span>
+                <span class="badge bg-light text-secondary border px-2 py-0.5 rounded-pill font-monospace" style="font-size: 0.72rem;" title="Official Requisition / Job ID">
+                  <i class="bi bi-hash text-primary"></i>{{ job.external_job_id or job.job_id or job.id }}
                 </span>
               </div>
 

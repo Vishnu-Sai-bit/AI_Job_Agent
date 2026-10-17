@@ -15,8 +15,11 @@ from app.extensions import db
 from app.models.job import Job
 from app.models.application import Application
 from app.routes.main import get_candidate_context
+from services.job_links.normalizer import normalize_job, basic_url_check, verify_ats_domain
+from services.job_links.registry import detect_ats_provider, resolve_verified_apply_link
 
 jobs_bp = Blueprint("jobs", __name__, url_prefix="/jobs")
+
 
 def resolve_exact_job_url(job: dict) -> str:
     """
@@ -100,10 +103,17 @@ def load_verified_jobs():
 
                     j["skills"] = skills
 
-                    # Ensure exact job URL with specific Job ID
-                    j["url"] = resolve_exact_job_url(j)
+                    # Ensure exact job URL and ATS properties are standardized
+                    ats = j.get("ats_provider") or detect_ats_provider(j.get("official_job_url") or j.get("url"))
+                    norm_job = normalize_job(j, provider=ats)
+                    
+                    # Ensure backward compatible attributes
+                    norm_job["job_id"] = norm_job.get("external_job_id") or str(j.get("id"))
+                    norm_job["url"] = norm_job.get("apply_url") or norm_job.get("official_job_url") or resolve_exact_job_url(j)
+                    norm_job["source"] = norm_job.get("ats_provider") or j.get("source", "Verified Portal")
+                    norm_job["posted_date"] = j.get("posted_date", "Recently")
 
-                    normalized.append(j)
+                    normalized.append(norm_job)
                 return normalized
         except Exception:
             pass
@@ -434,15 +444,20 @@ def cover_letter(job_id):
         active_tab="jobs"
     )
 
-@jobs_bp.route("/<job_id>/apply")
+@jobs_bp.route("/<job_id>/apply", endpoint="apply_redirect")
+@jobs_bp.route("/<job_id>/apply", endpoint="apply_to_job")
 def apply_redirect(job_id):
     """
-    Direct smart redirection to the exact job posting with exact job ID on the job portal.
+    Direct verified redirection to the exact job posting / direct application form on the official ATS.
+    Uses resolve_verified_apply_link following the 3-tier fallback hierarchy:
+    1. Verified direct application URL (apply_url)
+    2. Verified job-detail URL for exact position (official_job_url)
+    3. Graceful unverified notice back to job detail if destination cannot be validated.
     Auto-records application initiation event in CRM.
     """
     candidate = get_candidate_context()
     raw_jobs = load_verified_jobs()
-    job = next((j for j in raw_jobs if str(j.get("id")) == str(job_id) or str(j.get("job_id")) == str(job_id)), None)
+    job = next((j for j in raw_jobs if str(j.get("id")) == str(job_id) or str(j.get("job_id")) == str(job_id) or str(j.get("external_job_id")) == str(job_id)), None)
 
     if not job:
         try:
@@ -454,21 +469,24 @@ def apply_redirect(job_id):
                     "company": db_job.company,
                     "location": db_job.location,
                     "url": db_job.url,
-                    "job_id": getattr(db_job, "job_id", None)
+                    "job_id": getattr(db_job, "external_job_id", None) or getattr(db_job, "job_id", None) or db_job.id,
+                    "official_job_url": getattr(db_job, "official_job_url", None) or db_job.url,
+                    "apply_url": getattr(db_job, "apply_url", None),
+                    "ats_provider": getattr(db_job, "ats_provider", None)
                 }
         except Exception:
             pass
 
     if not job:
-        job = {
-            "id": job_id,
-            "title": "Data Analyst",
-            "company": "Enterprise Tech",
-            "location": "India",
-            "job_id": str(job_id) if str(job_id).isdigit() and len(str(job_id)) >= 6 else "4446724293"
-        }
+        flash("Opportunity listing could not be found.", "warning")
+        return redirect(url_for("jobs.index"))
 
-    target_url = resolve_exact_job_url(job)
+    resolution = resolve_verified_apply_link(job)
+    target_url = resolution.get("destination_url")
+
+    if not target_url or not resolution.get("can_apply"):
+        flash("Direct application link could not be verified for this opening.", "warning")
+        return redirect(url_for("jobs.detail", job_id=job.get("id", job_id)))
 
     # Auto-track in Application CRM
     try:
@@ -480,10 +498,12 @@ def apply_redirect(job_id):
             "stage": "applied",
             "status": "applied",
             "apply_url": target_url,
+            "ats_provider": resolution.get("ats_provider", "Official Portal"),
             "date_applied": datetime.now().strftime("%Y-%m-%d"),
-            "notes": f"Directly applied to Job #{job.get('job_id', job_id)}"
+            "notes": f"Directly applied to Job #{job.get('external_job_id') or job.get('job_id', job_id)} via {resolution.get('ats_provider')}"
         })
     except Exception:
         pass
 
     return redirect(target_url, code=302)
+

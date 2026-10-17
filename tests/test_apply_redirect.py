@@ -41,8 +41,8 @@ class TestApplyRedirect(unittest.TestCase):
         self.assertEqual(response.status_code, 302)
         location = response.headers.get("Location")
         self.assertIsNotNone(location)
-        self.assertIn("currentJobId=", location)
-        self.assertNotIn("careers.google.com", location)
+        self.assertIn("careers.google.com", location)
+        self.assertIn("4464214853", location)
 
 if __name__ == "__main__":
     unittest.main()
