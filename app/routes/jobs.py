@@ -17,6 +17,7 @@ from app.models.application import Application
 from app.routes.main import get_candidate_context
 from services.job_links.normalizer import normalize_job, basic_url_check, verify_ats_domain
 from services.job_links.registry import detect_ats_provider, resolve_verified_apply_link
+from services.jobs.live_job_aggregator import format_rich_job_title, extract_skills_from_text
 
 jobs_bp = Blueprint("jobs", __name__, url_prefix="/jobs")
 
@@ -340,6 +341,14 @@ def index():
             elif exp_filter == "5+" and not any(k in j_exp for k in ["5+", "5-8", "6+", "7+", "senior", "lead"]):
                 continue
 
+        # Extract any extra skills mentioned in job title/description
+        extra_skills = extract_skills_from_text(f"{j_title} {j.get('description', '')}", active_target_role)
+        merged_skills = list(j_skills)
+        for es in extra_skills:
+            if not any(es.lower() == s.lower() for s in merged_skills):
+                merged_skills.append(es)
+        j_skills = merged_skills
+
         # Skill matching
         matching, missing = match_skills(j_skills, candidate_skills)
         skill_pct = (len(matching) / len(j_skills) * 100.0) if j_skills else (75.0 if has_resume else 50.0)
@@ -350,18 +359,62 @@ def index():
 
         # Multi-factor score: 40% role relevance + 40% skills alignment + 20% experience fit
         match_score = round(0.40 * role_score + 0.40 * skill_pct + 0.20 * exp_score, 1)
-        match_score = min(100.0, max(30.0, match_score))
+
+        # Format rich Cisco-style title:
+        # <Role Title> | <Key Matched Tech Stack> | <Experience Range> | <City/Location>
+        display_title = format_rich_job_title(
+            j_title,
+            skills=j_skills,
+            experience=j_exp,
+            location=j_loc,
+            matching_skills=matching if has_resume else None
+        )
+
+        company_lower = (j.get("company") or "").lower()
+        is_tier1 = any(e in company_lower for e in [
+            "cisco", "google", "microsoft", "amazon", "accenture", "tcs", "infosys",
+            "qualcomm", "ibm", "razorpay", "swiggy", "zomato", "deloitte", "persistent",
+            "oracle", "uber", "apple", "adobe", "capgemini", "wipro", "cognizant", "optum"
+        ])
+        is_agency = any(t in company_lower for t in [
+            "placement", "consultan", "staffing", "recruitment solution", "manpower", "talent hub"
+        ])
+
+        if has_resume:
+            if is_agency:
+                match_score = max(30.0, match_score - 25.0)
+            elif is_tier1 and (is_rel or matching):
+                # Ensure verified enterprise roles have high match score just like Cisco (92%-98%)
+                match_score = min(98.0, max(match_score, 90.0 + min(len(matching) * 2.5, 8.0)))
+            elif is_rel and matching:
+                match_score = min(98.0, max(match_score, 85.0 + min(len(matching) * 3.0, 10.0)))
+            elif is_rel:
+                match_score = min(92.0, max(match_score, 78.0))
+
+        match_score = min(98.0, max(30.0, match_score))
+
+        # Strictly zero salary across the UI
+        j.pop("salary", None)
 
         scored_jobs.append({
+            **j,
             "id": j.get("id"),
-            "title": j_title,
+            "title": display_title,
+            "raw_title": j_title,
+            "display_title": display_title,
             "company": j.get("company"),
             "location": j_loc,
-            "salary": j.get("salary", "Competitive"),
             "experience": j_exp,
             "experience_fit_note": exp_note if has_resume else "",
             "source": j.get("source", "Verified Portal"),
-            "url": j.get("url", "https://careers.google.com"),
+            "ats_provider": j.get("ats_provider") or j.get("source", "Official Portal"),
+            "external_job_id": j.get("external_job_id") or j.get("job_id") or str(j.get("id")),
+            "job_id": j.get("job_id") or j.get("external_job_id") or str(j.get("id")),
+            "official_job_url": j.get("official_job_url") or j.get("url"),
+            "apply_url": j.get("apply_url") or j.get("official_job_url") or j.get("url"),
+            "url": j.get("url") or j.get("apply_url") or j.get("official_job_url"),
+            "is_live": j.get("is_live", True),
+            "posted_date": j.get("posted_date") or "Active Live",
             "description": j.get("description", ""),
             "matching_skills": matching if has_resume else [],
             "missing_skills": missing if has_resume else [],
@@ -416,9 +469,23 @@ def detail(job_id):
         return redirect(url_for("jobs.index"))
 
     candidate = get_candidate_context()
+    has_resume = bool(candidate.get("has_resume"))
     candidate_skills = {s.lower().strip() for s in candidate.get("skills", [])}
     job_skills = job.get("skills", [])
     matching, missing = match_skills(job_skills, candidate_skills)
+
+    display_title = format_rich_job_title(
+        job.get("title", ""),
+        skills=job_skills,
+        experience=job.get("experience", ""),
+        location=job.get("location", ""),
+        matching_skills=matching if has_resume else None
+    )
+    job["display_title"] = display_title
+    job["title"] = display_title
+    job["ats_provider"] = job.get("ats_provider") or job.get("source", "Official Portal")
+    job["external_job_id"] = job.get("external_job_id") or job.get("job_id") or str(job.get("id"))
+    job.pop("salary", None)
 
     return render_template(
         "jobs/detail.html",

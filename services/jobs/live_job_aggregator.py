@@ -31,7 +31,9 @@ COMMON_SKILLS = [
     "Machine Learning", "Pandas", "NumPy", "Statistics", "ETL", "AWS", "Azure",
     "Snowflake", "Databricks", "Java", "JavaScript", "TypeScript", "React",
     "Node.js", "Docker", "Kubernetes", "Git", "FastAPI", "Django", "PostgreSQL",
-    "MongoDB", "Scikit-Learn", "TensorFlow", "PyTorch", "Spark", "Airflow", "GCP"
+    "MongoDB", "Scikit-Learn", "TensorFlow", "PyTorch", "Spark", "Airflow", "GCP",
+    "Golang", "Go", "C++", "C#", ".NET", "Linux", "REST APIs", "Microservices",
+    "Spring Boot", "GraphQL", "Redis"
 ]
 
 DEFAULT_USER_AGENT = (
@@ -49,7 +51,13 @@ def extract_skills_from_text(text: str, default_role: str = "") -> List[str]:
     found = []
     text_lower = text.lower()
     for skill in COMMON_SKILLS:
-        pattern = r"\b" + re.escape(skill.lower()) + r"\b"
+        s_low = skill.lower()
+        if s_low in ["c++", "c#", ".net"]:
+            pattern = r"(?:^|[^\w])" + re.escape(s_low) + r"(?:[^\w]|$)"
+        elif s_low == "go":
+            pattern = r"\bgo\b(?!\s*to|\s*on)"
+        else:
+            pattern = r"\b" + re.escape(s_low) + r"\b"
         if re.search(pattern, text_lower):
             found.append(skill)
     
@@ -57,6 +65,120 @@ def extract_skills_from_text(text: str, default_role: str = "") -> List[str]:
         found = ["Python", "SQL", "Excel"] if "analyst" in default_role.lower() else ["Software Engineering", "Problem Solving"]
     
     return found[:6]
+
+
+def format_rich_job_title(
+    job_title: str,
+    skills: Optional[List[str]] = None,
+    experience: str = "",
+    location: str = "",
+    matching_skills: Optional[List[str]] = None
+) -> str:
+    """
+    Format job title into rich, high-signal Cisco-style enterprise format:
+    <Role Title> | <Key Matched Tech Stack> | <Experience Range> | <City/Location>
+    Example:
+    Software Engineer | Java/Golang/Python/ C/C++ | 2 to 4 years | Bangalore
+    Data Analyst | Python/SQL/Tableau | 1 to 3 years | Bangalore
+    """
+    if not job_title:
+        job_title = "Software Engineer"
+        
+    # If already formatted with pipe delimiters (like Cisco), preserve cleanly
+    if "|" in job_title:
+        parts = [p.strip() for p in job_title.split("|") if p.strip()]
+        if len(parts) >= 2:
+            return " | ".join(parts)
+
+    # Clean role title: strip extraneous parenthesis, immediate joiner noise
+    clean_role = re.sub(r"\s*[\(\[\{].*?[\)\]\}]", "", job_title).strip()
+    clean_role = re.sub(r"(?i)\b(urgent\s*hiring|immediate\s*joiner|immediate\s*requirement|opening\s*for|urgently\s*required)\b", "", clean_role).strip(" :,-")
+    if not clean_role:
+        clean_role = job_title.strip()
+
+    # 1. Tech Stack / Skills portion:
+    # Prioritize matched skills from the candidate's resume first!
+    skills_list = []
+    if matching_skills:
+        for ms in matching_skills:
+            if ms and ms not in skills_list:
+                skills_list.append(ms)
+    if skills:
+        for s in skills:
+            if s and s not in skills_list:
+                skills_list.append(s)
+
+    if not skills_list:
+        role_lower = clean_role.lower()
+        if "data" in role_lower or "analyst" in role_lower:
+            skills_list = ["Python", "SQL", "Tableau", "Pandas"]
+        elif "cloud" in role_lower or "devops" in role_lower:
+            skills_list = ["AWS", "Docker", "Kubernetes", "Linux"]
+        elif "machine learning" in role_lower or "ai" in role_lower:
+            skills_list = ["Python", "PyTorch", "Pandas", "Scikit-Learn"]
+        elif "frontend" in role_lower or "react" in role_lower or "web" in role_lower:
+            skills_list = ["React", "JavaScript", "TypeScript", "Node.js"]
+        elif "backend" in role_lower or "java" in role_lower:
+            skills_list = ["Java", "Spring Boot", "Microservices", "SQL"]
+        else:
+            skills_list = ["Python", "Java", "SQL", "Git"]
+
+    picked = [s.strip() for s in skills_list[:4] if s.strip()]
+    tech_str = "/".join(picked) if picked else "Core Tech"
+
+    # 2. Experience portion:
+    exp_str = (experience or "").strip().lower()
+    if any(k in exp_str for k in ["0-1", "0-2", "0 to 1", "0 to 2", "fresher", "intern", "entry"]):
+        clean_exp = "0 to 2 years"
+    elif any(k in exp_str for k in ["1-2", "1-3", "1 to 2", "1 to 3"]):
+        clean_exp = "1 to 3 years"
+    elif any(k in exp_str for k in ["2-4", "2-5", "2 to 4", "2 to 5"]):
+        clean_exp = "2 to 4 years"
+    elif any(k in exp_str for k in ["3-5", "3 to 5"]):
+        clean_exp = "3 to 5 years"
+    elif any(k in exp_str for k in ["5+", "5-8", "6+", "7+", "senior", "lead"]):
+        clean_exp = "5+ years"
+    else:
+        m = re.search(r"(\d+)\s*(?:-|to)\s*(\d+)", exp_str)
+        if m:
+            clean_exp = f"{m.group(1)} to {m.group(2)} years"
+        else:
+            m_plus = re.search(r"(\d+)\s*\+?", exp_str)
+            if m_plus and int(m_plus.group(1)) > 0:
+                clean_exp = f"{m_plus.group(1)}+ years"
+            else:
+                clean_exp = "1 to 3 years"
+
+    # 3. Location portion:
+    loc_clean = (location or "").strip()
+    loc_lower = loc_clean.lower()
+    if "bengaluru" in loc_lower or "bangalore" in loc_lower:
+        clean_city = "Bangalore"
+    elif "hyderabad" in loc_lower:
+        clean_city = "Hyderabad"
+    elif "pune" in loc_lower:
+        clean_city = "Pune"
+    elif "mumbai" in loc_lower:
+        clean_city = "Mumbai"
+    elif "gurugram" in loc_lower or "gurgaon" in loc_lower:
+        clean_city = "Gurugram"
+    elif "noida" in loc_lower:
+        clean_city = "Noida"
+    elif "delhi" in loc_lower:
+        clean_city = "Delhi NCR"
+    elif "chennai" in loc_lower:
+        clean_city = "Chennai"
+    elif "kolkata" in loc_lower:
+        clean_city = "Kolkata"
+    elif "remote" in loc_lower or "anywhere" in loc_lower or "work from home" in loc_lower:
+        clean_city = "Remote"
+    elif "hybrid" in loc_lower:
+        clean_city = "Hybrid"
+    else:
+        first_seg = loc_clean.split(",")[0].strip()
+        clean_city = first_seg if first_seg and len(first_seg) < 20 else "India"
+
+    return f"{clean_role} | {tech_str} | {clean_exp} | {clean_city}"
 
 
 def format_inr_salary(min_val: Optional[float], max_val: Optional[float], default_sal: str = "₹6 - ₹12 LPA") -> str:
@@ -682,7 +804,18 @@ def aggregate_live_jobs(
         job["job_status"] = "open"
         job["url_verified"] = True
         job["company_name"] = job.get("company", "Company")
-        job["job_title"] = job.get("title", "Role")
+        
+        display_title = format_rich_job_title(
+            job.get("title", role),
+            skills=req_skills,
+            experience=job.get("experience", "1-3 yrs"),
+            location=job.get("location", location),
+            matching_skills=job.get("matching_skills")
+        )
+        job["display_title"] = display_title
+        job["title"] = display_title
+        job["job_title"] = display_title
+
         target_url = job.get("url") or job.get("apply_url") or ""
         job["official_job_url"] = target_url
         job["apply_url"] = target_url

@@ -93,6 +93,7 @@ def dashboard():
 
     if has_resume:
         from app.routes.jobs import load_verified_jobs, match_skills, is_role_relevant, check_experience_fit
+        from services.jobs.live_job_aggregator import format_rich_job_title
         all_jobs = load_verified_jobs()
         cand_skills = {s.lower().strip() for s in candidate.get("skills", [])}
         has_preferences = bool(candidate.get("has_preferences"))
@@ -125,16 +126,25 @@ def dashboard():
             
             if match_score < 48.0:
                 continue
+
+            display_title = format_rich_job_title(
+                j_title,
+                skills=j_skills,
+                experience=j_exp,
+                location=j_loc,
+                matching_skills=matching
+            )
                 
             scored.append({
                 "id": j.get("id"),
-                "title": j_title,
+                "title": display_title,
+                "display_title": display_title,
                 "company": j.get("company"),
                 "location": j_loc,
-                "salary": j.get("salary", "Competitive"),
                 "url": j.get("url", "#"),
                 "match_score": int(round(match_score)),
-                "skills": j_skills[:4]
+                "skills": j_skills[:4],
+                "matching_skills": matching[:3]
             })
             
         scored.sort(key=lambda x: x["match_score"], reverse=True)
