@@ -65,6 +65,9 @@ def fetch_jobs(role: str) -> tuple[List[JobData], List[str]]:
     from providers.wellfound import search_wellfound_jobs
     from providers.greenhouse import search_greenhouse_jobs
     from providers.lever import search_lever_jobs
+    from providers.ashby import search_ashby_jobs
+    from providers.workday import search_workday_jobs
+    from providers.company_careers import search_company_careers_jobs
 
     jobs: List[JobData] = []
     failed_providers: List[str] = []
@@ -81,6 +84,9 @@ def fetch_jobs(role: str) -> tuple[List[JobData], List[str]]:
         ENABLE_WELLFOUND,
         ENABLE_GREENHOUSE,
         ENABLE_LEVER,
+        ENABLE_ASHBY,
+        ENABLE_WORKDAY,
+        ENABLE_COMPANY_CAREERS,
     )
 
     providers_to_fetch = [
@@ -100,6 +106,9 @@ def fetch_jobs(role: str) -> tuple[List[JobData], List[str]]:
         ("Wellfound", ENABLE_WELLFOUND, search_wellfound_jobs),
         ("Greenhouse", ENABLE_GREENHOUSE, search_greenhouse_jobs),
         ("Lever", ENABLE_LEVER, search_lever_jobs),
+        ("Ashby", ENABLE_ASHBY, search_ashby_jobs),
+        ("Workday", ENABLE_WORKDAY, search_workday_jobs),
+        ("Company Careers", ENABLE_COMPANY_CAREERS, search_company_careers_jobs),
     ]
 
     for name, enabled, search_fn in providers_to_fetch:
