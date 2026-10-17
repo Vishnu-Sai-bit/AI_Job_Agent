@@ -188,18 +188,20 @@ st.markdown("""
 # Data Normalization & Helper Functions (Required by Unit Tests)
 # ------------------------------------------------------------------
 def convert_to_jobdata(item: Dict[str, Any]) -> JobData:
-    provider = item.get("source") or item.get("provider") or "Direct"
+    provider = item.get("ats_provider") or item.get("source") or item.get("provider") or "Direct"
+    job_id = str(item.get("job_id") or item.get("external_job_id") or item.get("id") or "")
+    apply_url = item.get("apply_url") or item.get("official_job_url") or item.get("url") or "#"
     return JobData(
         provider=provider,
-        provider_id=str(item.get("id") or ""),
-        company=item.get("company") or "Tech Enterprise",
-        title=item.get("title") or "Data Analyst",
+        provider_id=job_id,
+        company=item.get("company_name") or item.get("company") or "Tech Enterprise",
+        title=item.get("job_title") or item.get("title") or "Data Analyst",
         description=item.get("description") or "",
         location=item.get("location") or "Remote",
-        salary=item.get("salary") or "₹6 - ₹12 LPA",
+        salary="",
         experience=item.get("experience") or "0-2 yrs",
         skills=item.get("skills") or ["Python", "SQL", "Data Analysis"],
-        apply_url=item.get("url") or item.get("apply_url") or "#",
+        apply_url=apply_url,
         remote=True if "remote" in (item.get("location") or "").lower() else False
     )
 
@@ -617,7 +619,7 @@ elif cur_idx == 2:
                             <h3 style="margin: 0; color: #ffffff; font-size: 1.25rem;">{job.title}</h3>
                             <div style="color: #60a5fa; font-weight: 600; font-size: 0.92rem; margin-top: 2px;">
                                 {job.company} 
-                                <span style="color: #94a3b8; font-weight: normal;">• 📍 {job.location} • 💰 {job.salary} • 🌐 {job.provider}</span>
+                                <span style="color: #94a3b8; font-weight: normal;">• 📍 {job.location} {f'• 🆔 Job ID: {job.provider_id}' if job.provider_id else ''} • 🌐 {job.provider}</span>
                             </div>
                         </div>
                         {badge_html}
@@ -655,7 +657,6 @@ elif cur_idx == 2:
                             "company": job.company,
                             "role": job.title,
                             "location": job.location,
-                            "salary": job.salary,
                             "apply_url": job.apply_url,
                             "status": "applied",
                             "date_applied": datetime.now().strftime("%Y-%m-%d"),
@@ -910,7 +911,7 @@ elif cur_idx == 6:
                 app_role = st.text_input("Role Title:", value="Data Analyst")
             with fc2:
                 app_loc = st.text_input("Location:", value="Hyderabad / Remote")
-                app_sal = st.text_input("Salary:", value="₹12 - ₹18 LPA")
+                app_notes = st.text_input("Notes:", value="Direct Application")
             with fc3:
                 app_stg = st.selectbox("Initial Stage:", ["saved", "applied", "interview", "offer", "rejected"])
                 app_date = st.date_input("Date Applied:", datetime.now())
@@ -922,10 +923,9 @@ elif cur_idx == 6:
                     "company": app_comp,
                     "role": app_role,
                     "location": app_loc,
-                    "salary": app_sal,
                     "status": app_stg,
                     "date_applied": app_date.strftime("%Y-%m-%d"),
-                    "notes": "Added manually via Application CRM"
+                    "notes": app_notes
                 })
                 st.success(f"Added {app_role} at {app_comp} to CRM!")
                 st.rerun()
@@ -958,7 +958,7 @@ elif cur_idx == 6:
                             <div>
                                 <h4 style="margin: 0; color: #ffffff;">{a.get('role', 'Role')}</h4>
                                 <div style="color: #60a5fa; font-size: 0.92rem;">
-                                    {a.get('company', 'Company')} • 📍 {a.get('location', 'N/A')} • 💰 {a.get('salary', 'Competitive')}
+                                    {a.get('company', 'Company')} • 📍 {a.get('location', 'N/A')}
                                 </div>
                                 <div style="color: #94a3b8; font-size: 0.8rem; margin-top: 4px;">
                                     Applied: {a.get('date_applied', 'N/A')} • Follow-up due: {a.get('followup_date', 'N/A')}

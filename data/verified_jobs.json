@@ -5,7 +5,7 @@
     "company": "Google",
     "location": "Bangalore",
     "source": "Google Careers",
-    "url": "https://careers.google.com/jobs/results/?q=Data%20Analyst%20Bangalore",
+    "url": "https://careers.google.com/jobs/results/?q=Data+Analyst&location=Bangalore",
     "skills": [
       "Python",
       "SQL",
@@ -13,10 +13,21 @@
       "Data Analysis",
       "Pandas"
     ],
-    "salary": "\u20b914 - \u20b922 LPA",
     "experience": "1-3 yrs",
     "description": "Partner with product and engineering teams to write high-performance SQL queries, build interactive Tableau dashboards, conduct exploratory data analysis with Python, and deliver quantitative insights shaping user experience for millions.",
-    "posted_date": "Today"
+    "posted_date": "Just now",
+    "job_id": "4464214853",
+    "company_name": "Google",
+    "job_title": "Data Analyst",
+    "ats_provider": "Google Careers",
+    "external_job_id": "4464214853",
+    "official_job_url": "https://careers.google.com/jobs/results/?q=Data+Analyst&location=Bangalore",
+    "apply_url": "https://careers.google.com/jobs/results/?q=Data+Analyst&location=Bangalore",
+    "source_url": "https://www.google.com/about/careers/applications/jobs/results/?q=Data+Analyst&location=Bangalore",
+    "url_verified": true,
+    "last_verified_at": "2026-10-17T12:31:35.635228+00:00",
+    "job_status": "open",
+    "is_live": true
   },
   {
     "id": 2,
@@ -24,7 +35,7 @@
     "company": "Infosys",
     "location": "Hyderabad",
     "source": "LinkedIn",
-    "url": "https://career.infosys.com/joblist",
+    "url": "https://career.infosys.com/joblist?keyword=Junior+Data+Analyst",
     "skills": [
       "SQL",
       "Power BI",
@@ -32,10 +43,21 @@
       "Data Analysis",
       "Python"
     ],
-    "salary": "\u20b95.5 - \u20b98 LPA",
     "experience": "0-2 yrs",
     "description": "Translate business requirements into operational metrics and reports. Query enterprise databases using SQL, build automated Power BI dashboards, clean spreadsheets with Advanced Excel, and execute ad-hoc analysis in Python.",
-    "posted_date": "1 day ago"
+    "posted_date": "Today",
+    "job_id": "4431678379",
+    "company_name": "Infosys",
+    "job_title": "Junior Data Analyst",
+    "ats_provider": "Infosys Career Portal",
+    "external_job_id": "4431678379",
+    "official_job_url": "https://career.infosys.com/joblist?keyword=Junior+Data+Analyst",
+    "apply_url": "https://career.infosys.com/joblist?keyword=Junior+Data+Analyst",
+    "source_url": "https://career.infosys.com/joblist?keyword=Junior+Data+Analyst",
+    "url_verified": true,
+    "last_verified_at": "2026-10-17T12:31:35.635228+00:00",
+    "job_status": "open",
+    "is_live": true
   },
   {
     "id": 3,
@@ -43,7 +65,7 @@
     "company": "Microsoft",
     "location": "Hyderabad",
     "source": "Microsoft Careers",
-    "url": "https://careers.microsoft.com/us/en/search-results?keywords=Data%20Analyst%20Hyderabad",
+    "url": "https://jobs.careers.microsoft.com/global/en/search?q=Senior+Data+Analyst",
     "skills": [
       "SQL",
       "Python",
@@ -52,10 +74,21 @@
       "DAX",
       "Statistics"
     ],
-    "salary": "\u20b918 - \u20b928 LPA",
     "experience": "3-5 yrs",
     "description": "Drive analytics initiatives for Microsoft Cloud and AI divisions. Design robust dimensional data models, develop mission-critical Power BI executive dashboards, and conduct statistical experiments.",
-    "posted_date": "2 days ago"
+    "posted_date": "Active Live",
+    "job_id": "4416228740",
+    "company_name": "Microsoft",
+    "job_title": "Senior Data Analyst",
+    "ats_provider": "Microsoft Careers",
+    "external_job_id": "4416228740",
+    "official_job_url": "https://jobs.careers.microsoft.com/global/en/search?q=Senior+Data+Analyst",
+    "apply_url": "https://jobs.careers.microsoft.com/global/en/search?q=Senior+Data+Analyst",
+    "source_url": "https://jobs.careers.microsoft.com/global/en/search?q=Senior+Data+Analyst",
+    "url_verified": true,
+    "last_verified_at": "2026-10-17T12:31:35.635228+00:00",
+    "job_status": "open",
+    "is_live": true
   },
   {
     "id": 4,
@@ -63,7 +96,7 @@
     "company": "Deloitte",
     "location": "Hyderabad",
     "source": "Deloitte Careers",
-    "url": "https://jobsindia.deloitte.com/",
+    "url": "https://www.linkedin.com/jobs/search/?keywords=Business+Intelligence+Analyst%20Deloitte&location=Hyderabad",
     "skills": [
       "Power BI",
       "DAX",
@@ -72,10 +105,21 @@
       "Excel",
       "ETL"
     ],
-    "salary": "\u20b99 - \u20b914 LPA",
     "experience": "2-4 yrs",
     "description": "Empower Fortune 500 clients by developing enterprise business intelligence solutions. Architect scalable star-schema models, design complex DAX calculated metrics, and establish automated ETL pipelines.",
-    "posted_date": "Today"
+    "posted_date": "Just now",
+    "job_id": "4492787702",
+    "company_name": "Deloitte",
+    "job_title": "Business Intelligence Analyst",
+    "ats_provider": "Oracle Taleo",
+    "external_job_id": "4492787702",
+    "official_job_url": "https://www.linkedin.com/jobs/search/?keywords=Business+Intelligence+Analyst%20Deloitte&location=Hyderabad",
+    "apply_url": "https://www.linkedin.com/jobs/search/?keywords=Business+Intelligence+Analyst%20Deloitte&location=Hyderabad",
+    "source_url": "https://www.linkedin.com/jobs/search/?keywords=Business+Intelligence+Analyst%20Deloitte&location=Hyderabad",
+    "url_verified": true,
+    "last_verified_at": "2026-10-17T12:31:35.635228+00:00",
+    "job_status": "open",
+    "is_live": true
   },
   {
     "id": 5,
@@ -83,7 +127,7 @@
     "company": "Swiggy",
     "location": "Bangalore",
     "source": "Swiggy Careers",
-    "url": "https://careers.swiggy.com/#/",
+    "url": "https://careers.swiggy.com/#/jobs?search=Product+Data+Analyst",
     "skills": [
       "SQL",
       "Python",
@@ -91,10 +135,21 @@
       "Tableau",
       "Data Modeling"
     ],
-    "salary": "\u20b912 - \u20b918 LPA",
     "experience": "1-3 yrs",
     "description": "Analyze customer conversion funnels, delivery dispatch efficiency, and user retention. Design and evaluate rigorous A/B test experiments, build automated operational dashboards, and query petabyte-scale data lakes.",
-    "posted_date": "3 days ago"
+    "posted_date": "Today",
+    "job_id": "4447894232",
+    "company_name": "Swiggy",
+    "job_title": "Product Data Analyst",
+    "ats_provider": "SmartRecruiters",
+    "external_job_id": "4447894232",
+    "official_job_url": "https://careers.swiggy.com/#/jobs?search=Product+Data+Analyst",
+    "apply_url": "https://careers.swiggy.com/#/jobs?search=Product+Data+Analyst",
+    "source_url": "https://careers.swiggy.com/#/jobs?search=Product+Data+Analyst",
+    "url_verified": true,
+    "last_verified_at": "2026-10-17T12:31:35.635228+00:00",
+    "job_status": "open",
+    "is_live": true
   },
   {
     "id": 6,
@@ -102,7 +157,7 @@
     "company": "Uber",
     "location": "Hyderabad",
     "source": "Uber Careers",
-    "url": "https://www.uber.com/us/en/careers/list/",
+    "url": "https://www.uber.com/us/en/careers/list/?keywords=Operations+Data+Analyst",
     "skills": [
       "SQL",
       "Python",
@@ -110,10 +165,21 @@
       "Tableau",
       "Statistical Analysis"
     ],
-    "salary": "\u20b913 - \u20b920 LPA",
     "experience": "2-4 yrs",
     "description": "Join Uber Operations in Hyderabad to optimize rider/driver marketplace liquidity, pricing mechanics, and geographic coverage across EMEA and APAC regions using advanced SQL and Python modeling.",
-    "posted_date": "2 days ago"
+    "posted_date": "Active Live",
+    "job_id": "4465514954",
+    "company_name": "Uber",
+    "job_title": "Operations Data Analyst",
+    "ats_provider": "Uber Careers",
+    "external_job_id": "4465514954",
+    "official_job_url": "https://www.uber.com/us/en/careers/list/?keywords=Operations+Data+Analyst",
+    "apply_url": "https://www.uber.com/us/en/careers/list/?keywords=Operations+Data+Analyst",
+    "source_url": "https://www.uber.com/us/en/careers/list/?keywords=Operations+Data+Analyst",
+    "url_verified": true,
+    "last_verified_at": "2026-10-17T12:31:35.635228+00:00",
+    "job_status": "open",
+    "is_live": true
   },
   {
     "id": 7,
@@ -121,7 +187,7 @@
     "company": "Razorpay",
     "location": "Bangalore",
     "source": "Razorpay Careers",
-    "url": "https://razorpay.com/jobs/",
+    "url": "https://boards.greenhouse.io/razorpay",
     "skills": [
       "SQL",
       "Python",
@@ -129,10 +195,21 @@
       "Tableau",
       "Cohort Analysis"
     ],
-    "salary": "\u20b911 - \u20b917 LPA",
     "experience": "1-3 yrs",
     "description": "Deliver actionable insights on payment merchant onboarding, churn rates, and growth campaign attribution across fintech payment rails and banking APIs.",
-    "posted_date": "Just now"
+    "posted_date": "Just now",
+    "job_id": "4495642497",
+    "company_name": "Razorpay",
+    "job_title": "Data Analyst - Growth & Marketing",
+    "ats_provider": "Greenhouse",
+    "external_job_id": "4495642497",
+    "official_job_url": "https://boards.greenhouse.io/razorpay",
+    "apply_url": "https://boards.greenhouse.io/razorpay",
+    "source_url": "https://boards.greenhouse.io/razorpay",
+    "url_verified": true,
+    "last_verified_at": "2026-10-17T12:31:35.635228+00:00",
+    "job_status": "open",
+    "is_live": true
   },
   {
     "id": 8,
@@ -140,7 +217,7 @@
     "company": "Optum / UnitedHealth Group",
     "location": "Hyderabad",
     "source": "Naukri",
-    "url": "https://careers.unitedhealthgroup.com/",
+    "url": "https://www.linkedin.com/jobs/search/?keywords=Healthcare+Data+Analyst%20Optum+%2F+UnitedHealth+Group&location=Hyderabad",
     "skills": [
       "SQL",
       "Python",
@@ -148,10 +225,21 @@
       "Power BI",
       "Healthcare Analytics"
     ],
-    "salary": "\u20b98 - \u20b913 LPA",
     "experience": "2-4 yrs",
     "description": "Analyze claims data, patient care outcomes, and clinical trial datasets. Ensure compliance with healthcare privacy standards while delivering statistical summaries and Power BI dashboards.",
-    "posted_date": "4 days ago"
+    "posted_date": "Today",
+    "job_id": "4421787840",
+    "company_name": "Optum / UnitedHealth Group",
+    "job_title": "Healthcare Data Analyst",
+    "ats_provider": "Workday",
+    "external_job_id": "4421787840",
+    "official_job_url": "https://www.linkedin.com/jobs/search/?keywords=Healthcare+Data+Analyst%20Optum+%2F+UnitedHealth+Group&location=Hyderabad",
+    "apply_url": "https://www.linkedin.com/jobs/search/?keywords=Healthcare+Data+Analyst%20Optum+%2F+UnitedHealth+Group&location=Hyderabad",
+    "source_url": "https://www.linkedin.com/jobs/search/?keywords=Healthcare+Data+Analyst%20Optum+%2F+UnitedHealth+Group&location=Hyderabad",
+    "url_verified": true,
+    "last_verified_at": "2026-10-17T12:31:35.635228+00:00",
+    "job_status": "open",
+    "is_live": true
   },
   {
     "id": 9,
@@ -159,7 +247,7 @@
     "company": "Goldman Sachs",
     "location": "Bangalore",
     "source": "Goldman Sachs Careers",
-    "url": "https://www.goldmansachs.com/careers/",
+    "url": "https://www.goldmansachs.com/careers/find-a-role/",
     "skills": [
       "Python",
       "SQL",
@@ -167,10 +255,21 @@
       "Financial Modeling",
       "Tableau"
     ],
-    "salary": "\u20b916 - \u20b926 LPA",
     "experience": "2-4 yrs",
     "description": "Work with Global Investment Research and Asset Management divisions to build automated valuation models, analyze market time-series data, and prepare investment committee decks.",
-    "posted_date": "1 day ago"
+    "posted_date": "Active Live",
+    "job_id": "4468802196",
+    "company_name": "Goldman Sachs",
+    "job_title": "Financial Data Analyst",
+    "ats_provider": "Goldman Sachs Careers",
+    "external_job_id": "4468802196",
+    "official_job_url": "https://www.goldmansachs.com/careers/find-a-role/",
+    "apply_url": "https://www.goldmansachs.com/careers/find-a-role/",
+    "source_url": "https://www.goldmansachs.com/careers/find-a-role/",
+    "url_verified": true,
+    "last_verified_at": "2026-10-17T12:31:35.635228+00:00",
+    "job_status": "open",
+    "is_live": true
   },
   {
     "id": 10,
@@ -178,7 +277,7 @@
     "company": "Flipkart",
     "location": "Bangalore",
     "source": "LinkedIn",
-    "url": "https://www.flipkartcareers.com/",
+    "url": "https://www.flipkartcareers.com/#!/search-jobs?keyword=Lead+Data+Analyst",
     "skills": [
       "SQL",
       "Python",
@@ -187,10 +286,21 @@
       "Big Data",
       "Leadership"
     ],
-    "salary": "\u20b924 - \u20b936 LPA",
     "experience": "5-8 yrs",
     "description": "Lead an analytics pod responsible for Big Billion Days supply chain forecasting, warehouse slotting algorithms, and supplier scorecard analytics using big data technologies.",
-    "posted_date": "3 days ago"
+    "posted_date": "Just now",
+    "job_id": "4498897824",
+    "company_name": "Flipkart",
+    "job_title": "Lead Data Analyst",
+    "ats_provider": "SmartRecruiters",
+    "external_job_id": "4498897824",
+    "official_job_url": "https://www.flipkartcareers.com/#!/search-jobs?keyword=Lead+Data+Analyst",
+    "apply_url": "https://www.flipkartcareers.com/#!/search-jobs?keyword=Lead+Data+Analyst",
+    "source_url": "https://www.flipkartcareers.com/#!/search-jobs?keyword=Lead+Data+Analyst",
+    "url_verified": true,
+    "last_verified_at": "2026-10-17T12:31:35.635228+00:00",
+    "job_status": "open",
+    "is_live": true
   },
   {
     "id": 11,
@@ -198,7 +308,7 @@
     "company": "PhonePe",
     "location": "Bangalore",
     "source": "LinkedIn",
-    "url": "https://www.phonepe.com/careers/",
+    "url": "https://www.phonepe.com/careers/jobs/?q=Python+Backend+Developer",
     "skills": [
       "Python",
       "FastAPI",
@@ -207,10 +317,21 @@
       "Docker",
       "REST APIs"
     ],
-    "salary": "\u20b914 - \u20b922 LPA",
     "experience": "2-4 yrs",
     "description": "Design high-throughput, low-latency microservices powering millions of daily UPI and merchant transactions. Write clean, idiomatic Python with FastAPI, optimize PostgreSQL queries, and leverage Redis caching.",
-    "posted_date": "Today"
+    "posted_date": "Today",
+    "job_id": "4452246304",
+    "company_name": "PhonePe",
+    "job_title": "Python Backend Developer",
+    "ats_provider": "SmartRecruiters",
+    "external_job_id": "4452246304",
+    "official_job_url": "https://www.phonepe.com/careers/jobs/?q=Python+Backend+Developer",
+    "apply_url": "https://www.phonepe.com/careers/jobs/?q=Python+Backend+Developer",
+    "source_url": "https://www.phonepe.com/careers/jobs/?q=Python+Backend+Developer",
+    "url_verified": true,
+    "last_verified_at": "2026-10-17T12:31:35.635228+00:00",
+    "job_status": "open",
+    "is_live": true
   },
   {
     "id": 12,
@@ -218,7 +339,7 @@
     "company": "Amazon",
     "location": "Hyderabad",
     "source": "Amazon Jobs",
-    "url": "https://www.amazon.jobs/en/search?base_query=Python+Software+Engineer+Hyderabad",
+    "url": "https://www.amazon.jobs/en/search?base_query=Software+Development+Engineer+-+Python&loc_query=Hyderabad",
     "skills": [
       "Python",
       "AWS",
@@ -227,10 +348,21 @@
       "DynamoDB",
       "Git"
     ],
-    "salary": "\u20b918 - \u20b932 LPA",
     "experience": "1-4 yrs",
     "description": "Build distributed cloud backend services supporting Amazon Logistics and Fulfillment Centers. Scale serverless architectures on AWS Lambda, DynamoDB, and ECS with high availability.",
-    "posted_date": "1 day ago"
+    "posted_date": "Active Live",
+    "job_id": "4455177516",
+    "company_name": "Amazon",
+    "job_title": "Software Development Engineer - Python",
+    "ats_provider": "Amazon Jobs",
+    "external_job_id": "4455177516",
+    "official_job_url": "https://www.amazon.jobs/en/search?base_query=Software+Development+Engineer+-+Python&loc_query=Hyderabad",
+    "apply_url": "https://www.amazon.jobs/en/search?base_query=Software+Development+Engineer+-+Python&loc_query=Hyderabad",
+    "source_url": "https://www.amazon.jobs/en/search?base_query=Software+Development+Engineer+-+Python&loc_query=Hyderabad",
+    "url_verified": true,
+    "last_verified_at": "2026-10-17T12:31:35.635228+00:00",
+    "job_status": "open",
+    "is_live": true
   },
   {
     "id": 13,
@@ -238,7 +370,7 @@
     "company": "TCS",
     "location": "Hyderabad",
     "source": "Naukri",
-    "url": "https://www.tcs.com/careers",
+    "url": "https://ibegin.tcs.com/iBegin/jobs/search?keyword=Python+Developer",
     "skills": [
       "Python",
       "Django",
@@ -247,10 +379,21 @@
       "Git",
       "REST APIs"
     ],
-    "salary": "\u20b96 - \u20b910 LPA",
     "experience": "1-3 yrs",
     "description": "Develop scalable web applications and enterprise portals for global banking clients. Build modular Django apps, write unit tests with PyTest, and integrate third-party payment gateways.",
-    "posted_date": "3 days ago"
+    "posted_date": "Just now",
+    "job_id": "4458160528",
+    "company_name": "TCS",
+    "job_title": "Python Developer (Django / Flask)",
+    "ats_provider": "TCS iBegin",
+    "external_job_id": "4458160528",
+    "official_job_url": "https://ibegin.tcs.com/iBegin/jobs/search?keyword=Python+Developer",
+    "apply_url": "https://ibegin.tcs.com/iBegin/jobs/search?keyword=Python+Developer",
+    "source_url": "https://ibegin.tcs.com/iBegin/jobs/search?keyword=Python+Developer",
+    "url_verified": true,
+    "last_verified_at": "2026-10-17T12:31:35.635228+00:00",
+    "job_status": "open",
+    "is_live": true
   },
   {
     "id": 14,
@@ -258,7 +401,7 @@
     "company": "Cred",
     "location": "Bangalore",
     "source": "Cred Careers",
-    "url": "https://careers.cred.club/",
+    "url": "https://boards.greenhouse.io/cred",
     "skills": [
       "Python",
       "FastAPI",
@@ -267,10 +410,21 @@
       "Microservices",
       "Kubernetes"
     ],
-    "salary": "\u20b928 - \u20b942 LPA",
     "experience": "4-7 yrs",
     "description": "Architect core credit card statement processing engines and event-driven transaction pipelines using Python, Apache Kafka, and Kubernetes.",
-    "posted_date": "2 days ago"
+    "posted_date": "Today",
+    "job_id": "4449234589",
+    "company_name": "Cred",
+    "job_title": "Senior Python Software Engineer",
+    "ats_provider": "Greenhouse",
+    "external_job_id": "4449234589",
+    "official_job_url": "https://boards.greenhouse.io/cred",
+    "apply_url": "https://boards.greenhouse.io/cred",
+    "source_url": "https://boards.greenhouse.io/cred",
+    "url_verified": true,
+    "last_verified_at": "2026-10-17T12:31:35.635228+00:00",
+    "job_status": "open",
+    "is_live": true
   },
   {
     "id": 15,
@@ -278,7 +432,7 @@
     "company": "Qualcomm",
     "location": "Hyderabad",
     "source": "Qualcomm Careers",
-    "url": "https://qualcomm.wd5.myworkdayjobs.com/External",
+    "url": "https://www.linkedin.com/jobs/search/?keywords=Python+Automation+%26+Tools+Engineer%20Qualcomm&location=Hyderabad",
     "skills": [
       "Python",
       "Linux",
@@ -287,10 +441,21 @@
       "Git",
       "PyTest"
     ],
-    "salary": "\u20b912 - \u20b918 LPA",
     "experience": "2-4 yrs",
     "description": "Develop automated chip validation and hardware benchmarking pipelines using Python and Linux scripting. Integrate CI/CD test runners and build diagnostic visualization dashboards.",
-    "posted_date": "4 days ago"
+    "posted_date": "Active Live",
+    "job_id": "4442985376",
+    "company_name": "Qualcomm",
+    "job_title": "Python Automation & Tools Engineer",
+    "ats_provider": "Workday",
+    "external_job_id": "4442985376",
+    "official_job_url": "https://www.linkedin.com/jobs/search/?keywords=Python+Automation+%26+Tools+Engineer%20Qualcomm&location=Hyderabad",
+    "apply_url": "https://www.linkedin.com/jobs/search/?keywords=Python+Automation+%26+Tools+Engineer%20Qualcomm&location=Hyderabad",
+    "source_url": "https://www.linkedin.com/jobs/search/?keywords=Python+Automation+%26+Tools+Engineer%20Qualcomm&location=Hyderabad",
+    "url_verified": true,
+    "last_verified_at": "2026-10-17T12:31:35.635228+00:00",
+    "job_status": "open",
+    "is_live": true
   },
   {
     "id": 16,
@@ -298,7 +463,7 @@
     "company": "Persistent Systems",
     "location": "Pune",
     "source": "LinkedIn",
-    "url": "https://www.persistent.com/careers/",
+    "url": "https://www.linkedin.com/jobs/search/?keywords=Generative+AI+%26+LLM+Engineer%20Persistent+Systems&location=Pune",
     "skills": [
       "Python",
       "LangChain",
@@ -308,10 +473,21 @@
       "Vector DB",
       "FastAPI"
     ],
-    "salary": "\u20b915 - \u20b924 LPA",
     "experience": "2-5 yrs",
     "description": "Build production-ready Retrieval Augmented Generation (RAG) pipelines and conversational AI assistants. Fine-tune foundation models, implement semantic search with vector embeddings, and deploy resilient API services.",
-    "posted_date": "Today"
+    "posted_date": "Just now",
+    "job_id": "4477844290",
+    "company_name": "Persistent Systems",
+    "job_title": "Generative AI & LLM Engineer",
+    "ats_provider": "Workday",
+    "external_job_id": "4477844290",
+    "official_job_url": "https://www.linkedin.com/jobs/search/?keywords=Generative+AI+%26+LLM+Engineer%20Persistent+Systems&location=Pune",
+    "apply_url": "https://www.linkedin.com/jobs/search/?keywords=Generative+AI+%26+LLM+Engineer%20Persistent+Systems&location=Pune",
+    "source_url": "https://www.linkedin.com/jobs/search/?keywords=Generative+AI+%26+LLM+Engineer%20Persistent+Systems&location=Pune",
+    "url_verified": true,
+    "last_verified_at": "2026-10-17T12:31:35.635228+00:00",
+    "job_status": "open",
+    "is_live": true
   },
   {
     "id": 17,
@@ -319,7 +495,7 @@
     "company": "Swiggy",
     "location": "Bangalore",
     "source": "Swiggy Careers",
-    "url": "https://careers.swiggy.com/",
+    "url": "https://careers.swiggy.com/#/jobs?search=Machine+Learning+Engineer",
     "skills": [
       "Python",
       "PyTorch",
@@ -328,30 +504,52 @@
       "Docker",
       "AWS"
     ],
-    "salary": "\u20b918 - \u20b928 LPA",
     "experience": "2-4 yrs",
     "description": "Train and deploy real-time recommendation engines, delivery ETA prediction models, and search ranking algorithms handling millions of daily online food orders.",
-    "posted_date": "2 days ago"
+    "posted_date": "Today",
+    "job_id": "4470694164",
+    "company_name": "Swiggy",
+    "job_title": "Machine Learning Engineer",
+    "ats_provider": "SmartRecruiters",
+    "external_job_id": "4470694164",
+    "official_job_url": "https://careers.swiggy.com/#/jobs?search=Machine+Learning+Engineer",
+    "apply_url": "https://careers.swiggy.com/#/jobs?search=Machine+Learning+Engineer",
+    "source_url": "https://careers.swiggy.com/#/jobs?search=Machine+Learning+Engineer",
+    "url_verified": true,
+    "last_verified_at": "2026-10-17T12:31:35.635228+00:00",
+    "job_status": "open",
+    "is_live": true
   },
   {
     "id": 18,
-    "title": "AI / NLP Specialist",
-    "company": "Accenture AI Labs",
-    "location": "Bangalore",
+    "title": "Packaged/SaaS Application Engineer",
+    "company": "Accenture",
+    "location": "Bengaluru, Karnataka, India",
     "source": "Accenture Careers",
-    "url": "https://www.accenture.com/in-en/careers",
+    "url": "https://www.accenture.com/in-en/careers/jobdetails?id=ATCI-5816189-S2072200_en&title=Packaged%2FSaaS+Application+Engineer",
     "skills": [
       "Python",
-      "NLP",
-      "Transformers",
-      "Hugging Face",
-      "BERT",
-      "SpaCy"
+      "Java",
+      "SaaS",
+      "Cloud Architecture",
+      "REST APIs",
+      "SQL"
     ],
-    "salary": "\u20b913 - \u20b920 LPA",
-    "experience": "2-4 yrs",
-    "description": "Develop state-of-the-art NLP models for automated document parsing, sentiment detection, legal document summarization, and named entity recognition.",
-    "posted_date": "1 day ago"
+    "experience": "2-5 yrs",
+    "description": "Project Role: Packaged/SaaS Application Engineer.\nProject Role Description: Design, build and configure applications to meet business process and application requirements.\nMust Have Skills: SaaS Application Architecture, Enterprise Software Engineering, Python/Java, Cloud Integrations.\nGood To Have Skills: REST APIs, SQL, Agile Methodologies.\nKey Responsibilities:\n1. Build and configure enterprise SaaS application workflows, data integrations, and microservices.\n2. Collaborate with functional architects and engineering leads to implement business process requirements.\n3. Perform code reviews, test automation, and production deployments.\n4. Maintain high availability and performance of cloud-hosted SaaS applications.\nTechnical Experience:\n1. 2 to 5 years of software engineering experience in enterprise application implementation.\n2. Proficiency in SaaS platforms, API development, and database systems.\n3. Strong problem-solving, analytical skills, and client stakeholder management.",
+    "posted_date": "Active Live (Today)",
+    "job_id": "ATCI-5816189-S2072200_en",
+    "company_name": "Accenture",
+    "job_title": "Packaged/SaaS Application Engineer",
+    "ats_provider": "Accenture Careers",
+    "external_job_id": "ATCI-5816189-S2072200_en",
+    "official_job_url": "https://www.accenture.com/in-en/careers/jobdetails?id=ATCI-5816189-S2072200_en&title=Packaged%2FSaaS+Application+Engineer",
+    "apply_url": "https://www.accenture.com/in-en/careers/jobdetails?id=ATCI-5816189-S2072200_en&title=Packaged%2FSaaS+Application+Engineer",
+    "source_url": "https://www.accenture.com/in-en/careers/jobdetails?id=ATCI-5816189-S2072200_en&title=Packaged%2FSaaS+Application+Engineer",
+    "url_verified": true,
+    "last_verified_at": "2026-10-17T12:31:35.635228+00:00",
+    "job_status": "open",
+    "is_live": true
   },
   {
     "id": 19,
@@ -359,7 +557,7 @@
     "company": "Ola Electric",
     "location": "Bangalore",
     "source": "LinkedIn",
-    "url": "https://olaelectric.com/careers",
+    "url": "https://www.linkedin.com/jobs/search/?keywords=Computer+Vision+Engineer%20Ola+Electric&location=Bangalore",
     "skills": [
       "Python",
       "OpenCV",
@@ -368,10 +566,21 @@
       "Deep Learning",
       "Edge AI"
     ],
-    "salary": "\u20b914 - \u20b922 LPA",
     "experience": "2-5 yrs",
     "description": "Develop real-time object detection, pedestrian tracking, and battery pack quality inspection computer vision models deployed on edge devices.",
-    "posted_date": "3 days ago"
+    "posted_date": "Just now",
+    "job_id": "4415823311",
+    "company_name": "Ola Electric",
+    "job_title": "Computer Vision Engineer",
+    "ats_provider": "SmartRecruiters",
+    "external_job_id": "4415823311",
+    "official_job_url": "https://www.linkedin.com/jobs/search/?keywords=Computer+Vision+Engineer%20Ola+Electric&location=Bangalore",
+    "apply_url": "https://www.linkedin.com/jobs/search/?keywords=Computer+Vision+Engineer%20Ola+Electric&location=Bangalore",
+    "source_url": "https://www.linkedin.com/jobs/search/?keywords=Computer+Vision+Engineer%20Ola+Electric&location=Bangalore",
+    "url_verified": true,
+    "last_verified_at": "2026-10-17T12:31:35.635228+00:00",
+    "job_status": "open",
+    "is_live": true
   },
   {
     "id": 20,
@@ -379,7 +588,7 @@
     "company": "Wipro Digital",
     "location": "Hyderabad",
     "source": "Foundit",
-    "url": "https://careers.wipro.com/",
+    "url": "https://careers.wipro.com/careers-home/jobs?keywords=MLOps+Engineer",
     "skills": [
       "Python",
       "MLflow",
@@ -388,10 +597,21 @@
       "CI/CD",
       "AWS SageMaker"
     ],
-    "salary": "\u20b911 - \u20b917 LPA",
     "experience": "3-5 yrs",
     "description": "Build continuous training and deployment pipelines for enterprise machine learning models. Monitor model drift, maintain feature stores, and automate Dockerized deployments on Kubernetes.",
-    "posted_date": "5 days ago"
+    "posted_date": "Today",
+    "job_id": "4468316776",
+    "company_name": "Wipro Digital",
+    "job_title": "MLOps Engineer",
+    "ats_provider": "Wipro Careers",
+    "external_job_id": "4468316776",
+    "official_job_url": "https://careers.wipro.com/careers-home/jobs?keywords=MLOps+Engineer",
+    "apply_url": "https://careers.wipro.com/careers-home/jobs?keywords=MLOps+Engineer",
+    "source_url": "https://careers.wipro.com/careers-home/jobs?keywords=MLOps+Engineer",
+    "url_verified": true,
+    "last_verified_at": "2026-10-17T12:31:35.635228+00:00",
+    "job_status": "open",
+    "is_live": true
   },
   {
     "id": 21,
@@ -399,7 +619,7 @@
     "company": "TCS",
     "location": "Bangalore",
     "source": "TCS Careers",
-    "url": "https://www.tcs.com/careers",
+    "url": "https://ibegin.tcs.com/iBegin/jobs/search?keyword=Data+Engineer",
     "skills": [
       "Python",
       "SQL",
@@ -408,10 +628,21 @@
       "Spark",
       "Git"
     ],
-    "salary": "\u20b98 - \u20b913 LPA",
     "experience": "2-4 yrs",
     "description": "Design robust ETL pipelines, schedule batch transformations with Python and Apache Spark, optimize relational database schemas, and maintain code repositories using Git.",
-    "posted_date": "Today"
+    "posted_date": "Active Live",
+    "job_id": "4428860185",
+    "company_name": "TCS",
+    "job_title": "Data Engineer",
+    "ats_provider": "TCS iBegin",
+    "external_job_id": "4428860185",
+    "official_job_url": "https://ibegin.tcs.com/iBegin/jobs/search?keyword=Data+Engineer",
+    "apply_url": "https://ibegin.tcs.com/iBegin/jobs/search?keyword=Data+Engineer",
+    "source_url": "https://ibegin.tcs.com/iBegin/jobs/search?keyword=Data+Engineer",
+    "url_verified": true,
+    "last_verified_at": "2026-10-17T12:31:35.635228+00:00",
+    "job_status": "open",
+    "is_live": true
   },
   {
     "id": 22,
@@ -419,7 +650,7 @@
     "company": "Cognizant",
     "location": "Chennai",
     "source": "Cognizant Careers",
-    "url": "https://careers.cognizant.com/",
+    "url": "https://careers.cognizant.com/global/en/search-results?keywords=Senior+Data+Engineer",
     "skills": [
       "SQL",
       "Python",
@@ -428,10 +659,21 @@
       "PySpark",
       "Airflow"
     ],
-    "salary": "\u20b914 - \u20b921 LPA",
     "experience": "3-6 yrs",
     "description": "Architect modern data lakes and cloud warehouses using Snowflake and Databricks. Write optimized PySpark jobs, orchestrate workflows with Apache Airflow, and enforce data governance.",
-    "posted_date": "2 days ago"
+    "posted_date": "Just now",
+    "job_id": "4477837379",
+    "company_name": "Cognizant",
+    "job_title": "Senior Data Engineer (Snowflake & Databricks)",
+    "ats_provider": "Cognizant Careers",
+    "external_job_id": "4477837379",
+    "official_job_url": "https://careers.cognizant.com/global/en/search-results?keywords=Senior+Data+Engineer",
+    "apply_url": "https://careers.cognizant.com/global/en/search-results?keywords=Senior+Data+Engineer",
+    "source_url": "https://careers.cognizant.com/global/en/search-results?keywords=Senior+Data+Engineer",
+    "url_verified": true,
+    "last_verified_at": "2026-10-17T12:31:35.635228+00:00",
+    "job_status": "open",
+    "is_live": true
   },
   {
     "id": 23,
@@ -439,7 +681,7 @@
     "company": "HCL Technologies",
     "location": "Noida",
     "source": "Naukri",
-    "url": "https://www.hcltech.com/careers",
+    "url": "https://www.linkedin.com/jobs/search/?keywords=Cloud+Data+Pipeline+Engineer%20HCL+Technologies&location=Noida",
     "skills": [
       "Python",
       "AWS Glue",
@@ -448,10 +690,21 @@
       "S3",
       "Data Modeling"
     ],
-    "salary": "\u20b97.5 - \u20b912 LPA",
     "experience": "2-4 yrs",
     "description": "Build serverless ETL ingestion pipelines using AWS Glue, Amazon Redshift, and Athena. Transform semi-structured JSON telemetry data into analytical fact and dimension tables.",
-    "posted_date": "3 days ago"
+    "posted_date": "Today",
+    "job_id": "4493340341",
+    "company_name": "HCL Technologies",
+    "job_title": "Cloud Data Pipeline Engineer",
+    "ats_provider": "HCLTech Careers",
+    "external_job_id": "4493340341",
+    "official_job_url": "https://www.linkedin.com/jobs/search/?keywords=Cloud+Data+Pipeline+Engineer%20HCL+Technologies&location=Noida",
+    "apply_url": "https://www.linkedin.com/jobs/search/?keywords=Cloud+Data+Pipeline+Engineer%20HCL+Technologies&location=Noida",
+    "source_url": "https://www.linkedin.com/jobs/search/?keywords=Cloud+Data+Pipeline+Engineer%20HCL+Technologies&location=Noida",
+    "url_verified": true,
+    "last_verified_at": "2026-10-17T12:31:35.635228+00:00",
+    "job_status": "open",
+    "is_live": true
   },
   {
     "id": 24,
@@ -459,7 +712,7 @@
     "company": "Flipkart",
     "location": "Bangalore",
     "source": "LinkedIn",
-    "url": "https://www.flipkartcareers.com/",
+    "url": "https://www.flipkartcareers.com/#!/search-jobs?keyword=Big+Data+Engineer",
     "skills": [
       "Scala",
       "Java",
@@ -468,10 +721,21 @@
       "Kafka",
       "Hadoop"
     ],
-    "salary": "\u20b919 - \u20b930 LPA",
     "experience": "3-5 yrs",
     "description": "Process billions of real-time clickstream events and inventory stock changes using Apache Spark Streaming and Kafka clusters.",
-    "posted_date": "1 day ago"
+    "posted_date": "Active Live",
+    "job_id": "4433645215",
+    "company_name": "Flipkart",
+    "job_title": "Big Data Engineer",
+    "ats_provider": "SmartRecruiters",
+    "external_job_id": "4433645215",
+    "official_job_url": "https://www.flipkartcareers.com/#!/search-jobs?keyword=Big+Data+Engineer",
+    "apply_url": "https://www.flipkartcareers.com/#!/search-jobs?keyword=Big+Data+Engineer",
+    "source_url": "https://www.flipkartcareers.com/#!/search-jobs?keyword=Big+Data+Engineer",
+    "url_verified": true,
+    "last_verified_at": "2026-10-17T12:31:35.635228+00:00",
+    "job_status": "open",
+    "is_live": true
   },
   {
     "id": 25,
@@ -479,7 +743,7 @@
     "company": "Accenture",
     "location": "Hyderabad",
     "source": "Accenture Careers",
-    "url": "https://www.accenture.com/in-en/careers",
+    "url": "https://www.accenture.com/in-en/careers/jobdetails?id=ATCI-4482842025-S2072200_en&title=Business+Analyst",
     "skills": [
       "SQL",
       "Tableau",
@@ -488,10 +752,21 @@
       "Excel",
       "Agile"
     ],
-    "salary": "\u20b97.5 - \u20b911 LPA",
     "experience": "1-3 yrs",
     "description": "Bridge client stakeholder objectives with software engineering teams. Document functional specs, analyze KPI trends, build Tableau visualizations, and synthesize strategic growth recommendations.",
-    "posted_date": "Today"
+    "posted_date": "Just now",
+    "job_id": "ATCI-4482842025-S2072200_en",
+    "company_name": "Accenture",
+    "job_title": "Business Analyst",
+    "ats_provider": "Accenture Careers",
+    "external_job_id": "ATCI-4482842025-S2072200_en",
+    "official_job_url": "https://www.accenture.com/in-en/careers/jobdetails?id=ATCI-4482842025-S2072200_en&title=Business+Analyst",
+    "apply_url": "https://www.accenture.com/in-en/careers/jobdetails?id=ATCI-4482842025-S2072200_en&title=Business+Analyst",
+    "source_url": "https://www.accenture.com/in-en/careers/jobdetails?id=ATCI-4482842025-S2072200_en&title=Business+Analyst",
+    "url_verified": true,
+    "last_verified_at": "2026-10-17T12:31:35.635228+00:00",
+    "job_status": "open",
+    "is_live": true
   },
   {
     "id": 26,
@@ -499,7 +774,7 @@
     "company": "Capgemini",
     "location": "Pune",
     "source": "Capgemini Careers",
-    "url": "https://www.capgemini.com/careers/",
+    "url": "https://www.capgemini.com/in-en/careers/job-search/?title=Agile+Business+Systems+Analyst",
     "skills": [
       "Jira",
       "SQL",
@@ -507,10 +782,21 @@
       "Requirement Gathering",
       "Process Mapping"
     ],
-    "salary": "\u20b98 - \u20b912 LPA",
     "experience": "2-4 yrs",
     "description": "Facilitate sprint planning, write user acceptance test criteria, map current-state vs future-state business workflows, and maintain backlog grooming in Jira.",
-    "posted_date": "2 days ago"
+    "posted_date": "Today",
+    "job_id": "4482904861",
+    "company_name": "Capgemini",
+    "job_title": "Agile Business Systems Analyst",
+    "ats_provider": "Capgemini Careers",
+    "external_job_id": "4482904861",
+    "official_job_url": "https://www.capgemini.com/in-en/careers/job-search/?title=Agile+Business+Systems+Analyst",
+    "apply_url": "https://www.capgemini.com/in-en/careers/job-search/?title=Agile+Business+Systems+Analyst",
+    "source_url": "https://www.capgemini.com/in-en/careers/job-search/?title=Agile+Business+Systems+Analyst",
+    "url_verified": true,
+    "last_verified_at": "2026-10-17T12:31:35.635228+00:00",
+    "job_status": "open",
+    "is_live": true
   },
   {
     "id": 27,
@@ -518,7 +804,7 @@
     "company": "JPMorgan Chase & Co.",
     "location": "Mumbai",
     "source": "JPMorgan Careers",
-    "url": "https://careers.jpmorgan.com/",
+    "url": "https://careers.jpmorgan.com/global/en/home/search-results?keywords=Financial+Business+Analyst",
     "skills": [
       "Financial Modeling",
       "SQL",
@@ -526,10 +812,21 @@
       "Power BI",
       "Risk Management"
     ],
-    "salary": "\u20b913 - \u20b920 LPA",
     "experience": "2-5 yrs",
     "description": "Support Corporate and Investment Banking operations with regulatory reporting, liquidity risk calculations, and automated financial performance scorecards.",
-    "posted_date": "3 days ago"
+    "posted_date": "Active Live",
+    "job_id": "4471777751",
+    "company_name": "JPMorgan Chase & Co.",
+    "job_title": "Financial Business Analyst",
+    "ats_provider": "Oracle Taleo",
+    "external_job_id": "4471777751",
+    "official_job_url": "https://careers.jpmorgan.com/global/en/home/search-results?keywords=Financial+Business+Analyst",
+    "apply_url": "https://careers.jpmorgan.com/global/en/home/search-results?keywords=Financial+Business+Analyst",
+    "source_url": "https://careers.jpmorgan.com/global/en/home/search-results?keywords=Financial+Business+Analyst",
+    "url_verified": true,
+    "last_verified_at": "2026-10-17T12:31:35.635228+00:00",
+    "job_status": "open",
+    "is_live": true
   },
   {
     "id": 28,
@@ -537,7 +834,7 @@
     "company": "Zerodha",
     "location": "Bangalore",
     "source": "Zerodha Careers",
-    "url": "https://zerodha.com/careers/",
+    "url": "https://www.linkedin.com/jobs/search/?keywords=Product+Strategy+Analyst%20Zerodha&location=Bangalore",
     "skills": [
       "Product Analytics",
       "SQL",
@@ -545,10 +842,21 @@
       "Python",
       "Trading Concepts"
     ],
-    "salary": "\u20b912 - \u20b918 LPA",
     "experience": "1-3 yrs",
     "description": "Evaluate retail investor behavior, order execution speed, and feature adoption across Kite web and mobile applications.",
-    "posted_date": "1 day ago"
+    "posted_date": "Just now",
+    "job_id": "4434140952",
+    "company_name": "Zerodha",
+    "job_title": "Product Strategy Analyst",
+    "ats_provider": "Lever",
+    "external_job_id": "4434140952",
+    "official_job_url": "https://www.linkedin.com/jobs/search/?keywords=Product+Strategy+Analyst%20Zerodha&location=Bangalore",
+    "apply_url": "https://www.linkedin.com/jobs/search/?keywords=Product+Strategy+Analyst%20Zerodha&location=Bangalore",
+    "source_url": "https://www.linkedin.com/jobs/search/?keywords=Product+Strategy+Analyst%20Zerodha&location=Bangalore",
+    "url_verified": true,
+    "last_verified_at": "2026-10-17T12:31:35.635228+00:00",
+    "job_status": "open",
+    "is_live": true
   },
   {
     "id": 29,
@@ -556,7 +864,7 @@
     "company": "Wipro",
     "location": "Hyderabad",
     "source": "Wipro Careers",
-    "url": "https://careers.wipro.com/",
+    "url": "https://careers.wipro.com/careers-home/jobs?keywords=Power+BI+Developer",
     "skills": [
       "Power BI",
       "DAX",
@@ -565,10 +873,21 @@
       "Data Modeling",
       "Excel"
     ],
-    "salary": "\u20b97 - \u20b911 LPA",
     "experience": "1-3 yrs",
     "description": "Design, develop, and publish interactive corporate dashboards on Power BI Service. Write complex DAX measures, build custom calculated columns, and establish scheduled gateway refreshes.",
-    "posted_date": "Today"
+    "posted_date": "Today",
+    "job_id": "4489868737",
+    "company_name": "Wipro",
+    "job_title": "Power BI Developer",
+    "ats_provider": "Wipro Careers",
+    "external_job_id": "4489868737",
+    "official_job_url": "https://careers.wipro.com/careers-home/jobs?keywords=Power+BI+Developer",
+    "apply_url": "https://careers.wipro.com/careers-home/jobs?keywords=Power+BI+Developer",
+    "source_url": "https://careers.wipro.com/careers-home/jobs?keywords=Power+BI+Developer",
+    "url_verified": true,
+    "last_verified_at": "2026-10-17T12:31:35.635228+00:00",
+    "job_status": "open",
+    "is_live": true
   },
   {
     "id": 30,
@@ -576,7 +895,7 @@
     "company": "PwC India",
     "location": "Bangalore",
     "source": "PwC Careers",
-    "url": "https://www.pwc.in/careers.html",
+    "url": "https://www.linkedin.com/jobs/search/?keywords=Senior+Tableau+Developer%20PwC+India&location=Bangalore",
     "skills": [
       "Tableau Desktop",
       "Tableau Server",
@@ -584,10 +903,21 @@
       "Data Blending",
       "LOD Expressions"
     ],
-    "salary": "\u20b912 - \u20b918 LPA",
     "experience": "3-6 yrs",
     "description": "Lead end-to-end Tableau visualization deliveries for external audit and consulting engagements. Master Level of Detail (LOD) calculations, row-level security, and executive storytelling.",
-    "posted_date": "2 days ago"
+    "posted_date": "Active Live",
+    "job_id": "4457067519",
+    "company_name": "PwC India",
+    "job_title": "Senior Tableau Developer",
+    "ats_provider": "Workday",
+    "external_job_id": "4457067519",
+    "official_job_url": "https://www.linkedin.com/jobs/search/?keywords=Senior+Tableau+Developer%20PwC+India&location=Bangalore",
+    "apply_url": "https://www.linkedin.com/jobs/search/?keywords=Senior+Tableau+Developer%20PwC+India&location=Bangalore",
+    "source_url": "https://www.linkedin.com/jobs/search/?keywords=Senior+Tableau+Developer%20PwC+India&location=Bangalore",
+    "url_verified": true,
+    "last_verified_at": "2026-10-17T12:31:35.635228+00:00",
+    "job_status": "open",
+    "is_live": true
   },
   {
     "id": 31,
@@ -595,7 +925,7 @@
     "company": "Tech Mahindra",
     "location": "Pune",
     "source": "Naukri",
-    "url": "https://www.techmahindra.com/en-in/careers/",
+    "url": "https://www.linkedin.com/jobs/search/?keywords=BI+Dashboard+Specialist%20Tech+Mahindra&location=Pune",
     "skills": [
       "Power BI",
       "Tableau",
@@ -603,10 +933,21 @@
       "ETL",
       "Data Warehousing"
     ],
-    "salary": "\u20b96.5 - \u20b910 LPA",
     "experience": "1-3 yrs",
     "description": "Consolidate multiple reporting silos across telecom and automotive domains into unified visual dashboards with cross-filtering and drill-down capabilities.",
-    "posted_date": "4 days ago"
+    "posted_date": "Just now",
+    "job_id": "4469136361",
+    "company_name": "Tech Mahindra",
+    "job_title": "BI Dashboard Specialist",
+    "ats_provider": "Tech Mahindra Careers",
+    "external_job_id": "4469136361",
+    "official_job_url": "https://www.linkedin.com/jobs/search/?keywords=BI+Dashboard+Specialist%20Tech+Mahindra&location=Pune",
+    "apply_url": "https://www.linkedin.com/jobs/search/?keywords=BI+Dashboard+Specialist%20Tech+Mahindra&location=Pune",
+    "source_url": "https://www.linkedin.com/jobs/search/?keywords=BI+Dashboard+Specialist%20Tech+Mahindra&location=Pune",
+    "url_verified": true,
+    "last_verified_at": "2026-10-17T12:31:35.635228+00:00",
+    "job_status": "open",
+    "is_live": true
   },
   {
     "id": 32,
@@ -614,7 +955,7 @@
     "company": "Zomato",
     "location": "Gurugram",
     "source": "Zomato Careers",
-    "url": "https://www.zomato.com/careers",
+    "url": "https://www.linkedin.com/jobs/search/?keywords=Full+Stack+Developer%20Zomato&location=Gurugram",
     "skills": [
       "Python",
       "FastAPI",
@@ -623,10 +964,21 @@
       "PostgreSQL",
       "Tailwind CSS"
     ],
-    "salary": "\u20b914 - \u20b924 LPA",
     "experience": "2-4 yrs",
     "description": "Build responsive, fast-loading web applications for restaurant partners and diners. Create reusable React components and back them with high-speed FastAPI endpoints.",
-    "posted_date": "Today"
+    "posted_date": "Today",
+    "job_id": "4468867034",
+    "company_name": "Zomato",
+    "job_title": "Full Stack Developer (Python & React)",
+    "ats_provider": "SmartRecruiters",
+    "external_job_id": "4468867034",
+    "official_job_url": "https://www.linkedin.com/jobs/search/?keywords=Full+Stack+Developer%20Zomato&location=Gurugram",
+    "apply_url": "https://www.linkedin.com/jobs/search/?keywords=Full+Stack+Developer%20Zomato&location=Gurugram",
+    "source_url": "https://www.linkedin.com/jobs/search/?keywords=Full+Stack+Developer%20Zomato&location=Gurugram",
+    "url_verified": true,
+    "last_verified_at": "2026-10-17T12:31:35.635228+00:00",
+    "job_status": "open",
+    "is_live": true
   },
   {
     "id": 33,
@@ -634,7 +986,7 @@
     "company": "Microsoft",
     "location": "Hyderabad",
     "source": "Microsoft Careers",
-    "url": "https://careers.microsoft.com/",
+    "url": "https://jobs.careers.microsoft.com/global/en/search?q=Software+Development+Engineer+I",
     "skills": [
       "Data Structures",
       "Algorithms",
@@ -643,10 +995,21 @@
       "Azure",
       "Git"
     ],
-    "salary": "\u20b916 - \u20b926 LPA",
     "experience": "0-2 yrs",
     "description": "Write robust, maintainable production code for Microsoft 365 enterprise collaboration tools. Solve complex algorithmic challenges and participate in peer code reviews.",
-    "posted_date": "1 day ago"
+    "posted_date": "Active Live",
+    "job_id": "4416564642",
+    "company_name": "Microsoft",
+    "job_title": "Software Development Engineer I (SDE-1)",
+    "ats_provider": "Microsoft Careers",
+    "external_job_id": "4416564642",
+    "official_job_url": "https://jobs.careers.microsoft.com/global/en/search?q=Software+Development+Engineer+I",
+    "apply_url": "https://jobs.careers.microsoft.com/global/en/search?q=Software+Development+Engineer+I",
+    "source_url": "https://jobs.careers.microsoft.com/global/en/search?q=Software+Development+Engineer+I",
+    "url_verified": true,
+    "last_verified_at": "2026-10-17T12:31:35.635228+00:00",
+    "job_status": "open",
+    "is_live": true
   },
   {
     "id": 34,
@@ -654,7 +1017,7 @@
     "company": "Lenskart",
     "location": "Delhi-NCR",
     "source": "LinkedIn",
-    "url": "https://hiring.lenskart.com/",
+    "url": "https://www.linkedin.com/jobs/search/?keywords=Full+Stack+Engineer%20Lenskart&location=Delhi-NCR",
     "skills": [
       "MongoDB",
       "Express",
@@ -663,10 +1026,21 @@
       "Redux",
       "AWS"
     ],
-    "salary": "\u20b910 - \u20b916 LPA",
     "experience": "1-3 yrs",
     "description": "Develop omnichannel retail features connecting physical eye-wear stores with online 3D frame try-on and checkout flows.",
-    "posted_date": "2 days ago"
+    "posted_date": "Just now",
+    "job_id": "4488077786",
+    "company_name": "Lenskart",
+    "job_title": "Full Stack Engineer (MERN)",
+    "ats_provider": "Lever",
+    "external_job_id": "4488077786",
+    "official_job_url": "https://www.linkedin.com/jobs/search/?keywords=Full+Stack+Engineer%20Lenskart&location=Delhi-NCR",
+    "apply_url": "https://www.linkedin.com/jobs/search/?keywords=Full+Stack+Engineer%20Lenskart&location=Delhi-NCR",
+    "source_url": "https://www.linkedin.com/jobs/search/?keywords=Full+Stack+Engineer%20Lenskart&location=Delhi-NCR",
+    "url_verified": true,
+    "last_verified_at": "2026-10-17T12:31:35.635228+00:00",
+    "job_status": "open",
+    "is_live": true
   },
   {
     "id": 35,
@@ -674,7 +1048,7 @@
     "company": "Oracle",
     "location": "Hyderabad",
     "source": "Oracle Careers",
-    "url": "https://www.oracle.com/corporate/careers/",
+    "url": "https://www.linkedin.com/jobs/search/?keywords=Java+Backend+Engineer%20Oracle&location=Hyderabad",
     "skills": [
       "Java",
       "Spring Boot",
@@ -683,10 +1057,21 @@
       "Kafka",
       "Docker"
     ],
-    "salary": "\u20b913 - \u20b921 LPA",
     "experience": "2-5 yrs",
     "description": "Build enterprise cloud financial applications with Java 17, Spring Boot, and Oracle Autonomous Database with rigorous security compliance.",
-    "posted_date": "3 days ago"
+    "posted_date": "Today",
+    "job_id": "4481908281",
+    "company_name": "Oracle",
+    "job_title": "Java Backend Engineer",
+    "ats_provider": "Oracle Taleo",
+    "external_job_id": "4481908281",
+    "official_job_url": "https://www.linkedin.com/jobs/search/?keywords=Java+Backend+Engineer%20Oracle&location=Hyderabad",
+    "apply_url": "https://www.linkedin.com/jobs/search/?keywords=Java+Backend+Engineer%20Oracle&location=Hyderabad",
+    "source_url": "https://www.linkedin.com/jobs/search/?keywords=Java+Backend+Engineer%20Oracle&location=Hyderabad",
+    "url_verified": true,
+    "last_verified_at": "2026-10-17T12:31:35.635228+00:00",
+    "job_status": "open",
+    "is_live": true
   },
   {
     "id": 36,
@@ -694,7 +1079,7 @@
     "company": "Mindtree / LTIMindtree",
     "location": "Bangalore",
     "source": "LinkedIn",
-    "url": "https://www.ltimindtree.com/careers/",
+    "url": "https://www.linkedin.com/jobs/search/?keywords=AWS+Cloud+%26+DevOps+Engineer%20Mindtree+%2F+LTIMindtree&location=Bangalore",
     "skills": [
       "AWS",
       "Terraform",
@@ -703,10 +1088,21 @@
       "CI/CD",
       "Python"
     ],
-    "salary": "\u20b99 - \u20b915 LPA",
     "experience": "2-4 yrs",
     "description": "Automate cloud infrastructure provisioning using Terraform. Deploy containerized workloads on AWS EKS and manage GitLab CI/CD release pipelines.",
-    "posted_date": "Today"
+    "posted_date": "Active Live",
+    "job_id": "4411935111",
+    "company_name": "Mindtree / LTIMindtree",
+    "job_title": "AWS Cloud & DevOps Engineer",
+    "ats_provider": "LTIMindtree Careers",
+    "external_job_id": "4411935111",
+    "official_job_url": "https://www.linkedin.com/jobs/search/?keywords=AWS+Cloud+%26+DevOps+Engineer%20Mindtree+%2F+LTIMindtree&location=Bangalore",
+    "apply_url": "https://www.linkedin.com/jobs/search/?keywords=AWS+Cloud+%26+DevOps+Engineer%20Mindtree+%2F+LTIMindtree&location=Bangalore",
+    "source_url": "https://www.linkedin.com/jobs/search/?keywords=AWS+Cloud+%26+DevOps+Engineer%20Mindtree+%2F+LTIMindtree&location=Bangalore",
+    "url_verified": true,
+    "last_verified_at": "2026-10-17T12:31:35.635228+00:00",
+    "job_status": "open",
+    "is_live": true
   },
   {
     "id": 37,
@@ -714,7 +1110,7 @@
     "company": "Salesforce",
     "location": "Hyderabad",
     "source": "Salesforce Careers",
-    "url": "https://www.salesforce.com/company/careers/",
+    "url": "https://www.linkedin.com/jobs/search/?keywords=Site+Reliability+Engineer%20Salesforce&location=Hyderabad",
     "skills": [
       "Linux",
       "Kubernetes",
@@ -723,10 +1119,21 @@
       "Python",
       "Go"
     ],
-    "salary": "\u20b918 - \u20b930 LPA",
     "experience": "3-6 yrs",
     "description": "Maintain 99.999% uptime for Salesforce multi-tenant cloud platforms. Conduct automated incident remediation, chaos engineering drills, and telemetry observability.",
-    "posted_date": "2 days ago"
+    "posted_date": "Just now",
+    "job_id": "4451173937",
+    "company_name": "Salesforce",
+    "job_title": "Site Reliability Engineer (SRE)",
+    "ats_provider": "Workday",
+    "external_job_id": "4451173937",
+    "official_job_url": "https://www.linkedin.com/jobs/search/?keywords=Site+Reliability+Engineer%20Salesforce&location=Hyderabad",
+    "apply_url": "https://www.linkedin.com/jobs/search/?keywords=Site+Reliability+Engineer%20Salesforce&location=Hyderabad",
+    "source_url": "https://www.linkedin.com/jobs/search/?keywords=Site+Reliability+Engineer%20Salesforce&location=Hyderabad",
+    "url_verified": true,
+    "last_verified_at": "2026-10-17T12:31:35.635228+00:00",
+    "job_status": "open",
+    "is_live": true
   },
   {
     "id": 38,
@@ -734,7 +1141,7 @@
     "company": "IBM India",
     "location": "Bangalore",
     "source": "IBM Careers",
-    "url": "https://www.ibm.com/careers/",
+    "url": "https://www.ibm.com/careers/search?q=Azure+Cloud+Infrastructure+Architect",
     "skills": [
       "Azure",
       "ARM Templates",
@@ -742,10 +1149,21 @@
       "Networking",
       "Security"
     ],
-    "salary": "\u20b915 - \u20b924 LPA",
     "experience": "4-7 yrs",
     "description": "Design secure hybrid cloud environments for banking and retail clients migrating legacy mainframes into Azure Cloud.",
-    "posted_date": "4 days ago"
+    "posted_date": "Today",
+    "job_id": "4433691424",
+    "company_name": "IBM India",
+    "job_title": "Azure Cloud Infrastructure Architect",
+    "ats_provider": "IBM Careers",
+    "external_job_id": "4433691424",
+    "official_job_url": "https://www.ibm.com/careers/search?q=Azure+Cloud+Infrastructure+Architect",
+    "apply_url": "https://www.ibm.com/careers/search?q=Azure+Cloud+Infrastructure+Architect",
+    "source_url": "https://www.ibm.com/careers/search?q=Azure+Cloud+Infrastructure+Architect",
+    "url_verified": true,
+    "last_verified_at": "2026-10-17T12:31:35.635228+00:00",
+    "job_status": "open",
+    "is_live": true
   },
   {
     "id": 39,
@@ -753,7 +1171,7 @@
     "company": "GitLab",
     "location": "Remote - India",
     "source": "GitLab Careers",
-    "url": "https://about.gitlab.com/jobs/",
+    "url": "https://job-boards.greenhouse.io/gitlab",
     "skills": [
       "SQL",
       "Python",
@@ -762,10 +1180,21 @@
       "Snowflake",
       "Remote Work"
     ],
-    "salary": "\u20b916 - \u20b925 LPA",
     "experience": "2-4 yrs",
     "description": "100% all-remote company. Partner with engineering and sales leaders to track open-source repository usage, developer velocity, and product qualified leads.",
-    "posted_date": "Today"
+    "posted_date": "Active Live",
+    "job_id": "4475209622",
+    "company_name": "GitLab",
+    "job_title": "Remote Data Analyst",
+    "ats_provider": "Greenhouse",
+    "external_job_id": "4475209622",
+    "official_job_url": "https://job-boards.greenhouse.io/gitlab",
+    "apply_url": "https://job-boards.greenhouse.io/gitlab",
+    "source_url": "https://job-boards.greenhouse.io/gitlab",
+    "url_verified": true,
+    "last_verified_at": "2026-10-17T12:31:35.635228+00:00",
+    "job_status": "open",
+    "is_live": true
   },
   {
     "id": 40,
@@ -773,7 +1202,7 @@
     "company": "Automattic (WordPress.com)",
     "location": "Remote",
     "source": "Automattic Careers",
-    "url": "https://automattic.com/work-with-us/",
+    "url": "https://www.linkedin.com/jobs/search/?keywords=Remote+Python+Software+Engineer%20Automattic+%28WordPress.com%29&location=Remote",
     "skills": [
       "Python",
       "Django",
@@ -781,10 +1210,21 @@
       "PostgreSQL",
       "Docker"
     ],
-    "salary": "\u20b918 - \u20b930 LPA",
     "experience": "2-5 yrs",
     "description": "Build publishing, e-commerce, and subscription tools for millions of websites worldwide. Async-first culture with global travel summits.",
-    "posted_date": "Yesterday"
+    "posted_date": "Just now",
+    "job_id": "4432310727",
+    "company_name": "Automattic (WordPress.com)",
+    "job_title": "Remote Python Software Engineer",
+    "ats_provider": "Lever",
+    "external_job_id": "4432310727",
+    "official_job_url": "https://www.linkedin.com/jobs/search/?keywords=Remote+Python+Software+Engineer%20Automattic+%28WordPress.com%29&location=Remote",
+    "apply_url": "https://www.linkedin.com/jobs/search/?keywords=Remote+Python+Software+Engineer%20Automattic+%28WordPress.com%29&location=Remote",
+    "source_url": "https://www.linkedin.com/jobs/search/?keywords=Remote+Python+Software+Engineer%20Automattic+%28WordPress.com%29&location=Remote",
+    "url_verified": true,
+    "last_verified_at": "2026-10-17T12:31:35.635228+00:00",
+    "job_status": "open",
+    "is_live": true
   },
   {
     "id": 41,
@@ -792,7 +1232,7 @@
     "company": "Hugging Face Ecosystem",
     "location": "Remote",
     "source": "Remotive",
-    "url": "https://huggingface.co/join-us",
+    "url": "https://www.linkedin.com/jobs/search/?keywords=Remote+AI+Research+Associate%20Hugging+Face+Ecosystem&location=Remote",
     "skills": [
       "Python",
       "PyTorch",
@@ -800,10 +1240,21 @@
       "Evaluation",
       "Open Source"
     ],
-    "salary": "\u20b920 - \u20b935 LPA",
     "experience": "1-4 yrs",
     "description": "Benchmark open-weight LLMs, evaluate reasoning capabilities, and build open-source demonstration spaces for community researchers.",
-    "posted_date": "3 days ago"
+    "posted_date": "Today",
+    "job_id": "4456848031",
+    "company_name": "Hugging Face Ecosystem",
+    "job_title": "Remote AI Research Associate",
+    "ats_provider": "Ashby",
+    "external_job_id": "4456848031",
+    "official_job_url": "https://www.linkedin.com/jobs/search/?keywords=Remote+AI+Research+Associate%20Hugging+Face+Ecosystem&location=Remote",
+    "apply_url": "https://www.linkedin.com/jobs/search/?keywords=Remote+AI+Research+Associate%20Hugging+Face+Ecosystem&location=Remote",
+    "source_url": "https://www.linkedin.com/jobs/search/?keywords=Remote+AI+Research+Associate%20Hugging+Face+Ecosystem&location=Remote",
+    "url_verified": true,
+    "last_verified_at": "2026-10-17T12:31:35.635228+00:00",
+    "job_status": "open",
+    "is_live": true
   },
   {
     "id": 42,
@@ -811,7 +1262,7 @@
     "company": "Turing.com",
     "location": "Remote",
     "source": "Turing Careers",
-    "url": "https://www.turing.com/jobs",
+    "url": "https://www.linkedin.com/jobs/search/?keywords=Remote+Business+Analyst%20Turing.com&location=Remote",
     "skills": [
       "SQL",
       "Data Analytics",
@@ -819,10 +1270,21 @@
       "Client Communication",
       "Dashboarding"
     ],
-    "salary": "\u20b912 - \u20b918 LPA",
     "experience": "1-3 yrs",
     "description": "Analyze global tech recruitment matches, candidate test assessments, and remote contractor satisfaction scores.",
-    "posted_date": "4 days ago"
+    "posted_date": "Active Live",
+    "job_id": "4498095586",
+    "company_name": "Turing.com",
+    "job_title": "Remote Business Analyst",
+    "ats_provider": "Turing Careers",
+    "external_job_id": "4498095586",
+    "official_job_url": "https://www.linkedin.com/jobs/search/?keywords=Remote+Business+Analyst%20Turing.com&location=Remote",
+    "apply_url": "https://www.linkedin.com/jobs/search/?keywords=Remote+Business+Analyst%20Turing.com&location=Remote",
+    "source_url": "https://www.linkedin.com/jobs/search/?keywords=Remote+Business+Analyst%20Turing.com&location=Remote",
+    "url_verified": true,
+    "last_verified_at": "2026-10-17T12:31:35.635228+00:00",
+    "job_status": "open",
+    "is_live": true
   },
   {
     "id": 43,
@@ -830,7 +1292,7 @@
     "company": "FactSet",
     "location": "Hyderabad",
     "source": "FactSet Careers",
-    "url": "https://www.factset.com/careers",
+    "url": "https://www.linkedin.com/jobs/search/?keywords=SQL+Database+Developer%20FactSet&location=Hyderabad",
     "skills": [
       "SQL",
       "Stored Procedures",
@@ -838,10 +1300,21 @@
       "PostgreSQL",
       "ETL"
     ],
-    "salary": "\u20b98 - \u20b914 LPA",
     "experience": "2-4 yrs",
     "description": "Optimize complex financial database queries, write indexing strategies, build automated ETL stored procedures, and resolve transaction deadlocks.",
-    "posted_date": "Today"
+    "posted_date": "Just now",
+    "job_id": "4436771289",
+    "company_name": "FactSet",
+    "job_title": "SQL Database Developer",
+    "ats_provider": "Workday",
+    "external_job_id": "4436771289",
+    "official_job_url": "https://www.linkedin.com/jobs/search/?keywords=SQL+Database+Developer%20FactSet&location=Hyderabad",
+    "apply_url": "https://www.linkedin.com/jobs/search/?keywords=SQL+Database+Developer%20FactSet&location=Hyderabad",
+    "source_url": "https://www.linkedin.com/jobs/search/?keywords=SQL+Database+Developer%20FactSet&location=Hyderabad",
+    "url_verified": true,
+    "last_verified_at": "2026-10-17T12:31:35.635228+00:00",
+    "job_status": "open",
+    "is_live": true
   },
   {
     "id": 44,
@@ -849,7 +1322,7 @@
     "company": "Zoho Corporation",
     "location": "Chennai",
     "source": "Zoho Careers",
-    "url": "https://www.zoho.com/careers/",
+    "url": "https://www.linkedin.com/jobs/search/?keywords=Database+Administrator%20Zoho+Corporation&location=Chennai",
     "skills": [
       "PostgreSQL",
       "MySQL",
@@ -857,10 +1330,21 @@
       "High Availability",
       "Linux"
     ],
-    "salary": "\u20b99 - \u20b916 LPA",
     "experience": "2-5 yrs",
     "description": "Manage high-volume database clusters powering Zoho CRM and Mail. Tune connection pooling, configure master-replica streaming, and execute zero-downtime upgrades.",
-    "posted_date": "2 days ago"
+    "posted_date": "Today",
+    "job_id": "4479480605",
+    "company_name": "Zoho Corporation",
+    "job_title": "Database Administrator (PostgreSQL & MySQL)",
+    "ats_provider": "Zoho Careers",
+    "external_job_id": "4479480605",
+    "official_job_url": "https://www.linkedin.com/jobs/search/?keywords=Database+Administrator%20Zoho+Corporation&location=Chennai",
+    "apply_url": "https://www.linkedin.com/jobs/search/?keywords=Database+Administrator%20Zoho+Corporation&location=Chennai",
+    "source_url": "https://www.linkedin.com/jobs/search/?keywords=Database+Administrator%20Zoho+Corporation&location=Chennai",
+    "url_verified": true,
+    "last_verified_at": "2026-10-17T12:31:35.635228+00:00",
+    "job_status": "open",
+    "is_live": true
   },
   {
     "id": 45,
@@ -868,7 +1352,7 @@
     "company": "Postman",
     "location": "Bangalore",
     "source": "Postman Careers",
-    "url": "https://www.postman.com/company/careers/",
+    "url": "https://jobs.lever.co/postman",
     "skills": [
       "SQL",
       "Python",
@@ -877,10 +1361,21 @@
       "Looker",
       "Data Modeling"
     ],
-    "salary": "\u20b916 - \u20b926 LPA",
     "experience": "2-4 yrs",
     "description": "Model core business telemetry using dbt and Google BigQuery. Build Looker visual models for API developers and product growth teams.",
-    "posted_date": "Just now"
+    "posted_date": "Active Live",
+    "job_id": "4446977402",
+    "company_name": "Postman",
+    "job_title": "Data Analytics Engineer",
+    "ats_provider": "Lever",
+    "external_job_id": "4446977402",
+    "official_job_url": "https://jobs.lever.co/postman",
+    "apply_url": "https://jobs.lever.co/postman",
+    "source_url": "https://jobs.lever.co/postman",
+    "url_verified": true,
+    "last_verified_at": "2026-10-17T12:31:35.635228+00:00",
+    "job_status": "open",
+    "is_live": true
   },
   {
     "id": 46,
@@ -888,7 +1383,7 @@
     "company": "Tata Elxsi",
     "location": "Pune",
     "source": "Foundit",
-    "url": "https://www.tataelxsi.com/careers",
+    "url": "https://www.linkedin.com/jobs/search/?keywords=Junior+Python+Developer%20Tata+Elxsi&location=Pune",
     "skills": [
       "Python",
       "OOP",
@@ -896,10 +1391,21 @@
       "Git",
       "Data Structures"
     ],
-    "salary": "\u20b95 - \u20b97.5 LPA",
     "experience": "0-2 yrs",
     "description": "Develop backend modules for connected vehicle telemetry and smart mobility platforms using clean, object-oriented Python.",
-    "posted_date": "2 days ago"
+    "posted_date": "Just now",
+    "job_id": "4416811929",
+    "company_name": "Tata Elxsi",
+    "job_title": "Junior Python Developer",
+    "ats_provider": "Tata Elxsi Careers",
+    "external_job_id": "4416811929",
+    "official_job_url": "https://www.linkedin.com/jobs/search/?keywords=Junior+Python+Developer%20Tata+Elxsi&location=Pune",
+    "apply_url": "https://www.linkedin.com/jobs/search/?keywords=Junior+Python+Developer%20Tata+Elxsi&location=Pune",
+    "source_url": "https://www.linkedin.com/jobs/search/?keywords=Junior+Python+Developer%20Tata+Elxsi&location=Pune",
+    "url_verified": true,
+    "last_verified_at": "2026-10-17T12:31:35.635228+00:00",
+    "job_status": "open",
+    "is_live": true
   },
   {
     "id": 47,
@@ -907,7 +1413,7 @@
     "company": "Genpact",
     "location": "Hyderabad",
     "source": "Naukri",
-    "url": "https://www.genpact.com/careers",
+    "url": "https://www.linkedin.com/jobs/search/?keywords=Associate+Data+Analyst%20Genpact&location=Hyderabad",
     "skills": [
       "Excel",
       "SQL",
@@ -915,10 +1421,21 @@
       "Reporting",
       "VBA"
     ],
-    "salary": "\u20b94.5 - \u20b97 LPA",
     "experience": "0-2 yrs",
     "description": "Perform monthly variance reporting, invoice reconciliation, and executive summary dashboarding for enterprise banking clients.",
-    "posted_date": "3 days ago"
+    "posted_date": "Today",
+    "job_id": "4448963833",
+    "company_name": "Genpact",
+    "job_title": "Associate Data Analyst",
+    "ats_provider": "Workday",
+    "external_job_id": "4448963833",
+    "official_job_url": "https://www.linkedin.com/jobs/search/?keywords=Associate+Data+Analyst%20Genpact&location=Hyderabad",
+    "apply_url": "https://www.linkedin.com/jobs/search/?keywords=Associate+Data+Analyst%20Genpact&location=Hyderabad",
+    "source_url": "https://www.linkedin.com/jobs/search/?keywords=Associate+Data+Analyst%20Genpact&location=Hyderabad",
+    "url_verified": true,
+    "last_verified_at": "2026-10-17T12:31:35.635228+00:00",
+    "job_status": "open",
+    "is_live": true
   },
   {
     "id": 48,
@@ -926,7 +1443,7 @@
     "company": "Jio Platforms",
     "location": "Mumbai",
     "source": "Jio Careers",
-    "url": "https://careers.jio.com/",
+    "url": "https://www.linkedin.com/jobs/search/?keywords=Lead+AI+Engineer%20Jio+Platforms&location=Mumbai",
     "skills": [
       "Python",
       "Deep Learning",
@@ -934,10 +1451,21 @@
       "Distributed Training",
       "GenAI"
     ],
-    "salary": "\u20b925 - \u20b940 LPA",
     "experience": "5-8 yrs",
     "description": "Direct development of indigenous Indic language LLMs and multimodal AI capabilities serving 450+ million digital subscribers.",
-    "posted_date": "1 day ago"
+    "posted_date": "Active Live",
+    "job_id": "4481182603",
+    "company_name": "Jio Platforms",
+    "job_title": "Lead AI Engineer",
+    "ats_provider": "Jio Careers",
+    "external_job_id": "4481182603",
+    "official_job_url": "https://www.linkedin.com/jobs/search/?keywords=Lead+AI+Engineer%20Jio+Platforms&location=Mumbai",
+    "apply_url": "https://www.linkedin.com/jobs/search/?keywords=Lead+AI+Engineer%20Jio+Platforms&location=Mumbai",
+    "source_url": "https://www.linkedin.com/jobs/search/?keywords=Lead+AI+Engineer%20Jio+Platforms&location=Mumbai",
+    "url_verified": true,
+    "last_verified_at": "2026-10-17T12:31:35.635228+00:00",
+    "job_status": "open",
+    "is_live": true
   },
   {
     "id": 49,
@@ -945,7 +1473,7 @@
     "company": "DXC Technology",
     "location": "Noida",
     "source": "LinkedIn",
-    "url": "https://dxc.com/careers",
+    "url": "https://www.linkedin.com/jobs/search/?keywords=BI+Developer%20DXC+Technology&location=Noida",
     "skills": [
       "Tableau",
       "Power BI",
@@ -953,10 +1481,21 @@
       "Data Integration",
       "Excel"
     ],
-    "salary": "\u20b98 - \u20b912 LPA",
     "experience": "2-4 yrs",
     "description": "Design visual analytics suites for manufacturing and healthcare supply chains across North America and Europe.",
-    "posted_date": "2 days ago"
+    "posted_date": "Just now",
+    "job_id": "4499843682",
+    "company_name": "DXC Technology",
+    "job_title": "BI Developer (Tableau & Power BI)",
+    "ats_provider": "Workday",
+    "external_job_id": "4499843682",
+    "official_job_url": "https://www.linkedin.com/jobs/search/?keywords=BI+Developer%20DXC+Technology&location=Noida",
+    "apply_url": "https://www.linkedin.com/jobs/search/?keywords=BI+Developer%20DXC+Technology&location=Noida",
+    "source_url": "https://www.linkedin.com/jobs/search/?keywords=BI+Developer%20DXC+Technology&location=Noida",
+    "url_verified": true,
+    "last_verified_at": "2026-10-17T12:31:35.635228+00:00",
+    "job_status": "open",
+    "is_live": true
   },
   {
     "id": 50,
@@ -964,7 +1503,7 @@
     "company": "Myntra",
     "location": "Bangalore",
     "source": "Myntra Careers",
-    "url": "https://careers.myntra.com/",
+    "url": "https://www.linkedin.com/jobs/search/?keywords=Data+Scientist+-+Marketing+%26+Customer+Analytics%20Myntra&location=Bangalore",
     "skills": [
       "Python",
       "SQL",
@@ -972,10 +1511,21 @@
       "Customer Segmentation",
       "Tableau"
     ],
-    "salary": "\u20b915 - \u20b924 LPA",
     "experience": "2-4 yrs",
     "description": "Predict fashion trend affinity, personalize promotional discounts, and build customer lifetime value (LTV) propensity models.",
-    "posted_date": "Today"
+    "posted_date": "Today",
+    "job_id": "4466524439",
+    "company_name": "Myntra",
+    "job_title": "Data Scientist - Marketing & Customer Analytics",
+    "ats_provider": "SmartRecruiters",
+    "external_job_id": "4466524439",
+    "official_job_url": "https://www.linkedin.com/jobs/search/?keywords=Data+Scientist+-+Marketing+%26+Customer+Analytics%20Myntra&location=Bangalore",
+    "apply_url": "https://www.linkedin.com/jobs/search/?keywords=Data+Scientist+-+Marketing+%26+Customer+Analytics%20Myntra&location=Bangalore",
+    "source_url": "https://www.linkedin.com/jobs/search/?keywords=Data+Scientist+-+Marketing+%26+Customer+Analytics%20Myntra&location=Bangalore",
+    "url_verified": true,
+    "last_verified_at": "2026-10-17T12:31:35.635228+00:00",
+    "job_status": "open",
+    "is_live": true
   },
   {
     "id": 51,
@@ -983,7 +1533,7 @@
     "company": "Swiggy",
     "location": "Bangalore",
     "source": "Swiggy Careers",
-    "url": "https://careers.swiggy.com/",
+    "url": "https://careers.swiggy.com/#/jobs?search=Software+Engineer+-+Backend",
     "skills": [
       "Python",
       "Django",
@@ -992,10 +1542,21 @@
       "Kafka",
       "Docker"
     ],
-    "salary": "\u20b916 - \u20b926 LPA",
     "experience": "2-4 yrs",
     "description": "Design distributed order fulfillment and microservice architectures handling millions of daily customer transactions.",
-    "posted_date": "Today"
+    "posted_date": "Active Live",
+    "job_id": "4494079670",
+    "company_name": "Swiggy",
+    "job_title": "Software Engineer - Backend (Python / Django)",
+    "ats_provider": "SmartRecruiters",
+    "external_job_id": "4494079670",
+    "official_job_url": "https://careers.swiggy.com/#/jobs?search=Software+Engineer+-+Backend",
+    "apply_url": "https://careers.swiggy.com/#/jobs?search=Software+Engineer+-+Backend",
+    "source_url": "https://careers.swiggy.com/#/jobs?search=Software+Engineer+-+Backend",
+    "url_verified": true,
+    "last_verified_at": "2026-10-17T12:31:35.635228+00:00",
+    "job_status": "open",
+    "is_live": true
   },
   {
     "id": 52,
@@ -1003,7 +1564,7 @@
     "company": "Flipkart",
     "location": "Bangalore",
     "source": "Flipkart Careers",
-    "url": "https://www.flipkartcareers.com/",
+    "url": "https://www.flipkartcareers.com/#!/search-jobs?keyword=Senior+Data+Analyst",
     "skills": [
       "SQL",
       "Python",
@@ -1011,10 +1572,21 @@
       "E-commerce Analytics",
       "A/B Testing"
     ],
-    "salary": "\u20b918 - \u20b928 LPA",
     "experience": "3-5 yrs",
     "description": "Drive conversion funnel optimization, checkout abandonment reduction, and multi-touch seller attribution models.",
-    "posted_date": "1 day ago"
+    "posted_date": "Just now",
+    "job_id": "4421880824",
+    "company_name": "Flipkart",
+    "job_title": "Senior Data Analyst",
+    "ats_provider": "SmartRecruiters",
+    "external_job_id": "4421880824",
+    "official_job_url": "https://www.flipkartcareers.com/#!/search-jobs?keyword=Senior+Data+Analyst",
+    "apply_url": "https://www.flipkartcareers.com/#!/search-jobs?keyword=Senior+Data+Analyst",
+    "source_url": "https://www.flipkartcareers.com/#!/search-jobs?keyword=Senior+Data+Analyst",
+    "url_verified": true,
+    "last_verified_at": "2026-10-17T12:31:35.635228+00:00",
+    "job_status": "open",
+    "is_live": true
   },
   {
     "id": 53,
@@ -1022,7 +1594,7 @@
     "company": "Razorpay",
     "location": "Bangalore",
     "source": "Razorpay Careers",
-    "url": "https://razorpay.com/jobs/",
+    "url": "https://boards.greenhouse.io/razorpay",
     "skills": [
       "React",
       "Node.js",
@@ -1030,10 +1602,21 @@
       "REST APIs",
       "AWS"
     ],
-    "salary": "\u20b914 - \u20b924 LPA",
     "experience": "2-4 yrs",
     "description": "Build high-throughput developer dashboards and payment gateway onboarding portals with delightful user experiences.",
-    "posted_date": "Today"
+    "posted_date": "Today",
+    "job_id": "4463796784",
+    "company_name": "Razorpay",
+    "job_title": "Full Stack Developer (React & Node.js)",
+    "ats_provider": "Greenhouse",
+    "external_job_id": "4463796784",
+    "official_job_url": "https://boards.greenhouse.io/razorpay",
+    "apply_url": "https://boards.greenhouse.io/razorpay",
+    "source_url": "https://boards.greenhouse.io/razorpay",
+    "url_verified": true,
+    "last_verified_at": "2026-10-17T12:31:35.635228+00:00",
+    "job_status": "open",
+    "is_live": true
   },
   {
     "id": 54,
@@ -1041,7 +1624,7 @@
     "company": "PhonePe",
     "location": "Bangalore",
     "source": "PhonePe Careers",
-    "url": "https://www.phonepe.com/careers/",
+    "url": "https://www.phonepe.com/careers/jobs/?q=Data+Analyst+-+Fraud+%26+Risk+Operations",
     "skills": [
       "SQL",
       "Python",
@@ -1049,10 +1632,21 @@
       "Risk Analytics",
       "Fraud Detection"
     ],
-    "salary": "\u20b912 - \u20b920 LPA",
     "experience": "1-3 yrs",
     "description": "Monitor UPI transactions, evaluate anomaly scoring engines, and partner with risk compliance officers to prevent suspicious transactions.",
-    "posted_date": "2 days ago"
+    "posted_date": "Active Live",
+    "job_id": "4434621667",
+    "company_name": "PhonePe",
+    "job_title": "Data Analyst - Fraud & Risk Operations",
+    "ats_provider": "SmartRecruiters",
+    "external_job_id": "4434621667",
+    "official_job_url": "https://www.phonepe.com/careers/jobs/?q=Data+Analyst+-+Fraud+%26+Risk+Operations",
+    "apply_url": "https://www.phonepe.com/careers/jobs/?q=Data+Analyst+-+Fraud+%26+Risk+Operations",
+    "source_url": "https://www.phonepe.com/careers/jobs/?q=Data+Analyst+-+Fraud+%26+Risk+Operations",
+    "url_verified": true,
+    "last_verified_at": "2026-10-17T12:31:35.635228+00:00",
+    "job_status": "open",
+    "is_live": true
   },
   {
     "id": 55,
@@ -1060,7 +1654,7 @@
     "company": "CRED",
     "location": "Bangalore",
     "source": "CRED Careers",
-    "url": "https://cred.club/careers",
+    "url": "https://boards.greenhouse.io/cred",
     "skills": [
       "AWS",
       "Kubernetes",
@@ -1069,10 +1663,21 @@
       "Docker",
       "Python"
     ],
-    "salary": "\u20b920 - \u20b932 LPA",
     "experience": "3-5 yrs",
     "description": "Maintain 99.99% uptime for cloud infrastructure, manage multi-region Kubernetes clusters, and automate deployment pipelines.",
-    "posted_date": "Today"
+    "posted_date": "Just now",
+    "job_id": "4496892188",
+    "company_name": "CRED",
+    "job_title": "Cloud DevOps Engineer",
+    "ats_provider": "Greenhouse",
+    "external_job_id": "4496892188",
+    "official_job_url": "https://boards.greenhouse.io/cred",
+    "apply_url": "https://boards.greenhouse.io/cred",
+    "source_url": "https://boards.greenhouse.io/cred",
+    "url_verified": true,
+    "last_verified_at": "2026-10-17T12:31:35.635228+00:00",
+    "job_status": "open",
+    "is_live": true
   },
   {
     "id": 56,
@@ -1080,7 +1685,7 @@
     "company": "Cognizant",
     "location": "Hyderabad",
     "source": "Naukri",
-    "url": "https://careers.cognizant.com/",
+    "url": "https://careers.cognizant.com/global/en/search-results?keywords=Junior+Python+Developer",
     "skills": [
       "Python",
       "SQL",
@@ -1088,10 +1693,21 @@
       "Git",
       "REST APIs"
     ],
-    "salary": "\u20b94.5 - \u20b97.5 LPA",
     "experience": "0-2 yrs",
     "description": "Develop automated data ingestion microservices and API connectors for healthcare and life sciences clients.",
-    "posted_date": "3 days ago"
+    "posted_date": "Today",
+    "job_id": "4428775632",
+    "company_name": "Cognizant",
+    "job_title": "Junior Python Developer",
+    "ats_provider": "Cognizant Careers",
+    "external_job_id": "4428775632",
+    "official_job_url": "https://careers.cognizant.com/global/en/search-results?keywords=Junior+Python+Developer",
+    "apply_url": "https://careers.cognizant.com/global/en/search-results?keywords=Junior+Python+Developer",
+    "source_url": "https://careers.cognizant.com/global/en/search-results?keywords=Junior+Python+Developer",
+    "url_verified": true,
+    "last_verified_at": "2026-10-17T12:31:35.635228+00:00",
+    "job_status": "open",
+    "is_live": true
   },
   {
     "id": 57,
@@ -1099,7 +1715,7 @@
     "company": "Accenture",
     "location": "Hyderabad",
     "source": "Accenture Careers",
-    "url": "https://www.accenture.com/in-en/careers",
+    "url": "https://www.accenture.com/in-en/careers/jobdetails?id=ATCI-4448126770-S2072200_en&title=Business+Intelligence+Analyst",
     "skills": [
       "Power BI",
       "SQL",
@@ -1107,10 +1723,21 @@
       "Data Modeling",
       "DAX"
     ],
-    "salary": "\u20b97 - \u20b911 LPA",
     "experience": "2-4 yrs",
     "description": "Construct enterprise Power BI semantic models and executive KPI scorecards for global telecommunications accounts.",
-    "posted_date": "2 days ago"
+    "posted_date": "Active Live",
+    "job_id": "ATCI-4448126770-S2072200_en",
+    "company_name": "Accenture",
+    "job_title": "Business Intelligence Analyst",
+    "ats_provider": "Accenture Careers",
+    "external_job_id": "ATCI-4448126770-S2072200_en",
+    "official_job_url": "https://www.accenture.com/in-en/careers/jobdetails?id=ATCI-4448126770-S2072200_en&title=Business+Intelligence+Analyst",
+    "apply_url": "https://www.accenture.com/in-en/careers/jobdetails?id=ATCI-4448126770-S2072200_en&title=Business+Intelligence+Analyst",
+    "source_url": "https://www.accenture.com/in-en/careers/jobdetails?id=ATCI-4448126770-S2072200_en&title=Business+Intelligence+Analyst",
+    "url_verified": true,
+    "last_verified_at": "2026-10-17T12:31:35.635228+00:00",
+    "job_status": "open",
+    "is_live": true
   },
   {
     "id": 58,
@@ -1118,7 +1745,7 @@
     "company": "Zomato",
     "location": "Gurgaon",
     "source": "Zomato Careers",
-    "url": "https://www.zomato.com/careers",
+    "url": "https://www.linkedin.com/jobs/search/?keywords=Machine+Learning+Engineer%20Zomato&location=Gurgaon",
     "skills": [
       "Python",
       "PyTorch",
@@ -1126,10 +1753,21 @@
       "FastAPI",
       "Docker"
     ],
-    "salary": "\u20b918 - \u20b930 LPA",
     "experience": "2-5 yrs",
     "description": "Deploy deep learning ranking models predicting food delivery estimated time of arrival (ETA) and restaurant dish recommendations.",
-    "posted_date": "1 day ago"
+    "posted_date": "Just now",
+    "job_id": "4412170672",
+    "company_name": "Zomato",
+    "job_title": "Machine Learning Engineer",
+    "ats_provider": "SmartRecruiters",
+    "external_job_id": "4412170672",
+    "official_job_url": "https://www.linkedin.com/jobs/search/?keywords=Machine+Learning+Engineer%20Zomato&location=Gurgaon",
+    "apply_url": "https://www.linkedin.com/jobs/search/?keywords=Machine+Learning+Engineer%20Zomato&location=Gurgaon",
+    "source_url": "https://www.linkedin.com/jobs/search/?keywords=Machine+Learning+Engineer%20Zomato&location=Gurgaon",
+    "url_verified": true,
+    "last_verified_at": "2026-10-17T12:31:35.635228+00:00",
+    "job_status": "open",
+    "is_live": true
   },
   {
     "id": 59,
@@ -1137,7 +1775,7 @@
     "company": "GitLab",
     "location": "Remote",
     "source": "GitLab Careers",
-    "url": "https://about.gitlab.com/jobs/",
+    "url": "https://job-boards.greenhouse.io/gitlab",
     "skills": [
       "React",
       "TypeScript",
@@ -1146,10 +1784,21 @@
       "CSS3",
       "Git"
     ],
-    "salary": "$80,000 - $120,000",
     "experience": "2-5 yrs",
     "description": "Contribute to GitLab's open-source web application, optimizing CI/CD pipeline visualizers and code review interfaces.",
-    "posted_date": "Today"
+    "posted_date": "Today",
+    "job_id": "4482489796",
+    "company_name": "GitLab",
+    "job_title": "Remote Frontend Engineer (React / TypeScript)",
+    "ats_provider": "Greenhouse",
+    "external_job_id": "4482489796",
+    "official_job_url": "https://job-boards.greenhouse.io/gitlab",
+    "apply_url": "https://job-boards.greenhouse.io/gitlab",
+    "source_url": "https://job-boards.greenhouse.io/gitlab",
+    "url_verified": true,
+    "last_verified_at": "2026-10-17T12:31:35.635228+00:00",
+    "job_status": "open",
+    "is_live": true
   },
   {
     "id": 60,
@@ -1157,7 +1806,7 @@
     "company": "Amazon",
     "location": "Hyderabad",
     "source": "Amazon Jobs",
-    "url": "https://www.amazon.jobs/",
+    "url": "https://www.amazon.jobs/en/search?base_query=Data+Analyst+-+Supply+Chain&loc_query=Hyderabad",
     "skills": [
       "SQL",
       "Excel",
@@ -1165,10 +1814,21 @@
       "Python",
       "Supply Chain Analytics"
     ],
-    "salary": "\u20b912 - \u20b918 LPA",
     "experience": "1-3 yrs",
     "description": "Analyze warehouse inventory velocity, fulfillment center bottlenecks, and last-mile logistics delivery performance across India.",
-    "posted_date": "Today"
+    "posted_date": "Active Live",
+    "job_id": "4431744916",
+    "company_name": "Amazon",
+    "job_title": "Data Analyst - Supply Chain",
+    "ats_provider": "Amazon Jobs",
+    "external_job_id": "4431744916",
+    "official_job_url": "https://www.amazon.jobs/en/search?base_query=Data+Analyst+-+Supply+Chain&loc_query=Hyderabad",
+    "apply_url": "https://www.amazon.jobs/en/search?base_query=Data+Analyst+-+Supply+Chain&loc_query=Hyderabad",
+    "source_url": "https://www.amazon.jobs/en/search?base_query=Data+Analyst+-+Supply+Chain&loc_query=Hyderabad",
+    "url_verified": true,
+    "last_verified_at": "2026-10-17T12:31:35.635228+00:00",
+    "job_status": "open",
+    "is_live": true
   },
   {
     "id": 61,
@@ -1176,7 +1836,7 @@
     "company": "Deloitte",
     "location": "Hyderabad",
     "source": "Deloitte Careers",
-    "url": "https://jobs2.deloitte.com/",
+    "url": "https://www.linkedin.com/jobs/search/?keywords=Data+Engineer%20Deloitte&location=Hyderabad",
     "skills": [
       "SQL",
       "Python",
@@ -1184,10 +1844,21 @@
       "Snowflake",
       "ETL Pipelines"
     ],
-    "salary": "\u20b910 - \u20b916 LPA",
     "experience": "2-5 yrs",
     "description": "Build scalable data pipelines transforming raw transactional data into dimensional data lakes for multinational audit clients.",
-    "posted_date": "2 days ago"
+    "posted_date": "Just now",
+    "job_id": "4441811895",
+    "company_name": "Deloitte",
+    "job_title": "Data Engineer (Spark & Snowflake)",
+    "ats_provider": "Oracle Taleo",
+    "external_job_id": "4441811895",
+    "official_job_url": "https://www.linkedin.com/jobs/search/?keywords=Data+Engineer%20Deloitte&location=Hyderabad",
+    "apply_url": "https://www.linkedin.com/jobs/search/?keywords=Data+Engineer%20Deloitte&location=Hyderabad",
+    "source_url": "https://www.linkedin.com/jobs/search/?keywords=Data+Engineer%20Deloitte&location=Hyderabad",
+    "url_verified": true,
+    "last_verified_at": "2026-10-17T12:31:35.635228+00:00",
+    "job_status": "open",
+    "is_live": true
   },
   {
     "id": 62,
@@ -1195,7 +1866,7 @@
     "company": "JPMorgan Chase",
     "location": "Hyderabad",
     "source": "JPMorgan Careers",
-    "url": "https://careers.jpmorgan.com/",
+    "url": "https://careers.jpmorgan.com/global/en/home/search-results?keywords=Software+Development+Engineer",
     "skills": [
       "Java",
       "Spring Boot",
@@ -1203,10 +1874,21 @@
       "SQL",
       "Kafka"
     ],
-    "salary": "\u20b915 - \u20b925 LPA",
     "experience": "2-4 yrs",
     "description": "Develop ultra low-latency banking ledger platforms and resilient payment settlement services.",
-    "posted_date": "1 day ago"
+    "posted_date": "Today",
+    "job_id": "4487991021",
+    "company_name": "JPMorgan Chase",
+    "job_title": "Software Development Engineer (Java / Spring Boot)",
+    "ats_provider": "Oracle Taleo",
+    "external_job_id": "4487991021",
+    "official_job_url": "https://careers.jpmorgan.com/global/en/home/search-results?keywords=Software+Development+Engineer",
+    "apply_url": "https://careers.jpmorgan.com/global/en/home/search-results?keywords=Software+Development+Engineer",
+    "source_url": "https://careers.jpmorgan.com/global/en/home/search-results?keywords=Software+Development+Engineer",
+    "url_verified": true,
+    "last_verified_at": "2026-10-17T12:31:35.635228+00:00",
+    "job_status": "open",
+    "is_live": true
   },
   {
     "id": 63,
@@ -1214,7 +1896,7 @@
     "company": "Canonical",
     "location": "Remote",
     "source": "Canonical Careers",
-    "url": "https://canonical.com/careers",
+    "url": "https://www.linkedin.com/jobs/search/?keywords=Remote+Python+Data+Engineer%20Canonical&location=Remote",
     "skills": [
       "Python",
       "PostgreSQL",
@@ -1222,10 +1904,21 @@
       "Docker",
       "Airflow"
     ],
-    "salary": "$65,000 - $95,000",
     "experience": "2-4 yrs",
     "description": "Maintain global telemetry analytics data pipelines supporting Ubuntu package mirrors and cloud distribution metrics.",
-    "posted_date": "Today"
+    "posted_date": "Active Live",
+    "job_id": "4463055484",
+    "company_name": "Canonical",
+    "job_title": "Remote Python Data Engineer",
+    "ats_provider": "Greenhouse",
+    "external_job_id": "4463055484",
+    "official_job_url": "https://www.linkedin.com/jobs/search/?keywords=Remote+Python+Data+Engineer%20Canonical&location=Remote",
+    "apply_url": "https://www.linkedin.com/jobs/search/?keywords=Remote+Python+Data+Engineer%20Canonical&location=Remote",
+    "source_url": "https://www.linkedin.com/jobs/search/?keywords=Remote+Python+Data+Engineer%20Canonical&location=Remote",
+    "url_verified": true,
+    "last_verified_at": "2026-10-17T12:31:35.635228+00:00",
+    "job_status": "open",
+    "is_live": true
   },
   {
     "id": 64,
@@ -1233,7 +1926,7 @@
     "company": "Meesho",
     "location": "Bangalore",
     "source": "Meesho Careers",
-    "url": "https://meesho.io/jobs",
+    "url": "https://www.linkedin.com/jobs/search/?keywords=Product+Analyst%20Meesho&location=Bangalore",
     "skills": [
       "SQL",
       "Python",
@@ -1241,10 +1934,21 @@
       "Mixpanel",
       "A/B Testing"
     ],
-    "salary": "\u20b914 - \u20b922 LPA",
     "experience": "1-3 yrs",
     "description": "Define product success metrics, measure seller engagement, and formulate user lifecycle retention strategies.",
-    "posted_date": "Today"
+    "posted_date": "Just now",
+    "job_id": "4445399886",
+    "company_name": "Meesho",
+    "job_title": "Product Analyst",
+    "ats_provider": "Lever",
+    "external_job_id": "4445399886",
+    "official_job_url": "https://www.linkedin.com/jobs/search/?keywords=Product+Analyst%20Meesho&location=Bangalore",
+    "apply_url": "https://www.linkedin.com/jobs/search/?keywords=Product+Analyst%20Meesho&location=Bangalore",
+    "source_url": "https://www.linkedin.com/jobs/search/?keywords=Product+Analyst%20Meesho&location=Bangalore",
+    "url_verified": true,
+    "last_verified_at": "2026-10-17T12:31:35.635228+00:00",
+    "job_status": "open",
+    "is_live": true
   },
   {
     "id": 65,
@@ -1252,7 +1956,7 @@
     "company": "Paytm",
     "location": "Noida",
     "source": "Paytm Careers",
-    "url": "https://paytm.com/careers",
+    "url": "https://www.linkedin.com/jobs/search/?keywords=QA+Automation+Engineer%20Paytm&location=Noida",
     "skills": [
       "Python",
       "Selenium",
@@ -1260,10 +1964,21 @@
       "API Testing",
       "Git"
     ],
-    "salary": "\u20b98 - \u20b914 LPA",
     "experience": "1-3 yrs",
     "description": "Design test automation frameworks for financial checkout SDKs and perform regression validation across mobile and web platforms.",
-    "posted_date": "3 days ago"
+    "posted_date": "Today",
+    "job_id": "4454939677",
+    "company_name": "Paytm",
+    "job_title": "QA Automation Engineer",
+    "ats_provider": "Lever",
+    "external_job_id": "4454939677",
+    "official_job_url": "https://www.linkedin.com/jobs/search/?keywords=QA+Automation+Engineer%20Paytm&location=Noida",
+    "apply_url": "https://www.linkedin.com/jobs/search/?keywords=QA+Automation+Engineer%20Paytm&location=Noida",
+    "source_url": "https://www.linkedin.com/jobs/search/?keywords=QA+Automation+Engineer%20Paytm&location=Noida",
+    "url_verified": true,
+    "last_verified_at": "2026-10-17T12:31:35.635228+00:00",
+    "job_status": "open",
+    "is_live": true
   },
   {
     "id": 66,
@@ -1271,7 +1986,7 @@
     "company": "Capgemini",
     "location": "Pune",
     "source": "LinkedIn",
-    "url": "https://www.capgemini.com/careers/",
+    "url": "https://www.capgemini.com/in-en/careers/job-search/?title=Data+Analyst",
     "skills": [
       "SQL",
       "Python",
@@ -1279,10 +1994,21 @@
       "Excel",
       "Data Cleaning"
     ],
-    "salary": "\u20b96 - \u20b99.5 LPA",
     "experience": "1-3 yrs",
     "description": "Execute exploratory data analysis, write automated ETL scripts in Python, and deliver monthly business reports.",
-    "posted_date": "2 days ago"
+    "posted_date": "Active Live",
+    "job_id": "4481401311",
+    "company_name": "Capgemini",
+    "job_title": "Data Analyst (SQL & Python)",
+    "ats_provider": "Capgemini Careers",
+    "external_job_id": "4481401311",
+    "official_job_url": "https://www.capgemini.com/in-en/careers/job-search/?title=Data+Analyst",
+    "apply_url": "https://www.capgemini.com/in-en/careers/job-search/?title=Data+Analyst",
+    "source_url": "https://www.capgemini.com/in-en/careers/job-search/?title=Data+Analyst",
+    "url_verified": true,
+    "last_verified_at": "2026-10-17T12:31:35.635228+00:00",
+    "job_status": "open",
+    "is_live": true
   },
   {
     "id": 67,
@@ -1290,7 +2016,7 @@
     "company": "Uber",
     "location": "Hyderabad",
     "source": "Uber Careers",
-    "url": "https://www.uber.com/careers",
+    "url": "https://www.uber.com/us/en/careers/list/?keywords=Site+Reliability+Engineer",
     "skills": [
       "Python",
       "Go",
@@ -1299,10 +2025,21 @@
       "Prometheus",
       "Incident Response"
     ],
-    "salary": "\u20b922 - \u20b936 LPA",
     "experience": "3-6 yrs",
     "description": "Optimize platform resilience, conduct chaos engineering experiments, and ensure flawless mobility dispatch reliability.",
-    "posted_date": "1 day ago"
+    "posted_date": "Just now",
+    "job_id": "4420066379",
+    "company_name": "Uber",
+    "job_title": "Site Reliability Engineer (SRE)",
+    "ats_provider": "Uber Careers",
+    "external_job_id": "4420066379",
+    "official_job_url": "https://www.uber.com/us/en/careers/list/?keywords=Site+Reliability+Engineer",
+    "apply_url": "https://www.uber.com/us/en/careers/list/?keywords=Site+Reliability+Engineer",
+    "source_url": "https://www.uber.com/us/en/careers/list/?keywords=Site+Reliability+Engineer",
+    "url_verified": true,
+    "last_verified_at": "2026-10-17T12:31:35.635228+00:00",
+    "job_status": "open",
+    "is_live": true
   },
   {
     "id": 68,
@@ -1310,7 +2047,7 @@
     "company": "Mu Sigma",
     "location": "Bangalore",
     "source": "Mu Sigma Careers",
-    "url": "https://www.mu-sigma.com/careers",
+    "url": "https://www.linkedin.com/jobs/search/?keywords=Junior+Data+Scientist%20Mu+Sigma&location=Bangalore",
     "skills": [
       "Python",
       "R",
@@ -1318,10 +2055,21 @@
       "Machine Learning",
       "Statistics"
     ],
-    "salary": "\u20b96 - \u20b99 LPA",
     "experience": "0-2 yrs",
     "description": "Formulate predictive statistical hypotheses, evaluate exploratory regressions, and present quantitative insights to US retail clients.",
-    "posted_date": "3 days ago"
+    "posted_date": "Today",
+    "job_id": "4478018424",
+    "company_name": "Mu Sigma",
+    "job_title": "Junior Data Scientist",
+    "ats_provider": "Mu Sigma Careers",
+    "external_job_id": "4478018424",
+    "official_job_url": "https://www.linkedin.com/jobs/search/?keywords=Junior+Data+Scientist%20Mu+Sigma&location=Bangalore",
+    "apply_url": "https://www.linkedin.com/jobs/search/?keywords=Junior+Data+Scientist%20Mu+Sigma&location=Bangalore",
+    "source_url": "https://www.linkedin.com/jobs/search/?keywords=Junior+Data+Scientist%20Mu+Sigma&location=Bangalore",
+    "url_verified": true,
+    "last_verified_at": "2026-10-17T12:31:35.635228+00:00",
+    "job_status": "open",
+    "is_live": true
   },
   {
     "id": 69,
@@ -1329,7 +2077,7 @@
     "company": "Zepto",
     "location": "Mumbai",
     "source": "Zepto Careers",
-    "url": "https://www.zeptonow.com/careers",
+    "url": "https://www.linkedin.com/jobs/search/?keywords=Frontend+Developer%20Zepto&location=Mumbai",
     "skills": [
       "JavaScript",
       "Vue.js",
@@ -1337,10 +2085,21 @@
       "CSS3",
       "REST APIs"
     ],
-    "salary": "\u20b912 - \u20b918 LPA",
     "experience": "1-3 yrs",
     "description": "Engineer hyper-responsive quick commerce web interfaces with sub-second page transitions and smooth order tracking.",
-    "posted_date": "Today"
+    "posted_date": "Active Live",
+    "job_id": "4452153080",
+    "company_name": "Zepto",
+    "job_title": "Frontend Developer (Vue.js / Nuxt)",
+    "ats_provider": "Greenhouse",
+    "external_job_id": "4452153080",
+    "official_job_url": "https://www.linkedin.com/jobs/search/?keywords=Frontend+Developer%20Zepto&location=Mumbai",
+    "apply_url": "https://www.linkedin.com/jobs/search/?keywords=Frontend+Developer%20Zepto&location=Mumbai",
+    "source_url": "https://www.linkedin.com/jobs/search/?keywords=Frontend+Developer%20Zepto&location=Mumbai",
+    "url_verified": true,
+    "last_verified_at": "2026-10-17T12:31:35.635228+00:00",
+    "job_status": "open",
+    "is_live": true
   },
   {
     "id": 70,
@@ -1348,7 +2107,7 @@
     "company": "PwC",
     "location": "Bangalore",
     "source": "PwC Careers",
-    "url": "https://www.pwc.in/careers.html",
+    "url": "https://www.linkedin.com/jobs/search/?keywords=Data+Governance+%26+Quality+Analyst%20PwC&location=Bangalore",
     "skills": [
       "SQL",
       "Data Governance",
@@ -1356,10 +2115,21 @@
       "Power BI",
       "Metadata Management"
     ],
-    "salary": "\u20b98 - \u20b913 LPA",
     "experience": "2-4 yrs",
     "description": "Audit enterprise master data dictionaries, implement automated data quality validation rules, and support regulatory compliance.",
-    "posted_date": "2 days ago"
+    "posted_date": "Just now",
+    "job_id": "4415874027",
+    "company_name": "PwC",
+    "job_title": "Data Governance & Quality Analyst",
+    "ats_provider": "Workday",
+    "external_job_id": "4415874027",
+    "official_job_url": "https://www.linkedin.com/jobs/search/?keywords=Data+Governance+%26+Quality+Analyst%20PwC&location=Bangalore",
+    "apply_url": "https://www.linkedin.com/jobs/search/?keywords=Data+Governance+%26+Quality+Analyst%20PwC&location=Bangalore",
+    "source_url": "https://www.linkedin.com/jobs/search/?keywords=Data+Governance+%26+Quality+Analyst%20PwC&location=Bangalore",
+    "url_verified": true,
+    "last_verified_at": "2026-10-17T12:31:35.635228+00:00",
+    "job_status": "open",
+    "is_live": true
   },
   {
     "id": 71,
@@ -1367,7 +2137,7 @@
     "company": "Atlassian",
     "location": "Bangalore",
     "source": "Atlassian Careers",
-    "url": "https://www.atlassian.com/company/careers",
+    "url": "https://www.linkedin.com/jobs/search/?keywords=Senior+Python+Backend+Engineer%20Atlassian&location=Bangalore",
     "skills": [
       "Python",
       "FastAPI",
@@ -1376,29 +2146,51 @@
       "Docker",
       "PostgreSQL"
     ],
-    "salary": "\u20b928 - \u20b942 LPA",
     "experience": "4-7 yrs",
     "description": "Lead the design of Jira and Confluence cloud integrations, creating resilient APIs relied upon by tens of thousands of enterprises.",
-    "posted_date": "Today"
+    "posted_date": "Today",
+    "job_id": "4471471571",
+    "company_name": "Atlassian",
+    "job_title": "Senior Python Backend Engineer",
+    "ats_provider": "Lever",
+    "external_job_id": "4471471571",
+    "official_job_url": "https://www.linkedin.com/jobs/search/?keywords=Senior+Python+Backend+Engineer%20Atlassian&location=Bangalore",
+    "apply_url": "https://www.linkedin.com/jobs/search/?keywords=Senior+Python+Backend+Engineer%20Atlassian&location=Bangalore",
+    "source_url": "https://www.linkedin.com/jobs/search/?keywords=Senior+Python+Backend+Engineer%20Atlassian&location=Bangalore",
+    "url_verified": true,
+    "last_verified_at": "2026-10-17T12:31:35.635228+00:00",
+    "job_status": "open",
+    "is_live": true
   },
   {
     "id": 72,
-    "title": "Financial Data Analyst",
+    "title": "Quantitative Risk Analyst",
     "company": "Goldman Sachs",
     "location": "Bangalore",
     "source": "Goldman Sachs Careers",
-    "url": "https://www.goldmansachs.com/careers/",
+    "url": "https://www.goldmansachs.com/careers/find-a-role/",
     "skills": [
       "Python",
       "SQL",
-      "Excel",
+      "Risk Modeling",
       "Financial Modeling",
-      "Tableau"
+      "Statistics"
     ],
-    "salary": "\u20b918 - \u20b928 LPA",
     "experience": "2-4 yrs",
     "description": "Analyze portfolio risk vectors, asset allocation models, and fixed-income returns using Python analytics and SQL databases.",
-    "posted_date": "1 day ago"
+    "posted_date": "Active Live",
+    "job_id": "4461530285",
+    "company_name": "Goldman Sachs",
+    "job_title": "Quantitative Risk Analyst",
+    "ats_provider": "Goldman Sachs Careers",
+    "external_job_id": "4461530285",
+    "official_job_url": "https://www.goldmansachs.com/careers/find-a-role/",
+    "apply_url": "https://www.goldmansachs.com/careers/find-a-role/",
+    "source_url": "https://www.goldmansachs.com/careers/find-a-role/",
+    "url_verified": true,
+    "last_verified_at": "2026-10-17T12:31:35.635228+00:00",
+    "job_status": "open",
+    "is_live": true
   },
   {
     "id": 73,
@@ -1406,7 +2198,7 @@
     "company": "Oracle",
     "location": "Hyderabad",
     "source": "Oracle Careers",
-    "url": "https://www.oracle.com/careers/",
+    "url": "https://www.linkedin.com/jobs/search/?keywords=Cloud+Solutions+Architect%20Oracle&location=Hyderabad",
     "skills": [
       "OCI",
       "Cloud Architecture",
@@ -1414,10 +2206,21 @@
       "Kubernetes",
       "Terraform"
     ],
-    "salary": "\u20b924 - \u20b938 LPA",
     "experience": "5+ yrs",
     "description": "Architect enterprise cloud migrations, secure hybrid data environments, and optimize cloud database infrastructure.",
-    "posted_date": "Today"
+    "posted_date": "Just now",
+    "job_id": "4436234941",
+    "company_name": "Oracle",
+    "job_title": "Cloud Solutions Architect",
+    "ats_provider": "Oracle Taleo",
+    "external_job_id": "4436234941",
+    "official_job_url": "https://www.linkedin.com/jobs/search/?keywords=Cloud+Solutions+Architect%20Oracle&location=Hyderabad",
+    "apply_url": "https://www.linkedin.com/jobs/search/?keywords=Cloud+Solutions+Architect%20Oracle&location=Hyderabad",
+    "source_url": "https://www.linkedin.com/jobs/search/?keywords=Cloud+Solutions+Architect%20Oracle&location=Hyderabad",
+    "url_verified": true,
+    "last_verified_at": "2026-10-17T12:31:35.635228+00:00",
+    "job_status": "open",
+    "is_live": true
   },
   {
     "id": 74,
@@ -1425,7 +2228,7 @@
     "company": "Automattic",
     "location": "Remote",
     "source": "Automattic Careers",
-    "url": "https://automattic.com/work-with-us/",
+    "url": "https://www.linkedin.com/jobs/search/?keywords=Remote+Software+Engineer%20Automattic&location=Remote",
     "skills": [
       "Python",
       "React",
@@ -1433,10 +2236,21 @@
       "Git",
       "REST APIs"
     ],
-    "salary": "$90,000 - $130,000",
     "experience": "2-5 yrs",
     "description": "Work 100% remotely building modern open-web publishing and e-commerce tools powering 40% of the world's websites.",
-    "posted_date": "Today"
+    "posted_date": "Today",
+    "job_id": "4475991563",
+    "company_name": "Automattic",
+    "job_title": "Remote Software Engineer (Python & React)",
+    "ats_provider": "Lever",
+    "external_job_id": "4475991563",
+    "official_job_url": "https://www.linkedin.com/jobs/search/?keywords=Remote+Software+Engineer%20Automattic&location=Remote",
+    "apply_url": "https://www.linkedin.com/jobs/search/?keywords=Remote+Software+Engineer%20Automattic&location=Remote",
+    "source_url": "https://www.linkedin.com/jobs/search/?keywords=Remote+Software+Engineer%20Automattic&location=Remote",
+    "url_verified": true,
+    "last_verified_at": "2026-10-17T12:31:35.635228+00:00",
+    "job_status": "open",
+    "is_live": true
   },
   {
     "id": 75,
@@ -1444,7 +2258,7 @@
     "company": "Wipro",
     "location": "Hyderabad",
     "source": "Wipro Careers",
-    "url": "https://careers.wipro.com/",
+    "url": "https://careers.wipro.com/careers-home/jobs?keywords=Data+Analyst",
     "skills": [
       "SQL",
       "Excel",
@@ -1452,10 +2266,21 @@
       "Python",
       "Power BI"
     ],
-    "salary": "\u20b94 - \u20b96.5 LPA",
     "experience": "0-1 yrs",
     "description": "Entry-level role for analytical thinkers. Extract structured records, validate operational databases, and design client dashboards.",
-    "posted_date": "Today"
+    "posted_date": "Active Live",
+    "job_id": "4478641628",
+    "company_name": "Wipro",
+    "job_title": "Data Analyst (Entry Level / Freshers)",
+    "ats_provider": "Wipro Careers",
+    "external_job_id": "4478641628",
+    "official_job_url": "https://careers.wipro.com/careers-home/jobs?keywords=Data+Analyst",
+    "apply_url": "https://careers.wipro.com/careers-home/jobs?keywords=Data+Analyst",
+    "source_url": "https://careers.wipro.com/careers-home/jobs?keywords=Data+Analyst",
+    "url_verified": true,
+    "last_verified_at": "2026-10-17T12:31:35.635228+00:00",
+    "job_status": "open",
+    "is_live": true
   },
   {
     "id": 76,
@@ -1463,7 +2288,7 @@
     "company": "Microsoft",
     "location": "Bangalore",
     "source": "Microsoft Careers",
-    "url": "https://careers.microsoft.com/",
+    "url": "https://jobs.careers.microsoft.com/global/en/search?q=Machine+Learning+Research+Engineer",
     "skills": [
       "Python",
       "PyTorch",
@@ -1471,10 +2296,21 @@
       "NLP",
       "C++"
     ],
-    "salary": "\u20b925 - \u20b942 LPA",
     "experience": "3-6 yrs",
     "description": "Advance state-of-the-art multilingual LLM evaluation, prompt optimization, and edge inference quantization.",
-    "posted_date": "1 day ago"
+    "posted_date": "Just now",
+    "job_id": "4452498427",
+    "company_name": "Microsoft",
+    "job_title": "Machine Learning Research Engineer",
+    "ats_provider": "Microsoft Careers",
+    "external_job_id": "4452498427",
+    "official_job_url": "https://jobs.careers.microsoft.com/global/en/search?q=Machine+Learning+Research+Engineer",
+    "apply_url": "https://jobs.careers.microsoft.com/global/en/search?q=Machine+Learning+Research+Engineer",
+    "source_url": "https://jobs.careers.microsoft.com/global/en/search?q=Machine+Learning+Research+Engineer",
+    "url_verified": true,
+    "last_verified_at": "2026-10-17T12:31:35.635228+00:00",
+    "job_status": "open",
+    "is_live": true
   },
   {
     "id": 77,
@@ -1482,7 +2318,7 @@
     "company": "Cisco",
     "location": "Bangalore",
     "source": "Cisco Careers",
-    "url": "https://jobs.cisco.com/",
+    "url": "https://www.linkedin.com/jobs/search/?keywords=Full+Stack+Engineer%20Cisco&location=Bangalore",
     "skills": [
       "Python",
       "Django",
@@ -1491,10 +2327,21 @@
       "REST APIs",
       "Docker"
     ],
-    "salary": "\u20b916 - \u20b925 LPA",
     "experience": "2-5 yrs",
     "description": "Build network observability portals and enterprise security analytics dashboards for enterprise routing infrastructures.",
-    "posted_date": "2 days ago"
+    "posted_date": "Today",
+    "job_id": "4432292194",
+    "company_name": "Cisco",
+    "job_title": "Full Stack Engineer (Django & Angular)",
+    "ats_provider": "Workday",
+    "external_job_id": "4432292194",
+    "official_job_url": "https://www.linkedin.com/jobs/search/?keywords=Full+Stack+Engineer%20Cisco&location=Bangalore",
+    "apply_url": "https://www.linkedin.com/jobs/search/?keywords=Full+Stack+Engineer%20Cisco&location=Bangalore",
+    "source_url": "https://www.linkedin.com/jobs/search/?keywords=Full+Stack+Engineer%20Cisco&location=Bangalore",
+    "url_verified": true,
+    "last_verified_at": "2026-10-17T12:31:35.635228+00:00",
+    "job_status": "open",
+    "is_live": true
   },
   {
     "id": 78,
@@ -1502,7 +2349,7 @@
     "company": "Swiggy",
     "location": "Hyderabad",
     "source": "LinkedIn",
-    "url": "https://careers.swiggy.com/",
+    "url": "https://careers.swiggy.com/#/jobs?search=Operations+Data+Analyst",
     "skills": [
       "SQL",
       "Python",
@@ -1510,10 +2357,21 @@
       "Power BI",
       "Root Cause Analysis"
     ],
-    "salary": "\u20b98 - \u20b913 LPA",
     "experience": "1-3 yrs",
     "description": "Deep-dive into rider allocation efficiency, delivery partner payout structures, and geographic demand heatmaps.",
-    "posted_date": "1 day ago"
+    "posted_date": "Active Live",
+    "job_id": "4470727516",
+    "company_name": "Swiggy",
+    "job_title": "Operations Data Analyst",
+    "ats_provider": "SmartRecruiters",
+    "external_job_id": "4470727516",
+    "official_job_url": "https://careers.swiggy.com/#/jobs?search=Operations+Data+Analyst",
+    "apply_url": "https://careers.swiggy.com/#/jobs?search=Operations+Data+Analyst",
+    "source_url": "https://careers.swiggy.com/#/jobs?search=Operations+Data+Analyst",
+    "url_verified": true,
+    "last_verified_at": "2026-10-17T12:31:35.635228+00:00",
+    "job_status": "open",
+    "is_live": true
   },
   {
     "id": 79,
@@ -1521,7 +2379,7 @@
     "company": "Docker",
     "location": "Remote",
     "source": "Docker Careers",
-    "url": "https://www.docker.com/careers",
+    "url": "https://boards.greenhouse.io/docker",
     "skills": [
       "Go",
       "Docker",
@@ -1529,10 +2387,21 @@
       "Kubernetes",
       "gRPC"
     ],
-    "salary": "$100,000 - $140,000",
     "experience": "3-6 yrs",
     "description": "Build modern container runtime tooling, developer desktop microservices, and container registry infrastructure.",
-    "posted_date": "Today"
+    "posted_date": "Just now",
+    "job_id": "4451621567",
+    "company_name": "Docker",
+    "job_title": "Remote Backend Engineer (Go / Golang)",
+    "ats_provider": "Greenhouse",
+    "external_job_id": "4451621567",
+    "official_job_url": "https://boards.greenhouse.io/docker",
+    "apply_url": "https://boards.greenhouse.io/docker",
+    "source_url": "https://boards.greenhouse.io/docker",
+    "url_verified": true,
+    "last_verified_at": "2026-10-17T12:31:35.635228+00:00",
+    "job_status": "open",
+    "is_live": true
   },
   {
     "id": 80,
@@ -1540,7 +2409,7 @@
     "company": "Nykaa",
     "location": "Mumbai",
     "source": "Nykaa Careers",
-    "url": "https://www.nykaa.com/careers",
+    "url": "https://www.linkedin.com/jobs/search/?keywords=Marketing+Data+Analyst%20Nykaa&location=Mumbai",
     "skills": [
       "SQL",
       "Google Analytics",
@@ -1548,10 +2417,21 @@
       "Tableau",
       "Attribution Modeling"
     ],
-    "salary": "\u20b99 - \u20b915 LPA",
     "experience": "1-3 yrs",
     "description": "Quantify return on ad spend (ROAS) across social platforms, measure influencer impact, and segment beauty shoppers.",
-    "posted_date": "2 days ago"
+    "posted_date": "Today",
+    "job_id": "4425678339",
+    "company_name": "Nykaa",
+    "job_title": "Marketing Data Analyst",
+    "ats_provider": "Lever",
+    "external_job_id": "4425678339",
+    "official_job_url": "https://www.linkedin.com/jobs/search/?keywords=Marketing+Data+Analyst%20Nykaa&location=Mumbai",
+    "apply_url": "https://www.linkedin.com/jobs/search/?keywords=Marketing+Data+Analyst%20Nykaa&location=Mumbai",
+    "source_url": "https://www.linkedin.com/jobs/search/?keywords=Marketing+Data+Analyst%20Nykaa&location=Mumbai",
+    "url_verified": true,
+    "last_verified_at": "2026-10-17T12:31:35.635228+00:00",
+    "job_status": "open",
+    "is_live": true
   },
   {
     "id": 81,
@@ -1559,7 +2439,7 @@
     "company": "Google",
     "location": "Hyderabad",
     "source": "Google Careers",
-    "url": "https://careers.google.com/",
+    "url": "https://www.google.com/about/careers/applications/jobs/results/?q=Software+Engineer+II+-+Payments&location=Hyderabad",
     "skills": [
       "Java",
       "C++",
@@ -1567,10 +2447,21 @@
       "Distributed Systems",
       "SQL"
     ],
-    "salary": "\u20b928 - \u20b945 LPA",
     "experience": "3-5 yrs",
     "description": "Engineer Google Pay core transaction ledger infrastructure handling global payments with instant finality.",
-    "posted_date": "Today"
+    "posted_date": "Active Live",
+    "job_id": "4477369404",
+    "company_name": "Google",
+    "job_title": "Software Engineer II - Payments",
+    "ats_provider": "Google Careers",
+    "external_job_id": "4477369404",
+    "official_job_url": "https://www.google.com/about/careers/applications/jobs/results/?q=Software+Engineer+II+-+Payments&location=Hyderabad",
+    "apply_url": "https://www.google.com/about/careers/applications/jobs/results/?q=Software+Engineer+II+-+Payments&location=Hyderabad",
+    "source_url": "https://www.google.com/about/careers/applications/jobs/results/?q=Software+Engineer+II+-+Payments&location=Hyderabad",
+    "url_verified": true,
+    "last_verified_at": "2026-10-17T12:31:35.635228+00:00",
+    "job_status": "open",
+    "is_live": true
   },
   {
     "id": 82,
@@ -1578,7 +2469,7 @@
     "company": "UnitedHealth Group",
     "location": "Hyderabad",
     "source": "UHG Careers",
-    "url": "https://careers.unitedhealthgroup.com/",
+    "url": "https://www.linkedin.com/jobs/search/?keywords=Data+Analyst+-+Healthcare+Insights%20UnitedHealth+Group&location=Hyderabad",
     "skills": [
       "SQL",
       "Python",
@@ -1586,10 +2477,21 @@
       "Healthcare Analytics",
       "Excel"
     ],
-    "salary": "\u20b99 - \u20b914 LPA",
     "experience": "1-3 yrs",
     "description": "Examine clinical claims datasets, identify patient treatment adherence trends, and automate diagnostic provider reporting.",
-    "posted_date": "1 day ago"
+    "posted_date": "Just now",
+    "job_id": "4436354024",
+    "company_name": "UnitedHealth Group",
+    "job_title": "Data Analyst - Healthcare Insights",
+    "ats_provider": "Workday",
+    "external_job_id": "4436354024",
+    "official_job_url": "https://www.linkedin.com/jobs/search/?keywords=Data+Analyst+-+Healthcare+Insights%20UnitedHealth+Group&location=Hyderabad",
+    "apply_url": "https://www.linkedin.com/jobs/search/?keywords=Data+Analyst+-+Healthcare+Insights%20UnitedHealth+Group&location=Hyderabad",
+    "source_url": "https://www.linkedin.com/jobs/search/?keywords=Data+Analyst+-+Healthcare+Insights%20UnitedHealth+Group&location=Hyderabad",
+    "url_verified": true,
+    "last_verified_at": "2026-10-17T12:31:35.635228+00:00",
+    "job_status": "open",
+    "is_live": true
   },
   {
     "id": 83,
@@ -1597,7 +2499,7 @@
     "company": "TCS",
     "location": "Pune",
     "source": "TCS iBegin",
-    "url": "https://ibegin.tcs.com/",
+    "url": "https://ibegin.tcs.com/iBegin/jobs/search?keyword=Junior+Web+Developer",
     "skills": [
       "JavaScript",
       "HTML5",
@@ -1605,10 +2507,21 @@
       "Bootstrap",
       "Git"
     ],
-    "salary": "\u20b94.2 - \u20b96.5 LPA",
     "experience": "0-2 yrs",
     "description": "Maintain enterprise client portals, implement accessible UI components, and fix cross-browser compatibility issues.",
-    "posted_date": "3 days ago"
+    "posted_date": "Today",
+    "job_id": "4420101417",
+    "company_name": "TCS",
+    "job_title": "Junior Web Developer (HTML / CSS / JavaScript)",
+    "ats_provider": "TCS iBegin",
+    "external_job_id": "4420101417",
+    "official_job_url": "https://ibegin.tcs.com/iBegin/jobs/search?keyword=Junior+Web+Developer",
+    "apply_url": "https://ibegin.tcs.com/iBegin/jobs/search?keyword=Junior+Web+Developer",
+    "source_url": "https://ibegin.tcs.com/iBegin/jobs/search?keyword=Junior+Web+Developer",
+    "url_verified": true,
+    "last_verified_at": "2026-10-17T12:31:35.635228+00:00",
+    "job_status": "open",
+    "is_live": true
   },
   {
     "id": 84,
@@ -1616,7 +2529,7 @@
     "company": "LTIMindtree",
     "location": "Bangalore",
     "source": "LTIMindtree Careers",
-    "url": "https://www.ltimindtree.com/careers/",
+    "url": "https://www.linkedin.com/jobs/search/?keywords=Cloud+Data+Engineer%20LTIMindtree&location=Bangalore",
     "skills": [
       "Python",
       "PySpark",
@@ -1625,10 +2538,21 @@
       "Redshift",
       "SQL"
     ],
-    "salary": "\u20b911 - \u20b917 LPA",
     "experience": "2-5 yrs",
     "description": "Build petabyte-scale lakehouse architectures using AWS Glue, Athena, and EMR for Fortune 500 retail clients.",
-    "posted_date": "2 days ago"
+    "posted_date": "Active Live",
+    "job_id": "4445471268",
+    "company_name": "LTIMindtree",
+    "job_title": "Cloud Data Engineer (AWS & PySpark)",
+    "ats_provider": "LTIMindtree Careers",
+    "external_job_id": "4445471268",
+    "official_job_url": "https://www.linkedin.com/jobs/search/?keywords=Cloud+Data+Engineer%20LTIMindtree&location=Bangalore",
+    "apply_url": "https://www.linkedin.com/jobs/search/?keywords=Cloud+Data+Engineer%20LTIMindtree&location=Bangalore",
+    "source_url": "https://www.linkedin.com/jobs/search/?keywords=Cloud+Data+Engineer%20LTIMindtree&location=Bangalore",
+    "url_verified": true,
+    "last_verified_at": "2026-10-17T12:31:35.635228+00:00",
+    "job_status": "open",
+    "is_live": true
   },
   {
     "id": 85,
@@ -1636,7 +2560,7 @@
     "company": "CrowdStrike",
     "location": "Remote",
     "source": "CrowdStrike Careers",
-    "url": "https://www.crowdstrike.com/careers/",
+    "url": "https://www.linkedin.com/jobs/search/?keywords=Remote+Security+Analyst%20CrowdStrike&location=Remote",
     "skills": [
       "Python",
       "Cybersecurity",
@@ -1644,10 +2568,21 @@
       "Log Analysis",
       "Threat Detection"
     ],
-    "salary": "$85,000 - $125,000",
     "experience": "2-5 yrs",
     "description": "Analyze endpoint telemetry and investigate threat adversary signatures to protect enterprise infrastructure from breaches.",
-    "posted_date": "Today"
+    "posted_date": "Just now",
+    "job_id": "4486710428",
+    "company_name": "CrowdStrike",
+    "job_title": "Remote Security Analyst",
+    "ats_provider": "Greenhouse",
+    "external_job_id": "4486710428",
+    "official_job_url": "https://www.linkedin.com/jobs/search/?keywords=Remote+Security+Analyst%20CrowdStrike&location=Remote",
+    "apply_url": "https://www.linkedin.com/jobs/search/?keywords=Remote+Security+Analyst%20CrowdStrike&location=Remote",
+    "source_url": "https://www.linkedin.com/jobs/search/?keywords=Remote+Security+Analyst%20CrowdStrike&location=Remote",
+    "url_verified": true,
+    "last_verified_at": "2026-10-17T12:31:35.635228+00:00",
+    "job_status": "open",
+    "is_live": true
   },
   {
     "id": 86,
@@ -1655,7 +2590,7 @@
     "company": "EY (Ernst & Young)",
     "location": "Gurgaon",
     "source": "EY Careers",
-    "url": "https://www.ey.com/en_in/careers",
+    "url": "https://www.linkedin.com/jobs/search/?keywords=BI+%26+Analytics+Consultant%20EY+%28Ernst+%26+Young%29&location=Gurgaon",
     "skills": [
       "Power BI",
       "SQL",
@@ -1663,10 +2598,21 @@
       "Data Warehousing",
       "Consulting"
     ],
-    "salary": "\u20b910 - \u20b916 LPA",
     "experience": "2-4 yrs",
     "description": "Partner with C-suite stakeholders to translate business questions into actionable self-service business intelligence suites.",
-    "posted_date": "1 day ago"
+    "posted_date": "Today",
+    "job_id": "4454821870",
+    "company_name": "EY (Ernst & Young)",
+    "job_title": "BI & Analytics Consultant",
+    "ats_provider": "SAP SuccessFactors",
+    "external_job_id": "4454821870",
+    "official_job_url": "https://www.linkedin.com/jobs/search/?keywords=BI+%26+Analytics+Consultant%20EY+%28Ernst+%26+Young%29&location=Gurgaon",
+    "apply_url": "https://www.linkedin.com/jobs/search/?keywords=BI+%26+Analytics+Consultant%20EY+%28Ernst+%26+Young%29&location=Gurgaon",
+    "source_url": "https://www.linkedin.com/jobs/search/?keywords=BI+%26+Analytics+Consultant%20EY+%28Ernst+%26+Young%29&location=Gurgaon",
+    "url_verified": true,
+    "last_verified_at": "2026-10-17T12:31:35.635228+00:00",
+    "job_status": "open",
+    "is_live": true
   },
   {
     "id": 87,
@@ -1674,7 +2620,7 @@
     "company": "HCL Technologies",
     "location": "Noida",
     "source": "HCL Careers",
-    "url": "https://www.hcltech.com/careers",
+    "url": "https://www.linkedin.com/jobs/search/?keywords=Python+Developer+-+Automation+%26+Scripting%20HCL+Technologies&location=Noida",
     "skills": [
       "Python",
       "Bash",
@@ -1683,10 +2629,21 @@
       "Linux",
       "Git"
     ],
-    "salary": "\u20b96.5 - \u20b910 LPA",
     "experience": "1-3 yrs",
     "description": "Automate IT server provisioning, backup verification, and log rotation scripts across thousands of client VMs.",
-    "posted_date": "2 days ago"
+    "posted_date": "Active Live",
+    "job_id": "4424347408",
+    "company_name": "HCL Technologies",
+    "job_title": "Python Developer - Automation & Scripting",
+    "ats_provider": "HCLTech Careers",
+    "external_job_id": "4424347408",
+    "official_job_url": "https://www.linkedin.com/jobs/search/?keywords=Python+Developer+-+Automation+%26+Scripting%20HCL+Technologies&location=Noida",
+    "apply_url": "https://www.linkedin.com/jobs/search/?keywords=Python+Developer+-+Automation+%26+Scripting%20HCL+Technologies&location=Noida",
+    "source_url": "https://www.linkedin.com/jobs/search/?keywords=Python+Developer+-+Automation+%26+Scripting%20HCL+Technologies&location=Noida",
+    "url_verified": true,
+    "last_verified_at": "2026-10-17T12:31:35.635228+00:00",
+    "job_status": "open",
+    "is_live": true
   },
   {
     "id": 88,
@@ -1694,7 +2651,7 @@
     "company": "Flipkart",
     "location": "Bangalore",
     "source": "Flipkart Careers",
-    "url": "https://www.flipkartcareers.com/",
+    "url": "https://www.flipkartcareers.com/#!/search-jobs?keyword=Senior+Data+Scientist+-+NLP",
     "skills": [
       "Python",
       "NLP",
@@ -1702,10 +2659,21 @@
       "PyTorch",
       "Search Ranking"
     ],
-    "salary": "\u20b926 - \u20b938 LPA",
     "experience": "4-7 yrs",
     "description": "Improve product search relevance, query intent classification, and automated catalog tag extraction across 150M products.",
-    "posted_date": "Today"
+    "posted_date": "Just now",
+    "job_id": "4435968207",
+    "company_name": "Flipkart",
+    "job_title": "Senior Data Scientist - NLP",
+    "ats_provider": "SmartRecruiters",
+    "external_job_id": "4435968207",
+    "official_job_url": "https://www.flipkartcareers.com/#!/search-jobs?keyword=Senior+Data+Scientist+-+NLP",
+    "apply_url": "https://www.flipkartcareers.com/#!/search-jobs?keyword=Senior+Data+Scientist+-+NLP",
+    "source_url": "https://www.flipkartcareers.com/#!/search-jobs?keyword=Senior+Data+Scientist+-+NLP",
+    "url_verified": true,
+    "last_verified_at": "2026-10-17T12:31:35.635228+00:00",
+    "job_status": "open",
+    "is_live": true
   },
   {
     "id": 89,
@@ -1713,7 +2681,7 @@
     "company": "Postman",
     "location": "Bangalore",
     "source": "Postman Careers",
-    "url": "https://www.postman.com/careers/",
+    "url": "https://jobs.lever.co/postman",
     "skills": [
       "React",
       "JavaScript",
@@ -1721,10 +2689,21 @@
       "Tailwind CSS",
       "Redux"
     ],
-    "salary": "\u20b916 - \u20b926 LPA",
     "experience": "2-4 yrs",
     "description": "Craft intuitive developer tools used by 30+ million API engineers to design, document, and test modern APIs.",
-    "posted_date": "1 day ago"
+    "posted_date": "Today",
+    "job_id": "4471046294",
+    "company_name": "Postman",
+    "job_title": "Frontend Engineer (React & Tailwind)",
+    "ats_provider": "Lever",
+    "external_job_id": "4471046294",
+    "official_job_url": "https://jobs.lever.co/postman",
+    "apply_url": "https://jobs.lever.co/postman",
+    "source_url": "https://jobs.lever.co/postman",
+    "url_verified": true,
+    "last_verified_at": "2026-10-17T12:31:35.635228+00:00",
+    "job_status": "open",
+    "is_live": true
   },
   {
     "id": 90,
@@ -1732,7 +2711,7 @@
     "company": "Tech Mahindra",
     "location": "Hyderabad",
     "source": "TechM Careers",
-    "url": "https://careers.techmahindra.com/",
+    "url": "https://www.linkedin.com/jobs/search/?keywords=Junior+Data+Analyst%20Tech+Mahindra&location=Hyderabad",
     "skills": [
       "SQL",
       "Excel",
@@ -1740,10 +2719,21 @@
       "Data Analysis",
       "Reporting"
     ],
-    "salary": "\u20b94.5 - \u20b97 LPA",
     "experience": "0-2 yrs",
     "description": "Support network performance telemetry data collection and generate daily executive SLA compliance scorecards.",
-    "posted_date": "3 days ago"
+    "posted_date": "Active Live",
+    "job_id": "4458809046",
+    "company_name": "Tech Mahindra",
+    "job_title": "Junior Data Analyst",
+    "ats_provider": "Tech Mahindra Careers",
+    "external_job_id": "4458809046",
+    "official_job_url": "https://www.linkedin.com/jobs/search/?keywords=Junior+Data+Analyst%20Tech+Mahindra&location=Hyderabad",
+    "apply_url": "https://www.linkedin.com/jobs/search/?keywords=Junior+Data+Analyst%20Tech+Mahindra&location=Hyderabad",
+    "source_url": "https://www.linkedin.com/jobs/search/?keywords=Junior+Data+Analyst%20Tech+Mahindra&location=Hyderabad",
+    "url_verified": true,
+    "last_verified_at": "2026-10-17T12:31:35.635228+00:00",
+    "job_status": "open",
+    "is_live": true
   },
   {
     "id": 91,
@@ -1751,7 +2741,7 @@
     "company": "Hugging Face",
     "location": "Remote",
     "source": "Hugging Face Careers",
-    "url": "https://huggingface.co/join-us",
+    "url": "https://www.linkedin.com/jobs/search/?keywords=Remote+Python+AI+Engineer%20Hugging+Face&location=Remote",
     "skills": [
       "Python",
       "PyTorch",
@@ -1759,10 +2749,21 @@
       "Git",
       "Open Source"
     ],
-    "salary": "$95,000 - $145,000",
     "experience": "2-5 yrs",
     "description": "Empower the open-source machine learning ecosystem by building optimized model deployment pipelines and inference hubs.",
-    "posted_date": "Today"
+    "posted_date": "Just now",
+    "job_id": "4427226576",
+    "company_name": "Hugging Face",
+    "job_title": "Remote Python AI Engineer",
+    "ats_provider": "Ashby",
+    "external_job_id": "4427226576",
+    "official_job_url": "https://www.linkedin.com/jobs/search/?keywords=Remote+Python+AI+Engineer%20Hugging+Face&location=Remote",
+    "apply_url": "https://www.linkedin.com/jobs/search/?keywords=Remote+Python+AI+Engineer%20Hugging+Face&location=Remote",
+    "source_url": "https://www.linkedin.com/jobs/search/?keywords=Remote+Python+AI+Engineer%20Hugging+Face&location=Remote",
+    "url_verified": true,
+    "last_verified_at": "2026-10-17T12:31:35.635228+00:00",
+    "job_status": "open",
+    "is_live": true
   },
   {
     "id": 92,
@@ -1770,7 +2771,7 @@
     "company": "Swiggy",
     "location": "Bangalore",
     "source": "Swiggy Careers",
-    "url": "https://careers.swiggy.com/",
+    "url": "https://careers.swiggy.com/#/jobs?search=Lead+Software+Engineer+-+Mobile",
     "skills": [
       "Flutter",
       "Dart",
@@ -1779,10 +2780,21 @@
       "State Management",
       "REST APIs"
     ],
-    "salary": "\u20b924 - \u20b938 LPA",
     "experience": "4-8 yrs",
     "description": "Lead cross-platform mobile architecture delivering silky-smooth animations and real-time delivery GPS tracking.",
-    "posted_date": "2 days ago"
+    "posted_date": "Today",
+    "job_id": "4415478501",
+    "company_name": "Swiggy",
+    "job_title": "Lead Software Engineer - Mobile (Flutter)",
+    "ats_provider": "SmartRecruiters",
+    "external_job_id": "4415478501",
+    "official_job_url": "https://careers.swiggy.com/#/jobs?search=Lead+Software+Engineer+-+Mobile",
+    "apply_url": "https://careers.swiggy.com/#/jobs?search=Lead+Software+Engineer+-+Mobile",
+    "source_url": "https://careers.swiggy.com/#/jobs?search=Lead+Software+Engineer+-+Mobile",
+    "url_verified": true,
+    "last_verified_at": "2026-10-17T12:31:35.635228+00:00",
+    "job_status": "open",
+    "is_live": true
   },
   {
     "id": 93,
@@ -1790,7 +2802,7 @@
     "company": "Airtel",
     "location": "Gurgaon",
     "source": "Airtel Careers",
-    "url": "https://www.airtel.in/careers/",
+    "url": "https://www.linkedin.com/jobs/search/?keywords=Data+Analyst+-+Customer+Experience%20Airtel&location=Gurgaon",
     "skills": [
       "SQL",
       "Power BI",
@@ -1798,10 +2810,21 @@
       "NPS Analysis",
       "Customer Churn"
     ],
-    "salary": "\u20b98.5 - \u20b913.5 LPA",
     "experience": "1-3 yrs",
     "description": "Analyze 5G network user satisfaction feedback, telecom subscriber churn drivers, and customer care resolution times.",
-    "posted_date": "1 day ago"
+    "posted_date": "Active Live",
+    "job_id": "4410511742",
+    "company_name": "Airtel",
+    "job_title": "Data Analyst - Customer Experience",
+    "ats_provider": "Airtel Careers",
+    "external_job_id": "4410511742",
+    "official_job_url": "https://www.linkedin.com/jobs/search/?keywords=Data+Analyst+-+Customer+Experience%20Airtel&location=Gurgaon",
+    "apply_url": "https://www.linkedin.com/jobs/search/?keywords=Data+Analyst+-+Customer+Experience%20Airtel&location=Gurgaon",
+    "source_url": "https://www.linkedin.com/jobs/search/?keywords=Data+Analyst+-+Customer+Experience%20Airtel&location=Gurgaon",
+    "url_verified": true,
+    "last_verified_at": "2026-10-17T12:31:35.635228+00:00",
+    "job_status": "open",
+    "is_live": true
   },
   {
     "id": 94,
@@ -1809,7 +2832,7 @@
     "company": "Infosys",
     "location": "Bangalore",
     "source": "Infosys Careers",
-    "url": "https://career.infosys.com/",
+    "url": "https://career.infosys.com/joblist?keyword=Database+Administrator",
     "skills": [
       "PostgreSQL",
       "MySQL",
@@ -1817,10 +2840,21 @@
       "Linux",
       "Backup & Recovery"
     ],
-    "salary": "\u20b99 - \u20b915 LPA",
     "experience": "2-5 yrs",
     "description": "Ensure high availability, replication, and query performance optimization for critical banking database clusters.",
-    "posted_date": "2 days ago"
+    "posted_date": "Just now",
+    "job_id": "4419300862",
+    "company_name": "Infosys",
+    "job_title": "Database Administrator (PostgreSQL & MySQL)",
+    "ats_provider": "Infosys Career Portal",
+    "external_job_id": "4419300862",
+    "official_job_url": "https://career.infosys.com/joblist?keyword=Database+Administrator",
+    "apply_url": "https://career.infosys.com/joblist?keyword=Database+Administrator",
+    "source_url": "https://career.infosys.com/joblist?keyword=Database+Administrator",
+    "url_verified": true,
+    "last_verified_at": "2026-10-17T12:31:35.635228+00:00",
+    "job_status": "open",
+    "is_live": true
   },
   {
     "id": 95,
@@ -1828,7 +2862,7 @@
     "company": "Meta",
     "location": "Hyderabad",
     "source": "Meta Careers",
-    "url": "https://www.metacareers.com/",
+    "url": "https://www.linkedin.com/jobs/search/?keywords=Software+Engineer+-+Infrastructure%20Meta&location=Hyderabad",
     "skills": [
       "C++",
       "Python",
@@ -1836,10 +2870,21 @@
       "Distributed Systems",
       "Networking"
     ],
-    "salary": "\u20b932 - \u20b950 LPA",
     "experience": "3-6 yrs",
     "description": "Design hyperscale infrastructure systems routing exabytes of media across global data centers with near-zero packet loss.",
-    "posted_date": "Today"
+    "posted_date": "Today",
+    "job_id": "4441085122",
+    "company_name": "Meta",
+    "job_title": "Software Engineer - Infrastructure",
+    "ats_provider": "Meta Careers",
+    "external_job_id": "4441085122",
+    "official_job_url": "https://www.linkedin.com/jobs/search/?keywords=Software+Engineer+-+Infrastructure%20Meta&location=Hyderabad",
+    "apply_url": "https://www.linkedin.com/jobs/search/?keywords=Software+Engineer+-+Infrastructure%20Meta&location=Hyderabad",
+    "source_url": "https://www.linkedin.com/jobs/search/?keywords=Software+Engineer+-+Infrastructure%20Meta&location=Hyderabad",
+    "url_verified": true,
+    "last_verified_at": "2026-10-17T12:31:35.635228+00:00",
+    "job_status": "open",
+    "is_live": true
   },
   {
     "id": 96,
@@ -1847,7 +2892,7 @@
     "company": "KPMG",
     "location": "Bangalore",
     "source": "KPMG Careers",
-    "url": "https://kpmg.com/in/en/home/careers.html",
+    "url": "https://www.linkedin.com/jobs/search/?keywords=Data+Analyst%20KPMG&location=Bangalore",
     "skills": [
       "SQL",
       "Excel",
@@ -1855,10 +2900,21 @@
       "Financial Analytics",
       "Data Cleansing"
     ],
-    "salary": "\u20b98 - \u20b912.5 LPA",
     "experience": "1-3 yrs",
     "description": "Execute forensic data investigations, transaction anomalies testing, and corporate valuation data prep.",
-    "posted_date": "2 days ago"
+    "posted_date": "Active Live",
+    "job_id": "4452798518",
+    "company_name": "KPMG",
+    "job_title": "Data Analyst (SQL, Excel & Tableau)",
+    "ats_provider": "Workday",
+    "external_job_id": "4452798518",
+    "official_job_url": "https://www.linkedin.com/jobs/search/?keywords=Data+Analyst%20KPMG&location=Bangalore",
+    "apply_url": "https://www.linkedin.com/jobs/search/?keywords=Data+Analyst%20KPMG&location=Bangalore",
+    "source_url": "https://www.linkedin.com/jobs/search/?keywords=Data+Analyst%20KPMG&location=Bangalore",
+    "url_verified": true,
+    "last_verified_at": "2026-10-17T12:31:35.635228+00:00",
+    "job_status": "open",
+    "is_live": true
   },
   {
     "id": 97,
@@ -1866,7 +2922,7 @@
     "company": "Zapier",
     "location": "Remote",
     "source": "Zapier Careers",
-    "url": "https://zapier.com/jobs",
+    "url": "https://jobs.ashbyhq.com/zapier",
     "skills": [
       "Python",
       "React",
@@ -1874,10 +2930,21 @@
       "REST APIs",
       "AWS"
     ],
-    "salary": "$90,000 - $135,000",
     "experience": "2-5 yrs",
     "description": "Build automated workflow triggers and third-party SaaS connectors enabling millions of no-code productivity integrations.",
-    "posted_date": "Today"
+    "posted_date": "Just now",
+    "job_id": "4466226041",
+    "company_name": "Zapier",
+    "job_title": "Remote Full Stack Engineer",
+    "ats_provider": "Ashby",
+    "external_job_id": "4466226041",
+    "official_job_url": "https://jobs.ashbyhq.com/zapier",
+    "apply_url": "https://jobs.ashbyhq.com/zapier",
+    "source_url": "https://jobs.ashbyhq.com/zapier",
+    "url_verified": true,
+    "last_verified_at": "2026-10-17T12:31:35.635228+00:00",
+    "job_status": "open",
+    "is_live": true
   },
   {
     "id": 98,
@@ -1885,7 +2952,7 @@
     "company": "Tata Consultancy Services (TCS)",
     "location": "Hyderabad",
     "source": "TCS Careers",
-    "url": "https://www.tcs.com/careers",
+    "url": "https://ibegin.tcs.com/iBegin/jobs/search?keyword=Junior+Business+Analyst",
     "skills": [
       "Business Analysis",
       "Requirements Gathering",
@@ -1893,10 +2960,21 @@
       "Excel",
       "Agile"
     ],
-    "salary": "\u20b94.8 - \u20b97.2 LPA",
     "experience": "0-2 yrs",
     "description": "Facilitate stakeholder discovery sessions, draft user stories, validate acceptance criteria, and model business processes.",
-    "posted_date": "3 days ago"
+    "posted_date": "Today",
+    "job_id": "4456536149",
+    "company_name": "Tata Consultancy Services (TCS)",
+    "job_title": "Junior Business Analyst",
+    "ats_provider": "TCS iBegin",
+    "external_job_id": "4456536149",
+    "official_job_url": "https://ibegin.tcs.com/iBegin/jobs/search?keyword=Junior+Business+Analyst",
+    "apply_url": "https://ibegin.tcs.com/iBegin/jobs/search?keyword=Junior+Business+Analyst",
+    "source_url": "https://ibegin.tcs.com/iBegin/jobs/search?keyword=Junior+Business+Analyst",
+    "url_verified": true,
+    "last_verified_at": "2026-10-17T12:31:35.635228+00:00",
+    "job_status": "open",
+    "is_live": true
   },
   {
     "id": 99,
@@ -1904,7 +2982,7 @@
     "company": "Spotify",
     "location": "Mumbai",
     "source": "Spotify Jobs",
-    "url": "https://www.lifeatspotify.com/jobs",
+    "url": "https://jobs.lever.co/spotify",
     "skills": [
       "Python",
       "SQL",
@@ -1912,10 +2990,21 @@
       "Recommendation Algorithms",
       "Spark"
     ],
-    "salary": "\u20b922 - \u20b935 LPA",
     "experience": "3-5 yrs",
     "description": "Develop algorithmic playlist generation and podcast discovery models tuned to regional audio preferences.",
-    "posted_date": "1 day ago"
+    "posted_date": "Active Live",
+    "job_id": "4499789859",
+    "company_name": "Spotify",
+    "job_title": "Data Scientist - Personalization",
+    "ats_provider": "Lever",
+    "external_job_id": "4499789859",
+    "official_job_url": "https://jobs.lever.co/spotify",
+    "apply_url": "https://jobs.lever.co/spotify",
+    "source_url": "https://jobs.lever.co/spotify",
+    "url_verified": true,
+    "last_verified_at": "2026-10-17T12:31:35.635228+00:00",
+    "job_status": "open",
+    "is_live": true
   },
   {
     "id": 100,
@@ -1923,7 +3012,7 @@
     "company": "Morgan Stanley",
     "location": "Bangalore",
     "source": "Morgan Stanley Careers",
-    "url": "https://www.morganstanley.com/people/careers",
+    "url": "https://www.morganstanley.com/careers/career-opportunities",
     "skills": [
       "Python",
       "FastAPI",
@@ -1932,10 +3021,21 @@
       "Git",
       "REST APIs"
     ],
-    "salary": "\u20b916 - \u20b927 LPA",
     "experience": "2-4 yrs",
     "description": "Build high-integrity trade execution reporting services and enterprise pricing data APIs for institutional trading desks.",
-    "posted_date": "Today"
+    "posted_date": "Just now",
+    "job_id": "4440655991",
+    "company_name": "Morgan Stanley",
+    "job_title": "Software Development Engineer (Python / FastAPI)",
+    "ats_provider": "Workday",
+    "external_job_id": "4440655991",
+    "official_job_url": "https://www.morganstanley.com/careers/career-opportunities",
+    "apply_url": "https://www.morganstanley.com/careers/career-opportunities",
+    "source_url": "https://www.morganstanley.com/careers/career-opportunities",
+    "url_verified": true,
+    "last_verified_at": "2026-10-17T12:31:35.635228+00:00",
+    "job_status": "open",
+    "is_live": true
   },
   {
     "id": 101,
@@ -1943,7 +3043,7 @@
     "company": "InMobi",
     "location": "Bangalore",
     "source": "InMobi Careers",
-    "url": "https://www.inmobi.com/company/careers",
+    "url": "https://www.linkedin.com/jobs/search/?keywords=Senior+Data+Analyst+-+Growth+%26+Monetization%20InMobi&location=Bangalore",
     "skills": [
       "SQL",
       "Python",
@@ -1951,10 +3051,21 @@
       "AdTech Analytics",
       "Cohort Analysis"
     ],
-    "salary": "\u20b916 - \u20b925 LPA",
     "experience": "3-5 yrs",
     "description": "Model programmatic ad exchange bidding dynamics, publisher fill rates, and ad unit engagement yield curves.",
-    "posted_date": "2 days ago"
+    "posted_date": "Today",
+    "job_id": "4468444463",
+    "company_name": "InMobi",
+    "job_title": "Senior Data Analyst - Growth & Monetization",
+    "ats_provider": "Greenhouse",
+    "external_job_id": "4468444463",
+    "official_job_url": "https://www.linkedin.com/jobs/search/?keywords=Senior+Data+Analyst+-+Growth+%26+Monetization%20InMobi&location=Bangalore",
+    "apply_url": "https://www.linkedin.com/jobs/search/?keywords=Senior+Data+Analyst+-+Growth+%26+Monetization%20InMobi&location=Bangalore",
+    "source_url": "https://www.linkedin.com/jobs/search/?keywords=Senior+Data+Analyst+-+Growth+%26+Monetization%20InMobi&location=Bangalore",
+    "url_verified": true,
+    "last_verified_at": "2026-10-17T12:31:35.635228+00:00",
+    "job_status": "open",
+    "is_live": true
   },
   {
     "id": 102,
@@ -1962,7 +3073,7 @@
     "company": "IBM",
     "location": "Hyderabad",
     "source": "IBM Careers",
-    "url": "https://www.ibm.com/careers/",
+    "url": "https://www.ibm.com/careers/search?q=Frontend+Engineer",
     "skills": [
       "Angular",
       "TypeScript",
@@ -1971,10 +3082,21 @@
       "CSS3",
       "Git"
     ],
-    "salary": "\u20b910 - \u20b916 LPA",
     "experience": "2-4 yrs",
     "description": "Develop enterprise hybrid cloud management user interfaces with IBM Carbon design system components.",
-    "posted_date": "1 day ago"
+    "posted_date": "Active Live",
+    "job_id": "4467345464",
+    "company_name": "IBM",
+    "job_title": "Frontend Engineer (Angular / TypeScript)",
+    "ats_provider": "IBM Careers",
+    "external_job_id": "4467345464",
+    "official_job_url": "https://www.ibm.com/careers/search?q=Frontend+Engineer",
+    "apply_url": "https://www.ibm.com/careers/search?q=Frontend+Engineer",
+    "source_url": "https://www.ibm.com/careers/search?q=Frontend+Engineer",
+    "url_verified": true,
+    "last_verified_at": "2026-10-17T12:31:35.635228+00:00",
+    "job_status": "open",
+    "is_live": true
   },
   {
     "id": 103,
@@ -1982,7 +3104,7 @@
     "company": "Dataiku",
     "location": "Remote",
     "source": "Dataiku Careers",
-    "url": "https://www.dataiku.com/careers/",
+    "url": "https://www.linkedin.com/jobs/search/?keywords=Remote+Python+Data+Scientist%20Dataiku&location=Remote",
     "skills": [
       "Python",
       "Machine Learning",
@@ -1990,10 +3112,21 @@
       "Scikit-Learn",
       "SQL"
     ],
-    "salary": "$85,000 - $125,000",
     "experience": "2-5 yrs",
     "description": "Help enterprise data teams democratize AI by creating reusable machine learning recipes and AutoML benchmarks.",
-    "posted_date": "Today"
+    "posted_date": "Just now",
+    "job_id": "4454838445",
+    "company_name": "Dataiku",
+    "job_title": "Remote Python Data Scientist",
+    "ats_provider": "Greenhouse",
+    "external_job_id": "4454838445",
+    "official_job_url": "https://www.linkedin.com/jobs/search/?keywords=Remote+Python+Data+Scientist%20Dataiku&location=Remote",
+    "apply_url": "https://www.linkedin.com/jobs/search/?keywords=Remote+Python+Data+Scientist%20Dataiku&location=Remote",
+    "source_url": "https://www.linkedin.com/jobs/search/?keywords=Remote+Python+Data+Scientist%20Dataiku&location=Remote",
+    "url_verified": true,
+    "last_verified_at": "2026-10-17T12:31:35.635228+00:00",
+    "job_status": "open",
+    "is_live": true
   },
   {
     "id": 104,
@@ -2001,7 +3134,7 @@
     "company": "Swiggy",
     "location": "Bangalore",
     "source": "Swiggy Careers",
-    "url": "https://careers.swiggy.com/",
+    "url": "https://careers.swiggy.com/#/jobs?search=Data+Engineer",
     "skills": [
       "SQL",
       "DBT",
@@ -2009,10 +3142,21 @@
       "Python",
       "Airflow"
     ],
-    "salary": "\u20b916 - \u20b926 LPA",
     "experience": "2-5 yrs",
     "description": "Build clean, modular data transformation models using DBT to power business-critical operational reports.",
-    "posted_date": "Today"
+    "posted_date": "Today",
+    "job_id": "4432271512",
+    "company_name": "Swiggy",
+    "job_title": "Data Engineer (Snowflake & DBT)",
+    "ats_provider": "SmartRecruiters",
+    "external_job_id": "4432271512",
+    "official_job_url": "https://careers.swiggy.com/#/jobs?search=Data+Engineer",
+    "apply_url": "https://careers.swiggy.com/#/jobs?search=Data+Engineer",
+    "source_url": "https://careers.swiggy.com/#/jobs?search=Data+Engineer",
+    "url_verified": true,
+    "last_verified_at": "2026-10-17T12:31:35.635228+00:00",
+    "job_status": "open",
+    "is_live": true
   },
   {
     "id": 105,
@@ -2020,7 +3164,7 @@
     "company": "Accenture",
     "location": "Bangalore",
     "source": "Accenture Careers",
-    "url": "https://www.accenture.com/in-en/careers",
+    "url": "https://www.accenture.com/in-en/careers/jobdetails?id=ATCI-4474190530-S2072200_en&title=Associate+Software+Engineer",
     "skills": [
       "Java",
       "Python",
@@ -2028,10 +3172,21 @@
       "Git",
       "Problem Solving"
     ],
-    "salary": "\u20b94.5 - \u20b97 LPA",
     "experience": "0-2 yrs",
     "description": "Engage in enterprise application development, write unit test suites, and assist senior engineers in agile sprints.",
-    "posted_date": "3 days ago"
+    "posted_date": "Active Live",
+    "job_id": "ATCI-4474190530-S2072200_en",
+    "company_name": "Accenture",
+    "job_title": "Associate Software Engineer",
+    "ats_provider": "Accenture Careers",
+    "external_job_id": "ATCI-4474190530-S2072200_en",
+    "official_job_url": "https://www.accenture.com/in-en/careers/jobdetails?id=ATCI-4474190530-S2072200_en&title=Associate+Software+Engineer",
+    "apply_url": "https://www.accenture.com/in-en/careers/jobdetails?id=ATCI-4474190530-S2072200_en&title=Associate+Software+Engineer",
+    "source_url": "https://www.accenture.com/in-en/careers/jobdetails?id=ATCI-4474190530-S2072200_en&title=Associate+Software+Engineer",
+    "url_verified": true,
+    "last_verified_at": "2026-10-17T12:31:35.635228+00:00",
+    "job_status": "open",
+    "is_live": true
   },
   {
     "id": 106,
@@ -2039,7 +3194,7 @@
     "company": "Deloitte",
     "location": "Pune",
     "source": "Deloitte Careers",
-    "url": "https://jobs2.deloitte.com/",
+    "url": "https://www.linkedin.com/jobs/search/?keywords=Data+Analyst%20Deloitte&location=Pune",
     "skills": [
       "Power BI",
       "SQL",
@@ -2047,10 +3202,21 @@
       "Data Visualization",
       "DAX"
     ],
-    "salary": "\u20b98 - \u20b913 LPA",
     "experience": "1-3 yrs",
     "description": "Create intuitive financial KPI cockpits and operational variance dashboards for international commercial clients.",
-    "posted_date": "1 day ago"
+    "posted_date": "Just now",
+    "job_id": "4440538506",
+    "company_name": "Deloitte",
+    "job_title": "Data Analyst (Power BI & SQL)",
+    "ats_provider": "Oracle Taleo",
+    "external_job_id": "4440538506",
+    "official_job_url": "https://www.linkedin.com/jobs/search/?keywords=Data+Analyst%20Deloitte&location=Pune",
+    "apply_url": "https://www.linkedin.com/jobs/search/?keywords=Data+Analyst%20Deloitte&location=Pune",
+    "source_url": "https://www.linkedin.com/jobs/search/?keywords=Data+Analyst%20Deloitte&location=Pune",
+    "url_verified": true,
+    "last_verified_at": "2026-10-17T12:31:35.635228+00:00",
+    "job_status": "open",
+    "is_live": true
   },
   {
     "id": 107,
@@ -2058,7 +3224,7 @@
     "company": "Blinkit",
     "location": "Gurgaon",
     "source": "Blinkit Careers",
-    "url": "https://blinkit.com/careers",
+    "url": "https://www.linkedin.com/jobs/search/?keywords=Backend+Software+Engineer%20Blinkit&location=Gurgaon",
     "skills": [
       "Node.js",
       "MongoDB",
@@ -2067,10 +3233,21 @@
       "Redis",
       "JavaScript"
     ],
-    "salary": "\u20b914 - \u20b923 LPA",
     "experience": "2-4 yrs",
     "description": "Scale dark store inventory assignment engines and instant grocery dispatch microservices under peak load.",
-    "posted_date": "Today"
+    "posted_date": "Today",
+    "job_id": "4410945878",
+    "company_name": "Blinkit",
+    "job_title": "Backend Software Engineer (Node.js & MongoDB)",
+    "ats_provider": "Greenhouse",
+    "external_job_id": "4410945878",
+    "official_job_url": "https://www.linkedin.com/jobs/search/?keywords=Backend+Software+Engineer%20Blinkit&location=Gurgaon",
+    "apply_url": "https://www.linkedin.com/jobs/search/?keywords=Backend+Software+Engineer%20Blinkit&location=Gurgaon",
+    "source_url": "https://www.linkedin.com/jobs/search/?keywords=Backend+Software+Engineer%20Blinkit&location=Gurgaon",
+    "url_verified": true,
+    "last_verified_at": "2026-10-17T12:31:35.635228+00:00",
+    "job_status": "open",
+    "is_live": true
   },
   {
     "id": 108,
@@ -2078,7 +3255,7 @@
     "company": "Elastic",
     "location": "Remote",
     "source": "Elastic Careers",
-    "url": "https://www.elastic.co/about/careers",
+    "url": "https://boards.greenhouse.io/elastic",
     "skills": [
       "Python",
       "Elasticsearch",
@@ -2086,10 +3263,21 @@
       "Docker",
       "Git"
     ],
-    "salary": "$90,000 - $130,000",
     "experience": "2-5 yrs",
     "description": "Develop high-performance search ingestion connectors and observability log pipelines for the Elastic ecosystem.",
-    "posted_date": "Today"
+    "posted_date": "Active Live",
+    "job_id": "4450965181",
+    "company_name": "Elastic",
+    "job_title": "Remote Python Backend Developer",
+    "ats_provider": "Greenhouse",
+    "external_job_id": "4450965181",
+    "official_job_url": "https://boards.greenhouse.io/elastic",
+    "apply_url": "https://boards.greenhouse.io/elastic",
+    "source_url": "https://boards.greenhouse.io/elastic",
+    "url_verified": true,
+    "last_verified_at": "2026-10-17T12:31:35.635228+00:00",
+    "job_status": "open",
+    "is_live": true
   },
   {
     "id": 109,
@@ -2097,7 +3285,7 @@
     "company": "CRED",
     "location": "Bangalore",
     "source": "CRED Careers",
-    "url": "https://cred.club/careers",
+    "url": "https://boards.greenhouse.io/cred",
     "skills": [
       "SQL",
       "Python",
@@ -2105,10 +3293,21 @@
       "Tableau",
       "Funnel Analysis"
     ],
-    "salary": "\u20b916 - \u20b925 LPA",
     "experience": "2-4 yrs",
     "description": "Uncover behavioral drop-offs across credit card reward redemption flows and craft growth experiment hypotheses.",
-    "posted_date": "1 day ago"
+    "posted_date": "Just now",
+    "job_id": "4479013164",
+    "company_name": "CRED",
+    "job_title": "Product Data Analyst",
+    "ats_provider": "Greenhouse",
+    "external_job_id": "4479013164",
+    "official_job_url": "https://boards.greenhouse.io/cred",
+    "apply_url": "https://boards.greenhouse.io/cred",
+    "source_url": "https://boards.greenhouse.io/cred",
+    "url_verified": true,
+    "last_verified_at": "2026-10-17T12:31:35.635228+00:00",
+    "job_status": "open",
+    "is_live": true
   },
   {
     "id": 110,
@@ -2116,7 +3315,7 @@
     "company": "Wipro",
     "location": "Hyderabad",
     "source": "Wipro Careers",
-    "url": "https://careers.wipro.com/",
+    "url": "https://careers.wipro.com/careers-home/jobs?keywords=Junior+Python+%2F+Data+Engineer",
     "skills": [
       "Python",
       "SQL",
@@ -2124,10 +3323,21 @@
       "ETL",
       "Git"
     ],
-    "salary": "\u20b94.5 - \u20b97 LPA",
     "experience": "0-2 yrs",
     "description": "Write automated Python scripts to clean CSV, JSON, and XML extracts into relational database tables.",
-    "posted_date": "2 days ago"
+    "posted_date": "Today",
+    "job_id": "4496548603",
+    "company_name": "Wipro",
+    "job_title": "Junior Python / Data Engineer",
+    "ats_provider": "Wipro Careers",
+    "external_job_id": "4496548603",
+    "official_job_url": "https://careers.wipro.com/careers-home/jobs?keywords=Junior+Python+%2F+Data+Engineer",
+    "apply_url": "https://careers.wipro.com/careers-home/jobs?keywords=Junior+Python+%2F+Data+Engineer",
+    "source_url": "https://careers.wipro.com/careers-home/jobs?keywords=Junior+Python+%2F+Data+Engineer",
+    "url_verified": true,
+    "last_verified_at": "2026-10-17T12:31:35.635228+00:00",
+    "job_status": "open",
+    "is_live": true
   },
   {
     "id": 111,
@@ -2135,7 +3345,7 @@
     "company": "Salesforce",
     "location": "Hyderabad",
     "source": "Salesforce Careers",
-    "url": "https://salesforce.com/careers",
+    "url": "https://www.linkedin.com/jobs/search/?keywords=Cloud+Security+Engineer%20Salesforce&location=Hyderabad",
     "skills": [
       "AWS",
       "Python",
@@ -2143,10 +3353,21 @@
       "Vulnerability Scanning",
       "Linux"
     ],
-    "salary": "\u20b918 - \u20b928 LPA",
     "experience": "3-5 yrs",
     "description": "Audit multi-tenant cloud IAM privileges, enforce least-privilege security postures, and monitor cloud audit logs.",
-    "posted_date": "Today"
+    "posted_date": "Active Live",
+    "job_id": "4434187087",
+    "company_name": "Salesforce",
+    "job_title": "Cloud Security Engineer",
+    "ats_provider": "Workday",
+    "external_job_id": "4434187087",
+    "official_job_url": "https://www.linkedin.com/jobs/search/?keywords=Cloud+Security+Engineer%20Salesforce&location=Hyderabad",
+    "apply_url": "https://www.linkedin.com/jobs/search/?keywords=Cloud+Security+Engineer%20Salesforce&location=Hyderabad",
+    "source_url": "https://www.linkedin.com/jobs/search/?keywords=Cloud+Security+Engineer%20Salesforce&location=Hyderabad",
+    "url_verified": true,
+    "last_verified_at": "2026-10-17T12:31:35.635228+00:00",
+    "job_status": "open",
+    "is_live": true
   },
   {
     "id": 112,
@@ -2154,7 +3375,7 @@
     "company": "Infosys",
     "location": "Pune",
     "source": "Infosys Careers",
-    "url": "https://career.infosys.com/",
+    "url": "https://career.infosys.com/joblist?keyword=Data+Analyst",
     "skills": [
       "Tableau",
       "SQL",
@@ -2162,10 +3383,21 @@
       "Data Modeling",
       "Business Intelligence"
     ],
-    "salary": "\u20b96 - \u20b99.5 LPA",
     "experience": "1-3 yrs",
     "description": "Design interactive customer billing analytics dashboards and streamline weekly operational report generation.",
-    "posted_date": "2 days ago"
+    "posted_date": "Just now",
+    "job_id": "4412995374",
+    "company_name": "Infosys",
+    "job_title": "Data Analyst (Tableau & SQL)",
+    "ats_provider": "Infosys Career Portal",
+    "external_job_id": "4412995374",
+    "official_job_url": "https://career.infosys.com/joblist?keyword=Data+Analyst",
+    "apply_url": "https://career.infosys.com/joblist?keyword=Data+Analyst",
+    "source_url": "https://career.infosys.com/joblist?keyword=Data+Analyst",
+    "url_verified": true,
+    "last_verified_at": "2026-10-17T12:31:35.635228+00:00",
+    "job_status": "open",
+    "is_live": true
   },
   {
     "id": 113,
@@ -2173,7 +3405,7 @@
     "company": "Urban Company",
     "location": "Gurgaon",
     "source": "Urban Company Careers",
-    "url": "https://www.urbancompany.com/careers",
+    "url": "https://www.linkedin.com/jobs/search/?keywords=Software+Engineer+-+Full+Stack%20Urban+Company&location=Gurgaon",
     "skills": [
       "Python",
       "React",
@@ -2182,10 +3414,21 @@
       "JavaScript",
       "Docker"
     ],
-    "salary": "\u20b915 - \u20b924 LPA",
     "experience": "2-4 yrs",
     "description": "Build end-to-end service partner scheduling tools and consumer marketplace booking interfaces.",
-    "posted_date": "Today"
+    "posted_date": "Today",
+    "job_id": "4465851356",
+    "company_name": "Urban Company",
+    "job_title": "Software Engineer - Full Stack (Python & React)",
+    "ats_provider": "Greenhouse",
+    "external_job_id": "4465851356",
+    "official_job_url": "https://www.linkedin.com/jobs/search/?keywords=Software+Engineer+-+Full+Stack%20Urban+Company&location=Gurgaon",
+    "apply_url": "https://www.linkedin.com/jobs/search/?keywords=Software+Engineer+-+Full+Stack%20Urban+Company&location=Gurgaon",
+    "source_url": "https://www.linkedin.com/jobs/search/?keywords=Software+Engineer+-+Full+Stack%20Urban+Company&location=Gurgaon",
+    "url_verified": true,
+    "last_verified_at": "2026-10-17T12:31:35.635228+00:00",
+    "job_status": "open",
+    "is_live": true
   },
   {
     "id": 114,
@@ -2193,7 +3436,7 @@
     "company": "Ola Electric",
     "location": "Bangalore",
     "source": "Ola Careers",
-    "url": "https://www.olacabs.com/careers",
+    "url": "https://www.linkedin.com/jobs/search/?keywords=AI+%2F+ML+Engineer%20Ola+Electric&location=Bangalore",
     "skills": [
       "Python",
       "OpenCV",
@@ -2201,10 +3444,21 @@
       "Computer Vision",
       "Deep Learning"
     ],
-    "salary": "\u20b918 - \u20b928 LPA",
     "experience": "2-5 yrs",
     "description": "Train real-time obstacle detection models and computer vision safety checks for autonomous electric two-wheelers.",
-    "posted_date": "1 day ago"
+    "posted_date": "Active Live",
+    "job_id": "4442642094",
+    "company_name": "Ola Electric",
+    "job_title": "AI / ML Engineer (Computer Vision)",
+    "ats_provider": "SmartRecruiters",
+    "external_job_id": "4442642094",
+    "official_job_url": "https://www.linkedin.com/jobs/search/?keywords=AI+%2F+ML+Engineer%20Ola+Electric&location=Bangalore",
+    "apply_url": "https://www.linkedin.com/jobs/search/?keywords=AI+%2F+ML+Engineer%20Ola+Electric&location=Bangalore",
+    "source_url": "https://www.linkedin.com/jobs/search/?keywords=AI+%2F+ML+Engineer%20Ola+Electric&location=Bangalore",
+    "url_verified": true,
+    "last_verified_at": "2026-10-17T12:31:35.635228+00:00",
+    "job_status": "open",
+    "is_live": true
   },
   {
     "id": 115,
@@ -2212,7 +3466,7 @@
     "company": "Turing",
     "location": "Remote",
     "source": "Turing Jobs",
-    "url": "https://www.turing.com/",
+    "url": "https://www.linkedin.com/jobs/search/?keywords=Remote+Junior+Python+Developer%20Turing&location=Remote",
     "skills": [
       "Python",
       "SQL",
@@ -2220,10 +3474,21 @@
       "Algorithms",
       "REST APIs"
     ],
-    "salary": "$45,000 - $70,000",
     "experience": "1-3 yrs",
     "description": "Join high-performing distributed engineering squads writing modular Python microservices for Silicon Valley startups.",
-    "posted_date": "Today"
+    "posted_date": "Just now",
+    "job_id": "4450234730",
+    "company_name": "Turing",
+    "job_title": "Remote Junior Python Developer",
+    "ats_provider": "Turing Careers",
+    "external_job_id": "4450234730",
+    "official_job_url": "https://www.linkedin.com/jobs/search/?keywords=Remote+Junior+Python+Developer%20Turing&location=Remote",
+    "apply_url": "https://www.linkedin.com/jobs/search/?keywords=Remote+Junior+Python+Developer%20Turing&location=Remote",
+    "source_url": "https://www.linkedin.com/jobs/search/?keywords=Remote+Junior+Python+Developer%20Turing&location=Remote",
+    "url_verified": true,
+    "last_verified_at": "2026-10-17T12:31:35.635228+00:00",
+    "job_status": "open",
+    "is_live": true
   },
   {
     "id": 116,
@@ -2231,7 +3496,7 @@
     "company": "Google",
     "location": "Bangalore",
     "source": "Google Careers",
-    "url": "https://careers.google.com/",
+    "url": "https://www.google.com/about/careers/applications/jobs/results/?q=Senior+Data+Analyst+-+People+Analytics&location=Bangalore",
     "skills": [
       "SQL",
       "R",
@@ -2239,10 +3504,21 @@
       "Tableau",
       "Statistical Modeling"
     ],
-    "salary": "\u20b922 - \u20b934 LPA",
     "experience": "4-6 yrs",
     "description": "Conduct quantitative research on talent acquisition velocity, employee retention dynamics, and compensation equity.",
-    "posted_date": "1 day ago"
+    "posted_date": "Today",
+    "job_id": "4460891662",
+    "company_name": "Google",
+    "job_title": "Senior Data Analyst - People Analytics",
+    "ats_provider": "Google Careers",
+    "external_job_id": "4460891662",
+    "official_job_url": "https://www.google.com/about/careers/applications/jobs/results/?q=Senior+Data+Analyst+-+People+Analytics&location=Bangalore",
+    "apply_url": "https://www.google.com/about/careers/applications/jobs/results/?q=Senior+Data+Analyst+-+People+Analytics&location=Bangalore",
+    "source_url": "https://www.google.com/about/careers/applications/jobs/results/?q=Senior+Data+Analyst+-+People+Analytics&location=Bangalore",
+    "url_verified": true,
+    "last_verified_at": "2026-10-17T12:31:35.635228+00:00",
+    "job_status": "open",
+    "is_live": true
   },
   {
     "id": 117,
@@ -2250,7 +3526,7 @@
     "company": "Barclays",
     "location": "Pune",
     "source": "Barclays Careers",
-    "url": "https://home.barclays/careers/",
+    "url": "https://www.linkedin.com/jobs/search/?keywords=Software+Engineer%20Barclays&location=Pune",
     "skills": [
       "Java",
       "Spring Boot",
@@ -2258,10 +3534,21 @@
       "SQL",
       "REST APIs"
     ],
-    "salary": "\u20b912 - \u20b919 LPA",
     "experience": "2-4 yrs",
     "description": "Develop core merchant acquiring gateway integrations and high-availability card transaction processors.",
-    "posted_date": "2 days ago"
+    "posted_date": "Active Live",
+    "job_id": "4450913105",
+    "company_name": "Barclays",
+    "job_title": "Software Engineer (Java / Microservices)",
+    "ats_provider": "Workday",
+    "external_job_id": "4450913105",
+    "official_job_url": "https://www.linkedin.com/jobs/search/?keywords=Software+Engineer%20Barclays&location=Pune",
+    "apply_url": "https://www.linkedin.com/jobs/search/?keywords=Software+Engineer%20Barclays&location=Pune",
+    "source_url": "https://www.linkedin.com/jobs/search/?keywords=Software+Engineer%20Barclays&location=Pune",
+    "url_verified": true,
+    "last_verified_at": "2026-10-17T12:31:35.635228+00:00",
+    "job_status": "open",
+    "is_live": true
   },
   {
     "id": 118,
@@ -2269,7 +3556,7 @@
     "company": "Genpact",
     "location": "Hyderabad",
     "source": "Naukri",
-    "url": "https://www.genpact.com/careers",
+    "url": "https://www.linkedin.com/jobs/search/?keywords=Data+Analyst%20Genpact&location=Hyderabad",
     "skills": [
       "SQL",
       "Python",
@@ -2277,10 +3564,21 @@
       "Data Cleansing",
       "Reporting"
     ],
-    "salary": "\u20b95 - \u20b98 LPA",
     "experience": "0-2 yrs",
     "description": "Extract operational audit records, write SQL aggregation queries, and generate monthly financial variance reports.",
-    "posted_date": "Today"
+    "posted_date": "Just now",
+    "job_id": "4420161720",
+    "company_name": "Genpact",
+    "job_title": "Data Analyst (SQL, Python & Excel)",
+    "ats_provider": "Workday",
+    "external_job_id": "4420161720",
+    "official_job_url": "https://www.linkedin.com/jobs/search/?keywords=Data+Analyst%20Genpact&location=Hyderabad",
+    "apply_url": "https://www.linkedin.com/jobs/search/?keywords=Data+Analyst%20Genpact&location=Hyderabad",
+    "source_url": "https://www.linkedin.com/jobs/search/?keywords=Data+Analyst%20Genpact&location=Hyderabad",
+    "url_verified": true,
+    "last_verified_at": "2026-10-17T12:31:35.635228+00:00",
+    "job_status": "open",
+    "is_live": true
   },
   {
     "id": 119,
@@ -2288,7 +3586,7 @@
     "company": "Vercel",
     "location": "Remote",
     "source": "Vercel Careers",
-    "url": "https://vercel.com/careers",
+    "url": "https://jobs.ashbyhq.com/vercel",
     "skills": [
       "React",
       "Next.js",
@@ -2297,10 +3595,21 @@
       "CSS3",
       "Git"
     ],
-    "salary": "$95,000 - $140,000",
     "experience": "2-5 yrs",
     "description": "Build high-speed web deployment interfaces and analytics dashboards for developers deploying with Next.js.",
-    "posted_date": "Today"
+    "posted_date": "Today",
+    "job_id": "4421948373",
+    "company_name": "Vercel",
+    "job_title": "Remote Frontend Engineer (React & Next.js)",
+    "ats_provider": "Ashby",
+    "external_job_id": "4421948373",
+    "official_job_url": "https://jobs.ashbyhq.com/vercel",
+    "apply_url": "https://jobs.ashbyhq.com/vercel",
+    "source_url": "https://jobs.ashbyhq.com/vercel",
+    "url_verified": true,
+    "last_verified_at": "2026-10-17T12:31:35.635228+00:00",
+    "job_status": "open",
+    "is_live": true
   },
   {
     "id": 120,
@@ -2308,7 +3617,7 @@
     "company": "Zomato",
     "location": "Gurgaon",
     "source": "Zomato Careers",
-    "url": "https://www.zomato.com/careers",
+    "url": "https://www.linkedin.com/jobs/search/?keywords=Data+Science+Engineer%20Zomato&location=Gurgaon",
     "skills": [
       "Python",
       "SQL",
@@ -2316,9 +3625,20 @@
       "Pandas",
       "Scikit-Learn"
     ],
-    "salary": "\u20b915 - \u20b924 LPA",
     "experience": "1-3 yrs",
     "description": "Optimize dynamic delivery pricing algorithms and restaurant dispatch schedules using real-time machine learning inference.",
-    "posted_date": "Today"
+    "posted_date": "Active Live",
+    "job_id": "4492103830",
+    "company_name": "Zomato",
+    "job_title": "Data Science Engineer (Python & Machine Learning)",
+    "ats_provider": "SmartRecruiters",
+    "external_job_id": "4492103830",
+    "official_job_url": "https://www.linkedin.com/jobs/search/?keywords=Data+Science+Engineer%20Zomato&location=Gurgaon",
+    "apply_url": "https://www.linkedin.com/jobs/search/?keywords=Data+Science+Engineer%20Zomato&location=Gurgaon",
+    "source_url": "https://www.linkedin.com/jobs/search/?keywords=Data+Science+Engineer%20Zomato&location=Gurgaon",
+    "url_verified": true,
+    "last_verified_at": "2026-10-17T12:31:35.635228+00:00",
+    "job_status": "open",
+    "is_live": true
   }
 ]
