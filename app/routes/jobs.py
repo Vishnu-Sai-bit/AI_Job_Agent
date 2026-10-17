@@ -17,7 +17,12 @@ from app.models.application import Application
 from app.routes.main import get_candidate_context
 from services.job_links.normalizer import normalize_job, basic_url_check, verify_ats_domain
 from services.job_links.registry import detect_ats_provider, resolve_verified_apply_link
-from services.jobs.live_job_aggregator import format_rich_job_title, extract_skills_from_text
+from services.jobs.live_job_aggregator import (
+    format_rich_job_title,
+    extract_skills_from_text,
+    extract_job_domain,
+    format_comprehensive_job_description,
+)
 
 jobs_bp = Blueprint("jobs", __name__, url_prefix="/jobs")
 
@@ -416,6 +421,21 @@ def index():
         # Strictly zero salary across the UI
         j.pop("salary", None)
 
+        official_domain = extract_job_domain(
+            j.get("official_job_url") or j.get("apply_url") or j.get("url"),
+            j.get("ats_provider")
+        )
+        comp_desc = format_comprehensive_job_description(
+            title=display_title,
+            company=j.get("company", "Company"),
+            location=j_loc,
+            experience=j_exp,
+            skills=j_skills,
+            raw_desc=j.get("description", ""),
+            job_id=str(j.get("external_job_id") or j.get("job_id") or j.get("id")),
+            ats_provider=j.get("ats_provider") or j.get("source", "Official Portal")
+        )
+
         scored_jobs.append({
             **j,
             "id": j.get("id"),
@@ -431,11 +451,12 @@ def index():
             "external_job_id": j.get("external_job_id") or j.get("job_id") or str(j.get("id")),
             "job_id": j.get("job_id") or j.get("external_job_id") or str(j.get("id")),
             "official_job_url": j.get("official_job_url") or j.get("url"),
+            "official_job_domain": official_domain,
             "apply_url": j.get("apply_url") or j.get("official_job_url") or j.get("url"),
             "url": j.get("url") or j.get("apply_url") or j.get("official_job_url"),
             "is_live": j.get("is_live", True),
             "posted_date": j.get("posted_date") or "Active Live",
-            "description": j.get("description", ""),
+            "description": comp_desc,
             "matching_skills": matching if has_resume else [],
             "missing_skills": missing if has_resume else [],
             "skills": j_skills,
@@ -508,6 +529,20 @@ def detail(job_id):
     job["title"] = display_title
     job["ats_provider"] = job.get("ats_provider") or job.get("source", "Official Portal")
     job["external_job_id"] = job.get("external_job_id") or job.get("job_id") or str(job.get("id"))
+    job["official_job_domain"] = extract_job_domain(
+        job.get("official_job_url") or job.get("apply_url") or job.get("url"),
+        job.get("ats_provider")
+    )
+    job["description"] = format_comprehensive_job_description(
+        title=display_title,
+        company=job.get("company", "Company"),
+        location=job.get("location", "India"),
+        experience=job.get("experience", "1-3 yrs"),
+        skills=job_skills,
+        raw_desc=job.get("description", ""),
+        job_id=str(job.get("external_job_id") or job.get("job_id") or job.get("id")),
+        ats_provider=job.get("ats_provider") or job.get("source", "Official Portal")
+    )
     job.pop("salary", None)
 
     return render_template(
