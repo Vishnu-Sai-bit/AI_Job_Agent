@@ -50,8 +50,30 @@ APPROVED_ATS_DOMAINS = [
     "adzuna.com",
     "amazon.jobs",
     "careers.google.com",
-    "careers.microsoft.com"
+    "careers.microsoft.com",
+    "oraclecloud.com",
+    "fa.ocs.oraclecloud.com"
 ]
+
+AGGREGATOR_DOMAINS = [
+    "adzuna.in",
+    "adzuna.com",
+    "jooble.org",
+    "linkedin.com",
+    "indeed.com",
+    "glassdoor.com",
+    "shine.com"
+]
+
+def is_aggregator_url(url: Optional[str]) -> bool:
+    """Check if a URL belongs to a job aggregator or intermediate platform requiring resolution."""
+    if not basic_url_check(url):
+        return False
+    try:
+        hostname = (urlparse(url.strip()).hostname or "").lower()
+        return any(hostname == domain or hostname.endswith("." + domain) for domain in AGGREGATOR_DOMAINS)
+    except Exception:
+        return False
 
 def basic_url_check(url: Optional[str]) -> bool:
     """Basic URL syntax check; not proof that a link is official."""

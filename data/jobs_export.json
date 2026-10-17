@@ -3640,5 +3640,36 @@
     "last_verified_at": "2026-10-17T12:31:35.635228+00:00",
     "job_status": "open",
     "is_live": true
+  },
+  {
+    "id": 121,
+    "title": "Senior Data Analyst",
+    "company": "EXL",
+    "location": "Bangalore",
+    "source": "Oracle Cloud HCM",
+    "url": "https://fa-ewjt-saasfaprod1.fa.ocs.oraclecloud.com/hcmUI/CandidateExperience/en/sites/CX_2/job/16080",
+    "skills": [
+      "SQL",
+      "Power BI",
+      "Tableau",
+      "Data Analysis",
+      "Python",
+      "ETL"
+    ],
+    "experience": "2 to 4 years",
+    "description": "Write and optimize complex SQL queries for data extraction, transformation, and analysis. Design and develop interactive dashboards and reports using Power BI / Tableau. Perform data analysis to identify trends, patterns, and actionable insights. Work with stakeholders to gather requirements and translate them into analytical solutions. Ensure data accuracy, consistency, and performance optimization. Automate reporting processes and improve data workflows.",
+    "posted_date": "Active Live (Today)",
+    "job_id": "16080",
+    "company_name": "EXL",
+    "job_title": "Senior Data Analyst",
+    "ats_provider": "Oracle Cloud HCM",
+    "external_job_id": "16080",
+    "official_job_url": "https://fa-ewjt-saasfaprod1.fa.ocs.oraclecloud.com/hcmUI/CandidateExperience/en/sites/CX_2/job/16080",
+    "apply_url": "https://fa-ewjt-saasfaprod1.fa.ocs.oraclecloud.com/hcmUI/CandidateExperience/en/sites/CX_2/job/16080",
+    "source_url": "https://fa-ewjt-saasfaprod1.fa.ocs.oraclecloud.com/hcmUI/CandidateExperience/en/sites/CX_2/job/16080",
+    "url_verified": true,
+    "last_verified_at": "2026-10-17T19:30:00.000000+00:00",
+    "job_status": "open",
+    "is_live": true
   }
 ]

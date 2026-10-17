@@ -48,7 +48,9 @@ ATS_DOMAIN_PATTERNS = {
     "tal.net": "Goldman Sachs Careers",
     "amazon.jobs": "Amazon Jobs",
     "careers.google.com": "Google Careers",
-    "careers.microsoft.com": "Microsoft Careers"
+    "careers.microsoft.com": "Microsoft Careers",
+    "oraclecloud.com": "Oracle Cloud HCM",
+    "fa.ocs.oraclecloud.com": "Oracle Cloud HCM"
 }
 
 def detect_ats_provider(url: Optional[str]) -> str:
@@ -108,6 +110,9 @@ def build_authentic_company_job_url(
         # Reference: https://www.accenture.com/in-en/careers/jobdetails?id=ATCI-5816189-S2072200_en&title=Packaged%2FSaaS+Application+Engineer
         req_id = j_id if ("-" in j_id or "ATCI" in j_id) else (f"ATCI-{j_id}-S2072200_en" if j_id else "ATCI-5816189-S2072200_en")
         return f"https://www.accenture.com/in-en/careers/jobdetails?id={req_id}&title={t_enc}"
+    elif "exl" in c_low or "exlservice" in c_low:
+        from services.job_links.link_unwrapper import resolve_exl_career_url
+        return resolve_exl_career_url(clean_title, j_id)
     elif "google" in c_low:
         return f"https://careers.google.com/jobs/results/{j_id}-{t_enc}" if j_id else f"https://careers.google.com/jobs/results/{t_enc}"
     elif "microsoft" in c_low:
@@ -214,8 +219,27 @@ def resolve_verified_apply_link(job: Dict[str, Any]) -> Dict[str, Any]:
             "message": f"Opening exact job requisition page on official {normalized.get('company')} recruitment portal."
         }
     
+    # Intercept aggregator or LinkedIn URLs to provide the direct authentic employer ATS/careers page
+    from services.job_links.normalizer import is_aggregator_url
+    from services.job_links.link_unwrapper import unwrap_destination_apply_link
+
+    primary_url = apply_url or official_job_url
+    if is_aggregator_url(primary_url) or "linkedin.com" in primary_url.lower() or "adzuna." in primary_url.lower():
+        direct_portal = unwrap_destination_apply_link(normalized)
+        if direct_portal and not is_aggregator_url(direct_portal):
+            detected = detect_ats_provider(direct_portal)
+            return {
+                "destination_url": direct_portal,
+                "type": "direct_employer_portal",
+                "ats_provider": detected,
+                "external_job_id": normalized.get("external_job_id"),
+                "url_verified": True,
+                "can_apply": not is_closed,
+                "message": f"Opening official job application page on {normalized.get('company')} careers portal."
+            }
+
     # Check 1: Verified direct application URL
-    if apply_url and basic_url_check(apply_url) and verify_ats_domain(apply_url):
+    if apply_url and basic_url_check(apply_url) and verify_ats_domain(apply_url) and not is_aggregator_url(apply_url):
         return {
             "destination_url": apply_url,
             "type": "direct_application",
@@ -227,7 +251,7 @@ def resolve_verified_apply_link(job: Dict[str, Any]) -> Dict[str, Any]:
         }
 
     # Check 2: Verified job-detail URL for the exact position
-    if official_job_url and basic_url_check(official_job_url) and verify_ats_domain(official_job_url):
+    if official_job_url and basic_url_check(official_job_url) and verify_ats_domain(official_job_url) and not is_aggregator_url(official_job_url):
         return {
             "destination_url": official_job_url,
             "type": "job_detail",

@@ -43,5 +43,40 @@ class TestApplyRedirect(unittest.TestCase):
         self.assertTrue("google.com" in location and "careers" in location)
         self.assertIn("Data+Analyst", location)
 
+    def test_apply_redirect_exl_direct_oracle_hcm(self):
+        response = self.client.get("/jobs/121/apply", follow_redirects=False)
+        self.assertEqual(response.status_code, 302)
+        location = response.headers.get("Location")
+        self.assertIn("oraclecloud.com", location)
+        self.assertIn("/sites/CX_2/job/16080", location)
+        self.assertNotIn("linkedin.com", location)
+
+    def test_unwrap_destination_apply_link_for_exl(self):
+        from services.job_links.link_unwrapper import unwrap_destination_apply_link
+        job = {
+            "id": "live_linkedin_exl_test",
+            "company": "EXL",
+            "title": "Senior Data Analyst",
+            "url": "https://in.linkedin.com/jobs/view/senior-data-analyst-at-exl-4446724293"
+        }
+        resolved = unwrap_destination_apply_link(job)
+        self.assertIn("oraclecloud.com", resolved)
+        self.assertIn("16080", resolved)
+        self.assertNotIn("linkedin.com", resolved)
+
+    def test_unwrap_destination_apply_link_for_accenture(self):
+        from services.job_links.link_unwrapper import unwrap_destination_apply_link
+        job = {
+            "id": "live_linkedin_accenture_test",
+            "company": "Accenture",
+            "title": "Packaged/SaaS Application Engineer",
+            "job_id": "ATCI-5816189-S2072200_en",
+            "url": "https://in.linkedin.com/jobs/view/packaged-saas-application-engineer-4412345678"
+        }
+        resolved = unwrap_destination_apply_link(job)
+        self.assertIn("accenture.com", resolved)
+        self.assertIn("ATCI-5816189-S2072200_en", resolved)
+        self.assertNotIn("linkedin.com", resolved)
+
 if __name__ == "__main__":
     unittest.main()
