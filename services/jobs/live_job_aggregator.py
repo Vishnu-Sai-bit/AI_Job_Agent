@@ -904,7 +904,27 @@ def aggregate_live_jobs(
         job["official_job_url"] = target_url
         job["apply_url"] = target_url
         job["source_url"] = target_url
-        job["external_job_id"] = str(job.get("id", ""))
+
+        # Extract authentic requisition / job ID from URL or existing fields
+        real_id = None
+        if target_url:
+            m = (
+                re.search(r'-(\d{7,})(?:\?|[/?#]|$)', target_url) or
+                re.search(r'/jobs/(?:view/)?(\d+)', target_url) or
+                re.search(r'currentJobId=(\d+)', target_url) or
+                re.search(r'/jobs/(\d+)', target_url) or
+                re.search(r'/job/(\d+)', target_url) or
+                re.search(r'/[a-zA-Z0-9\-]+/([0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12})', target_url) or
+                re.search(r'/postings/([a-zA-Z0-9\-]{8,})', target_url) or
+                re.search(r'jobId=([A-Za-z0-9\-]+)', target_url) or
+                re.search(r'/ad/(\d+)', target_url)
+            )
+            if m:
+                real_id = m.group(1)
+
+        final_job_id = str(real_id or job.get("external_job_id") or job.get("job_id") or job.get("id") or "")
+        job["external_job_id"] = final_job_id
+        job["job_id"] = final_job_id
         ats_name = job.get("ats_provider") or job.get("source") or "Live Portal"
         job["ats_provider"] = ats_name
         job["official_job_domain"] = extract_job_domain(target_url, ats_name)
