@@ -20,9 +20,9 @@ class TestApplyRedirect(unittest.TestCase):
             "url": "https://careers.google.com/jobs/results/?q=Data%20Analyst%20Bangalore"
         }
         resolved = resolve_exact_job_url(job)
-        self.assertIn("currentJobId=", resolved)
-        self.assertIn("linkedin.com/jobs/search", resolved)
-        self.assertIn("Data+Analyst+Google", resolved)
+        self.assertIn("careers.google.com", resolved)
+        self.assertIn("Data+Analyst", resolved)
+        self.assertNotIn("linkedin.com", resolved)
         self.assertTrue(bool(job.get("job_id")))
 
     def test_resolve_exact_job_url_preserves_live_board_id(self):
@@ -77,6 +77,33 @@ class TestApplyRedirect(unittest.TestCase):
         self.assertIn("accenture.com", resolved)
         self.assertIn("ATCI-5816189-S2072200_en", resolved)
         self.assertNotIn("linkedin.com", resolved)
+
+    def test_all_curated_jobs_have_zero_linkedin_urls(self):
+        import json
+        for path in ["data/jobs_export.json", "data/verified_jobs.json"]:
+            with open(path, "r", encoding="utf-8") as f:
+                jobs = json.load(f)
+            for j in jobs:
+                url = j.get("url") or j.get("apply_url") or ""
+                self.assertNotIn("linkedin.com", url, f"Job {j.get('id')} ({j.get('company')}) has LinkedIn URL in {path}")
+                self.assertNotIn("adzuna.", url, f"Job {j.get('id')} ({j.get('company')}) has Adzuna URL in {path}")
+
+    def test_apply_redirect_for_various_employers(self):
+        test_cases = [
+            (4, "deloitte.com"),
+            (6, "uber.com"),
+            (9, "goldmansachs.tal.net"),
+            (15, "myworkdayjobs.com"),
+            (27, "jpmorgan.com"),
+            (30, "pwc.com"),
+            (35, "oracle.com"),
+        ]
+        for jid, expected_domain in test_cases:
+            resp = self.client.get(f"/jobs/{jid}/apply", follow_redirects=False)
+            self.assertEqual(resp.status_code, 302, f"Job {jid} apply redirect failed")
+            loc = resp.headers.get("Location") or ""
+            self.assertIn(expected_domain, loc, f"Job {jid} did not redirect to {expected_domain}, got {loc}")
+            self.assertNotIn("linkedin.com", loc, f"Job {jid} unexpectedly redirected to LinkedIn")
 
 if __name__ == "__main__":
     unittest.main()

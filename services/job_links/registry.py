@@ -50,7 +50,46 @@ ATS_DOMAIN_PATTERNS = {
     "careers.google.com": "Google Careers",
     "careers.microsoft.com": "Microsoft Careers",
     "oraclecloud.com": "Oracle Cloud HCM",
-    "fa.ocs.oraclecloud.com": "Oracle Cloud HCM"
+    "fa.ocs.oraclecloud.com": "Oracle Cloud HCM",
+    "deloitte.com": "Deloitte Careers",
+    "jobsindia.deloitte.com": "Deloitte Careers",
+    "jobs.deloitte.com": "Deloitte Careers",
+    "uber.com": "Uber Careers",
+    "careers.unitedhealthgroup.com": "Optum / UnitedHealth Careers",
+    "unitedhealthgroup.com": "Optum / UnitedHealth Careers",
+    "persistent.com": "Persistent Careers",
+    "hcltech.com": "HCL Careers",
+    "careers.jpmorgan.com": "JPMorgan Chase Careers",
+    "jpmorgan.com": "JPMorgan Chase Careers",
+    "jobs.pwc.com": "PwC Careers",
+    "pwc.com": "PwC Careers",
+    "careers.techmahindra.com": "Tech Mahindra Careers",
+    "techmahindra.com": "Tech Mahindra Careers",
+    "careers.oracle.com": "Oracle Careers",
+    "oracle.com": "Oracle Careers",
+    "ltimindtree.com": "LTIMindtree Careers",
+    "turing.com": "Turing Careers",
+    "zoho.com": "Zoho Careers",
+    "tataelxsi.com": "Tata Elxsi Careers",
+    "genpact.com": "Genpact Careers",
+    "careers.jio.com": "Jio Careers",
+    "jio.com": "Jio Careers",
+    "mu-sigma.com": "Mu Sigma Careers",
+    "jobs.cisco.com": "Cisco Careers",
+    "cisco.com": "Cisco Careers",
+    "careers.ey.com": "EY Careers",
+    "ey.com": "EY Careers",
+    "careers.airtel.com": "Airtel Careers",
+    "airtel.com": "Airtel Careers",
+    "metacareers.com": "Meta Careers",
+    "meta.com": "Meta Careers",
+    "kpmg.com": "KPMG Careers",
+    "search.jobs.barclays": "Barclays Careers",
+    "barclays.com": "Barclays Careers",
+    "careers.walmart.com": "Walmart Careers",
+    "jobs.apple.com": "Apple Careers",
+    "jobs.intel.com": "Intel Careers",
+    "jobs.netflix.com": "Netflix Careers"
 }
 
 def detect_ats_provider(url: Optional[str]) -> str:
@@ -160,10 +199,83 @@ def build_authentic_company_job_url(
     elif any(x in c_low for x in ["swiggy", "flipkart", "phonepe", "ola electric"]):
         comp_slug = re.sub(r'[^a-zA-Z0-9]', '', c_low)
         return f"https://jobs.smartrecruiters.com/{comp_slug}/{j_id}" if j_id else f"https://jobs.smartrecruiters.com/{comp_slug}"
+    elif "deloitte" in c_low:
+        return f"https://jobsindia.deloitte.com/job/{j_id}" if j_id else f"https://jobsindia.deloitte.com/search/?q={t_enc}"
+    elif "uber" in c_low:
+        return f"https://www.uber.com/global/en/careers/list/{j_id}/" if j_id else "https://www.uber.com/global/en/careers/list"
+    elif "optum" in c_low or "unitedhealth" in c_low:
+        return f"https://careers.unitedhealthgroup.com/job/{j_id}/" if j_id else "https://careers.unitedhealthgroup.com"
+    elif "goldman" in c_low:
+        return f"https://goldmansachs.tal.net/vx/lang-en-GB/appcentre-1/candidate/so/pm/1/pl/1/opp/{j_id}" if j_id else "https://goldmansachs.tal.net"
+    elif "qualcomm" in c_low:
+        return f"https://qualcomm.wd5.myworkdayjobs.com/External/job/{l_enc}/{t_enc}_{j_id}" if j_id else "https://qualcomm.wd5.myworkdayjobs.com/External"
+    elif "persistent" in c_low:
+        return f"https://persistent.com/careers/job-details/?id={j_id}" if j_id else "https://persistent.com/careers"
+    elif "hcl" in c_low:
+        return f"https://www.hcltech.com/careers/jobs/{j_id}" if j_id else "https://www.hcltech.com/careers"
+    elif "jpmorgan" in c_low or "chase" in c_low:
+        return f"https://careers.jpmorgan.com/global/en/job/{j_id}/" if j_id else "https://careers.jpmorgan.com"
+    elif "pwc" in c_low or "pricewaterhouse" in c_low:
+        return f"https://jobs.pwc.com/global/en/job/{j_id}/" if j_id else "https://jobs.pwc.com"
+    elif "tech mahindra" in c_low:
+        return f"https://careers.techmahindra.com/JobDetails.aspx?JobID={j_id}" if j_id else "https://careers.techmahindra.com"
+    elif "oracle" in c_low:
+        return f"https://careers.oracle.com/jobs/#/job/{j_id}" if j_id else "https://careers.oracle.com"
+    elif "ltimindtree" in c_low or "mindtree" in c_low:
+        return f"https://www.ltimindtree.com/careers/job-listing/?jobid={j_id}" if j_id else "https://www.ltimindtree.com/careers"
+    elif "salesforce" in c_low:
+        return f"https://salesforce.wd12.myworkdayjobs.com/Salesforce_Careers/job/{l_enc}/{t_enc}_{j_id}" if j_id else "https://salesforce.wd12.myworkdayjobs.com/Salesforce_Careers"
+    elif "turing" in c_low:
+        return f"https://www.turing.com/jobs/{j_id}" if j_id else "https://www.turing.com/jobs"
+    elif "factset" in c_low:
+        return f"https://factset.wd1.myworkdayjobs.com/FactSetCareers/job/{l_enc}/{t_enc}_{j_id}" if j_id else "https://factset.wd1.myworkdayjobs.com/FactSetCareers"
+    elif "zoho" in c_low:
+        return f"https://www.zoho.com/careers/job-detail.html?job_id={j_id}" if j_id else "https://www.zoho.com/careers"
+    elif "tata elxsi" in c_low:
+        return f"https://tataelxsi.com/careers/jobs/{j_id}" if j_id else "https://tataelxsi.com/careers"
+    elif "genpact" in c_low:
+        return f"https://genpact.taleo.net/careersection/2/jobdetail.ftl?job={j_id}" if j_id else "https://genpact.taleo.net"
+    elif "jio" in c_low:
+        return f"https://careers.jio.com/JobDetails.aspx?JobCode={j_id}" if j_id else "https://careers.jio.com"
+    elif "dxc" in c_low:
+        return f"https://dxc.wd1.myworkdayjobs.com/DXCJobs/job/{l_enc}/{t_enc}_{j_id}" if j_id else "https://dxc.wd1.myworkdayjobs.com/DXCJobs"
+    elif "mu sigma" in c_low:
+        return f"https://www.mu-sigma.com/careers/openings/{j_id}" if j_id else "https://www.mu-sigma.com/careers"
+    elif "cisco" in c_low:
+        return f"https://jobs.cisco.com/jobs/ProjectDetail/{j_id}" if j_id else "https://jobs.cisco.com"
+    elif "morgan stanley" in c_low:
+        return f"https://morganstanley.tal.net/vx/lang-en-GB/appcentre-1/candidate/so/pm/1/pl/1/opp/{j_id}" if j_id else "https://morganstanley.tal.net"
+    elif "ey" in c_low or "ernst" in c_low:
+        return f"https://careers.ey.com/ey/job/{j_id}/" if j_id else "https://careers.ey.com"
+    elif "airtel" in c_low:
+        return f"https://careers.airtel.com/job/{j_id}" if j_id else "https://careers.airtel.com"
+    elif "meta" in c_low or "facebook" in c_low:
+        return f"https://www.metacareers.com/jobs/{j_id}/" if j_id else "https://www.metacareers.com"
+    elif "kpmg" in c_low:
+        return f"https://kpmg.com/in/en/home/careers/job/{j_id}.html" if j_id else "https://kpmg.com/in/en/home/careers.html"
+    elif "barclays" in c_low:
+        return f"https://search.jobs.barclays/job/{j_id}" if j_id else "https://search.jobs.barclays"
+    elif "target" in c_low:
+        return f"https://target.wd5.myworkdayjobs.com/targetcareers/job/{l_enc}/{t_enc}_{j_id}" if j_id else "https://target.wd5.myworkdayjobs.com/targetcareers"
+    elif "adobe" in c_low:
+        return f"https://adobe.wd5.myworkdayjobs.com/external_experienced/job/{l_enc}/{t_enc}_{j_id}" if j_id else "https://adobe.wd5.myworkdayjobs.com/external_experienced"
+    elif "autodesk" in c_low:
+        return f"https://autodesk.wd1.myworkdayjobs.com/Ext/job/{l_enc}/{t_enc}_{j_id}" if j_id else "https://autodesk.wd1.myworkdayjobs.com/Ext"
+    elif "mastercard" in c_low:
+        return f"https://mastercard.wd1.myworkdayjobs.com/CorporateCareers/job/{l_enc}/{t_enc}_{j_id}" if j_id else "https://mastercard.wd1.myworkdayjobs.com/CorporateCareers"
+    elif "walmart" in c_low:
+        return f"https://careers.walmart.com/us/jobs/{j_id}" if j_id else "https://careers.walmart.com"
+    elif "apple" in c_low:
+        return f"https://jobs.apple.com/en-in/details/{j_id}" if j_id else "https://jobs.apple.com"
+    elif "intel" in c_low:
+        return f"https://jobs.intel.com/en/job/{j_id}" if j_id else "https://jobs.intel.com"
+    elif "netflix" in c_low:
+        return f"https://jobs.netflix.com/jobs/{j_id}" if j_id else "https://jobs.netflix.com"
     else:
-        if j_id:
-            return f"https://www.linkedin.com/jobs/view/{j_id}/"
-        return f"https://www.linkedin.com/jobs/view/?keywords={t_enc}%20{comp_enc}"
+        comp_slug = re.sub(r'[^a-zA-Z0-9]', '', c_low)
+        if comp_slug:
+            return f"https://www.{comp_slug}.com/careers"
+        return f"https://careers.google.com/jobs/results/{t_enc}"
 
 
 def resolve_verified_apply_link(job: Dict[str, Any]) -> Dict[str, Any]:
