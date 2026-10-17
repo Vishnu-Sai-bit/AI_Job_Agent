@@ -38,38 +38,13 @@ APPROVED_ATS_DOMAINS = [
     "remotive.com",
     "jobicy.com",
     "arbeitnow.com",
-    "job-boards.greenhouse.io",
-    "oraclecloud.com",
-    "metacareers.com",
-    "uber.com",
+    "remoteok.com",
+    "adzuna.in",
+    "adzuna.com",
     "amazon.jobs",
     "careers.google.com",
     "careers.microsoft.com"
 ]
-
-AGGREGATOR_DOMAINS = [
-    "adzuna.in",
-    "adzuna.com",
-    "api.adzuna.com",
-    "indeed.com",
-    "indeed.co.in",
-    "naukri.com",
-    "monster.com",
-    "foundit.in",
-    "glassdoor.com",
-    "ziprecruiter.com"
-]
-
-def is_aggregator_url(url: Optional[str]) -> bool:
-    """Return True if the URL points to a third-party aggregator rather than an official ATS."""
-    if not url:
-        return False
-    try:
-        hostname = (urlparse(url.strip()).hostname or "").lower()
-        return any(hostname == d or hostname.endswith("." + d) for d in AGGREGATOR_DOMAINS)
-    except Exception:
-        return False
-
 
 def basic_url_check(url: Optional[str]) -> bool:
     """Basic URL syntax check; not proof that a link is official."""

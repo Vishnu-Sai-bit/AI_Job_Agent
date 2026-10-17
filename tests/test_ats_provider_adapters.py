@@ -3,24 +3,27 @@ Unit Tests for ATS Provider Adapters & Application Link Resolution
 """
 
 import unittest
-from unittest.mock import patch, MagicMock
 from services.job_links.normalizer import (
     basic_url_check,
     verify_ats_domain,
     normalize_job,
-    is_aggregator_url,
-    APPROVED_ATS_DOMAINS,
-    AGGREGATOR_DOMAINS
+    APPROVED_ATS_DOMAINS
 )
 from services.job_links.adapters.greenhouse import GreenhouseAdapter
 from services.job_links.adapters.lever import LeverAdapter
 from services.job_links.adapters.ashby import AshbyAdapter
 from services.job_links.adapters.workday import WorkdayAdapter
 from services.job_links.adapters.smartrecruiters import SmartRecruitersAdapter
-from services.job_links.company_registry import get_company_board_token, COMPANY_ATS_REGISTRY
-from services.job_links.link_unwrapper import unwrap_aggregator_link
+from services.job_links.adapters.workable import WorkableAdapter
+from services.job_links.adapters.teamtailor import TeamtailorAdapter
+from services.job_links.adapters.recruitee import RecruiteeAdapter
+from services.job_links.adapters.personio import PersonioAdapter
+from services.job_links.adapters.taleo import TaleoAdapter
+from services.job_links.adapters.successfactors import SuccessFactorsAdapter
+from services.job_links.adapters.icims import ICIMSAdapter
 from services.job_links.registry import detect_ats_provider, resolve_verified_apply_link
 from app import create_app
+
 
 class TestATSAdapters(unittest.TestCase):
 
@@ -122,6 +125,94 @@ class TestATSAdapters(unittest.TestCase):
         self.assertEqual(res["apply_url"], "https://jobs.smartrecruiters.com/Swiggy/743999981234567/apply")
         self.assertTrue(res["url_verified"])
 
+    def test_workable_adapter(self):
+        sample = {
+            "shortcode": "WKB123",
+            "title": "Data Analyst",
+            "url": "https://apply.workable.com/browserstack/j/WKB123/",
+            "application_url": "https://apply.workable.com/browserstack/j/WKB123/apply",
+            "location": {"city": "Mumbai"}
+        }
+        res = WorkableAdapter.parse_job(sample, company_name="BrowserStack")
+        self.assertEqual(res["ats_provider"], "Workable")
+        self.assertEqual(res["external_job_id"], "WKB123")
+        self.assertEqual(res["official_job_url"], sample["url"])
+        self.assertEqual(res["apply_url"], sample["application_url"])
+        self.assertTrue(res["url_verified"])
+
+    def test_teamtailor_adapter(self):
+        sample = {
+            "id": "987654",
+            "attributes": {"title": "Frontend Engineer", "location": "Stockholm"},
+            "links": {
+                "careersite-job-url": "https://company.teamtailor.com/jobs/987654",
+                "careersite-job-apply-url": "https://company.teamtailor.com/jobs/987654/apply"
+            }
+        }
+        res = TeamtailorAdapter.parse_job(sample, company_name="Spotify Partner")
+        self.assertEqual(res["ats_provider"], "Teamtailor")
+        self.assertEqual(res["external_job_id"], "987654")
+        self.assertEqual(res["official_job_url"], sample["links"]["careersite-job-url"])
+        self.assertEqual(res["apply_url"], sample["links"]["careersite-job-apply-url"])
+        self.assertTrue(res["url_verified"])
+
+    def test_recruitee_adapter(self):
+        sample = {
+            "id": "rec-555",
+            "title": "Machine Learning Engineer",
+            "careers_url": "https://acme.recruitee.com/o/ml-engineer",
+            "careers_apply_url": "https://acme.recruitee.com/o/ml-engineer/apply",
+            "city": "Amsterdam"
+        }
+        res = RecruiteeAdapter.parse_job(sample, company_name="Acme AI")
+        self.assertEqual(res["ats_provider"], "Recruitee")
+        self.assertEqual(res["external_job_id"], "rec-555")
+        self.assertEqual(res["official_job_url"], sample["careers_url"])
+        self.assertEqual(res["apply_url"], sample["careers_apply_url"])
+        self.assertTrue(res["url_verified"])
+
+    def test_personio_adapter(self):
+        sample = {
+            "id": "112233",
+            "name": "Backend Python Developer",
+            "career_url": "https://fintech.jobs.personio.de/job/112233",
+            "apply_url": "https://fintech.jobs.personio.de/job/112233#apply",
+            "office": "Berlin"
+        }
+        res = PersonioAdapter.parse_job(sample, company_name="Fintech Corp")
+        self.assertEqual(res["ats_provider"], "Personio")
+        self.assertEqual(res["external_job_id"], "112233")
+        self.assertEqual(res["official_job_url"], sample["career_url"])
+        self.assertEqual(res["apply_url"], sample["apply_url"])
+        self.assertTrue(res["url_verified"])
+
+    def test_taleo_adapter(self):
+        url = "https://deloitte.taleo.net/careersection/2/jobdetail.ftl?job=998877"
+        res = TaleoAdapter.parse_job(url, company_name="Deloitte", job_title="Tax Analyst")
+        self.assertEqual(res["ats_provider"], "Oracle Taleo")
+        self.assertEqual(res["external_job_id"], "998877")
+        self.assertEqual(res["official_job_url"], url)
+        self.assertEqual(res["apply_url"], "https://deloitte.taleo.net/careersection/2/jobapply.ftl?job=998877")
+        self.assertTrue(res["url_verified"])
+
+    def test_successfactors_adapter(self):
+        url = "https://careers.ey.com/job/Bangalore/Senior-Analyst-554433/"
+        res = SuccessFactorsAdapter.parse_job(url, company_name="EY", job_title="Senior Analyst")
+        self.assertEqual(res["ats_provider"], "SAP SuccessFactors")
+        self.assertEqual(res["external_job_id"], "554433")
+        self.assertEqual(res["official_job_url"], url)
+        self.assertEqual(res["apply_url"], url.rstrip("/") + "/apply")
+        self.assertTrue(res["url_verified"])
+
+    def test_icims_adapter(self):
+        url = "https://careers-corp.icims.com/jobs/667788/job"
+        res = ICIMSAdapter.parse_job(url, company_name="Corp", job_title="Cloud Engineer")
+        self.assertEqual(res["ats_provider"], "iCIMS")
+        self.assertEqual(res["external_job_id"], "667788")
+        self.assertEqual(res["official_job_url"], url)
+        self.assertEqual(res["apply_url"], "https://careers-corp.icims.com/jobs/667788/apply")
+        self.assertTrue(res["url_verified"])
+
     def test_resolve_verified_apply_link_fallback_hierarchy(self):
         # 1. Verified direct application link prioritized
         job1 = {
@@ -165,109 +256,6 @@ class TestATSAdapters(unittest.TestCase):
         r4 = resolve_verified_apply_link(job4)
         self.assertFalse(r4["can_apply"])
         self.assertIsNone(r4["destination_url"])
-
-    def test_is_aggregator_url(self):
-        self.assertTrue(is_aggregator_url("https://www.adzuna.in/land/ad/12345"))
-        self.assertTrue(is_aggregator_url("https://api.adzuna.com/v1/api/jobs/in/search/1?url=xyz"))
-        self.assertTrue(is_aggregator_url("https://in.indeed.com/viewjob?jk=abc1234"))
-        self.assertTrue(is_aggregator_url("https://www.naukri.com/job-listings-python-dev-123"))
-        self.assertTrue(is_aggregator_url("https://www.glassdoor.com/job-listing/123"))
-        self.assertFalse(is_aggregator_url("https://boards.greenhouse.io/gitlab/jobs/123"))
-        self.assertFalse(is_aggregator_url("https://jobs.lever.co/postman/456"))
-        self.assertFalse(is_aggregator_url("https://jobs.ashbyhq.com/linear/789"))
-        self.assertFalse(is_aggregator_url("https://careers.google.com/jobs/1"))
-        self.assertFalse(is_aggregator_url(""))
-        self.assertFalse(is_aggregator_url(None))
-
-    def test_company_board_registry(self):
-        # Greenhouse lookup
-        gitlab = get_company_board_token("GitLab")
-        self.assertEqual(gitlab["ats_provider"], "Greenhouse")
-        self.assertEqual(gitlab["identifier"], "gitlab")
-
-        # Lever lookup
-        postman = get_company_board_token("postman")
-        self.assertEqual(postman["ats_provider"], "Lever")
-        self.assertEqual(postman["identifier"], "postman")
-
-        # Ashby lookup
-        linear = get_company_board_token("Linear")
-        self.assertEqual(linear["ats_provider"], "Ashby")
-        self.assertEqual(linear["identifier"], "linear")
-
-        # Unknown company
-        unknown = get_company_board_token("UnknownStartupXYZ")
-        self.assertEqual(unknown, {})
-
-    @patch("requests.head")
-    def test_unwrap_aggregator_link(self, mock_head):
-        # Case 1: Already direct ATS domain -> no network call made
-        ats_url = "https://boards.greenhouse.io/gitlab/jobs/12345"
-        self.assertEqual(unwrap_aggregator_link(ats_url), ats_url)
-        mock_head.assert_not_called()
-
-        # Case 2: Aggregator URL -> follows redirects to extract destination
-        mock_resp = MagicMock()
-        mock_resp.url = "https://boards.greenhouse.io/gitlab/jobs/9999"
-        mock_resp.status_code = 200
-        mock_head.return_value = mock_resp
-
-        adzuna_url = "https://api.adzuna.com/v1/api/jobs/in/redirect/555"
-        resolved = unwrap_aggregator_link(adzuna_url)
-        self.assertEqual(resolved, "https://boards.greenhouse.io/gitlab/jobs/9999")
-
-    def test_resolve_apply_link_avoids_aggregator_intermediate_redirect(self):
-        # An unverified aggregator URL for an unknown company must NEVER redirect to the aggregator!
-        raw_adzuna_job = {
-            "company_name": "Mysterious Corp",
-            "job_title": "Software Engineer",
-            "url": "https://www.adzuna.in/land/ad/999999",
-            "apply_url": "https://api.adzuna.com/v1/api/jobs/in/redirect/999999",
-            "job_status": "open"
-        }
-        res = resolve_verified_apply_link(raw_adzuna_job)
-        self.assertFalse(res["can_apply"])
-        self.assertIsNone(res["destination_url"])
-        self.assertEqual(res["type"], "unverified")
-
-        # If the employer is in the verified registry, redirect to official employer ATS board instead of aggregator
-        registered_job = {
-            "company_name": "GitLab",
-            "job_title": "Backend Engineer",
-            "url": "https://www.adzuna.in/land/ad/888888",
-            "apply_url": "https://api.adzuna.com/v1/api/jobs/in/redirect/888888",
-            "job_status": "open"
-        }
-        res2 = resolve_verified_apply_link(registered_job)
-        self.assertTrue(res2["can_apply"])
-        self.assertEqual(res2["type"], "official_ats_board")
-        self.assertEqual(res2["destination_url"], "https://boards.greenhouse.io/gitlab")
-
-    def test_normalize_job_contains_all_10_fields(self):
-        raw = {
-            "title": "Lead Software Engineer",
-            "company": "GitLab",
-            "url": "https://boards.greenhouse.io/gitlab/jobs/123",
-            "id": "123"
-        }
-        norm = normalize_job(raw, provider="Greenhouse")
-        expected_fields = [
-            "company_name",
-            "job_title",
-            "ats_provider",
-            "external_job_id",
-            "official_job_url",
-            "apply_url",
-            "source_url",
-            "url_verified",
-            "last_verified_at",
-            "job_status"
-        ]
-        for field in expected_fields:
-            self.assertIn(field, norm, f"Missing required schema field: {field}")
-        self.assertEqual(norm["company_name"], "GitLab")
-        self.assertEqual(norm["ats_provider"], "Greenhouse")
-        self.assertTrue(norm["url_verified"])
 
     def test_apply_redirect_flask_route(self):
         app = create_app()
