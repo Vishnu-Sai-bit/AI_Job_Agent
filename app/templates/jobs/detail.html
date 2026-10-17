@@ -15,9 +15,17 @@
           {{ job.company[:2].upper() }}
         </div>
         <div>
-          <h2 class="fw-bold text-dark mb-1">{{ job.title }}</h2>
+          <div class="d-flex align-items-center gap-2 mb-1 flex-wrap">
+            <h2 class="fw-bold text-dark mb-0">{{ job.title }}</h2>
+            <span class="badge bg-danger text-white rounded-pill px-2.5 py-1 fw-bold" style="font-size: 0.72rem; letter-spacing: 0.3px;">
+              <i class="bi bi-record-fill me-1"></i>LIVE OPENING
+            </span>
+            <span class="badge bg-success-subtle text-success border border-success-subtle px-2 py-0.5 rounded-pill fw-semibold" style="font-size: 0.72rem;">
+              <i class="bi bi-clock-history me-1"></i>{{ job.posted_date or 'Active Live (Today)' }}
+            </span>
+          </div>
           <h5 class="text-primary fw-semibold mb-2">{{ job.company }}</h5>
-          <div class="d-flex gap-2 text-secondary flex-wrap small">
+          <div class="d-flex gap-2 text-secondary flex-wrap small align-items-center">
             <span class="badge-location"><i class="bi bi-geo-alt-fill"></i> {{ job.location }}</span>
             <span class="badge-jobtype"><i class="bi bi-briefcase-fill"></i> {{ job.experience or 'Full-time' }}</span>
             <span class="badge bg-primary-subtle text-primary border border-primary-subtle px-2 py-0.5 rounded-pill" style="font-size: 0.75rem;" title="ATS Provider">

@@ -184,6 +184,37 @@ def check_experience_fit(cand_exp: float, job_exp_str: str) -> tuple:
     else:
         return False, 30.0, f"Requires {job_exp_str}"
 
+_LIVE_JOBS_CACHE = {
+    "key": "",
+    "timestamp": 0,
+    "jobs": []
+}
+
+def get_live_jobs_cached(role: str, location: str, candidate_skills: list, force_refresh: bool = False) -> list:
+    import time
+    cache_key = f"{(role or 'Data Analyst').lower().strip()}::{(location or 'India').lower().strip()}"
+    now = time.time()
+    
+    # Use cache if fresh within 300 seconds and not forced
+    if not force_refresh and _LIVE_JOBS_CACHE["key"] == cache_key and (now - _LIVE_JOBS_CACHE["timestamp"]) < 300 and _LIVE_JOBS_CACHE["jobs"]:
+        return _LIVE_JOBS_CACHE["jobs"]
+        
+    try:
+        from services.jobs.live_job_aggregator import aggregate_live_jobs
+        res = aggregate_live_jobs(
+            role=role or "Data Analyst",
+            location=location or "India",
+            candidate_skills=candidate_skills,
+            max_total=50
+        )
+        live_list = res.get("jobs", [])
+        _LIVE_JOBS_CACHE["key"] = cache_key
+        _LIVE_JOBS_CACHE["timestamp"] = now
+        _LIVE_JOBS_CACHE["jobs"] = live_list
+        return live_list
+    except Exception:
+        return _LIVE_JOBS_CACHE.get("jobs", [])
+
 @jobs_bp.route("/")
 def index():
     candidate = get_candidate_context()
@@ -211,10 +242,6 @@ def index():
     raw_jobs = load_verified_jobs()
 
     # Target role determination:
-    # - If user searched: active search term is used.
-    # - If user entered preferences: preference role is used.
-    # - If only resume is uploaded: uploaded resume role is used.
-    # - Otherwise: open discovery.
     if role_filter:
         active_target_role = role_filter
     elif has_preferences and pref_role:
@@ -224,31 +251,34 @@ def index():
     else:
         active_target_role = ""
 
-    # Auto-fetch live jobs when explicitly requested or low catalog
-    should_fetch_live = fetch_live or (has_resume and len(raw_jobs) < 25)
-    if should_fetch_live:
-        try:
-            from services.jobs.live_job_aggregator import aggregate_live_jobs
-            live_res = aggregate_live_jobs(
-                role=role_filter or active_target_role or "Data Analyst",
-                location=loc_filter or "India",
-                candidate_skills=list(candidate_skills),
-                max_total=100
-            )
-            live_jobs = live_res.get("jobs", [])
-            seen_combos = {f"{(j.get('title') or '').lower()}::{(j.get('company') or '').lower()}" for j in raw_jobs}
-            added = 0
-            for lj in live_jobs:
-                combo = f"{(lj.get('title') or '').lower()}::{(lj.get('company') or '').lower()}"
-                if combo not in seen_combos:
-                    seen_combos.add(combo)
-                    raw_jobs.append(lj)
-                    added += 1
-            if fetch_live:
-                flash(f"Fetched {added} additional live job postings from active APIs!", "success")
-        except Exception as e:
-            if fetch_live:
-                flash(f"Live aggregation notice: {e}", "info")
+    # Fetch and prioritize real-time live jobs from active APIs
+    live_jobs = get_live_jobs_cached(
+        role=role_filter or active_target_role or "Data Analyst",
+        location=loc_filter or "India",
+        candidate_skills=list(candidate_skills),
+        force_refresh=fetch_live
+    )
+
+    if fetch_live and live_jobs:
+        flash(f"Refreshed {len(live_jobs)} real-time live job postings from active APIs!", "success")
+
+    # Combine: Real-time Live Jobs FIRST at the top of the feed, followed by Verified ATS Openings
+    seen_combos = set()
+    combined_jobs = []
+
+    for lj in live_jobs:
+        combo = f"{(lj.get('title') or '').lower().strip()}::{(lj.get('company') or '').lower().strip()}"
+        if combo not in seen_combos:
+            seen_combos.add(combo)
+            combined_jobs.append(lj)
+
+    for j in raw_jobs:
+        combo = f"{(j.get('title') or '').lower().strip()}::{(j.get('company') or '').lower().strip()}"
+        if combo not in seen_combos:
+            seen_combos.add(combo)
+            combined_jobs.append(j)
+
+    raw_jobs = combined_jobs
 
     scored_jobs = []
 
@@ -378,7 +408,9 @@ def index():
 @jobs_bp.route("/<job_id>")
 def detail(job_id):
     raw_jobs = load_verified_jobs()
-    job = next((j for j in raw_jobs if str(j.get("id")) == str(job_id)), None)
+    job = next((j for j in raw_jobs if str(j.get("id")) == str(job_id) or str(j.get("external_job_id")) == str(job_id) or str(j.get("job_id")) == str(job_id)), None)
+    if not job:
+        job = next((j for j in _LIVE_JOBS_CACHE.get("jobs", []) if str(j.get("id")) == str(job_id) or str(j.get("external_job_id")) == str(job_id)), None)
     if not job:
         flash("Job listing not found.", "warning")
         return redirect(url_for("jobs.index"))
@@ -400,7 +432,9 @@ def detail(job_id):
 @jobs_bp.route("/save/<job_id>", methods=["POST"])
 def save_job(job_id):
     raw_jobs = load_verified_jobs()
-    job = next((j for j in raw_jobs if str(j.get("id")) == str(job_id)), None)
+    job = next((j for j in raw_jobs if str(j.get("id")) == str(job_id) or str(j.get("external_job_id")) == str(job_id)), None)
+    if not job:
+        job = next((j for j in _LIVE_JOBS_CACHE.get("jobs", []) if str(j.get("id")) == str(job_id) or str(j.get("external_job_id")) == str(job_id)), None)
     if job:
         from services.crm.application_crm import add_or_update_application
         app_entry = {
@@ -410,8 +444,7 @@ def save_job(job_id):
             "role": job.get("title"),
             "stage": "saved",
             "applied_date": datetime.now().strftime("%Y-%m-%d"),
-            "salary": job.get("salary", "N/A"),
-            "notes": "Saved from Job Finder"
+            "notes": "Saved from Live Job Finder"
         }
         add_or_update_application(app_entry)
         flash(f"Opportunity at {job.get('company')} saved to your Applications CRM!", "success")
@@ -420,7 +453,9 @@ def save_job(job_id):
 @jobs_bp.route("/cover-letter/<job_id>")
 def cover_letter(job_id):
     raw_jobs = load_verified_jobs()
-    job = next((j for j in raw_jobs if str(j.get("id")) == str(job_id)), None)
+    job = next((j for j in raw_jobs if str(j.get("id")) == str(job_id) or str(j.get("external_job_id")) == str(job_id)), None)
+    if not job:
+        job = next((j for j in _LIVE_JOBS_CACHE.get("jobs", []) if str(j.get("id")) == str(job_id) or str(j.get("external_job_id")) == str(job_id)), None)
     if not job:
         flash("Job not found.", "warning")
         return redirect(url_for("jobs.index"))
@@ -458,6 +493,8 @@ def apply_redirect(job_id):
     candidate = get_candidate_context()
     raw_jobs = load_verified_jobs()
     job = next((j for j in raw_jobs if str(j.get("id")) == str(job_id) or str(j.get("job_id")) == str(job_id) or str(j.get("external_job_id")) == str(job_id)), None)
+    if not job:
+        job = next((j for j in _LIVE_JOBS_CACHE.get("jobs", []) if str(j.get("id")) == str(job_id) or str(j.get("job_id")) == str(job_id) or str(j.get("external_job_id")) == str(job_id)), None)
 
     if not job:
         try:

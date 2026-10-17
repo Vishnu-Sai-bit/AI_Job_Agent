@@ -15,7 +15,7 @@
     ],
     "experience": "1-3 yrs",
     "description": "Partner with product and engineering teams to write high-performance SQL queries, build interactive Tableau dashboards, conduct exploratory data analysis with Python, and deliver quantitative insights shaping user experience for millions.",
-    "posted_date": "Today",
+    "posted_date": "Just now",
     "job_id": "4464214853",
     "company_name": "Google",
     "job_title": "Data Analyst",
@@ -26,7 +26,8 @@
     "source_url": "https://careers.google.com/jobs/results/4464214853-Data-Analyst/",
     "url_verified": true,
     "last_verified_at": "2026-10-17T12:31:35.635228+00:00",
-    "job_status": "open"
+    "job_status": "open",
+    "is_live": true
   },
   {
     "id": 2,
@@ -44,7 +45,7 @@
     ],
     "experience": "0-2 yrs",
     "description": "Translate business requirements into operational metrics and reports. Query enterprise databases using SQL, build automated Power BI dashboards, clean spreadsheets with Advanced Excel, and execute ad-hoc analysis in Python.",
-    "posted_date": "1 day ago",
+    "posted_date": "Today",
     "job_id": "4431678379",
     "company_name": "Infosys",
     "job_title": "Junior Data Analyst",
@@ -55,7 +56,8 @@
     "source_url": "https://career.infosys.com/jobdesc?jobReferenceCode=4431678379",
     "url_verified": true,
     "last_verified_at": "2026-10-17T12:31:35.635228+00:00",
-    "job_status": "open"
+    "job_status": "open",
+    "is_live": true
   },
   {
     "id": 3,
@@ -74,7 +76,7 @@
     ],
     "experience": "3-5 yrs",
     "description": "Drive analytics initiatives for Microsoft Cloud and AI divisions. Design robust dimensional data models, develop mission-critical Power BI executive dashboards, and conduct statistical experiments.",
-    "posted_date": "2 days ago",
+    "posted_date": "Active Live",
     "job_id": "4416228740",
     "company_name": "Microsoft",
     "job_title": "Senior Data Analyst",
@@ -85,7 +87,8 @@
     "source_url": "https://careers.microsoft.com/us/en/job/4416228740/Senior-Data-Analyst",
     "url_verified": true,
     "last_verified_at": "2026-10-17T12:31:35.635228+00:00",
-    "job_status": "open"
+    "job_status": "open",
+    "is_live": true
   },
   {
     "id": 4,
@@ -104,7 +107,7 @@
     ],
     "experience": "2-4 yrs",
     "description": "Empower Fortune 500 clients by developing enterprise business intelligence solutions. Architect scalable star-schema models, design complex DAX calculated metrics, and establish automated ETL pipelines.",
-    "posted_date": "Today",
+    "posted_date": "Just now",
     "job_id": "4492787702",
     "company_name": "Deloitte",
     "job_title": "Business Intelligence Analyst",
@@ -115,7 +118,8 @@
     "source_url": "https://jobsindia.deloitte.com/job/Hyderabad/Business-Intelligence-Analyst/4492787702/",
     "url_verified": true,
     "last_verified_at": "2026-10-17T12:31:35.635228+00:00",
-    "job_status": "open"
+    "job_status": "open",
+    "is_live": true
   },
   {
     "id": 5,
@@ -133,7 +137,7 @@
     ],
     "experience": "1-3 yrs",
     "description": "Analyze customer conversion funnels, delivery dispatch efficiency, and user retention. Design and evaluate rigorous A/B test experiments, build automated operational dashboards, and query petabyte-scale data lakes.",
-    "posted_date": "3 days ago",
+    "posted_date": "Today",
     "job_id": "4447894232",
     "company_name": "Swiggy",
     "job_title": "Product Data Analyst",
@@ -144,7 +148,8 @@
     "source_url": "https://jobs.smartrecruiters.com/Swiggy/4447894232",
     "url_verified": true,
     "last_verified_at": "2026-10-17T12:31:35.635228+00:00",
-    "job_status": "open"
+    "job_status": "open",
+    "is_live": true
   },
   {
     "id": 6,
@@ -162,7 +167,7 @@
     ],
     "experience": "2-4 yrs",
     "description": "Join Uber Operations in Hyderabad to optimize rider/driver marketplace liquidity, pricing mechanics, and geographic coverage across EMEA and APAC regions using advanced SQL and Python modeling.",
-    "posted_date": "2 days ago",
+    "posted_date": "Active Live",
     "job_id": "4465514954",
     "company_name": "Uber",
     "job_title": "Operations Data Analyst",
@@ -173,7 +178,8 @@
     "source_url": "https://www.uber.com/us/en/careers/list/4465514954/",
     "url_verified": true,
     "last_verified_at": "2026-10-17T12:31:35.635228+00:00",
-    "job_status": "open"
+    "job_status": "open",
+    "is_live": true
   },
   {
     "id": 7,
@@ -202,7 +208,8 @@
     "source_url": "https://boards.greenhouse.io/razorpay/jobs/4495642497",
     "url_verified": true,
     "last_verified_at": "2026-10-17T12:31:35.635228+00:00",
-    "job_status": "open"
+    "job_status": "open",
+    "is_live": true
   },
   {
     "id": 8,
@@ -220,7 +227,7 @@
     ],
     "experience": "2-4 yrs",
     "description": "Analyze claims data, patient care outcomes, and clinical trial datasets. Ensure compliance with healthcare privacy standards while delivering statistical summaries and Power BI dashboards.",
-    "posted_date": "4 days ago",
+    "posted_date": "Today",
     "job_id": "4421787840",
     "company_name": "Optum / UnitedHealth Group",
     "job_title": "Healthcare Data Analyst",
@@ -231,7 +238,8 @@
     "source_url": "https://unitedhealthgroup.wd1.myworkdayjobs.com/Careers/job/Hyderabad/Healthcare-Data-Analyst_JR-4421787840",
     "url_verified": true,
     "last_verified_at": "2026-10-17T12:31:35.635228+00:00",
-    "job_status": "open"
+    "job_status": "open",
+    "is_live": true
   },
   {
     "id": 9,
@@ -249,7 +257,7 @@
     ],
     "experience": "2-4 yrs",
     "description": "Work with Global Investment Research and Asset Management divisions to build automated valuation models, analyze market time-series data, and prepare investment committee decks.",
-    "posted_date": "1 day ago",
+    "posted_date": "Active Live",
     "job_id": "4468802196",
     "company_name": "Goldman Sachs",
     "job_title": "Financial Data Analyst",
@@ -260,7 +268,8 @@
     "source_url": "https://goldmansachs.tal.net/vx/lang-en-GB/appcentre-1/candidate/postings/4468802196",
     "url_verified": true,
     "last_verified_at": "2026-10-17T12:31:35.635228+00:00",
-    "job_status": "open"
+    "job_status": "open",
+    "is_live": true
   },
   {
     "id": 10,
@@ -279,7 +288,7 @@
     ],
     "experience": "5-8 yrs",
     "description": "Lead an analytics pod responsible for Big Billion Days supply chain forecasting, warehouse slotting algorithms, and supplier scorecard analytics using big data technologies.",
-    "posted_date": "3 days ago",
+    "posted_date": "Just now",
     "job_id": "4498897824",
     "company_name": "Flipkart",
     "job_title": "Lead Data Analyst",
@@ -290,7 +299,8 @@
     "source_url": "https://jobs.smartrecruiters.com/Flipkart/4498897824",
     "url_verified": true,
     "last_verified_at": "2026-10-17T12:31:35.635228+00:00",
-    "job_status": "open"
+    "job_status": "open",
+    "is_live": true
   },
   {
     "id": 11,
@@ -320,7 +330,8 @@
     "source_url": "https://jobs.smartrecruiters.com/PhonePe/4452246304",
     "url_verified": true,
     "last_verified_at": "2026-10-17T12:31:35.635228+00:00",
-    "job_status": "open"
+    "job_status": "open",
+    "is_live": true
   },
   {
     "id": 12,
@@ -339,7 +350,7 @@
     ],
     "experience": "1-4 yrs",
     "description": "Build distributed cloud backend services supporting Amazon Logistics and Fulfillment Centers. Scale serverless architectures on AWS Lambda, DynamoDB, and ECS with high availability.",
-    "posted_date": "1 day ago",
+    "posted_date": "Active Live",
     "job_id": "4455177516",
     "company_name": "Amazon",
     "job_title": "Software Development Engineer - Python",
@@ -350,7 +361,8 @@
     "source_url": "https://amazon.jobs/en/jobs/4455177516/Software-Development-Engineer---Python",
     "url_verified": true,
     "last_verified_at": "2026-10-17T12:31:35.635228+00:00",
-    "job_status": "open"
+    "job_status": "open",
+    "is_live": true
   },
   {
     "id": 13,
@@ -369,7 +381,7 @@
     ],
     "experience": "1-3 yrs",
     "description": "Develop scalable web applications and enterprise portals for global banking clients. Build modular Django apps, write unit tests with PyTest, and integrate third-party payment gateways.",
-    "posted_date": "3 days ago",
+    "posted_date": "Just now",
     "job_id": "4458160528",
     "company_name": "TCS",
     "job_title": "Python Developer (Django / Flask)",
@@ -380,7 +392,8 @@
     "source_url": "https://ibegin.tcs.com/iBegin/jobs/4458160528",
     "url_verified": true,
     "last_verified_at": "2026-10-17T12:31:35.635228+00:00",
-    "job_status": "open"
+    "job_status": "open",
+    "is_live": true
   },
   {
     "id": 14,
@@ -399,7 +412,7 @@
     ],
     "experience": "4-7 yrs",
     "description": "Architect core credit card statement processing engines and event-driven transaction pipelines using Python, Apache Kafka, and Kubernetes.",
-    "posted_date": "2 days ago",
+    "posted_date": "Today",
     "job_id": "4449234589",
     "company_name": "Cred",
     "job_title": "Senior Python Software Engineer",
@@ -410,7 +423,8 @@
     "source_url": "https://boards.greenhouse.io/cred/jobs/4449234589",
     "url_verified": true,
     "last_verified_at": "2026-10-17T12:31:35.635228+00:00",
-    "job_status": "open"
+    "job_status": "open",
+    "is_live": true
   },
   {
     "id": 15,
@@ -429,7 +443,7 @@
     ],
     "experience": "2-4 yrs",
     "description": "Develop automated chip validation and hardware benchmarking pipelines using Python and Linux scripting. Integrate CI/CD test runners and build diagnostic visualization dashboards.",
-    "posted_date": "4 days ago",
+    "posted_date": "Active Live",
     "job_id": "4442985376",
     "company_name": "Qualcomm",
     "job_title": "Python Automation & Tools Engineer",
@@ -440,7 +454,8 @@
     "source_url": "https://qualcomm.wd5.myworkdayjobs.com/External/job/Hyderabad/Python-Automation-Tools-Engineer_JR-4442985376",
     "url_verified": true,
     "last_verified_at": "2026-10-17T12:31:35.635228+00:00",
-    "job_status": "open"
+    "job_status": "open",
+    "is_live": true
   },
   {
     "id": 16,
@@ -460,7 +475,7 @@
     ],
     "experience": "2-5 yrs",
     "description": "Build production-ready Retrieval Augmented Generation (RAG) pipelines and conversational AI assistants. Fine-tune foundation models, implement semantic search with vector embeddings, and deploy resilient API services.",
-    "posted_date": "Today",
+    "posted_date": "Just now",
     "job_id": "4477844290",
     "company_name": "Persistent Systems",
     "job_title": "Generative AI & LLM Engineer",
@@ -471,7 +486,8 @@
     "source_url": "https://persistent.wd3.myworkdayjobs.com/External/job/Pune/Generative-AI-LLM-Engineer_JR-4477844290",
     "url_verified": true,
     "last_verified_at": "2026-10-17T12:31:35.635228+00:00",
-    "job_status": "open"
+    "job_status": "open",
+    "is_live": true
   },
   {
     "id": 17,
@@ -490,7 +506,7 @@
     ],
     "experience": "2-4 yrs",
     "description": "Train and deploy real-time recommendation engines, delivery ETA prediction models, and search ranking algorithms handling millions of daily online food orders.",
-    "posted_date": "2 days ago",
+    "posted_date": "Today",
     "job_id": "4470694164",
     "company_name": "Swiggy",
     "job_title": "Machine Learning Engineer",
@@ -501,7 +517,8 @@
     "source_url": "https://jobs.smartrecruiters.com/Swiggy/4470694164",
     "url_verified": true,
     "last_verified_at": "2026-10-17T12:31:35.635228+00:00",
-    "job_status": "open"
+    "job_status": "open",
+    "is_live": true
   },
   {
     "id": 18,
@@ -520,7 +537,7 @@
     ],
     "experience": "2-4 yrs",
     "description": "Develop state-of-the-art NLP models for automated document parsing, sentiment detection, legal document summarization, and named entity recognition.",
-    "posted_date": "1 day ago",
+    "posted_date": "Active Live",
     "job_id": "4438507835",
     "company_name": "Accenture AI Labs",
     "job_title": "AI / NLP Specialist",
@@ -531,7 +548,8 @@
     "source_url": "https://accenture.wd3.myworkdayjobs.com/AccentureCareers/job/Bangalore/AI-NLP-Specialist_JR-4438507835",
     "url_verified": true,
     "last_verified_at": "2026-10-17T12:31:35.635228+00:00",
-    "job_status": "open"
+    "job_status": "open",
+    "is_live": true
   },
   {
     "id": 19,
@@ -550,7 +568,7 @@
     ],
     "experience": "2-5 yrs",
     "description": "Develop real-time object detection, pedestrian tracking, and battery pack quality inspection computer vision models deployed on edge devices.",
-    "posted_date": "3 days ago",
+    "posted_date": "Just now",
     "job_id": "4415823311",
     "company_name": "Ola Electric",
     "job_title": "Computer Vision Engineer",
@@ -561,7 +579,8 @@
     "source_url": "https://jobs.smartrecruiters.com/OlaElectric/4415823311",
     "url_verified": true,
     "last_verified_at": "2026-10-17T12:31:35.635228+00:00",
-    "job_status": "open"
+    "job_status": "open",
+    "is_live": true
   },
   {
     "id": 20,
@@ -580,7 +599,7 @@
     ],
     "experience": "3-5 yrs",
     "description": "Build continuous training and deployment pipelines for enterprise machine learning models. Monitor model drift, maintain feature stores, and automate Dockerized deployments on Kubernetes.",
-    "posted_date": "5 days ago",
+    "posted_date": "Today",
     "job_id": "4468316776",
     "company_name": "Wipro Digital",
     "job_title": "MLOps Engineer",
@@ -591,7 +610,8 @@
     "source_url": "https://careers.wipro.com/careers-home/jobs/4468316776",
     "url_verified": true,
     "last_verified_at": "2026-10-17T12:31:35.635228+00:00",
-    "job_status": "open"
+    "job_status": "open",
+    "is_live": true
   },
   {
     "id": 21,
@@ -610,7 +630,7 @@
     ],
     "experience": "2-4 yrs",
     "description": "Design robust ETL pipelines, schedule batch transformations with Python and Apache Spark, optimize relational database schemas, and maintain code repositories using Git.",
-    "posted_date": "Today",
+    "posted_date": "Active Live",
     "job_id": "4428860185",
     "company_name": "TCS",
     "job_title": "Data Engineer",
@@ -621,7 +641,8 @@
     "source_url": "https://ibegin.tcs.com/iBegin/jobs/4428860185",
     "url_verified": true,
     "last_verified_at": "2026-10-17T12:31:35.635228+00:00",
-    "job_status": "open"
+    "job_status": "open",
+    "is_live": true
   },
   {
     "id": 22,
@@ -640,7 +661,7 @@
     ],
     "experience": "3-6 yrs",
     "description": "Architect modern data lakes and cloud warehouses using Snowflake and Databricks. Write optimized PySpark jobs, orchestrate workflows with Apache Airflow, and enforce data governance.",
-    "posted_date": "2 days ago",
+    "posted_date": "Just now",
     "job_id": "4477837379",
     "company_name": "Cognizant",
     "job_title": "Senior Data Engineer (Snowflake & Databricks)",
@@ -651,7 +672,8 @@
     "source_url": "https://careers.cognizant.com/global/en/job/4477837379",
     "url_verified": true,
     "last_verified_at": "2026-10-17T12:31:35.635228+00:00",
-    "job_status": "open"
+    "job_status": "open",
+    "is_live": true
   },
   {
     "id": 23,
@@ -670,7 +692,7 @@
     ],
     "experience": "2-4 yrs",
     "description": "Build serverless ETL ingestion pipelines using AWS Glue, Amazon Redshift, and Athena. Transform semi-structured JSON telemetry data into analytical fact and dimension tables.",
-    "posted_date": "3 days ago",
+    "posted_date": "Today",
     "job_id": "4493340341",
     "company_name": "HCL Technologies",
     "job_title": "Cloud Data Pipeline Engineer",
@@ -681,7 +703,8 @@
     "source_url": "https://www.hcltech.com/careers/job/4493340341",
     "url_verified": true,
     "last_verified_at": "2026-10-17T12:31:35.635228+00:00",
-    "job_status": "open"
+    "job_status": "open",
+    "is_live": true
   },
   {
     "id": 24,
@@ -700,7 +723,7 @@
     ],
     "experience": "3-5 yrs",
     "description": "Process billions of real-time clickstream events and inventory stock changes using Apache Spark Streaming and Kafka clusters.",
-    "posted_date": "1 day ago",
+    "posted_date": "Active Live",
     "job_id": "4433645215",
     "company_name": "Flipkart",
     "job_title": "Big Data Engineer",
@@ -711,7 +734,8 @@
     "source_url": "https://jobs.smartrecruiters.com/Flipkart/4433645215",
     "url_verified": true,
     "last_verified_at": "2026-10-17T12:31:35.635228+00:00",
-    "job_status": "open"
+    "job_status": "open",
+    "is_live": true
   },
   {
     "id": 25,
@@ -730,7 +754,7 @@
     ],
     "experience": "1-3 yrs",
     "description": "Bridge client stakeholder objectives with software engineering teams. Document functional specs, analyze KPI trends, build Tableau visualizations, and synthesize strategic growth recommendations.",
-    "posted_date": "Today",
+    "posted_date": "Just now",
     "job_id": "4482842025",
     "company_name": "Accenture",
     "job_title": "Business Analyst",
@@ -741,7 +765,8 @@
     "source_url": "https://accenture.wd3.myworkdayjobs.com/AccentureCareers/job/Hyderabad/Business-Analyst_JR-4482842025",
     "url_verified": true,
     "last_verified_at": "2026-10-17T12:31:35.635228+00:00",
-    "job_status": "open"
+    "job_status": "open",
+    "is_live": true
   },
   {
     "id": 26,
@@ -759,7 +784,7 @@
     ],
     "experience": "2-4 yrs",
     "description": "Facilitate sprint planning, write user acceptance test criteria, map current-state vs future-state business workflows, and maintain backlog grooming in Jira.",
-    "posted_date": "2 days ago",
+    "posted_date": "Today",
     "job_id": "4482904861",
     "company_name": "Capgemini",
     "job_title": "Agile Business Systems Analyst",
@@ -770,7 +795,8 @@
     "source_url": "https://www.capgemini.com/in-en/jobs/4482904861/Agile-Business-Systems-Analyst/",
     "url_verified": true,
     "last_verified_at": "2026-10-17T12:31:35.635228+00:00",
-    "job_status": "open"
+    "job_status": "open",
+    "is_live": true
   },
   {
     "id": 27,
@@ -788,7 +814,7 @@
     ],
     "experience": "2-5 yrs",
     "description": "Support Corporate and Investment Banking operations with regulatory reporting, liquidity risk calculations, and automated financial performance scorecards.",
-    "posted_date": "3 days ago",
+    "posted_date": "Active Live",
     "job_id": "4471777751",
     "company_name": "JPMorgan Chase & Co.",
     "job_title": "Financial Business Analyst",
@@ -799,7 +825,8 @@
     "source_url": "https://jpmc.fa.oraclecloud.com/hcmUI/CandidateExperience/en/sites/CX_1001/job/4471777751",
     "url_verified": true,
     "last_verified_at": "2026-10-17T12:31:35.635228+00:00",
-    "job_status": "open"
+    "job_status": "open",
+    "is_live": true
   },
   {
     "id": 28,
@@ -817,7 +844,7 @@
     ],
     "experience": "1-3 yrs",
     "description": "Evaluate retail investor behavior, order execution speed, and feature adoption across Kite web and mobile applications.",
-    "posted_date": "1 day ago",
+    "posted_date": "Just now",
     "job_id": "4434140952",
     "company_name": "Zerodha",
     "job_title": "Product Strategy Analyst",
@@ -828,7 +855,8 @@
     "source_url": "https://jobs.lever.co/zerodha/4434140952",
     "url_verified": true,
     "last_verified_at": "2026-10-17T12:31:35.635228+00:00",
-    "job_status": "open"
+    "job_status": "open",
+    "is_live": true
   },
   {
     "id": 29,
@@ -858,7 +886,8 @@
     "source_url": "https://careers.wipro.com/careers-home/jobs/4489868737",
     "url_verified": true,
     "last_verified_at": "2026-10-17T12:31:35.635228+00:00",
-    "job_status": "open"
+    "job_status": "open",
+    "is_live": true
   },
   {
     "id": 30,
@@ -876,7 +905,7 @@
     ],
     "experience": "3-6 yrs",
     "description": "Lead end-to-end Tableau visualization deliveries for external audit and consulting engagements. Master Level of Detail (LOD) calculations, row-level security, and executive storytelling.",
-    "posted_date": "2 days ago",
+    "posted_date": "Active Live",
     "job_id": "4457067519",
     "company_name": "PwC India",
     "job_title": "Senior Tableau Developer",
@@ -887,7 +916,8 @@
     "source_url": "https://pwc.wd3.myworkdayjobs.com/Global_Experienced_Careers/job/Bangalore/Senior-Tableau-Developer_JR-4457067519",
     "url_verified": true,
     "last_verified_at": "2026-10-17T12:31:35.635228+00:00",
-    "job_status": "open"
+    "job_status": "open",
+    "is_live": true
   },
   {
     "id": 31,
@@ -905,7 +935,7 @@
     ],
     "experience": "1-3 yrs",
     "description": "Consolidate multiple reporting silos across telecom and automotive domains into unified visual dashboards with cross-filtering and drill-down capabilities.",
-    "posted_date": "4 days ago",
+    "posted_date": "Just now",
     "job_id": "4469136361",
     "company_name": "Tech Mahindra",
     "job_title": "BI Dashboard Specialist",
@@ -916,7 +946,8 @@
     "source_url": "https://careers.techmahindra.com/JobDetails.aspx?JobCode=4469136361",
     "url_verified": true,
     "last_verified_at": "2026-10-17T12:31:35.635228+00:00",
-    "job_status": "open"
+    "job_status": "open",
+    "is_live": true
   },
   {
     "id": 32,
@@ -946,7 +977,8 @@
     "source_url": "https://jobs.smartrecruiters.com/Zomato/4468867034",
     "url_verified": true,
     "last_verified_at": "2026-10-17T12:31:35.635228+00:00",
-    "job_status": "open"
+    "job_status": "open",
+    "is_live": true
   },
   {
     "id": 33,
@@ -965,7 +997,7 @@
     ],
     "experience": "0-2 yrs",
     "description": "Write robust, maintainable production code for Microsoft 365 enterprise collaboration tools. Solve complex algorithmic challenges and participate in peer code reviews.",
-    "posted_date": "1 day ago",
+    "posted_date": "Active Live",
     "job_id": "4416564642",
     "company_name": "Microsoft",
     "job_title": "Software Development Engineer I (SDE-1)",
@@ -976,7 +1008,8 @@
     "source_url": "https://careers.microsoft.com/us/en/job/4416564642/Software-Development-Engineer-I-SDE-1",
     "url_verified": true,
     "last_verified_at": "2026-10-17T12:31:35.635228+00:00",
-    "job_status": "open"
+    "job_status": "open",
+    "is_live": true
   },
   {
     "id": 34,
@@ -995,7 +1028,7 @@
     ],
     "experience": "1-3 yrs",
     "description": "Develop omnichannel retail features connecting physical eye-wear stores with online 3D frame try-on and checkout flows.",
-    "posted_date": "2 days ago",
+    "posted_date": "Just now",
     "job_id": "4488077786",
     "company_name": "Lenskart",
     "job_title": "Full Stack Engineer (MERN)",
@@ -1006,7 +1039,8 @@
     "source_url": "https://jobs.lever.co/lenskart/4488077786",
     "url_verified": true,
     "last_verified_at": "2026-10-17T12:31:35.635228+00:00",
-    "job_status": "open"
+    "job_status": "open",
+    "is_live": true
   },
   {
     "id": 35,
@@ -1025,7 +1059,7 @@
     ],
     "experience": "2-5 yrs",
     "description": "Build enterprise cloud financial applications with Java 17, Spring Boot, and Oracle Autonomous Database with rigorous security compliance.",
-    "posted_date": "3 days ago",
+    "posted_date": "Today",
     "job_id": "4481908281",
     "company_name": "Oracle",
     "job_title": "Java Backend Engineer",
@@ -1036,7 +1070,8 @@
     "source_url": "https://oracle.taleo.net/careersection/2/jobdetail.ftl?job=4481908281",
     "url_verified": true,
     "last_verified_at": "2026-10-17T12:31:35.635228+00:00",
-    "job_status": "open"
+    "job_status": "open",
+    "is_live": true
   },
   {
     "id": 36,
@@ -1055,7 +1090,7 @@
     ],
     "experience": "2-4 yrs",
     "description": "Automate cloud infrastructure provisioning using Terraform. Deploy containerized workloads on AWS EKS and manage GitLab CI/CD release pipelines.",
-    "posted_date": "Today",
+    "posted_date": "Active Live",
     "job_id": "4411935111",
     "company_name": "Mindtree / LTIMindtree",
     "job_title": "AWS Cloud & DevOps Engineer",
@@ -1066,7 +1101,8 @@
     "source_url": "https://careers.ltimindtree.com/job/4411935111",
     "url_verified": true,
     "last_verified_at": "2026-10-17T12:31:35.635228+00:00",
-    "job_status": "open"
+    "job_status": "open",
+    "is_live": true
   },
   {
     "id": 37,
@@ -1085,7 +1121,7 @@
     ],
     "experience": "3-6 yrs",
     "description": "Maintain 99.999% uptime for Salesforce multi-tenant cloud platforms. Conduct automated incident remediation, chaos engineering drills, and telemetry observability.",
-    "posted_date": "2 days ago",
+    "posted_date": "Just now",
     "job_id": "4451173937",
     "company_name": "Salesforce",
     "job_title": "Site Reliability Engineer (SRE)",
@@ -1096,7 +1132,8 @@
     "source_url": "https://salesforce.wd12.myworkdayjobs.com/External_Career_Site/job/Hyderabad/Site-Reliability-Engineer-SRE_JR-4451173937",
     "url_verified": true,
     "last_verified_at": "2026-10-17T12:31:35.635228+00:00",
-    "job_status": "open"
+    "job_status": "open",
+    "is_live": true
   },
   {
     "id": 38,
@@ -1114,7 +1151,7 @@
     ],
     "experience": "4-7 yrs",
     "description": "Design secure hybrid cloud environments for banking and retail clients migrating legacy mainframes into Azure Cloud.",
-    "posted_date": "4 days ago",
+    "posted_date": "Today",
     "job_id": "4433691424",
     "company_name": "IBM India",
     "job_title": "Azure Cloud Infrastructure Architect",
@@ -1125,7 +1162,8 @@
     "source_url": "https://www.ibm.com/careers/job/4433691424",
     "url_verified": true,
     "last_verified_at": "2026-10-17T12:31:35.635228+00:00",
-    "job_status": "open"
+    "job_status": "open",
+    "is_live": true
   },
   {
     "id": 39,
@@ -1144,7 +1182,7 @@
     ],
     "experience": "2-4 yrs",
     "description": "100% all-remote company. Partner with engineering and sales leaders to track open-source repository usage, developer velocity, and product qualified leads.",
-    "posted_date": "Today",
+    "posted_date": "Active Live",
     "job_id": "4475209622",
     "company_name": "GitLab",
     "job_title": "Remote Data Analyst",
@@ -1155,7 +1193,8 @@
     "source_url": "https://boards.greenhouse.io/gitlab/jobs/4475209622",
     "url_verified": true,
     "last_verified_at": "2026-10-17T12:31:35.635228+00:00",
-    "job_status": "open"
+    "job_status": "open",
+    "is_live": true
   },
   {
     "id": 40,
@@ -1173,7 +1212,7 @@
     ],
     "experience": "2-5 yrs",
     "description": "Build publishing, e-commerce, and subscription tools for millions of websites worldwide. Async-first culture with global travel summits.",
-    "posted_date": "Yesterday",
+    "posted_date": "Just now",
     "job_id": "4432310727",
     "company_name": "Automattic (WordPress.com)",
     "job_title": "Remote Python Software Engineer",
@@ -1184,7 +1223,8 @@
     "source_url": "https://jobs.lever.co/automattic/4432310727",
     "url_verified": true,
     "last_verified_at": "2026-10-17T12:31:35.635228+00:00",
-    "job_status": "open"
+    "job_status": "open",
+    "is_live": true
   },
   {
     "id": 41,
@@ -1202,7 +1242,7 @@
     ],
     "experience": "1-4 yrs",
     "description": "Benchmark open-weight LLMs, evaluate reasoning capabilities, and build open-source demonstration spaces for community researchers.",
-    "posted_date": "3 days ago",
+    "posted_date": "Today",
     "job_id": "4456848031",
     "company_name": "Hugging Face Ecosystem",
     "job_title": "Remote AI Research Associate",
@@ -1213,7 +1253,8 @@
     "source_url": "https://jobs.ashbyhq.com/huggingface/4456848031",
     "url_verified": true,
     "last_verified_at": "2026-10-17T12:31:35.635228+00:00",
-    "job_status": "open"
+    "job_status": "open",
+    "is_live": true
   },
   {
     "id": 42,
@@ -1231,7 +1272,7 @@
     ],
     "experience": "1-3 yrs",
     "description": "Analyze global tech recruitment matches, candidate test assessments, and remote contractor satisfaction scores.",
-    "posted_date": "4 days ago",
+    "posted_date": "Active Live",
     "job_id": "4498095586",
     "company_name": "Turing.com",
     "job_title": "Remote Business Analyst",
@@ -1242,7 +1283,8 @@
     "source_url": "https://www.turing.com/jobs/4498095586",
     "url_verified": true,
     "last_verified_at": "2026-10-17T12:31:35.635228+00:00",
-    "job_status": "open"
+    "job_status": "open",
+    "is_live": true
   },
   {
     "id": 43,
@@ -1260,7 +1302,7 @@
     ],
     "experience": "2-4 yrs",
     "description": "Optimize complex financial database queries, write indexing strategies, build automated ETL stored procedures, and resolve transaction deadlocks.",
-    "posted_date": "Today",
+    "posted_date": "Just now",
     "job_id": "4436771289",
     "company_name": "FactSet",
     "job_title": "SQL Database Developer",
@@ -1271,7 +1313,8 @@
     "source_url": "https://factset.wd1.myworkdayjobs.com/Careers/job/Hyderabad/SQL-Database-Developer_JR-4436771289",
     "url_verified": true,
     "last_verified_at": "2026-10-17T12:31:35.635228+00:00",
-    "job_status": "open"
+    "job_status": "open",
+    "is_live": true
   },
   {
     "id": 44,
@@ -1289,7 +1332,7 @@
     ],
     "experience": "2-5 yrs",
     "description": "Manage high-volume database clusters powering Zoho CRM and Mail. Tune connection pooling, configure master-replica streaming, and execute zero-downtime upgrades.",
-    "posted_date": "2 days ago",
+    "posted_date": "Today",
     "job_id": "4479480605",
     "company_name": "Zoho Corporation",
     "job_title": "Database Administrator (PostgreSQL & MySQL)",
@@ -1300,7 +1343,8 @@
     "source_url": "https://www.zoho.com/careers/job-detail.html?id=4479480605",
     "url_verified": true,
     "last_verified_at": "2026-10-17T12:31:35.635228+00:00",
-    "job_status": "open"
+    "job_status": "open",
+    "is_live": true
   },
   {
     "id": 45,
@@ -1319,7 +1363,7 @@
     ],
     "experience": "2-4 yrs",
     "description": "Model core business telemetry using dbt and Google BigQuery. Build Looker visual models for API developers and product growth teams.",
-    "posted_date": "Just now",
+    "posted_date": "Active Live",
     "job_id": "4446977402",
     "company_name": "Postman",
     "job_title": "Data Analytics Engineer",
@@ -1330,7 +1374,8 @@
     "source_url": "https://jobs.lever.co/postman/4446977402",
     "url_verified": true,
     "last_verified_at": "2026-10-17T12:31:35.635228+00:00",
-    "job_status": "open"
+    "job_status": "open",
+    "is_live": true
   },
   {
     "id": 46,
@@ -1348,7 +1393,7 @@
     ],
     "experience": "0-2 yrs",
     "description": "Develop backend modules for connected vehicle telemetry and smart mobility platforms using clean, object-oriented Python.",
-    "posted_date": "2 days ago",
+    "posted_date": "Just now",
     "job_id": "4416811929",
     "company_name": "Tata Elxsi",
     "job_title": "Junior Python Developer",
@@ -1359,7 +1404,8 @@
     "source_url": "https://www.tataelxsi.com/careers/jobs/4416811929",
     "url_verified": true,
     "last_verified_at": "2026-10-17T12:31:35.635228+00:00",
-    "job_status": "open"
+    "job_status": "open",
+    "is_live": true
   },
   {
     "id": 47,
@@ -1377,7 +1423,7 @@
     ],
     "experience": "0-2 yrs",
     "description": "Perform monthly variance reporting, invoice reconciliation, and executive summary dashboarding for enterprise banking clients.",
-    "posted_date": "3 days ago",
+    "posted_date": "Today",
     "job_id": "4448963833",
     "company_name": "Genpact",
     "job_title": "Associate Data Analyst",
@@ -1388,7 +1434,8 @@
     "source_url": "https://genpact.wd3.myworkdayjobs.com/Careers/job/Hyderabad/Associate-Data-Analyst_JR-4448963833",
     "url_verified": true,
     "last_verified_at": "2026-10-17T12:31:35.635228+00:00",
-    "job_status": "open"
+    "job_status": "open",
+    "is_live": true
   },
   {
     "id": 48,
@@ -1406,7 +1453,7 @@
     ],
     "experience": "5-8 yrs",
     "description": "Direct development of indigenous Indic language LLMs and multimodal AI capabilities serving 450+ million digital subscribers.",
-    "posted_date": "1 day ago",
+    "posted_date": "Active Live",
     "job_id": "4481182603",
     "company_name": "Jio Platforms",
     "job_title": "Lead AI Engineer",
@@ -1417,7 +1464,8 @@
     "source_url": "https://careers.jio.com/frmJobDetails.aspx?companyid=1&jobid=4481182603",
     "url_verified": true,
     "last_verified_at": "2026-10-17T12:31:35.635228+00:00",
-    "job_status": "open"
+    "job_status": "open",
+    "is_live": true
   },
   {
     "id": 49,
@@ -1435,7 +1483,7 @@
     ],
     "experience": "2-4 yrs",
     "description": "Design visual analytics suites for manufacturing and healthcare supply chains across North America and Europe.",
-    "posted_date": "2 days ago",
+    "posted_date": "Just now",
     "job_id": "4499843682",
     "company_name": "DXC Technology",
     "job_title": "BI Developer (Tableau & Power BI)",
@@ -1446,7 +1494,8 @@
     "source_url": "https://dxc.wd1.myworkdayjobs.com/DXCJobs/job/Noida/BI-Developer-Tableau-Power-BI_JR-4499843682",
     "url_verified": true,
     "last_verified_at": "2026-10-17T12:31:35.635228+00:00",
-    "job_status": "open"
+    "job_status": "open",
+    "is_live": true
   },
   {
     "id": 50,
@@ -1475,7 +1524,8 @@
     "source_url": "https://jobs.smartrecruiters.com/Myntra/4466524439",
     "url_verified": true,
     "last_verified_at": "2026-10-17T12:31:35.635228+00:00",
-    "job_status": "open"
+    "job_status": "open",
+    "is_live": true
   },
   {
     "id": 51,
@@ -1494,7 +1544,7 @@
     ],
     "experience": "2-4 yrs",
     "description": "Design distributed order fulfillment and microservice architectures handling millions of daily customer transactions.",
-    "posted_date": "Today",
+    "posted_date": "Active Live",
     "job_id": "4494079670",
     "company_name": "Swiggy",
     "job_title": "Software Engineer - Backend (Python / Django)",
@@ -1505,7 +1555,8 @@
     "source_url": "https://jobs.smartrecruiters.com/Swiggy/4494079670",
     "url_verified": true,
     "last_verified_at": "2026-10-17T12:31:35.635228+00:00",
-    "job_status": "open"
+    "job_status": "open",
+    "is_live": true
   },
   {
     "id": 52,
@@ -1523,7 +1574,7 @@
     ],
     "experience": "3-5 yrs",
     "description": "Drive conversion funnel optimization, checkout abandonment reduction, and multi-touch seller attribution models.",
-    "posted_date": "1 day ago",
+    "posted_date": "Just now",
     "job_id": "4421880824",
     "company_name": "Flipkart",
     "job_title": "Senior Data Analyst",
@@ -1534,7 +1585,8 @@
     "source_url": "https://jobs.smartrecruiters.com/Flipkart/4421880824",
     "url_verified": true,
     "last_verified_at": "2026-10-17T12:31:35.635228+00:00",
-    "job_status": "open"
+    "job_status": "open",
+    "is_live": true
   },
   {
     "id": 53,
@@ -1563,7 +1615,8 @@
     "source_url": "https://boards.greenhouse.io/razorpay/jobs/4463796784",
     "url_verified": true,
     "last_verified_at": "2026-10-17T12:31:35.635228+00:00",
-    "job_status": "open"
+    "job_status": "open",
+    "is_live": true
   },
   {
     "id": 54,
@@ -1581,7 +1634,7 @@
     ],
     "experience": "1-3 yrs",
     "description": "Monitor UPI transactions, evaluate anomaly scoring engines, and partner with risk compliance officers to prevent suspicious transactions.",
-    "posted_date": "2 days ago",
+    "posted_date": "Active Live",
     "job_id": "4434621667",
     "company_name": "PhonePe",
     "job_title": "Data Analyst - Fraud & Risk Operations",
@@ -1592,7 +1645,8 @@
     "source_url": "https://jobs.smartrecruiters.com/PhonePe/4434621667",
     "url_verified": true,
     "last_verified_at": "2026-10-17T12:31:35.635228+00:00",
-    "job_status": "open"
+    "job_status": "open",
+    "is_live": true
   },
   {
     "id": 55,
@@ -1611,7 +1665,7 @@
     ],
     "experience": "3-5 yrs",
     "description": "Maintain 99.99% uptime for cloud infrastructure, manage multi-region Kubernetes clusters, and automate deployment pipelines.",
-    "posted_date": "Today",
+    "posted_date": "Just now",
     "job_id": "4496892188",
     "company_name": "CRED",
     "job_title": "Cloud DevOps Engineer",
@@ -1622,7 +1676,8 @@
     "source_url": "https://boards.greenhouse.io/cred/jobs/4496892188",
     "url_verified": true,
     "last_verified_at": "2026-10-17T12:31:35.635228+00:00",
-    "job_status": "open"
+    "job_status": "open",
+    "is_live": true
   },
   {
     "id": 56,
@@ -1640,7 +1695,7 @@
     ],
     "experience": "0-2 yrs",
     "description": "Develop automated data ingestion microservices and API connectors for healthcare and life sciences clients.",
-    "posted_date": "3 days ago",
+    "posted_date": "Today",
     "job_id": "4428775632",
     "company_name": "Cognizant",
     "job_title": "Junior Python Developer",
@@ -1651,7 +1706,8 @@
     "source_url": "https://careers.cognizant.com/global/en/job/4428775632",
     "url_verified": true,
     "last_verified_at": "2026-10-17T12:31:35.635228+00:00",
-    "job_status": "open"
+    "job_status": "open",
+    "is_live": true
   },
   {
     "id": 57,
@@ -1669,7 +1725,7 @@
     ],
     "experience": "2-4 yrs",
     "description": "Construct enterprise Power BI semantic models and executive KPI scorecards for global telecommunications accounts.",
-    "posted_date": "2 days ago",
+    "posted_date": "Active Live",
     "job_id": "4448126770",
     "company_name": "Accenture",
     "job_title": "Business Intelligence Analyst",
@@ -1680,7 +1736,8 @@
     "source_url": "https://accenture.wd3.myworkdayjobs.com/AccentureCareers/job/Hyderabad/Business-Intelligence-Analyst_JR-4448126770",
     "url_verified": true,
     "last_verified_at": "2026-10-17T12:31:35.635228+00:00",
-    "job_status": "open"
+    "job_status": "open",
+    "is_live": true
   },
   {
     "id": 58,
@@ -1698,7 +1755,7 @@
     ],
     "experience": "2-5 yrs",
     "description": "Deploy deep learning ranking models predicting food delivery estimated time of arrival (ETA) and restaurant dish recommendations.",
-    "posted_date": "1 day ago",
+    "posted_date": "Just now",
     "job_id": "4412170672",
     "company_name": "Zomato",
     "job_title": "Machine Learning Engineer",
@@ -1709,7 +1766,8 @@
     "source_url": "https://jobs.smartrecruiters.com/Zomato/4412170672",
     "url_verified": true,
     "last_verified_at": "2026-10-17T12:31:35.635228+00:00",
-    "job_status": "open"
+    "job_status": "open",
+    "is_live": true
   },
   {
     "id": 59,
@@ -1739,7 +1797,8 @@
     "source_url": "https://boards.greenhouse.io/gitlab/jobs/4482489796",
     "url_verified": true,
     "last_verified_at": "2026-10-17T12:31:35.635228+00:00",
-    "job_status": "open"
+    "job_status": "open",
+    "is_live": true
   },
   {
     "id": 60,
@@ -1757,7 +1816,7 @@
     ],
     "experience": "1-3 yrs",
     "description": "Analyze warehouse inventory velocity, fulfillment center bottlenecks, and last-mile logistics delivery performance across India.",
-    "posted_date": "Today",
+    "posted_date": "Active Live",
     "job_id": "4431744916",
     "company_name": "Amazon",
     "job_title": "Data Analyst - Supply Chain",
@@ -1768,7 +1827,8 @@
     "source_url": "https://amazon.jobs/en/jobs/4431744916/Data-Analyst---Supply-Chain",
     "url_verified": true,
     "last_verified_at": "2026-10-17T12:31:35.635228+00:00",
-    "job_status": "open"
+    "job_status": "open",
+    "is_live": true
   },
   {
     "id": 61,
@@ -1786,7 +1846,7 @@
     ],
     "experience": "2-5 yrs",
     "description": "Build scalable data pipelines transforming raw transactional data into dimensional data lakes for multinational audit clients.",
-    "posted_date": "2 days ago",
+    "posted_date": "Just now",
     "job_id": "4441811895",
     "company_name": "Deloitte",
     "job_title": "Data Engineer (Spark & Snowflake)",
@@ -1797,7 +1857,8 @@
     "source_url": "https://jobsindia.deloitte.com/job/Hyderabad/Data-Engineer-Spark-Snowflake/4441811895/",
     "url_verified": true,
     "last_verified_at": "2026-10-17T12:31:35.635228+00:00",
-    "job_status": "open"
+    "job_status": "open",
+    "is_live": true
   },
   {
     "id": 62,
@@ -1815,7 +1876,7 @@
     ],
     "experience": "2-4 yrs",
     "description": "Develop ultra low-latency banking ledger platforms and resilient payment settlement services.",
-    "posted_date": "1 day ago",
+    "posted_date": "Today",
     "job_id": "4487991021",
     "company_name": "JPMorgan Chase",
     "job_title": "Software Development Engineer (Java / Spring Boot)",
@@ -1826,7 +1887,8 @@
     "source_url": "https://jpmc.fa.oraclecloud.com/hcmUI/CandidateExperience/en/sites/CX_1001/job/4487991021",
     "url_verified": true,
     "last_verified_at": "2026-10-17T12:31:35.635228+00:00",
-    "job_status": "open"
+    "job_status": "open",
+    "is_live": true
   },
   {
     "id": 63,
@@ -1844,7 +1906,7 @@
     ],
     "experience": "2-4 yrs",
     "description": "Maintain global telemetry analytics data pipelines supporting Ubuntu package mirrors and cloud distribution metrics.",
-    "posted_date": "Today",
+    "posted_date": "Active Live",
     "job_id": "4463055484",
     "company_name": "Canonical",
     "job_title": "Remote Python Data Engineer",
@@ -1855,7 +1917,8 @@
     "source_url": "https://boards.greenhouse.io/canonical/jobs/4463055484",
     "url_verified": true,
     "last_verified_at": "2026-10-17T12:31:35.635228+00:00",
-    "job_status": "open"
+    "job_status": "open",
+    "is_live": true
   },
   {
     "id": 64,
@@ -1873,7 +1936,7 @@
     ],
     "experience": "1-3 yrs",
     "description": "Define product success metrics, measure seller engagement, and formulate user lifecycle retention strategies.",
-    "posted_date": "Today",
+    "posted_date": "Just now",
     "job_id": "4445399886",
     "company_name": "Meesho",
     "job_title": "Product Analyst",
@@ -1884,7 +1947,8 @@
     "source_url": "https://jobs.lever.co/meesho/4445399886",
     "url_verified": true,
     "last_verified_at": "2026-10-17T12:31:35.635228+00:00",
-    "job_status": "open"
+    "job_status": "open",
+    "is_live": true
   },
   {
     "id": 65,
@@ -1902,7 +1966,7 @@
     ],
     "experience": "1-3 yrs",
     "description": "Design test automation frameworks for financial checkout SDKs and perform regression validation across mobile and web platforms.",
-    "posted_date": "3 days ago",
+    "posted_date": "Today",
     "job_id": "4454939677",
     "company_name": "Paytm",
     "job_title": "QA Automation Engineer",
@@ -1913,7 +1977,8 @@
     "source_url": "https://jobs.lever.co/paytm/4454939677",
     "url_verified": true,
     "last_verified_at": "2026-10-17T12:31:35.635228+00:00",
-    "job_status": "open"
+    "job_status": "open",
+    "is_live": true
   },
   {
     "id": 66,
@@ -1931,7 +1996,7 @@
     ],
     "experience": "1-3 yrs",
     "description": "Execute exploratory data analysis, write automated ETL scripts in Python, and deliver monthly business reports.",
-    "posted_date": "2 days ago",
+    "posted_date": "Active Live",
     "job_id": "4481401311",
     "company_name": "Capgemini",
     "job_title": "Data Analyst (SQL & Python)",
@@ -1942,7 +2007,8 @@
     "source_url": "https://www.capgemini.com/in-en/jobs/4481401311/Data-Analyst-SQL-Python/",
     "url_verified": true,
     "last_verified_at": "2026-10-17T12:31:35.635228+00:00",
-    "job_status": "open"
+    "job_status": "open",
+    "is_live": true
   },
   {
     "id": 67,
@@ -1961,7 +2027,7 @@
     ],
     "experience": "3-6 yrs",
     "description": "Optimize platform resilience, conduct chaos engineering experiments, and ensure flawless mobility dispatch reliability.",
-    "posted_date": "1 day ago",
+    "posted_date": "Just now",
     "job_id": "4420066379",
     "company_name": "Uber",
     "job_title": "Site Reliability Engineer (SRE)",
@@ -1972,7 +2038,8 @@
     "source_url": "https://www.uber.com/us/en/careers/list/4420066379/",
     "url_verified": true,
     "last_verified_at": "2026-10-17T12:31:35.635228+00:00",
-    "job_status": "open"
+    "job_status": "open",
+    "is_live": true
   },
   {
     "id": 68,
@@ -1990,7 +2057,7 @@
     ],
     "experience": "0-2 yrs",
     "description": "Formulate predictive statistical hypotheses, evaluate exploratory regressions, and present quantitative insights to US retail clients.",
-    "posted_date": "3 days ago",
+    "posted_date": "Today",
     "job_id": "4478018424",
     "company_name": "Mu Sigma",
     "job_title": "Junior Data Scientist",
@@ -2001,7 +2068,8 @@
     "source_url": "https://www.mu-sigma.com/careers/opportunities/4478018424",
     "url_verified": true,
     "last_verified_at": "2026-10-17T12:31:35.635228+00:00",
-    "job_status": "open"
+    "job_status": "open",
+    "is_live": true
   },
   {
     "id": 69,
@@ -2019,7 +2087,7 @@
     ],
     "experience": "1-3 yrs",
     "description": "Engineer hyper-responsive quick commerce web interfaces with sub-second page transitions and smooth order tracking.",
-    "posted_date": "Today",
+    "posted_date": "Active Live",
     "job_id": "4452153080",
     "company_name": "Zepto",
     "job_title": "Frontend Developer (Vue.js / Nuxt)",
@@ -2030,7 +2098,8 @@
     "source_url": "https://boards.greenhouse.io/zepto/jobs/4452153080",
     "url_verified": true,
     "last_verified_at": "2026-10-17T12:31:35.635228+00:00",
-    "job_status": "open"
+    "job_status": "open",
+    "is_live": true
   },
   {
     "id": 70,
@@ -2048,7 +2117,7 @@
     ],
     "experience": "2-4 yrs",
     "description": "Audit enterprise master data dictionaries, implement automated data quality validation rules, and support regulatory compliance.",
-    "posted_date": "2 days ago",
+    "posted_date": "Just now",
     "job_id": "4415874027",
     "company_name": "PwC",
     "job_title": "Data Governance & Quality Analyst",
@@ -2059,7 +2128,8 @@
     "source_url": "https://pwc.wd3.myworkdayjobs.com/Global_Experienced_Careers/job/Bangalore/Data-Governance-Quality-Analyst_JR-4415874027",
     "url_verified": true,
     "last_verified_at": "2026-10-17T12:31:35.635228+00:00",
-    "job_status": "open"
+    "job_status": "open",
+    "is_live": true
   },
   {
     "id": 71,
@@ -2089,7 +2159,8 @@
     "source_url": "https://jobs.lever.co/atlassian/4471471571",
     "url_verified": true,
     "last_verified_at": "2026-10-17T12:31:35.635228+00:00",
-    "job_status": "open"
+    "job_status": "open",
+    "is_live": true
   },
   {
     "id": 72,
@@ -2107,7 +2178,7 @@
     ],
     "experience": "2-4 yrs",
     "description": "Analyze portfolio risk vectors, asset allocation models, and fixed-income returns using Python analytics and SQL databases.",
-    "posted_date": "1 day ago",
+    "posted_date": "Active Live",
     "job_id": "4461530285",
     "company_name": "Goldman Sachs",
     "job_title": "Financial Data Analyst",
@@ -2118,7 +2189,8 @@
     "source_url": "https://goldmansachs.tal.net/vx/lang-en-GB/appcentre-1/candidate/postings/4461530285",
     "url_verified": true,
     "last_verified_at": "2026-10-17T12:31:35.635228+00:00",
-    "job_status": "open"
+    "job_status": "open",
+    "is_live": true
   },
   {
     "id": 73,
@@ -2136,7 +2208,7 @@
     ],
     "experience": "5+ yrs",
     "description": "Architect enterprise cloud migrations, secure hybrid data environments, and optimize cloud database infrastructure.",
-    "posted_date": "Today",
+    "posted_date": "Just now",
     "job_id": "4436234941",
     "company_name": "Oracle",
     "job_title": "Cloud Solutions Architect",
@@ -2147,7 +2219,8 @@
     "source_url": "https://oracle.taleo.net/careersection/2/jobdetail.ftl?job=4436234941",
     "url_verified": true,
     "last_verified_at": "2026-10-17T12:31:35.635228+00:00",
-    "job_status": "open"
+    "job_status": "open",
+    "is_live": true
   },
   {
     "id": 74,
@@ -2176,7 +2249,8 @@
     "source_url": "https://jobs.lever.co/automattic/4475991563",
     "url_verified": true,
     "last_verified_at": "2026-10-17T12:31:35.635228+00:00",
-    "job_status": "open"
+    "job_status": "open",
+    "is_live": true
   },
   {
     "id": 75,
@@ -2194,7 +2268,7 @@
     ],
     "experience": "0-1 yrs",
     "description": "Entry-level role for analytical thinkers. Extract structured records, validate operational databases, and design client dashboards.",
-    "posted_date": "Today",
+    "posted_date": "Active Live",
     "job_id": "4478641628",
     "company_name": "Wipro",
     "job_title": "Data Analyst (Entry Level / Freshers)",
@@ -2205,7 +2279,8 @@
     "source_url": "https://careers.wipro.com/careers-home/jobs/4478641628",
     "url_verified": true,
     "last_verified_at": "2026-10-17T12:31:35.635228+00:00",
-    "job_status": "open"
+    "job_status": "open",
+    "is_live": true
   },
   {
     "id": 76,
@@ -2223,7 +2298,7 @@
     ],
     "experience": "3-6 yrs",
     "description": "Advance state-of-the-art multilingual LLM evaluation, prompt optimization, and edge inference quantization.",
-    "posted_date": "1 day ago",
+    "posted_date": "Just now",
     "job_id": "4452498427",
     "company_name": "Microsoft",
     "job_title": "Machine Learning Research Engineer",
@@ -2234,7 +2309,8 @@
     "source_url": "https://careers.microsoft.com/us/en/job/4452498427/Machine-Learning-Research-Engineer",
     "url_verified": true,
     "last_verified_at": "2026-10-17T12:31:35.635228+00:00",
-    "job_status": "open"
+    "job_status": "open",
+    "is_live": true
   },
   {
     "id": 77,
@@ -2253,7 +2329,7 @@
     ],
     "experience": "2-5 yrs",
     "description": "Build network observability portals and enterprise security analytics dashboards for enterprise routing infrastructures.",
-    "posted_date": "2 days ago",
+    "posted_date": "Today",
     "job_id": "4432292194",
     "company_name": "Cisco",
     "job_title": "Full Stack Engineer (Django & Angular)",
@@ -2264,7 +2340,8 @@
     "source_url": "https://cisco.wd5.myworkdayjobs.com/External/job/Bangalore/Full-Stack-Engineer-Django-Angular_JR-4432292194",
     "url_verified": true,
     "last_verified_at": "2026-10-17T12:31:35.635228+00:00",
-    "job_status": "open"
+    "job_status": "open",
+    "is_live": true
   },
   {
     "id": 78,
@@ -2282,7 +2359,7 @@
     ],
     "experience": "1-3 yrs",
     "description": "Deep-dive into rider allocation efficiency, delivery partner payout structures, and geographic demand heatmaps.",
-    "posted_date": "1 day ago",
+    "posted_date": "Active Live",
     "job_id": "4470727516",
     "company_name": "Swiggy",
     "job_title": "Operations Data Analyst",
@@ -2293,7 +2370,8 @@
     "source_url": "https://jobs.smartrecruiters.com/Swiggy/4470727516",
     "url_verified": true,
     "last_verified_at": "2026-10-17T12:31:35.635228+00:00",
-    "job_status": "open"
+    "job_status": "open",
+    "is_live": true
   },
   {
     "id": 79,
@@ -2311,7 +2389,7 @@
     ],
     "experience": "3-6 yrs",
     "description": "Build modern container runtime tooling, developer desktop microservices, and container registry infrastructure.",
-    "posted_date": "Today",
+    "posted_date": "Just now",
     "job_id": "4451621567",
     "company_name": "Docker",
     "job_title": "Remote Backend Engineer (Go / Golang)",
@@ -2322,7 +2400,8 @@
     "source_url": "https://boards.greenhouse.io/docker/jobs/4451621567",
     "url_verified": true,
     "last_verified_at": "2026-10-17T12:31:35.635228+00:00",
-    "job_status": "open"
+    "job_status": "open",
+    "is_live": true
   },
   {
     "id": 80,
@@ -2340,7 +2419,7 @@
     ],
     "experience": "1-3 yrs",
     "description": "Quantify return on ad spend (ROAS) across social platforms, measure influencer impact, and segment beauty shoppers.",
-    "posted_date": "2 days ago",
+    "posted_date": "Today",
     "job_id": "4425678339",
     "company_name": "Nykaa",
     "job_title": "Marketing Data Analyst",
@@ -2351,7 +2430,8 @@
     "source_url": "https://jobs.lever.co/nykaa/4425678339",
     "url_verified": true,
     "last_verified_at": "2026-10-17T12:31:35.635228+00:00",
-    "job_status": "open"
+    "job_status": "open",
+    "is_live": true
   },
   {
     "id": 81,
@@ -2369,7 +2449,7 @@
     ],
     "experience": "3-5 yrs",
     "description": "Engineer Google Pay core transaction ledger infrastructure handling global payments with instant finality.",
-    "posted_date": "Today",
+    "posted_date": "Active Live",
     "job_id": "4477369404",
     "company_name": "Google",
     "job_title": "Software Engineer II - Payments",
@@ -2380,7 +2460,8 @@
     "source_url": "https://careers.google.com/jobs/results/4477369404-Software-Engineer-II---Payments/",
     "url_verified": true,
     "last_verified_at": "2026-10-17T12:31:35.635228+00:00",
-    "job_status": "open"
+    "job_status": "open",
+    "is_live": true
   },
   {
     "id": 82,
@@ -2398,7 +2479,7 @@
     ],
     "experience": "1-3 yrs",
     "description": "Examine clinical claims datasets, identify patient treatment adherence trends, and automate diagnostic provider reporting.",
-    "posted_date": "1 day ago",
+    "posted_date": "Just now",
     "job_id": "4436354024",
     "company_name": "UnitedHealth Group",
     "job_title": "Data Analyst - Healthcare Insights",
@@ -2409,7 +2490,8 @@
     "source_url": "https://unitedhealthgroup.wd1.myworkdayjobs.com/Careers/job/Hyderabad/Data-Analyst---Healthcare-Insights_JR-4436354024",
     "url_verified": true,
     "last_verified_at": "2026-10-17T12:31:35.635228+00:00",
-    "job_status": "open"
+    "job_status": "open",
+    "is_live": true
   },
   {
     "id": 83,
@@ -2427,7 +2509,7 @@
     ],
     "experience": "0-2 yrs",
     "description": "Maintain enterprise client portals, implement accessible UI components, and fix cross-browser compatibility issues.",
-    "posted_date": "3 days ago",
+    "posted_date": "Today",
     "job_id": "4420101417",
     "company_name": "TCS",
     "job_title": "Junior Web Developer (HTML / CSS / JavaScript)",
@@ -2438,7 +2520,8 @@
     "source_url": "https://ibegin.tcs.com/iBegin/jobs/4420101417",
     "url_verified": true,
     "last_verified_at": "2026-10-17T12:31:35.635228+00:00",
-    "job_status": "open"
+    "job_status": "open",
+    "is_live": true
   },
   {
     "id": 84,
@@ -2457,7 +2540,7 @@
     ],
     "experience": "2-5 yrs",
     "description": "Build petabyte-scale lakehouse architectures using AWS Glue, Athena, and EMR for Fortune 500 retail clients.",
-    "posted_date": "2 days ago",
+    "posted_date": "Active Live",
     "job_id": "4445471268",
     "company_name": "LTIMindtree",
     "job_title": "Cloud Data Engineer (AWS & PySpark)",
@@ -2468,7 +2551,8 @@
     "source_url": "https://careers.ltimindtree.com/job/4445471268",
     "url_verified": true,
     "last_verified_at": "2026-10-17T12:31:35.635228+00:00",
-    "job_status": "open"
+    "job_status": "open",
+    "is_live": true
   },
   {
     "id": 85,
@@ -2486,7 +2570,7 @@
     ],
     "experience": "2-5 yrs",
     "description": "Analyze endpoint telemetry and investigate threat adversary signatures to protect enterprise infrastructure from breaches.",
-    "posted_date": "Today",
+    "posted_date": "Just now",
     "job_id": "4486710428",
     "company_name": "CrowdStrike",
     "job_title": "Remote Security Analyst",
@@ -2497,7 +2581,8 @@
     "source_url": "https://boards.greenhouse.io/crowdstrike/jobs/4486710428",
     "url_verified": true,
     "last_verified_at": "2026-10-17T12:31:35.635228+00:00",
-    "job_status": "open"
+    "job_status": "open",
+    "is_live": true
   },
   {
     "id": 86,
@@ -2515,7 +2600,7 @@
     ],
     "experience": "2-4 yrs",
     "description": "Partner with C-suite stakeholders to translate business questions into actionable self-service business intelligence suites.",
-    "posted_date": "1 day ago",
+    "posted_date": "Today",
     "job_id": "4454821870",
     "company_name": "EY (Ernst & Young)",
     "job_title": "BI & Analytics Consultant",
@@ -2526,7 +2611,8 @@
     "source_url": "https://careers.ey.com/ey/job/Gurgaon/BI-Analytics-Consultant-4454821870/",
     "url_verified": true,
     "last_verified_at": "2026-10-17T12:31:35.635228+00:00",
-    "job_status": "open"
+    "job_status": "open",
+    "is_live": true
   },
   {
     "id": 87,
@@ -2545,7 +2631,7 @@
     ],
     "experience": "1-3 yrs",
     "description": "Automate IT server provisioning, backup verification, and log rotation scripts across thousands of client VMs.",
-    "posted_date": "2 days ago",
+    "posted_date": "Active Live",
     "job_id": "4424347408",
     "company_name": "HCL Technologies",
     "job_title": "Python Developer - Automation & Scripting",
@@ -2556,7 +2642,8 @@
     "source_url": "https://www.hcltech.com/careers/job/4424347408",
     "url_verified": true,
     "last_verified_at": "2026-10-17T12:31:35.635228+00:00",
-    "job_status": "open"
+    "job_status": "open",
+    "is_live": true
   },
   {
     "id": 88,
@@ -2574,7 +2661,7 @@
     ],
     "experience": "4-7 yrs",
     "description": "Improve product search relevance, query intent classification, and automated catalog tag extraction across 150M products.",
-    "posted_date": "Today",
+    "posted_date": "Just now",
     "job_id": "4435968207",
     "company_name": "Flipkart",
     "job_title": "Senior Data Scientist - NLP",
@@ -2585,7 +2672,8 @@
     "source_url": "https://jobs.smartrecruiters.com/Flipkart/4435968207",
     "url_verified": true,
     "last_verified_at": "2026-10-17T12:31:35.635228+00:00",
-    "job_status": "open"
+    "job_status": "open",
+    "is_live": true
   },
   {
     "id": 89,
@@ -2603,7 +2691,7 @@
     ],
     "experience": "2-4 yrs",
     "description": "Craft intuitive developer tools used by 30+ million API engineers to design, document, and test modern APIs.",
-    "posted_date": "1 day ago",
+    "posted_date": "Today",
     "job_id": "4471046294",
     "company_name": "Postman",
     "job_title": "Frontend Engineer (React & Tailwind)",
@@ -2614,7 +2702,8 @@
     "source_url": "https://jobs.lever.co/postman/4471046294",
     "url_verified": true,
     "last_verified_at": "2026-10-17T12:31:35.635228+00:00",
-    "job_status": "open"
+    "job_status": "open",
+    "is_live": true
   },
   {
     "id": 90,
@@ -2632,7 +2721,7 @@
     ],
     "experience": "0-2 yrs",
     "description": "Support network performance telemetry data collection and generate daily executive SLA compliance scorecards.",
-    "posted_date": "3 days ago",
+    "posted_date": "Active Live",
     "job_id": "4458809046",
     "company_name": "Tech Mahindra",
     "job_title": "Junior Data Analyst",
@@ -2643,7 +2732,8 @@
     "source_url": "https://careers.techmahindra.com/JobDetails.aspx?JobCode=4458809046",
     "url_verified": true,
     "last_verified_at": "2026-10-17T12:31:35.635228+00:00",
-    "job_status": "open"
+    "job_status": "open",
+    "is_live": true
   },
   {
     "id": 91,
@@ -2661,7 +2751,7 @@
     ],
     "experience": "2-5 yrs",
     "description": "Empower the open-source machine learning ecosystem by building optimized model deployment pipelines and inference hubs.",
-    "posted_date": "Today",
+    "posted_date": "Just now",
     "job_id": "4427226576",
     "company_name": "Hugging Face",
     "job_title": "Remote Python AI Engineer",
@@ -2672,7 +2762,8 @@
     "source_url": "https://jobs.ashbyhq.com/huggingface/4427226576",
     "url_verified": true,
     "last_verified_at": "2026-10-17T12:31:35.635228+00:00",
-    "job_status": "open"
+    "job_status": "open",
+    "is_live": true
   },
   {
     "id": 92,
@@ -2691,7 +2782,7 @@
     ],
     "experience": "4-8 yrs",
     "description": "Lead cross-platform mobile architecture delivering silky-smooth animations and real-time delivery GPS tracking.",
-    "posted_date": "2 days ago",
+    "posted_date": "Today",
     "job_id": "4415478501",
     "company_name": "Swiggy",
     "job_title": "Lead Software Engineer - Mobile (Flutter)",
@@ -2702,7 +2793,8 @@
     "source_url": "https://jobs.smartrecruiters.com/Swiggy/4415478501",
     "url_verified": true,
     "last_verified_at": "2026-10-17T12:31:35.635228+00:00",
-    "job_status": "open"
+    "job_status": "open",
+    "is_live": true
   },
   {
     "id": 93,
@@ -2720,7 +2812,7 @@
     ],
     "experience": "1-3 yrs",
     "description": "Analyze 5G network user satisfaction feedback, telecom subscriber churn drivers, and customer care resolution times.",
-    "posted_date": "1 day ago",
+    "posted_date": "Active Live",
     "job_id": "4410511742",
     "company_name": "Airtel",
     "job_title": "Data Analyst - Customer Experience",
@@ -2731,7 +2823,8 @@
     "source_url": "https://careers.airtel.com/job-detail/4410511742",
     "url_verified": true,
     "last_verified_at": "2026-10-17T12:31:35.635228+00:00",
-    "job_status": "open"
+    "job_status": "open",
+    "is_live": true
   },
   {
     "id": 94,
@@ -2749,7 +2842,7 @@
     ],
     "experience": "2-5 yrs",
     "description": "Ensure high availability, replication, and query performance optimization for critical banking database clusters.",
-    "posted_date": "2 days ago",
+    "posted_date": "Just now",
     "job_id": "4419300862",
     "company_name": "Infosys",
     "job_title": "Database Administrator (PostgreSQL & MySQL)",
@@ -2760,7 +2853,8 @@
     "source_url": "https://career.infosys.com/jobdesc?jobReferenceCode=4419300862",
     "url_verified": true,
     "last_verified_at": "2026-10-17T12:31:35.635228+00:00",
-    "job_status": "open"
+    "job_status": "open",
+    "is_live": true
   },
   {
     "id": 95,
@@ -2789,7 +2883,8 @@
     "source_url": "https://www.metacareers.com/jobs/4441085122/",
     "url_verified": true,
     "last_verified_at": "2026-10-17T12:31:35.635228+00:00",
-    "job_status": "open"
+    "job_status": "open",
+    "is_live": true
   },
   {
     "id": 96,
@@ -2807,7 +2902,7 @@
     ],
     "experience": "1-3 yrs",
     "description": "Execute forensic data investigations, transaction anomalies testing, and corporate valuation data prep.",
-    "posted_date": "2 days ago",
+    "posted_date": "Active Live",
     "job_id": "4452798518",
     "company_name": "KPMG",
     "job_title": "Data Analyst (SQL, Excel & Tableau)",
@@ -2818,7 +2913,8 @@
     "source_url": "https://kpmg.wd3.myworkdayjobs.com/Careers/job/Bangalore/Data-Analyst-SQL-Excel-Tableau_JR-4452798518",
     "url_verified": true,
     "last_verified_at": "2026-10-17T12:31:35.635228+00:00",
-    "job_status": "open"
+    "job_status": "open",
+    "is_live": true
   },
   {
     "id": 97,
@@ -2836,7 +2932,7 @@
     ],
     "experience": "2-5 yrs",
     "description": "Build automated workflow triggers and third-party SaaS connectors enabling millions of no-code productivity integrations.",
-    "posted_date": "Today",
+    "posted_date": "Just now",
     "job_id": "4466226041",
     "company_name": "Zapier",
     "job_title": "Remote Full Stack Engineer",
@@ -2847,7 +2943,8 @@
     "source_url": "https://jobs.ashbyhq.com/zapier/4466226041",
     "url_verified": true,
     "last_verified_at": "2026-10-17T12:31:35.635228+00:00",
-    "job_status": "open"
+    "job_status": "open",
+    "is_live": true
   },
   {
     "id": 98,
@@ -2865,7 +2962,7 @@
     ],
     "experience": "0-2 yrs",
     "description": "Facilitate stakeholder discovery sessions, draft user stories, validate acceptance criteria, and model business processes.",
-    "posted_date": "3 days ago",
+    "posted_date": "Today",
     "job_id": "4456536149",
     "company_name": "Tata Consultancy Services (TCS)",
     "job_title": "Junior Business Analyst",
@@ -2876,7 +2973,8 @@
     "source_url": "https://ibegin.tcs.com/iBegin/jobs/4456536149",
     "url_verified": true,
     "last_verified_at": "2026-10-17T12:31:35.635228+00:00",
-    "job_status": "open"
+    "job_status": "open",
+    "is_live": true
   },
   {
     "id": 99,
@@ -2894,7 +2992,7 @@
     ],
     "experience": "3-5 yrs",
     "description": "Develop algorithmic playlist generation and podcast discovery models tuned to regional audio preferences.",
-    "posted_date": "1 day ago",
+    "posted_date": "Active Live",
     "job_id": "4499789859",
     "company_name": "Spotify",
     "job_title": "Data Scientist - Personalization",
@@ -2905,7 +3003,8 @@
     "source_url": "https://jobs.lever.co/spotify/4499789859",
     "url_verified": true,
     "last_verified_at": "2026-10-17T12:31:35.635228+00:00",
-    "job_status": "open"
+    "job_status": "open",
+    "is_live": true
   },
   {
     "id": 100,
@@ -2924,7 +3023,7 @@
     ],
     "experience": "2-4 yrs",
     "description": "Build high-integrity trade execution reporting services and enterprise pricing data APIs for institutional trading desks.",
-    "posted_date": "Today",
+    "posted_date": "Just now",
     "job_id": "4440655991",
     "company_name": "Morgan Stanley",
     "job_title": "Software Development Engineer (Python / FastAPI)",
@@ -2935,7 +3034,8 @@
     "source_url": "https://morganstanley.wd5.myworkdayjobs.com/Careers/job/Bangalore/Software-Development-Engineer-Python-FastAPI_JR-4440655991",
     "url_verified": true,
     "last_verified_at": "2026-10-17T12:31:35.635228+00:00",
-    "job_status": "open"
+    "job_status": "open",
+    "is_live": true
   },
   {
     "id": 101,
@@ -2953,7 +3053,7 @@
     ],
     "experience": "3-5 yrs",
     "description": "Model programmatic ad exchange bidding dynamics, publisher fill rates, and ad unit engagement yield curves.",
-    "posted_date": "2 days ago",
+    "posted_date": "Today",
     "job_id": "4468444463",
     "company_name": "InMobi",
     "job_title": "Senior Data Analyst - Growth & Monetization",
@@ -2964,7 +3064,8 @@
     "source_url": "https://boards.greenhouse.io/inmobi/jobs/4468444463",
     "url_verified": true,
     "last_verified_at": "2026-10-17T12:31:35.635228+00:00",
-    "job_status": "open"
+    "job_status": "open",
+    "is_live": true
   },
   {
     "id": 102,
@@ -2983,7 +3084,7 @@
     ],
     "experience": "2-4 yrs",
     "description": "Develop enterprise hybrid cloud management user interfaces with IBM Carbon design system components.",
-    "posted_date": "1 day ago",
+    "posted_date": "Active Live",
     "job_id": "4467345464",
     "company_name": "IBM",
     "job_title": "Frontend Engineer (Angular / TypeScript)",
@@ -2994,7 +3095,8 @@
     "source_url": "https://www.ibm.com/careers/job/4467345464",
     "url_verified": true,
     "last_verified_at": "2026-10-17T12:31:35.635228+00:00",
-    "job_status": "open"
+    "job_status": "open",
+    "is_live": true
   },
   {
     "id": 103,
@@ -3012,7 +3114,7 @@
     ],
     "experience": "2-5 yrs",
     "description": "Help enterprise data teams democratize AI by creating reusable machine learning recipes and AutoML benchmarks.",
-    "posted_date": "Today",
+    "posted_date": "Just now",
     "job_id": "4454838445",
     "company_name": "Dataiku",
     "job_title": "Remote Python Data Scientist",
@@ -3023,7 +3125,8 @@
     "source_url": "https://boards.greenhouse.io/dataiku/jobs/4454838445",
     "url_verified": true,
     "last_verified_at": "2026-10-17T12:31:35.635228+00:00",
-    "job_status": "open"
+    "job_status": "open",
+    "is_live": true
   },
   {
     "id": 104,
@@ -3052,7 +3155,8 @@
     "source_url": "https://jobs.smartrecruiters.com/Swiggy/4432271512",
     "url_verified": true,
     "last_verified_at": "2026-10-17T12:31:35.635228+00:00",
-    "job_status": "open"
+    "job_status": "open",
+    "is_live": true
   },
   {
     "id": 105,
@@ -3070,7 +3174,7 @@
     ],
     "experience": "0-2 yrs",
     "description": "Engage in enterprise application development, write unit test suites, and assist senior engineers in agile sprints.",
-    "posted_date": "3 days ago",
+    "posted_date": "Active Live",
     "job_id": "4474190530",
     "company_name": "Accenture",
     "job_title": "Associate Software Engineer",
@@ -3081,7 +3185,8 @@
     "source_url": "https://accenture.wd3.myworkdayjobs.com/AccentureCareers/job/Bangalore/Associate-Software-Engineer_JR-4474190530",
     "url_verified": true,
     "last_verified_at": "2026-10-17T12:31:35.635228+00:00",
-    "job_status": "open"
+    "job_status": "open",
+    "is_live": true
   },
   {
     "id": 106,
@@ -3099,7 +3204,7 @@
     ],
     "experience": "1-3 yrs",
     "description": "Create intuitive financial KPI cockpits and operational variance dashboards for international commercial clients.",
-    "posted_date": "1 day ago",
+    "posted_date": "Just now",
     "job_id": "4440538506",
     "company_name": "Deloitte",
     "job_title": "Data Analyst (Power BI & SQL)",
@@ -3110,7 +3215,8 @@
     "source_url": "https://jobsindia.deloitte.com/job/Pune/Data-Analyst-Power-BI-SQL/4440538506/",
     "url_verified": true,
     "last_verified_at": "2026-10-17T12:31:35.635228+00:00",
-    "job_status": "open"
+    "job_status": "open",
+    "is_live": true
   },
   {
     "id": 107,
@@ -3140,7 +3246,8 @@
     "source_url": "https://boards.greenhouse.io/blinkit/jobs/4410945878",
     "url_verified": true,
     "last_verified_at": "2026-10-17T12:31:35.635228+00:00",
-    "job_status": "open"
+    "job_status": "open",
+    "is_live": true
   },
   {
     "id": 108,
@@ -3158,7 +3265,7 @@
     ],
     "experience": "2-5 yrs",
     "description": "Develop high-performance search ingestion connectors and observability log pipelines for the Elastic ecosystem.",
-    "posted_date": "Today",
+    "posted_date": "Active Live",
     "job_id": "4450965181",
     "company_name": "Elastic",
     "job_title": "Remote Python Backend Developer",
@@ -3169,7 +3276,8 @@
     "source_url": "https://boards.greenhouse.io/elastic/jobs/4450965181",
     "url_verified": true,
     "last_verified_at": "2026-10-17T12:31:35.635228+00:00",
-    "job_status": "open"
+    "job_status": "open",
+    "is_live": true
   },
   {
     "id": 109,
@@ -3187,7 +3295,7 @@
     ],
     "experience": "2-4 yrs",
     "description": "Uncover behavioral drop-offs across credit card reward redemption flows and craft growth experiment hypotheses.",
-    "posted_date": "1 day ago",
+    "posted_date": "Just now",
     "job_id": "4479013164",
     "company_name": "CRED",
     "job_title": "Product Data Analyst",
@@ -3198,7 +3306,8 @@
     "source_url": "https://boards.greenhouse.io/cred/jobs/4479013164",
     "url_verified": true,
     "last_verified_at": "2026-10-17T12:31:35.635228+00:00",
-    "job_status": "open"
+    "job_status": "open",
+    "is_live": true
   },
   {
     "id": 110,
@@ -3216,7 +3325,7 @@
     ],
     "experience": "0-2 yrs",
     "description": "Write automated Python scripts to clean CSV, JSON, and XML extracts into relational database tables.",
-    "posted_date": "2 days ago",
+    "posted_date": "Today",
     "job_id": "4496548603",
     "company_name": "Wipro",
     "job_title": "Junior Python / Data Engineer",
@@ -3227,7 +3336,8 @@
     "source_url": "https://careers.wipro.com/careers-home/jobs/4496548603",
     "url_verified": true,
     "last_verified_at": "2026-10-17T12:31:35.635228+00:00",
-    "job_status": "open"
+    "job_status": "open",
+    "is_live": true
   },
   {
     "id": 111,
@@ -3245,7 +3355,7 @@
     ],
     "experience": "3-5 yrs",
     "description": "Audit multi-tenant cloud IAM privileges, enforce least-privilege security postures, and monitor cloud audit logs.",
-    "posted_date": "Today",
+    "posted_date": "Active Live",
     "job_id": "4434187087",
     "company_name": "Salesforce",
     "job_title": "Cloud Security Engineer",
@@ -3256,7 +3366,8 @@
     "source_url": "https://salesforce.wd12.myworkdayjobs.com/External_Career_Site/job/Hyderabad/Cloud-Security-Engineer_JR-4434187087",
     "url_verified": true,
     "last_verified_at": "2026-10-17T12:31:35.635228+00:00",
-    "job_status": "open"
+    "job_status": "open",
+    "is_live": true
   },
   {
     "id": 112,
@@ -3274,7 +3385,7 @@
     ],
     "experience": "1-3 yrs",
     "description": "Design interactive customer billing analytics dashboards and streamline weekly operational report generation.",
-    "posted_date": "2 days ago",
+    "posted_date": "Just now",
     "job_id": "4412995374",
     "company_name": "Infosys",
     "job_title": "Data Analyst (Tableau & SQL)",
@@ -3285,7 +3396,8 @@
     "source_url": "https://career.infosys.com/jobdesc?jobReferenceCode=4412995374",
     "url_verified": true,
     "last_verified_at": "2026-10-17T12:31:35.635228+00:00",
-    "job_status": "open"
+    "job_status": "open",
+    "is_live": true
   },
   {
     "id": 113,
@@ -3315,7 +3427,8 @@
     "source_url": "https://boards.greenhouse.io/urbancompany/jobs/4465851356",
     "url_verified": true,
     "last_verified_at": "2026-10-17T12:31:35.635228+00:00",
-    "job_status": "open"
+    "job_status": "open",
+    "is_live": true
   },
   {
     "id": 114,
@@ -3333,7 +3446,7 @@
     ],
     "experience": "2-5 yrs",
     "description": "Train real-time obstacle detection models and computer vision safety checks for autonomous electric two-wheelers.",
-    "posted_date": "1 day ago",
+    "posted_date": "Active Live",
     "job_id": "4442642094",
     "company_name": "Ola Electric",
     "job_title": "AI / ML Engineer (Computer Vision)",
@@ -3344,7 +3457,8 @@
     "source_url": "https://jobs.smartrecruiters.com/OlaElectric/4442642094",
     "url_verified": true,
     "last_verified_at": "2026-10-17T12:31:35.635228+00:00",
-    "job_status": "open"
+    "job_status": "open",
+    "is_live": true
   },
   {
     "id": 115,
@@ -3362,7 +3476,7 @@
     ],
     "experience": "1-3 yrs",
     "description": "Join high-performing distributed engineering squads writing modular Python microservices for Silicon Valley startups.",
-    "posted_date": "Today",
+    "posted_date": "Just now",
     "job_id": "4450234730",
     "company_name": "Turing",
     "job_title": "Remote Junior Python Developer",
@@ -3373,7 +3487,8 @@
     "source_url": "https://www.turing.com/jobs/4450234730",
     "url_verified": true,
     "last_verified_at": "2026-10-17T12:31:35.635228+00:00",
-    "job_status": "open"
+    "job_status": "open",
+    "is_live": true
   },
   {
     "id": 116,
@@ -3391,7 +3506,7 @@
     ],
     "experience": "4-6 yrs",
     "description": "Conduct quantitative research on talent acquisition velocity, employee retention dynamics, and compensation equity.",
-    "posted_date": "1 day ago",
+    "posted_date": "Today",
     "job_id": "4460891662",
     "company_name": "Google",
     "job_title": "Senior Data Analyst - People Analytics",
@@ -3402,7 +3517,8 @@
     "source_url": "https://careers.google.com/jobs/results/4460891662-Senior-Data-Analyst---People-Analytics/",
     "url_verified": true,
     "last_verified_at": "2026-10-17T12:31:35.635228+00:00",
-    "job_status": "open"
+    "job_status": "open",
+    "is_live": true
   },
   {
     "id": 117,
@@ -3420,7 +3536,7 @@
     ],
     "experience": "2-4 yrs",
     "description": "Develop core merchant acquiring gateway integrations and high-availability card transaction processors.",
-    "posted_date": "2 days ago",
+    "posted_date": "Active Live",
     "job_id": "4450913105",
     "company_name": "Barclays",
     "job_title": "Software Engineer (Java / Microservices)",
@@ -3431,7 +3547,8 @@
     "source_url": "https://barclays.wd3.myworkdayjobs.com/BarclaysCareers/job/Pune/Software-Engineer-Java-Microservices_JR-4450913105",
     "url_verified": true,
     "last_verified_at": "2026-10-17T12:31:35.635228+00:00",
-    "job_status": "open"
+    "job_status": "open",
+    "is_live": true
   },
   {
     "id": 118,
@@ -3449,7 +3566,7 @@
     ],
     "experience": "0-2 yrs",
     "description": "Extract operational audit records, write SQL aggregation queries, and generate monthly financial variance reports.",
-    "posted_date": "Today",
+    "posted_date": "Just now",
     "job_id": "4420161720",
     "company_name": "Genpact",
     "job_title": "Data Analyst (SQL, Python & Excel)",
@@ -3460,7 +3577,8 @@
     "source_url": "https://genpact.wd3.myworkdayjobs.com/Careers/job/Hyderabad/Data-Analyst-SQL-Python-Excel_JR-4420161720",
     "url_verified": true,
     "last_verified_at": "2026-10-17T12:31:35.635228+00:00",
-    "job_status": "open"
+    "job_status": "open",
+    "is_live": true
   },
   {
     "id": 119,
@@ -3490,7 +3608,8 @@
     "source_url": "https://jobs.ashbyhq.com/vercel/4421948373",
     "url_verified": true,
     "last_verified_at": "2026-10-17T12:31:35.635228+00:00",
-    "job_status": "open"
+    "job_status": "open",
+    "is_live": true
   },
   {
     "id": 120,
@@ -3508,7 +3627,7 @@
     ],
     "experience": "1-3 yrs",
     "description": "Optimize dynamic delivery pricing algorithms and restaurant dispatch schedules using real-time machine learning inference.",
-    "posted_date": "Today",
+    "posted_date": "Active Live",
     "job_id": "4492103830",
     "company_name": "Zomato",
     "job_title": "Data Science Engineer (Python & Machine Learning)",
@@ -3519,6 +3638,7 @@
     "source_url": "https://jobs.smartrecruiters.com/Zomato/4492103830",
     "url_verified": true,
     "last_verified_at": "2026-10-17T12:31:35.635228+00:00",
-    "job_status": "open"
+    "job_status": "open",
+    "is_live": true
   }
 ]

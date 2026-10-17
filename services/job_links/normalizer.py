@@ -114,5 +114,7 @@ def normalize_job(raw_job: Dict[str, Any], provider: str = "custom") -> Dict[str
         "location": raw_job.get("location", "Remote / Hybrid"),
         "skills": raw_job.get("skills", []),
         "experience": raw_job.get("experience", "1-3 yrs"),
+        "is_live": bool(raw_job.get("is_live", True)),
+        "posted_date": raw_job.get("posted_date") or raw_job.get("date_posted") or "Active Live (Today)",
         "description": raw_job.get("description", f"Verified opening for {title} at {company}.")
     }

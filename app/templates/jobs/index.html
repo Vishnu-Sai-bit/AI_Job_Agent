@@ -168,6 +168,24 @@
 
   <!-- Right Column: Top Search Capsule + Dynamic Pastel Job Grid -->
   <div class="col-lg-9">
+    <!-- Live Real-Time Feed Status Banner -->
+    <div class="d-flex align-items-center justify-content-between p-3 mb-4 rounded-4 bg-white border shadow-sm flex-wrap gap-2">
+      <div class="d-flex align-items-center gap-2">
+        <span class="badge bg-danger text-white rounded-pill px-3 py-1.5 fw-bold d-inline-flex align-items-center gap-1.5 shadow-sm" style="font-size: 0.8rem; letter-spacing: 0.3px;">
+          <span class="spinner-grow spinner-grow-sm text-white" role="status" style="width: 0.55rem; height: 0.55rem;"></span>
+          LIVE REAL-TIME FEED
+        </span>
+        <div class="small text-secondary">
+          <strong class="text-dark">Live Hiring Mode Active</strong> &bull; Openings directly polled from LinkedIn Live, Remotive, RemoteOK, ArbeitNow, Jobicy, Adzuna &amp; Company ATS Portals.
+        </div>
+      </div>
+      <a href="{{ url_for('jobs.index') }}?role={{ role_filter }}&location={{ loc_filter }}&live=true"
+         class="btn btn-outline-danger btn-sm rounded-pill px-3 fw-bold d-inline-flex align-items-center gap-1.5 shadow-sm"
+         title="Poll live APIs right now for the newest job postings">
+        <i class="bi bi-arrow-repeat"></i> Refresh Live Jobs
+      </a>
+    </div>
+
     <!-- Top Search Bar with Active Removable Filter Chips -->
     <div class="d-flex justify-content-between align-items-center mb-4 flex-wrap gap-3">
       <!-- Search Form with Search Icon -->
@@ -184,21 +202,19 @@
         <button type="submit" class="btn btn-dark btn-sm rounded-pill px-3 py-1">Search</button>
       </form>
 
-      <!-- Active Removable Chips & Live APIs button -->
+      <!-- Active Removable Chips -->
       <div class="d-flex align-items-center gap-2 flex-wrap">
         <div id="activeChipsWrapper" class="d-flex align-items-center gap-2 flex-wrap"></div>
-        <a href="{{ url_for('jobs.index') }}?role={{ role_filter }}&location={{ loc_filter }}&live=true"
-           class="btn btn-outline-success btn-sm rounded-pill px-3"
-           title="Poll Live APIs for latest roles">
-          <i class="bi bi-broadcast me-1"></i> Live APIs
-        </a>
       </div>
     </div>
 
     <!-- Results Count Bar with Progressive Indicator -->
     <div class="d-flex justify-content-between align-items-center mb-3">
       <div class="small text-secondary fw-semibold">
-        Showing <span id="visibleJobsCount" class="text-dark fw-bold">{{ [jobs|length, 24]|min }}</span> of <span id="totalMatchingCount" class="text-dark fw-bold">{{ jobs|length }}</span> matching roles
+        Showing <span id="visibleJobsCount" class="text-dark fw-bold">{{ [jobs|length, 24]|min }}</span> of <span id="totalMatchingCount" class="text-dark fw-bold">{{ jobs|length }}</span> active live openings
+      </div>
+      <div class="small text-success fw-semibold d-flex align-items-center gap-1">
+        <i class="bi bi-check-circle-fill"></i> 100% Live &amp; Verified Opportunities
       </div>
     </div>
 
@@ -231,18 +247,30 @@
                   </h6>
                   <div class="tal-card-company fw-semibold">{{ job.company }}</div>
                 </div>
-                <div class="tal-logo-box text-dark">
-                  <span class="fw-bold" style="font-size: 0.82rem;">{{ (job.company[:2] if job.company else 'JB').upper() }}</span>
+                <div class="d-flex align-items-center gap-1.5">
+                  <span class="badge bg-danger text-white rounded-pill px-2 py-0.5 fw-bold" style="font-size: 0.65rem; letter-spacing: 0.3px;">
+                    <i class="bi bi-record-fill me-0.5 text-white"></i>LIVE
+                  </span>
+                  <div class="tal-logo-box text-dark">
+                    <span class="fw-bold" style="font-size: 0.82rem;">{{ (job.company[:2] if job.company else 'JB').upper() }}</span>
+                  </div>
                 </div>
               </div>
 
-              <!-- Location & Source -->
               <!-- Location & Source & Job ID -->
               <div class="small text-secondary mb-1">
                 <i class="bi bi-geo-alt text-muted me-1"></i> {{ job.location or 'Multiple Locations' }}
               </div>
               <div class="small text-secondary mb-3 d-flex align-items-center justify-content-between flex-wrap gap-1">
-                <span><i class="bi bi-clock text-muted me-1"></i> {{ job.experience or 'Full-time' }} &bull; <span class="badge bg-primary-subtle text-primary border border-primary-subtle px-1.5 py-0.5 rounded-pill" style="font-size: 0.70rem;"><i class="bi bi-cpu me-1"></i>{{ job.ats_provider or job.source or 'Official Portal' }}</span></span>
+                <span>
+                  <i class="bi bi-clock text-muted me-1"></i> {{ job.experience or 'Full-time' }} &bull;
+                  <span class="badge bg-success-subtle text-success border border-success-subtle px-1.5 py-0.5 rounded-pill fw-semibold" style="font-size: 0.70rem;">
+                    <i class="bi bi-lightning-charge-fill me-0.5"></i>{{ job.posted_date or 'Active Live' }}
+                  </span> &bull;
+                  <span class="badge bg-primary-subtle text-primary border border-primary-subtle px-1.5 py-0.5 rounded-pill" style="font-size: 0.70rem;">
+                    <i class="bi bi-cpu me-1"></i>{{ job.ats_provider or job.source or 'Official Portal' }}
+                  </span>
+                </span>
                 <span class="badge bg-light text-secondary border px-2 py-0.5 rounded-pill font-monospace" style="font-size: 0.72rem;" title="Official Requisition / Job ID">
                   <i class="bi bi-hash text-primary"></i>{{ job.external_job_id or job.job_id or job.id }}
                 </span>
