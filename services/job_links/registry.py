@@ -37,8 +37,10 @@ ATS_DOMAIN_PATTERNS = {
     "jobicy.com": "Jobicy",
     "arbeitnow.com": "ArbeitNow",
     "remoteok.com": "RemoteOK",
-    "adzuna.in": "Adzuna",
-    "adzuna.com": "Adzuna",
+    "job-boards.greenhouse.io": "Greenhouse",
+    "oraclecloud.com": "Oracle Taleo",
+    "metacareers.com": "Meta Careers",
+    "uber.com": "Uber Careers",
     "amazon.jobs": "Amazon Jobs",
     "careers.google.com": "Google Careers",
     "careers.microsoft.com": "Microsoft Careers"
@@ -65,17 +67,36 @@ def resolve_verified_apply_link(job: Dict[str, Any]) -> Dict[str, Any]:
     using the documented fallback hierarchy:
     1. Verified direct application URL (apply_url)
     2. Verified job-detail URL for exact position (official_job_url)
-    3. If neither is available, disable / flag unverified rather than redirecting to an unrelated page.
+    3. Aggregator link unwrapping (bypasses Adzuna / intermediate redirects to discover true employer ATS)
+    4. Safe fallback: If destination is only an aggregator landing page, avoid redirecting.
     """
+    from services.job_links.normalizer import is_aggregator_url
+    from services.job_links.link_unwrapper import unwrap_aggregator_link
+    from services.job_links.company_registry import get_company_board_token
+
     # Normalize if needed
     ats_provider = job.get("ats_provider") or detect_ats_provider(job.get("official_job_url") or job.get("url"))
     normalized = normalize_job(job, provider=ats_provider)
     
     apply_url = (normalized.get("apply_url") or "").strip()
     official_job_url = (normalized.get("official_job_url") or normalized.get("url") or "").strip()
-    
+    company_name = normalized.get("company_name") or normalized.get("company") or ""
+
+    # Unwrap aggregator redirects (e.g., Adzuna tracking links)
+    if is_aggregator_url(apply_url):
+        unwrapped = unwrap_aggregator_link(apply_url)
+        if unwrapped and not is_aggregator_url(unwrapped):
+            apply_url = unwrapped
+            ats_provider = detect_ats_provider(apply_url)
+
+    if is_aggregator_url(official_job_url):
+        unwrapped_official = unwrap_aggregator_link(official_job_url)
+        if unwrapped_official and not is_aggregator_url(unwrapped_official):
+            official_job_url = unwrapped_official
+            ats_provider = detect_ats_provider(official_job_url)
+
     # Check 1: Verified direct application URL
-    if apply_url and basic_url_check(apply_url) and verify_ats_domain(apply_url):
+    if apply_url and basic_url_check(apply_url) and verify_ats_domain(apply_url) and not is_aggregator_url(apply_url):
         return {
             "destination_url": apply_url,
             "type": "direct_application",
@@ -87,7 +108,7 @@ def resolve_verified_apply_link(job: Dict[str, Any]) -> Dict[str, Any]:
         }
 
     # Check 2: Verified job-detail URL for the exact position
-    if official_job_url and basic_url_check(official_job_url) and verify_ats_domain(official_job_url):
+    if official_job_url and basic_url_check(official_job_url) and verify_ats_domain(official_job_url) and not is_aggregator_url(official_job_url):
         return {
             "destination_url": official_job_url,
             "type": "job_detail",
@@ -98,8 +119,33 @@ def resolve_verified_apply_link(job: Dict[str, Any]) -> Dict[str, Any]:
             "message": "Opening exact job description page on official recruitment site."
         }
 
-    # Check 3: Valid general URL
-    if basic_url_check(official_job_url):
+    # Check 3: Check official company board registry
+    comp_info = get_company_board_token(company_name)
+    if comp_info:
+        token = comp_info["identifier"]
+        prov = comp_info["ats_provider"]
+        if prov == "Greenhouse":
+            target = f"https://boards.greenhouse.io/{token}"
+        elif prov == "Lever":
+            target = f"https://jobs.lever.co/{token}"
+        elif prov == "Ashby":
+            target = f"https://jobs.ashbyhq.com/{token}"
+        else:
+            target = None
+
+        if target:
+            return {
+                "destination_url": target,
+                "type": "official_ats_board",
+                "ats_provider": prov,
+                "external_job_id": normalized.get("external_job_id"),
+                "url_verified": True,
+                "can_apply": True,
+                "message": f"Opening official {prov} career board for {company_name}."
+            }
+
+    # Check 4: Valid non-aggregator URL
+    if basic_url_check(official_job_url) and not is_aggregator_url(official_job_url):
         return {
             "destination_url": official_job_url,
             "type": "official_posting",
@@ -107,10 +153,10 @@ def resolve_verified_apply_link(job: Dict[str, Any]) -> Dict[str, Any]:
             "external_job_id": normalized.get("external_job_id"),
             "url_verified": True,
             "can_apply": normalized.get("job_status") != "closed",
-            "message": "Opening job posting page."
+            "message": "Opening official job posting page."
         }
 
-    # Fallback: Link cannot be verified
+    # Fallback: Do not redirect to third-party aggregator landing page
     return {
         "destination_url": None,
         "type": "unverified",
@@ -118,5 +164,6 @@ def resolve_verified_apply_link(job: Dict[str, Any]) -> Dict[str, Any]:
         "external_job_id": normalized.get("external_job_id"),
         "url_verified": False,
         "can_apply": False,
-        "message": "Direct application link could not be verified for this opening."
+        "message": "Direct application link could not be verified on the employer's official recruitment portal."
     }
+

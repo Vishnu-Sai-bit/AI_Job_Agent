@@ -201,13 +201,19 @@ def get_live_jobs_cached(role: str, location: str, candidate_skills: list, force
         
     try:
         from services.jobs.live_job_aggregator import aggregate_live_jobs
+        from services.job_links.ats_feed_ingester import fetch_direct_ats_jobs
+
+        # 1. Direct official ATS feeds (Greenhouse, Lever, Ashby - No key needed)
+        direct_ats_jobs = fetch_direct_ats_jobs(role_filter=role, max_total=25)
+
+        # 2. Real-time portal feeds
         res = aggregate_live_jobs(
             role=role or "Data Analyst",
             location=location or "India",
             candidate_skills=candidate_skills,
-            max_total=50
+            max_total=35
         )
-        live_list = res.get("jobs", [])
+        live_list = direct_ats_jobs + res.get("jobs", [])
         _LIVE_JOBS_CACHE["key"] = cache_key
         _LIVE_JOBS_CACHE["timestamp"] = now
         _LIVE_JOBS_CACHE["jobs"] = live_list
