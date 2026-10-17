@@ -74,14 +74,16 @@ def resolve_exact_job_url(job: dict) -> str:
     return f"https://www.linkedin.com/jobs/search/?keywords={encoded_query}&location={encoded_loc}&currentJobId={job_id}"
 
 def load_verified_jobs():
+    normalized = []
+    seen = set()
+
+    # 1. Load curated verified jobs from data/jobs_export.json
     export_path = Path("data/jobs_export.json")
     if export_path.exists():
         try:
             with open(export_path, "r", encoding="utf-8") as f:
                 jobs = json.load(f)
-                normalized = []
                 for j in jobs:
-                    # Clean & normalize skills into a true list of skill strings
                     raw_skills = j.get("skills")
                     if isinstance(raw_skills, list):
                         skills = [str(s).strip() for s in raw_skills if str(s).strip()]
@@ -114,11 +116,29 @@ def load_verified_jobs():
                     norm_job["source"] = norm_job.get("ats_provider") or j.get("source", "Verified Portal")
                     norm_job["posted_date"] = j.get("posted_date", "Recently")
 
-                    normalized.append(norm_job)
-                return normalized
+                    combo = f"{(norm_job.get('company') or '').lower()}::{(norm_job.get('external_job_id') or norm_job.get('title') or '').lower()}"
+                    if combo not in seen:
+                        seen.add(combo)
+                        normalized.append(norm_job)
         except Exception:
             pass
-    return []
+
+    # 2. Load vacancies synchronized from ATS connectors (Greenhouse, Lever, Ashby, SmartRecruiters, Workable)
+    try:
+        from repositories.job_repository import get_discovered_jobs
+        disc_jobs = get_discovered_jobs(limit=150)
+        for dj in disc_jobs:
+            combo = f"{(dj.get('company') or '').lower()}::{(dj.get('external_job_id') or dj.get('title') or '').lower()}"
+            if combo not in seen:
+                seen.add(combo)
+                skills = extract_skills_from_text(f"{dj.get('title', '')} {dj.get('description', '')}", dj.get('title', ''))
+                dj["skills"] = skills
+                dj["source"] = dj.get("ats_provider") or dj.get("provider", "ATS").capitalize()
+                normalized.append(dj)
+    except Exception:
+        pass
+
+    return normalized
 
 def match_skills(job_skills, candidate_skills_set):
     """Accurately match full skill names against candidate skills."""
@@ -465,6 +485,9 @@ def detail(job_id):
     if not job:
         job = next((j for j in _LIVE_JOBS_CACHE.get("jobs", []) if str(j.get("id")) == str(job_id) or str(j.get("external_job_id")) == str(job_id)), None)
     if not job:
+        from repositories.job_repository import get_discovered_job_by_id
+        job = get_discovered_job_by_id(job_id)
+    if not job:
         flash("Job listing not found.", "warning")
         return redirect(url_for("jobs.index"))
 
@@ -582,6 +605,10 @@ def apply_redirect(job_id):
             pass
 
     if not job:
+        from repositories.job_repository import get_discovered_job_by_id
+        job = get_discovered_job_by_id(job_id)
+
+    if not job:
         flash("Opportunity listing could not be found.", "warning")
         return redirect(url_for("jobs.index"))
 
@@ -610,4 +637,22 @@ def apply_redirect(job_id):
         pass
 
     return redirect(target_url, code=302)
+
+
+@jobs_bp.route("/sync-sources", methods=["GET", "POST"])
+def sync_sources():
+    """
+    Synchronize registered company career systems across all supported ATS connectors
+    (Greenhouse, Lever, Ashby, SmartRecruiters, Workable).
+    """
+    try:
+        from services.job_sources.sync_jobs import sync_all_companies
+        summary = sync_all_companies(max_per_company=25, verify_urls=False)
+        total_saved = summary.get("total_jobs_saved", 0)
+        polled = summary.get("total_companies_polled", 0)
+        flash(f"Successfully synchronized {total_saved} vacancies across {polled} corporate ATS providers!", "success")
+    except Exception as e:
+        flash(f"ATS synchronization notice: {e}", "warning")
+    return redirect(url_for("jobs.index"))
+
 

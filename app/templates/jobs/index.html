@@ -179,11 +179,18 @@
           <strong class="text-dark">Live Hiring Mode Active</strong> &bull; Openings directly polled from LinkedIn Live, Remotive, RemoteOK, ArbeitNow, Jobicy, Adzuna &amp; Company ATS Portals.
         </div>
       </div>
-      <a href="{{ url_for('jobs.index') }}?role={{ role_filter }}&location={{ loc_filter }}&live=true"
-         class="btn btn-outline-danger btn-sm rounded-pill px-3 fw-bold d-inline-flex align-items-center gap-1.5 shadow-sm"
-         title="Poll live APIs right now for the newest job postings">
-        <i class="bi bi-arrow-repeat"></i> Refresh Live Jobs
-      </a>
+      <div class="d-flex align-items-center gap-2 flex-wrap">
+        <a href="{{ url_for('jobs.sync_sources') }}"
+           class="btn btn-outline-primary btn-sm rounded-pill px-3 fw-bold d-inline-flex align-items-center gap-1.5 shadow-sm"
+           title="Synchronize registered ATS company feeds (Greenhouse, Lever, Ashby, SmartRecruiters, Workable)">
+          <i class="bi bi-cloud-arrow-down-fill"></i> Sync ATS Feeds
+        </a>
+        <a href="{{ url_for('jobs.index') }}?role={{ role_filter }}&location={{ loc_filter }}&live=true"
+           class="btn btn-outline-danger btn-sm rounded-pill px-3 fw-bold d-inline-flex align-items-center gap-1.5 shadow-sm"
+           title="Poll live APIs right now for the newest job postings">
+          <i class="bi bi-arrow-repeat"></i> Refresh Live Jobs
+        </a>
+      </div>
     </div>
 
     <!-- Top Search Bar with Active Removable Filter Chips -->

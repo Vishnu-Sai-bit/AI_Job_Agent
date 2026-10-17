@@ -1,0 +1,100 @@
+[
+  {
+    "company": "GitLab",
+    "provider": "greenhouse",
+    "board_token": "gitlab"
+  },
+  {
+    "company": "Figma",
+    "provider": "greenhouse",
+    "board_token": "figma"
+  },
+  {
+    "company": "Stripe",
+    "provider": "greenhouse",
+    "board_token": "stripe"
+  },
+  {
+    "company": "Docker",
+    "provider": "greenhouse",
+    "board_token": "docker"
+  },
+  {
+    "company": "Elastic",
+    "provider": "greenhouse",
+    "board_token": "elastic"
+  },
+  {
+    "company": "Razorpay",
+    "provider": "greenhouse",
+    "board_token": "razorpay"
+  },
+  {
+    "company": "Databricks",
+    "provider": "greenhouse",
+    "board_token": "databricks"
+  },
+  {
+    "company": "Postman",
+    "provider": "lever",
+    "site": "postman",
+    "region": "global"
+  },
+  {
+    "company": "Automattic",
+    "provider": "lever",
+    "site": "automattic",
+    "region": "global"
+  },
+  {
+    "company": "Spotify",
+    "provider": "lever",
+    "site": "spotify",
+    "region": "global"
+  },
+  {
+    "company": "Linear",
+    "provider": "ashby",
+    "board_name": "linear"
+  },
+  {
+    "company": "Ramp",
+    "provider": "ashby",
+    "board_name": "ramp"
+  },
+  {
+    "company": "Vercel",
+    "provider": "ashby",
+    "board_name": "vercel"
+  },
+  {
+    "company": "Notion",
+    "provider": "ashby",
+    "board_name": "notion"
+  },
+  {
+    "company": "Zapier",
+    "provider": "ashby",
+    "board_name": "zapier"
+  },
+  {
+    "company": "Retool",
+    "provider": "ashby",
+    "board_name": "retool"
+  },
+  {
+    "company": "Cursor",
+    "provider": "ashby",
+    "board_name": "cursor"
+  },
+  {
+    "company": "Visa",
+    "provider": "smartrecruiters",
+    "company_id": "Visa"
+  },
+  {
+    "company": "Skechers",
+    "provider": "smartrecruiters",
+    "company_id": "Skechers"
+  }
+]
