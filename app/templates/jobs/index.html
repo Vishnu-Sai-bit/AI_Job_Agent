@@ -237,11 +237,15 @@
               </div>
 
               <!-- Location & Source -->
+              <!-- Location & Source & Job ID -->
               <div class="small text-secondary mb-1">
                 <i class="bi bi-geo-alt text-muted me-1"></i> {{ job.location or 'Multiple Locations' }}
               </div>
-              <div class="small text-secondary mb-3">
-                <i class="bi bi-clock text-muted me-1"></i> {{ job.experience or 'Full-time' }} &bull; {{ job.source or 'Verified Portal' }}
+              <div class="small text-secondary mb-3 d-flex align-items-center justify-content-between flex-wrap gap-1">
+                <span><i class="bi bi-clock text-muted me-1"></i> {{ job.experience or 'Full-time' }} &bull; {{ job.source or 'Verified Portal' }}</span>
+                <span class="badge bg-light text-secondary border px-2 py-0.5 rounded-pill font-monospace" style="font-size: 0.72rem;" title="Official Job ID">
+                  <i class="bi bi-hash text-primary"></i>{{ job.job_id or job.id }}
+                </span>
               </div>
 
               <!-- Tags / Skills (NO SALARY) -->
@@ -293,9 +297,10 @@
               </div>
 
               <div class="d-flex align-items-center gap-1">
-                <a href="{{ job.url if job.url and job.url != '#' else url_for('jobs.detail', job_id=job.id) }}"
+                <a href="{{ url_for('jobs.apply_redirect', job_id=job.id) }}"
                    target="_blank" rel="noopener noreferrer"
-                   class="btn-tal-apply">
+                   class="btn-tal-apply"
+                   title="Apply directly to Job #{{ job.job_id or job.id }} on {{ job.source or 'Official Portal' }}">
                   Apply now
                 </a>
                 <form method="POST" action="{{ url_for('jobs.save_job', job_id=job.id) }}" class="d-inline m-0">

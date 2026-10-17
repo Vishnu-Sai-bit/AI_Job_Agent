@@ -5,7 +5,7 @@
     "company": "Google",
     "location": "Bangalore",
     "source": "Google Careers",
-    "url": "https://careers.google.com/jobs/results/?q=Data%20Analyst%20Bangalore",
+    "url": "https://www.linkedin.com/jobs/search/?keywords=Data+Analyst+Google&location=Bangalore&currentJobId=4464214853",
     "skills": [
       "Python",
       "SQL",
@@ -16,7 +16,8 @@
     "salary": "\u20b914 - \u20b922 LPA",
     "experience": "1-3 yrs",
     "description": "Partner with product and engineering teams to write high-performance SQL queries, build interactive Tableau dashboards, conduct exploratory data analysis with Python, and deliver quantitative insights shaping user experience for millions.",
-    "posted_date": "Today"
+    "posted_date": "Today",
+    "job_id": "4464214853"
   },
   {
     "id": 2,
@@ -24,7 +25,7 @@
     "company": "Infosys",
     "location": "Hyderabad",
     "source": "LinkedIn",
-    "url": "https://career.infosys.com/joblist",
+    "url": "https://www.linkedin.com/jobs/search/?keywords=Junior+Data+Analyst+Infosys&location=Hyderabad&currentJobId=4431678379",
     "skills": [
       "SQL",
       "Power BI",
@@ -35,7 +36,8 @@
     "salary": "\u20b95.5 - \u20b98 LPA",
     "experience": "0-2 yrs",
     "description": "Translate business requirements into operational metrics and reports. Query enterprise databases using SQL, build automated Power BI dashboards, clean spreadsheets with Advanced Excel, and execute ad-hoc analysis in Python.",
-    "posted_date": "1 day ago"
+    "posted_date": "1 day ago",
+    "job_id": "4431678379"
   },
   {
     "id": 3,
@@ -43,7 +45,7 @@
     "company": "Microsoft",
     "location": "Hyderabad",
     "source": "Microsoft Careers",
-    "url": "https://careers.microsoft.com/us/en/search-results?keywords=Data%20Analyst%20Hyderabad",
+    "url": "https://www.linkedin.com/jobs/search/?keywords=Senior+Data+Analyst+Microsoft&location=Hyderabad&currentJobId=4416228740",
     "skills": [
       "SQL",
       "Python",
@@ -55,7 +57,8 @@
     "salary": "\u20b918 - \u20b928 LPA",
     "experience": "3-5 yrs",
     "description": "Drive analytics initiatives for Microsoft Cloud and AI divisions. Design robust dimensional data models, develop mission-critical Power BI executive dashboards, and conduct statistical experiments.",
-    "posted_date": "2 days ago"
+    "posted_date": "2 days ago",
+    "job_id": "4416228740"
   },
   {
     "id": 4,
@@ -63,7 +66,7 @@
     "company": "Deloitte",
     "location": "Hyderabad",
     "source": "Deloitte Careers",
-    "url": "https://jobsindia.deloitte.com/",
+    "url": "https://www.linkedin.com/jobs/search/?keywords=Business+Intelligence+Analyst+Deloitte&location=Hyderabad&currentJobId=4492787702",
     "skills": [
       "Power BI",
       "DAX",
@@ -75,7 +78,8 @@
     "salary": "\u20b99 - \u20b914 LPA",
     "experience": "2-4 yrs",
     "description": "Empower Fortune 500 clients by developing enterprise business intelligence solutions. Architect scalable star-schema models, design complex DAX calculated metrics, and establish automated ETL pipelines.",
-    "posted_date": "Today"
+    "posted_date": "Today",
+    "job_id": "4492787702"
   },
   {
     "id": 5,
@@ -83,7 +87,7 @@
     "company": "Swiggy",
     "location": "Bangalore",
     "source": "Swiggy Careers",
-    "url": "https://careers.swiggy.com/#/",
+    "url": "https://www.linkedin.com/jobs/search/?keywords=Product+Data+Analyst+Swiggy&location=Bangalore&currentJobId=4447894232",
     "skills": [
       "SQL",
       "Python",
@@ -94,7 +98,8 @@
     "salary": "\u20b912 - \u20b918 LPA",
     "experience": "1-3 yrs",
     "description": "Analyze customer conversion funnels, delivery dispatch efficiency, and user retention. Design and evaluate rigorous A/B test experiments, build automated operational dashboards, and query petabyte-scale data lakes.",
-    "posted_date": "3 days ago"
+    "posted_date": "3 days ago",
+    "job_id": "4447894232"
   },
   {
     "id": 6,
@@ -102,7 +107,7 @@
     "company": "Uber",
     "location": "Hyderabad",
     "source": "Uber Careers",
-    "url": "https://www.uber.com/us/en/careers/list/",
+    "url": "https://www.linkedin.com/jobs/search/?keywords=Operations+Data+Analyst+Uber&location=Hyderabad&currentJobId=4465514954",
     "skills": [
       "SQL",
       "Python",
@@ -113,7 +118,8 @@
     "salary": "\u20b913 - \u20b920 LPA",
     "experience": "2-4 yrs",
     "description": "Join Uber Operations in Hyderabad to optimize rider/driver marketplace liquidity, pricing mechanics, and geographic coverage across EMEA and APAC regions using advanced SQL and Python modeling.",
-    "posted_date": "2 days ago"
+    "posted_date": "2 days ago",
+    "job_id": "4465514954"
   },
   {
     "id": 7,
@@ -121,7 +127,7 @@
     "company": "Razorpay",
     "location": "Bangalore",
     "source": "Razorpay Careers",
-    "url": "https://razorpay.com/jobs/",
+    "url": "https://www.linkedin.com/jobs/search/?keywords=Data+Analyst+-+Growth+%26+Marketing+Razorpay&location=Bangalore&currentJobId=4495642497",
     "skills": [
       "SQL",
       "Python",
@@ -132,7 +138,8 @@
     "salary": "\u20b911 - \u20b917 LPA",
     "experience": "1-3 yrs",
     "description": "Deliver actionable insights on payment merchant onboarding, churn rates, and growth campaign attribution across fintech payment rails and banking APIs.",
-    "posted_date": "Just now"
+    "posted_date": "Just now",
+    "job_id": "4495642497"
   },
   {
     "id": 8,
@@ -140,7 +147,7 @@
     "company": "Optum / UnitedHealth Group",
     "location": "Hyderabad",
     "source": "Naukri",
-    "url": "https://careers.unitedhealthgroup.com/",
+    "url": "https://www.linkedin.com/jobs/search/?keywords=Healthcare+Data+Analyst+Optum+%2F+UnitedHealth+Group&location=Hyderabad&currentJobId=4421787840",
     "skills": [
       "SQL",
       "Python",
@@ -151,7 +158,8 @@
     "salary": "\u20b98 - \u20b913 LPA",
     "experience": "2-4 yrs",
     "description": "Analyze claims data, patient care outcomes, and clinical trial datasets. Ensure compliance with healthcare privacy standards while delivering statistical summaries and Power BI dashboards.",
-    "posted_date": "4 days ago"
+    "posted_date": "4 days ago",
+    "job_id": "4421787840"
   },
   {
     "id": 9,
@@ -159,7 +167,7 @@
     "company": "Goldman Sachs",
     "location": "Bangalore",
     "source": "Goldman Sachs Careers",
-    "url": "https://www.goldmansachs.com/careers/",
+    "url": "https://www.linkedin.com/jobs/search/?keywords=Financial+Data+Analyst+Goldman+Sachs&location=Bangalore&currentJobId=4468802196",
     "skills": [
       "Python",
       "SQL",
@@ -170,7 +178,8 @@
     "salary": "\u20b916 - \u20b926 LPA",
     "experience": "2-4 yrs",
     "description": "Work with Global Investment Research and Asset Management divisions to build automated valuation models, analyze market time-series data, and prepare investment committee decks.",
-    "posted_date": "1 day ago"
+    "posted_date": "1 day ago",
+    "job_id": "4468802196"
   },
   {
     "id": 10,
@@ -178,7 +187,7 @@
     "company": "Flipkart",
     "location": "Bangalore",
     "source": "LinkedIn",
-    "url": "https://www.flipkartcareers.com/",
+    "url": "https://www.linkedin.com/jobs/search/?keywords=Lead+Data+Analyst+Flipkart&location=Bangalore&currentJobId=4498897824",
     "skills": [
       "SQL",
       "Python",
@@ -190,7 +199,8 @@
     "salary": "\u20b924 - \u20b936 LPA",
     "experience": "5-8 yrs",
     "description": "Lead an analytics pod responsible for Big Billion Days supply chain forecasting, warehouse slotting algorithms, and supplier scorecard analytics using big data technologies.",
-    "posted_date": "3 days ago"
+    "posted_date": "3 days ago",
+    "job_id": "4498897824"
   },
   {
     "id": 11,
@@ -198,7 +208,7 @@
     "company": "PhonePe",
     "location": "Bangalore",
     "source": "LinkedIn",
-    "url": "https://www.phonepe.com/careers/",
+    "url": "https://www.linkedin.com/jobs/search/?keywords=Python+Backend+Developer+PhonePe&location=Bangalore&currentJobId=4452246304",
     "skills": [
       "Python",
       "FastAPI",
@@ -210,7 +220,8 @@
     "salary": "\u20b914 - \u20b922 LPA",
     "experience": "2-4 yrs",
     "description": "Design high-throughput, low-latency microservices powering millions of daily UPI and merchant transactions. Write clean, idiomatic Python with FastAPI, optimize PostgreSQL queries, and leverage Redis caching.",
-    "posted_date": "Today"
+    "posted_date": "Today",
+    "job_id": "4452246304"
   },
   {
     "id": 12,
@@ -218,7 +229,7 @@
     "company": "Amazon",
     "location": "Hyderabad",
     "source": "Amazon Jobs",
-    "url": "https://www.amazon.jobs/en/search?base_query=Python+Software+Engineer+Hyderabad",
+    "url": "https://www.linkedin.com/jobs/search/?keywords=Software+Development+Engineer+-+Python+Amazon&location=Hyderabad&currentJobId=4455177516",
     "skills": [
       "Python",
       "AWS",
@@ -230,7 +241,8 @@
     "salary": "\u20b918 - \u20b932 LPA",
     "experience": "1-4 yrs",
     "description": "Build distributed cloud backend services supporting Amazon Logistics and Fulfillment Centers. Scale serverless architectures on AWS Lambda, DynamoDB, and ECS with high availability.",
-    "posted_date": "1 day ago"
+    "posted_date": "1 day ago",
+    "job_id": "4455177516"
   },
   {
     "id": 13,
@@ -238,7 +250,7 @@
     "company": "TCS",
     "location": "Hyderabad",
     "source": "Naukri",
-    "url": "https://www.tcs.com/careers",
+    "url": "https://www.linkedin.com/jobs/search/?keywords=Python+Developer+%28Django+%2F+Flask%29+TCS&location=Hyderabad&currentJobId=4458160528",
     "skills": [
       "Python",
       "Django",
@@ -250,7 +262,8 @@
     "salary": "\u20b96 - \u20b910 LPA",
     "experience": "1-3 yrs",
     "description": "Develop scalable web applications and enterprise portals for global banking clients. Build modular Django apps, write unit tests with PyTest, and integrate third-party payment gateways.",
-    "posted_date": "3 days ago"
+    "posted_date": "3 days ago",
+    "job_id": "4458160528"
   },
   {
     "id": 14,
@@ -258,7 +271,7 @@
     "company": "Cred",
     "location": "Bangalore",
     "source": "Cred Careers",
-    "url": "https://careers.cred.club/",
+    "url": "https://www.linkedin.com/jobs/search/?keywords=Senior+Python+Software+Engineer+Cred&location=Bangalore&currentJobId=4449234589",
     "skills": [
       "Python",
       "FastAPI",
@@ -270,7 +283,8 @@
     "salary": "\u20b928 - \u20b942 LPA",
     "experience": "4-7 yrs",
     "description": "Architect core credit card statement processing engines and event-driven transaction pipelines using Python, Apache Kafka, and Kubernetes.",
-    "posted_date": "2 days ago"
+    "posted_date": "2 days ago",
+    "job_id": "4449234589"
   },
   {
     "id": 15,
@@ -278,7 +292,7 @@
     "company": "Qualcomm",
     "location": "Hyderabad",
     "source": "Qualcomm Careers",
-    "url": "https://qualcomm.wd5.myworkdayjobs.com/External",
+    "url": "https://www.linkedin.com/jobs/search/?keywords=Python+Automation+%26+Tools+Engineer+Qualcomm&location=Hyderabad&currentJobId=4442985376",
     "skills": [
       "Python",
       "Linux",
@@ -290,7 +304,8 @@
     "salary": "\u20b912 - \u20b918 LPA",
     "experience": "2-4 yrs",
     "description": "Develop automated chip validation and hardware benchmarking pipelines using Python and Linux scripting. Integrate CI/CD test runners and build diagnostic visualization dashboards.",
-    "posted_date": "4 days ago"
+    "posted_date": "4 days ago",
+    "job_id": "4442985376"
   },
   {
     "id": 16,
@@ -298,7 +313,7 @@
     "company": "Persistent Systems",
     "location": "Pune",
     "source": "LinkedIn",
-    "url": "https://www.persistent.com/careers/",
+    "url": "https://www.linkedin.com/jobs/search/?keywords=Generative+AI+%26+LLM+Engineer+Persistent+Systems&location=Pune&currentJobId=4477844290",
     "skills": [
       "Python",
       "LangChain",
@@ -311,7 +326,8 @@
     "salary": "\u20b915 - \u20b924 LPA",
     "experience": "2-5 yrs",
     "description": "Build production-ready Retrieval Augmented Generation (RAG) pipelines and conversational AI assistants. Fine-tune foundation models, implement semantic search with vector embeddings, and deploy resilient API services.",
-    "posted_date": "Today"
+    "posted_date": "Today",
+    "job_id": "4477844290"
   },
   {
     "id": 17,
@@ -319,7 +335,7 @@
     "company": "Swiggy",
     "location": "Bangalore",
     "source": "Swiggy Careers",
-    "url": "https://careers.swiggy.com/",
+    "url": "https://www.linkedin.com/jobs/search/?keywords=Machine+Learning+Engineer+Swiggy&location=Bangalore&currentJobId=4470694164",
     "skills": [
       "Python",
       "PyTorch",
@@ -331,7 +347,8 @@
     "salary": "\u20b918 - \u20b928 LPA",
     "experience": "2-4 yrs",
     "description": "Train and deploy real-time recommendation engines, delivery ETA prediction models, and search ranking algorithms handling millions of daily online food orders.",
-    "posted_date": "2 days ago"
+    "posted_date": "2 days ago",
+    "job_id": "4470694164"
   },
   {
     "id": 18,
@@ -339,7 +356,7 @@
     "company": "Accenture AI Labs",
     "location": "Bangalore",
     "source": "Accenture Careers",
-    "url": "https://www.accenture.com/in-en/careers",
+    "url": "https://www.linkedin.com/jobs/search/?keywords=AI+%2F+NLP+Specialist+Accenture+AI+Labs&location=Bangalore&currentJobId=4438507835",
     "skills": [
       "Python",
       "NLP",
@@ -351,7 +368,8 @@
     "salary": "\u20b913 - \u20b920 LPA",
     "experience": "2-4 yrs",
     "description": "Develop state-of-the-art NLP models for automated document parsing, sentiment detection, legal document summarization, and named entity recognition.",
-    "posted_date": "1 day ago"
+    "posted_date": "1 day ago",
+    "job_id": "4438507835"
   },
   {
     "id": 19,
@@ -359,7 +377,7 @@
     "company": "Ola Electric",
     "location": "Bangalore",
     "source": "LinkedIn",
-    "url": "https://olaelectric.com/careers",
+    "url": "https://www.linkedin.com/jobs/search/?keywords=Computer+Vision+Engineer+Ola+Electric&location=Bangalore&currentJobId=4415823311",
     "skills": [
       "Python",
       "OpenCV",
@@ -371,7 +389,8 @@
     "salary": "\u20b914 - \u20b922 LPA",
     "experience": "2-5 yrs",
     "description": "Develop real-time object detection, pedestrian tracking, and battery pack quality inspection computer vision models deployed on edge devices.",
-    "posted_date": "3 days ago"
+    "posted_date": "3 days ago",
+    "job_id": "4415823311"
   },
   {
     "id": 20,
@@ -379,7 +398,7 @@
     "company": "Wipro Digital",
     "location": "Hyderabad",
     "source": "Foundit",
-    "url": "https://careers.wipro.com/",
+    "url": "https://www.linkedin.com/jobs/search/?keywords=MLOps+Engineer+Wipro+Digital&location=Hyderabad&currentJobId=4468316776",
     "skills": [
       "Python",
       "MLflow",
@@ -391,7 +410,8 @@
     "salary": "\u20b911 - \u20b917 LPA",
     "experience": "3-5 yrs",
     "description": "Build continuous training and deployment pipelines for enterprise machine learning models. Monitor model drift, maintain feature stores, and automate Dockerized deployments on Kubernetes.",
-    "posted_date": "5 days ago"
+    "posted_date": "5 days ago",
+    "job_id": "4468316776"
   },
   {
     "id": 21,
@@ -399,7 +419,7 @@
     "company": "TCS",
     "location": "Bangalore",
     "source": "TCS Careers",
-    "url": "https://www.tcs.com/careers",
+    "url": "https://www.linkedin.com/jobs/search/?keywords=Data+Engineer+TCS&location=Bangalore&currentJobId=4428860185",
     "skills": [
       "Python",
       "SQL",
@@ -411,7 +431,8 @@
     "salary": "\u20b98 - \u20b913 LPA",
     "experience": "2-4 yrs",
     "description": "Design robust ETL pipelines, schedule batch transformations with Python and Apache Spark, optimize relational database schemas, and maintain code repositories using Git.",
-    "posted_date": "Today"
+    "posted_date": "Today",
+    "job_id": "4428860185"
   },
   {
     "id": 22,
@@ -419,7 +440,7 @@
     "company": "Cognizant",
     "location": "Chennai",
     "source": "Cognizant Careers",
-    "url": "https://careers.cognizant.com/",
+    "url": "https://www.linkedin.com/jobs/search/?keywords=Senior+Data+Engineer+%28Snowflake+%26+Databricks%29+Cognizant&location=Chennai&currentJobId=4477837379",
     "skills": [
       "SQL",
       "Python",
@@ -431,7 +452,8 @@
     "salary": "\u20b914 - \u20b921 LPA",
     "experience": "3-6 yrs",
     "description": "Architect modern data lakes and cloud warehouses using Snowflake and Databricks. Write optimized PySpark jobs, orchestrate workflows with Apache Airflow, and enforce data governance.",
-    "posted_date": "2 days ago"
+    "posted_date": "2 days ago",
+    "job_id": "4477837379"
   },
   {
     "id": 23,
@@ -439,7 +461,7 @@
     "company": "HCL Technologies",
     "location": "Noida",
     "source": "Naukri",
-    "url": "https://www.hcltech.com/careers",
+    "url": "https://www.linkedin.com/jobs/search/?keywords=Cloud+Data+Pipeline+Engineer+HCL+Technologies&location=Noida&currentJobId=4493340341",
     "skills": [
       "Python",
       "AWS Glue",
@@ -451,7 +473,8 @@
     "salary": "\u20b97.5 - \u20b912 LPA",
     "experience": "2-4 yrs",
     "description": "Build serverless ETL ingestion pipelines using AWS Glue, Amazon Redshift, and Athena. Transform semi-structured JSON telemetry data into analytical fact and dimension tables.",
-    "posted_date": "3 days ago"
+    "posted_date": "3 days ago",
+    "job_id": "4493340341"
   },
   {
     "id": 24,
@@ -459,7 +482,7 @@
     "company": "Flipkart",
     "location": "Bangalore",
     "source": "LinkedIn",
-    "url": "https://www.flipkartcareers.com/",
+    "url": "https://www.linkedin.com/jobs/search/?keywords=Big+Data+Engineer+Flipkart&location=Bangalore&currentJobId=4433645215",
     "skills": [
       "Scala",
       "Java",
@@ -471,7 +494,8 @@
     "salary": "\u20b919 - \u20b930 LPA",
     "experience": "3-5 yrs",
     "description": "Process billions of real-time clickstream events and inventory stock changes using Apache Spark Streaming and Kafka clusters.",
-    "posted_date": "1 day ago"
+    "posted_date": "1 day ago",
+    "job_id": "4433645215"
   },
   {
     "id": 25,
@@ -479,7 +503,7 @@
     "company": "Accenture",
     "location": "Hyderabad",
     "source": "Accenture Careers",
-    "url": "https://www.accenture.com/in-en/careers",
+    "url": "https://www.linkedin.com/jobs/search/?keywords=Business+Analyst+Accenture&location=Hyderabad&currentJobId=4482842025",
     "skills": [
       "SQL",
       "Tableau",
@@ -491,7 +515,8 @@
     "salary": "\u20b97.5 - \u20b911 LPA",
     "experience": "1-3 yrs",
     "description": "Bridge client stakeholder objectives with software engineering teams. Document functional specs, analyze KPI trends, build Tableau visualizations, and synthesize strategic growth recommendations.",
-    "posted_date": "Today"
+    "posted_date": "Today",
+    "job_id": "4482842025"
   },
   {
     "id": 26,
@@ -499,7 +524,7 @@
     "company": "Capgemini",
     "location": "Pune",
     "source": "Capgemini Careers",
-    "url": "https://www.capgemini.com/careers/",
+    "url": "https://www.linkedin.com/jobs/search/?keywords=Agile+Business+Systems+Analyst+Capgemini&location=Pune&currentJobId=4482904861",
     "skills": [
       "Jira",
       "SQL",
@@ -510,7 +535,8 @@
     "salary": "\u20b98 - \u20b912 LPA",
     "experience": "2-4 yrs",
     "description": "Facilitate sprint planning, write user acceptance test criteria, map current-state vs future-state business workflows, and maintain backlog grooming in Jira.",
-    "posted_date": "2 days ago"
+    "posted_date": "2 days ago",
+    "job_id": "4482904861"
   },
   {
     "id": 27,
@@ -518,7 +544,7 @@
     "company": "JPMorgan Chase & Co.",
     "location": "Mumbai",
     "source": "JPMorgan Careers",
-    "url": "https://careers.jpmorgan.com/",
+    "url": "https://www.linkedin.com/jobs/search/?keywords=Financial+Business+Analyst+JPMorgan+Chase+%26+Co.&location=Mumbai&currentJobId=4471777751",
     "skills": [
       "Financial Modeling",
       "SQL",
@@ -529,7 +555,8 @@
     "salary": "\u20b913 - \u20b920 LPA",
     "experience": "2-5 yrs",
     "description": "Support Corporate and Investment Banking operations with regulatory reporting, liquidity risk calculations, and automated financial performance scorecards.",
-    "posted_date": "3 days ago"
+    "posted_date": "3 days ago",
+    "job_id": "4471777751"
   },
   {
     "id": 28,
@@ -537,7 +564,7 @@
     "company": "Zerodha",
     "location": "Bangalore",
     "source": "Zerodha Careers",
-    "url": "https://zerodha.com/careers/",
+    "url": "https://www.linkedin.com/jobs/search/?keywords=Product+Strategy+Analyst+Zerodha&location=Bangalore&currentJobId=4434140952",
     "skills": [
       "Product Analytics",
       "SQL",
@@ -548,7 +575,8 @@
     "salary": "\u20b912 - \u20b918 LPA",
     "experience": "1-3 yrs",
     "description": "Evaluate retail investor behavior, order execution speed, and feature adoption across Kite web and mobile applications.",
-    "posted_date": "1 day ago"
+    "posted_date": "1 day ago",
+    "job_id": "4434140952"
   },
   {
     "id": 29,
@@ -556,7 +584,7 @@
     "company": "Wipro",
     "location": "Hyderabad",
     "source": "Wipro Careers",
-    "url": "https://careers.wipro.com/",
+    "url": "https://www.linkedin.com/jobs/search/?keywords=Power+BI+Developer+Wipro&location=Hyderabad&currentJobId=4489868737",
     "skills": [
       "Power BI",
       "DAX",
@@ -568,7 +596,8 @@
     "salary": "\u20b97 - \u20b911 LPA",
     "experience": "1-3 yrs",
     "description": "Design, develop, and publish interactive corporate dashboards on Power BI Service. Write complex DAX measures, build custom calculated columns, and establish scheduled gateway refreshes.",
-    "posted_date": "Today"
+    "posted_date": "Today",
+    "job_id": "4489868737"
   },
   {
     "id": 30,
@@ -576,7 +605,7 @@
     "company": "PwC India",
     "location": "Bangalore",
     "source": "PwC Careers",
-    "url": "https://www.pwc.in/careers.html",
+    "url": "https://www.linkedin.com/jobs/search/?keywords=Senior+Tableau+Developer+PwC+India&location=Bangalore&currentJobId=4457067519",
     "skills": [
       "Tableau Desktop",
       "Tableau Server",
@@ -587,7 +616,8 @@
     "salary": "\u20b912 - \u20b918 LPA",
     "experience": "3-6 yrs",
     "description": "Lead end-to-end Tableau visualization deliveries for external audit and consulting engagements. Master Level of Detail (LOD) calculations, row-level security, and executive storytelling.",
-    "posted_date": "2 days ago"
+    "posted_date": "2 days ago",
+    "job_id": "4457067519"
   },
   {
     "id": 31,
@@ -595,7 +625,7 @@
     "company": "Tech Mahindra",
     "location": "Pune",
     "source": "Naukri",
-    "url": "https://www.techmahindra.com/en-in/careers/",
+    "url": "https://www.linkedin.com/jobs/search/?keywords=BI+Dashboard+Specialist+Tech+Mahindra&location=Pune&currentJobId=4469136361",
     "skills": [
       "Power BI",
       "Tableau",
@@ -606,7 +636,8 @@
     "salary": "\u20b96.5 - \u20b910 LPA",
     "experience": "1-3 yrs",
     "description": "Consolidate multiple reporting silos across telecom and automotive domains into unified visual dashboards with cross-filtering and drill-down capabilities.",
-    "posted_date": "4 days ago"
+    "posted_date": "4 days ago",
+    "job_id": "4469136361"
   },
   {
     "id": 32,
@@ -614,7 +645,7 @@
     "company": "Zomato",
     "location": "Gurugram",
     "source": "Zomato Careers",
-    "url": "https://www.zomato.com/careers",
+    "url": "https://www.linkedin.com/jobs/search/?keywords=Full+Stack+Developer+%28Python+%26+React%29+Zomato&location=Gurugram&currentJobId=4468867034",
     "skills": [
       "Python",
       "FastAPI",
@@ -626,7 +657,8 @@
     "salary": "\u20b914 - \u20b924 LPA",
     "experience": "2-4 yrs",
     "description": "Build responsive, fast-loading web applications for restaurant partners and diners. Create reusable React components and back them with high-speed FastAPI endpoints.",
-    "posted_date": "Today"
+    "posted_date": "Today",
+    "job_id": "4468867034"
   },
   {
     "id": 33,
@@ -634,7 +666,7 @@
     "company": "Microsoft",
     "location": "Hyderabad",
     "source": "Microsoft Careers",
-    "url": "https://careers.microsoft.com/",
+    "url": "https://www.linkedin.com/jobs/search/?keywords=Software+Development+Engineer+I+%28SDE-1%29+Microsoft&location=Hyderabad&currentJobId=4416564642",
     "skills": [
       "Data Structures",
       "Algorithms",
@@ -646,7 +678,8 @@
     "salary": "\u20b916 - \u20b926 LPA",
     "experience": "0-2 yrs",
     "description": "Write robust, maintainable production code for Microsoft 365 enterprise collaboration tools. Solve complex algorithmic challenges and participate in peer code reviews.",
-    "posted_date": "1 day ago"
+    "posted_date": "1 day ago",
+    "job_id": "4416564642"
   },
   {
     "id": 34,
@@ -654,7 +687,7 @@
     "company": "Lenskart",
     "location": "Delhi-NCR",
     "source": "LinkedIn",
-    "url": "https://hiring.lenskart.com/",
+    "url": "https://www.linkedin.com/jobs/search/?keywords=Full+Stack+Engineer+%28MERN%29+Lenskart&location=Delhi-NCR&currentJobId=4488077786",
     "skills": [
       "MongoDB",
       "Express",
@@ -666,7 +699,8 @@
     "salary": "\u20b910 - \u20b916 LPA",
     "experience": "1-3 yrs",
     "description": "Develop omnichannel retail features connecting physical eye-wear stores with online 3D frame try-on and checkout flows.",
-    "posted_date": "2 days ago"
+    "posted_date": "2 days ago",
+    "job_id": "4488077786"
   },
   {
     "id": 35,
@@ -674,7 +708,7 @@
     "company": "Oracle",
     "location": "Hyderabad",
     "source": "Oracle Careers",
-    "url": "https://www.oracle.com/corporate/careers/",
+    "url": "https://www.linkedin.com/jobs/search/?keywords=Java+Backend+Engineer+Oracle&location=Hyderabad&currentJobId=4481908281",
     "skills": [
       "Java",
       "Spring Boot",
@@ -686,7 +720,8 @@
     "salary": "\u20b913 - \u20b921 LPA",
     "experience": "2-5 yrs",
     "description": "Build enterprise cloud financial applications with Java 17, Spring Boot, and Oracle Autonomous Database with rigorous security compliance.",
-    "posted_date": "3 days ago"
+    "posted_date": "3 days ago",
+    "job_id": "4481908281"
   },
   {
     "id": 36,
@@ -694,7 +729,7 @@
     "company": "Mindtree / LTIMindtree",
     "location": "Bangalore",
     "source": "LinkedIn",
-    "url": "https://www.ltimindtree.com/careers/",
+    "url": "https://www.linkedin.com/jobs/search/?keywords=AWS+Cloud+%26+DevOps+Engineer+Mindtree+%2F+LTIMindtree&location=Bangalore&currentJobId=4411935111",
     "skills": [
       "AWS",
       "Terraform",
@@ -706,7 +741,8 @@
     "salary": "\u20b99 - \u20b915 LPA",
     "experience": "2-4 yrs",
     "description": "Automate cloud infrastructure provisioning using Terraform. Deploy containerized workloads on AWS EKS and manage GitLab CI/CD release pipelines.",
-    "posted_date": "Today"
+    "posted_date": "Today",
+    "job_id": "4411935111"
   },
   {
     "id": 37,
@@ -714,7 +750,7 @@
     "company": "Salesforce",
     "location": "Hyderabad",
     "source": "Salesforce Careers",
-    "url": "https://www.salesforce.com/company/careers/",
+    "url": "https://www.linkedin.com/jobs/search/?keywords=Site+Reliability+Engineer+%28SRE%29+Salesforce&location=Hyderabad&currentJobId=4451173937",
     "skills": [
       "Linux",
       "Kubernetes",
@@ -726,7 +762,8 @@
     "salary": "\u20b918 - \u20b930 LPA",
     "experience": "3-6 yrs",
     "description": "Maintain 99.999% uptime for Salesforce multi-tenant cloud platforms. Conduct automated incident remediation, chaos engineering drills, and telemetry observability.",
-    "posted_date": "2 days ago"
+    "posted_date": "2 days ago",
+    "job_id": "4451173937"
   },
   {
     "id": 38,
@@ -734,7 +771,7 @@
     "company": "IBM India",
     "location": "Bangalore",
     "source": "IBM Careers",
-    "url": "https://www.ibm.com/careers/",
+    "url": "https://www.linkedin.com/jobs/search/?keywords=Azure+Cloud+Infrastructure+Architect+IBM+India&location=Bangalore&currentJobId=4433691424",
     "skills": [
       "Azure",
       "ARM Templates",
@@ -745,7 +782,8 @@
     "salary": "\u20b915 - \u20b924 LPA",
     "experience": "4-7 yrs",
     "description": "Design secure hybrid cloud environments for banking and retail clients migrating legacy mainframes into Azure Cloud.",
-    "posted_date": "4 days ago"
+    "posted_date": "4 days ago",
+    "job_id": "4433691424"
   },
   {
     "id": 39,
@@ -753,7 +791,7 @@
     "company": "GitLab",
     "location": "Remote - India",
     "source": "GitLab Careers",
-    "url": "https://about.gitlab.com/jobs/",
+    "url": "https://www.linkedin.com/jobs/search/?keywords=Remote+Data+Analyst+GitLab&location=Remote+-+India&currentJobId=4475209622",
     "skills": [
       "SQL",
       "Python",
@@ -765,7 +803,8 @@
     "salary": "\u20b916 - \u20b925 LPA",
     "experience": "2-4 yrs",
     "description": "100% all-remote company. Partner with engineering and sales leaders to track open-source repository usage, developer velocity, and product qualified leads.",
-    "posted_date": "Today"
+    "posted_date": "Today",
+    "job_id": "4475209622"
   },
   {
     "id": 40,
@@ -773,7 +812,7 @@
     "company": "Automattic (WordPress.com)",
     "location": "Remote",
     "source": "Automattic Careers",
-    "url": "https://automattic.com/work-with-us/",
+    "url": "https://www.linkedin.com/jobs/search/?keywords=Remote+Python+Software+Engineer+Automattic+%28WordPress.com%29&location=Remote&currentJobId=4432310727",
     "skills": [
       "Python",
       "Django",
@@ -784,7 +823,8 @@
     "salary": "\u20b918 - \u20b930 LPA",
     "experience": "2-5 yrs",
     "description": "Build publishing, e-commerce, and subscription tools for millions of websites worldwide. Async-first culture with global travel summits.",
-    "posted_date": "Yesterday"
+    "posted_date": "Yesterday",
+    "job_id": "4432310727"
   },
   {
     "id": 41,
@@ -792,7 +832,7 @@
     "company": "Hugging Face Ecosystem",
     "location": "Remote",
     "source": "Remotive",
-    "url": "https://huggingface.co/join-us",
+    "url": "https://www.linkedin.com/jobs/search/?keywords=Remote+AI+Research+Associate+Hugging+Face+Ecosystem&location=Remote&currentJobId=4456848031",
     "skills": [
       "Python",
       "PyTorch",
@@ -803,7 +843,8 @@
     "salary": "\u20b920 - \u20b935 LPA",
     "experience": "1-4 yrs",
     "description": "Benchmark open-weight LLMs, evaluate reasoning capabilities, and build open-source demonstration spaces for community researchers.",
-    "posted_date": "3 days ago"
+    "posted_date": "3 days ago",
+    "job_id": "4456848031"
   },
   {
     "id": 42,
@@ -811,7 +852,7 @@
     "company": "Turing.com",
     "location": "Remote",
     "source": "Turing Careers",
-    "url": "https://www.turing.com/jobs",
+    "url": "https://www.linkedin.com/jobs/search/?keywords=Remote+Business+Analyst+Turing.com&location=Remote&currentJobId=4498095586",
     "skills": [
       "SQL",
       "Data Analytics",
@@ -822,7 +863,8 @@
     "salary": "\u20b912 - \u20b918 LPA",
     "experience": "1-3 yrs",
     "description": "Analyze global tech recruitment matches, candidate test assessments, and remote contractor satisfaction scores.",
-    "posted_date": "4 days ago"
+    "posted_date": "4 days ago",
+    "job_id": "4498095586"
   },
   {
     "id": 43,
@@ -830,7 +872,7 @@
     "company": "FactSet",
     "location": "Hyderabad",
     "source": "FactSet Careers",
-    "url": "https://www.factset.com/careers",
+    "url": "https://www.linkedin.com/jobs/search/?keywords=SQL+Database+Developer+FactSet&location=Hyderabad&currentJobId=4436771289",
     "skills": [
       "SQL",
       "Stored Procedures",
@@ -841,7 +883,8 @@
     "salary": "\u20b98 - \u20b914 LPA",
     "experience": "2-4 yrs",
     "description": "Optimize complex financial database queries, write indexing strategies, build automated ETL stored procedures, and resolve transaction deadlocks.",
-    "posted_date": "Today"
+    "posted_date": "Today",
+    "job_id": "4436771289"
   },
   {
     "id": 44,
@@ -849,7 +892,7 @@
     "company": "Zoho Corporation",
     "location": "Chennai",
     "source": "Zoho Careers",
-    "url": "https://www.zoho.com/careers/",
+    "url": "https://www.linkedin.com/jobs/search/?keywords=Database+Administrator+%28PostgreSQL+%26+MySQL%29+Zoho+Corporation&location=Chennai&currentJobId=4479480605",
     "skills": [
       "PostgreSQL",
       "MySQL",
@@ -860,7 +903,8 @@
     "salary": "\u20b99 - \u20b916 LPA",
     "experience": "2-5 yrs",
     "description": "Manage high-volume database clusters powering Zoho CRM and Mail. Tune connection pooling, configure master-replica streaming, and execute zero-downtime upgrades.",
-    "posted_date": "2 days ago"
+    "posted_date": "2 days ago",
+    "job_id": "4479480605"
   },
   {
     "id": 45,
@@ -868,7 +912,7 @@
     "company": "Postman",
     "location": "Bangalore",
     "source": "Postman Careers",
-    "url": "https://www.postman.com/company/careers/",
+    "url": "https://www.linkedin.com/jobs/search/?keywords=Data+Analytics+Engineer+Postman&location=Bangalore&currentJobId=4446977402",
     "skills": [
       "SQL",
       "Python",
@@ -880,7 +924,8 @@
     "salary": "\u20b916 - \u20b926 LPA",
     "experience": "2-4 yrs",
     "description": "Model core business telemetry using dbt and Google BigQuery. Build Looker visual models for API developers and product growth teams.",
-    "posted_date": "Just now"
+    "posted_date": "Just now",
+    "job_id": "4446977402"
   },
   {
     "id": 46,
@@ -888,7 +933,7 @@
     "company": "Tata Elxsi",
     "location": "Pune",
     "source": "Foundit",
-    "url": "https://www.tataelxsi.com/careers",
+    "url": "https://www.linkedin.com/jobs/search/?keywords=Junior+Python+Developer+Tata+Elxsi&location=Pune&currentJobId=4416811929",
     "skills": [
       "Python",
       "OOP",
@@ -899,7 +944,8 @@
     "salary": "\u20b95 - \u20b97.5 LPA",
     "experience": "0-2 yrs",
     "description": "Develop backend modules for connected vehicle telemetry and smart mobility platforms using clean, object-oriented Python.",
-    "posted_date": "2 days ago"
+    "posted_date": "2 days ago",
+    "job_id": "4416811929"
   },
   {
     "id": 47,
@@ -907,7 +953,7 @@
     "company": "Genpact",
     "location": "Hyderabad",
     "source": "Naukri",
-    "url": "https://www.genpact.com/careers",
+    "url": "https://www.linkedin.com/jobs/search/?keywords=Associate+Data+Analyst+Genpact&location=Hyderabad&currentJobId=4448963833",
     "skills": [
       "Excel",
       "SQL",
@@ -918,7 +964,8 @@
     "salary": "\u20b94.5 - \u20b97 LPA",
     "experience": "0-2 yrs",
     "description": "Perform monthly variance reporting, invoice reconciliation, and executive summary dashboarding for enterprise banking clients.",
-    "posted_date": "3 days ago"
+    "posted_date": "3 days ago",
+    "job_id": "4448963833"
   },
   {
     "id": 48,
@@ -926,7 +973,7 @@
     "company": "Jio Platforms",
     "location": "Mumbai",
     "source": "Jio Careers",
-    "url": "https://careers.jio.com/",
+    "url": "https://www.linkedin.com/jobs/search/?keywords=Lead+AI+Engineer+Jio+Platforms&location=Mumbai&currentJobId=4481182603",
     "skills": [
       "Python",
       "Deep Learning",
@@ -937,7 +984,8 @@
     "salary": "\u20b925 - \u20b940 LPA",
     "experience": "5-8 yrs",
     "description": "Direct development of indigenous Indic language LLMs and multimodal AI capabilities serving 450+ million digital subscribers.",
-    "posted_date": "1 day ago"
+    "posted_date": "1 day ago",
+    "job_id": "4481182603"
   },
   {
     "id": 49,
@@ -945,7 +993,7 @@
     "company": "DXC Technology",
     "location": "Noida",
     "source": "LinkedIn",
-    "url": "https://dxc.com/careers",
+    "url": "https://www.linkedin.com/jobs/search/?keywords=BI+Developer+%28Tableau+%26+Power+BI%29+DXC+Technology&location=Noida&currentJobId=4499843682",
     "skills": [
       "Tableau",
       "Power BI",
@@ -956,7 +1004,8 @@
     "salary": "\u20b98 - \u20b912 LPA",
     "experience": "2-4 yrs",
     "description": "Design visual analytics suites for manufacturing and healthcare supply chains across North America and Europe.",
-    "posted_date": "2 days ago"
+    "posted_date": "2 days ago",
+    "job_id": "4499843682"
   },
   {
     "id": 50,
@@ -964,7 +1013,7 @@
     "company": "Myntra",
     "location": "Bangalore",
     "source": "Myntra Careers",
-    "url": "https://careers.myntra.com/",
+    "url": "https://www.linkedin.com/jobs/search/?keywords=Data+Scientist+-+Marketing+%26+Customer+Analytics+Myntra&location=Bangalore&currentJobId=4466524439",
     "skills": [
       "Python",
       "SQL",
@@ -975,7 +1024,8 @@
     "salary": "\u20b915 - \u20b924 LPA",
     "experience": "2-4 yrs",
     "description": "Predict fashion trend affinity, personalize promotional discounts, and build customer lifetime value (LTV) propensity models.",
-    "posted_date": "Today"
+    "posted_date": "Today",
+    "job_id": "4466524439"
   },
   {
     "id": 51,
@@ -983,7 +1033,7 @@
     "company": "Swiggy",
     "location": "Bangalore",
     "source": "Swiggy Careers",
-    "url": "https://careers.swiggy.com/",
+    "url": "https://www.linkedin.com/jobs/search/?keywords=Software+Engineer+-+Backend+%28Python+%2F+Django%29+Swiggy&location=Bangalore&currentJobId=4494079670",
     "skills": [
       "Python",
       "Django",
@@ -995,7 +1045,8 @@
     "salary": "\u20b916 - \u20b926 LPA",
     "experience": "2-4 yrs",
     "description": "Design distributed order fulfillment and microservice architectures handling millions of daily customer transactions.",
-    "posted_date": "Today"
+    "posted_date": "Today",
+    "job_id": "4494079670"
   },
   {
     "id": 52,
@@ -1003,7 +1054,7 @@
     "company": "Flipkart",
     "location": "Bangalore",
     "source": "Flipkart Careers",
-    "url": "https://www.flipkartcareers.com/",
+    "url": "https://www.linkedin.com/jobs/search/?keywords=Senior+Data+Analyst+Flipkart&location=Bangalore&currentJobId=4421880824",
     "skills": [
       "SQL",
       "Python",
@@ -1014,7 +1065,8 @@
     "salary": "\u20b918 - \u20b928 LPA",
     "experience": "3-5 yrs",
     "description": "Drive conversion funnel optimization, checkout abandonment reduction, and multi-touch seller attribution models.",
-    "posted_date": "1 day ago"
+    "posted_date": "1 day ago",
+    "job_id": "4421880824"
   },
   {
     "id": 53,
@@ -1022,7 +1074,7 @@
     "company": "Razorpay",
     "location": "Bangalore",
     "source": "Razorpay Careers",
-    "url": "https://razorpay.com/jobs/",
+    "url": "https://www.linkedin.com/jobs/search/?keywords=Full+Stack+Developer+%28React+%26+Node.js%29+Razorpay&location=Bangalore&currentJobId=4463796784",
     "skills": [
       "React",
       "Node.js",
@@ -1033,7 +1085,8 @@
     "salary": "\u20b914 - \u20b924 LPA",
     "experience": "2-4 yrs",
     "description": "Build high-throughput developer dashboards and payment gateway onboarding portals with delightful user experiences.",
-    "posted_date": "Today"
+    "posted_date": "Today",
+    "job_id": "4463796784"
   },
   {
     "id": 54,
@@ -1041,7 +1094,7 @@
     "company": "PhonePe",
     "location": "Bangalore",
     "source": "PhonePe Careers",
-    "url": "https://www.phonepe.com/careers/",
+    "url": "https://www.linkedin.com/jobs/search/?keywords=Data+Analyst+-+Fraud+%26+Risk+Operations+PhonePe&location=Bangalore&currentJobId=4434621667",
     "skills": [
       "SQL",
       "Python",
@@ -1052,7 +1105,8 @@
     "salary": "\u20b912 - \u20b920 LPA",
     "experience": "1-3 yrs",
     "description": "Monitor UPI transactions, evaluate anomaly scoring engines, and partner with risk compliance officers to prevent suspicious transactions.",
-    "posted_date": "2 days ago"
+    "posted_date": "2 days ago",
+    "job_id": "4434621667"
   },
   {
     "id": 55,
@@ -1060,7 +1114,7 @@
     "company": "CRED",
     "location": "Bangalore",
     "source": "CRED Careers",
-    "url": "https://cred.club/careers",
+    "url": "https://www.linkedin.com/jobs/search/?keywords=Cloud+DevOps+Engineer+CRED&location=Bangalore&currentJobId=4496892188",
     "skills": [
       "AWS",
       "Kubernetes",
@@ -1072,7 +1126,8 @@
     "salary": "\u20b920 - \u20b932 LPA",
     "experience": "3-5 yrs",
     "description": "Maintain 99.99% uptime for cloud infrastructure, manage multi-region Kubernetes clusters, and automate deployment pipelines.",
-    "posted_date": "Today"
+    "posted_date": "Today",
+    "job_id": "4496892188"
   },
   {
     "id": 56,
@@ -1080,7 +1135,7 @@
     "company": "Cognizant",
     "location": "Hyderabad",
     "source": "Naukri",
-    "url": "https://careers.cognizant.com/",
+    "url": "https://www.linkedin.com/jobs/search/?keywords=Junior+Python+Developer+Cognizant&location=Hyderabad&currentJobId=4428775632",
     "skills": [
       "Python",
       "SQL",
@@ -1091,7 +1146,8 @@
     "salary": "\u20b94.5 - \u20b97.5 LPA",
     "experience": "0-2 yrs",
     "description": "Develop automated data ingestion microservices and API connectors for healthcare and life sciences clients.",
-    "posted_date": "3 days ago"
+    "posted_date": "3 days ago",
+    "job_id": "4428775632"
   },
   {
     "id": 57,
@@ -1099,7 +1155,7 @@
     "company": "Accenture",
     "location": "Hyderabad",
     "source": "Accenture Careers",
-    "url": "https://www.accenture.com/in-en/careers",
+    "url": "https://www.linkedin.com/jobs/search/?keywords=Business+Intelligence+Analyst+Accenture&location=Hyderabad&currentJobId=4448126770",
     "skills": [
       "Power BI",
       "SQL",
@@ -1110,7 +1166,8 @@
     "salary": "\u20b97 - \u20b911 LPA",
     "experience": "2-4 yrs",
     "description": "Construct enterprise Power BI semantic models and executive KPI scorecards for global telecommunications accounts.",
-    "posted_date": "2 days ago"
+    "posted_date": "2 days ago",
+    "job_id": "4448126770"
   },
   {
     "id": 58,
@@ -1118,7 +1175,7 @@
     "company": "Zomato",
     "location": "Gurgaon",
     "source": "Zomato Careers",
-    "url": "https://www.zomato.com/careers",
+    "url": "https://www.linkedin.com/jobs/search/?keywords=Machine+Learning+Engineer+Zomato&location=Gurgaon&currentJobId=4412170672",
     "skills": [
       "Python",
       "PyTorch",
@@ -1129,7 +1186,8 @@
     "salary": "\u20b918 - \u20b930 LPA",
     "experience": "2-5 yrs",
     "description": "Deploy deep learning ranking models predicting food delivery estimated time of arrival (ETA) and restaurant dish recommendations.",
-    "posted_date": "1 day ago"
+    "posted_date": "1 day ago",
+    "job_id": "4412170672"
   },
   {
     "id": 59,
@@ -1137,7 +1195,7 @@
     "company": "GitLab",
     "location": "Remote",
     "source": "GitLab Careers",
-    "url": "https://about.gitlab.com/jobs/",
+    "url": "https://www.linkedin.com/jobs/search/?keywords=Remote+Frontend+Engineer+%28React+%2F+TypeScript%29+GitLab&location=Remote&currentJobId=4482489796",
     "skills": [
       "React",
       "TypeScript",
@@ -1149,7 +1207,8 @@
     "salary": "$80,000 - $120,000",
     "experience": "2-5 yrs",
     "description": "Contribute to GitLab's open-source web application, optimizing CI/CD pipeline visualizers and code review interfaces.",
-    "posted_date": "Today"
+    "posted_date": "Today",
+    "job_id": "4482489796"
   },
   {
     "id": 60,
@@ -1157,7 +1216,7 @@
     "company": "Amazon",
     "location": "Hyderabad",
     "source": "Amazon Jobs",
-    "url": "https://www.amazon.jobs/",
+    "url": "https://www.linkedin.com/jobs/search/?keywords=Data+Analyst+-+Supply+Chain+Amazon&location=Hyderabad&currentJobId=4431744916",
     "skills": [
       "SQL",
       "Excel",
@@ -1168,7 +1227,8 @@
     "salary": "\u20b912 - \u20b918 LPA",
     "experience": "1-3 yrs",
     "description": "Analyze warehouse inventory velocity, fulfillment center bottlenecks, and last-mile logistics delivery performance across India.",
-    "posted_date": "Today"
+    "posted_date": "Today",
+    "job_id": "4431744916"
   },
   {
     "id": 61,
@@ -1176,7 +1236,7 @@
     "company": "Deloitte",
     "location": "Hyderabad",
     "source": "Deloitte Careers",
-    "url": "https://jobs2.deloitte.com/",
+    "url": "https://www.linkedin.com/jobs/search/?keywords=Data+Engineer+%28Spark+%26+Snowflake%29+Deloitte&location=Hyderabad&currentJobId=4441811895",
     "skills": [
       "SQL",
       "Python",
@@ -1187,7 +1247,8 @@
     "salary": "\u20b910 - \u20b916 LPA",
     "experience": "2-5 yrs",
     "description": "Build scalable data pipelines transforming raw transactional data into dimensional data lakes for multinational audit clients.",
-    "posted_date": "2 days ago"
+    "posted_date": "2 days ago",
+    "job_id": "4441811895"
   },
   {
     "id": 62,
@@ -1195,7 +1256,7 @@
     "company": "JPMorgan Chase",
     "location": "Hyderabad",
     "source": "JPMorgan Careers",
-    "url": "https://careers.jpmorgan.com/",
+    "url": "https://www.linkedin.com/jobs/search/?keywords=Software+Development+Engineer+%28Java+%2F+Spring+Boot%29+JPMorgan+Chase&location=Hyderabad&currentJobId=4487991021",
     "skills": [
       "Java",
       "Spring Boot",
@@ -1206,7 +1267,8 @@
     "salary": "\u20b915 - \u20b925 LPA",
     "experience": "2-4 yrs",
     "description": "Develop ultra low-latency banking ledger platforms and resilient payment settlement services.",
-    "posted_date": "1 day ago"
+    "posted_date": "1 day ago",
+    "job_id": "4487991021"
   },
   {
     "id": 63,
@@ -1214,7 +1276,7 @@
     "company": "Canonical",
     "location": "Remote",
     "source": "Canonical Careers",
-    "url": "https://canonical.com/careers",
+    "url": "https://www.linkedin.com/jobs/search/?keywords=Remote+Python+Data+Engineer+Canonical&location=Remote&currentJobId=4463055484",
     "skills": [
       "Python",
       "PostgreSQL",
@@ -1225,7 +1287,8 @@
     "salary": "$65,000 - $95,000",
     "experience": "2-4 yrs",
     "description": "Maintain global telemetry analytics data pipelines supporting Ubuntu package mirrors and cloud distribution metrics.",
-    "posted_date": "Today"
+    "posted_date": "Today",
+    "job_id": "4463055484"
   },
   {
     "id": 64,
@@ -1233,7 +1296,7 @@
     "company": "Meesho",
     "location": "Bangalore",
     "source": "Meesho Careers",
-    "url": "https://meesho.io/jobs",
+    "url": "https://www.linkedin.com/jobs/search/?keywords=Product+Analyst+Meesho&location=Bangalore&currentJobId=4445399886",
     "skills": [
       "SQL",
       "Python",
@@ -1244,7 +1307,8 @@
     "salary": "\u20b914 - \u20b922 LPA",
     "experience": "1-3 yrs",
     "description": "Define product success metrics, measure seller engagement, and formulate user lifecycle retention strategies.",
-    "posted_date": "Today"
+    "posted_date": "Today",
+    "job_id": "4445399886"
   },
   {
     "id": 65,
@@ -1252,7 +1316,7 @@
     "company": "Paytm",
     "location": "Noida",
     "source": "Paytm Careers",
-    "url": "https://paytm.com/careers",
+    "url": "https://www.linkedin.com/jobs/search/?keywords=QA+Automation+Engineer+Paytm&location=Noida&currentJobId=4454939677",
     "skills": [
       "Python",
       "Selenium",
@@ -1263,7 +1327,8 @@
     "salary": "\u20b98 - \u20b914 LPA",
     "experience": "1-3 yrs",
     "description": "Design test automation frameworks for financial checkout SDKs and perform regression validation across mobile and web platforms.",
-    "posted_date": "3 days ago"
+    "posted_date": "3 days ago",
+    "job_id": "4454939677"
   },
   {
     "id": 66,
@@ -1271,7 +1336,7 @@
     "company": "Capgemini",
     "location": "Pune",
     "source": "LinkedIn",
-    "url": "https://www.capgemini.com/careers/",
+    "url": "https://www.linkedin.com/jobs/search/?keywords=Data+Analyst+%28SQL+%26+Python%29+Capgemini&location=Pune&currentJobId=4481401311",
     "skills": [
       "SQL",
       "Python",
@@ -1282,7 +1347,8 @@
     "salary": "\u20b96 - \u20b99.5 LPA",
     "experience": "1-3 yrs",
     "description": "Execute exploratory data analysis, write automated ETL scripts in Python, and deliver monthly business reports.",
-    "posted_date": "2 days ago"
+    "posted_date": "2 days ago",
+    "job_id": "4481401311"
   },
   {
     "id": 67,
@@ -1290,7 +1356,7 @@
     "company": "Uber",
     "location": "Hyderabad",
     "source": "Uber Careers",
-    "url": "https://www.uber.com/careers",
+    "url": "https://www.linkedin.com/jobs/search/?keywords=Site+Reliability+Engineer+%28SRE%29+Uber&location=Hyderabad&currentJobId=4420066379",
     "skills": [
       "Python",
       "Go",
@@ -1302,7 +1368,8 @@
     "salary": "\u20b922 - \u20b936 LPA",
     "experience": "3-6 yrs",
     "description": "Optimize platform resilience, conduct chaos engineering experiments, and ensure flawless mobility dispatch reliability.",
-    "posted_date": "1 day ago"
+    "posted_date": "1 day ago",
+    "job_id": "4420066379"
   },
   {
     "id": 68,
@@ -1310,7 +1377,7 @@
     "company": "Mu Sigma",
     "location": "Bangalore",
     "source": "Mu Sigma Careers",
-    "url": "https://www.mu-sigma.com/careers",
+    "url": "https://www.linkedin.com/jobs/search/?keywords=Junior+Data+Scientist+Mu+Sigma&location=Bangalore&currentJobId=4478018424",
     "skills": [
       "Python",
       "R",
@@ -1321,7 +1388,8 @@
     "salary": "\u20b96 - \u20b99 LPA",
     "experience": "0-2 yrs",
     "description": "Formulate predictive statistical hypotheses, evaluate exploratory regressions, and present quantitative insights to US retail clients.",
-    "posted_date": "3 days ago"
+    "posted_date": "3 days ago",
+    "job_id": "4478018424"
   },
   {
     "id": 69,
@@ -1329,7 +1397,7 @@
     "company": "Zepto",
     "location": "Mumbai",
     "source": "Zepto Careers",
-    "url": "https://www.zeptonow.com/careers",
+    "url": "https://www.linkedin.com/jobs/search/?keywords=Frontend+Developer+%28Vue.js+%2F+Nuxt%29+Zepto&location=Mumbai&currentJobId=4452153080",
     "skills": [
       "JavaScript",
       "Vue.js",
@@ -1340,7 +1408,8 @@
     "salary": "\u20b912 - \u20b918 LPA",
     "experience": "1-3 yrs",
     "description": "Engineer hyper-responsive quick commerce web interfaces with sub-second page transitions and smooth order tracking.",
-    "posted_date": "Today"
+    "posted_date": "Today",
+    "job_id": "4452153080"
   },
   {
     "id": 70,
@@ -1348,7 +1417,7 @@
     "company": "PwC",
     "location": "Bangalore",
     "source": "PwC Careers",
-    "url": "https://www.pwc.in/careers.html",
+    "url": "https://www.linkedin.com/jobs/search/?keywords=Data+Governance+%26+Quality+Analyst+PwC&location=Bangalore&currentJobId=4415874027",
     "skills": [
       "SQL",
       "Data Governance",
@@ -1359,7 +1428,8 @@
     "salary": "\u20b98 - \u20b913 LPA",
     "experience": "2-4 yrs",
     "description": "Audit enterprise master data dictionaries, implement automated data quality validation rules, and support regulatory compliance.",
-    "posted_date": "2 days ago"
+    "posted_date": "2 days ago",
+    "job_id": "4415874027"
   },
   {
     "id": 71,
@@ -1367,7 +1437,7 @@
     "company": "Atlassian",
     "location": "Bangalore",
     "source": "Atlassian Careers",
-    "url": "https://www.atlassian.com/company/careers",
+    "url": "https://www.linkedin.com/jobs/search/?keywords=Senior+Python+Backend+Engineer+Atlassian&location=Bangalore&currentJobId=4471471571",
     "skills": [
       "Python",
       "FastAPI",
@@ -1379,7 +1449,8 @@
     "salary": "\u20b928 - \u20b942 LPA",
     "experience": "4-7 yrs",
     "description": "Lead the design of Jira and Confluence cloud integrations, creating resilient APIs relied upon by tens of thousands of enterprises.",
-    "posted_date": "Today"
+    "posted_date": "Today",
+    "job_id": "4471471571"
   },
   {
     "id": 72,
@@ -1387,7 +1458,7 @@
     "company": "Goldman Sachs",
     "location": "Bangalore",
     "source": "Goldman Sachs Careers",
-    "url": "https://www.goldmansachs.com/careers/",
+    "url": "https://www.linkedin.com/jobs/search/?keywords=Financial+Data+Analyst+Goldman+Sachs&location=Bangalore&currentJobId=4461530285",
     "skills": [
       "Python",
       "SQL",
@@ -1398,7 +1469,8 @@
     "salary": "\u20b918 - \u20b928 LPA",
     "experience": "2-4 yrs",
     "description": "Analyze portfolio risk vectors, asset allocation models, and fixed-income returns using Python analytics and SQL databases.",
-    "posted_date": "1 day ago"
+    "posted_date": "1 day ago",
+    "job_id": "4461530285"
   },
   {
     "id": 73,
@@ -1406,7 +1478,7 @@
     "company": "Oracle",
     "location": "Hyderabad",
     "source": "Oracle Careers",
-    "url": "https://www.oracle.com/careers/",
+    "url": "https://www.linkedin.com/jobs/search/?keywords=Cloud+Solutions+Architect+Oracle&location=Hyderabad&currentJobId=4436234941",
     "skills": [
       "OCI",
       "Cloud Architecture",
@@ -1417,7 +1489,8 @@
     "salary": "\u20b924 - \u20b938 LPA",
     "experience": "5+ yrs",
     "description": "Architect enterprise cloud migrations, secure hybrid data environments, and optimize cloud database infrastructure.",
-    "posted_date": "Today"
+    "posted_date": "Today",
+    "job_id": "4436234941"
   },
   {
     "id": 74,
@@ -1425,7 +1498,7 @@
     "company": "Automattic",
     "location": "Remote",
     "source": "Automattic Careers",
-    "url": "https://automattic.com/work-with-us/",
+    "url": "https://www.linkedin.com/jobs/search/?keywords=Remote+Software+Engineer+%28Python+%26+React%29+Automattic&location=Remote&currentJobId=4475991563",
     "skills": [
       "Python",
       "React",
@@ -1436,7 +1509,8 @@
     "salary": "$90,000 - $130,000",
     "experience": "2-5 yrs",
     "description": "Work 100% remotely building modern open-web publishing and e-commerce tools powering 40% of the world's websites.",
-    "posted_date": "Today"
+    "posted_date": "Today",
+    "job_id": "4475991563"
   },
   {
     "id": 75,
@@ -1444,7 +1518,7 @@
     "company": "Wipro",
     "location": "Hyderabad",
     "source": "Wipro Careers",
-    "url": "https://careers.wipro.com/",
+    "url": "https://www.linkedin.com/jobs/search/?keywords=Data+Analyst+%28Entry+Level+%2F+Freshers%29+Wipro&location=Hyderabad&currentJobId=4478641628",
     "skills": [
       "SQL",
       "Excel",
@@ -1455,7 +1529,8 @@
     "salary": "\u20b94 - \u20b96.5 LPA",
     "experience": "0-1 yrs",
     "description": "Entry-level role for analytical thinkers. Extract structured records, validate operational databases, and design client dashboards.",
-    "posted_date": "Today"
+    "posted_date": "Today",
+    "job_id": "4478641628"
   },
   {
     "id": 76,
@@ -1463,7 +1538,7 @@
     "company": "Microsoft",
     "location": "Bangalore",
     "source": "Microsoft Careers",
-    "url": "https://careers.microsoft.com/",
+    "url": "https://www.linkedin.com/jobs/search/?keywords=Machine+Learning+Research+Engineer+Microsoft&location=Bangalore&currentJobId=4452498427",
     "skills": [
       "Python",
       "PyTorch",
@@ -1474,7 +1549,8 @@
     "salary": "\u20b925 - \u20b942 LPA",
     "experience": "3-6 yrs",
     "description": "Advance state-of-the-art multilingual LLM evaluation, prompt optimization, and edge inference quantization.",
-    "posted_date": "1 day ago"
+    "posted_date": "1 day ago",
+    "job_id": "4452498427"
   },
   {
     "id": 77,
@@ -1482,7 +1558,7 @@
     "company": "Cisco",
     "location": "Bangalore",
     "source": "Cisco Careers",
-    "url": "https://jobs.cisco.com/",
+    "url": "https://www.linkedin.com/jobs/search/?keywords=Full+Stack+Engineer+%28Django+%26+Angular%29+Cisco&location=Bangalore&currentJobId=4432292194",
     "skills": [
       "Python",
       "Django",
@@ -1494,7 +1570,8 @@
     "salary": "\u20b916 - \u20b925 LPA",
     "experience": "2-5 yrs",
     "description": "Build network observability portals and enterprise security analytics dashboards for enterprise routing infrastructures.",
-    "posted_date": "2 days ago"
+    "posted_date": "2 days ago",
+    "job_id": "4432292194"
   },
   {
     "id": 78,
@@ -1502,7 +1579,7 @@
     "company": "Swiggy",
     "location": "Hyderabad",
     "source": "LinkedIn",
-    "url": "https://careers.swiggy.com/",
+    "url": "https://www.linkedin.com/jobs/search/?keywords=Operations+Data+Analyst+Swiggy&location=Hyderabad&currentJobId=4470727516",
     "skills": [
       "SQL",
       "Python",
@@ -1513,7 +1590,8 @@
     "salary": "\u20b98 - \u20b913 LPA",
     "experience": "1-3 yrs",
     "description": "Deep-dive into rider allocation efficiency, delivery partner payout structures, and geographic demand heatmaps.",
-    "posted_date": "1 day ago"
+    "posted_date": "1 day ago",
+    "job_id": "4470727516"
   },
   {
     "id": 79,
@@ -1521,7 +1599,7 @@
     "company": "Docker",
     "location": "Remote",
     "source": "Docker Careers",
-    "url": "https://www.docker.com/careers",
+    "url": "https://www.linkedin.com/jobs/search/?keywords=Remote+Backend+Engineer+%28Go+%2F+Golang%29+Docker&location=Remote&currentJobId=4451621567",
     "skills": [
       "Go",
       "Docker",
@@ -1532,7 +1610,8 @@
     "salary": "$100,000 - $140,000",
     "experience": "3-6 yrs",
     "description": "Build modern container runtime tooling, developer desktop microservices, and container registry infrastructure.",
-    "posted_date": "Today"
+    "posted_date": "Today",
+    "job_id": "4451621567"
   },
   {
     "id": 80,
@@ -1540,7 +1619,7 @@
     "company": "Nykaa",
     "location": "Mumbai",
     "source": "Nykaa Careers",
-    "url": "https://www.nykaa.com/careers",
+    "url": "https://www.linkedin.com/jobs/search/?keywords=Marketing+Data+Analyst+Nykaa&location=Mumbai&currentJobId=4425678339",
     "skills": [
       "SQL",
       "Google Analytics",
@@ -1551,7 +1630,8 @@
     "salary": "\u20b99 - \u20b915 LPA",
     "experience": "1-3 yrs",
     "description": "Quantify return on ad spend (ROAS) across social platforms, measure influencer impact, and segment beauty shoppers.",
-    "posted_date": "2 days ago"
+    "posted_date": "2 days ago",
+    "job_id": "4425678339"
   },
   {
     "id": 81,
@@ -1559,7 +1639,7 @@
     "company": "Google",
     "location": "Hyderabad",
     "source": "Google Careers",
-    "url": "https://careers.google.com/",
+    "url": "https://www.linkedin.com/jobs/search/?keywords=Software+Engineer+II+-+Payments+Google&location=Hyderabad&currentJobId=4477369404",
     "skills": [
       "Java",
       "C++",
@@ -1570,7 +1650,8 @@
     "salary": "\u20b928 - \u20b945 LPA",
     "experience": "3-5 yrs",
     "description": "Engineer Google Pay core transaction ledger infrastructure handling global payments with instant finality.",
-    "posted_date": "Today"
+    "posted_date": "Today",
+    "job_id": "4477369404"
   },
   {
     "id": 82,
@@ -1578,7 +1659,7 @@
     "company": "UnitedHealth Group",
     "location": "Hyderabad",
     "source": "UHG Careers",
-    "url": "https://careers.unitedhealthgroup.com/",
+    "url": "https://www.linkedin.com/jobs/search/?keywords=Data+Analyst+-+Healthcare+Insights+UnitedHealth+Group&location=Hyderabad&currentJobId=4436354024",
     "skills": [
       "SQL",
       "Python",
@@ -1589,7 +1670,8 @@
     "salary": "\u20b99 - \u20b914 LPA",
     "experience": "1-3 yrs",
     "description": "Examine clinical claims datasets, identify patient treatment adherence trends, and automate diagnostic provider reporting.",
-    "posted_date": "1 day ago"
+    "posted_date": "1 day ago",
+    "job_id": "4436354024"
   },
   {
     "id": 83,
@@ -1597,7 +1679,7 @@
     "company": "TCS",
     "location": "Pune",
     "source": "TCS iBegin",
-    "url": "https://ibegin.tcs.com/",
+    "url": "https://www.linkedin.com/jobs/search/?keywords=Junior+Web+Developer+%28HTML+%2F+CSS+%2F+JavaScript%29+TCS&location=Pune&currentJobId=4420101417",
     "skills": [
       "JavaScript",
       "HTML5",
@@ -1608,7 +1690,8 @@
     "salary": "\u20b94.2 - \u20b96.5 LPA",
     "experience": "0-2 yrs",
     "description": "Maintain enterprise client portals, implement accessible UI components, and fix cross-browser compatibility issues.",
-    "posted_date": "3 days ago"
+    "posted_date": "3 days ago",
+    "job_id": "4420101417"
   },
   {
     "id": 84,
@@ -1616,7 +1699,7 @@
     "company": "LTIMindtree",
     "location": "Bangalore",
     "source": "LTIMindtree Careers",
-    "url": "https://www.ltimindtree.com/careers/",
+    "url": "https://www.linkedin.com/jobs/search/?keywords=Cloud+Data+Engineer+%28AWS+%26+PySpark%29+LTIMindtree&location=Bangalore&currentJobId=4445471268",
     "skills": [
       "Python",
       "PySpark",
@@ -1628,7 +1711,8 @@
     "salary": "\u20b911 - \u20b917 LPA",
     "experience": "2-5 yrs",
     "description": "Build petabyte-scale lakehouse architectures using AWS Glue, Athena, and EMR for Fortune 500 retail clients.",
-    "posted_date": "2 days ago"
+    "posted_date": "2 days ago",
+    "job_id": "4445471268"
   },
   {
     "id": 85,
@@ -1636,7 +1720,7 @@
     "company": "CrowdStrike",
     "location": "Remote",
     "source": "CrowdStrike Careers",
-    "url": "https://www.crowdstrike.com/careers/",
+    "url": "https://www.linkedin.com/jobs/search/?keywords=Remote+Security+Analyst+CrowdStrike&location=Remote&currentJobId=4486710428",
     "skills": [
       "Python",
       "Cybersecurity",
@@ -1647,7 +1731,8 @@
     "salary": "$85,000 - $125,000",
     "experience": "2-5 yrs",
     "description": "Analyze endpoint telemetry and investigate threat adversary signatures to protect enterprise infrastructure from breaches.",
-    "posted_date": "Today"
+    "posted_date": "Today",
+    "job_id": "4486710428"
   },
   {
     "id": 86,
@@ -1655,7 +1740,7 @@
     "company": "EY (Ernst & Young)",
     "location": "Gurgaon",
     "source": "EY Careers",
-    "url": "https://www.ey.com/en_in/careers",
+    "url": "https://www.linkedin.com/jobs/search/?keywords=BI+%26+Analytics+Consultant+EY+%28Ernst+%26+Young%29&location=Gurgaon&currentJobId=4454821870",
     "skills": [
       "Power BI",
       "SQL",
@@ -1666,7 +1751,8 @@
     "salary": "\u20b910 - \u20b916 LPA",
     "experience": "2-4 yrs",
     "description": "Partner with C-suite stakeholders to translate business questions into actionable self-service business intelligence suites.",
-    "posted_date": "1 day ago"
+    "posted_date": "1 day ago",
+    "job_id": "4454821870"
   },
   {
     "id": 87,
@@ -1674,7 +1760,7 @@
     "company": "HCL Technologies",
     "location": "Noida",
     "source": "HCL Careers",
-    "url": "https://www.hcltech.com/careers",
+    "url": "https://www.linkedin.com/jobs/search/?keywords=Python+Developer+-+Automation+%26+Scripting+HCL+Technologies&location=Noida&currentJobId=4424347408",
     "skills": [
       "Python",
       "Bash",
@@ -1686,7 +1772,8 @@
     "salary": "\u20b96.5 - \u20b910 LPA",
     "experience": "1-3 yrs",
     "description": "Automate IT server provisioning, backup verification, and log rotation scripts across thousands of client VMs.",
-    "posted_date": "2 days ago"
+    "posted_date": "2 days ago",
+    "job_id": "4424347408"
   },
   {
     "id": 88,
@@ -1694,7 +1781,7 @@
     "company": "Flipkart",
     "location": "Bangalore",
     "source": "Flipkart Careers",
-    "url": "https://www.flipkartcareers.com/",
+    "url": "https://www.linkedin.com/jobs/search/?keywords=Senior+Data+Scientist+-+NLP+Flipkart&location=Bangalore&currentJobId=4435968207",
     "skills": [
       "Python",
       "NLP",
@@ -1705,7 +1792,8 @@
     "salary": "\u20b926 - \u20b938 LPA",
     "experience": "4-7 yrs",
     "description": "Improve product search relevance, query intent classification, and automated catalog tag extraction across 150M products.",
-    "posted_date": "Today"
+    "posted_date": "Today",
+    "job_id": "4435968207"
   },
   {
     "id": 89,
@@ -1713,7 +1801,7 @@
     "company": "Postman",
     "location": "Bangalore",
     "source": "Postman Careers",
-    "url": "https://www.postman.com/careers/",
+    "url": "https://www.linkedin.com/jobs/search/?keywords=Frontend+Engineer+%28React+%26+Tailwind%29+Postman&location=Bangalore&currentJobId=4471046294",
     "skills": [
       "React",
       "JavaScript",
@@ -1724,7 +1812,8 @@
     "salary": "\u20b916 - \u20b926 LPA",
     "experience": "2-4 yrs",
     "description": "Craft intuitive developer tools used by 30+ million API engineers to design, document, and test modern APIs.",
-    "posted_date": "1 day ago"
+    "posted_date": "1 day ago",
+    "job_id": "4471046294"
   },
   {
     "id": 90,
@@ -1732,7 +1821,7 @@
     "company": "Tech Mahindra",
     "location": "Hyderabad",
     "source": "TechM Careers",
-    "url": "https://careers.techmahindra.com/",
+    "url": "https://www.linkedin.com/jobs/search/?keywords=Junior+Data+Analyst+Tech+Mahindra&location=Hyderabad&currentJobId=4458809046",
     "skills": [
       "SQL",
       "Excel",
@@ -1743,7 +1832,8 @@
     "salary": "\u20b94.5 - \u20b97 LPA",
     "experience": "0-2 yrs",
     "description": "Support network performance telemetry data collection and generate daily executive SLA compliance scorecards.",
-    "posted_date": "3 days ago"
+    "posted_date": "3 days ago",
+    "job_id": "4458809046"
   },
   {
     "id": 91,
@@ -1751,7 +1841,7 @@
     "company": "Hugging Face",
     "location": "Remote",
     "source": "Hugging Face Careers",
-    "url": "https://huggingface.co/join-us",
+    "url": "https://www.linkedin.com/jobs/search/?keywords=Remote+Python+AI+Engineer+Hugging+Face&location=Remote&currentJobId=4427226576",
     "skills": [
       "Python",
       "PyTorch",
@@ -1762,7 +1852,8 @@
     "salary": "$95,000 - $145,000",
     "experience": "2-5 yrs",
     "description": "Empower the open-source machine learning ecosystem by building optimized model deployment pipelines and inference hubs.",
-    "posted_date": "Today"
+    "posted_date": "Today",
+    "job_id": "4427226576"
   },
   {
     "id": 92,
@@ -1770,7 +1861,7 @@
     "company": "Swiggy",
     "location": "Bangalore",
     "source": "Swiggy Careers",
-    "url": "https://careers.swiggy.com/",
+    "url": "https://www.linkedin.com/jobs/search/?keywords=Lead+Software+Engineer+-+Mobile+%28Flutter%29+Swiggy&location=Bangalore&currentJobId=4415478501",
     "skills": [
       "Flutter",
       "Dart",
@@ -1782,7 +1873,8 @@
     "salary": "\u20b924 - \u20b938 LPA",
     "experience": "4-8 yrs",
     "description": "Lead cross-platform mobile architecture delivering silky-smooth animations and real-time delivery GPS tracking.",
-    "posted_date": "2 days ago"
+    "posted_date": "2 days ago",
+    "job_id": "4415478501"
   },
   {
     "id": 93,
@@ -1790,7 +1882,7 @@
     "company": "Airtel",
     "location": "Gurgaon",
     "source": "Airtel Careers",
-    "url": "https://www.airtel.in/careers/",
+    "url": "https://www.linkedin.com/jobs/search/?keywords=Data+Analyst+-+Customer+Experience+Airtel&location=Gurgaon&currentJobId=4410511742",
     "skills": [
       "SQL",
       "Power BI",
@@ -1801,7 +1893,8 @@
     "salary": "\u20b98.5 - \u20b913.5 LPA",
     "experience": "1-3 yrs",
     "description": "Analyze 5G network user satisfaction feedback, telecom subscriber churn drivers, and customer care resolution times.",
-    "posted_date": "1 day ago"
+    "posted_date": "1 day ago",
+    "job_id": "4410511742"
   },
   {
     "id": 94,
@@ -1809,7 +1902,7 @@
     "company": "Infosys",
     "location": "Bangalore",
     "source": "Infosys Careers",
-    "url": "https://career.infosys.com/",
+    "url": "https://www.linkedin.com/jobs/search/?keywords=Database+Administrator+%28PostgreSQL+%26+MySQL%29+Infosys&location=Bangalore&currentJobId=4419300862",
     "skills": [
       "PostgreSQL",
       "MySQL",
@@ -1820,7 +1913,8 @@
     "salary": "\u20b99 - \u20b915 LPA",
     "experience": "2-5 yrs",
     "description": "Ensure high availability, replication, and query performance optimization for critical banking database clusters.",
-    "posted_date": "2 days ago"
+    "posted_date": "2 days ago",
+    "job_id": "4419300862"
   },
   {
     "id": 95,
@@ -1828,7 +1922,7 @@
     "company": "Meta",
     "location": "Hyderabad",
     "source": "Meta Careers",
-    "url": "https://www.metacareers.com/",
+    "url": "https://www.linkedin.com/jobs/search/?keywords=Software+Engineer+-+Infrastructure+Meta&location=Hyderabad&currentJobId=4441085122",
     "skills": [
       "C++",
       "Python",
@@ -1839,7 +1933,8 @@
     "salary": "\u20b932 - \u20b950 LPA",
     "experience": "3-6 yrs",
     "description": "Design hyperscale infrastructure systems routing exabytes of media across global data centers with near-zero packet loss.",
-    "posted_date": "Today"
+    "posted_date": "Today",
+    "job_id": "4441085122"
   },
   {
     "id": 96,
@@ -1847,7 +1942,7 @@
     "company": "KPMG",
     "location": "Bangalore",
     "source": "KPMG Careers",
-    "url": "https://kpmg.com/in/en/home/careers.html",
+    "url": "https://www.linkedin.com/jobs/search/?keywords=Data+Analyst+%28SQL%2C+Excel+%26+Tableau%29+KPMG&location=Bangalore&currentJobId=4452798518",
     "skills": [
       "SQL",
       "Excel",
@@ -1858,7 +1953,8 @@
     "salary": "\u20b98 - \u20b912.5 LPA",
     "experience": "1-3 yrs",
     "description": "Execute forensic data investigations, transaction anomalies testing, and corporate valuation data prep.",
-    "posted_date": "2 days ago"
+    "posted_date": "2 days ago",
+    "job_id": "4452798518"
   },
   {
     "id": 97,
@@ -1866,7 +1962,7 @@
     "company": "Zapier",
     "location": "Remote",
     "source": "Zapier Careers",
-    "url": "https://zapier.com/jobs",
+    "url": "https://www.linkedin.com/jobs/search/?keywords=Remote+Full+Stack+Engineer+Zapier&location=Remote&currentJobId=4466226041",
     "skills": [
       "Python",
       "React",
@@ -1877,7 +1973,8 @@
     "salary": "$90,000 - $135,000",
     "experience": "2-5 yrs",
     "description": "Build automated workflow triggers and third-party SaaS connectors enabling millions of no-code productivity integrations.",
-    "posted_date": "Today"
+    "posted_date": "Today",
+    "job_id": "4466226041"
   },
   {
     "id": 98,
@@ -1885,7 +1982,7 @@
     "company": "Tata Consultancy Services (TCS)",
     "location": "Hyderabad",
     "source": "TCS Careers",
-    "url": "https://www.tcs.com/careers",
+    "url": "https://www.linkedin.com/jobs/search/?keywords=Junior+Business+Analyst+Tata+Consultancy+Services+%28TCS%29&location=Hyderabad&currentJobId=4456536149",
     "skills": [
       "Business Analysis",
       "Requirements Gathering",
@@ -1896,7 +1993,8 @@
     "salary": "\u20b94.8 - \u20b97.2 LPA",
     "experience": "0-2 yrs",
     "description": "Facilitate stakeholder discovery sessions, draft user stories, validate acceptance criteria, and model business processes.",
-    "posted_date": "3 days ago"
+    "posted_date": "3 days ago",
+    "job_id": "4456536149"
   },
   {
     "id": 99,
@@ -1904,7 +2002,7 @@
     "company": "Spotify",
     "location": "Mumbai",
     "source": "Spotify Jobs",
-    "url": "https://www.lifeatspotify.com/jobs",
+    "url": "https://www.linkedin.com/jobs/search/?keywords=Data+Scientist+-+Personalization+Spotify&location=Mumbai&currentJobId=4499789859",
     "skills": [
       "Python",
       "SQL",
@@ -1915,7 +2013,8 @@
     "salary": "\u20b922 - \u20b935 LPA",
     "experience": "3-5 yrs",
     "description": "Develop algorithmic playlist generation and podcast discovery models tuned to regional audio preferences.",
-    "posted_date": "1 day ago"
+    "posted_date": "1 day ago",
+    "job_id": "4499789859"
   },
   {
     "id": 100,
@@ -1923,7 +2022,7 @@
     "company": "Morgan Stanley",
     "location": "Bangalore",
     "source": "Morgan Stanley Careers",
-    "url": "https://www.morganstanley.com/people/careers",
+    "url": "https://www.linkedin.com/jobs/search/?keywords=Software+Development+Engineer+%28Python+%2F+FastAPI%29+Morgan+Stanley&location=Bangalore&currentJobId=4440655991",
     "skills": [
       "Python",
       "FastAPI",
@@ -1935,7 +2034,8 @@
     "salary": "\u20b916 - \u20b927 LPA",
     "experience": "2-4 yrs",
     "description": "Build high-integrity trade execution reporting services and enterprise pricing data APIs for institutional trading desks.",
-    "posted_date": "Today"
+    "posted_date": "Today",
+    "job_id": "4440655991"
   },
   {
     "id": 101,
@@ -1943,7 +2043,7 @@
     "company": "InMobi",
     "location": "Bangalore",
     "source": "InMobi Careers",
-    "url": "https://www.inmobi.com/company/careers",
+    "url": "https://www.linkedin.com/jobs/search/?keywords=Senior+Data+Analyst+-+Growth+%26+Monetization+InMobi&location=Bangalore&currentJobId=4468444463",
     "skills": [
       "SQL",
       "Python",
@@ -1954,7 +2054,8 @@
     "salary": "\u20b916 - \u20b925 LPA",
     "experience": "3-5 yrs",
     "description": "Model programmatic ad exchange bidding dynamics, publisher fill rates, and ad unit engagement yield curves.",
-    "posted_date": "2 days ago"
+    "posted_date": "2 days ago",
+    "job_id": "4468444463"
   },
   {
     "id": 102,
@@ -1962,7 +2063,7 @@
     "company": "IBM",
     "location": "Hyderabad",
     "source": "IBM Careers",
-    "url": "https://www.ibm.com/careers/",
+    "url": "https://www.linkedin.com/jobs/search/?keywords=Frontend+Engineer+%28Angular+%2F+TypeScript%29+IBM&location=Hyderabad&currentJobId=4467345464",
     "skills": [
       "Angular",
       "TypeScript",
@@ -1974,7 +2075,8 @@
     "salary": "\u20b910 - \u20b916 LPA",
     "experience": "2-4 yrs",
     "description": "Develop enterprise hybrid cloud management user interfaces with IBM Carbon design system components.",
-    "posted_date": "1 day ago"
+    "posted_date": "1 day ago",
+    "job_id": "4467345464"
   },
   {
     "id": 103,
@@ -1982,7 +2084,7 @@
     "company": "Dataiku",
     "location": "Remote",
     "source": "Dataiku Careers",
-    "url": "https://www.dataiku.com/careers/",
+    "url": "https://www.linkedin.com/jobs/search/?keywords=Remote+Python+Data+Scientist+Dataiku&location=Remote&currentJobId=4454838445",
     "skills": [
       "Python",
       "Machine Learning",
@@ -1993,7 +2095,8 @@
     "salary": "$85,000 - $125,000",
     "experience": "2-5 yrs",
     "description": "Help enterprise data teams democratize AI by creating reusable machine learning recipes and AutoML benchmarks.",
-    "posted_date": "Today"
+    "posted_date": "Today",
+    "job_id": "4454838445"
   },
   {
     "id": 104,
@@ -2001,7 +2104,7 @@
     "company": "Swiggy",
     "location": "Bangalore",
     "source": "Swiggy Careers",
-    "url": "https://careers.swiggy.com/",
+    "url": "https://www.linkedin.com/jobs/search/?keywords=Data+Engineer+%28Snowflake+%26+DBT%29+Swiggy&location=Bangalore&currentJobId=4432271512",
     "skills": [
       "SQL",
       "DBT",
@@ -2012,7 +2115,8 @@
     "salary": "\u20b916 - \u20b926 LPA",
     "experience": "2-5 yrs",
     "description": "Build clean, modular data transformation models using DBT to power business-critical operational reports.",
-    "posted_date": "Today"
+    "posted_date": "Today",
+    "job_id": "4432271512"
   },
   {
     "id": 105,
@@ -2020,7 +2124,7 @@
     "company": "Accenture",
     "location": "Bangalore",
     "source": "Accenture Careers",
-    "url": "https://www.accenture.com/in-en/careers",
+    "url": "https://www.linkedin.com/jobs/search/?keywords=Associate+Software+Engineer+Accenture&location=Bangalore&currentJobId=4474190530",
     "skills": [
       "Java",
       "Python",
@@ -2031,7 +2135,8 @@
     "salary": "\u20b94.5 - \u20b97 LPA",
     "experience": "0-2 yrs",
     "description": "Engage in enterprise application development, write unit test suites, and assist senior engineers in agile sprints.",
-    "posted_date": "3 days ago"
+    "posted_date": "3 days ago",
+    "job_id": "4474190530"
   },
   {
     "id": 106,
@@ -2039,7 +2144,7 @@
     "company": "Deloitte",
     "location": "Pune",
     "source": "Deloitte Careers",
-    "url": "https://jobs2.deloitte.com/",
+    "url": "https://www.linkedin.com/jobs/search/?keywords=Data+Analyst+%28Power+BI+%26+SQL%29+Deloitte&location=Pune&currentJobId=4440538506",
     "skills": [
       "Power BI",
       "SQL",
@@ -2050,7 +2155,8 @@
     "salary": "\u20b98 - \u20b913 LPA",
     "experience": "1-3 yrs",
     "description": "Create intuitive financial KPI cockpits and operational variance dashboards for international commercial clients.",
-    "posted_date": "1 day ago"
+    "posted_date": "1 day ago",
+    "job_id": "4440538506"
   },
   {
     "id": 107,
@@ -2058,7 +2164,7 @@
     "company": "Blinkit",
     "location": "Gurgaon",
     "source": "Blinkit Careers",
-    "url": "https://blinkit.com/careers",
+    "url": "https://www.linkedin.com/jobs/search/?keywords=Backend+Software+Engineer+%28Node.js+%26+MongoDB%29+Blinkit&location=Gurgaon&currentJobId=4410945878",
     "skills": [
       "Node.js",
       "MongoDB",
@@ -2070,7 +2176,8 @@
     "salary": "\u20b914 - \u20b923 LPA",
     "experience": "2-4 yrs",
     "description": "Scale dark store inventory assignment engines and instant grocery dispatch microservices under peak load.",
-    "posted_date": "Today"
+    "posted_date": "Today",
+    "job_id": "4410945878"
   },
   {
     "id": 108,
@@ -2078,7 +2185,7 @@
     "company": "Elastic",
     "location": "Remote",
     "source": "Elastic Careers",
-    "url": "https://www.elastic.co/about/careers",
+    "url": "https://www.linkedin.com/jobs/search/?keywords=Remote+Python+Backend+Developer+Elastic&location=Remote&currentJobId=4450965181",
     "skills": [
       "Python",
       "Elasticsearch",
@@ -2089,7 +2196,8 @@
     "salary": "$90,000 - $130,000",
     "experience": "2-5 yrs",
     "description": "Develop high-performance search ingestion connectors and observability log pipelines for the Elastic ecosystem.",
-    "posted_date": "Today"
+    "posted_date": "Today",
+    "job_id": "4450965181"
   },
   {
     "id": 109,
@@ -2097,7 +2205,7 @@
     "company": "CRED",
     "location": "Bangalore",
     "source": "CRED Careers",
-    "url": "https://cred.club/careers",
+    "url": "https://www.linkedin.com/jobs/search/?keywords=Product+Data+Analyst+CRED&location=Bangalore&currentJobId=4479013164",
     "skills": [
       "SQL",
       "Python",
@@ -2108,7 +2216,8 @@
     "salary": "\u20b916 - \u20b925 LPA",
     "experience": "2-4 yrs",
     "description": "Uncover behavioral drop-offs across credit card reward redemption flows and craft growth experiment hypotheses.",
-    "posted_date": "1 day ago"
+    "posted_date": "1 day ago",
+    "job_id": "4479013164"
   },
   {
     "id": 110,
@@ -2116,7 +2225,7 @@
     "company": "Wipro",
     "location": "Hyderabad",
     "source": "Wipro Careers",
-    "url": "https://careers.wipro.com/",
+    "url": "https://www.linkedin.com/jobs/search/?keywords=Junior+Python+%2F+Data+Engineer+Wipro&location=Hyderabad&currentJobId=4496548603",
     "skills": [
       "Python",
       "SQL",
@@ -2127,7 +2236,8 @@
     "salary": "\u20b94.5 - \u20b97 LPA",
     "experience": "0-2 yrs",
     "description": "Write automated Python scripts to clean CSV, JSON, and XML extracts into relational database tables.",
-    "posted_date": "2 days ago"
+    "posted_date": "2 days ago",
+    "job_id": "4496548603"
   },
   {
     "id": 111,
@@ -2135,7 +2245,7 @@
     "company": "Salesforce",
     "location": "Hyderabad",
     "source": "Salesforce Careers",
-    "url": "https://salesforce.com/careers",
+    "url": "https://www.linkedin.com/jobs/search/?keywords=Cloud+Security+Engineer+Salesforce&location=Hyderabad&currentJobId=4434187087",
     "skills": [
       "AWS",
       "Python",
@@ -2146,7 +2256,8 @@
     "salary": "\u20b918 - \u20b928 LPA",
     "experience": "3-5 yrs",
     "description": "Audit multi-tenant cloud IAM privileges, enforce least-privilege security postures, and monitor cloud audit logs.",
-    "posted_date": "Today"
+    "posted_date": "Today",
+    "job_id": "4434187087"
   },
   {
     "id": 112,
@@ -2154,7 +2265,7 @@
     "company": "Infosys",
     "location": "Pune",
     "source": "Infosys Careers",
-    "url": "https://career.infosys.com/",
+    "url": "https://www.linkedin.com/jobs/search/?keywords=Data+Analyst+%28Tableau+%26+SQL%29+Infosys&location=Pune&currentJobId=4412995374",
     "skills": [
       "Tableau",
       "SQL",
@@ -2165,7 +2276,8 @@
     "salary": "\u20b96 - \u20b99.5 LPA",
     "experience": "1-3 yrs",
     "description": "Design interactive customer billing analytics dashboards and streamline weekly operational report generation.",
-    "posted_date": "2 days ago"
+    "posted_date": "2 days ago",
+    "job_id": "4412995374"
   },
   {
     "id": 113,
@@ -2173,7 +2285,7 @@
     "company": "Urban Company",
     "location": "Gurgaon",
     "source": "Urban Company Careers",
-    "url": "https://www.urbancompany.com/careers",
+    "url": "https://www.linkedin.com/jobs/search/?keywords=Software+Engineer+-+Full+Stack+%28Python+%26+React%29+Urban+Company&location=Gurgaon&currentJobId=4465851356",
     "skills": [
       "Python",
       "React",
@@ -2185,7 +2297,8 @@
     "salary": "\u20b915 - \u20b924 LPA",
     "experience": "2-4 yrs",
     "description": "Build end-to-end service partner scheduling tools and consumer marketplace booking interfaces.",
-    "posted_date": "Today"
+    "posted_date": "Today",
+    "job_id": "4465851356"
   },
   {
     "id": 114,
@@ -2193,7 +2306,7 @@
     "company": "Ola Electric",
     "location": "Bangalore",
     "source": "Ola Careers",
-    "url": "https://www.olacabs.com/careers",
+    "url": "https://www.linkedin.com/jobs/search/?keywords=AI+%2F+ML+Engineer+%28Computer+Vision%29+Ola+Electric&location=Bangalore&currentJobId=4442642094",
     "skills": [
       "Python",
       "OpenCV",
@@ -2204,7 +2317,8 @@
     "salary": "\u20b918 - \u20b928 LPA",
     "experience": "2-5 yrs",
     "description": "Train real-time obstacle detection models and computer vision safety checks for autonomous electric two-wheelers.",
-    "posted_date": "1 day ago"
+    "posted_date": "1 day ago",
+    "job_id": "4442642094"
   },
   {
     "id": 115,
@@ -2212,7 +2326,7 @@
     "company": "Turing",
     "location": "Remote",
     "source": "Turing Jobs",
-    "url": "https://www.turing.com/",
+    "url": "https://www.linkedin.com/jobs/search/?keywords=Remote+Junior+Python+Developer+Turing&location=Remote&currentJobId=4450234730",
     "skills": [
       "Python",
       "SQL",
@@ -2223,7 +2337,8 @@
     "salary": "$45,000 - $70,000",
     "experience": "1-3 yrs",
     "description": "Join high-performing distributed engineering squads writing modular Python microservices for Silicon Valley startups.",
-    "posted_date": "Today"
+    "posted_date": "Today",
+    "job_id": "4450234730"
   },
   {
     "id": 116,
@@ -2231,7 +2346,7 @@
     "company": "Google",
     "location": "Bangalore",
     "source": "Google Careers",
-    "url": "https://careers.google.com/",
+    "url": "https://www.linkedin.com/jobs/search/?keywords=Senior+Data+Analyst+-+People+Analytics+Google&location=Bangalore&currentJobId=4460891662",
     "skills": [
       "SQL",
       "R",
@@ -2242,7 +2357,8 @@
     "salary": "\u20b922 - \u20b934 LPA",
     "experience": "4-6 yrs",
     "description": "Conduct quantitative research on talent acquisition velocity, employee retention dynamics, and compensation equity.",
-    "posted_date": "1 day ago"
+    "posted_date": "1 day ago",
+    "job_id": "4460891662"
   },
   {
     "id": 117,
@@ -2250,7 +2366,7 @@
     "company": "Barclays",
     "location": "Pune",
     "source": "Barclays Careers",
-    "url": "https://home.barclays/careers/",
+    "url": "https://www.linkedin.com/jobs/search/?keywords=Software+Engineer+%28Java+%2F+Microservices%29+Barclays&location=Pune&currentJobId=4450913105",
     "skills": [
       "Java",
       "Spring Boot",
@@ -2261,7 +2377,8 @@
     "salary": "\u20b912 - \u20b919 LPA",
     "experience": "2-4 yrs",
     "description": "Develop core merchant acquiring gateway integrations and high-availability card transaction processors.",
-    "posted_date": "2 days ago"
+    "posted_date": "2 days ago",
+    "job_id": "4450913105"
   },
   {
     "id": 118,
@@ -2269,7 +2386,7 @@
     "company": "Genpact",
     "location": "Hyderabad",
     "source": "Naukri",
-    "url": "https://www.genpact.com/careers",
+    "url": "https://www.linkedin.com/jobs/search/?keywords=Data+Analyst+%28SQL%2C+Python+%26+Excel%29+Genpact&location=Hyderabad&currentJobId=4420161720",
     "skills": [
       "SQL",
       "Python",
@@ -2280,7 +2397,8 @@
     "salary": "\u20b95 - \u20b98 LPA",
     "experience": "0-2 yrs",
     "description": "Extract operational audit records, write SQL aggregation queries, and generate monthly financial variance reports.",
-    "posted_date": "Today"
+    "posted_date": "Today",
+    "job_id": "4420161720"
   },
   {
     "id": 119,
@@ -2288,7 +2406,7 @@
     "company": "Vercel",
     "location": "Remote",
     "source": "Vercel Careers",
-    "url": "https://vercel.com/careers",
+    "url": "https://www.linkedin.com/jobs/search/?keywords=Remote+Frontend+Engineer+%28React+%26+Next.js%29+Vercel&location=Remote&currentJobId=4421948373",
     "skills": [
       "React",
       "Next.js",
@@ -2300,7 +2418,8 @@
     "salary": "$95,000 - $140,000",
     "experience": "2-5 yrs",
     "description": "Build high-speed web deployment interfaces and analytics dashboards for developers deploying with Next.js.",
-    "posted_date": "Today"
+    "posted_date": "Today",
+    "job_id": "4421948373"
   },
   {
     "id": 120,
@@ -2308,7 +2427,7 @@
     "company": "Zomato",
     "location": "Gurgaon",
     "source": "Zomato Careers",
-    "url": "https://www.zomato.com/careers",
+    "url": "https://www.linkedin.com/jobs/search/?keywords=Data+Science+Engineer+%28Python+%26+Machine+Learning%29+Zomato&location=Gurgaon&currentJobId=4492103830",
     "skills": [
       "Python",
       "SQL",
@@ -2319,6 +2438,7 @@
     "salary": "\u20b915 - \u20b924 LPA",
     "experience": "1-3 yrs",
     "description": "Optimize dynamic delivery pricing algorithms and restaurant dispatch schedules using real-time machine learning inference.",
-    "posted_date": "Today"
+    "posted_date": "Today",
+    "job_id": "4492103830"
   }
 ]

@@ -64,9 +64,9 @@
         </div>
 
         <div class="pt-3 border-top border-secondary d-flex flex-column gap-2">
-          {% if job and job.url and job.url != '#' %}
-            <a href="{{ job.url }}" target="_blank" rel="noopener noreferrer" class="btn btn-success w-100 fw-semibold d-flex align-items-center justify-content-center gap-2">
-              <i class="bi bi-send-fill"></i> Apply Now for this Opportunity <i class="bi bi-box-arrow-up-right ms-1"></i>
+          {% if job and job.id %}
+            <a href="{{ url_for('jobs.apply_redirect', job_id=job.id) }}" target="_blank" rel="noopener noreferrer" class="btn btn-success w-100 fw-semibold d-flex align-items-center justify-content-center gap-2">
+              <i class="bi bi-send-fill"></i> Apply Now for this Opportunity (Job #{{ job.job_id or job.id }}) <i class="bi bi-box-arrow-up-right ms-1"></i>
             </a>
           {% endif %}
           <a href="{{ url_for('resumes.tailor') }}" class="btn btn-warning w-100">
