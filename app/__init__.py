@@ -106,6 +106,24 @@ def create_app():
         except Exception as e:
             app.logger.warning(f"Database initialization warning: {e}")
 
+        # Seed or refresh ATS vacancies in the background without blocking server startup
+        try:
+            import threading
+            def _background_seed_ats():
+                try:
+                    from repositories.job_repository import get_discovered_jobs
+                    existing = get_discovered_jobs(limit=10)
+                    if len(existing) < 50:
+                        from services.job_sources.sync_jobs import sync_all_companies
+                        sync_all_companies(max_per_company=15)
+                except Exception as sync_err:
+                    app.logger.warning(f"Background ATS seed notice: {sync_err}")
+
+            t = threading.Thread(target=_background_seed_ats, daemon=True)
+            t.start()
+        except Exception:
+            pass
+
     return app
 
 # Create Flask application instance
