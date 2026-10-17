@@ -852,22 +852,14 @@ def aggregate_live_jobs(
             except Exception as e:
                 warning(f"Provider {src_name} query error: {e}")
     
-    # Deduplicate by normalized (title, company)
-    seen = set()
+    # Deduplicate collected live jobs using enterprise multi-factor deduplication
+    from services.jobs.deduplicator import deduplicate_jobs
+    unique_candidates = deduplicate_jobs(collected_jobs)
     unique_jobs: List[Dict[str, Any]] = []
     
     user_skills_lower = [s.lower() for s in (candidate_skills or ["python", "sql", "excel", "data analysis"])]
     
-    for job in collected_jobs:
-        # Create a clean deduplication fingerprint
-        clean_title = re.sub(r"[^\w\s]", "", (job.get("title") or "").lower()).strip()
-        clean_comp = re.sub(r"[^\w\s]", "", (job.get("company") or "").lower()).strip()
-        fingerprint = f"{clean_title[:24]}::{clean_comp[:18]}"
-        
-        if fingerprint in seen:
-            continue
-        seen.add(fingerprint)
-        
+    for job in unique_candidates:
         # Calculate dynamic client match score
         req_skills = job.get("skills") or []
         title_lower = (job.get("title") or "").lower()

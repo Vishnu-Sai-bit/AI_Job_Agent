@@ -2164,7 +2164,7 @@
   },
   {
     "id": 72,
-    "title": "Financial Data Analyst",
+    "title": "Quantitative Risk Analyst",
     "company": "Goldman Sachs",
     "location": "Bangalore",
     "source": "Goldman Sachs Careers",
@@ -2172,16 +2172,16 @@
     "skills": [
       "Python",
       "SQL",
-      "Excel",
+      "Risk Modeling",
       "Financial Modeling",
-      "Tableau"
+      "Statistics"
     ],
     "experience": "2-4 yrs",
     "description": "Analyze portfolio risk vectors, asset allocation models, and fixed-income returns using Python analytics and SQL databases.",
     "posted_date": "Active Live",
     "job_id": "4461530285",
     "company_name": "Goldman Sachs",
-    "job_title": "Financial Data Analyst",
+    "job_title": "Quantitative Risk Analyst",
     "ats_provider": "Goldman Sachs Careers",
     "external_job_id": "4461530285",
     "official_job_url": "https://goldmansachs.tal.net/vx/lang-en-GB/appcentre-1/candidate/postings/4461530285",

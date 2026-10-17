@@ -57,6 +57,32 @@ AUTHORIZED_ATS_DOMAINS = {
         "personio.de",
         "personio.com",
     ],
+    "bamboohr": [
+        "bamboohr.com",
+    ],
+    "pinpoint": [
+        "pinpointhq.com",
+    ],
+    "breezy": [
+        "breezy.hr",
+    ],
+    "jobvite": [
+        "jobvite.com",
+        "jobs.jobvite.com",
+    ],
+    "jazzhr": [
+        "applytojob.com",
+        "jazzhr.com",
+    ],
+    "ukg": [
+        "ultipro.com",
+        "recruiting.ultipro.com",
+        "ukg.com",
+    ],
+    "cornerstone": [
+        "csod.com",
+        "cornerstoneondemand.com",
+    ],
 }
 
 GENERIC_CAREER_HOMEPAGES = [

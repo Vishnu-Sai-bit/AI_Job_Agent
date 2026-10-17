@@ -96,5 +96,88 @@
     "company": "Skechers",
     "provider": "smartrecruiters",
     "company_id": "Skechers"
+  },
+  {
+    "company": "Cisco",
+    "provider": "workday",
+    "tenant": "cisco",
+    "domain": "cisco.wd5.myworkdayjobs.com",
+    "site": "External"
+  },
+  {
+    "company": "Salesforce",
+    "provider": "workday",
+    "tenant": "salesforce",
+    "domain": "salesforce.wd12.myworkdayjobs.com",
+    "site": "External"
+  },
+  {
+    "company": "Qualcomm",
+    "provider": "workday",
+    "tenant": "qualcomm",
+    "domain": "qualcomm.wd5.myworkdayjobs.com",
+    "site": "External"
+  },
+  {
+    "company": "Accenture",
+    "provider": "workday",
+    "tenant": "accenture",
+    "domain": "accenture.wd3.myworkdayjobs.com",
+    "site": "AccentureCareers"
+  },
+  {
+    "company": "TransferWise",
+    "provider": "workable",
+    "account_subdomain": "wise"
+  },
+  {
+    "company": "Hotjar",
+    "provider": "recruitee",
+    "subdomain": "hotjar"
+  },
+  {
+    "company": "Personio",
+    "provider": "personio",
+    "subdomain": "personio"
+  },
+  {
+    "company": "Jane",
+    "provider": "bamboohr",
+    "subdomain": "jane"
+  },
+  {
+    "company": "LaunchDarkly",
+    "provider": "breezy",
+    "subdomain": "launchdarkly"
+  },
+  {
+    "company": "Pinpoint",
+    "provider": "pinpoint",
+    "subdomain": "pinpoint"
+  },
+  {
+    "company": "Blizzard",
+    "provider": "jobvite",
+    "company_id": "blizzard"
+  },
+  {
+    "company": "Siemens",
+    "provider": "successfactors",
+    "company_key": "siemens"
+  },
+  {
+    "company": "Oracle",
+    "provider": "taleo",
+    "company_key": "oracle"
+  },
+  {
+    "company": "Target",
+    "provider": "icims",
+    "subdomain": "target"
+  },
+  {
+    "company": "Western Digital",
+    "provider": "cornerstone",
+    "portal": "westerndigital"
   }
 ]

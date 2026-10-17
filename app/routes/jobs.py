@@ -121,29 +121,24 @@ def load_verified_jobs():
                     norm_job["source"] = norm_job.get("ats_provider") or j.get("source", "Verified Portal")
                     norm_job["posted_date"] = j.get("posted_date", "Recently")
 
-                    combo = f"{(norm_job.get('company') or '').lower()}::{(norm_job.get('external_job_id') or norm_job.get('title') or '').lower()}"
-                    if combo not in seen:
-                        seen.add(combo)
-                        normalized.append(norm_job)
+                    normalized.append(norm_job)
         except Exception:
             pass
 
-    # 2. Load vacancies synchronized from ATS connectors (Greenhouse, Lever, Ashby, SmartRecruiters, Workable)
+    # 2. Load vacancies synchronized from ATS connectors (Greenhouse, Lever, Ashby, SmartRecruiters, Workable, Workday, etc.)
     try:
         from repositories.job_repository import get_discovered_jobs
         disc_jobs = get_discovered_jobs(limit=150)
         for dj in disc_jobs:
-            combo = f"{(dj.get('company') or '').lower()}::{(dj.get('external_job_id') or dj.get('title') or '').lower()}"
-            if combo not in seen:
-                seen.add(combo)
-                skills = extract_skills_from_text(f"{dj.get('title', '')} {dj.get('description', '')}", dj.get('title', ''))
-                dj["skills"] = skills
-                dj["source"] = dj.get("ats_provider") or dj.get("provider", "ATS").capitalize()
-                normalized.append(dj)
+            skills = extract_skills_from_text(f"{dj.get('title', '')} {dj.get('description', '')}", dj.get('title', ''))
+            dj["skills"] = skills
+            dj["source"] = dj.get("ats_provider") or dj.get("provider", "ATS").capitalize()
+            normalized.append(dj)
     except Exception:
         pass
 
-    return normalized
+    from services.jobs.deduplicator import deduplicate_jobs
+    return deduplicate_jobs(normalized)
 
 def match_skills(job_skills, candidate_skills_set):
     """Accurately match full skill names against candidate skills."""
@@ -289,22 +284,9 @@ def index():
         flash(f"Refreshed {len(live_jobs)} real-time live job postings from active APIs!", "success")
 
     # Combine: Real-time Live Jobs FIRST at the top of the feed, followed by Verified ATS Openings
-    seen_combos = set()
-    combined_jobs = []
-
-    for lj in live_jobs:
-        combo = f"{(lj.get('title') or '').lower().strip()}::{(lj.get('company') or '').lower().strip()}"
-        if combo not in seen_combos:
-            seen_combos.add(combo)
-            combined_jobs.append(lj)
-
-    for j in raw_jobs:
-        combo = f"{(j.get('title') or '').lower().strip()}::{(j.get('company') or '').lower().strip()}"
-        if combo not in seen_combos:
-            seen_combos.add(combo)
-            combined_jobs.append(j)
-
-    raw_jobs = combined_jobs
+    # Ensure zero duplicate jobs across aggregators and direct portals
+    from services.jobs.deduplicator import deduplicate_jobs
+    raw_jobs = deduplicate_jobs(live_jobs + raw_jobs)
 
     scored_jobs = []
 
