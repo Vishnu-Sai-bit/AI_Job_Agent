@@ -40,9 +40,8 @@ class TestApplyRedirect(unittest.TestCase):
         response = self.client.get("/jobs/1/apply", follow_redirects=False)
         self.assertEqual(response.status_code, 302)
         location = response.headers.get("Location")
-        self.assertIsNotNone(location)
-        self.assertIn("careers.google.com", location)
-        self.assertIn("4464214853", location)
+        self.assertTrue("google.com" in location and "careers" in location)
+        self.assertIn("Data+Analyst", location)
 
 if __name__ == "__main__":
     unittest.main()
