@@ -19,6 +19,12 @@ def create_app():
         static_folder="static"
     )
 
+    import jinja2
+    app.jinja_loader = jinja2.ChoiceLoader([
+        app.jinja_loader,
+        jinja2.FileSystemLoader(str(BASE_DIR / "templates")),
+    ])
+
     # Configuration
     app.config["SECRET_KEY"] = os.getenv("SECRET_KEY", "ai-job-copilot-secret-key-9182679641")
     

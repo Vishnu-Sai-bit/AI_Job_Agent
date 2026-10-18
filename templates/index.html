@@ -1,0 +1,219 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>AI Job Agent - Authentic Vacancies & Direct Employer Application</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <style>
+    body {
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      background-color: #f8fafc;
+      color: #1e293b;
+    }
+    .hero-banner {
+      background: linear-gradient(135deg, #0f172a 0%, #1e3a8a 50%, #0369a1 100%);
+      color: white;
+      padding: 70px 0 50px 0;
+      border-radius: 0 0 32px 32px;
+    }
+    .stat-card {
+      background: rgba(255, 255, 255, 0.1);
+      backdrop-filter: blur(8px);
+      border: 1px solid rgba(255, 255, 255, 0.2);
+      border-radius: 16px;
+      padding: 20px;
+    }
+    .job-card {
+      background: white;
+      border-radius: 16px;
+      border: 1px solid #e2e8f0;
+      transition: all 0.25s ease;
+      box-shadow: 0 2px 4px rgba(0,0,0,0.02);
+    }
+    .job-card:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 12px 24px -10px rgba(0,0,0,0.08);
+      border-color: #cbd5e1;
+    }
+    .btn-apply-direct {
+      background: #0284c7;
+      color: white;
+      font-weight: 600;
+      border-radius: 10px;
+      padding: 8px 18px;
+      transition: background 0.2s;
+    }
+    .btn-apply-direct:hover {
+      background: #0369a1;
+      color: white;
+    }
+    .platform-pill {
+      font-size: 0.75rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      padding: 4px 10px;
+      border-radius: 20px;
+    }
+    .match-pill {
+      background: #ecfdf5;
+      color: #065f46;
+      border: 1px solid #a7f3d0;
+      font-weight: 700;
+      border-radius: 20px;
+      padding: 4px 12px;
+      font-size: 0.85rem;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Hero Section -->
+  <header class="hero-banner shadow-sm mb-5">
+    <div class="container text-center">
+      <div class="d-inline-flex align-items-center gap-2 px-3 py-1 mb-3 rounded-pill" style="background: rgba(255,255,255,0.15); font-size: 0.85rem; font-weight: 600;">
+        <i class="bi bi-shield-check text-warning"></i> 100% Genuine Direct Employer Vacancies
+      </div>
+      <h1 class="display-5 fw-extrabold mb-3">AI Job Agent & Global ATS Copilot</h1>
+      <p class="lead mb-4 mx-auto" style="max-width: 720px; color: #e2e8f0; font-size: 1.15rem;">
+        Discover real, verified career openings directly from company career portals, Workday, Greenhouse, Lever, and remote boards. Every <strong>Apply Now</strong> link connects directly to the authentic employer requisition page — never intermediate aggregators or synthetic links.
+      </p>
+
+      <!-- Search Bar -->
+      <form action="/jobs" method="GET" class="card shadow-lg p-2 rounded-pill mx-auto mb-5" style="max-width: 650px; background: white;">
+        <div class="input-group">
+          <span class="input-group-text bg-transparent border-0 ps-3 text-secondary">
+            <i class="bi bi-search fs-5"></i>
+          </span>
+          <input type="text" name="q" class="form-control border-0 shadow-none" placeholder="Search role, skills, or company (e.g. Data Analyst, Python, Accenture)..." value="{{ query or '' }}">
+          <button class="btn btn-primary px-4 rounded-pill fw-semibold" type="submit">
+            Explore Openings
+          </button>
+        </div>
+      </form>
+
+      <!-- Source Badges -->
+      <div class="row g-3 justify-content-center text-start mx-auto" style="max-width: 960px;">
+        <div class="col-6 col-md-3">
+          <div class="stat-card">
+            <div class="text-white-50 small fw-bold">WORKDAY ATS</div>
+            <div class="h5 text-white mb-0 mt-1"><i class="bi bi-building me-1"></i> Target, Adobe, Salesforce</div>
+          </div>
+        </div>
+        <div class="col-6 col-md-3">
+          <div class="stat-card">
+            <div class="text-white-50 small fw-bold">GREENHOUSE API</div>
+            <div class="h5 text-white mb-0 mt-1"><i class="bi bi-cpu me-1"></i> GitLab, Stripe, Figma</div>
+          </div>
+        </div>
+        <div class="col-6 col-md-3">
+          <div class="stat-card">
+            <div class="text-white-50 small fw-bold">LEVER POSTINGS</div>
+            <div class="h5 text-white mb-0 mt-1"><i class="bi bi-music-note-beamed me-1"></i> Spotify, Postman</div>
+          </div>
+        </div>
+        <div class="col-6 col-md-3">
+          <div class="stat-card">
+            <div class="text-white-50 small fw-bold">DIRECT CAREERS</div>
+            <div class="h5 text-white mb-0 mt-1"><i class="bi bi-briefcase me-1"></i> Accenture, EXL HCM</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <!-- Main Content Container -->
+  <main class="container my-5">
+    <div class="d-flex justify-content-between align-items-center mb-4 flex-wrap gap-2">
+      <div>
+        <h2 class="h4 fw-bold mb-1 text-dark">Verified Live Opportunities</h2>
+        <p class="text-muted small mb-0">Direct vacancies verified with exact job/requisition IDs and live destination URLs.</p>
+      </div>
+      <div class="d-flex gap-2">
+        <a href="/jobs" class="btn btn-outline-primary btn-sm px-3 rounded-pill fw-semibold">
+          <i class="bi bi-grid-fill me-1"></i> View All Openings
+        </a>
+      </div>
+    </div>
+
+    <!-- Job Cards Grid -->
+    <div class="row g-4">
+      {% for job in jobs[:12] %}
+      <div class="col-md-6 col-lg-4">
+        <div class="job-card p-4 h-100 d-flex flex-column justify-content-between">
+          <div>
+            <div class="d-flex justify-content-between align-items-start mb-2">
+              <span class="platform-pill bg-light text-primary border">
+                {{ job.source_platform }}
+              </span>
+              {% if job.match_score %}
+              <span class="match-pill">
+                <i class="bi bi-lightning-charge-fill me-1"></i>{{ job.match_score|round(0)|int }}% Match
+              </span>
+              {% endif %}
+            </div>
+
+            <h3 class="h5 fw-bold text-dark mb-1">
+              <a href="/job/{{ job.job_id }}" class="text-dark text-decoration-none">
+                {{ job.job_title }}
+              </a>
+            </h3>
+
+            <div class="text-primary fw-semibold mb-2">
+              <i class="bi bi-building me-1"></i> {{ job.company_name }}
+            </div>
+
+            <div class="d-flex flex-wrap gap-2 text-muted small mb-3">
+              <span><i class="bi bi-geo-alt me-1"></i> {{ job.location }}</span>
+              <span>•</span>
+              <span><i class="bi bi-hash me-1"></i> ID: {{ job.job_id }}</span>
+            </div>
+
+            <p class="text-secondary small mb-3" style="display: -webkit-box; -webkit-line-clamp: 3; -webkit-box-orient: vertical; overflow: hidden;">
+              {{ job.description }}
+            </p>
+          </div>
+
+          <div>
+            {% if job.skills %}
+            <div class="d-flex flex-wrap gap-1 mb-3">
+              {% for skill in job.skills[:3] %}
+              <span class="badge bg-light text-secondary border fw-normal" style="font-size: 0.72rem;">{{ skill }}</span>
+              {% endfor %}
+            </div>
+            {% endif %}
+
+            <div class="d-flex justify-content-between align-items-center pt-2 border-top">
+              <a href="/job/{{ job.job_id }}" class="btn btn-sm btn-link text-decoration-none p-0 fw-semibold text-secondary">
+                Details <i class="bi bi-chevron-right small"></i>
+              </a>
+              <a href="{{ job.apply_url }}" target="_blank" rel="noopener noreferrer" class="btn btn-sm btn-apply-direct">
+                Apply Now <i class="bi bi-box-arrow-up-right ms-1"></i>
+              </a>
+            </div>
+          </div>
+        </div>
+      </div>
+      {% else %}
+      <div class="col-12 text-center py-5">
+        <i class="bi bi-folder-x fs-1 text-muted"></i>
+        <p class="text-muted mt-2">No vacancies found matching your criteria. Try adjusting your search query.</p>
+      </div>
+      {% endfor %}
+    </div>
+  </main>
+
+  <!-- Footer -->
+  <footer class="bg-white border-top py-4 mt-5 text-center text-muted small">
+    <div class="container">
+      <p class="mb-1 fw-semibold text-dark">AI Job Agent &copy; 2026. Real Vacancies, Exact Requisitions & Direct Employer Redirection.</p>
+      <p class="mb-0 text-secondary">Workday &bull; Greenhouse &bull; Lever &bull; Company Careers &bull; Remotive &bull; RemoteOK &bull; ArbeitNow</p>
+    </div>
+  </footer>
+
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
