@@ -22,17 +22,18 @@ def detail(job_id=None):
         job = jobs[0]
 
     candidate = get_candidate_context()
-    candidate_skills = {s.lower().strip() for s in candidate.get("skills", [])}
-    job_skills = job.get("skills") or [] if job else []
-    
-    matching = [s for s in job_skills if s and s.lower().strip() in candidate_skills]
-    missing = [s for s in job_skills if s and s.lower().strip() not in candidate_skills]
+    from services.ats_scorer import calculate_job_compatibility_score
+    compat = calculate_job_compatibility_score(candidate, job or {})
 
+    matching = compat.get("matching_skills", [])
+    missing = compat.get("missing_skills", [])
+    
     return render_template(
         "job_matching/detail.html",
         job=job,
         matching=matching,
         missing=missing,
+        compat=compat,
         candidate=candidate,
         active_tab="job_matching"
     )

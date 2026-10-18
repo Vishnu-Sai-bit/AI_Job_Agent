@@ -155,6 +155,31 @@
         </div>
       </div>
 
+      <!-- ATS Compatibility Score Card -->
+      {% if compat %}
+      <div class="card card-clean p-4 mb-4">
+        <div class="d-flex justify-content-between align-items-center mb-2">
+          <h6 class="fw-bold text-dark mb-0"><i class="bi bi-bullseye text-primary me-2"></i>Job Compatibility Score</h6>
+          <span class="badge bg-success-subtle text-success border border-success-subtle rounded-pill px-2.5 py-1 fw-bold">
+            {{ compat.match_score }}% &bull; {{ compat.match_label }}
+          </span>
+        </div>
+        <div class="small text-muted mb-3" style="font-size: 0.76rem;">
+          <code>M = 0.35S + 0.20E + 0.15K + 0.10P + 0.10L + 0.10Q</code>
+        </div>
+        <div class="row g-2 text-center" style="font-size: 0.72rem;">
+          {% for k, comp in compat.components.items() %}
+          <div class="col-4">
+            <div class="p-1.5 rounded bg-light border">
+              <div class="text-secondary text-truncate" title="{{ comp.label }}">{{ comp.label }}</div>
+              <strong class="text-dark">{{ comp.score }}/100</strong>
+            </div>
+          </div>
+          {% endfor %}
+        </div>
+      </div>
+      {% endif %}
+
       <!-- Skill Alignment Card -->
       <div class="card card-clean p-4 mb-4">
         <h5 class="fw-bold text-dark mb-3"><i class="bi bi-shield-check text-success me-2"></i>Skill Alignment</h5>

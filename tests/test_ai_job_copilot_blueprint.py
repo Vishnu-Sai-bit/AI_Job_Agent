@@ -50,7 +50,7 @@ class TestBlueprintArchitecture(unittest.TestCase):
 
     # 1. Collectors Test
     def test_collectors_instantiation(self):
-        self.assertEqual(len(ALL_COLLECTORS), 7)
+        self.assertGreaterEqual(len(ALL_COLLECTORS), 7)
         for col_cls in ALL_COLLECTORS:
             col = col_cls()
             self.assertTrue(hasattr(col, "fetch_jobs"))

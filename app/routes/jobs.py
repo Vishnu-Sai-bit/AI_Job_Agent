@@ -371,26 +371,21 @@ def index():
                 merged_skills.append(es)
         j_skills = merged_skills
 
-        # Skill matching
-        matching, missing = match_skills(j_skills, candidate_skills)
-        skill_pct = (len(matching) / len(j_skills) * 100.0) if j_skills else (75.0 if has_resume else 50.0)
-
-        # Role relevance & Experience fit
-        is_rel, role_score = is_role_relevant(j_title, active_target_role)
-        is_exp_fit, exp_score, exp_note = check_experience_fit(candidate_exp, j_exp)
-
-        # Multi-factor score: 40% role relevance + 40% skills alignment + 20% experience fit
-        match_score = round(0.40 * role_score + 0.40 * skill_pct + 0.20 * exp_score, 1)
-
-        # Format rich Cisco-style title:
-        # <Role Title> | <Key Matched Tech Stack> | <Experience Range> | <City/Location>
-        display_title = format_rich_job_title(
-            j_title,
-            skills=j_skills,
-            experience=j_exp,
-            location=j_loc,
-            matching_skills=matching if has_resume else None
-        )
+        # Calculate Explainable Compatibility Score using Blueprint formula:
+        # M = 0.35S + 0.20E + 0.15K + 0.10P + 0.10L + 0.10Q
+        from services.ats_scorer import calculate_job_compatibility_score
+        compat = calculate_job_compatibility_score(candidate, {
+            "title": j_title,
+            "description": j.get("description", ""),
+            "skills": j_skills,
+            "experience": j_exp,
+            "location": j_loc
+        })
+        matching = compat.get("matching_skills", [])
+        missing = compat.get("missing_skills", [])
+        match_score = compat.get("match_score", 75.0)
+        match_label = compat.get("match_label", "Moderate match")
+        exp_note = compat.get("experience_note", "")
 
         company_lower = (j.get("company") or "").lower()
         is_tier1 = any(e in company_lower for e in [
@@ -405,15 +400,21 @@ def index():
         if has_resume:
             if is_agency:
                 match_score = max(30.0, match_score - 25.0)
-            elif is_tier1 and (is_rel or matching):
-                # Ensure verified enterprise roles have high match score just like Cisco (92%-98%)
-                match_score = min(98.0, max(match_score, 90.0 + min(len(matching) * 2.5, 8.0)))
-            elif is_rel and matching:
-                match_score = min(98.0, max(match_score, 85.0 + min(len(matching) * 3.0, 10.0)))
-            elif is_rel:
-                match_score = min(92.0, max(match_score, 78.0))
+            elif is_tier1 and matching:
+                # Ensure verified enterprise roles have high match score (90%-98%)
+                match_score = min(98.0, max(match_score, 90.0 + min(len(matching) * 2.0, 7.0)))
 
         match_score = min(98.0, max(30.0, match_score))
+
+        # Format rich Cisco-style title:
+        # <Role Title> | <Key Matched Tech Stack> | <Experience Range> | <City/Location>
+        display_title = format_rich_job_title(
+            j_title,
+            skills=j_skills,
+            experience=j_exp,
+            location=j_loc,
+            matching_skills=matching if has_resume else None
+        )
 
         # Strictly zero salary across the UI
         j.pop("salary", None)
@@ -511,9 +512,13 @@ def detail(job_id):
 
     candidate = get_candidate_context()
     has_resume = bool(candidate.get("has_resume"))
-    candidate_skills = {s.lower().strip() for s in candidate.get("skills", [])}
-    job_skills = job.get("skills", [])
-    matching, missing = match_skills(job_skills, candidate_skills)
+    
+    from services.ats_scorer import calculate_job_compatibility_score
+    compat = calculate_job_compatibility_score(candidate, job)
+    matching = compat.get("matching_skills", [])
+    missing = compat.get("missing_skills", [])
+    job["match_score"] = compat.get("match_score", 85.0)
+    job["match_label"] = compat.get("match_label", "Strong match")
 
     display_title = format_rich_job_title(
         job.get("title", ""),
@@ -547,6 +552,7 @@ def detail(job_id):
         job=job,
         matching=matching,
         missing=missing,
+        compat=compat,
         candidate=candidate,
         active_tab="jobs"
     )
