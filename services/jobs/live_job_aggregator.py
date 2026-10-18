@@ -947,11 +947,23 @@ def aggregate_live_jobs(
         from services.job_links.registry import detect_ats_provider
 
         direct_portal = unwrap_destination_apply_link(job)
-        if direct_portal and direct_portal != target_url and not is_aggregator_url(direct_portal):
+        if direct_portal and not is_aggregator_url(direct_portal):
             target_url = direct_portal
             ats_name = detect_ats_provider(direct_portal)
         else:
-            ats_name = job.get("ats_provider") or job.get("source") or "Live Portal"
+            from services.job_links.registry import build_authentic_company_job_url
+            target_url = build_authentic_company_job_url(
+                company=job.get("company", ""),
+                title=job.get("title", ""),
+                location=job.get("location", ""),
+                current_url=target_url,
+                job_id=str(job.get("external_job_id") or job.get("job_id") or "")
+            )
+            ats_name = detect_ats_provider(target_url)
+
+        # Strictly enforce official employer site only (reject aggregators)
+        if is_aggregator_url(target_url):
+            continue
 
         job["official_job_url"] = target_url
         job["apply_url"] = target_url
