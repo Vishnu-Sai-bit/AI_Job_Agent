@@ -45,19 +45,22 @@ from .dashboard import DashboardStats
 
 
 # ==========================================================
+# SQLAlchemy Job Model & DB
+# ==========================================================
+
+from .sql_models import db, Job, utc_now
+
+# ==========================================================
 # Package Exports
 # ==========================================================
 
 __all__ = [
-
     "ResumeData",
-
     "JobData",
-
     "ATSReport",
-
     "SearchResult",
-
-    "DashboardStats"
-
+    "DashboardStats",
+    "db",
+    "Job",
+    "utc_now",
 ]

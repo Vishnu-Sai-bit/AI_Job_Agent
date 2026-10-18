@@ -370,3 +370,30 @@ def skills_insights():
         active_tab="skills_insights"
     )
 
+
+@main_bp.route("/apply/<job_id>", endpoint="apply_to_job")
+def apply_to_job(job_id):
+    """
+    Safely redirect candidate to the employer's official job/application page.
+    Uses internal database ID to look up stored record and prevent open redirects.
+    """
+    try:
+        from models import db, Job
+        from job_service import select_apply_url, validate_official_url
+
+        try:
+            j_int = int(job_id)
+            job = db.session.get(Job, j_int)
+        except ValueError:
+            job = Job.query.filter_by(source_job_id=str(job_id)).first()
+
+        if job and job.is_active:
+            target_url = select_apply_url(job)
+            if target_url and validate_official_url(target_url):
+                return redirect(target_url, code=302)
+    except Exception:
+        pass
+
+    return redirect(url_for("jobs.apply_redirect", job_id=job_id))
+
+
