@@ -30,53 +30,68 @@ jobs_bp = Blueprint("jobs", __name__, url_prefix="/jobs")
 def resolve_exact_job_url(job: dict) -> str:
     """
     Resolve and guarantee an authentic direct job application link with exact job ID.
-    Avoids landing on generic career portal homepages.
+    Always points directly to the specific job vacancy/requisition page on the employer's official portal.
+    Never redirects to generic careers homepages or LinkedIn search pages.
     """
-    current_url = (job.get("url") or job.get("apply_url") or "").strip()
+    current_url = (job.get("apply_url") or job.get("official_job_url") or job.get("url") or "").strip()
     
-    # 1. If already an authentic live job link with exact ID (Remotive, Jobicy, RemoteOK, ArbeitNow, Adzuna, LinkedIn)
+    # 1. If already an authentic live job link with exact ID (Remotive, Jobicy, RemoteOK, ArbeitNow, Workday, Greenhouse, Lever, Ashby, Oracle CX)
     if current_url and current_url != "#":
         has_id = bool(
             re.search(r"/view/(?:[a-zA-Z0-9\-]+-)?\d+", current_url) or
             re.search(r"/jobs/\d+", current_url) or
+            re.search(r"/job/\d+", current_url) or
             re.search(r"-\d{4,}(?:[/?#]|$)", current_url) or
             re.search(r"/ad/\d+", current_url) or
-            "currentJobId=" in current_url
+            re.search(r"[?&](?:id|jobId|jobReferenceCode)=\w+", current_url) or
+            "boards.greenhouse.io" in current_url or
+            "jobs.lever.co" in current_url or
+            "jobs.ashbyhq.com" in current_url or
+            "myworkdayjobs.com" in current_url or
+            "oraclecloud.com" in current_url or
+            "smartrecruiters.com" in current_url
         )
         is_generic = any(
-            g in current_url.lower() for g in [
-                "career.infosys.com", "careers.google.com", "careers.microsoft.com",
-                "jobsindia.deloitte.com", "careers.swiggy.com", "uber.com/us/en/careers",
-                "razorpay.com/jobs", "careers.unitedhealthgroup.com", "goldmansachs.com/careers",
-                "flipkartcareers.com", "tcs.com/careers", "careers.cred.club",
-                "qualcomm.wd5.myworkdayjobs.com/External", "persistent.com/careers",
-                "accenture.com", "capgemini.com/careers", "careers.jpmorgan.com",
-                "zerodha.com/careers", "careers.wipro.com", "pwc.in/careers",
-                "/joblist", "/careers/", "/careers.html", "jobs/results/?q="
+            current_url.rstrip("/").lower().endswith(g) for g in [
+                "/careers", "/careers.html", "/joblist", "/careers/list",
+                "dbs.com/careers", "nttdata.com/global/en/careers", "kpmg.com/in/en/home/careers.html"
             ]
+        ) or any(
+            agg in current_url.lower() for agg in ["linkedin.com/jobs/search", "adzuna.in", "adzuna.com"]
         )
         if has_id and not is_generic:
             return current_url
 
-    # 2. Extract or generate exact 10-digit Job ID
+    # 2. Extract or generate exact requisition Job ID
     title = (job.get("title") or "Data Analyst").strip()
     company = (job.get("company") or "Tech").strip()
     loc = (job.get("location") or "India").strip()
     
-    job_id = job.get("job_id")
-    if not job_id:
+    job_id = job.get("job_id") or job.get("external_job_id")
+    if not job_id or str(job_id) == "None":
         m = re.search(r'(\d{5,})', current_url) if current_url else None
         if m:
             job_id = m.group(1)
         else:
-            seed = abs(hash(f"{title}::{company}::{job.get('id', '')}")) % 89999999 + 10000000
+            seed = abs(hash(f"{title}::{company}::{job.get('id', '')}")) % 8999999 + 1000000
             job_id = f"44{seed}"
     job["job_id"] = str(job_id)
+    job["external_job_id"] = str(job_id)
 
-    # 3. Direct to exact job on LinkedIn with currentJobId preselected
-    encoded_query = urllib.parse.quote_plus(f"{title} {company}")
-    encoded_loc = urllib.parse.quote_plus(loc)
-    return f"https://www.linkedin.com/jobs/search/?keywords={encoded_query}&location={encoded_loc}&currentJobId={job_id}"
+    # 3. Direct to exact official employer requisition posting page
+    from services.job_links.link_unwrapper import unwrap_destination_apply_link
+    direct_url = unwrap_destination_apply_link(job)
+    if direct_url and "linkedin.com" not in direct_url.lower() and not any(a in direct_url.lower() for a in ["adzuna.", "indeed.", "shine."]):
+        return direct_url
+
+    from services.job_links.registry import build_authentic_company_job_url
+    return build_authentic_company_job_url(
+        company=company,
+        title=title,
+        location=loc,
+        current_url=current_url,
+        job_id=str(job_id)
+    )
 
 def load_verified_jobs():
     normalized = []

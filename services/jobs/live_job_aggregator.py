@@ -330,6 +330,8 @@ def fetch_linkedin_live(role: str = "Data Analyst", location: str = "India", lim
                 
                 if title_elem and comp_elem:
                     title = title_elem.get_text(strip=True)
+                    company = comp_elem.get_text(strip=True)
+                    job_loc = loc_elem.get_text(strip=True) if loc_elem else (location or "India")
                     # Extract authentic requisition / job ID from LinkedIn URL
                     raw_id = ""
                     raw_href = link_elem["href"] if link_elem and link_elem.has_attr("href") else ""

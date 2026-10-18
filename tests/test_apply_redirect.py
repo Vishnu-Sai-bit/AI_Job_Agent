@@ -20,9 +20,8 @@ class TestApplyRedirect(unittest.TestCase):
             "url": "https://careers.google.com/jobs/results/?q=Data%20Analyst%20Bangalore"
         }
         resolved = resolve_exact_job_url(job)
-        self.assertIn("currentJobId=", resolved)
-        self.assertIn("linkedin.com/jobs/search", resolved)
-        self.assertIn("Data+Analyst+Google", resolved)
+        self.assertIn("careers.google.com", resolved)
+        self.assertNotIn("linkedin.com", resolved)
         self.assertTrue(bool(job.get("job_id")))
 
     def test_resolve_exact_job_url_preserves_live_board_id(self):
