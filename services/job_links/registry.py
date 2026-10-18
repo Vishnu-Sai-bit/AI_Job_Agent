@@ -262,11 +262,40 @@ def build_authentic_company_job_url(
         return "https://www.goldmansachs.com/careers"
     elif "siemens" in c_low:
         return f"https://jobs.siemens.com/careers/job/{j_id}" if j_id else "https://jobs.siemens.com/careers"
+    elif "ntt data" in c_low or "ntt" in c_low:
+        return "https://www.nttdata.com/global/en/careers"
+    elif "dbs bank" in c_low or "dbs" in c_low:
+        return "https://www.dbs.com/careers"
+    elif "standard chartered" in c_low:
+        return "https://www.sc.com/en/careers/"
+    elif "hsbc" in c_low:
+        return "https://www.hsbc.com/careers"
+    elif "morgan stanley" in c_low:
+        return "https://www.morganstanley.com/careers"
+    elif "bank of america" in c_low or "bofa" in c_low:
+        return "https://careers.bankofamerica.com"
+    elif "wells fargo" in c_low:
+        return "https://www.wellsfargo.com/careers"
+    elif "citi" in c_low or "citigroup" in c_low:
+        return "https://careers.citigroup.com"
+    elif "deutsche bank" in c_low:
+        return "https://careers.db.com"
+    elif "ubs" in c_low:
+        return "https://www.ubs.com/careers"
+    elif "genpact" in c_low:
+        return "https://www.genpact.com/careers"
+    elif "mphasis" in c_low:
+        return "https://www.mphasis.com/careers.html"
+    elif "hexaware" in c_low:
+        return "https://jobs.hexaware.com"
+    elif "birlasoft" in c_low:
+        return "https://www.birlasoft.com/careers"
+    elif "wns" in c_low:
+        return "https://www.wns.com/careers"
     else:
-        # Authentic corporate careers fallback - NEVER redirect to LinkedIn or aggregators
-        comp_clean = re.sub(r'[^a-zA-Z0-9]', '', c_low)
-        if comp_clean:
-            return f"https://www.{comp_clean}.com/careers"
+        # Authentic corporate careers fallback - NEVER construct guessed non-existent domains
+        if current_url and current_url != "#" and not any(x in current_url.lower() for x in ["linkedin.com", "adzuna."]):
+            return current_url
         return f"https://careers.google.com/jobs/results/?q={comp_enc}+{t_enc}"
 
 

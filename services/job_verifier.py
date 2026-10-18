@@ -45,6 +45,8 @@ KNOWN_ATS_DOMAINS = {
     "microsoft.com",
     "amazon.jobs",
     "infosys.com",
+    "nttdata.com",
+    "dbs.com",
     "remotive.com",
     "remoteok.com",
     "arbeitnow.com",
