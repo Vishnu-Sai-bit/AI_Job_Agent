@@ -612,7 +612,7 @@ def index():
         min_score=min_score,
         available_platforms=available_platforms,
         schedule_filter=schedule_filter,
-        workstyle_filter=mode_filter or workstyle_filter,
+        workstyle_filter=mode_filter,
         remote_count=remote_count,
         hyd_count=hyd_count,
         blr_count=blr_count,
@@ -644,6 +644,7 @@ def detail(job_id):
     job["match_score"] = compat.get("match_score", 85.0)
     job["match_label"] = compat.get("match_label", "Strong match")
 
+    job_skills = job.get("skills", [])
     display_title = format_rich_job_title(
         job.get("title", ""),
         skills=job_skills,
