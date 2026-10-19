@@ -1,0 +1,89 @@
+{% extends "base.html" %}
+
+{% block title %}Application Tracker — AI Job Agent{% endblock %}
+
+{% block content %}
+<div class="container-fluid px-lg-4 py-4">
+    <div class="d-flex flex-wrap justify-content-between align-items-center mb-4 gap-3">
+        <div>
+            <h3 class="fw-bold mb-1"><i class="bi bi-kanban-fill text-primary me-2"></i>Application Tracker</h3>
+            <p class="text-muted small mb-0">Track your interview stages, notes, and deadlines across all applied positions.</p>
+        </div>
+        <a href="{{ url_for('jobs.list_jobs') }}" class="btn btn-primary-custom btn-sm">Find More Jobs to Apply</a>
+    </div>
+
+    <!-- Kanban Stages Pipeline -->
+    <div class="kanban-board">
+        {% set stages = [
+            ('saved', 'Saved', 'secondary'),
+            ('prepared', 'Prepared', 'info'),
+            ('applied', 'Applied', 'primary'),
+            ('interviewing', 'Interviewing', 'warning'),
+            ('offer', 'Offer Received', 'success'),
+            ('rejected', 'Rejected', 'dark')
+        ] %}
+
+        {% for key, label, badge_color in stages %}
+            {% set column_apps = grouped.get(key, []) %}
+            <div class="kanban-column">
+                <div class="kanban-header">
+                    <span>{{ label }}</span>
+                    <span class="badge bg-{{ badge_color }} rounded-pill">{{ column_apps|length }}</span>
+                </div>
+
+                <div class="d-flex flex-column gap-2">
+                    {% for app in column_apps %}
+                        {% set job = app.job %}
+                        <div class="kanban-card">
+                            <div class="d-flex justify-content-between align-items-start mb-1">
+                                <h6 class="fw-bold mb-0 text-dark small">
+                                    <a href="{{ url_for('jobs.job_details', job_id=job.id) }}" class="text-decoration-none text-dark">{{ job.title }}</a>
+                                </h6>
+                            </div>
+                            <div class="text-muted fs-8 mb-2">
+                                <strong>{{ job.company }}</strong> · {{ job.location }}
+                            </div>
+
+                            <!-- Integration vs Manual Indicator -->
+                            <div class="mb-2">
+                                {% if app.is_integration_verified %}
+                                    <span class="badge bg-success-subtle text-success fs-9 border"><i class="bi bi-check-circle"></i> API Confirmed</span>
+                                {% else %}
+                                    <span class="badge bg-light text-muted fs-9 border">Manually Recorded</span>
+                                {% endif %}
+                            </div>
+
+                            <!-- Stage Changer -->
+                            <div class="mb-2">
+                                <label class="fs-8 text-muted d-block mb-1">Stage:</label>
+                                <select class="form-select form-select-sm select-app-status" data-app-id="{{ app.id }}">
+                                    {% for s_key, s_label, _ in stages %}
+                                        <option value="{{ s_key }}" {% if app.status == s_key %}selected{% endif %}>{{ s_label }}</option>
+                                    {% endfor %}
+                                </select>
+                            </div>
+
+                            <div class="d-flex justify-content-between align-items-center pt-2 border-top">
+                                <small class="text-muted fs-8">{{ app.updated_at.strftime('%b %d') }}</small>
+                                <a href="{{ url_for('jobs.safe_apply_redirect', job_id=job.id) }}" target="_blank" class="btn btn-sm btn-outline-primary py-0 px-2 fs-8">
+                                    Apply <i class="bi bi-box-arrow-up-right"></i>
+                                </a>
+                            </div>
+                        </div>
+                    {% endfor %}
+
+                    {% if not column_apps %}
+                        <div class="text-center py-4 text-muted fs-8">
+                            No applications in this stage
+                        </div>
+                    {% endif %}
+                </div>
+            </div>
+        {% endfor %}
+    </div>
+</div>
+{% endblock %}
+
+{% block extra_js %}
+<script src="{{ url_for('static', filename='js/dashboard.js') }}"></script>
+{% endblock %}

@@ -1,0 +1,54 @@
+{% extends "base.html" %}
+
+{% block title %}Create Account — AI Job Agent{% endblock %}
+
+{% block content %}
+<div class="container py-5">
+    <div class="row justify-content-center">
+        <div class="col-md-5">
+            <div class="card p-4 p-md-5 shadow-sm border-0 rounded-4 custom-card">
+                <div class="text-center mb-4">
+                    <div class="stat-icon stat-green mx-auto mb-3"><i class="bi bi-person-plus fs-3"></i></div>
+                    <h3 class="fw-bold text-dark">Get Started</h3>
+                    <p class="text-muted small">Create your account to start matching verified jobs</p>
+                </div>
+                <form method="POST" action="{{ url_for('auth.register') }}">
+                    <div class="mb-3">
+                        <label class="form-label small fw-semibold">Full Name</label>
+                        <div class="input-group">
+                            <span class="input-group-text bg-light"><i class="bi bi-person"></i></span>
+                            <input type="text" name="full_name" class="form-control" placeholder="e.g. Alex Johnson" required autofocus>
+                        </div>
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label small fw-semibold">Email Address</label>
+                        <div class="input-group">
+                            <span class="input-group-text bg-light"><i class="bi bi-envelope"></i></span>
+                            <input type="email" name="email" class="form-control" placeholder="name@example.com" required>
+                        </div>
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label small fw-semibold">Password</label>
+                        <div class="input-group">
+                            <span class="input-group-text bg-light"><i class="bi bi-lock"></i></span>
+                            <input type="password" name="password" class="form-control" placeholder="At least 6 characters" minlength="6" required>
+                        </div>
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label small fw-semibold">Confirm Password</label>
+                        <div class="input-group">
+                            <span class="input-group-text bg-light"><i class="bi bi-shield-lock"></i></span>
+                            <input type="password" name="confirm_password" class="form-control" placeholder="Re-type password" minlength="6" required>
+                        </div>
+                    </div>
+                    <button type="submit" class="btn btn-primary-custom w-100 py-2">Create Free Account</button>
+                </form>
+                <div class="text-center mt-4 pt-2 border-top">
+                    <span class="text-muted small">Already have an account? </span>
+                    <a href="{{ url_for('auth.login') }}" class="small fw-semibold text-primary">Sign in</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

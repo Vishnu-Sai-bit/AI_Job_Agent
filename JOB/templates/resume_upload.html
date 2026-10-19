@@ -1,0 +1,90 @@
+{% extends "base.html" %}
+
+{% block title %}Upload Resume — AI Job Agent{% endblock %}
+
+{% block content %}
+<div class="container py-4">
+    <div class="row justify-content-center">
+        <div class="col-lg-8">
+            <div class="card p-4 p-md-5 custom-card border-0 bg-white shadow-sm mb-4">
+                <div class="text-center mb-4">
+                    <h3 class="fw-bold text-dark">Upload Your Resume</h3>
+                    <p class="text-muted small">Supports PDF and DOCX formats (Max 16 MB). Resumes are securely processed and stored outside public access.</p>
+                </div>
+
+                <form method="POST" action="{{ url_for('resume.upload_resume') }}" enctype="multipart/form-data">
+                    <input type="file" name="resume_file" id="resume-file-input" class="d-none" accept=".pdf,.docx">
+                    
+                    <div class="upload-dropzone mb-3" id="resume-dropzone">
+                        <i class="bi bi-cloud-arrow-up text-primary display-4 mb-2 d-block"></i>
+                        <h6 class="fw-bold mb-1">Click to browse or drag & drop your resume here</h6>
+                        <p class="text-muted small mb-0">PDF, DOCX accepted · Strict structure & header validation</p>
+                    </div>
+
+                    <div id="selected-file-name" class="text-center small text-primary mb-3"></div>
+
+                    <div class="text-center">
+                        <button type="submit" id="btn-submit-resume" class="btn btn-primary-custom px-5 py-2" disabled>
+                            <i class="bi bi-cpu me-2"></i> Extract & Match Jobs
+                        </button>
+                    </div>
+                </form>
+            </div>
+
+            <!-- Stored Resumes History & Privacy -->
+            {% if resumes %}
+                <div class="card p-4 custom-card border-0 bg-white shadow-sm">
+                    <h5 class="fw-bold mb-3"><i class="bi bi-clock-history me-2"></i>Uploaded Resumes History</h5>
+                    <div class="table-responsive">
+                        <table class="table align-middle">
+                            <thead class="table-light">
+                                <tr class="small text-muted">
+                                    <th>File Name</th>
+                                    <th>Uploaded</th>
+                                    <th>Quality Score</th>
+                                    <th>Status</th>
+                                    <th class="text-end">Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for r in resumes %}
+                                    <tr>
+                                        <td>
+                                            <i class="bi bi-file-earmark-pdf text-danger me-2"></i>
+                                            <strong>{{ r.filename }}</strong>
+                                        </td>
+                                        <td class="small text-muted">{{ r.uploaded_at.strftime('%Y-%m-%d %H:%M') }}</td>
+                                        <td>
+                                            <span class="badge bg-primary-subtle text-primary border border-primary-subtle">
+                                                {{ r.ats_quality_score|round(0)|int }}/100
+                                            </span>
+                                        </td>
+                                        <td>
+                                            {% if r.is_active %}
+                                                <span class="badge bg-success">Active</span>
+                                            {% else %}
+                                                <span class="badge bg-secondary">Archived</span>
+                                            {% endif %}
+                                        </td>
+                                        <td class="text-end">
+                                            <form method="POST" action="{{ url_for('resume.delete_resume', resume_id=r.id) }}" class="d-inline" onsubmit="return confirm('Are you sure you want to permanently delete this resume and its data?');">
+                                                <button type="submit" class="btn btn-sm btn-outline-danger" title="Delete Resume & Privacy Clean">
+                                                    <i class="bi bi-trash"></i>
+                                                </button>
+                                            </form>
+                                        </td>
+                                    </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            {% endif %}
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block extra_js %}
+<script src="{{ url_for('static', filename='js/resume.js') }}"></script>
+{% endblock %}

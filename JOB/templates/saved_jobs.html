@@ -1,0 +1,80 @@
+{% extends "base.html" %}
+
+{% block title %}Saved Jobs — AI Job Agent{% endblock %}
+
+{% block content %}
+<div class="container py-4">
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <div>
+            <h3 class="fw-bold mb-1"><i class="bi bi-bookmark-star-fill text-warning me-2"></i>Saved Opportunities</h3>
+            <p class="text-muted small mb-0">Positions you bookmarked for later review or application preparation.</p>
+        </div>
+        <a href="{{ url_for('jobs.list_jobs') }}" class="btn btn-outline-custom">Browse More Jobs</a>
+    </div>
+
+    {% if items %}
+        <div class="row g-3">
+            {% for it in items %}
+                {% set job = it.job %}
+                {% set match = it.match %}
+                <div class="col-lg-6">
+                    <div class="card p-4 custom-card border-0 bg-white shadow-sm h-100 job-card d-flex flex-column justify-content-between">
+                        <div>
+                            <div class="d-flex justify-content-between align-items-start mb-2">
+                                <div>
+                                    <h5 class="fw-bold mb-1">
+                                        <a href="{{ url_for('jobs.job_details', job_id=job.id) }}" class="text-dark text-decoration-none">{{ job.title }}</a>
+                                    </h5>
+                                    <div class="text-muted small">
+                                        <strong>{{ job.company }}</strong> · 
+                                        <span><i class="bi bi-geo-alt"></i> {{ job.location }}</span>
+                                    </div>
+                                </div>
+                                <div class="text-end">
+                                    {% if match %}
+                                        <span class="match-badge {% if match.match_score >= 80 %}match-high{% elif match.match_score >= 60 %}match-mid{% else %}match-low{% endif %}">
+                                            {{ match.match_score|round(0)|int }}% Match
+                                        </span>
+                                    {% endif %}
+                                </div>
+                            </div>
+
+                            <div class="d-flex flex-wrap gap-1 mb-2">
+                                <span class="badge bg-light text-dark border">{{ job.work_mode|title }}</span>
+                                <span class="badge bg-secondary-subtle text-secondary">{{ job.source_platform|title }}</span>
+                            </div>
+
+                            <p class="text-muted small mb-3 text-truncate-2">{{ job.description[:180] }}...</p>
+                        </div>
+
+                        <div class="d-flex justify-content-between align-items-center pt-3 border-top mt-auto">
+                            <button class="btn btn-sm btn-outline-danger btn-save-job" data-job-id="{{ job.id }}">
+                                <i class="bi bi-trash me-1"></i> Remove
+                            </button>
+                            <div class="d-flex gap-2">
+                                <a href="{{ url_for('jobs.job_details', job_id=job.id) }}" class="btn btn-sm btn-outline-custom">View Details</a>
+                                <a href="{{ url_for('jobs.safe_apply_redirect', job_id=job.id) }}" target="_blank" class="btn btn-sm btn-primary-custom">
+                                    Apply Now <i class="bi bi-box-arrow-up-right ms-1"></i>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+    {% else %}
+        <div class="card p-5 text-center custom-card border-0 bg-white shadow-sm">
+            <i class="bi bi-bookmark text-muted display-4 mb-3"></i>
+            <h5 class="fw-bold">No saved jobs yet</h5>
+            <p class="text-muted small mb-3">When discovering jobs, click the bookmark icon to save them here for quick access.</p>
+            <div>
+                <a href="{{ url_for('jobs.list_jobs') }}" class="btn btn-primary-custom btn-sm">Discover Jobs</a>
+            </div>
+        </div>
+    {% endif %}
+</div>
+{% endblock %}
+
+{% block extra_js %}
+<script src="{{ url_for('static', filename='js/jobs.js') }}"></script>
+{% endblock %}

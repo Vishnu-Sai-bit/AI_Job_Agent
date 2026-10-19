@@ -1,0 +1,235 @@
+{% extends "base.html" %}
+
+{% block title %}Dashboard — AI Job Agent{% endblock %}
+
+{% block content %}
+<div class="container py-4">
+    <!-- Top Welcome Banner -->
+    <div class="card p-4 custom-card border-0 mb-4 bg-white shadow-sm">
+        <div class="row align-items-center gy-3">
+            <div class="col-lg-8">
+                <div class="d-flex align-items-center gap-3">
+                    <div class="stat-icon stat-blue fs-3"><i class="bi bi-person-badge"></i></div>
+                    <div>
+                        <h4 class="fw-bold mb-1">Welcome, {{ profile.full_name or current_user.email.split('@')[0] }}!</h4>
+                        <p class="text-muted small mb-0">
+                            {% if resume %}
+                                <i class="bi bi-file-earmark-check-fill text-success"></i> Active Resume: <strong>{{ resume.filename }}</strong> (Uploaded {{ resume.uploaded_at.strftime('%b %d, %Y') }})
+                            {% else %}
+                                <i class="bi bi-exclamation-triangle-fill text-warning"></i> No resume uploaded yet. <a href="{{ url_for('resume.upload_resume') }}">Upload your resume</a> to activate job matching.
+                            {% endif %}
+                        </p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-4 text-lg-end">
+                <a href="{{ url_for('resume.upload_resume') }}" class="btn btn-outline-custom me-2"><i class="bi bi-upload me-1"></i> Upload Resume</a>
+                <a href="{{ url_for('assistant.chat_view') }}" class="btn btn-primary-custom"><i class="bi bi-chat-dots-fill me-1"></i> Ask Assistant</a>
+            </div>
+        </div>
+    </div>
+
+    <!-- Quick Stat Cards -->
+    <div class="row g-3 mb-4">
+        <div class="col-md-3">
+            <div class="card stat-card bg-white border custom-card">
+                <div class="stat-icon stat-green"><i class="bi bi-graph-up-arrow"></i></div>
+                <div>
+                    <h5 class="fw-bold mb-0">{{ resume.ats_quality_score|round(0)|int if resume else '--' }}<span class="text-muted fs-6">/100</span></h5>
+                    <small class="text-muted">ATS Quality Score</small>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="card stat-card bg-white border custom-card">
+                <div class="stat-icon stat-blue"><i class="bi bi-person-check"></i></div>
+                <div>
+                    <h5 class="fw-bold mb-0">{{ completeness }}%</h5>
+                    <small class="text-muted">Profile Complete</small>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="card stat-card bg-white border custom-card">
+                <div class="stat-icon stat-amber"><i class="bi bi-bookmark-star-fill"></i></div>
+                <div>
+                    <h5 class="fw-bold mb-0">{{ saved_jobs|length }}</h5>
+                    <small class="text-muted">Saved Bookmarks</small>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="card stat-card bg-white border custom-card">
+                <div class="stat-icon stat-purple"><i class="bi bi-send-check-fill"></i></div>
+                <div>
+                    <h5 class="fw-bold mb-0">{{ total_applications }}</h5>
+                    <small class="text-muted">Active Applications</small>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="row g-4">
+        <!-- Left Column: Top Recommended Jobs -->
+        <div class="col-lg-8">
+            <div class="card p-4 custom-card border-0 mb-4 bg-white shadow-sm">
+                <div class="d-flex justify-content-between align-items-center mb-3">
+                    <h5 class="fw-bold mb-0"><i class="bi bi-bullseye text-primary me-2"></i>Top Recommended Opportunities</h5>
+                    <a href="{{ url_for('jobs.list_jobs') }}" class="small fw-semibold text-primary">View all verified jobs &rarr;</a>
+                </div>
+
+                {% if top_matches %}
+                    <div class="d-flex flex-column gap-3">
+                        {% for match in top_matches %}
+                            {% set job = match.job %}
+                            <div class="card p-3 border rounded-3 job-card hover-shadow">
+                                <div class="d-flex justify-content-between align-items-start mb-2">
+                                    <div>
+                                        <h6 class="fw-bold mb-1">
+                                            <a href="{{ url_for('jobs.job_details', job_id=job.id) }}" class="text-dark text-decoration-none">{{ job.title }}</a>
+                                        </h6>
+                                        <div class="text-muted small">
+                                            <strong>{{ job.company }}</strong> · 
+                                            <span><i class="bi bi-geo-alt"></i> {{ job.location }}</span> · 
+                                            <span class="badge bg-light text-dark border">{{ job.work_mode|title }}</span> ·
+                                            <span class="badge bg-secondary-subtle text-secondary">{{ job.source_platform|title }}</span>
+                                        </div>
+                                    </div>
+                                    <div class="text-end">
+                                        <span class="match-badge {% if match.match_score >= 80 %}match-high{% elif match.match_score >= 60 %}match-mid{% else %}match-low{% endif %}">
+                                            <i class="bi bi-shield-check"></i> {{ match.match_score|round(1) }}% Match
+                                        </span>
+                                    </div>
+                                </div>
+                                <p class="text-muted small mb-2 text-truncate-2">{{ match.match_explanation }}</p>
+                                <div class="d-flex justify-content-between align-items-center pt-2 border-top">
+                                    <div class="small">
+                                        {% if match.skill_match_details.get('matched_required') %}
+                                            <span class="text-success fw-semibold"><i class="bi bi-check-circle"></i> Skills:</span>
+                                            {% for sk in match.skill_match_details['matched_required'][:3] %}
+                                                <span class="skill-pill matched">{{ sk }}</span>
+                                            {% endfor %}
+                                        {% endif %}
+                                    </div>
+                                    <div class="d-flex gap-2">
+                                        <a href="{{ url_for('jobs.job_details', job_id=job.id) }}" class="btn btn-sm btn-outline-custom">View Details</a>
+                                        <a href="{{ url_for('jobs.safe_apply_redirect', job_id=job.id) }}" target="_blank" class="btn btn-sm btn-primary-custom">
+                                            Apply Now <i class="bi bi-box-arrow-up-right ms-1"></i>
+                                        </a>
+                                    </div>
+                                </div>
+                            </div>
+                        {% endfor %}
+                    </div>
+                {% else %}
+                    <div class="text-center py-5 bg-light rounded-3">
+                        <i class="bi bi-briefcase text-muted fs-1 mb-2"></i>
+                        <h6 class="fw-bold">No job matches calculated yet</h6>
+                        <p class="text-muted small mb-3">Upload your resume to instantly see transparent compatibility scores for real vacancies.</p>
+                        <a href="{{ url_for('resume.upload_resume') }}" class="btn btn-primary-custom btn-sm">Upload Resume</a>
+                    </div>
+                {% endif %}
+            </div>
+
+            <!-- Application Pipeline Tracker -->
+            <div class="card p-4 custom-card border-0 bg-white shadow-sm">
+                <div class="d-flex justify-content-between align-items-center mb-3">
+                    <h5 class="fw-bold mb-0"><i class="bi bi-kanban text-info me-2"></i>Application Pipeline</h5>
+                    <a href="{{ url_for('applications.list_applications') }}" class="small fw-semibold text-primary">Manage Tracker &rarr;</a>
+                </div>
+                <div class="row g-2 text-center">
+                    <div class="col">
+                        <div class="p-3 bg-light rounded-3 border">
+                            <h4 class="fw-bold text-secondary mb-1">{{ app_counts.saved }}</h4>
+                            <small class="text-muted fw-semibold">Saved</small>
+                        </div>
+                    </div>
+                    <div class="col">
+                        <div class="p-3 bg-light rounded-3 border">
+                            <h4 class="fw-bold text-info mb-1">{{ app_counts.prepared }}</h4>
+                            <small class="text-muted fw-semibold">Prepared</small>
+                        </div>
+                    </div>
+                    <div class="col">
+                        <div class="p-3 bg-light rounded-3 border">
+                            <h4 class="fw-bold text-primary mb-1">{{ app_counts.applied }}</h4>
+                            <small class="text-muted fw-semibold">Applied</small>
+                        </div>
+                    </div>
+                    <div class="col">
+                        <div class="p-3 bg-light rounded-3 border">
+                            <h4 class="fw-bold text-warning mb-1">{{ app_counts.interviewing }}</h4>
+                            <small class="text-muted fw-semibold">Interviewing</small>
+                        </div>
+                    </div>
+                    <div class="col">
+                        <div class="p-3 bg-light rounded-3 border">
+                            <h4 class="fw-bold text-success mb-1">{{ app_counts.offer }}</h4>
+                            <small class="text-muted fw-semibold">Offers</small>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Right Column: ATS Breakdown & Quick Tools -->
+        <div class="col-lg-4">
+            <!-- ATS Readiness Card -->
+            <div class="card p-4 custom-card border-0 mb-4 bg-white shadow-sm">
+                <h6 class="fw-bold mb-3"><i class="bi bi-shield-check text-success me-2"></i>Resume Quality Audit</h6>
+                {% if resume %}
+                    <div class="text-center mb-3">
+                        <div class="score-circle mx-auto mb-2" style="--percent: {{ resume.ats_quality_score or 75 }};">
+                            <div class="score-circle-inner">
+                                <span class="fs-4">{{ resume.ats_quality_score|round(0)|int }}</span>
+                                <small class="text-muted fs-8">/ 100</small>
+                            </div>
+                        </div>
+                        <span class="badge bg-success-subtle text-success border border-success-subtle px-3 py-1">
+                            {{ resume.ats_feedback.get('tier', 'Good') }} Tier
+                        </span>
+                    </div>
+                    <div class="small">
+                        <div class="d-flex justify-content-between mb-1">
+                            <span class="text-muted">Readability:</span>
+                            <span class="fw-bold">{{ resume.readability_score|round(0)|int }}%</span>
+                        </div>
+                        <div class="d-flex justify-content-between mb-1">
+                            <span class="text-muted">Completeness:</span>
+                            <span class="fw-bold">{{ resume.completeness_score|round(0)|int }}%</span>
+                        </div>
+                        <div class="d-flex justify-content-between mb-3">
+                            <span class="text-muted">Extracted Skills:</span>
+                            <span class="fw-bold">{{ resume.parsed_data.get('skills', [])|length }} skills</span>
+                        </div>
+                    </div>
+                    <a href="{{ url_for('ats.ats_report') }}" class="btn btn-outline-custom w-100 btn-sm">View Full ATS Diagnostic</a>
+                {% else %}
+                    <p class="text-muted small">Upload your resume to generate a full ATS audit, keyword suggestions, and section diagnostic.</p>
+                    <a href="{{ url_for('resume.upload_resume') }}" class="btn btn-primary-custom w-100 btn-sm">Upload Resume</a>
+                {% endif %}
+            </div>
+
+            <!-- Conversational Assistant Quick Prompt -->
+            <div class="card p-4 custom-card border-0 bg-white shadow-sm">
+                <h6 class="fw-bold mb-2"><i class="bi bi-chat-quote-fill text-info me-2"></i>Career Assistant Commands</h6>
+                <p class="text-muted small mb-3">Try asking the agent directly:</p>
+                <div class="d-flex flex-column gap-2">
+                    <a href="{{ url_for('assistant.chat_view') }}" class="btn btn-light text-start border btn-sm py-2">
+                        <i class="bi bi-search text-primary me-2"></i> "Find Python jobs matching my resume"
+                    </a>
+                    <a href="{{ url_for('assistant.chat_view') }}" class="btn btn-light text-start border btn-sm py-2">
+                        <i class="bi bi-percent text-success me-2"></i> "Show jobs with an 80% or higher match"
+                    </a>
+                    <a href="{{ url_for('assistant.chat_view') }}" class="btn btn-light text-start border btn-sm py-2">
+                        <i class="bi bi-globe text-info me-2"></i> "Find remote developer jobs worldwide"
+                    </a>
+                    <a href="{{ url_for('assistant.chat_view') }}" class="btn btn-light text-start border btn-sm py-2">
+                        <i class="bi bi-file-earmark-text text-warning me-2"></i> "Prepare a cover letter for this job"
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

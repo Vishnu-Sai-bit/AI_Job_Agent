@@ -163,6 +163,25 @@
           </label>
         </div>
       </div>
+
+      <!-- 5. Hiring Platform (ATS) Section -->
+      <div class="mt-4">
+        <div class="tal-section-title">Hiring Platform</div>
+        <div class="d-flex flex-column gap-1">
+          {% for plat in ['workday', 'greenhouse', 'lever', 'ashby', 'smartrecruiters'] %}
+          <a href="{{ url_for('jobs.index') }}?role={{ role_filter }}&location={{ loc_filter }}&platform={{ plat }}"
+             class="text-decoration-none d-flex justify-content-between align-items-center py-1 px-2 rounded-2 {% if platform_filter == plat %}bg-primary text-white fw-bold{% else %}text-secondary hover-bg-light{% endif %}"
+             style="font-size: 0.85rem;">
+            <span>{{ plat|capitalize }}</span>
+            <span class="badge {% if platform_filter == plat %}bg-white text-primary{% else %}bg-light text-muted border{% endif %} rounded-pill">ATS</span>
+          </a>
+          {% endfor %}
+          {% if platform_filter and platform_filter != 'all' %}
+          <a href="{{ url_for('jobs.index') }}?role={{ role_filter }}&location={{ loc_filter }}&platform=all"
+             class="btn btn-sm btn-link p-0 text-muted small text-start mt-1">Clear platform filter</a>
+          {% endif %}
+        </div>
+      </div>
     </div>
   </div>
 
@@ -176,7 +195,7 @@
           LIVE REAL-TIME FEED
         </span>
         <div class="small text-secondary">
-          <strong class="text-dark">Live Hiring Mode Active</strong> &bull; Openings directly polled from LinkedIn Live, Remotive, RemoteOK, ArbeitNow, Jobicy, Adzuna &amp; Company ATS Portals.
+          <strong class="text-dark">Live Hiring Mode Active</strong> &bull; Openings directly polled from Workday, Greenhouse, Lever, Ashby, SmartRecruiters &amp; Official Company Portals.
         </div>
       </div>
       <div class="d-flex align-items-center gap-2 flex-wrap">
@@ -201,11 +220,13 @@
         <input type="text" id="roleSearchInput" name="role" class="form-control form-control-lg border-0 bg-transparent fw-bold text-dark px-1"
                style="font-size: 1.25rem; box-shadow: none;"
                value="{{ role_filter }}"
-               placeholder="Search job title, skill, or company">
+               placeholder="Search title, tech stack, company, or department">
         {% if loc_filter %}<input type="hidden" name="location" value="{{ loc_filter }}">{% endif %}
         {% if exp_filter %}<input type="hidden" name="experience" value="{{ exp_filter }}">{% endif %}
         {% if schedule_filter %}<input type="hidden" name="schedule" value="{{ schedule_filter }}">{% endif %}
         {% if workstyle_filter %}<input type="hidden" name="mode" value="{{ workstyle_filter }}">{% endif %}
+        {% if platform_filter and platform_filter != 'all' %}<input type="hidden" name="platform" value="{{ platform_filter }}">{% endif %}
+        {% if min_score %}<input type="hidden" name="min_match" value="{{ min_score }}">{% endif %}
         <button type="submit" class="btn btn-dark btn-sm rounded-pill px-3 py-1">Search</button>
       </form>
 

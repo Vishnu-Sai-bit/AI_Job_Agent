@@ -1,0 +1,210 @@
+{% extends "base.html" %}
+
+{% block title %}{{ job.title }} at {{ job.company }} — AI Job Agent{% endblock %}
+
+{% block content %}
+<div class="container py-4">
+    <!-- Breadcrumb -->
+    <nav aria-label="breadcrumb" class="mb-3">
+        <ol class="breadcrumb small">
+            <li class="breadcrumb-item"><a href="{{ url_for('jobs.list_jobs') }}">Jobs</a></li>
+            <li class="breadcrumb-item active text-truncate" style="max-width: 300px;">{{ job.title }}</li>
+        </ol>
+    </nav>
+
+    <!-- Top Job Header Card -->
+    <div class="card p-4 custom-card border-0 bg-white shadow-sm mb-4">
+        <div class="row align-items-center gy-3">
+            <div class="col-lg-8">
+                <div class="d-flex align-items-center gap-2 mb-2">
+                    <span class="badge bg-secondary-subtle text-secondary">{{ job.source_platform|title }}</span>
+                    <span class="badge bg-light text-dark border">{{ job.work_mode|title }}</span>
+                    <span class="badge bg-light text-dark border">{{ job.employment_type|title }}</span>
+                    {% if job.status == 'active' %}
+                        <span class="badge bg-success-subtle text-success"><i class="bi bi-patch-check"></i> Verified Active</span>
+                    {% else %}
+                        <span class="badge bg-danger-subtle text-danger">{{ job.status|title }}</span>
+                    {% endif %}
+                </div>
+                <h3 class="fw-bold mb-1 text-dark">{{ job.title }}</h3>
+                <h5 class="text-muted fw-normal mb-2">{{ job.company }} · <i class="bi bi-geo-alt"></i> {{ job.location }}</h5>
+                <div class="small text-muted">
+                    <span>Source Job ID: <code>{{ job.source_job_id }}</code></span> · 
+                    <span>Verified: {{ job.last_verified_at.strftime('%Y-%m-%d %H:%M') }}</span>
+                </div>
+            </div>
+            <div class="col-lg-4 text-lg-end">
+                <div class="d-flex flex-column flex-sm-row justify-content-lg-end gap-2">
+                    {% if current_user.is_authenticated %}
+                        <button class="btn btn-outline-secondary btn-save-job" data-job-id="{{ job.id }}">
+                            <i class="bi bi-bookmark{% if is_saved %}-fill{% endif %} me-1"></i> {% if is_saved %}Saved{% else %}Save{% endif %}
+                        </button>
+                        <a href="{{ url_for('applications.prepare_application', job_id=job.id) }}" class="btn btn-outline-custom">
+                            <i class="bi bi-file-earmark-text me-1"></i> Prepare Application
+                        </a>
+                    {% endif %}
+                    <a href="{{ url_for('jobs.safe_apply_redirect', job_id=job.id) }}" target="_blank" class="btn btn-primary-custom">
+                        Apply Now <i class="bi bi-box-arrow-up-right ms-1"></i>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- ATS Compatibility Callout -->
+    {% if match %}
+        <div class="card p-4 custom-card border-0 bg-white shadow-sm mb-4 border-start border-4 border-primary">
+            <div class="row align-items-center gy-3">
+                <div class="col-md-3 text-center border-end-md">
+                    <div class="score-circle mx-auto mb-2" style="--percent: {{ match.match_score|round(0)|int }};">
+                        <div class="score-circle-inner">
+                            <span class="fs-4 fw-bold">{{ match.match_score|round(0)|int }}</span>
+                            <small class="text-muted fs-8">/ 100</small>
+                        </div>
+                    </div>
+                    <span class="badge {% if match.match_score >= 80 %}bg-success{% elif match.match_score >= 60 %}bg-warning text-dark{% else %}bg-secondary{% endif %}">
+                        {{ match.match_score|round(1) }}% Match
+                    </span>
+                </div>
+                <div class="col-md-9">
+                    <h6 class="fw-bold mb-1">Your ATS Compatibility Breakdown</h6>
+                    <p class="text-muted small mb-2">{{ match.match_explanation }}</p>
+                    <div class="d-flex flex-wrap gap-2 mb-2">
+                        {% if match.skill_match_details.get('matched_required') %}
+                            {% for sk in match.skill_match_details['matched_required'] %}
+                                <span class="skill-pill matched"><i class="bi bi-check2"></i> {{ sk }}</span>
+                            {% endfor %}
+                        {% endif %}
+                        {% if match.skill_match_details.get('missing_required') %}
+                            {% for sk in match.skill_match_details['missing_required'] %}
+                                <span class="skill-pill missing"><i class="bi bi-x"></i> Missing: {{ sk }}</span>
+                            {% endfor %}
+                        {% endif %}
+                    </div>
+                    <a href="{{ url_for('ats.job_ats_report', job_id=job.id) }}" class="small fw-semibold text-primary">
+                        View full 5-component ATS report &rarr;
+                    </a>
+                </div>
+            </div>
+        </div>
+    {% endif %}
+
+    <!-- Prepared Application Materials (If in Prepare Mode) -->
+    {% if cover_letter %}
+        <div class="card p-4 custom-card border-0 bg-white shadow-sm mb-4 border-start border-4 border-success">
+            <div class="d-flex justify-content-between align-items-center mb-3">
+                <h5 class="fw-bold mb-0 text-success"><i class="bi bi-envelope-paper-heart-fill me-2"></i>Tailored Cover Letter</h5>
+                <button class="btn btn-sm btn-outline-custom" onclick="navigator.clipboard.writeText(document.getElementById('coverLetterText').innerText); alert('Cover letter copied to clipboard!');">
+                    <i class="bi bi-clipboard me-1"></i> Copy to Clipboard
+                </button>
+            </div>
+            <pre class="bg-light p-3 rounded-3 border text-dark font-monospace small" id="coverLetterText" style="white-space: pre-wrap;">{{ cover_letter }}</pre>
+            
+            {% if interview_prep %}
+                <h6 class="fw-bold mt-4 mb-2"><i class="bi bi-chat-left-dots text-primary me-2"></i>Tailored Interview Preparation Points</h6>
+                <div class="row g-3">
+                    {% for q in interview_prep %}
+                        <div class="col-md-4">
+                            <div class="p-3 bg-light rounded-3 border h-100">
+                                <strong class="d-block text-dark small mb-1">{{ q.question }}</strong>
+                                <small class="text-muted d-block"><em>Strategy:</em> {{ q.tip }}</small>
+                            </div>
+                        </div>
+                    {% endfor %}
+                </div>
+            {% endif %}
+
+            <!-- Mark as Applied Confirmation -->
+            <div class="mt-4 pt-3 border-top d-flex justify-content-between align-items-center">
+                <span class="text-muted small"><i class="bi bi-info-circle"></i> After submitting on the employer's official portal, mark your status:</span>
+                <button class="btn btn-success btn-sm" onclick="markApplied({{ job.id }})">
+                    <i class="bi bi-check-circle me-1"></i> Mark as Applied
+                </button>
+            </div>
+        </div>
+    {% endif %}
+
+    <!-- Full Job Description -->
+    <div class="row g-4">
+        <div class="col-lg-8">
+            <div class="card p-4 custom-card border-0 bg-white shadow-sm mb-4">
+                <h5 class="fw-bold mb-3"><i class="bi bi-card-text text-primary me-2"></i>Job Description</h5>
+                <div class="job-description-content text-dark" style="line-height: 1.7;">
+                    {% if job.raw_description and '<' in job.raw_description %}
+                        {{ job.raw_description|safe }}
+                    {% else %}
+                        <p style="white-space: pre-wrap;">{{ job.description }}</p>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+
+        <div class="col-lg-4">
+            <!-- Source Provenance Details -->
+            <div class="card p-4 custom-card border-0 bg-white shadow-sm mb-4">
+                <h6 class="fw-bold mb-3"><i class="bi bi-shield-check text-success me-2"></i>Source Provenance</h6>
+                <div class="small">
+                    <div class="d-flex justify-content-between mb-2">
+                        <span class="text-muted">Platform:</span>
+                        <span class="fw-bold">{{ job.source_platform|title }}</span>
+                    </div>
+                    <div class="d-flex justify-content-between mb-2">
+                        <span class="text-muted">Company Identifier:</span>
+                        <code>{{ job.source_company_key }}</code>
+                    </div>
+                    <div class="d-flex justify-content-between mb-2">
+                        <span class="text-muted">Source Job ID:</span>
+                        <code>{{ job.source_job_id }}</code>
+                    </div>
+                    <div class="d-flex justify-content-between mb-2">
+                        <span class="text-muted">First Collected:</span>
+                        <span>{{ job.created_at.strftime('%Y-%m-%d') }}</span>
+                    </div>
+                    <div class="d-flex justify-content-between mb-3">
+                        <span class="text-muted">Last Verified:</span>
+                        <span>{{ job.last_verified_at.strftime('%Y-%m-%d %H:%M') }}</span>
+                    </div>
+                    <div class="p-2 bg-light rounded-2 text-muted fs-8">
+                        <i class="bi bi-lock-fill text-secondary"></i> Destination protected against SSRF, verified for HTTPS, and checked against spoofing.
+                    </div>
+                </div>
+            </div>
+
+            <!-- Required Skills Checklist -->
+            <div class="card p-4 custom-card border-0 bg-white shadow-sm">
+                <h6 class="fw-bold mb-3"><i class="bi bi-check2-square text-info me-2"></i>Target Competencies</h6>
+                {% if job.required_skills %}
+                    <div class="d-flex flex-wrap gap-1">
+                        {% for sk in job.required_skills %}
+                            <span class="skill-pill">{{ sk }}</span>
+                        {% endfor %}
+                    </div>
+                {% else %}
+                    <p class="text-muted small mb-0">Review job description text for specific framework requirements.</p>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block extra_js %}
+<script src="{{ url_for('static', filename='js/jobs.js') }}"></script>
+<script>
+function markApplied(jobId) {
+    fetch("/applications/api/create", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ job_id: jobId, status: "applied" })
+    })
+    .then(res => res.json())
+    .then(data => {
+        if (data.success) {
+            alert("Application tracked as Applied! View it anytime in your Application Tracker.");
+            window.location.href = "{{ url_for('applications.list_applications') }}";
+        }
+    })
+    .catch(err => console.error(err));
+}
+</script>
+{% endblock %}

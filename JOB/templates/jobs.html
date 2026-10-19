@@ -1,0 +1,178 @@
+{% extends "base.html" %}
+
+{% block title %}Discover Verified Jobs — AI Job Agent{% endblock %}
+
+{% block content %}
+<div class="container py-4">
+    <!-- Header with Search & Sync Action -->
+    <div class="d-flex flex-wrap justify-content-between align-items-center mb-4 gap-3">
+        <div>
+            <h3 class="fw-bold mb-1"><i class="bi bi-briefcase-fill text-primary me-2"></i>Global Verified Job Discovery</h3>
+            <p class="text-muted small mb-0">Every listing is grounded in an official company or ATS source. Apply links lead directly to official forms.</p>
+        </div>
+        <form method="POST" action="{{ url_for('jobs.refresh_jobs') }}" class="d-inline">
+            <button type="submit" class="btn btn-outline-custom" title="Fetch latest vacancies from active collectors">
+                <i class="bi bi-arrow-repeat me-1"></i> Sync Real Jobs
+            </button>
+        </form>
+    </div>
+
+    <!-- Search & Filter Controls -->
+    <div class="card p-4 custom-card border-0 bg-white shadow-sm mb-4">
+        <form method="GET" action="{{ url_for('jobs.list_jobs') }}" class="row g-3">
+            <div class="col-md-4">
+                <label class="form-label small fw-semibold">Keywords / Title</label>
+                <div class="input-group">
+                    <span class="input-group-text bg-light"><i class="bi bi-search"></i></span>
+                    <input type="text" name="q" class="form-control" placeholder="e.g. Python Developer, React..." value="{{ keyword }}">
+                </div>
+            </div>
+            <div class="col-md-3">
+                <label class="form-label small fw-semibold">Location / Country</label>
+                <div class="input-group">
+                    <span class="input-group-text bg-light"><i class="bi bi-geo-alt"></i></span>
+                    <input type="text" name="location" class="form-control" placeholder="e.g. Remote, India, US..." value="{{ location }}">
+                </div>
+            </div>
+            <div class="col-md-2">
+                <label class="form-label small fw-semibold">Work Mode</label>
+                <select name="work_mode" class="form-select">
+                    <option value="all" {% if work_mode == 'all' %}selected{% endif %}>All Modes</option>
+                    <option value="remote" {% if work_mode == 'remote' %}selected{% endif %}>Remote</option>
+                    <option value="hybrid" {% if work_mode == 'hybrid' %}selected{% endif %}>Hybrid</option>
+                    <option value="on-site" {% if work_mode == 'on-site' %}selected{% endif %}>On-site</option>
+                </select>
+            </div>
+            <div class="col-md-2">
+                <label class="form-label small fw-semibold">Platform</label>
+                <select name="platform" class="form-select">
+                    <option value="all" {% if platform == 'all' %}selected{% endif %}>All Sources</option>
+                    {% for p in available_platforms %}
+                        <option value="{{ p }}" {% if platform == p %}selected{% endif %}>{{ p|title }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+            <div class="col-md-1 d-flex align-items-end">
+                <button type="submit" class="btn btn-primary-custom w-100 py-2">Filter</button>
+            </div>
+        </form>
+    </div>
+
+    <!-- Results Header -->
+    <div class="d-flex justify-content-between align-items-center mb-3">
+        <span class="text-muted small">Found <strong>{{ results.total }}</strong> verified postings</span>
+        {% if current_user.is_authenticated and not current_user.get_active_resume() %}
+            <span class="badge bg-warning-subtle text-warning-emphasis">
+                <a href="{{ url_for('resume.upload_resume') }}" class="text-decoration-none">Upload resume to calculate match scores</a>
+            </span>
+        {% endif %}
+    </div>
+
+    <!-- Job Cards Grid -->
+    {% if results.jobs %}
+        <div class="row g-3">
+            {% for item in results.jobs %}
+                {% set job = item.job %}
+                {% set match = item.match %}
+                <div class="col-lg-6">
+                    <div class="card p-4 custom-card border-0 bg-white shadow-sm h-100 job-card d-flex flex-column justify-content-between">
+                        <div>
+                            <div class="d-flex justify-content-between align-items-start mb-2">
+                                <div>
+                                    <h5 class="fw-bold mb-1">
+                                        <a href="{{ url_for('jobs.job_details', job_id=job.id) }}" class="text-dark text-decoration-none">{{ job.title }}</a>
+                                    </h5>
+                                    <div class="text-muted small">
+                                        <strong>{{ job.company }}</strong> · 
+                                        <span><i class="bi bi-geo-alt"></i> {{ job.location }}</span>
+                                    </div>
+                                </div>
+                                <div class="text-end">
+                                    {% if match %}
+                                        <span class="match-badge {% if match.match_score >= 80 %}match-high{% elif match.match_score >= 60 %}match-mid{% else %}match-low{% endif %}">
+                                            <i class="bi bi-shield-check"></i> {{ match.match_score|round(0)|int }}% Match
+                                        </span>
+                                    {% else %}
+                                        <span class="badge bg-light text-secondary border">{{ job.source_platform|title }}</span>
+                                    {% endif %}
+                                </div>
+                            </div>
+
+                            <div class="d-flex flex-wrap gap-1 mb-2">
+                                <span class="badge bg-light text-dark border">{{ job.work_mode|title }}</span>
+                                <span class="badge bg-light text-dark border">{{ job.employment_type|title }}</span>
+                                <span class="badge bg-secondary-subtle text-secondary">{{ job.source_platform|title }}</span>
+                            </div>
+
+                            {% if match and match.match_explanation %}
+                                <p class="text-muted small mb-2 text-truncate-2">{{ match.match_explanation }}</p>
+                            {% else %}
+                                <p class="text-muted small mb-2 text-truncate-2">{{ job.description[:180] }}...</p>
+                            {% endif %}
+
+                            <!-- Skill overlap preview -->
+                            <div class="mb-3">
+                                {% if job.required_skills %}
+                                    <div class="d-flex flex-wrap gap-1">
+                                        {% for sk in job.required_skills[:4] %}
+                                            <span class="skill-pill">{{ sk }}</span>
+                                        {% endfor %}
+                                    </div>
+                                {% endif %}
+                            </div>
+                        </div>
+
+                        <!-- Card Action Buttons -->
+                        <div class="d-flex justify-content-between align-items-center pt-3 border-top mt-auto">
+                            <div>
+                                {% if current_user.is_authenticated %}
+                                    <button class="btn btn-sm {% if item.is_saved %}btn-warning text-dark{% else %}btn-outline-secondary{% endif %} btn-save-job" data-job-id="{{ job.id }}">
+                                        <i class="bi bi-bookmark{% if item.is_saved %}-fill{% endif %} me-1"></i> {% if item.is_saved %}Saved{% else %}Save{% endif %}
+                                    </button>
+                                {% endif %}
+                            </div>
+                            <div class="d-flex gap-2">
+                                <a href="{{ url_for('jobs.job_details', job_id=job.id) }}" class="btn btn-sm btn-outline-custom">View Details</a>
+                                <a href="{{ url_for('jobs.safe_apply_redirect', job_id=job.id) }}" target="_blank" class="btn btn-sm btn-primary-custom">
+                                    Apply Now <i class="bi bi-box-arrow-up-right ms-1"></i>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+
+        <!-- Pagination -->
+        {% if results.pages > 1 %}
+            <nav class="mt-4">
+                <ul class="pagination justify-content-center">
+                    <li class="page-item {% if not results.has_prev %}disabled{% endif %}">
+                        <a class="page-link" href="{{ url_for('jobs.list_jobs', page=results.page - 1, q=keyword, location=location, work_mode=work_mode, platform=platform) }}">Previous</a>
+                    </li>
+                    <li class="page-item active">
+                        <span class="page-link">{{ results.page }} / {{ results.pages }}</span>
+                    </li>
+                    <li class="page-item {% if not results.has_next %}disabled{% endif %}">
+                        <a class="page-link" href="{{ url_for('jobs.list_jobs', page=results.page + 1, q=keyword, location=location, work_mode=work_mode, platform=platform) }}">Next</a>
+                    </li>
+                </ul>
+            </nav>
+        {% endif %}
+
+    {% else %}
+        <div class="card p-5 text-center custom-card border-0 bg-white shadow-sm">
+            <i class="bi bi-search text-muted display-4 mb-3"></i>
+            <h5 class="fw-bold">No jobs matching your search criteria</h5>
+            <p class="text-muted small mb-3">Try adjusting your filters, or click 'Sync Real Jobs' above to retrieve newly posted vacancies.</p>
+            <div>
+                <a href="{{ url_for('jobs.list_jobs') }}" class="btn btn-outline-custom btn-sm">Clear Filters</a>
+            </div>
+        </div>
+    {% endif %}
+</div>
+{% endblock %}
+
+{% block extra_js %}
+<script src="{{ url_for('static', filename='js/jobs.js') }}"></script>
+{% endblock %}

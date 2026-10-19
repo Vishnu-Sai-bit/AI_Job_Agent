@@ -1,0 +1,137 @@
+{% extends "base.html" %}
+
+{% block title %}AI Job Agent — Grounded AI Job Search & ATS Intelligence{% endblock %}
+
+{% block content %}
+<!-- Hero Section -->
+<section class="py-5 bg-white border-bottom">
+    <div class="container py-lg-5">
+        <div class="row align-items-center gy-5">
+            <div class="col-lg-7">
+                <span class="badge bg-primary-subtle text-primary border border-primary-subtle px-3 py-2 rounded-pill fw-semibold mb-3">
+                    <i class="bi bi-shield-check me-1"></i> 100% Real Postings & Verified Direct Links
+                </span>
+                <h1 class="display-4 fw-bold text-dark hero-title mb-3">
+                    Grounded Career Intelligence & Application Assistant
+                </h1>
+                <p class="lead text-muted mb-4">
+                    Understand your resume, discover real job openings from companies worldwide, calculate transparent ATS compatibility scores, and apply directly via official employer links.
+                </p>
+                <div class="d-flex flex-wrap gap-3">
+                    <a href="{{ url_for('auth.register') }}" class="btn btn-primary-custom btn-lg">
+                        <i class="bi bi-file-earmark-arrow-up me-2"></i> Upload Resume & Match Jobs
+                    </a>
+                    <a href="{{ url_for('jobs.list_jobs') }}" class="btn btn-outline-custom btn-lg">
+                        <i class="bi bi-search me-2"></i> Browse Verified Jobs
+                    </a>
+                </div>
+                <div class="mt-4 pt-2 d-flex align-items-center gap-4 text-muted small">
+                    <div><i class="bi bi-check-circle-fill text-success me-1"></i> No fake URLs</div>
+                    <div><i class="bi bi-check-circle-fill text-success me-1"></i> Transparent ATS math</div>
+                    <div><i class="bi bi-check-circle-fill text-success me-1"></i> Verified sources</div>
+                </div>
+            </div>
+            <div class="col-lg-5">
+                <div class="card shadow-lg border-0 rounded-4 p-4 bg-light">
+                    <div class="d-flex justify-content-between align-items-center mb-3">
+                        <h6 class="fw-bold mb-0 text-dark"><i class="bi bi-award-fill text-primary me-2"></i>Explainable Match Formula</h6>
+                        <span class="badge bg-success">Active Engine</span>
+                    </div>
+                    <div class="p-3 bg-white rounded-3 border mb-3 font-monospace small">
+                        <strong>M = 0.40S + 0.25E + 0.15K + 0.10P + 0.10Q</strong>
+                    </div>
+                    <ul class="list-unstyled small text-muted mb-0">
+                        <li class="mb-2"><i class="bi bi-cpu text-info me-2"></i> <strong>S (40%)</strong>: Required & Preferred Skill Overlap</li>
+                        <li class="mb-2"><i class="bi bi-clock-history text-primary me-2"></i> <strong>E (25%)</strong>: Relevant Experience Alignment</li>
+                        <li class="mb-2"><i class="bi bi-key text-warning me-2"></i> <strong>K (15%)</strong>: Description Keyword Coverage</li>
+                        <li class="mb-2"><i class="bi bi-folder-check text-success me-2"></i> <strong>P (10%)</strong>: Concrete Project Evidence</li>
+                        <li><i class="bi bi-mortarboard text-secondary me-2"></i> <strong>Q (10%)</strong>: Educational Qualifications</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Supported ATS & Platforms -->
+<section class="py-4 bg-light border-bottom">
+    <div class="container text-center">
+        <p class="text-uppercase text-muted fw-bold small mb-3 tracking-wide">Direct Connector Integrations</p>
+        <div class="d-flex flex-wrap justify-content-center align-items-center gap-4 text-secondary fs-5">
+            <span class="fw-bold"><i class="bi bi-building me-1"></i> Greenhouse</span>
+            <span class="fw-bold"><i class="bi bi-layers me-1"></i> Lever</span>
+            <span class="fw-bold"><i class="bi bi-lightning-charge me-1"></i> Ashby</span>
+            <span class="fw-bold"><i class="bi bi-briefcase me-1"></i> Workday</span>
+            <span class="fw-bold"><i class="bi bi-person-check me-1"></i> SmartRecruiters</span>
+            <span class="fw-bold"><i class="bi bi-kanban me-1"></i> Workable</span>
+            <span class="fw-bold"><i class="bi bi-patch-check me-1"></i> Recruitee</span>
+            <span class="fw-bold"><i class="bi bi-globe me-1"></i> Remotive</span>
+            <span class="fw-bold"><i class="bi bi-laptop me-1"></i> RemoteOK</span>
+            <span class="fw-bold"><i class="bi bi-diagram-3 me-1"></i> Arbeitnow</span>
+        </div>
+    </div>
+</section>
+
+<!-- 6 Core Capabilities -->
+<section class="py-5">
+    <div class="container py-lg-4">
+        <div class="text-center max-w-xl mx-auto mb-5">
+            <h2 class="fw-bold text-dark">Connecting the Complete Career Workflow</h2>
+            <p class="text-muted">More than a traditional search box: an intelligent agent that understands your skills, tracks genuine opportunities, and prepares you to apply.</p>
+        </div>
+        <div class="row g-4">
+            <div class="col-md-4">
+                <div class="card h-100 p-4 custom-card border-0">
+                    <div class="stat-icon stat-blue mb-3"><i class="bi bi-file-earmark-code"></i></div>
+                    <h5 class="fw-bold">1. Resume Intelligence</h5>
+                    <p class="text-muted small">Deep parsing of PDF/DOCX resumes. Extracts skills, career timelines, project impact, and educational credentials.</p>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="card h-100 p-4 custom-card border-0">
+                    <div class="stat-icon stat-green mb-3"><i class="bi bi-sliders"></i></div>
+                    <h5 class="fw-bold">2. ATS & Quality Audit</h5>
+                    <p class="text-muted small">Assess readability, formatting, impact metrics, and section completeness with clear, actionable recommendations.</p>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="card h-100 p-4 custom-card border-0">
+                    <div class="stat-icon stat-purple mb-3"><i class="bi bi-radar"></i></div>
+                    <h5 class="fw-bold">3. Global Job Aggregation</h5>
+                    <p class="text-muted small">Continuous aggregation of real vacancies with normalized schemas and deduplication to avoid repeated listings.</p>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="card h-100 p-4 custom-card border-0">
+                    <div class="stat-icon stat-amber mb-3"><i class="bi bi-check-all"></i></div>
+                    <h5 class="fw-bold">4. Grounded Apply Now</h5>
+                    <p class="text-muted small">Every Apply Now link directs you to that specific position's official employer page, secured against open redirects and SSRF.</p>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="card h-100 p-4 custom-card border-0">
+                    <div class="stat-icon stat-blue mb-3"><i class="bi bi-envelope-paper-heart"></i></div>
+                    <h5 class="fw-bold">5. Application Assistant</h5>
+                    <p class="text-muted small">Generate tailored cover letters and interview preparation points strictly grounded in your verified experience.</p>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="card h-100 p-4 custom-card border-0">
+                    <div class="stat-icon stat-green mb-3"><i class="bi bi-chat-quote"></i></div>
+                    <h5 class="fw-bold">6. Conversational Agent</h5>
+                    <p class="text-muted small">Search naturally: <em>"Find Python developer jobs with 80%+ match"</em> or <em>"Which skills am I missing for this job?"</em>.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Call to Action -->
+<section class="py-5 bg-white border-top">
+    <div class="container text-center py-4">
+        <h3 class="fw-bold text-dark mb-3">Ready to find opportunities tailored to your resume?</h3>
+        <p class="text-muted mb-4">Create your free account and let the AI Job Agent discover your highest-compatibility roles.</p>
+        <a href="{{ url_for('auth.register') }}" class="btn btn-primary-custom btn-lg px-5">Get Started Now</a>
+    </div>
+</section>
+{% endblock %}

@@ -1,0 +1,228 @@
+{% extends "base.html" %}
+
+{% block title %}ATS & Compatibility Report — AI Job Agent{% endblock %}
+
+{% block content %}
+<div class="container py-4">
+    {% if job and match %}
+        <!-- Job-Specific ATS Compatibility Report -->
+        <div class="d-flex flex-wrap justify-content-between align-items-center mb-4 gap-3">
+            <div>
+                <span class="badge bg-secondary-subtle text-secondary mb-1">{{ job.source_platform|title }} · Job ID: {{ job.source_job_id }}</span>
+                <h3 class="fw-bold mb-1">ATS Match Report: {{ job.title }}</h3>
+                <p class="text-muted small mb-0">Target: <strong>{{ job.company }}</strong> · {{ job.location }} ({{ job.work_mode|title }})</p>
+            </div>
+            <div class="d-flex gap-2">
+                <a href="{{ url_for('jobs.job_details', job_id=job.id) }}" class="btn btn-outline-custom">View Job Details</a>
+                <a href="{{ url_for('jobs.safe_apply_redirect', job_id=job.id) }}" target="_blank" class="btn btn-primary-custom">
+                    Apply Now <i class="bi bi-box-arrow-up-right ms-1"></i>
+                </a>
+            </div>
+        </div>
+
+        <div class="row g-4 mb-4">
+            <!-- Overall Compatibility Score -->
+            <div class="col-lg-4">
+                <div class="card p-4 custom-card border-0 bg-white shadow-sm text-center h-100">
+                    <h6 class="fw-bold text-muted mb-3">Job Compatibility Score</h6>
+                    <div class="score-circle mx-auto mb-3" style="--percent: {{ match.match_score|round(0)|int }};">
+                        <div class="score-circle-inner">
+                            <span class="display-6 fw-bold">{{ match.match_score|round(0)|int }}</span>
+                            <small class="text-muted">/ 100</small>
+                        </div>
+                    </div>
+                    <span class="badge {% if match.match_score >= 80 %}bg-success{% elif match.match_score >= 60 %}bg-warning text-dark{% else %}bg-secondary{% endif %} px-3 py-2 mb-3">
+                        {% if match.match_score >= 80 %}Strong Match{% elif match.match_score >= 60 %}Moderate Match{% else %}Growth Match{% endif %}
+                    </span>
+                    <p class="text-muted small mb-0">{{ match.match_explanation }}</p>
+                </div>
+            </div>
+
+            <!-- Formula Breakdown Components -->
+            <div class="col-lg-8">
+                <div class="card p-4 custom-card border-0 bg-white shadow-sm h-100">
+                    <div class="d-flex justify-content-between align-items-center mb-3">
+                        <h5 class="fw-bold mb-0"><i class="bi bi-calculator text-primary me-2"></i>Formula Breakdown</h5>
+                        <code class="small text-muted">M = 0.40S + 0.25E + 0.15K + 0.10P + 0.10Q</code>
+                    </div>
+                    {% set b = match.score_breakdown %}
+                    <div class="d-flex flex-column gap-3">
+                        <div>
+                            <div class="d-flex justify-content-between small fw-semibold mb-1">
+                                <span><i class="bi bi-cpu text-info me-1"></i> Skills Alignment (S - 40% weight)</span>
+                                <span>{{ b.skills }} / 100</span>
+                            </div>
+                            <div class="progress" style="height: 8px;">
+                                <div class="progress-bar bg-info" style="width: {{ b.skills }}%"></div>
+                            </div>
+                        </div>
+                        <div>
+                            <div class="d-flex justify-content-between small fw-semibold mb-1">
+                                <span><i class="bi bi-clock-history text-primary me-1"></i> Experience Alignment (E - 25% weight)</span>
+                                <span>{{ b.experience }} / 100</span>
+                            </div>
+                            <div class="progress" style="height: 8px;">
+                                <div class="progress-bar bg-primary" style="width: {{ b.experience }}%"></div>
+                            </div>
+                        </div>
+                        <div>
+                            <div class="d-flex justify-content-between small fw-semibold mb-1">
+                                <span><i class="bi bi-key text-warning me-1"></i> Keyword Coverage (K - 15% weight)</span>
+                                <span>{{ b.keyword_coverage }} / 100</span>
+                            </div>
+                            <div class="progress" style="height: 8px;">
+                                <div class="progress-bar bg-warning" style="width: {{ b.keyword_coverage }}%"></div>
+                            </div>
+                        </div>
+                        <div>
+                            <div class="d-flex justify-content-between small fw-semibold mb-1">
+                                <span><i class="bi bi-folder-check text-success me-1"></i> Project Evidence (P - 10% weight)</span>
+                                <span>{{ b.projects }} / 100</span>
+                            </div>
+                            <div class="progress" style="height: 8px;">
+                                <div class="progress-bar bg-success" style="width: {{ b.projects }}%"></div>
+                            </div>
+                        </div>
+                        <div>
+                            <div class="d-flex justify-content-between small fw-semibold mb-1">
+                                <span><i class="bi bi-mortarboard text-secondary me-1"></i> Qualification Alignment (Q - 10% weight)</span>
+                                <span>{{ b.qualifications }} / 100</span>
+                            </div>
+                            <div class="progress" style="height: 8px;">
+                                <div class="progress-bar bg-secondary" style="width: {{ b.qualifications }}%"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Skill Gap Analysis -->
+        <div class="row g-4">
+            <div class="col-md-6">
+                <div class="card p-4 custom-card border-0 bg-white shadow-sm h-100">
+                    <h5 class="fw-bold mb-3 text-success"><i class="bi bi-check-circle-fill me-2"></i>Verified Skills Present</h5>
+                    {% set details = match.skill_match_details %}
+                    {% if details.get('matched_required') %}
+                        <div class="d-flex flex-wrap gap-2 mb-3">
+                            {% for sk in details['matched_required'] %}
+                                <span class="skill-pill matched"><i class="bi bi-check2"></i> {{ sk }}</span>
+                            {% endfor %}
+                        </div>
+                    {% else %}
+                        <p class="text-muted small">No direct required skill overlap detected.</p>
+                    {% endif %}
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="card p-4 custom-card border-0 bg-white shadow-sm h-100">
+                    <h5 class="fw-bold mb-3 text-danger"><i class="bi bi-exclamation-octagon-fill me-2"></i>Missing Skill Evidence</h5>
+                    {% if details.get('missing_required') %}
+                        <div class="d-flex flex-wrap gap-2 mb-3">
+                            {% for sk in details['missing_required'] %}
+                                <span class="skill-pill missing"><i class="bi bi-x"></i> {{ sk }}</span>
+                            {% endfor %}
+                        </div>
+                        <p class="text-muted small">Tip: If you have experience with these tools, update your resume to include concrete project highlights demonstrating them.</p>
+                    {% else %}
+                        <p class="text-success small mb-0"><i class="bi bi-award-fill"></i> No missing required skill evidence! You meet the primary listed skill requirements.</p>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+
+    {% else %}
+        <!-- General Resume ATS Diagnostic -->
+        <div class="d-flex flex-wrap justify-content-between align-items-center mb-4 gap-3">
+            <div>
+                <h3 class="fw-bold mb-1"><i class="bi bi-graph-up-arrow text-primary me-2"></i>ATS Resume Quality Audit</h3>
+                <p class="text-muted small mb-0">Structural evaluation and readability metrics for <strong>{{ resume.filename }}</strong></p>
+            </div>
+            <a href="{{ url_for('jobs.list_jobs') }}" class="btn btn-primary-custom">Discover Compatible Jobs &rarr;</a>
+        </div>
+
+        <div class="row g-4 mb-4">
+            <div class="col-lg-4">
+                <div class="card p-4 custom-card border-0 bg-white shadow-sm text-center h-100">
+                    <h6 class="fw-bold text-muted mb-3">Overall Resume Quality Score</h6>
+                    <div class="score-circle mx-auto mb-3" style="--percent: {{ resume.ats_quality_score or 75 }};">
+                        <div class="score-circle-inner">
+                            <span class="display-6 fw-bold">{{ resume.ats_quality_score|round(0)|int }}</span>
+                            <small class="text-muted">/ 100</small>
+                        </div>
+                    </div>
+                    <span class="badge bg-success-subtle text-success border border-success-subtle px-3 py-2 mb-3">
+                        {{ feedback.get('tier', 'Good') }} Tier
+                    </span>
+                    <p class="text-muted small mb-0">{{ feedback.get('summary', '') }}</p>
+                </div>
+            </div>
+
+            <div class="col-lg-8">
+                <div class="card p-4 custom-card border-0 bg-white shadow-sm h-100">
+                    <h5 class="fw-bold mb-4"><i class="bi bi-bar-chart-fill text-primary me-2"></i>Four Core Quality Pillars</h5>
+                    {% set bk = feedback.get('breakdown', {}) %}
+                    <div class="d-flex flex-column gap-3">
+                        <div>
+                            <div class="d-flex justify-content-between small fw-semibold mb-1">
+                                <span><i class="bi bi-book me-1"></i> Readability & Conciseness</span>
+                                <span>{{ bk.get('readability', resume.readability_score)|round(0)|int }}%</span>
+                            </div>
+                            <div class="progress" style="height: 10px;">
+                                <div class="progress-bar bg-info" style="width: {{ bk.get('readability', resume.readability_score) }}%"></div>
+                            </div>
+                        </div>
+                        <div>
+                            <div class="d-flex justify-content-between small fw-semibold mb-1">
+                                <span><i class="bi bi-card-checklist me-1"></i> Section Completeness</span>
+                                <span>{{ bk.get('completeness', resume.completeness_score)|round(0)|int }}%</span>
+                            </div>
+                            <div class="progress" style="height: 10px;">
+                                <div class="progress-bar bg-success" style="width: {{ bk.get('completeness', resume.completeness_score) }}%"></div>
+                            </div>
+                        </div>
+                        <div>
+                            <div class="d-flex justify-content-between small fw-semibold mb-1">
+                                <span><i class="bi bi-lightning-charge me-1"></i> Impact & Measurable Metrics</span>
+                                <span>{{ bk.get('impact_and_metrics', 70)|round(0)|int }}%</span>
+                            </div>
+                            <div class="progress" style="height: 10px;">
+                                <div class="progress-bar bg-warning" style="width: {{ bk.get('impact_and_metrics', 70) }}%"></div>
+                            </div>
+                        </div>
+                        <div>
+                            <div class="d-flex justify-content-between small fw-semibold mb-1">
+                                <span><i class="bi bi-layout-text-sidebar-reverse me-1"></i> Structure & Formatting Clarity</span>
+                                <span>{{ bk.get('structure_and_format', 85)|round(0)|int }}%</span>
+                            </div>
+                            <div class="progress" style="height: 10px;">
+                                <div class="progress-bar bg-primary" style="width: {{ bk.get('structure_and_format', 85) }}%"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Actionable Recommendations -->
+        <div class="card p-4 custom-card border-0 bg-white shadow-sm">
+            <h5 class="fw-bold mb-3"><i class="bi bi-lightbulb-fill text-warning me-2"></i>Actionable Improvement Checklist</h5>
+            {% set tips = feedback.get('actionable_feedback', []) %}
+            {% if tips %}
+                <ul class="list-group list-group-flush">
+                    {% for tip in tips %}
+                        <li class="list-group-item d-flex align-items-start gap-3 py-3">
+                            <i class="bi bi-arrow-right-circle text-primary mt-1"></i>
+                            <div>
+                                <span class="fw-semibold text-dark">{{ tip }}</span>
+                            </div>
+                        </li>
+                    {% endfor %}
+                </ul>
+            {% else %}
+                <p class="text-muted small mb-0">Your resume satisfies primary ATS guidelines. Ensure you maintain quantifiable metrics for past projects.</p>
+            {% endif %}
+        </div>
+    {% endif %}
+</div>
+{% endblock %}

@@ -140,7 +140,108 @@ def load_verified_jobs():
         except Exception:
             pass
 
-    # 2. Load vacancies synchronized from ATS connectors (Greenhouse, Lever, Ashby, SmartRecruiters, Workable, Workday, etc.)
+    # 2. Load grounded real jobs from data/job_folder_jobs.json or JOB/ai_job_agent.db
+    job_json_path = Path("data/job_folder_jobs.json")
+    if job_json_path.exists():
+        try:
+            with open(job_json_path, "r", encoding="utf-8") as f:
+                normalized.extend(json.load(f))
+        except Exception:
+            pass
+    else:
+        job_db_path = Path("JOB/ai_job_agent.db")
+        if job_db_path.exists():
+            try:
+                import sqlite3
+                conn = sqlite3.connect(str(job_db_path))
+                conn.row_factory = sqlite3.Row
+                cursor = conn.cursor()
+                cursor.execute("""
+                    SELECT id, source_platform, source_company_key, source_job_id,
+                           title, company, department, location, country, city,
+                           work_mode, employment_type, experience_level,
+                           description, required_skills, preferred_skills,
+                           original_url, apply_url, published_at, status
+                    FROM jobs WHERE status = 'active'
+                """)
+                for r in cursor.fetchall():
+                    req_skills = []
+                    try:
+                        if r["required_skills"]:
+                            req_skills = json.loads(r["required_skills"])
+                    except Exception:
+                        req_skills = []
+                    if not req_skills:
+                        req_skills = extract_skills_from_text(f"{r['title']} {r['description']}", r['title'])
+                    
+                    app_u = r["apply_url"] or r["original_url"] or ""
+                    src_plat = (r["source_platform"] or "direct").lower()
+                    normalized.append({
+                        "id": f"job_db_{r['id']}",
+                        "job_id": str(r["source_job_id"] or r["id"]),
+                        "external_job_id": str(r["source_job_id"] or r["id"]),
+                        "title": r["title"],
+                        "job_title": r["title"],
+                        "company": r["company"],
+                        "company_name": r["company"],
+                        "department": r["department"] or "",
+                        "location": r["location"] or "Remote / Global",
+                        "country": r["country"] or "",
+                        "city": r["city"] or "",
+                        "work_mode": r["work_mode"] or "on-site",
+                        "employment_type": r["employment_type"] or "full-time",
+                        "experience": r["experience_level"] or "1-3 yrs",
+                        "experience_level": r["experience_level"] or "mid",
+                        "skills": req_skills,
+                        "description": r["description"] or "",
+                        "apply_url": app_u,
+                        "official_job_url": app_u,
+                        "url": app_u,
+                        "source": src_plat.capitalize(),
+                        "ats_provider": src_plat.capitalize(),
+                        "source_platform": src_plat,
+                        "posted_date": "Active Live"
+                    })
+                conn.close()
+            except Exception:
+                pass
+
+    # 3. Load all verified live jobs from data/all_verified_live_jobs.json
+    all_live_path = Path("data/all_verified_live_jobs.json")
+    if all_live_path.exists():
+        try:
+            with open(all_live_path, "r", encoding="utf-8") as f:
+                all_live = json.load(f)
+                for al in all_live:
+                    u = al.get("apply_url") or ""
+                    c = al.get("company") or ""
+                    t = al.get("title") or ""
+                    l = al.get("location") or "India"
+                    req = al.get("job_id") or ""
+                    src = al.get("source") or "Official ATS"
+                    sk = extract_skills_from_text(f"{t} {c}", t)
+                    normalized.append({
+                        "id": f"live_all_{req or abs(hash(u)) % 1000000}",
+                        "job_id": str(req or abs(hash(u)) % 1000000),
+                        "external_job_id": str(req or abs(hash(u)) % 1000000),
+                        "title": t,
+                        "job_title": t,
+                        "company": c,
+                        "company_name": c,
+                        "location": l,
+                        "skills": sk,
+                        "apply_url": u,
+                        "official_job_url": u,
+                        "url": u,
+                        "source": src,
+                        "ats_provider": src,
+                        "experience": "1-3 yrs",
+                        "posted_date": "Active Live"
+                    })
+        except Exception:
+            pass
+
+    # 4. Load vacancies synchronized from ATS connectors (Greenhouse, Lever, Ashby, SmartRecruiters, Workable, Workday, etc.)
     try:
         from repositories.job_repository import get_discovered_jobs
         disc_jobs = get_discovered_jobs(limit=150)
@@ -265,14 +366,16 @@ def index():
     pref_loc = (candidate.get("preferred_location") or "").strip() if has_preferences else ""
 
     # Search keyword filter from URL query parameter (not pre-filled with dummy preference)
-    requested_role = request.args.get("role")
+    requested_role = request.args.get("role") or request.args.get("q") or request.args.get("keyword")
     role_filter = requested_role.strip() if requested_role is not None else ""
     
     requested_loc = request.args.get("location")
     loc_filter = requested_loc.strip() if requested_loc is not None else (pref_loc if has_preferences else "")
     
-    exp_filter = request.args.get("experience", "").strip()
-    mode_filter = request.args.get("mode", "").strip()
+    exp_filter = (request.args.get("experience_level") or request.args.get("experience") or "").strip()
+    platform_filter = (request.args.get("platform") or "all").strip().lower()
+    min_score = request.args.get("min_match")
+    mode_filter = (request.args.get("work_mode") or request.args.get("mode") or request.args.get("workstyle") or "").strip().lower()
     fetch_live = request.args.get("live", "").lower() in ("true", "1", "yes")
 
     raw_jobs = load_verified_jobs()
@@ -306,9 +409,6 @@ def index():
     scored_jobs = []
 
     schedule_filter = request.args.get("schedule", "").strip().lower()
-    workstyle_filter = (request.args.get("workstyle") or request.args.get("mode", "")).strip().lower()
-    if workstyle_filter:
-        mode_filter = workstyle_filter
 
     for j in raw_jobs:
         j_title = j.get("title", "")
@@ -316,29 +416,34 @@ def index():
         j_exp = j.get("experience", "1-3 yrs")
         j_skills = j.get("skills", [])
         
-        # 1. Role keyword filter (Applies whether has_resume or not!)
-        if requested_role:
-            q = requested_role.lower().strip()
-            q_terms = [t for t in q.replace("/", " ").replace("-", " ").split() if len(t) > 2]
+        # 1. Multi-term keyword filtering across Title, Company, Department, Description, and Skills
+        if role_filter:
+            q_clean = role_filter.lower().strip()
+            terms = [t.strip().lower() for t in q_clean.replace("/", " ").replace("-", " ").split() if len(t.strip()) > 1]
+            tech_terms = [t for t in terms if t not in ("developer", "engineer", "software", "jobs", "job", "position")]
+            effective_terms = tech_terms if tech_terms else terms
             
-            in_title = q in j_title.lower()
-            in_skills = any(q in s.lower() for s in j_skills)
-            in_company = q in (j.get("company") or "").lower()
-            terms_in_title = any(t in j_title.lower() for t in q_terms) if q_terms else False
-            terms_in_skills = any(any(t in s.lower() for t in q_terms) for s in j_skills) if q_terms else False
-            
-            if not (in_title or in_skills or in_company or terms_in_title or terms_in_skills):
+            j_search_text = f"{j_title} {j.get('company', '')} {j.get('department', '')} {j.get('description', '')} {' '.join(j_skills)}".lower()
+            if not any(term in j_search_text for term in effective_terms):
                 continue
 
-        # 2. Work style / Mode filter
-        if mode_filter == "remote" and "remote" not in j_loc.lower():
-            continue
-        elif mode_filter in ["office", "onsite"] and ("remote" in j_loc.lower() or "hybrid" in j_loc.lower()):
-            continue
-        elif mode_filter == "hybrid" and "hybrid" not in j_loc.lower():
-            continue
+        # 2. Source Platform filter (Workday, Greenhouse, Lever, Ashby, SmartRecruiters, etc.)
+        if platform_filter and platform_filter != "all":
+            j_plat = (j.get("source_platform") or j.get("ats_provider") or j.get("source") or "").lower()
+            if platform_filter not in j_plat:
+                continue
 
-        # 3. Schedule filter
+        # 3. Work style / Mode filter
+        if mode_filter and mode_filter != "all":
+            j_mode = (j.get("work_mode") or "").lower()
+            if mode_filter == "remote" and ("remote" not in j_loc.lower() and j_mode != "remote"):
+                continue
+            elif mode_filter in ["office", "onsite"] and ("remote" in j_loc.lower() or "hybrid" in j_loc.lower() or j_mode in ["remote", "hybrid"]):
+                continue
+            elif mode_filter == "hybrid" and ("hybrid" not in j_loc.lower() and j_mode != "hybrid"):
+                continue
+
+        # 4. Schedule filter
         if schedule_filter:
             j_sched_text = (j_exp + " " + j_title + " " + (j.get("description") or "")).lower()
             if schedule_filter == "full-time" and not any(k in j_sched_text for k in ["full-time", "full day", "fulltime"]):
@@ -350,17 +455,20 @@ def index():
             elif schedule_filter == "project" and not any(k in j_sched_text for k in ["project", "contract", "freelance"]):
                 continue
 
-        # 4. Location filter if specified
-        if loc_filter and loc_filter.lower() not in j_loc.lower():
-            continue
+        # 5. Location filter across Location, Country, and City
+        if loc_filter:
+            j_loc_full = f"{j_loc} {j.get('country', '')} {j.get('city', '')}".lower()
+            if loc_filter.lower() not in j_loc_full:
+                continue
 
-        # 5. Experience dropdown filter if selected
-        if exp_filter:
-            if exp_filter == "0-2" and not any(k in j_exp for k in ["0-2", "1-2", "0-1", "fresher", "intern"]):
+        # 6. Experience level filter
+        if exp_filter and exp_filter != "all":
+            j_exp_low = (j_exp + " " + (j.get("experience_level") or "")).lower()
+            if exp_filter in ["0-2", "entry", "junior"] and not any(k in j_exp_low for k in ["0-2", "1-2", "0-1", "entry", "fresher", "intern"]):
                 continue
-            elif exp_filter == "2-5" and not any(k in j_exp for k in ["2-4", "2-5", "1-3", "3-5"]):
+            elif exp_filter in ["2-5", "mid"] and not any(k in j_exp_low for k in ["2-4", "2-5", "1-3", "3-5", "mid"]):
                 continue
-            elif exp_filter == "5+" and not any(k in j_exp for k in ["5+", "5-8", "6+", "7+", "senior", "lead"]):
+            elif exp_filter in ["5+", "senior", "lead"] and not any(k in j_exp_low for k in ["5+", "5-8", "6+", "7+", "senior", "lead"]):
                 continue
 
         # Extract any extra skills mentioned in job title/description
@@ -405,6 +513,13 @@ def index():
                 match_score = min(98.0, max(match_score, 90.0 + min(len(matching) * 2.0, 7.0)))
 
         match_score = min(98.0, max(30.0, match_score))
+
+        if min_score is not None:
+            try:
+                if match_score < float(min_score):
+                    continue
+            except ValueError:
+                pass
 
         # Format rich Cisco-style title:
         # <Role Title> | <Key Matched Tech Stack> | <Experience Range> | <City/Location>
@@ -476,6 +591,12 @@ def index():
     except Exception:
         saved_job_ids = set()
 
+    available_platforms = [
+        "workday", "greenhouse", "lever", "ashby",
+        "smartrecruiters", "workable", "recruitee",
+        "remotive", "remoteok", "arbeitnow"
+    ]
+
     return render_template(
         "jobs/index.html",
         jobs=scored_jobs,
@@ -487,8 +608,11 @@ def index():
         role_filter=role_filter,
         loc_filter=loc_filter,
         exp_filter=exp_filter,
+        platform_filter=platform_filter,
+        min_score=min_score,
+        available_platforms=available_platforms,
         schedule_filter=schedule_filter,
-        workstyle_filter=workstyle_filter,
+        workstyle_filter=mode_filter or workstyle_filter,
         remote_count=remote_count,
         hyd_count=hyd_count,
         blr_count=blr_count,

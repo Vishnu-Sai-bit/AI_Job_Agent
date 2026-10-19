@@ -1,0 +1,99 @@
+{% extends "base.html" %}
+
+{% block title %}Settings & Career Preferences — AI Job Agent{% endblock %}
+
+{% block content %}
+<div class="container py-4">
+    <div class="row justify-content-center">
+        <div class="col-lg-8">
+            <div class="card p-4 p-md-5 custom-card border-0 bg-white shadow-sm">
+                <div class="mb-4">
+                    <h3 class="fw-bold mb-1"><i class="bi bi-gear-fill text-primary me-2"></i>Career Preferences & Settings</h3>
+                    <p class="text-muted small mb-0">Customize your preferred locations, work modes, and titles to fine-tune matching scores.</p>
+                </div>
+
+                <form method="POST" action="{{ url_for('dashboard.settings') }}">
+                    <h5 class="fw-bold text-dark border-bottom pb-2 mb-3">Profile Information</h5>
+                    <div class="row g-3 mb-4">
+                        <div class="col-md-6">
+                            <label class="form-label small fw-semibold">Full Name</label>
+                            <input type="text" name="full_name" class="form-control" value="{{ profile.full_name }}">
+                        </div>
+                        <div class="col-md-6">
+                            <label class="form-label small fw-semibold">Contact Phone</label>
+                            <input type="text" name="phone" class="form-control" value="{{ profile.phone }}">
+                        </div>
+                        <div class="col-md-6">
+                            <label class="form-label small fw-semibold">Current Location (City, Country)</label>
+                            <input type="text" name="location" class="form-control" value="{{ profile.location }}">
+                        </div>
+                        <div class="col-md-6">
+                            <label class="form-label small fw-semibold">Professional Headline</label>
+                            <input type="text" name="headline" class="form-control" value="{{ profile.headline }}">
+                        </div>
+                        <div class="col-12">
+                            <label class="form-label small fw-semibold">Executive Summary</label>
+                            <textarea name="summary" class="form-control" rows="3">{{ profile.summary }}</textarea>
+                        </div>
+                    </div>
+
+                    <h5 class="fw-bold text-dark border-bottom pb-2 mb-3">Job Matching Preferences</h5>
+                    <div class="row g-3 mb-4">
+                        <div class="col-12">
+                            <label class="form-label small fw-semibold">Target Job Titles (Comma-separated)</label>
+                            <input type="text" name="preferred_titles" class="form-control" value="{{ profile.preferred_titles|join(', ') }}" placeholder="e.g. Python Developer, Full Stack Engineer, Backend Engineer">
+                        </div>
+                        <div class="col-md-6">
+                            <label class="form-label small fw-semibold">Preferred Countries (Comma-separated)</label>
+                            <input type="text" name="preferred_countries" class="form-control" value="{{ profile.preferred_countries|join(', ') }}" placeholder="e.g. United States, India, Germany, United Kingdom">
+                        </div>
+                        <div class="col-md-6">
+                            <label class="form-label small fw-semibold">Preferred Cities (Comma-separated)</label>
+                            <input type="text" name="preferred_cities" class="form-control" value="{{ profile.preferred_cities|join(', ') }}" placeholder="e.g. Bengaluru, San Francisco, London, Berlin">
+                        </div>
+                        <div class="col-md-6">
+                            <label class="form-label small fw-semibold">Experience Level</label>
+                            <select name="experience_level" class="form-select">
+                                <option value="entry" {% if profile.experience_level == 'entry' %}selected{% endif %}>Entry / Fresher (0-2 years)</option>
+                                <option value="mid" {% if profile.experience_level == 'mid' %}selected{% endif %}>Mid-Level (2-5 years)</option>
+                                <option value="senior" {% if profile.experience_level == 'senior' %}selected{% endif %}>Senior (5-8 years)</option>
+                                <option value="lead" {% if profile.experience_level == 'lead' %}selected{% endif %}>Lead / Principal (8+ years)</option>
+                            </select>
+                        </div>
+                        <div class="col-md-6">
+                            <label class="form-label small fw-semibold">Minimum Target Salary (USD/yr)</label>
+                            <input type="number" name="min_salary" class="form-control" value="{{ profile.min_salary or '' }}" placeholder="e.g. 90000">
+                        </div>
+                        <div class="col-12">
+                            <label class="form-label small fw-semibold d-block">Work Modes Accepted</label>
+                            {% set modes = profile.work_modes or ['remote', 'hybrid', 'on-site'] %}
+                            <div class="form-check form-check-inline">
+                                <input class="form-check-input" type="checkbox" name="work_modes" value="remote" id="modeRemote" {% if 'remote' in modes %}checked{% endif %}>
+                                <label class="form-check-label small" for="modeRemote">Remote</label>
+                            </div>
+                            <div class="form-check form-check-inline">
+                                <input class="form-check-input" type="checkbox" name="work_modes" value="hybrid" id="modeHybrid" {% if 'hybrid' in modes %}checked{% endif %}>
+                                <label class="form-check-label small" for="modeHybrid">Hybrid</label>
+                            </div>
+                            <div class="form-check form-check-inline">
+                                <input class="form-check-input" type="checkbox" name="work_modes" value="on-site" id="modeOnSite" {% if 'on-site' in modes %}checked{% endif %}>
+                                <label class="form-check-label small" for="modeOnSite">On-site</label>
+                            </div>
+                        </div>
+                        <div class="col-12">
+                            <div class="form-check">
+                                <input class="form-check-input" type="checkbox" name="visa_sponsorship_required" id="visaSponsorship" {% if profile.visa_sponsorship_required %}checked{% endif %}>
+                                <label class="form-check-label small" for="visaSponsorship">Require visa sponsorship</label>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="text-end">
+                        <button type="submit" class="btn btn-primary-custom px-4 py-2">Save Preferences & Update Matching</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

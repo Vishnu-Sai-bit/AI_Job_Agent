@@ -1,0 +1,23 @@
+@media (max-width: 768px) {
+    .kanban-board {
+        flex-direction: column;
+    }
+    
+    .kanban-column {
+        flex: 1 1 100%;
+        min-height: auto;
+    }
+
+    .hero-title {
+        font-size: 2rem !important;
+    }
+
+    .job-card-actions {
+        flex-direction: column;
+        gap: 0.5rem;
+    }
+
+    .job-card-actions .btn {
+        width: 100%;
+    }
+}

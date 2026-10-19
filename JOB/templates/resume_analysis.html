@@ -1,0 +1,217 @@
+{% extends "base.html" %}
+
+{% block title %}Resume Intelligence & Profile — AI Job Agent{% endblock %}
+
+{% block content %}
+<div class="container py-4">
+    <div class="d-flex flex-wrap justify-content-between align-items-center mb-4 gap-3">
+        <div>
+            <h3 class="fw-bold mb-1"><i class="bi bi-file-earmark-person text-primary me-2"></i>Extracted Resume Intelligence</h3>
+            <p class="text-muted small mb-0">Review and verify extracted data from <strong>{{ resume.filename }}</strong>. Correct any values below.</p>
+        </div>
+        <div class="d-flex gap-2 align-items-center">
+            <form method="POST" action="{{ url_for('resume.analyze_with_gemini') }}" class="m-0">
+                <button type="submit" class="btn btn-outline-primary"><i class="bi bi-stars me-1"></i> Analyze with Gemini</button>
+            </form>
+            <a href="{{ url_for('ats.ats_report') }}" class="btn btn-outline-custom"><i class="bi bi-graph-up-arrow me-1"></i> ATS Quality Audit</a>
+            <a href="{{ url_for('jobs.list_jobs') }}" class="btn btn-primary-custom"><i class="bi bi-search me-1"></i> View Matching Jobs</a>
+        </div>
+    </div>
+
+    {% set gemini = resume.ats_feedback.get('gemini_critique') if resume.ats_feedback else None %}
+    {% if gemini %}
+        <div class="card p-4 custom-card border-0 bg-white shadow-sm mb-4 border-start border-4 border-primary">
+            <div class="d-flex justify-content-between align-items-center mb-3">
+                <div>
+                    <h5 class="fw-bold mb-0 text-primary"><i class="bi bi-stars me-2"></i>Gemini AI Resume Intelligence & Diagnostic</h5>
+                    <small class="text-muted">In-depth ATS assessment powered by Google Gemini</small>
+                </div>
+                <span class="badge bg-primary-subtle text-primary border">Estimated ATS Quality: {{ gemini.get('ats_score_estimate', 85) }}/100</span>
+            </div>
+
+            <div class="p-3 bg-light rounded-3 mb-3 border">
+                <h6 class="fw-bold mb-1 text-dark"><i class="bi bi-info-circle-fill text-primary me-1"></i> Executive Summary</h6>
+                <p class="text-muted small mb-0">{{ gemini.get('executive_summary', '') }}</p>
+            </div>
+
+            <div class="row g-3 mb-3">
+                <div class="col-md-6">
+                    <div class="p-3 bg-success-subtle rounded-3 border border-success-subtle h-100">
+                        <h6 class="fw-bold text-success mb-2"><i class="bi bi-check-circle-fill me-1"></i> Key Strengths</h6>
+                        <ul class="text-secondary small mb-0 ps-3">
+                            {% for s in gemini.get('key_strengths', []) %}
+                                <li class="mb-1">{{ s }}</li>
+                            {% endfor %}
+                        </ul>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="p-3 bg-danger-subtle rounded-3 border border-danger-subtle h-100">
+                        <h6 class="fw-bold text-danger mb-2"><i class="bi bi-exclamation-triangle-fill me-1"></i> Critical Weaknesses & Gaps</h6>
+                        <ul class="text-secondary small mb-0 ps-3">
+                            {% for w in gemini.get('critical_weaknesses_and_gaps', []) %}
+                                <li class="mb-1">{{ w }}</li>
+                            {% endfor %}
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            {% if gemini.get('actionable_bullet_rewrites') %}
+                <div class="mb-3">
+                    <h6 class="fw-bold text-dark mb-2"><i class="bi bi-pencil-square text-warning me-1"></i> Actionable Bullet Point Improvements</h6>
+                    <div class="d-flex flex-column gap-2">
+                        {% for r in gemini.get('actionable_bullet_rewrites', []) %}
+                            <div class="p-3 bg-light rounded-3 border">
+                                <div class="text-muted small mb-1"><strong>Before / Concept:</strong> <em>"{{ r.get('original_or_concept') }}"</em></div>
+                                <div class="text-success small fw-semibold mb-1"><strong>Recommended Rewrite:</strong> "{{ r.get('recommended_rewrite') }}"</div>
+                                <div class="text-muted small"><strong>Rationale:</strong> {{ r.get('rationale') }}</div>
+                            </div>
+                        {% endfor %}
+                    </div>
+                </div>
+            {% endif %}
+
+            {% if gemini.get('ats_formatting_advice') %}
+                <div>
+                    <h6 class="fw-bold text-dark mb-1"><i class="bi bi-file-earmark-check text-info me-1"></i> ATS Scanner Formatting Advice</h6>
+                    <ul class="text-muted small mb-0 ps-3">
+                        {% for a in gemini.get('ats_formatting_advice', []) %}
+                            <li>{{ a }}</li>
+                        {% endfor %}
+                    </ul>
+                </div>
+            {% endif %}
+        </div>
+    {% else %}
+        <div class="alert alert-light border shadow-sm d-flex justify-content-between align-items-center mb-4">
+            <div>
+                <i class="bi bi-stars text-primary fs-5 me-2"></i>
+                <strong>Unlock Deep Gemini AI Analysis</strong>: Extract categorized skills, identify missing metrics, and get instant bullet point rewrites.
+            </div>
+            <form method="POST" action="{{ url_for('resume.analyze_with_gemini') }}" class="m-0">
+                <button type="submit" class="btn btn-sm btn-primary-custom">
+                    <i class="bi bi-cpu me-1"></i> Run Gemini AI Analysis
+                </button>
+            </form>
+        </div>
+    {% endif %}
+
+    <form method="POST" action="{{ url_for('resume.update_parsed_profile') }}">
+        <div class="row g-4">
+            <!-- Left Column: Personal info & skills -->
+            <div class="col-lg-7">
+                <div class="card p-4 custom-card border-0 bg-white shadow-sm mb-4">
+                    <h5 class="fw-bold mb-3"><i class="bi bi-person-lines-fill text-info me-2"></i>Candidate Profile</h5>
+                    <div class="row g-3">
+                        <div class="col-md-6">
+                            <label class="form-label small fw-semibold">Full Name</label>
+                            <input type="text" name="full_name" class="form-control" value="{{ profile.full_name }}">
+                        </div>
+                        <div class="col-md-6">
+                            <label class="form-label small fw-semibold">Professional Headline</label>
+                            <input type="text" name="headline" class="form-control" value="{{ profile.headline }}" placeholder="e.g. Senior Full-Stack Engineer">
+                        </div>
+                        <div class="col-md-6">
+                            <label class="form-label small fw-semibold">Location (City, Country)</label>
+                            <input type="text" name="location" class="form-control" value="{{ profile.location }}">
+                        </div>
+                        <div class="col-md-6">
+                            <label class="form-label small fw-semibold">Experience (Years)</label>
+                            <input type="number" step="0.5" name="experience_years" class="form-control" value="{{ profile.experience_years }}">
+                        </div>
+                        <div class="col-12">
+                            <label class="form-label small fw-semibold">Executive Summary</label>
+                            <textarea name="summary" class="form-control" rows="3">{{ profile.summary }}</textarea>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Skills Management -->
+                <div class="card p-4 custom-card border-0 bg-white shadow-sm mb-4">
+                    <div class="d-flex justify-content-between align-items-center mb-2">
+                        <h5 class="fw-bold mb-0"><i class="bi bi-cpu text-primary me-2"></i>Extracted Technical Skills</h5>
+                        <span class="badge bg-primary-subtle text-primary border">{{ profile.skills|length }} Skills Detected</span>
+                    </div>
+                    <p class="text-muted small">Comma-separated list of recognized skills used for job matching:</p>
+                    <textarea name="skills" class="form-control font-monospace small" rows="3">{{ profile.skills|join(', ') }}</textarea>
+                    
+                    <div class="mt-3">
+                        <small class="text-muted d-block mb-1 fw-semibold">Recognized Skill Pills:</small>
+                        <div class="d-flex flex-wrap gap-1">
+                            {% for skill in profile.skills %}
+                                <span class="skill-pill matched"><i class="bi bi-check2"></i> {{ skill }}</span>
+                            {% endfor %}
+                        </div>
+                    </div>
+                </div>
+
+                <div class="text-end">
+                    <button type="submit" class="btn btn-primary-custom px-4 py-2">
+                        <i class="bi bi-save me-1"></i> Save Changes & Recalculate Matches
+                    </button>
+                </div>
+            </div>
+
+            <!-- Right Column: Extracted Projects & Experience & Education -->
+            <div class="col-lg-5">
+                <!-- Projects -->
+                <div class="card p-4 custom-card border-0 bg-white shadow-sm mb-4">
+                    <h5 class="fw-bold mb-3"><i class="bi bi-folder-check text-success me-2"></i>Extracted Projects</h5>
+                    {% set projects = resume.parsed_data.get('projects', []) %}
+                    {% if projects %}
+                        <div class="d-flex flex-column gap-3">
+                            {% for p in projects %}
+                                <div class="p-3 bg-light rounded-3 border">
+                                    <h6 class="fw-bold mb-1 text-dark">{{ p.get('title', 'Project') }}</h6>
+                                    <p class="text-muted small mb-0">{{ p.get('description', '') }}</p>
+                                </div>
+                            {% endfor %}
+                        </div>
+                    {% else %}
+                        <p class="text-muted small mb-0">No distinct projects section detected in raw text.</p>
+                    {% endif %}
+                </div>
+
+                <!-- Work Experience Roles -->
+                <div class="card p-4 custom-card border-0 bg-white shadow-sm mb-4">
+                    <h5 class="fw-bold mb-3"><i class="bi bi-briefcase text-warning me-2"></i>Work Experience</h5>
+                    {% set exp = resume.parsed_data.get('experience', []) %}
+                    {% if exp %}
+                        <div class="d-flex flex-column gap-3">
+                            {% for role in exp %}
+                                <div class="p-3 bg-light rounded-3 border">
+                                    <h6 class="fw-bold mb-1 text-dark">{{ role.get('title', 'Position') }}</h6>
+                                    <ul class="text-muted small mb-0 ps-3">
+                                        {% for detail in role.get('details', [])[:3] %}
+                                            <li>{{ detail }}</li>
+                                        {% endfor %}
+                                    </ul>
+                                </div>
+                            {% endfor %}
+                        </div>
+                    {% else %}
+                        <p class="text-muted small mb-0">Estimated experience: <strong>{{ profile.experience_years }} years</strong>.</p>
+                    {% endif %}
+                </div>
+
+                <!-- Education -->
+                <div class="card p-4 custom-card border-0 bg-white shadow-sm">
+                    <h5 class="fw-bold mb-3"><i class="bi bi-mortarboard text-secondary me-2"></i>Education</h5>
+                    {% set edu = resume.parsed_data.get('education', []) %}
+                    {% if edu %}
+                        {% for item in edu %}
+                            <div class="p-3 bg-light rounded-3 border mb-2">
+                                <h6 class="fw-bold mb-1 text-dark">{{ item.get('degree', 'Degree') }}</h6>
+                                <p class="text-muted small mb-0">{{ item.get('institution', 'University') }}</p>
+                            </div>
+                        {% endfor %}
+                    {% else %}
+                        <p class="text-muted small mb-0">No specific degree keyword detected.</p>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    </form>
+</div>
+{% endblock %}
